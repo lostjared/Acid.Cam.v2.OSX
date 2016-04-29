@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3a5b08d6-0373-425f-997f-e20217ca609d++2462",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "3a5b08d6-0373-425f-997f-e20217ca609d++2462" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3a5b08d6-0373-425f-997f-e20217ca609d++2462" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AB251A5D-4CD6-4273-87B6-962E6382C113",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3a5b08d6-0373-425f-997f-e20217ca609d++2462" : "Acid.Cam.v2.OSX\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Acid.Cam.v2.OSX",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Acid.Cam.v2.OSX.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/objective-c.info\/var\/svn-repos\/OpenCV",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3a5b08d6-0373-425f-997f-e20217ca609d++2462"
+    }
+  ]
+}
