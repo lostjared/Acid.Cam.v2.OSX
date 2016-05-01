@@ -7,3 +7,5 @@ the project is configured for them to be in /opt/local/include
 but you can change that in Header Search Paths in the Build Settings in Xcode.
 This project contains the compiled static libraries required to create the program.
 
+
+http://lostsidedead.com/blog/?index=212
