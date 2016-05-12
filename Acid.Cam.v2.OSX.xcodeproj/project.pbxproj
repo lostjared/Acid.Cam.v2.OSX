@@ -544,7 +544,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Prefix.pch";
 				GCC_VERSION = "";
-				"HEADER_SEARCH_PATHS[arch=*]" = /opt/local/include;
+				"HEADER_SEARCH_PATHS[arch=*]" = ./include;
 				INFOPLIST_FILE = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -572,7 +572,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Prefix.pch";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = /opt/local/include;
+				HEADER_SEARCH_PATHS = ./include;
+				"HEADER_SEARCH_PATHS[arch=*]" = ./include;
 				INFOPLIST_FILE = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
