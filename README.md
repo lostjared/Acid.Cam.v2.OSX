@@ -9,3 +9,7 @@ This project contains the compiled static libraries required to create the progr
 
 
 http://lostsidedead.com/blog/?index=212
+
+
+
+Watch this video for information how to compile: https://youtu.be/xMUnRKj4J7Y
