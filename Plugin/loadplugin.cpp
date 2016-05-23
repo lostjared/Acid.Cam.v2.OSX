@@ -1,3 +1,9 @@
+/* Plugin Loading test source file 
+   written by Jared Bruni
+*/
+
+
+
 #include<dlfcn.h>
 #include<iostream>
 
@@ -16,6 +22,8 @@ int main(int argc, char **argv) {
 	}
 	
 	void *addr;
+
+	// load the plugin function to process pixels
 	addr = dlsym(library, "pixel");
 	pixel pix;
 	pix = reinterpret_cast<pixel>(addr);
@@ -25,8 +33,8 @@ int main(int argc, char **argv) {
 		std::cerr << "Could not load pixel: " << error << "\n";
 		exit(1);
 	}
-	
-	
+
+	// test plugin:	
 	for(unsigned int x = 0; x < 640; ++x) {
 		for(unsigned int y = 0; y < 480; ++y) {
 			unsigned char rgb[3] = { rand()%255, rand()%255, rand()%255 };
