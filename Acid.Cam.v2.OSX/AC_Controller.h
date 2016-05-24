@@ -11,7 +11,9 @@
 #include<sstream>
 
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
+typedef void (*drawn)();
 extern pixel pix;
+extern drawn d;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
 

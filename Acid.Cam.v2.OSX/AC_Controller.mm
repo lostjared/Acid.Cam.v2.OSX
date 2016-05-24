@@ -20,6 +20,7 @@ NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
 AC_Controller *controller;
 pixel pix;
+drawn d;
 bool plugin_loaded = false;
 void *library = NULL;
 
@@ -155,6 +156,14 @@ void setEnabledProg() {
 	pixel pix;
 	pix = reinterpret_cast<pixel>(addr);
 	const char *error;
+	error = dlerror();
+	if(error) {
+		std::cerr << "Could not load pixel: " << error << "\n";
+		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", NULL,NULL);
+		return NULL;
+	}
+	addr = dlsym(library,"drawn");
+	d = reinterpret_cast<drawn>(addr);
 	error = dlerror();
 	if(error) {
 		std::cerr << "Could not load pixel: " << error << "\n";
@@ -698,7 +707,7 @@ void ac::plugin(cv::Mat &frame) {
 		}
 	}
 	
-	
+	(*d)();
 	
 }
 
