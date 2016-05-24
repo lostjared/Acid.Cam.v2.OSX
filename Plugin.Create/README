@@ -1,0 +1,39 @@
+To Create a plugin all you need is two externed C functions
+
+#include<iostream>
+
+// the pixel function is called every pixel that 
+// needs to be updated for the filter
+// this is where you manipulate the color
+// information to produce the effect your trying
+// to create
+// the x and y variables are the location of the pixel
+// the pix array is the three RGB values for the pixels color information
+extern "C" void pixel(int x, int y, unsigned char *pix);
+
+// drawn is called after every iteration through the frame
+// so after each pixel is updated drawn is called
+extern "C" void drawn();
+
+
+// example 
+
+static float alpha = 1.0f; // set alpha variable for function
+
+// pixel function
+void pixel(int x, int y, unsigned char *pix) {
+	// sets the three RGB color variables
+        pix[0] = pix[0]*alpha;
+        pix[1] = pix[1]*alpha;
+        pix[2] = pix[2]*alpha;
+}
+
+// called after the image is drawn update the alpha variable
+void drawn() {
+        alpha += 0.01f;
+}
+
+
+
+
+
