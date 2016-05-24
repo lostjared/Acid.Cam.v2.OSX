@@ -29,7 +29,7 @@ void drawn() {
 		}
 		
 	} else {
-		alpha -= 0.01f;
+		alpha -= 0.1f;
 		if(alpha <= 1) direction = 1;
 	}
 }
