@@ -131,8 +131,10 @@ void setEnabledProg() {
 		[self closePlugin];
 		[plugin_name setStringValue: file_type ];
 		pix = [self loadPlugin: file_type];
-		if(pix != NULL)
-		plugin_loaded = true;
+		if(pix == NULL)
+			plugin_loaded = false;
+		else
+			plugin_loaded = true;
 	}
 }
 
