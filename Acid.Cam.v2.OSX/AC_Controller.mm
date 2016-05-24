@@ -131,6 +131,7 @@ void setEnabledProg() {
 		[self closePlugin];
 		[plugin_name setStringValue: file_type ];
 		pix = [self loadPlugin: file_type];
+		if(pix != NULL)
 		plugin_loaded = true;
 	}
 }
@@ -156,7 +157,7 @@ void setEnabledProg() {
 	if(error) {
 		std::cerr << "Could not load pixel: " << error << "\n";
 		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", NULL,NULL);
-		exit(1);
+		return NULL;
 	}
 	return pix;
 }
