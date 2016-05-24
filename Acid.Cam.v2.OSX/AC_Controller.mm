@@ -155,6 +155,7 @@ void setEnabledProg() {
 	error = dlerror();
 	if(error) {
 		std::cerr << "Could not load pixel: " << error << "\n";
+		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", NULL,NULL);
 		exit(1);
 	}
 	return pix;
