@@ -21,6 +21,7 @@ NSMenuItem *stop_prog_i;
 AC_Controller *controller;
 pixel pix;
 bool plugin_loaded = false;
+void *library = NULL;
 
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
@@ -127,6 +128,7 @@ void setEnabledProg() {
 	
 	if([panel runModal]) {
 		NSString *file_type = [[panel URL] path];
+		[self closePlugin];
 		[plugin_name setStringValue: file_type ];
 		pix = [self loadPlugin: file_type];
 		plugin_loaded = true;
@@ -138,7 +140,6 @@ void setEnabledProg() {
 
 - (pixel) loadPlugin: (NSString *)str {
 	
-	void *library;
 	library = dlopen([str UTF8String], RTLD_LAZY);
 	if(library == NULL) {
 		std::cerr << "Error could not open: " << [str UTF8String] << "\n";
@@ -160,8 +161,10 @@ void setEnabledProg() {
 }
 
 
-- (void) closePlugin: (void *)library {
-	dlclose(library);
+- (void) closePlugin {
+	
+	if(library != NULL)
+		dlclose(library);
 }
 
 
