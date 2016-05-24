@@ -64,6 +64,7 @@ void setEnabledProg() {
 
 - (void) dealloc {
     [custom_array release];
+	[self closePlugin];
     [super dealloc];
 }
 
