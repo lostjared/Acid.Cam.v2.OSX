@@ -10,6 +10,8 @@
 #import <Cocoa/Cocoa.h>
 #include<sstream>
 
+typedef void (*pixel)(int x, int y, unsigned char *pixels);
+extern pixel pix;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
 
@@ -41,9 +43,12 @@
     IBOutlet NSButton *check_box, *reverse_box, *opposite_dir;
     IBOutlet NSPopUpButton *rgb_box;
     IBOutlet NSWindow *alpha_window;
+	IBOutlet NSWindow *plugin_window;
+	IBOutlet NSTextField *plugin_name;
    
 
 }
+- (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
 - (IBAction) openWebcamDialog: (id) sender;
 - (IBAction) startVideoProgram: (id) sender;
@@ -77,6 +82,7 @@
 - (void) cvProc: (id) sender;
 - (IBAction) pauseVideo: (id) sender;
 - (void) stopCV_prog;
+- (pixel) loadPlugin: (NSString *)str;
 
 @end
 

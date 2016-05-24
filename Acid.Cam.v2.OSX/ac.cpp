@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
 	DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-	int draw_max = 29;
+        alphaFlame, pixelScale, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+	int draw_max = 30;
 	float translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1538,6 +1538,8 @@ void ac::alphaFlame(cv::Mat &frame) {
 void ac::custom(cv::Mat &frame) {
     custom_filter(frame);
 }
+
+
 
 
 

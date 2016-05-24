@@ -10,6 +10,7 @@
 #import"videocapture.h"
 #import"ac.h"
 #include<string>
+#include<dlfcn.h>
 
 NSTextView *logView;
 NSTextField *frame_count;
@@ -18,6 +19,8 @@ bool isPaused = false;
 NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
 AC_Controller *controller;
+pixel pix;
+bool plugin_loaded = false;
 
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
@@ -103,6 +106,9 @@ void setEnabledProg() {
     if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
         [alpha_window orderFront:self];
     }
+	if(ac::draw_strings[ac::draw_offset] == "Plugin") {
+		[plugin_window orderFront:self];
+	}
 }
 
 - (IBAction) stopProgram: (id) sender {
@@ -110,6 +116,54 @@ void setEnabledProg() {
     [menuPaused setEnabled: NO];
     stopCV();
 }
+
+- (IBAction) selectPlugin: (id) sender {
+	
+	NSOpenPanel *panel = [NSOpenPanel openPanel];
+	
+	[panel setCanChooseFiles:YES];
+	[panel setCanChooseDirectories:NO];
+	[panel setAllowedFileTypes:[NSArray arrayWithObject:@"dylib"]];
+	
+	if([panel runModal]) {
+		NSString *file_type = [[panel URL] path];
+		[plugin_name setStringValue: file_type ];
+		pix = [self loadPlugin: file_type];
+		plugin_loaded = true;
+	}
+}
+
+
+
+
+- (pixel) loadPlugin: (NSString *)str {
+	
+	void *library;
+	library = dlopen([str UTF8String], RTLD_LAZY);
+	if(library == NULL) {
+		std::cerr << "Error could not open: " << [str UTF8String] << "\n";
+		exit(1);
+	}
+		
+	void *addr;
+	// load the plugin function to process pixels
+	addr = dlsym(library, "pixel");
+	pixel pix;
+	pix = reinterpret_cast<pixel>(addr);
+	const char *error;
+	error = dlerror();
+	if(error) {
+		std::cerr << "Could not load pixel: " << error << "\n";
+		exit(1);
+	}
+	return pix;
+}
+
+
+- (void) closePlugin: (void *)library {
+	dlclose(library);
+}
+
 
 -(IBAction) startProgram: (id) sender {
     std::string input_file;
@@ -618,6 +672,27 @@ void custom_filter(cv::Mat &frame) {
 void setSliders(int frame_count) {
     [frame_slider setMinValue: 0];
     [frame_slider setMaxValue: frame_count];
+}
+
+void ac::plugin(cv::Mat &frame) {
+	
+	if(plugin_loaded == false) return;
+	
+	int i = 0, z = 0;
+	
+	for(z = 0; z < frame.cols; ++z) {
+		for(i = 0; i < frame.rows; ++i) {
+			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+			unsigned char pixels[] = { buffer[0], buffer[1], buffer[2] };
+			(*pix)(z, i, pixels);
+			buffer[0] = pixels[0];
+			buffer[1] = pixels[1];
+			buffer[2] = pixels[2];
+		}
+	}
+	
+	
+	
 }
 
 

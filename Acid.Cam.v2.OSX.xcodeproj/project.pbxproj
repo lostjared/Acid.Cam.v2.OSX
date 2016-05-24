@@ -61,6 +61,7 @@
 		7F122ED919C37026000DA576 /* Acid.Cam.v2.OSX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Acid.Cam.v2.OSX.entitlements; sourceTree = "<group>"; };
 		7F18458A17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
 		7F47CB331C6D0549008689B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7F50E2EE1CF3DFEB007843AE /* libdl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdl.tbd; path = usr/lib/libdl.tbd; sourceTree = SDKROOT; };
 		7F74226719C385AE00BCEE30 /* libavcodec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libavcodec.a; sourceTree = "<group>"; };
 		7F74226819C385AE00BCEE30 /* libavformat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libavformat.a; sourceTree = "<group>"; };
 		7F74226919C385AE00BCEE30 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libavutil.a; sourceTree = "<group>"; };
@@ -237,6 +238,7 @@
 		7F9D709417DE4F35009C54DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7F50E2EE1CF3DFEB007843AE /* libdl.tbd */,
 				7F47CB331C6D0549008689B9 /* AudioToolbox.framework */,
 				7F9D709517DE4F35009C54DA /* Cocoa.framework */,
 				7F9D709717DE4F35009C54DA /* Other Frameworks */,
@@ -552,7 +554,10 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_LDFLAGS = /usr/lib/libbz2.dylib;
+				OTHER_LDFLAGS = (
+					/usr/lib/libbz2.dylib,
+					/usr/lib/libdl.dylib,
+				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -613,7 +618,10 @@
 					/usr/local/lib/libavformat.a,
 					/usr/local/lib/libavcodec.a,
 				);
-				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libbz2.dylib;
+				"OTHER_LDFLAGS[arch=*]" = (
+					/usr/lib/libbz2.dylib,
+					/usr/lib/libdl.dylib,
+				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
