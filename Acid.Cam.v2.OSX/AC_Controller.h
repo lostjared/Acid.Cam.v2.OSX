@@ -47,6 +47,8 @@ extern drawn d;
     IBOutlet NSWindow *alpha_window;
 	IBOutlet NSWindow *plugin_window;
 	IBOutlet NSTextField *plugin_name;
+	IBOutlet NSComboBox *plugin_dir;
+	
    
 
 }
@@ -85,6 +87,8 @@ extern drawn d;
 - (IBAction) pauseVideo: (id) sender;
 - (void) stopCV_prog;
 - (pixel) loadPlugin: (NSString *)str;
+- (void) loadDir: (std::string) str;
+- (IBAction) setPlugin: (id) sender;
 
 @end
 

@@ -11,6 +11,9 @@
 #import"ac.h"
 #include<string>
 #include<dlfcn.h>
+#include<unistd.h>
+#include<dirent.h>
+
 
 NSTextView *logView;
 NSTextField *frame_count;
@@ -124,23 +127,69 @@ void setEnabledProg() {
 	
 	NSOpenPanel *panel = [NSOpenPanel openPanel];
 	
-	[panel setCanChooseFiles:YES];
-	[panel setCanChooseDirectories:NO];
-	[panel setAllowedFileTypes:[NSArray arrayWithObject:@"dylib"]];
+	[panel setCanChooseFiles:NO];
+	[panel setCanChooseDirectories:YES];
+	//[panel setAllowedFileTypes:[NSArray arrayWithObject:@"dylib"]];
 	
 	if([panel runModal]) {
 		NSString *file_type = [[panel URL] path];
-		[self closePlugin];
+		[plugin_dir removeAllItems];
+		[plugin_name setStringValue: file_type];
+		[self loadDir:[file_type UTF8String]];
+		/*	[self closePlugin];
 		[plugin_name setStringValue: file_type ];
 		pix = [self loadPlugin: file_type];
 		if(pix == NULL)
 			plugin_loaded = false;
 		else
 			plugin_loaded = true;
+	 */
+		
+
 	}
 }
 
+- (IBAction) setPlugin: (id) sender {
+	
+	[self closePlugin];
+	NSString *file_type = [NSString stringWithFormat: @"%@/%@", [plugin_name stringValue], [plugin_dir objectValueOfSelectedItem]];
+	pix = [self loadPlugin: file_type];
+	if(pix == NULL)
+		plugin_loaded = false;
+	else
+		plugin_loaded = true;
+	
+}
 
+- (void) loadDir: (std::string) str {
+	
+	DIR *dir = opendir(str.c_str());
+	
+	if (dir == NULL)
+	{
+		std::cerr << "Error could not open directory.\n";
+		return;
+	}
+	
+	dirent *e;
+	
+	while ((e = readdir(dir)))
+	{
+		if (e->d_type == DT_REG)
+		{
+			std::string file = e->d_name;
+			if (file.find(".dylib") != -1)
+			{
+
+				NSString *s = [NSString stringWithUTF8String: e->d_name];
+				[plugin_dir addItemWithObjectValue: s];
+			
+			}
+		}
+	}
+	
+	closedir(dir);
+}
 
 
 - (pixel) loadPlugin: (NSString *)str {
