@@ -797,7 +797,7 @@ Gw
             </view>
         </window>
         <window title="Plugin" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="lg6-0V-qNM">
-            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="283" y="305" width="500" height="88"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>

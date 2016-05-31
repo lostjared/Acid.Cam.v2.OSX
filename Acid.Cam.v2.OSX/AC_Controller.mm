@@ -129,22 +129,12 @@ void setEnabledProg() {
 	
 	[panel setCanChooseFiles:NO];
 	[panel setCanChooseDirectories:YES];
-	//[panel setAllowedFileTypes:[NSArray arrayWithObject:@"dylib"]];
 	
 	if([panel runModal]) {
 		NSString *file_type = [[panel URL] path];
 		[plugin_dir removeAllItems];
 		[plugin_name setStringValue: file_type];
 		[self loadDir:[file_type UTF8String]];
-		/*	[self closePlugin];
-		[plugin_name setStringValue: file_type ];
-		pix = [self loadPlugin: file_type];
-		if(pix == NULL)
-			plugin_loaded = false;
-		else
-			plugin_loaded = true;
-	 */
-		
 
 	}
 }
