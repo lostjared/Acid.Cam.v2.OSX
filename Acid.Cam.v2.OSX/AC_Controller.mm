@@ -302,6 +302,12 @@ void setEnabledProg() {
         stopCV();
         return;
     }
+    
+    NSInteger chkvalue = [negate_checked integerValue];
+    if(chkvalue == NSOnState) ac::isNegative = true;
+    else ac::isNegative = false;
+    
+    
     ProcFrame(frame);
     ++frame_cnt;
     
@@ -331,129 +337,6 @@ void setEnabledProg() {
         // flush to log
         flushToLog(sout);
     }
-    
-    /*
-    if( (key = cv::waitKey(1)) ) {
-        switch(key) {
-            case 't':
-                ac::resetAll();
-                break;
-            case 'a':
-            {
-                static unsigned int index = 0;
-                std::ostringstream stream;
-                stream << add_path << "_" <<  (++index) << ".Acid.Cam.Image.Uncompressed." << ac::draw_strings[ac::draw_offset] << ".bmp";
-                imwrite(stream.str(), frame);
-                sout << "Saved uncompressed image: " << stream.str() << "\n";
-                // flush to log
-                flushToLog(sout);
-            }
-                break;
-            case 'd':
-            case 's':
-            {
-                static unsigned int index = 0;
-                std::ostringstream stream;
-                stream << add_path << "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((key == 's') ? ".jpg" : ".png");
-                imwrite(stream.str(), frame);
-                sout << "Took snapshot: " << stream.str() << "\n";
-                // flush to log
-                flushToLog(sout);
-            }
-                break;
-            case 'x':
-                ac::alpha = 1.0f;
-                ac::tr = 0.3f;
-                sout << "Reset Alpha..\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'l':
-                sout << "Draw Offset Increased\n";
-                if(ac::draw_offset < ac::draw_max-4)
-                    ++ac::draw_offset;
-                sout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'o':
-                sout << "Draw Offset Decreased\n";
-                if(ac::draw_offset > 0)
-                    --ac::draw_offset;
-                sout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'n':
-                ac::isNegative = !ac::isNegative;
-                sout << "Is Negative: " << boolStr(ac::isNegative) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'r':
-                ac::iRev = !ac::iRev;
-                if(ac::iRev == true) ac::isNegative = true;
-                sout << "Reverse Colors: " << boolStr(ac::iRev) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 27:
-                sout << "Quitting..\n";
-                // flush to log
-                flushToLog(sout);
-                stopCV();
-                
-                break;
-            case 'p':
-                ac::pass2_enabled = !ac::pass2_enabled;
-                sout << "Pass2 Enabled: "<< boolStr(ac::pass2_enabled) <<  "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'h':
-                ac::slide_Show = !ac::slide_Show;
-                sout << "Slide Show: " <<  boolStr(ac::slide_Show) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'j':
-                ac::slide_Rand = !ac::slide_Rand;
-                sout << "Slide Show Random: " << boolStr(ac::slide_Rand) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'b':
-                ac::strobe_It = !ac::strobe_It;
-                sout << "Strobe It: " << boolStr(ac::strobe_It) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'c':
-                if(ac::switch_Back == true) {
-                    ac::switch_Back = false;
-                } else {
-                    ac::switch_Back = true;
-                    ac::isNegative = false;
-                }
-                sout << "switch: " << boolStr(ac::switch_Back) << "\n" << "is Negative: " << boolStr(ac::isNegative) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'f':
-                ac::blur_First = !ac::blur_First;
-                sout << "Blur First: " << boolStr(ac::blur_First) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-            case 'g':
-                ac::blur_Second = !ac::blur_Second;
-                sout << "Blur Second: " << boolStr(ac::blur_Second) << "\n";
-                // flush to log
-                flushToLog(sout);
-                break;
-        }
-    } */
-  
 }
 
 

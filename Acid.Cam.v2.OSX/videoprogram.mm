@@ -414,34 +414,7 @@ void BlurSecond(int pos, void *ptr) {
 }
 
 void ProcFrame(cv::Mat &frame) {
-    static int offset = 0;
-    if(ac::pass2_enabled == true)
-        ac::orig_frame = frame;
-    if(ac::blur_First == true) {
-        cv::Mat temp;
-        cv::GaussianBlur(frame, temp,cv::Size(5, 5), 0, 0, 0);
-        frame = temp;
-    }
-    if(ac::slide_Show == false)
-        ac::draw_func[ac::draw_offset](frame);
-    else {
-        if(ac::slide_Rand == true) ac::draw_func[rand()%ac::draw_max](frame);
-        else ac::draw_func[offset](frame);
-        ++offset;
-        if(offset >= 7)
-            offset = 0;
-    }
-    if(ac::switch_Back == true) {
-        ac::isNegative = !ac::isNegative;
-    }
-    if(ac::blur_Second == true) {
-        cv::Mat temp;
-        cv::GaussianBlur(frame, temp,cv::Size(5, 5), 0, 0, 0);
-        frame = temp;
-    }
-    if(ac::pass2_enabled == true) {
-        ac::Pass2Blend(frame);
-    }
+    ac::draw_func[ac::draw_offset](frame);
 }
 
 void BuildImages(std::string filename) {

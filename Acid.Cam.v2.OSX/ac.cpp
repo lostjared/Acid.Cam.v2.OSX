@@ -138,7 +138,7 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
     
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::StrobeEffect(cv::Mat &frame) {
@@ -191,7 +191,7 @@ void ac::StrobeEffect(cv::Mat &frame) {
           if(max > 23) max = 4.0f;
      }
      alpha += tr;
- 	if(slide_Rand == true) randAlpha(alpha);
+ 	
 }
 
 
@@ -243,7 +243,7 @@ void ac::NegParadox(cv::Mat &frame) {
 		trans_var = -translation_variable;
 
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 
 }
 
@@ -280,7 +280,7 @@ void ac::ThoughtMode(cv::Mat &frame) {
 	    if(max > 23) max = 4.0f;
 	}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::Pass2Blend(cv::Mat &frame) {
@@ -344,7 +344,7 @@ void ac::RandTriBlend(cv::Mat &frame) {
 			max = 4.0f;
 	}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::Blank(cv::Mat &frame) {
@@ -378,7 +378,7 @@ void ac::Blank(cv::Mat &frame) {
 			max = 4.0f;
 	}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::Tri(cv::Mat &frame) {
@@ -410,7 +410,7 @@ void ac::Tri(cv::Mat &frame) {
 			max = 4.0f;
 	}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::Distort(cv::Mat &frame) {
@@ -441,7 +441,7 @@ void ac::Distort(cv::Mat &frame) {
 				max = 4.0f;
 		}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::CDraw(cv::Mat &frame) {
@@ -614,7 +614,7 @@ void ac::blendWithImage(cv::Mat &frame) {
 	}
 	alpha += trans_var;
 	beta += -trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::triBlendWithImage(cv::Mat &frame) {
@@ -652,7 +652,7 @@ void ac::triBlendWithImage(cv::Mat &frame) {
 		}
 	alpha += trans_var;
 	beta += -trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 
@@ -690,7 +690,7 @@ void ac::imageStrobe(cv::Mat &frame) {
 				max = 4.0f;
 		}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::imageDistraction(cv::Mat &frame) {
@@ -723,7 +723,7 @@ void ac::imageDistraction(cv::Mat &frame) {
 				max = 4.0f;
 		}
 	alpha += trans_var;
-	if(slide_Rand == true) randAlpha(alpha);
+	
 }
 
 void ac::cossinMultiply(cv::Mat &frame) {
@@ -745,7 +745,7 @@ void ac::cossinMultiply(cv::Mat &frame) {
 	static float trans_var = 0.05f;
     if(alpha > 24) alpha = 1.0f;
 	alpha += trans_var;
-	if(slide_Rand == true) ac::randAlpha(alpha);
+	
 }
 
 void ac::colorAccumulate1(cv::Mat &frame) {
@@ -766,7 +766,6 @@ void ac::colorAccumulate1(cv::Mat &frame) {
 	static float trans_var = 0.05f;
 	alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
-	if(slide_Rand == true) ac::randAlpha(alpha);
 }
 void ac::colorAccumulate2(cv::Mat &frame) {
     static float alpha = 1.0f;
@@ -786,7 +785,7 @@ void ac::colorAccumulate2(cv::Mat &frame) {
     static float trans_var = 0.05f;
 	alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
-	if(slide_Rand == true) ac::randAlpha(alpha);
+	
 
 }
 void ac::colorAccumulate3(cv::Mat &frame) {
@@ -807,7 +806,7 @@ void ac::colorAccumulate3(cv::Mat &frame) {
     static float trans_var = 0.05f;
 	alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
-	if(slide_Rand == true) ac::randAlpha(alpha);
+	
 }
 
 void ac::filter8(cv::Mat &frame) {
@@ -836,7 +835,7 @@ void ac::filter8(cv::Mat &frame) {
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
 	
-    if(slide_Rand == true) ac::randAlpha(alpha);
+    
 }
 
 void ac::filter3(cv::Mat &frame) {
@@ -865,7 +864,7 @@ void ac::filter3(cv::Mat &frame) {
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
 	
-    if(slide_Rand == true) ac::randAlpha(alpha);
+    
 }
 
 void ac::rainbowBlend(cv::Mat &frame) {
@@ -912,7 +911,7 @@ void ac::rainbowBlend(cv::Mat &frame) {
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
 	
-    if(slide_Rand == true) ac::randAlpha(alpha);
+    
     
 }
 

@@ -48,6 +48,7 @@ extern drawn d;
 	IBOutlet NSWindow *plugin_window;
 	IBOutlet NSTextField *plugin_name;
 	IBOutlet NSComboBox *plugin_dir;
+    IBOutlet NSButton *negate_checked;
 	
    
 
