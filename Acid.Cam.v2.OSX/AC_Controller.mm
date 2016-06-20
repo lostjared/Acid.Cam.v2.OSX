@@ -397,12 +397,12 @@ void setEnabledProg() {
     if( [str isEqualTo:@"Filter"] ) {
         int value = (int)[number integerValue];
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
-        [number release];
+//        [number release];
         return s;
     }
     else {
         NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
-        [number release];
+//        [number release];
         return s;
     }
 }
@@ -604,7 +604,7 @@ void custom_filter(cv::Mat &frame) {
         NSNumber *num = [custom_array objectAtIndex:i];
         NSInteger index = [num integerValue];
         ac::draw_func[(int)index](frame);
-        [num release];
+//        [num release];
     }
 }
 
