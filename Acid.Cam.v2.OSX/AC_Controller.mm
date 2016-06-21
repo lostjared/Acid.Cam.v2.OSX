@@ -420,119 +420,17 @@ void setEnabledProg() {
     }
 }
 - (IBAction) removeCustomItem: (id) sender {
-    
     NSInteger index = [table_view selectedRow];
     if(index >= 0) {
         [custom_array removeObjectAtIndex:index];
         [table_view reloadData];
     }
-    
 }
 
 - (IBAction) selectFileForPrefix: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];
     if([panel runModal]) {
         [prefix_input setStringValue:[[panel URL] path]];
-    }
-}
-
-- (IBAction) setOption_Negative: (id) sender {
-    NSInteger checkedState = [menuNegative state];
-    if(checkedState == NSOnState) {
-        [menuNegative setState: NSOffState];
-        ac::isNegative = false;
-        
-    }
-    else {
-        [menuNegative setState: NSOnState];
-        ac::isNegative = true;
-    }
-}
-
-- (IBAction) setOption_NegFlash: (id) sender {
-    NSInteger checkedState = [menuNegFlash state];
-    if(checkedState == NSOnState) {
-        [menuNegFlash setState: NSOffState];
-        ac::switch_Back = false;
-    }
-    else {
-        [menuNegFlash setState: NSOnState];
-        ac::isNegative = true;
-        ac::switch_Back = true;
-        ac::isNegative = false;
-        [menuNegative setState: NSOffState];
-    }
-}
-
-- (IBAction) setOption_BlurFirst: (id) sender {
-    NSInteger checkedState = [menuBlurFirst state];
-    if(checkedState == NSOnState) {
-        [menuBlurFirst setState: NSOffState];
-        ac::blur_First = false;
-    }
-    else {
-        [menuBlurFirst setState: NSOnState];
-        ac::blur_First = true;
-    }
-}
-
-- (IBAction) setOption_BlurSecond: (id) sender {
-    NSInteger checkedState = [menuBlurSecond state];
-    if(checkedState == NSOnState) {
-        [menuBlurSecond setState: NSOffState];
-        ac::blur_Second = false;
-    }
-    else {
-        [menuBlurSecond setState: NSOnState];
-        ac::blur_Second = true;
-    }
-}
-
-- (IBAction) setOption_SecondPass: (id) sender {
-    NSInteger checkedState = [menuSecondPass state];
-    if(checkedState == NSOnState) {
-        [menuSecondPass setState: NSOffState];
-        ac::pass2_enabled = false;
-    }
-    else {
-        [menuSecondPass setState: NSOnState];
-        ac::pass2_enabled = true;
-    }
-}
-
-- (IBAction) setOption_ReverseColors: (id) sender {
-    NSInteger checkedState = [menuReverseColors state];
-    if(checkedState == NSOnState) {
-        [menuReverseColors setState: NSOffState];
-        ac::iRev = false;
-    }
-    else {
-        [menuReverseColors setState: NSOnState];
-        ac::iRev = true;
-    }
-}
-
-- (IBAction) setOption_SlideShow: (id) sender {
-    NSInteger checkedState = [menuSlideShow state];
-    if(checkedState == NSOnState) {
-        [menuSlideShow setState: NSOffState];
-        ac::slide_Show = false;
-    }
-    else {
-        [menuSlideShow setState: NSOnState];
-        ac::slide_Show = true;
-    }
-}
-
-- (IBAction) setOption_SlideRand: (id) sender {
-    NSInteger checkedState = [menuSlideRand state];
-    if(checkedState == NSOnState) {
-        [menuSlideRand setState: NSOffState];
-        ac::slide_Rand = false;
-    }
-    else {
-        [menuSlideRand setState: NSOnState];
-        ac::slide_Rand = true;
     }
 }
 
@@ -597,7 +495,6 @@ void setEnabledProg() {
 
 @end
 
-
 void custom_filter(cv::Mat &frame) {
     NSInteger len = [custom_array count];
     for(NSInteger i = 0; i < len; ++i) {
@@ -614,11 +511,8 @@ void setSliders(int frame_count) {
 }
 
 void ac::plugin(cv::Mat &frame) {
-	
 	if(plugin_loaded == false) return;
-	
 	int i = 0, z = 0;
-	
 	for(z = 0; z < frame.cols; ++z) {
 		for(i = 0; i < frame.rows; ++i) {
 			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
@@ -631,7 +525,5 @@ void ac::plugin(cv::Mat &frame) {
 	}
 	
 	(*d)();
-	
 }
-
 
