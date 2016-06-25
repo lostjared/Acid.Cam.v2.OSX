@@ -35,16 +35,6 @@ unsigned int total_frames = 0;
 
 void ProcFrame(cv::Mat &frame);
 void BuildImages(std::string filename);
-void TrackbarCallback(int pos, void *ptr);
-void IsNegativeCallback(int pos, void *ptr);
-void IsNegativeFlash(int pos, void *ptr);
-void Pass2Enable(int pos, void *ptr);
-void ReverseColors(int pos, void *ptr);
-void SlideShow(int pos, void *ptr);
-void SlideRand(int pos, void *ptr);
-void StrobeIt(int pos, void *ptr);
-void BlurFirst(int pos, void *ptr);
-void BlurSecond(int pos, void *ptr);
 
 cv::VideoCapture capture;
 int frame_cnt, key;

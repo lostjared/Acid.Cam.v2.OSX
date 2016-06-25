@@ -82,6 +82,7 @@ extern drawn d;
 - (pixel) loadPlugin: (NSString *)str;
 - (void) loadDir: (std::string) str;
 - (IBAction) setPlugin: (id) sender;
+- (IBAction) setNegative: (id) sender;
 
 @end
 

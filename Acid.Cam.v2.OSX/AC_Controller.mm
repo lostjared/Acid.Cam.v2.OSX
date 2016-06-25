@@ -26,6 +26,9 @@ pixel pix;
 drawn d;
 bool plugin_loaded = false;
 void *library = NULL;
+std::ostringstream ftext;
+std::ostringstream stream;
+
 
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
@@ -97,6 +100,9 @@ void setEnabledProg() {
     [menuPaused setEnabled: NO];
     stop_prog_i = stop_prog;
     frame_slider = goto_f;
+    ftext.setf(std::ios::fixed, std::ios::floatfield);
+    ftext.precision(2);
+
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -295,7 +301,6 @@ void setEnabledProg() {
     
     if(isPaused) return;
     
-    
     cv::Mat frame;
     
     if(capture.read(frame) == false) {
@@ -303,21 +308,11 @@ void setEnabledProg() {
         return;
     }
     
-    NSInteger chkvalue = [negate_checked integerValue];
-    if(chkvalue == NSOnState) ac::isNegative = true;
-    else ac::isNegative = false;
-    
-    
     ProcFrame(frame);
     ++frame_cnt;
-    
-    
-    std::ostringstream ftext;
-    ftext.setf(std::ios::fixed, std::ios::floatfield);
-    ftext.precision(2);
+    ftext.str("");
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     setFrameLabel(ftext);
-    //cv::moveWindow("Acid Cam v2", 0, 0);
     imshow("Acid Cam v2", frame);
     if(ac::noRecord == false) {
         // add pause
@@ -329,7 +324,7 @@ void setEnabledProg() {
     }
     if(ac::snapShot == true) {
         static unsigned int index = 0;
-        std::ostringstream stream;
+        stream.str("");
         stream << add_path << "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
         imwrite(stream.str(), frame);
         sout << "Took snapshot: " << stream.str() << "\n";
@@ -492,6 +487,14 @@ void setEnabledProg() {
 - (IBAction) changeNegate: (id) sender {
     negate = [check_box state] == NSOffState ? false : true;
 }
+
+- (IBAction) setNegative: (id) sender {
+    NSInteger chkvalue = [negate_checked integerValue];
+    if(chkvalue == NSOnState) ac::isNegative = true;
+    else ac::isNegative = false;
+
+}
+
 
 @end
 
