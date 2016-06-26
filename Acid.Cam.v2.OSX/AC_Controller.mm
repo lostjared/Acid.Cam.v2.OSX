@@ -293,12 +293,11 @@ void setEnabledProg() {
     }
 }
 
+
+
 - (void) cvProc: (id) sender {
-    
-    
     if(breakProgram == true) { stopCV(); return; }
     if(stopProgram == true)  { stopCV(); return; }
-    
     if(isPaused) return;
     
     cv::Mat frame;
@@ -309,19 +308,20 @@ void setEnabledProg() {
     }
     
     ProcFrame(frame);
+    
     ++frame_cnt;
-    ftext.str("");
+    imshow("Acid Cam v2", frame);
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     setFrameLabel(ftext);
-    imshow("Acid Cam v2", frame);
+    
     if(ac::noRecord == false) {
-        // add pause
         writer.write(frame);
         if(file.is_open()) {
             file.seekg(0, std::ios::end);
             file_size = file.tellg();
         }
     }
+    
     if(ac::snapShot == true) {
         static unsigned int index = 0;
         stream.str("");
