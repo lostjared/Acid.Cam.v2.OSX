@@ -330,9 +330,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
 
 std::ostringstream strout;
 
-void ProcFrame(cv::Mat &frame) {
-    ac::draw_func[ac::draw_offset](frame);
-}
 
 void BuildImages(std::string filename) {
     std::fstream file;

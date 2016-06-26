@@ -307,7 +307,7 @@ void setEnabledProg() {
         return;
     }
     
-    ProcFrame(frame);
+    ac::draw_func[ac::draw_offset](frame);
     
     ++frame_cnt;
     imshow("Acid Cam v2", frame);
