@@ -296,8 +296,7 @@ void setEnabledProg() {
 
 
 - (void) cvProc: (id) sender {
-    if(breakProgram == true) { stopCV(); return; }
-    if(stopProgram == true)  { stopCV(); return; }
+    if(breakProgram == true || stopProgram == true) { stopCV(); return; }
     if(isPaused) return;
     
     cv::Mat frame;
