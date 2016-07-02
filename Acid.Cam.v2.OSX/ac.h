@@ -40,8 +40,8 @@ extern bool negate;
 
 namespace ac {
 	static std::string version="2.0.21";
-	extern float translation_variable, pass2_alpha;
-	extern float alpha, tr;
+	extern double translation_variable, pass2_alpha;
+	extern double alpha, tr;
 	extern bool isNegative, noRecord,pass2_enabled,blendW,slide_Show,slide_Rand,strobe_It,switch_Back,blur_First,blur_Second,iRev;
     extern int color_order;
 	extern double fps;
@@ -56,7 +56,7 @@ namespace ac {
 	inline int GetFX(cv::Mat &frame, int x, int nw);
 	inline int GetFY(cv::Mat &frame, int y, int nh);
 	inline void invert(cv::Mat &frame, int x, int y);
-	inline void randAlpha(float &value);
+	inline void randAlpha(double &value);
 	void resetAll();
 	void enablePass2(bool pass2_enabled, bool pass2_alpha);
 
