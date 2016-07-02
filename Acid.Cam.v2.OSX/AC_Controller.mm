@@ -193,6 +193,7 @@ void setEnabledProg() {
 	library = dlopen([str UTF8String], RTLD_LAZY);
 	if(library == NULL) {
 		std::cerr << "Error could not open: " << [str UTF8String] << "\n";
+        NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
 		exit(1);
 	}
 		
@@ -205,7 +206,7 @@ void setEnabledProg() {
 	error = dlerror();
 	if(error) {
 		std::cerr << "Could not load pixel: " << error << "\n";
-		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", NULL,NULL);
+        NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
 		return NULL;
 	}
 	addr = dlsym(library,"drawn");
@@ -213,7 +214,7 @@ void setEnabledProg() {
 	error = dlerror();
 	if(error) {
 		std::cerr << "Could not load pixel: " << error << "\n";
-		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", NULL,NULL);
+		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
 		return NULL;
 	}
 	return pix;
