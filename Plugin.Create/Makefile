@@ -7,6 +7,7 @@ all:
 	$(CXX) -shared plugin-blend.cpp -o plugin-blend.dylib
 	$(CXX) -shared plugin-selfalpha.cpp -o plugin-selfalpha.dylib
 	$(CXX) -shared plugin-randcolor.cpp -o plugin-randcolor.dylib
+	$(CXX) -shared plugin-selfalpha-reblend.cpp -o plugin-selfalpha-reblend.dylib
 
 clean:
 	rm -f plug-load
