@@ -315,14 +315,12 @@ void ac::RandTriBlend(cv::Mat &frame) {
             } else if (counter == 1) {
                 colors[3][0] = (colors[0][0]) * alpha;
                 colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
-                colors[3][2] = (colors[0][2] + colors[1][2] + colors[2][2])
-                * alpha;
+                colors[3][2] = (colors[0][2] + colors[1][2] + colors[2][2]) * alpha;
                 counter++;
             } else {
                 colors[3][0] = (colors[0][0]) * alpha;
                 colors[3][2] = (colors[0][1] + colors[1][1]) * alpha;
-                colors[3][1] = (colors[0][2] + colors[1][2] + colors[2][2])
-                * alpha;
+                colors[3][1] = (colors[0][2] + colors[1][2] + colors[2][2]) * alpha;
             }
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
             color_value = colors[3];
