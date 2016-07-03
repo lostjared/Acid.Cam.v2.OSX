@@ -182,8 +182,8 @@ void startRecord(const char *filename) {
     
     recorder.running = TRUE;
     Error(AudioQueueStart(queue, NULL), "AudioQueueStart failed.");
-   
-
+    
+    
 }
 
 void stopRecord() {
@@ -214,7 +214,7 @@ void stopCV() {
         
         cv::destroyWindow("Acid Cam v2");
         cv::destroyWindow("Controls");
-           sout << frame_cnt << " Total frames\n";
+        sout << frame_cnt << " Total frames\n";
         sout << (frame_cnt/ac::fps) << " Seconds\n";
         file.close();
         // flush to log
@@ -226,7 +226,7 @@ void stopCV() {
             [NSApp terminate:nil];
         }
     }
-
+    
 }
 
 NSTimer *renderTimer;
@@ -281,7 +281,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
             sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
         }
-
+        
         setSliders(total_frames);
         
         if(ac::noRecord == false) {
@@ -309,14 +309,14 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
             std::string str_filename=ac::fileName+".caf";
             startRecord(str_filename.c_str());
         }
-
+        
         
         [[NSRunLoop currentRunLoop] addTimer:renderTimer
                                      forMode:NSEventTrackingRunLoopMode];
         
-       [[NSRunLoop currentRunLoop] addTimer:renderTimer
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
                                      forMode:NSDefaultRunLoopMode];
-
+        
         return 0;
     }
     catch(std::exception &e) {

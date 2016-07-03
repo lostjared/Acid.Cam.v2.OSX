@@ -62,7 +62,7 @@ void setEnabledProg() {
 
 - (IBAction) quitProgram: (id) sender {
     if(programRunning == true)
-    breakProgram = true;
+        breakProgram = true;
     else {
         [NSApp terminate:nil];
     }
@@ -70,7 +70,7 @@ void setEnabledProg() {
 
 - (void) dealloc {
     [custom_array release];
-	[self closePlugin];
+    [self closePlugin];
     [super dealloc];
 }
 
@@ -92,7 +92,7 @@ void setEnabledProg() {
         [[current_filter menu] addItem:item];
         [item release];
         if(ac::draw_strings[i] != "Custom")
-        [filter_combo addItemWithObjectValue:s];
+            [filter_combo addItemWithObjectValue:s];
     }
     custom_array = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
@@ -102,7 +102,7 @@ void setEnabledProg() {
     frame_slider = goto_f;
     ftext.setf(std::ios::fixed, std::ios::floatfield);
     ftext.precision(2);
-
+    
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -118,9 +118,9 @@ void setEnabledProg() {
     if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
         [alpha_window orderFront:self];
     }
-	if(ac::draw_strings[ac::draw_offset] == "Plugin") {
-		[plugin_window orderFront:self];
-	}
+    if(ac::draw_strings[ac::draw_offset] == "Plugin") {
+        [plugin_window orderFront:self];
+    }
 }
 
 - (IBAction) stopProgram: (id) sender {
@@ -130,101 +130,101 @@ void setEnabledProg() {
 }
 
 - (IBAction) selectPlugin: (id) sender {
-	
-	NSOpenPanel *panel = [NSOpenPanel openPanel];
-	
-	[panel setCanChooseFiles:NO];
-	[panel setCanChooseDirectories:YES];
-	
-	if([panel runModal]) {
-		NSString *file_type = [[panel URL] path];
-		[plugin_dir removeAllItems];
-		[plugin_name setStringValue: file_type];
-		[self loadDir:[file_type UTF8String]];
-
-	}
+    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    
+    [panel setCanChooseFiles:NO];
+    [panel setCanChooseDirectories:YES];
+    
+    if([panel runModal]) {
+        NSString *file_type = [[panel URL] path];
+        [plugin_dir removeAllItems];
+        [plugin_name setStringValue: file_type];
+        [self loadDir:[file_type UTF8String]];
+        
+    }
 }
 
 - (IBAction) setPlugin: (id) sender {
-	
-	[self closePlugin];
-	NSString *file_type = [NSString stringWithFormat: @"%@/%@", [plugin_name stringValue], [plugin_dir objectValueOfSelectedItem]];
-	pix = [self loadPlugin: file_type];
-	if(pix == NULL)
-		plugin_loaded = false;
-	else
-		plugin_loaded = true;
-	
+    
+    [self closePlugin];
+    NSString *file_type = [NSString stringWithFormat: @"%@/%@", [plugin_name stringValue], [plugin_dir objectValueOfSelectedItem]];
+    pix = [self loadPlugin: file_type];
+    if(pix == NULL)
+        plugin_loaded = false;
+    else
+        plugin_loaded = true;
+    
 }
 
 - (void) loadDir: (std::string) str {
-	
-	DIR *dir = opendir(str.c_str());
-	
-	if (dir == NULL)
-	{
-		std::cerr << "Error could not open directory.\n";
-		return;
-	}
-	
-	dirent *e;
-	
-	while ((e = readdir(dir)))
-	{
-		if (e->d_type == DT_REG)
-		{
-			std::string file = e->d_name;
-			if (file.find(".dylib") != -1)
-			{
-
-				NSString *s = [NSString stringWithUTF8String: e->d_name];
-				[plugin_dir addItemWithObjectValue: s];
-			
-			}
-		}
-	}
-	
-	closedir(dir);
+    
+    DIR *dir = opendir(str.c_str());
+    
+    if (dir == NULL)
+    {
+        std::cerr << "Error could not open directory.\n";
+        return;
+    }
+    
+    dirent *e;
+    
+    while ((e = readdir(dir)))
+    {
+        if (e->d_type == DT_REG)
+        {
+            std::string file = e->d_name;
+            if (file.find(".dylib") != -1)
+            {
+                
+                NSString *s = [NSString stringWithUTF8String: e->d_name];
+                [plugin_dir addItemWithObjectValue: s];
+                
+            }
+        }
+    }
+    
+    closedir(dir);
 }
 
 
 - (pixel) loadPlugin: (NSString *)str {
-	
-	library = dlopen([str UTF8String], RTLD_LAZY);
-	if(library == NULL) {
-		std::cerr << "Error could not open: " << [str UTF8String] << "\n";
+    
+    library = dlopen([str UTF8String], RTLD_LAZY);
+    if(library == NULL) {
+        std::cerr << "Error could not open: " << [str UTF8String] << "\n";
         NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
-		exit(1);
-	}
-		
-	void *addr;
-	// load the plugin function to process pixels
-	addr = dlsym(library, "pixel");
-	pixel pix;
-	pix = reinterpret_cast<pixel>(addr);
-	const char *error;
-	error = dlerror();
-	if(error) {
-		std::cerr << "Could not load pixel: " << error << "\n";
+        exit(1);
+    }
+    
+    void *addr;
+    // load the plugin function to process pixels
+    addr = dlsym(library, "pixel");
+    pixel pix;
+    pix = reinterpret_cast<pixel>(addr);
+    const char *error;
+    error = dlerror();
+    if(error) {
+        std::cerr << "Could not load pixel: " << error << "\n";
         NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
-		return NULL;
-	}
-	addr = dlsym(library,"drawn");
-	d = reinterpret_cast<drawn>(addr);
-	error = dlerror();
-	if(error) {
-		std::cerr << "Could not load pixel: " << error << "\n";
-		NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
-		return NULL;
-	}
-	return pix;
+        return NULL;
+    }
+    addr = dlsym(library,"drawn");
+    d = reinterpret_cast<drawn>(addr);
+    error = dlerror();
+    if(error) {
+        std::cerr << "Could not load pixel: " << error << "\n";
+        NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
+        return NULL;
+    }
+    return pix;
 }
 
 
 - (void) closePlugin {
-	
-	if(library != NULL)
-		dlclose(library);
+    
+    if(library != NULL)
+        dlclose(library);
 }
 
 
@@ -265,7 +265,7 @@ void setEnabledProg() {
         fname_stream << ".AC2.Output." << (counter) << ".mov";
     else
         fname_stream <<".AC2.Output." << (counter) << ".avi";
-
+    
     filename = fname_stream.str();
     
     NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
@@ -282,11 +282,11 @@ void setEnabledProg() {
                                         selector:@selector(cvProc:)
                                         userInfo:nil
                                          repeats:YES];
-
+    
     
     int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     
-  
+    
     
     if(ret_val != 0) {
         NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
@@ -392,12 +392,12 @@ void setEnabledProg() {
     if( [str isEqualTo:@"Filter"] ) {
         int value = (int)[number integerValue];
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
-//        [number release];
+        //        [number release];
         return s;
     }
     else {
         NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
-//        [number release];
+        //        [number release];
         return s;
     }
 }
@@ -492,7 +492,7 @@ void setEnabledProg() {
     NSInteger chkvalue = [negate_checked integerValue];
     if(chkvalue == NSOnState) ac::isNegative = true;
     else ac::isNegative = false;
-
+    
 }
 
 
@@ -504,7 +504,7 @@ void custom_filter(cv::Mat &frame) {
         NSNumber *num = [custom_array objectAtIndex:i];
         NSInteger index = [num integerValue];
         ac::draw_func[(int)index](frame);
-//        [num release];
+        //        [num release];
     }
 }
 
@@ -514,19 +514,19 @@ void setSliders(int frame_count) {
 }
 
 void ac::plugin(cv::Mat &frame) {
-	if(plugin_loaded == false) return;
-	int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-			unsigned char pixels[] = { buffer[0], buffer[1], buffer[2] };
-			(*pix)(z, i, pixels);
-			buffer[0] = pixels[0];
-			buffer[1] = pixels[1];
-			buffer[2] = pixels[2];
-		}
-	}
-	
-	(*d)();
+    if(plugin_loaded == false) return;
+    int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            unsigned char pixels[] = { buffer[0], buffer[1], buffer[2] };
+            (*pix)(z, i, pixels);
+            buffer[0] = pixels[0];
+            buffer[1] = pixels[1];
+            buffer[2] = pixels[2];
+        }
+    }
+    
+    (*d)();
 }
 

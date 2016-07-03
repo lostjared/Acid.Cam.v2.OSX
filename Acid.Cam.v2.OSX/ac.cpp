@@ -8,23 +8,23 @@
 
 
 namespace ac {
-	bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
-	bool images_Enabled = false, fps_force = false,iRev = false;
-	bool blur_Second = false;
-	cv::Mat orig_frame;
-	cv::Mat blendW_frame;
-	cv::Mat image_files[4];
-	double alpha = 1.0f, tr = 0.01f;
-	double fps = 29.97;
-	int draw_offset = 0;
+    bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
+    bool images_Enabled = false, fps_force = false,iRev = false;
+    bool blur_Second = false;
+    cv::Mat orig_frame;
+    cv::Mat blendW_frame;
+    cv::Mat image_files[4];
+    double alpha = 1.0f, tr = 0.01f;
+    double fps = 29.97;
+    int draw_offset = 0;
     bool snapShot = false;
     int color_order = 0;
     int snapshot_Type = 0;
     
-	DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
+    DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-	int draw_max = 30;
-	double translation_variable = 0.001f, pass2_alpha = 0.75f;
+    int draw_max = 30;
+    double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
 }
@@ -71,64 +71,64 @@ inline void ac::invert(cv::Mat &frame, int x, int y) {
     if(iRev == true) {
         cv::Vec3b temp;
         temp = cur;
-		cur[2] = temp[0];
+        cur[2] = temp[0];
         cur[1] = temp[1];
         cur[0] = temp[2];
-	}
+    }
 }
 
 inline void ac::randAlpha(double &alpha) {
-	static int max = 1, total = 25;
-	static double d = 0.1f;
-	static bool dir = true;
-	alpha = (d) * (1 + (rand() % max));
-	if (dir == true)
-		++max;
-	else
-		--max;
-
-	if (max > total) {
-		dir = false;
-		total++;
-		d += 0.1f;
-	} else if (max <= 1) {
-		dir = true;
-	}
+    static int max = 1, total = 25;
+    static double d = 0.1f;
+    static bool dir = true;
+    alpha = (d) * (1 + (rand() % max));
+    if (dir == true)
+        ++max;
+    else
+        --max;
+    
+    if (max > total) {
+        dir = false;
+        total++;
+        d += 0.1f;
+    } else if (max <= 1) {
+        dir = true;
+    }
 }
 
 void ac::resetAll() {
-	slide_Show = false;
-	slide_Rand = false;
-	alpha = 1.0f;
-	tr = 0.1f;
-	blur_First = false;
-	iRev = false;
-	isNegative = false;
-	blur_Second = false;
+    slide_Show = false;
+    slide_Rand = false;
+    alpha = 1.0f;
+    tr = 0.1f;
+    blur_First = false;
+    iRev = false;
+    isNegative = false;
+    blur_Second = false;
 }
 
 
 void ac::enablePass2(bool pass2_enabled, bool pass2_alpha) {
-	ac::pass2_enabled = pass2_enabled;
-	ac::pass2_alpha = pass2_alpha;
+    ac::pass2_enabled = pass2_enabled;
+    ac::pass2_alpha = pass2_alpha;
 }
 
 void ac::SelfAlphaBlend(cv::Mat &frame) {
-	for(int z = 0; z < frame.rows; ++z) {
-		for(int i = 0; i < frame.cols; ++i) {
-			cv::Vec3b &colorval = frame.at<cv::Vec3b>(z, i);
-			colorval[0] += colorval[0]*alpha;
-			colorval[1] += colorval[1]*alpha;
-			colorval[2] += colorval[2]*alpha;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &colorval = frame.at<cv::Vec3b>(z, i);
+            colorval[0] += colorval[0]*alpha;
+            colorval[1] += colorval[1]*alpha;
+            colorval[2] += colorval[2]*alpha;
             
             swapColors(frame, z, i);
             
             if(isNegative == true) {
-				invert(frame, z, i);
-			}
-		}
-	}
-
+                invert(frame, z, i);
+            }
+        }
+    }
+    
     static int direction = 1;
     if(direction == 1) {
         alpha += 0.1f;
@@ -138,113 +138,113 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
     
-	
+    
 }
 
 void ac::StrobeEffect(cv::Mat &frame) {
     static unsigned int passIndex = 0;
     static double alpha = 1.0f;
-	for (int z = 0; z < frame.cols - 2; ++z) {
-		for (int i = 0; i < frame.rows - 2; ++i) {
-			cv::Vec3b &colors = frame.at<cv::Vec3b>(i, z);
-			switch (passIndex) {
-				case 0:
-					colors[0] = colors[0] * (-alpha);
-					colors[1] = colors[1] * alpha;
-					colors[2] = colors[2] * alpha;
-				break;
-				case 1:
-					colors[0] += colors[0] * alpha;
-					colors[1] += colors[1] * (-alpha);
-					colors[2] += colors[2] * alpha;
-				break;
-				case 2:
-					colors[0] = colors[0] * alpha;
-					colors[1] = colors[1] * alpha;
-					colors[2] = colors[2] * (-alpha);
-				break;
-				case 3: {
-					cv::Vec3b &color1 = frame.at<cv::Vec3b>(i + 1, z);
-					cv::Vec3b &color2 = frame.at<cv::Vec3b>(i + 2, z);
-					colors[0] += colors[0] * alpha;
-					colors[1] += color1[1] * alpha;
-					colors[2] += color2[2] * alpha;
-					break;
-				}
-			}
+    for (int z = 0; z < frame.cols - 2; ++z) {
+        for (int i = 0; i < frame.rows - 2; ++i) {
+            cv::Vec3b &colors = frame.at<cv::Vec3b>(i, z);
+            switch (passIndex) {
+                case 0:
+                    colors[0] = colors[0] * (-alpha);
+                    colors[1] = colors[1] * alpha;
+                    colors[2] = colors[2] * alpha;
+                    break;
+                case 1:
+                    colors[0] += colors[0] * alpha;
+                    colors[1] += colors[1] * (-alpha);
+                    colors[2] += colors[2] * alpha;
+                    break;
+                case 2:
+                    colors[0] = colors[0] * alpha;
+                    colors[1] = colors[1] * alpha;
+                    colors[2] = colors[2] * (-alpha);
+                    break;
+                case 3: {
+                    cv::Vec3b &color1 = frame.at<cv::Vec3b>(i + 1, z);
+                    cv::Vec3b &color2 = frame.at<cv::Vec3b>(i + 2, z);
+                    colors[0] += colors[0] * alpha;
+                    colors[1] += color1[1] * alpha;
+                    colors[2] += color2[2] * alpha;
+                    break;
+                }
+            }
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	++passIndex;
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    ++passIndex;
     if(passIndex > 3) passIndex = 0;
     static double max = 4.0f;
-     if(alpha < 0)
-          tr = translation_variable;
-     else if(alpha > max) {
-          tr = -translation_variable;
-          max += 3.0f;
-          if(max > 23) max = 4.0f;
-     }
-     alpha += tr;
- 	
+    if(alpha < 0)
+        tr = translation_variable;
+    else if(alpha > max) {
+        tr = -translation_variable;
+        max += 3.0f;
+        if(max > 23) max = 4.0f;
+    }
+    alpha += tr;
+    
 }
 
 
 void ac::Blend3(cv::Mat &frame) {
-	static int i=0,z=0;
-	static double rValue[3] = { 0, 0, 0 };
-	for (z = 0; z < frame.cols; ++z) {
-		for (i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			for (int j = 0; j < 3; ++j)
-				color_value[j] += color_value[j] * rValue[j];
+    static int i=0,z=0;
+    static double rValue[3] = { 0, 0, 0 };
+    for (z = 0; z < frame.cols; ++z) {
+        for (i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            for (int j = 0; j < 3; ++j)
+                color_value[j] += color_value[j] * rValue[j];
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	for (int q = 0; q < 3; ++q)
-		rValue[q] += ((rand() % 10) > 5) ? -0.1f : 0.1f;
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    for (int q = 0; q < 3; ++q)
+        rValue[q] += ((rand() % 10) > 5) ? -0.1f : 0.1f;
 }
 
 void ac::NegParadox(cv::Mat &frame) {
-	static double alpha = 1.0f;
-	for (int z = 0; z < frame.cols - 3; ++z) {
-		for (int i = 0; i < frame.rows - 3; ++i) {
-			cv::Vec3b colors[4];
-			colors[0] = frame.at<cv::Vec3b>(i, z);
-			colors[1] = frame.at<cv::Vec3b>(i + 1, z);
-			colors[2] = frame.at<cv::Vec3b>(i + 2, z);
-			colors[3] = frame.at<cv::Vec3b>(i + 3, z);
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			color_value[0] += (colors[0][0] * alpha) + (colors[1][0] * alpha);
-			color_value[1] += (colors[1][1] * alpha) + (colors[3][1] * alpha);
-			color_value[2] += (colors[1][2] * alpha) + (colors[2][2] * alpha);
+    static double alpha = 1.0f;
+    for (int z = 0; z < frame.cols - 3; ++z) {
+        for (int i = 0; i < frame.rows - 3; ++i) {
+            cv::Vec3b colors[4];
+            colors[0] = frame.at<cv::Vec3b>(i, z);
+            colors[1] = frame.at<cv::Vec3b>(i + 1, z);
+            colors[2] = frame.at<cv::Vec3b>(i + 2, z);
+            colors[3] = frame.at<cv::Vec3b>(i + 3, z);
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            color_value[0] += (colors[0][0] * alpha) + (colors[1][0] * alpha);
+            color_value[1] += (colors[1][1] * alpha) + (colors[3][1] * alpha);
+            color_value[2] += (colors[1][2] * alpha) + (colors[2][2] * alpha);
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	static double trans_var = 0.1f;
-	if (alpha < 0)
-		trans_var = translation_variable;
-	else if (alpha > 15)
-		trans_var = -translation_variable;
-
-	alpha += trans_var;
-	
-
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    static double trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > 15)
+        trans_var = -translation_variable;
+    
+    alpha += trans_var;
+    
+    
 }
 
 void ac::ThoughtMode(cv::Mat &frame) {
@@ -252,211 +252,211 @@ void ac::ThoughtMode(cv::Mat &frame) {
     static int mode = 0;
     static int sw = 1, tr = 1;
     for(int z = 2; z < frame.cols-2; ++z) {
-    	for(int i = 2; i < frame.rows-4; ++i) {
-      		cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-	        if(sw == 1) color_value[0]+= color_value[mode]*alpha;
-	        if(tr == 0) color_value[mode] -= color_value[rand()%2]*alpha;
-	        color_value[mode] += color_value[mode]*alpha;
-	        mode++;
-	        if(mode >= 3) mode = 0;
+        for(int i = 2; i < frame.rows-4; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            if(sw == 1) color_value[0]+= color_value[mode]*alpha;
+            if(tr == 0) color_value[mode] -= color_value[rand()%2]*alpha;
+            color_value[mode] += color_value[mode]*alpha;
+            mode++;
+            if(mode >= 3) mode = 0;
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-
-    	}
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+            
+        }
    	}
-
+    
     sw = !sw;
-	tr = !tr;
-	static double max = 4.0f;
-	if(alpha < 0)
-		trans_var = translation_variable;
-	else if(alpha > max) {
-	    trans_var = -translation_variable;
-	    max += 3.0f;
-	    if(max > 23) max = 4.0f;
-	}
-	alpha += trans_var;
-	
+    tr = !tr;
+    static double max = 4.0f;
+    if(alpha < 0)
+        trans_var = translation_variable;
+    else if(alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if(max > 23) max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::Pass2Blend(cv::Mat &frame) {
-	for(int z = 0;  z < frame.rows; ++z) {
-		for(int i = 0; i < frame.cols; ++i) {
-			cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);
-			cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);
+    for(int z = 0;  z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);
             for(int q = 0; q < 3; ++q)
-				color1[q] = color1[q]+color2[q]*(unsigned char)ac::pass2_alpha;
-		}
-	}
+                color1[q] = color1[q]+color2[q]*(unsigned char)ac::pass2_alpha;
+        }
+    }
 }
 
 void ac::RandTriBlend(cv::Mat &frame) {
-	static double alpha = 1.0f;
-	static int i = 0, z = 0;
-	int counter = 0;
-	cv::Vec3b colors[6];
-	for (z = 2; z < frame.cols - 2; ++z) {
-		for (i = 2; i < frame.rows - 2; ++i) {
-			colors[0] = frame.at<cv::Vec3b>(i, z);
-			colors[1] = frame.at<cv::Vec3b>(i + 1, z);
-			colors[2] = frame.at<cv::Vec3b>(i + 2, z);
-			// chaos
-			counter = rand() % 3;
-			if (counter == 0) {
-				colors[3][0] = (colors[0][0] + colors[1][0] + colors[2][0])
-						* alpha;
-				colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
-				colors[3][2] = (colors[0][2]) * alpha;
-				counter++;
-			} else if (counter == 1) {
-				colors[3][0] = (colors[0][0]) * alpha;
-				colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
-				colors[3][2] = (colors[0][2] + colors[1][2] + colors[2][2])
-						* alpha;
-				counter++;
-			} else {
-				colors[3][0] = (colors[0][0]) * alpha;
-				colors[3][2] = (colors[0][1] + colors[1][1]) * alpha;
-				colors[3][1] = (colors[0][2] + colors[1][2] + colors[2][2])
-						* alpha;
-			}
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			color_value = colors[3];
+    static double alpha = 1.0f;
+    static int i = 0, z = 0;
+    int counter = 0;
+    cv::Vec3b colors[6];
+    for (z = 2; z < frame.cols - 2; ++z) {
+        for (i = 2; i < frame.rows - 2; ++i) {
+            colors[0] = frame.at<cv::Vec3b>(i, z);
+            colors[1] = frame.at<cv::Vec3b>(i + 1, z);
+            colors[2] = frame.at<cv::Vec3b>(i + 2, z);
+            // chaos
+            counter = rand() % 3;
+            if (counter == 0) {
+                colors[3][0] = (colors[0][0] + colors[1][0] + colors[2][0])
+                * alpha;
+                colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
+                colors[3][2] = (colors[0][2]) * alpha;
+                counter++;
+            } else if (counter == 1) {
+                colors[3][0] = (colors[0][0]) * alpha;
+                colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
+                colors[3][2] = (colors[0][2] + colors[1][2] + colors[2][2])
+                * alpha;
+                counter++;
+            } else {
+                colors[3][0] = (colors[0][0]) * alpha;
+                colors[3][2] = (colors[0][1] + colors[1][1]) * alpha;
+                colors[3][1] = (colors[0][2] + colors[1][2] + colors[2][2])
+                * alpha;
+            }
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            color_value = colors[3];
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	static double max = 4.0f, trans_var = translation_variable;
-	if (alpha < 0)
-		trans_var = translation_variable;
-	else if (alpha > max) {
-		trans_var = -translation_variable;
-		max += 3.0f;
-		if (max > 23)
-			max = 4.0f;
-	}
-	alpha += trans_var;
-	
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    static double max = 4.0f, trans_var = translation_variable;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::Blank(cv::Mat &frame) {
-	static double alpha = 1.0f;
-	static unsigned char val[3] = { 0 };
-	static bool color_switch = false;
-	for(int z = 0; z < frame.cols; ++z) {
-		for(int i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			for(int j = 0; j < 3; ++j) {
-				val[j] = (alpha*color_value[j]) / (2-j+1);
-				color_value[j] += val[2-j] / (j+1);
-				if(color_switch == true) color_value[j] = -color_value[j];
-			}
+    static double alpha = 1.0f;
+    static unsigned char val[3] = { 0 };
+    static bool color_switch = false;
+    for(int z = 0; z < frame.cols; ++z) {
+        for(int i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            for(int j = 0; j < 3; ++j) {
+                val[j] = (alpha*color_value[j]) / (2-j+1);
+                color_value[j] += val[2-j] / (j+1);
+                if(color_switch == true) color_value[j] = -color_value[j];
+            }
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	color_switch = !color_switch;
-	static double max = 4.0f, trans_var = translation_variable;
-	if (alpha < 0)
-		trans_var = translation_variable;
-	else if (alpha > max) {
-		trans_var = -translation_variable;
-		max += 3.0f;
-		if (max > 23)
-			max = 4.0f;
-	}
-	alpha += trans_var;
-	
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    color_switch = !color_switch;
+    static double max = 4.0f, trans_var = translation_variable;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::Tri(cv::Mat &frame) {
-	static double alpha = 1.0f;
-	for(int z = 0; z < frame.cols-3; ++z) {
-		for(int i = 0; i < frame.rows-3; ++i) {
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			cv::Vec3b colors[2];
-			colors[0] = frame.at<cv::Vec3b>(i+1, z);
-			colors[1] = frame.at<cv::Vec3b>(i+2, z);
-			color_value[0] += color_value[0]*alpha;
-			color_value[1] += color_value[1]+colors[0][1]+colors[1][1]*alpha;
-			color_value[2] += color_value[2]+colors[0][2]+colors[1][2]*alpha;
+    static double alpha = 1.0f;
+    for(int z = 0; z < frame.cols-3; ++z) {
+        for(int i = 0; i < frame.rows-3; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b colors[2];
+            colors[0] = frame.at<cv::Vec3b>(i+1, z);
+            colors[1] = frame.at<cv::Vec3b>(i+2, z);
+            color_value[0] += color_value[0]*alpha;
+            color_value[1] += color_value[1]+colors[0][1]+colors[1][1]*alpha;
+            color_value[2] += color_value[2]+colors[0][2]+colors[1][2]*alpha;
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	static double max = 4.0f, trans_var = 0.1f;
-	if (alpha < 0)
-		trans_var = translation_variable;
-	else if (alpha > max) {
-		trans_var = -translation_variable;
-		max += 3.0f;
-		if (max > 23)
-			max = 4.0f;
-	}
-	alpha += trans_var;
-	
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    static double max = 4.0f, trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::Distort(cv::Mat &frame) {
-	static double alpha = 1.0f;
-	static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			color_value[0] = (i*alpha)+color_value[0];
-			color_value[2] = (z*alpha)+color_value[2];
-			color_value[1] = (alpha*color_value[1]);
-			if(strobe_It == true) color_value[1] = ((i+z)*alpha)+color_value[1];
+    static double alpha = 1.0f;
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            color_value[0] = (i*alpha)+color_value[0];
+            color_value[2] = (z*alpha)+color_value[2];
+            color_value[1] = (alpha*color_value[1]);
+            if(strobe_It == true) color_value[1] = ((i+z)*alpha)+color_value[1];
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	static double max = 4.0f, trans_var = 0.1f;
-	if (alpha < 0)
-			trans_var = 0.1f;
-		else if (alpha > max) {
-			trans_var = -0.1f;
-			max += 3.0f;
-			if (max > 23)
-				max = 4.0f;
-		}
-	alpha += trans_var;
-	
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    static double max = 4.0f, trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = 0.1f;
+    else if (alpha > max) {
+        trans_var = -0.1f;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::CDraw(cv::Mat &frame) {
-	static int i=0,z=0;
-	static double rad = 80.0f;
-	static double deg = 1.0f;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			int cX = int(rad * cosf(deg));
-			int cY = int(rad * sinf(deg));
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			color_value[0] = color_value[0]*(cX * alpha);
-			color_value[1] = color_value[1]*(cY * alpha);
-			color_value[2] = color_value[2]*alpha;
-			deg += 0.1f;
+    static int i=0,z=0;
+    static double rad = 80.0f;
+    static double deg = 1.0f;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            int cX = int(rad * cosf(deg));
+            int cY = int(rad * sinf(deg));
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            color_value[0] = color_value[0]*(cX * alpha);
+            color_value[1] = color_value[1]*(cY * alpha);
+            color_value[2] = color_value[2]*alpha;
+            deg += 0.1f;
             
             
             swapColors(frame, i, z);
@@ -464,12 +464,12 @@ void ac::CDraw(cv::Mat &frame) {
             
             if(isNegative) invert(frame, i, z);
             
-		}
-	}
-	alpha += 0.1f;
-	rad += 0.1f;
-	if(rad > 90) rad = 0;
-	if(alpha > 20) alpha = 0;
+        }
+    }
+    alpha += 0.1f;
+    rad += 0.1f;
+    if(rad > 90) rad = 0;
+    if(alpha > 20) alpha = 0;
 }
 // Light Strobe
 // first cycle through the image
@@ -478,27 +478,27 @@ void ac::CDraw(cv::Mat &frame) {
 // each frame the largest value is calculated by adding the rgb values together for one element each iteration.
 // test this first
 void ac::Type(cv::Mat &frame) {
-	signed int i = 0, z = 0;
-	static double add_r = 1.0;
-	static int off = 0;
-	for(z = 0; z < frame.rows; ++z) {
-		for(i = 0; i < frame.cols; ++i) {
-			cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
-			current[0] += add_r+current[0];
-			current[1] += add_r+current[1];
-			current[2] += add_r+current[2];
-			current[off] = current[0]+current[1]+current[2];
+    signed int i = 0, z = 0;
+    static double add_r = 1.0;
+    static int off = 0;
+    for(z = 0; z < frame.rows; ++z) {
+        for(i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
+            current[0] += add_r+current[0];
+            current[1] += add_r+current[1];
+            current[2] += add_r+current[2];
+            current[off] = current[0]+current[1]+current[2];
             
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
             
-		}
-	}
-	++off;
-	if(off > 2) off = 0;
-	add_r += rand()%255;
-	if(add_r > 255) add_r = 0;
+        }
+    }
+    ++off;
+    if(off > 2) off = 0;
+    add_r += rand()%255;
+    if(add_r > 255) add_r = 0;
 }
 
 void ac::NewOne(cv::Mat &frame) {
@@ -513,18 +513,18 @@ void ac::NewOne(cv::Mat &frame) {
             unsigned char R = 0,G = 0,B = 0;
             
             
-                for(unsigned int iq = 0; iq <= 2; ++iq) {
-                    R += red_values[iq];
-                    R /= 3;
-                    G += green_values[iq];
-                    G /= 3;
-                    B += blue_values[iq];
-                    B /= 3;
-                }
-                colv[0] += alpha*R;
-                colv[1] += alpha*G;
-                colv[2] += alpha*B;
-   
+            for(unsigned int iq = 0; iq <= 2; ++iq) {
+                R += red_values[iq];
+                R /= 3;
+                G += green_values[iq];
+                G /= 3;
+                B += blue_values[iq];
+                B /= 3;
+            }
+            colv[0] += alpha*R;
+            colv[1] += alpha*G;
+            colv[2] += alpha*B;
+            
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
@@ -533,7 +533,7 @@ void ac::NewOne(cv::Mat &frame) {
     }
     
     static double max = 8.0f, trans_var = 0.1f;
-	if (alpha < 0)
+    if (alpha < 0)
         trans_var = 0.1f;
     else if (alpha > max) {
         trans_var = -0.1f;
@@ -541,197 +541,197 @@ void ac::NewOne(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-	alpha += trans_var;
+    alpha += trans_var;
 }
 
 void ac::blendFractal(cv::Mat &frame) {
-	frac::FractalLogic();
-	frac::DrawFractal(frame, ac::isNegative);
+    frac::FractalLogic();
+    frac::DrawFractal(frame, ac::isNegative);
 }
 
 void ac::blendFractalMood(cv::Mat &frame) {
-
-	// random
-	unsigned char color = 0;
-	color = rand()%255;
-	static bool shift = true;
-	static bool shift_value = true;
-	for(int z = 0; z < frame.cols; ++z) {
-		for(int i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			color_value[0] += (shift == shift_value) ? color : -color;
-			color_value[1] += (shift == shift_value) ? -color : color;
-			color_value[2] += (shift == shift_value) ? color : -color;
-			shift_value = !shift_value;
-		}
-	}
-	shift = ! shift;
-	frac::FractalLogic();
-	frac::DrawFractal(frame, ac::isNegative);
+    
+    // random
+    unsigned char color = 0;
+    color = rand()%255;
+    static bool shift = true;
+    static bool shift_value = true;
+    for(int z = 0; z < frame.cols; ++z) {
+        for(int i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            color_value[0] += (shift == shift_value) ? color : -color;
+            color_value[1] += (shift == shift_value) ? -color : color;
+            color_value[2] += (shift == shift_value) ? color : -color;
+            shift_value = !shift_value;
+        }
+    }
+    shift = ! shift;
+    frac::FractalLogic();
+    frac::DrawFractal(frame, ac::isNegative);
 }
 
 // blend with Image functions
 
 inline int ac::GetFX(cv::Mat &frame, int x, int nw) {
-     double xp = (double)x * (double)frame.rows / (double)nw;
-     return (int)xp;
+    double xp = (double)x * (double)frame.rows / (double)nw;
+    return (int)xp;
 }
 
 inline int ac::GetFY(cv::Mat &frame, int y, int nh) {
-     double yp = (double)y * (double)frame.cols / (double)nh;
-     return (int)yp;
+    double yp = (double)y * (double)frame.cols / (double)nh;
+    return (int)yp;
 }
 
 void ac::blendWithImage(cv::Mat &frame) {
-	if(!blendW_frame.data)
-		return;
-	static double alpha = 1.0f;
-	static double beta = 1.0f;
-	for(int z = 0; z < frame.cols; ++z) {
-		for(int i = 0; i < frame.rows; ++i) {
-			int q = GetFX(blendW_frame, i, frame.rows);
-			int j = GetFY(blendW_frame, z, frame.cols);
-			cv::Vec3b &frame_one = frame.at<cv::Vec3b>(i, z);
-			cv::Vec3b &frame_two = blendW_frame.at<cv::Vec3b>(q, j);
-			for(int p = 0; p < 3; ++p)
-				frame_one[p] += (frame_one[p]*alpha)+(frame_two[p]*beta);
+    if(!blendW_frame.data)
+        return;
+    static double alpha = 1.0f;
+    static double beta = 1.0f;
+    for(int z = 0; z < frame.cols; ++z) {
+        for(int i = 0; i < frame.rows; ++i) {
+            int q = GetFX(blendW_frame, i, frame.rows);
+            int j = GetFY(blendW_frame, z, frame.cols);
+            cv::Vec3b &frame_one = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &frame_two = blendW_frame.at<cv::Vec3b>(q, j);
+            for(int p = 0; p < 3; ++p)
+                frame_one[p] += (frame_one[p]*alpha)+(frame_two[p]*beta);
             
-            swapColors(frame, i, z);
-            
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	static double max = 4.0f, trans_var = 0.1f;
-	if (alpha < 0)
-		trans_var = translation_variable;
-	else if (alpha > max) {
-		trans_var = -translation_variable;
-		max += 3.0f;
-		if (max > 23)
-			max = 4.0f;
-	}
-	alpha += trans_var;
-	beta += -trans_var;
-	
-}
-
-void ac::triBlendWithImage(cv::Mat &frame) {
-	if(images_Enabled == false) return;
-	static double alpha = 1.0f, beta = 1.0f;
-	static int i = 0, z = 0, j = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b colors[3];
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			int cx[3] =  { ac::GetFX(image_files[0], i, frame.rows), ac::GetFX(image_files[1], i, frame.rows), ac::GetFX(image_files[2], i, frame.rows) };
-			int cy[3] =  { ac::GetFY(image_files[0], z, frame.cols),  ac::GetFY(image_files[1], z, frame.cols), ac::GetFY(image_files[2], z, frame.cols) };
-			for(j = 0; j < 3; ++j) {
-				colors[j] = image_files[j].at<cv::Vec3b>(cx[j], cy[j]);
-			}
-			color_value[0] = ((color_value[0]+colors[0][0])/2)*alpha;
-			color_value[1] += ((color_value[1]+colors[0][1])/2)*alpha;
-			color_value[2] = ((color_value[2]+colors[0][2]+colors[1][2]+colors[2][2])/3)*beta;
-
             swapColors(frame, i, z);
             
             if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	static double max = 4.0f, trans_var = 0.1f;
-	if (alpha < 0)
-			trans_var = translation_variable;
-		else if (alpha > max) {
-			trans_var = -translation_variable;
-			max += 3.0f;
-			if (max > 23)
-				max = 4.0f;
-		}
-	alpha += trans_var;
-	beta += -trans_var;
-	
+                invert(frame, i, z);
+            }
+        }
+    }
+    static double max = 4.0f, trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    beta += -trans_var;
+    
+}
+
+void ac::triBlendWithImage(cv::Mat &frame) {
+    if(images_Enabled == false) return;
+    static double alpha = 1.0f, beta = 1.0f;
+    static int i = 0, z = 0, j = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b colors[3];
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            int cx[3] =  { ac::GetFX(image_files[0], i, frame.rows), ac::GetFX(image_files[1], i, frame.rows), ac::GetFX(image_files[2], i, frame.rows) };
+            int cy[3] =  { ac::GetFY(image_files[0], z, frame.cols),  ac::GetFY(image_files[1], z, frame.cols), ac::GetFY(image_files[2], z, frame.cols) };
+            for(j = 0; j < 3; ++j) {
+                colors[j] = image_files[j].at<cv::Vec3b>(cx[j], cy[j]);
+            }
+            color_value[0] = ((color_value[0]+colors[0][0])/2)*alpha;
+            color_value[1] += ((color_value[1]+colors[0][1])/2)*alpha;
+            color_value[2] = ((color_value[2]+colors[0][2]+colors[1][2]+colors[2][2])/3)*beta;
+            
+            swapColors(frame, i, z);
+            
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    static double max = 4.0f, trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    beta += -trans_var;
+    
 }
 
 
 void ac::imageStrobe(cv::Mat &frame) {
-	if(images_Enabled == false) return;
-	static double alpha = 1.0f;
-	static int i = 0, z = 0, j = 0, image_offset = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b colors[3];
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			int cx[3] =  { ac::GetFX(image_files[0], i, frame.rows), ac::GetFX(image_files[1], i, frame.rows), ac::GetFX(image_files[2], i, frame.rows) };
-			int cy[3] =  { ac::GetFY(image_files[0], z, frame.cols),  ac::GetFY(image_files[1], z, frame.cols), ac::GetFY(image_files[2], z, frame.cols) };
-			for(j = 0; j < 3; ++j)
-				colors[j] = image_files[j].at<cv::Vec3b>(cx[j], cy[j]);
-			for(j = 0; j < 3; ++j)
-				color_value[j] += (colors[image_offset][j]*alpha);
+    if(images_Enabled == false) return;
+    static double alpha = 1.0f;
+    static int i = 0, z = 0, j = 0, image_offset = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b colors[3];
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            int cx[3] =  { ac::GetFX(image_files[0], i, frame.rows), ac::GetFX(image_files[1], i, frame.rows), ac::GetFX(image_files[2], i, frame.rows) };
+            int cy[3] =  { ac::GetFY(image_files[0], z, frame.cols),  ac::GetFY(image_files[1], z, frame.cols), ac::GetFY(image_files[2], z, frame.cols) };
+            for(j = 0; j < 3; ++j)
+                colors[j] = image_files[j].at<cv::Vec3b>(cx[j], cy[j]);
+            for(j = 0; j < 3; ++j)
+                color_value[j] += (colors[image_offset][j]*alpha);
             
             swapColors(frame, i, z);
             
-			if(isNegative == true) {
-				invert(frame, i, z);
-			}
-		}
-	}
-	++image_offset;
-	if(image_offset >= 4) image_offset = 0;
-	static double max = 4.0f, trans_var = 0.1f;
-	if (alpha < 0)
-			trans_var = translation_variable;
-		else if (alpha > max) {
-			trans_var = -translation_variable;
-			max += 3.0f;
-			if (max > 23)
-				max = 4.0f;
-		}
-	alpha += trans_var;
-	
+            if(isNegative == true) {
+                invert(frame, i, z);
+            }
+        }
+    }
+    ++image_offset;
+    if(image_offset >= 4) image_offset = 0;
+    static double max = 4.0f, trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = translation_variable;
+    else if (alpha > max) {
+        trans_var = -translation_variable;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::imageDistraction(cv::Mat &frame) {
-	if(images_Enabled == false) return;
-	static double alpha = 1.0f;
-	static int i = 0, z = 0, im_off = 2;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-			int cX = GetFX(image_files[im_off], i, frame.rows), cY = GetFY(image_files[im_off], z, frame.cols);
-			cv::Vec3b manip_color = image_files[im_off].at<cv::Vec3b>(cX, cY);
-			color_value[0] = (z*alpha)+color_value[0];
-			color_value[1] = manip_color[1]*alpha;
-			color_value[2] = (i*alpha)+color_value[2];
+    if(images_Enabled == false) return;
+    static double alpha = 1.0f;
+    static int i = 0, z = 0, im_off = 2;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            int cX = GetFX(image_files[im_off], i, frame.rows), cY = GetFY(image_files[im_off], z, frame.cols);
+            cv::Vec3b manip_color = image_files[im_off].at<cv::Vec3b>(cX, cY);
+            color_value[0] = (z*alpha)+color_value[0];
+            color_value[1] = manip_color[1]*alpha;
+            color_value[2] = (i*alpha)+color_value[2];
             
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-		}
-	}
-	++im_off;
-	if(im_off >= 4) im_off = 0;
-	static double max = 4.0f, trans_var = 0.1f;
-	if (alpha < 0)
-			trans_var = 0.1f;
-		else if (alpha > max) {
-			trans_var = -0.1f;
-			max += 3.0f;
-			if (max > 23)
-				max = 4.0f;
-		}
-	alpha += trans_var;
-	
+        }
+    }
+    ++im_off;
+    if(im_off >= 4) im_off = 0;
+    static double max = 4.0f, trans_var = 0.1f;
+    if (alpha < 0)
+        trans_var = 0.1f;
+    else if (alpha > max) {
+        trans_var = -0.1f;
+        max += 3.0f;
+        if (max > 23)
+            max = 4.0f;
+    }
+    alpha += trans_var;
+    
 }
 
 void ac::cossinMultiply(cv::Mat &frame) {
     static double alpha = 1.0f;
-	static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             buffer[0] += 1+(sinf(alpha))*z;
             buffer[1] += 1+(cosf(alpha))*i;
             buffer[2] += (buffer[0]+buffer[1]+buffer[2])/3;
@@ -739,21 +739,21 @@ void ac::cossinMultiply(cv::Mat &frame) {
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-
-		}
-	}
-	static double trans_var = 0.05f;
+            
+        }
+    }
+    static double trans_var = 0.05f;
     if(alpha > 24) alpha = 1.0f;
-	alpha += trans_var;
-	
+    alpha += trans_var;
+    
 }
 
 void ac::colorAccumulate1(cv::Mat &frame) {
     static double alpha = 1.0f;
-	static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             buffer[0] += (buffer[2]*alpha);
             buffer[1] += (buffer[0]*alpha);
             buffer[2] += (buffer[1]*alpha);
@@ -762,17 +762,17 @@ void ac::colorAccumulate1(cv::Mat &frame) {
             
             if(isNegative) invert(frame, i, z);
         }
-	}
-	static double trans_var = 0.05f;
-	alpha += trans_var;
+    }
+    static double trans_var = 0.05f;
+    alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
 }
 void ac::colorAccumulate2(cv::Mat &frame) {
     static double alpha = 1.0f;
-	static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             buffer[0] += (buffer[2]*alpha)+i;
             buffer[1] += (buffer[0]*alpha)+z;
             buffer[2] += (buffer[1]*alpha)+i-z;
@@ -780,20 +780,20 @@ void ac::colorAccumulate2(cv::Mat &frame) {
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-		}
-	}
+        }
+    }
     static double trans_var = 0.05f;
-	alpha += trans_var;
+    alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
-	
-
+    
+    
 }
 void ac::colorAccumulate3(cv::Mat &frame) {
     static double alpha = 1.0f;
-	static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             buffer[0] = (-buffer[2])+z;
             buffer[1] = (-buffer[0])+i;
             buffer[2] = (-buffer[1])+alpha;
@@ -801,20 +801,20 @@ void ac::colorAccumulate3(cv::Mat &frame) {
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-		}
-	}
+        }
+    }
     static double trans_var = 0.05f;
-	alpha += trans_var;
+    alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
-	
+    
 }
 
 void ac::filter8(cv::Mat &frame) {
     static double alpha = 1.0f;
-	static int i = 0, z = 0, q = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0, q = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             for(q = 0; q < 3; ++q) {
                 buffer[q] = buffer[q]+((i+z)*alpha);
                 
@@ -824,8 +824,8 @@ void ac::filter8(cv::Mat &frame) {
             
             if(isNegative) invert(frame, i, z);
             
-		}
-	}
+        }
+    }
     static int direction = 1;
     if(direction == 1) {
         alpha += 0.05f;
@@ -834,16 +834,16 @@ void ac::filter8(cv::Mat &frame) {
         alpha -= 0.05f;
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
-	
+    
     
 }
 
 void ac::filter3(cv::Mat &frame) {
     static double alpha = 1.0f;
-	static int i = 0, z = 0, q = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0, q = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             for(q = 0; q < 3; ++q) {
                 buffer[q] = buffer[0]+(buffer[q])*(alpha);
             }
@@ -852,8 +852,8 @@ void ac::filter3(cv::Mat &frame) {
             
             if(isNegative) invert(frame, i, z);
             
-		}
-	}
+        }
+    }
     
     static int direction = 1;
     if(direction == 1) {
@@ -863,7 +863,7 @@ void ac::filter3(cv::Mat &frame) {
         alpha -= 0.05f;
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
-	
+    
     
 }
 
@@ -883,10 +883,10 @@ void ac::rainbowBlend(cv::Mat &frame) {
         bb = rand()%255;
     } else ++bb;
     
-	static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             buffer[0] += alpha*rb;
             buffer[1] += alpha*gb;
             buffer[2] += alpha*bb;
@@ -894,8 +894,8 @@ void ac::rainbowBlend(cv::Mat &frame) {
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-		}
-	}
+        }
+    }
     
     if(rb > 255) rb = 0;
     if(gb > 255) gb = 0;
@@ -910,7 +910,7 @@ void ac::rainbowBlend(cv::Mat &frame) {
         alpha -= 0.05f;
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
-	
+    
     
     
 }
@@ -920,9 +920,9 @@ void ac::randBlend(cv::Mat &frame) {
     unsigned char rg = rand()%255;
     unsigned char rb = rand()%255;
     static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             buffer[0] += rr;
             buffer[1] += rg;
             buffer[2] += rb;
@@ -930,32 +930,32 @@ void ac::randBlend(cv::Mat &frame) {
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-		}
-	}
+        }
+    }
 }
 
 void ac::newBlend(cv::Mat &frame) {
-
+    
     static int pos = 300;
     
     static int i = 0, z = 0;
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             
             
             buffer[0] = buffer[2]+(1+(i*z)/pos);
             buffer[1] = buffer[1]+(1+(i*z)/pos);
             buffer[2] = buffer[0]+(1+(i*z)/pos);
-
+            
             swapColors(frame, i, z);
             
             if(isNegative) invert(frame, i, z);
-		}
-	}
-
+        }
+    }
+    
     static unsigned int dir = 1;
-
+    
     if(dir == 1) {
         pos += 25;
         if(pos > 1024) {
@@ -970,7 +970,7 @@ void ac::newBlend(cv::Mat &frame) {
             dir = 1;
         }
     }
-
+    
 }
 
 void ac::pixelScale(cv::Mat &frame) {
@@ -1501,7 +1501,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
 }
 
 void ac::alphaFlame(cv::Mat &frame) {
-
+    
     static double pos = 1.0f;
     double count = 1.0f;
     static int i = 0, z = 0;
@@ -1509,13 +1509,13 @@ void ac::alphaFlame(cv::Mat &frame) {
     width = frame.cols;
     height = frame.rows;
     
-	for(z = 0; z < frame.cols; ++z) {
-		for(i = 0; i < frame.rows; ++i) {
-			cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    for(z = 0; z < frame.cols; ++z) {
+        for(i = 0; i < frame.rows; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             changePixel(frame, z, i, buffer, pos, &count);
             
-		}
-	}
+        }
+    }
     static int direction = 1;
     
     if(direction == 1) {
