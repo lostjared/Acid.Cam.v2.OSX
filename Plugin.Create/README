@@ -39,6 +39,10 @@ void drawn() {
  g++ -shared filter.cpp -o filter.dylib
 
 Use plug-load to debug/test that your plugin executes.
+Use it like this:
 
-./plug-load plugin.dylib
+./plug-load plugin.dylib 10
+
+plugin.dylib being the plugin and 10 being the number of frames to test it with.
+
 
