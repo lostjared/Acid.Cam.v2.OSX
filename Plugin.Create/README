@@ -38,3 +38,7 @@ void drawn() {
 
  g++ -shared filter.cpp -o filter.dylib
 
+Use plug-load to debug/test that your plugin executes.
+
+./plug-load plugin.dylib
+

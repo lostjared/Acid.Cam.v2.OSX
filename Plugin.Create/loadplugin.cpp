@@ -9,7 +9,7 @@
 
 
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
-
+typedef void (*drawn)();
 
 int main(int argc, char **argv) {
 	
@@ -34,6 +34,15 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 
+	void *dr = dlsym(library,"drawn");
+	drawn drawn_;
+	drawn_ = reinterpret_cast<drawn>(dr);
+	error = dlerror();
+	if(error) {
+		std::cerr << "Error could not load drawn function: " << error << "\n";
+		exit(1);
+	}
+
 	// test plugin:	
 	for(unsigned int x = 0; x < 640; ++x) {
 		for(unsigned int y = 0; y < 480; ++y) {
@@ -41,8 +50,11 @@ int main(int argc, char **argv) {
 			(*pix)(x,y,rgb);
 		}
 	}
-	
+
+	(*drawn_)();	
+
 	dlclose(library);
+        std::cout << "Plugin executed successfully..\n";
 	return 0;
 	
 }
