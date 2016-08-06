@@ -1,7 +1,7 @@
 /* Plugin Loading test source file
  written by Jared Bruni
  */
-
+//
 
 
 #include<dlfcn.h>
@@ -31,7 +31,8 @@ void testplugin(int iterations) {
 int main(int argc, char **argv) {
     
     if(argc != 3) {
-        std::cerr << "Use:\n" << argv[0] << " plugin iterations\n";
+	std::cout << "Acid Cam 2 Plugin Test/Debug\n\n";
+        std::cout << "Use:\n" << argv[0] << " plugin iterations\n";
         exit(1);
     }
     

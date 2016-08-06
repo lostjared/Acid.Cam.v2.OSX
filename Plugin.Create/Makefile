@@ -16,5 +16,8 @@ plugin-randcolor.dylib: plugin-randcolor.cpp
 plugin-selfalpha-reblend.dylib: plugin-selfalpha-reblend.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin-selfalpha-reblend.cpp -o plugin-selfalpha-reblend.dylib
 
+install: plug-debug
+	cp plug-debug /usr/local/bin/plug-debug
+
 clean:
 	rm -f plug-debug *.dylib
