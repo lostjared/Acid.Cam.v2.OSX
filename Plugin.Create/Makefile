@@ -1,13 +1,20 @@
-CXXFLAGS= -O3
-LDFLAGS= -ldl
+CXXFLAGS=-O3
 
-all:
-	$(CXX) $(CXXFLAGS) loadplugin.cpp -o plug-debug  $(LDFLAGS)
+all: plug-debug plugin-blend.dylib plugin-selfalpha.dylib plugin-randcolor.dylib plugin-selfalpha-reblend.dylib
+
+plug-debug: loadplugin.cpp
+	$(CXX) $(CXXFLAGS) loadplugin.cpp -o plug-debug
+
+plugin.dylib: plugin.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin.cpp -o plugin.dylib
+plugin-blend.dylib: plugin-blend.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin-blend.cpp -o plugin-blend.dylib
+plugin-selfalpha.dylib: plugin-selfalpha.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin-selfalpha.cpp -o plugin-selfalpha.dylib
+plugin-randcolor.dylib: plugin-randcolor.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin-randcolor.cpp -o plugin-randcolor.dylib
+plugin-selfalpha-reblend.dylib: plugin-selfalpha-reblend.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin-selfalpha-reblend.cpp -o plugin-selfalpha-reblend.dylib
 
 clean:
-	rm -f plug-debug ./*.dylib
+	rm -f plug-debug *.dylib
