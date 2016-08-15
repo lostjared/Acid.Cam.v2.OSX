@@ -1,5 +1,7 @@
 # Acid.Cam.v2.OSX
 
+![ScreenShot](http://lostsidedead.biz/osx/ac2.0.18.png "screenshot")
+
 Acid Cam is a application that turns your webcam/video files into a work of Art
 
 This project contains the compiled static libraries / include files required to create the program.
