@@ -1,3 +1,5 @@
+Watch a video tutorial on how to create plugins: https://youtu.be/hOnBUJIdAyU
+
 To Create a plugin all you need is two externed C functions
 
 #include<iostream>
