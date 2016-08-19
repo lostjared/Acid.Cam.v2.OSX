@@ -1,10 +1,12 @@
 CXXFLAGS=-O3
 
-all: plug-debug plugin-blend.dylib plugin-selfalpha.dylib plugin-randcolor.dylib plugin-selfalpha-reblend.dylib
+all: plug-debug plugin-blend.dylib plugin-selfalpha.dylib plugin-randcolor.dylib plugin-selfalpha-reblend.dylib temp-plugin.dylib
 
 plug-debug: loadplugin.cpp
 	$(CXX) $(CXXFLAGS) loadplugin.cpp -o plug-debug
 
+temp-plugin.dylib: temp-plugin.cpp
+	$(CXX) $(CXXFLAGS) -shared temp-plugin.cpp -o temp-plugin.dylib
 plugin.dylib: plugin.cpp
 	$(CXX) $(CXXFLAGS) -shared plugin.cpp -o plugin.dylib
 plugin-blend.dylib: plugin-blend.cpp
