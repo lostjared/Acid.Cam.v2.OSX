@@ -22,7 +22,7 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,glitchSort, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     int draw_max = 30;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
@@ -1007,6 +1007,49 @@ void ac::pixelScale(cv::Mat &frame) {
         }
     }
     
+}
+
+void ac::glitchSort(cv::Mat &frame) {
+    static double pos = 1.0f;
+    int w = frame.cols;
+    int h = frame.rows;
+    static std::vector<unsigned int> v;
+    v.reserve(w);
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            unsigned int value = frame.at<unsigned int>(z, i);
+            v.push_back(value);
+        }
+        std::sort(v.begin(), v.end());
+        for(int i = 0; i < w; ++i) {
+            unsigned char *value = (unsigned char*)&v[i];
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = pixel[0] + (pos)*value[0];
+            pixel[1] = pixel[1] + (pos)*value[1];
+            pixel[2] = pixel[2] + (pos)*value[2];
+            
+            swapColors(frame, i, z);
+            if(isNegative) invert(frame, i, z);
+            
+        }
+        v.erase(v.begin(), v.end());
+    }
+    static int direction = 1;
+    static double pos_max = 7.0f;
+    if(direction == 1) {
+        pos += 0.1f;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 0.5f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.1f;
+        if(pos <= 0) {
+            if(pos_max > 15) pos_max = 1.0f;
+            direction = 1;
+        }
+    }
 }
 
 

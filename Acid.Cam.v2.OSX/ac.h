@@ -93,12 +93,13 @@ namespace ac {
     void alphaFlame(cv::Mat &frame);
     void custom(cv::Mat &frame);
     void pixelScale(cv::Mat &frame);
+    void glitchSort(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
-    static std::string draw_strings[] = { "Self AlphaBlend", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    static std::string draw_strings[] = { "Self AlphaBlend", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "GlitchSort", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     ;
-    extern DrawFunction draw_func[32];
+    extern DrawFunction draw_func[33];
     extern int draw_max;
     extern bool snapShot;
 }
