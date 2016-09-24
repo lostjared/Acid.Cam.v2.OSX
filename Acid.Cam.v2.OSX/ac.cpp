@@ -1049,8 +1049,14 @@ void ac::glitchSort(cv::Mat &frame) {
     v.reserve(w);
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
-            unsigned int value = frame.at<unsigned int>(z, i);
-            v.push_back(value);
+            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
+            unsigned int vv = 0;
+            unsigned char *cv = (unsigned char*)&vv;
+            cv[0] = value[0];
+            cv[1] = value[1];
+            cv[2] = value[2];
+            cv[3] = 0;
+            v.push_back(vv);
         }
         std::sort(v.begin(), v.end());
         for(int i = 0; i < w; ++i) {
@@ -1059,7 +1065,6 @@ void ac::glitchSort(cv::Mat &frame) {
             pixel[0] = pixel[0] + (pos)*value[0];
             pixel[1] = pixel[1] + (pos)*value[1];
             pixel[2] = pixel[2] + (pos)*value[2];
-            
             swapColors(frame, i, z);
             if(isNegative) invert(frame, i, z);
             
@@ -1084,6 +1089,8 @@ void ac::glitchSort(cv::Mat &frame) {
     }
 }
 
+
+
 void ac::pixelSort(cv::Mat &frame) {
     int w = frame.cols;
     int h = frame.rows;
@@ -1091,8 +1098,15 @@ void ac::pixelSort(cv::Mat &frame) {
     v.reserve(w);
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
-            unsigned int value = frame.at<unsigned int>(z, i);
-            v.push_back(value);
+            //unsigned int value = frame.at<unsigned int>(z, i);
+            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
+            unsigned int vv = 0;
+            unsigned char *cv = (unsigned char*)&vv;
+            cv[0] = value[0];
+            cv[1] = value[1];
+            cv[2] = value[2];
+            cv[3] = 0;
+            v.push_back(vv);
         }
         std::sort(v.begin(), v.end());
         for(int i = 0; i < w; ++i) {
