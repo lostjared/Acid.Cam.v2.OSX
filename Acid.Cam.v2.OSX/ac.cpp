@@ -23,7 +23,7 @@ namespace ac {
     
     DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale,glitchSort, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 30;
+    int draw_max = 31;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1010,6 +1010,7 @@ void ac::pixelScale(cv::Mat &frame) {
 }
 
 void ac::glitchSort(cv::Mat &frame) {
+
     static double pos = 1.0f;
     int w = frame.cols;
     int h = frame.rows;
