@@ -63,6 +63,7 @@ namespace ac {
     typedef void (*DrawFunction)(cv::Mat &frame);
     
     void SelfAlphaBlend(cv::Mat &frame);
+    void SelfScale(cv::Mat &frame);
     void StrobeEffect(cv::Mat &frame);
     void Blend3(cv::Mat &frame);
     void NegParadox(cv::Mat &frame);
@@ -97,10 +98,10 @@ namespace ac {
     void pixelSort(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
-    static std::string draw_strings[] = { "Self AlphaBlend", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    static std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     ;
-    extern DrawFunction draw_func[34];
+    extern DrawFunction draw_func[35];
     extern int draw_max;
     extern bool snapShot;
 }

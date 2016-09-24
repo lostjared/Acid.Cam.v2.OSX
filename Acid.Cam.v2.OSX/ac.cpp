@@ -21,9 +21,9 @@ namespace ac {
     int color_order = 0;
     int snapshot_Type = 0;
     
-    DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
+    DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale,pixelSort, glitchSort, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 32;
+    int draw_max = 33;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -137,8 +137,39 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
         alpha -= 0.05f;
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
-    
-    
+}
+
+void ac::SelfScale(cv::Mat &frame) {
+    static double pos = 1.0;
+    int w = frame.cols;
+    int h = frame.rows;
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = pixel[0] * pos;
+            pixel[1] = pixel[1] * pos;
+            pixel[2] = pixel[2] * pos;
+            swapColors(frame, i, z);
+            if(isNegative) invert(frame, i, z);
+            
+        }
+    }
+    static int direction = 1;
+    static double pos_max = 7.0f;
+    if(direction == 1) {
+        pos += 0.05;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 0.5f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.05;
+        if(pos <= 1.0) {
+            if(pos_max > 15) pos_max = 1.0f;
+            direction = 1;
+        }
+    }
 }
 
 void ac::StrobeEffect(cv::Mat &frame) {
@@ -1038,15 +1069,15 @@ void ac::glitchSort(cv::Mat &frame) {
     static int direction = 1;
     static double pos_max = 7.0f;
     if(direction == 1) {
-        pos += 0.1f;
+        pos += 0.05f;
         if(pos > pos_max) {
             pos = pos_max;
             direction = 0;
             pos_max += 0.5f;
         }
     } else if(direction == 0) {
-        pos -= 0.1f;
-        if(pos <= 0) {
+        pos -= 0.05f;
+        if(pos <= 1) {
             if(pos_max > 15) pos_max = 1.0f;
             direction = 1;
         }
