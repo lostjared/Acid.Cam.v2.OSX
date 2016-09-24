@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,glitchSort, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 31;
+        alphaFlame, pixelScale,pixelSort, glitchSort, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 32;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1053,6 +1053,29 @@ void ac::glitchSort(cv::Mat &frame) {
     }
 }
 
+void ac::pixelSort(cv::Mat &frame) {
+    int w = frame.cols;
+    int h = frame.rows;
+    static std::vector<unsigned int> v;
+    v.reserve(w);
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            unsigned int value = frame.at<unsigned int>(z, i);
+            v.push_back(value);
+        }
+        std::sort(v.begin(), v.end());
+        for(int i = 0; i < w; ++i) {
+            unsigned char *value = (unsigned char*)&v[i];
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] += value[0];
+            pixel[1] += value[1];
+            pixel[2] += value[2];
+            swapColors(frame, i, z);
+            if(isNegative) invert(frame, i, z);
+        }
+        v.erase(v.begin(), v.end());
+    }
+}
 
 
 int current_filterx = 0;
