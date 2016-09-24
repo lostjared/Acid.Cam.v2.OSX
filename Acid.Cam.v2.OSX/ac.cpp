@@ -971,8 +971,6 @@ void ac::newBlend(cv::Mat &frame) {
     for(z = 0; z < frame.cols; ++z) {
         for(i = 0; i < frame.rows; ++i) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-            
-            
             buffer[0] = buffer[2]+(1+(i*z)/pos);
             buffer[1] = buffer[1]+(1+(i*z)/pos);
             buffer[2] = buffer[0]+(1+(i*z)/pos);
@@ -1074,22 +1072,20 @@ void ac::glitchSort(cv::Mat &frame) {
     static int direction = 1;
     static double pos_max = 7.0f;
     if(direction == 1) {
-        pos += 0.05f;
+        pos += 0.05;
         if(pos > pos_max) {
             pos = pos_max;
             direction = 0;
             pos_max += 0.5f;
         }
     } else if(direction == 0) {
-        pos -= 0.05f;
+        pos -= 0.05;
         if(pos <= 1) {
             if(pos_max > 15) pos_max = 1.0f;
             direction = 1;
         }
     }
 }
-
-
 
 void ac::pixelSort(cv::Mat &frame) {
     int w = frame.cols;
