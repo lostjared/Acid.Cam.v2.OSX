@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 33;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 34;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1118,6 +1118,11 @@ void ac::pixelSort(cv::Mat &frame) {
     }
 }
 
+void ac::randomFilter(cv::Mat &frame) {
+    int num = rand()%(draw_max-6);
+    std::cout << "Random: " << num << "\n";
+    draw_func[num](frame);
+}
 
 int current_filterx = 0;
 int bytesPerSample = 0;
