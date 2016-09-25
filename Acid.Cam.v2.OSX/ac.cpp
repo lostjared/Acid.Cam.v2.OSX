@@ -1120,7 +1120,6 @@ void ac::pixelSort(cv::Mat &frame) {
 
 void ac::randomFilter(cv::Mat &frame) {
     int num = rand()%(draw_max-6);
-    std::cout << "Random: " << num << "\n";
     draw_func[num](frame);
 }
 
