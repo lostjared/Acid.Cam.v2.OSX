@@ -13,7 +13,7 @@
 #include<dlfcn.h>
 #include<unistd.h>
 #include<dirent.h>
-
+#include<time.h>
 
 NSTextView *logView;
 NSTextField *frame_count;
@@ -102,6 +102,7 @@ void setEnabledProg() {
     frame_slider = goto_f;
     ftext.setf(std::ios::fixed, std::ios::floatfield);
     ftext.precision(2);
+    srand((unsigned int)time(0));
     
 }
 
