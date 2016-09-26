@@ -114,6 +114,7 @@ void setEnabledProg() {
     flushToLog(strout);
     
     if(ac::draw_strings[ac::draw_offset] == "Custom") {
+        [negate_checked setIntegerValue: NSOffState];
         [custom_window orderFront:self];
     }
     if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
@@ -127,6 +128,7 @@ void setEnabledProg() {
 - (IBAction) stopProgram: (id) sender {
     stopProgram = true;
     [menuPaused setEnabled: NO];
+  
     stopCV();
 }
 
@@ -306,6 +308,11 @@ void setEnabledProg() {
     if(capture.read(frame) == false) {
         stopCV();
         return;
+    }
+    
+    if(ac::draw_strings[ac::draw_offset] != "Custom") {
+        if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
+        else ac::isNegative = true;
     }
     
     ac::draw_func[ac::draw_offset](frame);
@@ -500,6 +507,9 @@ void setEnabledProg() {
 @end
 
 void custom_filter(cv::Mat &frame) {
+    
+    ac::isNegative = false;
+    
     NSInteger len = [custom_array count];
     for(NSInteger i = 0; i < len; ++i) {
         NSNumber *num = [custom_array objectAtIndex:i];
