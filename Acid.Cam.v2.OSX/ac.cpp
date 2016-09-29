@@ -63,9 +63,13 @@ inline void ac::swapColors(cv::Mat &frame, int x, int y) {
 }
 
 inline void ac::invert(cv::Mat &frame, int x, int y) {
+    
     cv::Vec3b &cur = frame.at<cv::Vec3b>(x,y);
+    
     if(isNegative == true) {
-        for(int i = 0; i < 3; ++i) cur[i] = ~cur[i];
+        cur[0] = ~cur[0];
+        cur[1] = ~cur[1];
+        cur[2] = ~cur[2];
     }
     
     if(iRev == true) {
@@ -149,8 +153,8 @@ void ac::SelfScale(cv::Mat &frame) {
             pixel[0] = pixel[0] * pos;
             pixel[1] = pixel[1] * pos;
             pixel[2] = pixel[2] * pos;
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
             
         }
     }
@@ -1063,8 +1067,8 @@ void ac::glitchSort(cv::Mat &frame) {
             pixel[0] = pixel[0] + (pos)*value[0];
             pixel[1] = pixel[1] + (pos)*value[1];
             pixel[2] = pixel[2] + (pos)*value[2];
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
             
         }
         v.erase(v.begin(), v.end());
@@ -1111,8 +1115,8 @@ void ac::pixelSort(cv::Mat &frame) {
             pixel[0] += value[0];
             pixel[1] += value[1];
             pixel[2] += value[2];
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
         v.erase(v.begin(), v.end());
     }

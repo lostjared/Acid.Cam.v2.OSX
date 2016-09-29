@@ -39,7 +39,7 @@ extern bool negate;
 
 
 namespace ac {
-    static std::string version="2.0.23";
+    static std::string version="2.0.24";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,pass2_enabled,blendW,slide_Show,slide_Rand,strobe_It,switch_Back,blur_First,blur_Second,iRev;

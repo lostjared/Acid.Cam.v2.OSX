@@ -509,8 +509,8 @@ void setEnabledProg() {
 
 void custom_filter(cv::Mat &frame) {
     
-    ac::isNegative = false;
-    ac::color_order = 0;
+   // ac::isNegative = false;
+   // ac::color_order = 0;
     
     NSInteger len = [custom_array count];
     for(NSInteger i = 0; i < len; ++i) {
