@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 34;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 35;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -880,9 +880,7 @@ void ac::filter3(cv::Mat &frame) {
             for(q = 0; q < 3; ++q) {
                 buffer[q] = buffer[0]+(buffer[q])*(alpha);
             }
-            
             swapColors(frame, i, z);
-            
             if(isNegative) invert(frame, i, z);
             
         }
@@ -903,19 +901,15 @@ void ac::filter3(cv::Mat &frame) {
 void ac::rainbowBlend(cv::Mat &frame) {
     static double alpha = 1.0f;
     static int rb = 0, gb = 0, bb = 0;
-    
     if(rb == 0) {
         rb = rand()%255;
     } else ++rb;
-    
     if(gb == 0) {
         gb = rand()%255;
     } else ++gb;
-    
     if(bb == 0) {
         bb = rand()%255;
     } else ++bb;
-    
     static int i = 0, z = 0;
     for(z = 0; z < frame.cols; ++z) {
         for(i = 0; i < frame.rows; ++i) {
@@ -923,18 +917,13 @@ void ac::rainbowBlend(cv::Mat &frame) {
             buffer[0] += alpha*rb;
             buffer[1] += alpha*gb;
             buffer[2] += alpha*bb;
-            
             swapColors(frame, i, z);
-            
             if(isNegative) invert(frame, i, z);
         }
     }
-    
     if(rb > 255) rb = 0;
     if(gb > 255) gb = 0;
     if(bb > 255) bb = 0;
-    
-    
     static int direction = 1;
     if(direction == 1) {
         alpha += 0.1f;
@@ -943,9 +932,6 @@ void ac::rainbowBlend(cv::Mat &frame) {
         alpha -= 0.05f;
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
-    
-    
-    
 }
 
 void ac::randBlend(cv::Mat &frame) {
@@ -1643,6 +1629,56 @@ void ac::alphaFlame(cv::Mat &frame) {
         pos -= 0.1f;
         if(pos < 1) {
             pos = 1;
+            direction = 1;
+        }
+    }
+}
+
+int AC_GetFX(int oldw,int x, int nw) {
+    float xp = (float)x * (float)oldw / (float)nw;
+    return (int)xp;
+}
+
+int AC_GetFZ(int oldh, int y, int nh) {
+    float yp = (float)y * (float)oldh / (float)nh;
+    return (int)yp;
+}
+
+void ac::imageBlend(cv::Mat &frame) {
+    static double pos = 1.0f;
+    
+    if(blend_set == true) {
+        int i,z;
+        for(i = 0; i < frame.cols; ++i) {
+            for(z = 0; z < frame.rows; ++z) {
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
+                current[0] = current[0]+(im[0]*pos);
+                current[1] = current[1]+(im[1]*pos);
+                current[2] = current[2]+(im[2]*pos);
+
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
+            }
+            
+        }
+    }
+    
+    static int direction = 1;
+    static double pos_max = 7.0f;
+    if(direction == 1) {
+        pos += 0.05;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 0.5f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.05;
+        if(pos <= 1) {
+            if(pos_max > 15) pos_max = 1.0f;
             direction = 1;
         }
     }

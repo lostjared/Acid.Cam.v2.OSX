@@ -50,7 +50,8 @@ extern drawn d;
 	IBOutlet NSComboBox *plugin_dir;
     IBOutlet NSButton *negate_checked;
 	
-   
+    IBOutlet NSWindow *image_select;
+    IBOutlet NSComboBox *image_combo;
 
 }
 - (IBAction) selectPlugin: (id) sender;
@@ -83,6 +84,8 @@ extern drawn d;
 - (void) loadDir: (std::string) str;
 - (IBAction) setPlugin: (id) sender;
 - (IBAction) setNegative: (id) sender;
+- (IBAction) selectImage: (id) sender;
+- (IBAction) setAsImage: (id) sender;
 
 @end
 

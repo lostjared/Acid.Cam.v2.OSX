@@ -28,7 +28,8 @@ bool plugin_loaded = false;
 void *library = NULL;
 std::ostringstream ftext;
 std::ostringstream stream;
-
+cv::Mat blend_image;
+bool blend_set = false;
 
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
@@ -112,7 +113,6 @@ void setEnabledProg() {
     std::ostringstream strout;
     strout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
     flushToLog(strout);
-    
     if(ac::draw_strings[ac::draw_offset] == "Custom") {
         [negate_checked setIntegerValue: NSOffState];
         [custom_window orderFront:self];
@@ -122,6 +122,9 @@ void setEnabledProg() {
     }
     if(ac::draw_strings[ac::draw_offset] == "Plugin") {
         [plugin_window orderFront:self];
+    }
+    if(ac::draw_strings[ac::draw_offset] == "Blend with Image") {
+        [image_select orderFront: self];
     }
 }
 
@@ -504,6 +507,24 @@ void setEnabledProg() {
     
 }
 
+- (IBAction) selectImage: (id) sender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:NO];
+    [panel setCanChooseFiles: YES];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"jpg", @"png", nil]];
+    if([panel runModal]) {
+        NSString *file_name = [[panel URL] path];
+        [image_combo addItemWithObjectValue: file_name];
+    }
+}
+- (IBAction) setAsImage: (id) sender {
+    if([image_combo indexOfSelectedItem] >= 0) {
+    	NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
+    	blend_image = cv::imread([current UTF8String]);
+    	blend_set = true;
+        std::cout << "Image set..\n";
+    }
+}
 
 @end
 
