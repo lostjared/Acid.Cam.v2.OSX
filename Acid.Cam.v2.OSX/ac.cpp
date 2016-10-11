@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 35;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 36;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1658,7 +1658,7 @@ void ac::imageBlend(cv::Mat &frame) {
                 current[0] = current[0]+(im[0]*pos);
                 current[1] = current[1]+(im[1]*pos);
                 current[2] = current[2]+(im[2]*pos);
-
+                
                 swapColors(frame, z, i);
                 if(isNegative) invert(frame, z, i);
             }
@@ -1683,6 +1683,46 @@ void ac::imageBlend(cv::Mat &frame) {
         }
     }
 }
+
+void ac::imageBlendTwo(cv::Mat &frame) {
+    static double pos = 1.0f;
+    
+    if(blend_set == true) {
+        int i,z;
+        for(i = 0; i < frame.cols; ++i) {
+            for(z = 0; z < frame.rows; ++z) {
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
+                current[0] = im[0]+(current[0]*pos);
+                current[1] = im[1]+(current[1]*pos);
+                current[2] = im[2]+(current[2]*pos);
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
+            }
+            
+        }
+    }
+    
+    static int direction = 1;
+    static double pos_max = 7.0f;
+    if(direction == 1) {
+        pos += 0.05;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 0.5f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.05;
+        if(pos <= 1) {
+            if(pos_max > 15) pos_max = 1.0f;
+            direction = 1;
+        }
+    }
+}
+
 
 void ac::custom(cv::Mat &frame) {
     custom_filter(frame);

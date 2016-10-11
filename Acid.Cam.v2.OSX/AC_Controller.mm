@@ -123,7 +123,7 @@ void setEnabledProg() {
     if(ac::draw_strings[ac::draw_offset] == "Plugin") {
         [plugin_window orderFront:self];
     }
-    if(ac::draw_strings[ac::draw_offset] == "Blend with Image") {
+    if((ac::draw_strings[ac::draw_offset] == "Blend with Image") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #2")) {
         [image_select orderFront: self];
     }
 }
