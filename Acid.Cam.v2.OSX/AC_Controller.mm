@@ -128,6 +128,10 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) downloadNewestVersion: (id) sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lostsidedead.com/blog/?index=212"]];
+}
+
 - (IBAction) stopProgram: (id) sender {
     stopProgram = true;
     [menuPaused setEnabled: NO];

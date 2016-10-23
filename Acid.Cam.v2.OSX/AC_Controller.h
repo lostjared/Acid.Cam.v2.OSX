@@ -86,6 +86,7 @@ extern drawn d;
 - (IBAction) setNegative: (id) sender;
 - (IBAction) selectImage: (id) sender;
 - (IBAction) setAsImage: (id) sender;
+- (IBAction) downloadNewestVersion: (id) sender;
 
 @end
 
