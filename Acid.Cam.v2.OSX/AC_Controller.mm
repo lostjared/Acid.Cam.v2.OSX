@@ -271,10 +271,18 @@ void setEnabledProg() {
         ++counter;
     }
     
+    
+    time_t t = time(0);
+    struct tm *m;
+    m = localtime(&t);
+    
+    std::ostringstream time_stream;
+    time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
+    
     if(popupType == 0)
-        fname_stream << ".AC2.Output." << (counter) << ".mov";
+        fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".mov";
     else
-        fname_stream <<".AC2.Output." << (counter) << ".avi";
+        fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".avi";
     
     filename = fname_stream.str();
     
@@ -344,7 +352,7 @@ void setEnabledProg() {
         time_t t = time(0);
         struct tm *m;
         m = localtime(&t);
-        stream << add_path << "-" << (m->tm_year + 1900) << "." << m->tm_mon + 1 << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
         imwrite(stream.str(), frame);
         sout << "Took snapshot: " << stream.str() << "\n";
         ac::snapShot = false;
