@@ -1771,7 +1771,7 @@ void ac::imageBlendThree(cv::Mat &frame) {
 
 void ac::GaussianBlur(cv::Mat &frame) {
     cv::Mat out;
-    cv::GaussianBlur(frame, out, cv::Size(11, 11), 0, 0);
+    cv::GaussianBlur(frame, out, cv::Size(5, 5), 0, 0);
     frame = out;
 }
 
