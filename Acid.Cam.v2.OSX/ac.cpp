@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 40;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 41;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1793,6 +1793,56 @@ void ac::BlurDistortion(cv::Mat &frame) {
     
     frame = out;
 }
+
+void ac::DiamondPattern(cv::Mat &frame) {
+    static double pos = 1.0;
+    int w = frame.cols;
+    int h = frame.rows;
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+      
+            if((i%2) == 0) {
+                if((z%2) == 0) {
+                    buffer[0] = 1-pos*buffer[0];
+                    buffer[2] = (i+z)*pos;
+                } else {
+                    buffer[0] = pos*buffer[0]-z;
+                    buffer[2] = (i-z)*pos;
+                }
+            } else {
+                if((z%2) == 0) {
+                    buffer[0] = pos*buffer[0]-i;
+                    buffer[2] = (i-z)*pos;
+                } else {
+                    buffer[0] = pos*buffer[0]-z;
+                    buffer[2] = (i+z)*pos;
+                }
+            }
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+            
+        }
+    }
+    static int direction = 1;
+    static double pos_max = 7.0f;
+    if(direction == 1) {
+        pos += 0.05;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 0.5f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.05;
+        if(pos <= 1.0) {
+            if(pos_max > 15) pos_max = 1.0f;
+            direction = 1;
+        }
+    }
+}
+
 
 
 void ac::custom(cv::Mat &frame) {
