@@ -4,12 +4,14 @@
 
 Acid Cam is a application that turns your webcam/video files into a work of Art.
 Contains a lot of filters, and you can combine them with the custom filter option.
-It also supports plugins (write your own filters in C++) watch this video for more 
-information on how to create plugins: https://youtu.be/hOnBUJIdAyU
+It also supports plugins (write your own filters in C++). This project was created
+in hopes of providing some entertainment, or for the Glitch artist  to give you a 
+starting image/video to use with other tools. There are also versions of this program
+for other platforms specifically Linux/Windows. 
 
 This project contains the compiled static libraries / include files required to build the program.
 
-http://lostsidedead.com/blog/?index=212
+Project home page: http://lostsidedead.com/blog/?index=212
 
 Watch this video for information how to compile: https://youtu.be/xMUnRKj4J7Y
 
