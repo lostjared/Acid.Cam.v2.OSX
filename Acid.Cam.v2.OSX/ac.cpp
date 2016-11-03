@@ -22,8 +22,8 @@ namespace ac {
     int snapshot_Type = 0;
     
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 38;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion, plugin, custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 40;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
     inline void swapColors(cv::Mat &frame, int x, int y);
@@ -1748,7 +1748,6 @@ void ac::imageBlendThree(cv::Mat &frame) {
                 
             }
         }
-        
         static int direction = 1;
         static double pos_max = 7.0f;
         if(direction == 1) {
@@ -1766,12 +1765,32 @@ void ac::imageBlendThree(cv::Mat &frame) {
             }
         }
     }
-    
 }
 
 void ac::GaussianBlur(cv::Mat &frame) {
     cv::Mat out;
     cv::GaussianBlur(frame, out, cv::Size(5, 5), 0, 0);
+    frame = out;
+}
+
+void ac::MedianBlur(cv::Mat &frame) {
+    cv::Mat out;
+    cv::medianBlur(frame, out, 5);
+    frame = out;
+}
+
+void ac::BlurDistortion(cv::Mat &frame) {
+    cv::Mat out;
+    static unsigned int index = 1, direction = 1;
+    cv::GaussianBlur(frame, out, cv::Size(index, index), 0, 0);
+    if(direction == 1) {
+    	if(index >= 51) direction = 0;
+    	else index += 2;
+    } else {
+        if(index <= 1) direction = 1;
+        else index -= 2;
+    }
+    
     frame = out;
 }
 
