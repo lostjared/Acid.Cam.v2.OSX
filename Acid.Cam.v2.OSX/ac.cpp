@@ -1867,6 +1867,10 @@ void ac::MirrorBlend(cv::Mat &frame) {
             buffer[0] += pix1[0]*pos;
             buffer[1] += pix1[1]*pos;
             buffer[2] += pix1[2]*pos;
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+
         }
     }
     
@@ -1901,6 +1905,10 @@ void ac::Pulse(cv::Mat &frame) {
             buffer[0] += buffer[0]*pos;
             buffer[1] += buffer[1]*pos;
             buffer[2] += buffer[2]*pos;
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+            
         }
     }
     
