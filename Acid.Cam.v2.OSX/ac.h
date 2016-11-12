@@ -105,7 +105,7 @@ namespace ac {
     void BlurDistortion(cv::Mat &frame);
     void DiamondPattern(cv::Mat &frame);
     void MirrorBlend(cv::Mat &frame);
-    
+    void Pulse(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     
     // draw functions / strings

@@ -22,12 +22,12 @@ namespace ac {
     int snapshot_Type = 0;
     
     
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 42;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 43;
     
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     
@@ -1888,6 +1888,38 @@ void ac::MirrorBlend(cv::Mat &frame) {
     }
     
     
+}
+
+void ac::Pulse(cv::Mat &frame) {
+    
+    static double pos = 1.0;
+    int w = frame.cols;
+    int h = frame.rows;
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            buffer[0] += buffer[0]*pos;
+            buffer[1] += buffer[1]*pos;
+            buffer[2] += buffer[2]*pos;
+        }
+    }
+    
+    static int direction = 1;
+    static double pos_max = 3.0f;
+    if(direction == 1) {
+        pos += 0.1;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 1.0f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.1;
+        if(pos <= 1.0) {
+            if(pos_max > 3.0f) pos_max = 1.0f;
+            direction = 1;
+        }
+    }
 }
 
 
