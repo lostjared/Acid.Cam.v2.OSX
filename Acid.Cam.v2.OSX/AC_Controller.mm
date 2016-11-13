@@ -309,6 +309,7 @@ void setEnabledProg() {
     if(ret_val != 0) {
         NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
+        programRunning = false;
     }
 }
 
