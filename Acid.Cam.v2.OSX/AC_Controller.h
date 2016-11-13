@@ -68,6 +68,8 @@ extern drawn d;
 - (IBAction) changeFilter: (id) sender;
 - (IBAction) addCustomItem: (id) sender;
 - (IBAction) removeCustomItem: (id) sender;
+- (IBAction) moveCustomUp: (id) sender;
+- (IBAction) moveCustomDown: (id) sender;
 - (IBAction) changeOrder: (id) sender;
 - (IBAction) pauseProgram: (id) sender;
 - (IBAction) goto_Frame: (id) sender;

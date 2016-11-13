@@ -449,6 +449,34 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) moveCustomUp: (id) sender {
+    
+    NSInteger index = [table_view selectedRow];
+    if(index > 0) {
+        NSInteger pos = index-1;
+        id obj = [custom_array objectAtIndex:pos];
+        id mv = [custom_array objectAtIndex:index];
+        [custom_array setObject:obj atIndexedSubscript:index];
+        [custom_array setObject:mv atIndexedSubscript: pos];
+        [table_view deselectAll:self];
+        [table_view reloadData];
+    }
+    
+}
+- (IBAction) moveCustomDown: (id) sender {
+    NSInteger index = [table_view selectedRow];
+    if(index < [custom_array count]-1) {
+        NSInteger pos = index+1;
+        id obj = [custom_array objectAtIndex:pos];
+        id mv = [custom_array objectAtIndex:index];
+        [custom_array setObject:obj atIndexedSubscript:index];
+        [custom_array setObject:mv atIndexedSubscript: pos];
+        [table_view deselectAll:self];
+        [table_view reloadData];
+    }
+}
+
+
 - (IBAction) selectFileForPrefix: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];
     if([panel runModal]) {
