@@ -450,7 +450,6 @@ void setEnabledProg() {
 }
 
 - (IBAction) moveCustomUp: (id) sender {
-    
     NSInteger index = [table_view selectedRow];
     if(index > 0) {
         NSInteger pos = index-1;
@@ -475,7 +474,6 @@ void setEnabledProg() {
         [table_view reloadData];
     }
 }
-
 
 - (IBAction) selectFileForPrefix: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];

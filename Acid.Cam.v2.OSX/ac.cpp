@@ -1,6 +1,9 @@
 /*
  *
  *  Acid Cam functions for OpenCV
+ * written by Jared Bruni
+ * http://lostsidedead.com
+ * (C) 2016 under GPL
  */
 
 #include "ac.h"

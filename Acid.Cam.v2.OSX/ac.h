@@ -39,7 +39,7 @@ extern bool negate, blend_set;
 extern cv::Mat blend_image;
 
 namespace ac {
-    static std::string version="2.0.27";
+    static const std::string version="2.0.27";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,pass2_enabled,blendW,slide_Show,slide_Rand,strobe_It,switch_Back,blur_First,blur_Second,iRev;
