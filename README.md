@@ -10,6 +10,7 @@ starting image/video to use with other tools. There are also versions of this pr
 for other platforms specifically Linux/Windows. 
 
 This project contains the compiled static libraries / include files required to build the program.
+The project is for Xcode 8.1
 
 Project home page: http://lostsidedead.com/blog/?index=212
 
