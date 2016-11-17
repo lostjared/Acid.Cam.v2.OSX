@@ -1863,10 +1863,12 @@ void ac::MirrorBlend(cv::Mat &frame) {
     static double pos = 1.0;
     int w = frame.cols;
     int h = frame.rows;
+    cv::Mat orig;
+    orig = frame.clone();
     for(int z = 2; z < h-3; ++z) {
         for(int i = 2; i < w-3; ++i) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &pix1 = frame.at<cv::Vec3b>((h-z), (w-i));
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
             buffer[0] += pix1[0]*pos;
             buffer[1] += pix1[1]*pos;
             buffer[2] += pix1[2]*pos;
@@ -1932,25 +1934,20 @@ void ac::Pulse(cv::Mat &frame) {
 }
 
 void ac::SidewaysMirror(cv::Mat &frame) {
-    
     static double pos = 1.0;
     int w = frame.cols;
     int h = frame.rows;
+    cv::Mat orig;
+    orig = frame.clone();
+    
     for(int z = 2; z < h-3; ++z) {
         for(int i = 2; i < w-3; ++i) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &pix1 = frame.at<cv::Vec3b>((h-z), (w-i));
-            cv::Vec3b &pix2 = frame.at<cv::Vec3b>(z, (w-i));
-            
-            if(z < (h/2)) {
-                buffer[0] = (pix1[0]+pix2[0])*pos;
-                buffer[1] = (pix1[1]+pix2[1])*pos;
-                buffer[2] = (pix1[2]+pix2[2])*pos;
-            } else {
-                buffer[0] += (pix2[0]*pos);
-                buffer[1] += (pix2[1]*pos);
-                buffer[2] += (pix2[2]*pos);
-            }
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
+            cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
+            buffer[0] += (pix1[0]+pix2[0])*pos;
+            buffer[1] += (pix1[1]+pix2[1])*pos;
+            buffer[2] += (pix1[2]+pix2[2])*pos;
             
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -1974,22 +1971,24 @@ void ac::SidewaysMirror(cv::Mat &frame) {
             direction = 1;
         }
     }
-    
 }
 
 void ac::MirrorNoBlend(cv::Mat &frame) {
-
     static double pos = 1.0;
     int w = frame.cols;
     int h = frame.rows;
+    cv::Mat orig;
+    orig = frame.clone();
+    
     for(int z = 2; z < h-3; ++z) {
         for(int i = 2; i < w-3; ++i) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &pix1 = frame.at<cv::Vec3b>((h-z), (w-i));
-            cv::Vec3b &pix2 = frame.at<cv::Vec3b>(z, (w-i));
-             buffer[0] = (pix1[0]+pix2[0]);
-             buffer[1] = (pix1[1]+pix2[1]);
-             buffer[2] = (pix1[2]+pix2[2]);
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
+            cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
+            cv::Vec3b &pix3 = orig.at<cv::Vec3b>((h-z), i);
+             buffer[0] = (pix1[0]+pix2[0]+pix3[0]);
+             buffer[1] = (pix1[1]+pix2[1]+pix3[1]);
+             buffer[2] = (pix1[2]+pix2[2]+pix3[2]);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
             
