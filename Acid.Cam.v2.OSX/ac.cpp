@@ -217,7 +217,6 @@ void ac::StrobeEffect(cv::Mat &frame) {
     alpha += tr;
 }
 
-
 void ac::Blend3(cv::Mat &frame) {
     static int i=0,z=0;
     static double rValue[3] = { 0, 0, 0 };
