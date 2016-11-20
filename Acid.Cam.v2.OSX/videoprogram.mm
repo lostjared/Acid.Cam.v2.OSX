@@ -1,26 +1,7 @@
 /*
  * Acid Cam v2 - OpenCV Edition
  * written by Jared Bruni ( http://lostsidedead.com )
- * GPL
- *
- *	 ac2 arguments:
- *	 -t transition [Transition variable]
- *	 -l input_file.avi [Use video instead of camera]
- *	 -d device [Capture device index]
- *	 -x  [Disable recording]
- *	 -f fps [Frames per second]
- *	 -p alpha [Second pass alpha level]
- *	 -o output.avi [Output avi filename]
- *	 -s seed [Random generator seed]
- *	 -i imgfile.jpg [Image for blend with image functions]
- *	 -v imglist.txt [Image list for image functions]
- *	 -w width [Webcam Resolution Width]
- *	 -h height [Webcam Resolution Height]
- *   -a output_name [Save file prefix]
- *
- *   To compile use:
- *   $ g++ -O3 fractal.cpp ac.cpp main.cc -o ac2 `pkg-config opencv --cflags --libs`
- *
+ * (C) 2016 GPL
  */
 
 #import"ac.h"

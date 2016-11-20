@@ -1,10 +1,9 @@
-//
-//  videocapture.h
-//  Acid.Cam.2
-//
-//  Created by Jared Bruni on 6/3/13.
-//  Copyright (c) 2013 Jared Bruni. All rights reserved.
-//
+/*
+ * Acid Cam v2 - OpenCV Edition
+ * written by Jared Bruni ( http://lostsidedead.com )
+ * (C) 2016 GPL
+ */
+
 #ifndef Acid_Cam_2_videocapture_h
 #define Acid_Cam_2_videocapture_h
 
