@@ -13,18 +13,12 @@
 unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
-
 void ProcFrame(cv::Mat &frame);
 void BuildImages(std::string filename);
-
 cv::VideoCapture capture;
 int frame_cnt, key;
-
 /*** CoreAudio ***/
-
 const int kNumberRecordBuffers = 3;
-
-
 typedef struct Recorder {
     AudioFileID recordFile;
     SInt64 recordPacket;
@@ -59,7 +53,6 @@ OSStatus GetDefaultInputDeviceSampleRate(Float64 *outSampleRate) {
     propAddress.mElement = 0;
     propertySize = sizeof(AudioDeviceID);
     error = AudioHardwareServiceGetPropertyData(kAudioObjectSystemObject, &propAddress, 0, NULL, &propertySize, &deviceID);
-    
     if(error) return error;
     propAddress.mSelector = kAudioDevicePropertyNominalSampleRate;
     propAddress.mScope = kAudioObjectPropertyScopeGlobal;
@@ -69,9 +62,7 @@ OSStatus GetDefaultInputDeviceSampleRate(Float64 *outSampleRate) {
     return error;
 }
 
-
 void CopyEncoderCookieToFile(AudioQueueRef queue, AudioFileID theFile) {
-    
     OSStatus error; UInt32 propertySize;
     error = AudioQueueGetPropertySize(queue, kAudioConverterCompressionMagicCookie,&propertySize);
     if (error == noErr && propertySize > 0)
@@ -104,23 +95,18 @@ int ComputeRecordBufferSize(const AudioStreamBasicDescription *format, AudioQueu
         
         if(packets == 0)
             packets = 1;
-        
         bytes = packets * maxPacketSize;
     }
-    
     return bytes;
 }
-
 
 void InputCallback(void *userData, AudioQueueRef inque, AudioQueueBufferRef inbuf, const AudioTimeStamp *startTime,
                    UInt32 numPackets, const AudioStreamPacketDescription *inpacket) {
     Recorder *recorder = (Recorder *)userData;
     if(numPackets > 0) {
         Error(AudioFileWritePackets(recorder->recordFile, FALSE,inbuf->mAudioDataByteSize, inpacket, recorder->recordPacket, &numPackets, inbuf->mAudioData), "AudioFileWrite Packets Failed");
-        
         recorder->recordPacket += numPackets;
     }
-    
     if(recorder->running) {
         Error(AudioQueueEnqueueBuffer(inque, inbuf, 0, NULL), "AudioQeueEnqueueBuffer Failed");
     }
@@ -128,7 +114,6 @@ void InputCallback(void *userData, AudioQueueRef inque, AudioQueueBufferRef inbu
 
 Recorder recorder;
 AudioQueueRef queue = {0};
-
 void startRecord(const char *filename) {
     memset(&recorder, 0, sizeof(Recorder));
     AudioStreamBasicDescription recordFormat;
@@ -140,31 +125,22 @@ void startRecord(const char *filename) {
     Error(AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, NULL, &propSize, &recordFormat), "Audio Format get property failed");
     //queue = {0};
     memset(&queue, 0, sizeof(AudioQueueRef));
-    
     Error(AudioQueueNewInput(&recordFormat, InputCallback, &recorder, NULL, NULL, 0, &queue), "AudioQueueNewInput failed");
     UInt32 size = sizeof(recordFormat);
     Error(AudioQueueGetProperty(queue, kAudioConverterCurrentOutputStreamDescription, &recordFormat, &size), "Could not get queue format");
-    
     CFStringRef str = CFStringCreateWithCString(NULL, filename, kCFStringEncodingMacRoman);
-    
     CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, str, kCFURLPOSIXPathStyle, false);
-    
     Error(AudioFileCreateWithURL(fileURL,kAudioFileCAFType, &recordFormat, kAudioFileFlags_EraseFile, &recorder.recordFile), "AUdioFileCreateWithURL Failed");
     CFRelease(fileURL);
     CopyEncoderCookieToFile(queue, recorder.recordFile);
-    
     int bufferByteSize = ComputeRecordBufferSize(&recordFormat, queue, 0.5);
     for(int i = 0; i < kNumberRecordBuffers; ++i) {
-        
         AudioQueueBufferRef buffer;
         Error(AudioQueueAllocateBuffer(queue, bufferByteSize, &buffer), "AudioQueueAllocateBuffer failed.");
         Error(AudioQueueEnqueueBuffer(queue, buffer, 0, NULL), "AUdioQueueEnqueueBuffer failed");
     }
-    
     recorder.running = TRUE;
     Error(AudioQueueStart(queue, NULL), "AudioQueueStart failed.");
-    
-    
 }
 
 void stopRecord() {
@@ -174,9 +150,7 @@ void stopRecord() {
     AudioQueueDispose(queue, TRUE);
     AudioFileClose(recorder.recordFile);
 }
-
 /*** end ***/
-
 std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
@@ -184,15 +158,12 @@ void stopCV() {
         capture.release();
         if(!ac::noRecord && input_name.length() == 0) {
             if(rec_Audio == true) stopRecord();
-            
         }
         if(!ac::noRecord) {
             writer.release();
             sout << "Wrote to Video File: " << ac::fileName << "\n";
         }
-        
         [renderTimer invalidate];
-        
         cv::destroyWindow("Acid Cam v2");
         cv::destroyWindow("Controls");
         sout << frame_cnt << " Total frames\n";
@@ -207,11 +178,9 @@ void stopCV() {
             [NSApp terminate:nil];
         }
     }
-    
 }
 
 NSTimer *renderTimer;
-
 std::ostringstream sout;
 cv::VideoWriter writer;
 std::fstream file;
@@ -262,15 +231,12 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
             sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
         }
-        
         setSliders(total_frames);
-        
         if(ac::noRecord == false) {
             if(outputType == 0)
                 writer = cv::VideoWriter(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
             else
                 writer = cv::VideoWriter(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
-            
             if(writer.isOpened() == false) {
                 sout << "Error video file could not be created.\n";
                 exit(0);
@@ -285,19 +251,15 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
-        
         if(ac::noRecord == false && input_file.length() == 0 && recAudio == true) {
             std::string str_filename=ac::fileName+".caf";
             startRecord(str_filename.c_str());
         }
-        
-        
         [[NSRunLoop currentRunLoop] addTimer:renderTimer
                                      forMode:NSEventTrackingRunLoopMode];
         
         [[NSRunLoop currentRunLoop] addTimer:renderTimer
                                      forMode:NSDefaultRunLoopMode];
-        
         return 0;
     }
     catch(std::exception &e) {
@@ -310,7 +272,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
 }
 
 std::ostringstream strout;
-
 
 void BuildImages(std::string filename) {
     std::fstream file;
@@ -345,5 +306,3 @@ void jumptoFrame(int frame) {
     capture.set(CV_CAP_PROP_POS_FRAMES,frame);
     frame_cnt = frame;
 }
-
-

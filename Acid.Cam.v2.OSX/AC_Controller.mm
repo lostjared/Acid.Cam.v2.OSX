@@ -5,7 +5,6 @@
 //  Created by Jared Bruni on 6/3/13.
 //  Copyright (c) 2013 Jared Bruni. All rights reserved.
 //
-
 #import "AC_Controller.h"
 #import"videocapture.h"
 #import"ac.h"
@@ -104,7 +103,6 @@ void setEnabledProg() {
     ftext.setf(std::ios::fixed, std::ios::floatfield);
     ftext.precision(2);
     srand((unsigned int)time(0));
-    
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -135,28 +133,22 @@ void setEnabledProg() {
 - (IBAction) stopProgram: (id) sender {
     stopProgram = true;
     [menuPaused setEnabled: NO];
-  
     stopCV();
 }
 
 - (IBAction) selectPlugin: (id) sender {
-    
     NSOpenPanel *panel = [NSOpenPanel openPanel];
-    
     [panel setCanChooseFiles:NO];
     [panel setCanChooseDirectories:YES];
-    
     if([panel runModal]) {
         NSString *file_type = [[panel URL] path];
         [plugin_dir removeAllItems];
         [plugin_name setStringValue: file_type];
         [self loadDir:[file_type UTF8String]];
-        
     }
 }
 
 - (IBAction) setPlugin: (id) sender {
-    
     [self closePlugin];
     NSString *file_type = [NSString stringWithFormat: @"%@/%@", [plugin_name stringValue], [plugin_dir objectValueOfSelectedItem]];
     pix = [self loadPlugin: file_type];
@@ -164,21 +156,16 @@ void setEnabledProg() {
         plugin_loaded = false;
     else
         plugin_loaded = true;
-    
 }
 
 - (void) loadDir: (std::string) str {
-    
     DIR *dir = opendir(str.c_str());
-    
     if (dir == NULL)
     {
         std::cerr << "Error could not open directory.\n";
         return;
     }
-    
     dirent *e;
-    
     while ((e = readdir(dir)))
     {
         if (e->d_type == DT_REG)
@@ -193,20 +180,16 @@ void setEnabledProg() {
             }
         }
     }
-    
     closedir(dir);
 }
 
-
 - (pixel) loadPlugin: (NSString *)str {
-    
     library = dlopen([str UTF8String], RTLD_LAZY);
     if(library == NULL) {
         std::cerr << "Error could not open: " << [str UTF8String] << "\n";
         NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
         exit(1);
     }
-    
     void *addr;
     // load the plugin function to process pixels
     addr = dlsym(library, "pixel");
@@ -230,9 +213,7 @@ void setEnabledProg() {
     return pix;
 }
 
-
 - (void) closePlugin {
-    
     if(library != NULL)
         dlclose(library);
 }
@@ -261,51 +242,36 @@ void setEnabledProg() {
         raudio = false;
     
     static unsigned int counter = 0;
-    
     std::ostringstream fname_stream;
-    
     std::string filename;
     NSInteger popupType = [output_Type indexOfSelectedItem];
-    
     if(!r) {
         ++counter;
     }
-    
-    
     time_t t = time(0);
     struct tm *m;
     m = localtime(&t);
-    
     std::ostringstream time_stream;
     time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
-    
     if(popupType == 0)
         fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".mov";
     else
         fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".avi";
     
     filename = fname_stream.str();
-    
     NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
-    
     std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
     std::cout << add_path << "\n";
     [startProg setEnabled: NO];
     [window1 orderFront:self];
-    
     [menuPaused setEnabled: YES];
-    
     renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
                                           target:self
                                         selector:@selector(cvProc:)
                                         userInfo:nil
                                          repeats:YES];
     
-    
     int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-    
-    
-    
     if(ret_val != 0) {
         NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -313,32 +279,24 @@ void setEnabledProg() {
     }
 }
 
-
-
 - (void) cvProc: (id) sender {
     if(breakProgram == true || stopProgram == true) { stopCV(); return; }
     if(isPaused) return;
-    
     cv::Mat frame;
-    
     if(capture.read(frame) == false) {
         stopCV();
         return;
     }
-    
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
         if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
-    
     ac::draw_func[ac::draw_offset](frame);
-    
     ++frame_cnt;
     imshow("Acid Cam v2", frame);
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     setFrameLabel(ftext);
-    
     if(ac::noRecord == false) {
         writer.write(frame);
         if(file.is_open()) {
@@ -346,7 +304,6 @@ void setEnabledProg() {
             file_size = file.tellg();
         }
     }
-    
     if(ac::snapShot == true) {
         static unsigned int index = 0;
         stream.str("");
@@ -362,7 +319,6 @@ void setEnabledProg() {
     }
 }
 
-
 - (IBAction) openWebcamDialog: (id) sender {
     if([startaction indexOfSelectedItem] == 0)
         [window1 orderFront: self];
@@ -371,9 +327,8 @@ void setEnabledProg() {
     }
 }
 
-- (IBAction) startVideoProgram: (id) sender {
-    
-}
+- (IBAction) startVideoProgram: (id) sender {}
+
 - (IBAction) selectFile: (id) sender {
     NSOpenPanel *pan = [NSOpenPanel openPanel];
     [pan setAllowsMultipleSelection: NO];
@@ -461,7 +416,6 @@ void setEnabledProg() {
         [table_view deselectAll:self];
         [table_view reloadData];
     }
-    
 }
 - (IBAction) moveCustomDown: (id) sender {
     NSInteger index = [table_view selectedRow];
@@ -507,8 +461,8 @@ void setEnabledProg() {
     NSInteger time_val = [frame_slider integerValue];
     NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %f Seconds Frame #%d", time_val/ac::fps, (int)time_val];
     [goto_fr setStringValue: str_val];
-    
 }
+
 - (IBAction) openGoto: (id) sender {
     if(total_frames != 0) {
         [goto_frame orderFront:self];
@@ -517,9 +471,7 @@ void setEnabledProg() {
     }
 }
 
-- (IBAction) pauseVideo: (id) sender {
-    
-}
+- (IBAction) pauseVideo: (id) sender {}
 
 - (IBAction) changeFilterIndex: (id) sender {
     current_filterx = (int) [filter_selector indexOfSelectedItem];
@@ -546,7 +498,6 @@ void setEnabledProg() {
     NSInteger chkvalue = [negate_checked integerValue];
     if(chkvalue == NSOnState) ac::isNegative = true;
     else ac::isNegative = false;
-    
 }
 
 - (IBAction) selectImage: (id) sender {
@@ -571,10 +522,8 @@ void setEnabledProg() {
 @end
 
 void custom_filter(cv::Mat &frame) {
-    
    // ac::isNegative = false;
    // ac::color_order = 0;
-    
     NSInteger len = [custom_array count];
     for(NSInteger i = 0; i < len; ++i) {
         NSNumber *num = [custom_array objectAtIndex:i];
@@ -602,7 +551,5 @@ void ac::plugin(cv::Mat &frame) {
             buffer[2] = pixels[2];
         }
     }
-    
     (*d)();
 }
-

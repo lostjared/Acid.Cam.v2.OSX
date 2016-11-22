@@ -16,7 +16,6 @@ extern pixel pix;
 extern drawn d;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
-
     IBOutlet NSPopUpButton *resolution;
     IBOutlet NSPopUpButton *vid_format;
     IBOutlet NSPopUpButton *device_index, *startaction;
@@ -25,7 +24,6 @@ extern drawn d;
     IBOutlet NSButton      *prefix_grab;
     IBOutlet NSWindow      *window1, *window2;
     IBOutlet NSButton      *videoFileInput, *selectVideoFile;
-    
     IBOutlet NSTextField *prefix_input_2, *video_file;
     IBOutlet NSPopUpButton *vid_format_2;
     IBOutlet NSButton *record_op2,*startaction_2;
@@ -36,7 +34,6 @@ extern drawn d;
     IBOutlet NSComboBox *filter_combo;
     IBOutlet NSWindow   *custom_window, *goto_frame;
     IBOutlet NSTableView *table_view;
-    
     IBOutlet NSSlider *goto_t, *goto_f;
     IBOutlet NSSlider *slider_red, *slider_green, *slider_blue;
     IBOutlet NSTextField *slider_pos, *slider_red_pos, *slider_green_pos, *slider_blue_pos;
@@ -49,10 +46,8 @@ extern drawn d;
 	IBOutlet NSTextField *plugin_name;
 	IBOutlet NSComboBox *plugin_dir;
     IBOutlet NSButton *negate_checked;
-	
     IBOutlet NSWindow *image_select;
     IBOutlet NSComboBox *image_combo;
-
 }
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
