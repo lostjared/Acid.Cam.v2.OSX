@@ -13,6 +13,7 @@
 #include<cstdlib>
 #include<ctime>
 #include<cmath>
+#include<algorithm>
 #include "opencv2/opencv.hpp"
 /*
  * to use set appropriate variables, call the function
@@ -35,7 +36,7 @@ extern bool negate, blend_set;
 extern cv::Mat blend_image;
 
 namespace ac {
-    static const std::string version="2.0.28";
+    static const std::string version="2.0.29";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,pass2_enabled,blendW,slide_Show,slide_Rand,strobe_It,switch_Back,blur_First,blur_Second,iRev;
@@ -101,6 +102,7 @@ namespace ac {
     void Pulse(cv::Mat &frame);
     void SidewaysMirror(cv:: Mat &frame);
     void MirrorNoBlend(cv::Mat &frame);
+    void SortFuzz(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
