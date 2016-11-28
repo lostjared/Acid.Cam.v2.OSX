@@ -1835,8 +1835,6 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
 }
 
 void ac::SortFuzz(cv::Mat &frame) {
-//    static double pos = 1.0;
-    static unsigned long frame_counter = 0;
     unsigned int r = rand()%255;
     int w = frame.cols;
     int h = frame.rows;
@@ -1868,7 +1866,6 @@ void ac::SortFuzz(cv::Mat &frame) {
         }
         v.erase(v.begin(), v.end());
     }
-    ++frame_counter;
 }
 
 void ac::custom(cv::Mat &frame) {
