@@ -23,11 +23,11 @@ namespace ac {
     int color_order = 0;
     int snapshot_Type = 0;
     
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 46;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 47;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     inline void swapColors(cv::Mat &frame, int x, int y);
 }
@@ -1852,9 +1852,7 @@ void ac::SortFuzz(cv::Mat &frame) {
             v.push_back(vv);
         }
         std::sort(v.begin(), v.end(), std::greater<int>());
-        
         for(int i = 0; i < w; ++i) {
-            
             unsigned char *value = (unsigned char*)&v[i];
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel[0] += value[0]+r;
@@ -1865,6 +1863,24 @@ void ac::SortFuzz(cv::Mat &frame) {
             
         }
         v.erase(v.begin(), v.end());
+    }
+}
+
+void ac::Fuzz(cv::Mat &frame) {
+    int w = frame.cols;
+    int h = frame.rows;
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            if((rand()%5)==1) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel[0] += rand()%255;
+                pixel[1] += rand()%255;
+                pixel[2] += rand()%255;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+            
+        }
     }
 }
 
