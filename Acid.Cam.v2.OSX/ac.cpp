@@ -1869,9 +1869,10 @@ void ac::SortFuzz(cv::Mat &frame) {
 void ac::Fuzz(cv::Mat &frame) {
     int w = frame.cols;
     int h = frame.rows;
+    static int amount = 5;
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
-            if((rand()%5)==1) {
+            if((rand()%amount)==1) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 pixel[0] += rand()%255;
                 pixel[1] += rand()%255;
@@ -1881,6 +1882,14 @@ void ac::Fuzz(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
             
         }
+    }
+    static int direction = 1;
+    if(direction == 1) {
+        ++amount;
+        if(amount >= 10) direction = 0;
+    } else {
+        --amount;
+        if(amount <= 5) direction = 1;
     }
 }
 
