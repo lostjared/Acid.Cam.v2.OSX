@@ -1880,7 +1880,6 @@ void ac::Fuzz(cv::Mat &frame) {
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
-            
         }
     }
     static int direction = 1;
