@@ -23,11 +23,11 @@ namespace ac {
     int color_order = 0;
     int snapshot_Type = 0;
     
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
-    int draw_max = 48;
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    int draw_max = 49;
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     inline void swapColors(cv::Mat &frame, int x, int y);
 }
@@ -1939,6 +1939,59 @@ void ac::DoubleVision(cv::Mat &frame) {
         }
     }
 }
+
+void ac::RGBShift(cv::Mat &frame) {
+    double pos = 1.0;
+    int w = frame.cols;
+    int h = frame.rows;
+    cv::Mat orig = frame.clone();
+    static int shift = 0;
+    for(int z = 3; z < h-3; ++z) {
+        for(int i = 3; i < w-3; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
+            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
+            cv::Vec3b &r = orig.at<cv::Vec3b>((h-z), (w-i));
+            switch(shift) {
+                case 0:
+                    buffer[0] += r[0];
+                    buffer[1] += g[1];
+                    buffer[2] += b[2];
+                case 1:
+                    break;
+                    buffer[0] += g[0];
+                    buffer[1] += b[1];
+                    buffer[2] += r[2];
+                case 2:
+                    buffer[0] += b[0];
+                    buffer[1] += r[1];
+                    buffer[2] += g[2];
+                    break;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    ++shift;
+    if(shift > 2) shift = 0;
+    static int direction = 1;
+    static double pos_max = 7.0f;
+    if(direction == 1) {
+        pos += 0.05;
+        if(pos > pos_max) {
+            pos = pos_max;
+            direction = 0;
+            pos_max += 0.5f;
+        }
+    } else if(direction == 0) {
+        pos -= 0.05;
+        if(pos <= 1.0) {
+            if(pos_max > 15) pos_max = 1.0f;
+            direction = 1;
+        }
+    }
+}
+
 
 void ac::custom(cv::Mat &frame) {
     custom_filter(frame);

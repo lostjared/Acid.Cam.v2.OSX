@@ -105,6 +105,7 @@ namespace ac {
     void SortFuzz(cv::Mat &frame);
     void Fuzz(cv::Mat &frame);
     void DoubleVision(cv::Mat &frame);
+    void RGBShift(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
