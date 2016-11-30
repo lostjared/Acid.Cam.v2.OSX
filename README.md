@@ -1,5 +1,7 @@
 # Acid.Cam.v2.OSX
 
+![AnimatedImage](http://lostsidedead.biz/gif/jaredpeace.gif "screenshot")
+
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/acscreen.jpg?raw=true "screenshot")
 
 Acid Cam is a application that turns your webcam/video files into a work of Art.
@@ -21,4 +23,3 @@ Watch this video for information how to use the program: https://youtu.be/DpBrX2
 Watch this video for a tutorial on how to create custom filter plugins: https://youtu.be/hOnBUJIdAyU
 
 
-![AnimatedImage](http://lostsidedead.biz/gif/jaredpeace.gif "screenshot")
