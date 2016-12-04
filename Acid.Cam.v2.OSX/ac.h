@@ -31,11 +31,15 @@
  * ac::draw_strings[function_index];
  *
  */
+
+// exernal variables
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
 extern bool negate, blend_set;
 extern cv::Mat blend_image;
 
+// acid cam namespace
 namespace ac {
+    // version string
     static const std::string version="2.0.29";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
@@ -55,6 +59,7 @@ namespace ac {
     inline void randAlpha(double &value);
     void resetAll();
     void enablePass2(bool pass2_enabled, bool pass2_alpha);
+    /* filter functions */
     typedef void (*DrawFunction)(cv::Mat &frame);
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -114,7 +119,7 @@ namespace ac {
     extern int draw_max;
     extern bool snapShot;
 }
-
+// custom filter function, must be defined in program so it will link
 extern void custom_filter(cv::Mat &frame);
 
 #endif

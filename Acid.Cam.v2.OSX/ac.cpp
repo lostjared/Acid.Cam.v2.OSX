@@ -9,7 +9,9 @@
 #include "ac.h"
 #include "fractal.h"
 
+// acid cam namespace
 namespace ac {
+    // variables
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
     bool images_Enabled = false, fps_force = false,iRev = false;
     bool blur_Second = false;
@@ -23,12 +25,17 @@ namespace ac {
     int color_order = 0;
     int snapshot_Type = 0;
     
+    // draw strings (function names)
     std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
+    // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    // number of filters
     int draw_max = 50;
+    // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
+    // swap colors inline function
     inline void swapColors(cv::Mat &frame, int x, int y);
 }
 
@@ -105,7 +112,6 @@ void ac::resetAll() {
     isNegative = false;
     blur_Second = false;
 }
-
 
 void ac::enablePass2(bool pass2_enabled, bool pass2_alpha) {
     ac::pass2_enabled = pass2_enabled;
@@ -1976,7 +1982,7 @@ void ac::RGBShift(cv::Mat &frame) {
 }
 
 void ac::RGBSep(cv::Mat &frame) {
-        int w = frame.cols;
+    int w = frame.cols;
     int h = frame.rows;
     cv::Mat orig = frame.clone();
     for(int z = 3; z < h-3; ++z) {
