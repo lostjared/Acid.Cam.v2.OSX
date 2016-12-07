@@ -1830,29 +1830,6 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    // static direction changes after pos_max reachs a point
-    static int direction = 1;
-    // pos max is equal to 4.0f
-    static double pos_max = 4.0f;
-    // if direction is 1
-    if(direction == 1) {
-        // add to the kernel
-        pos += 0.1;
-        // if pos > pos_max
-        if(pos > pos_max) {
-            pos = pos_max;
-            // switch direction
-            direction = 0;
-            // pos max increases
-            pos_max += 1.0f;
-        }
-    } else if(direction == 0) { // if direction is 0
-        pos -= 0.1;// pos minus 0.1 decreasing
-        if(pos <= 1.0) { // when equal to 1
-            if(pos_max > 4.0f) pos_max = 1.0f;
-            direction = 1; // change direction back to 1
-        }
-    }
 }
 
 void ac::SortFuzz(cv::Mat &frame) {
