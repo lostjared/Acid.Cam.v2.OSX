@@ -1805,7 +1805,6 @@ void ac::SidewaysMirror(cv::Mat &frame) {
 
 // Mirror function without blending
 void ac::MirrorNoBlend(cv::Mat &frame) {
-    static double pos = 1.0; // kernel
     int w = frame.cols; // width of frame
     int h = frame.rows; // height of frame
     cv::Mat orig;// original image unaltered
