@@ -1803,39 +1803,54 @@ void ac::SidewaysMirror(cv::Mat &frame) {
     }
 }
 
+// Mirror function without blending
 void ac::MirrorNoBlend(cv::Mat &frame) {
-    static double pos = 1.0;
-    int w = frame.cols;
-    int h = frame.rows;
-    cv::Mat orig;
-    orig = frame.clone();
-    for(int z = 2; z < h-3; ++z) {
-        for(int i = 2; i < w-3; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+    static double pos = 1.0; // kernel
+    int w = frame.cols; // width of frame
+    int h = frame.rows; // height of frame
+    cv::Mat orig;// original image unaltered
+    orig = frame.clone(); // clone the frame to orig
+    for(int z = 2; z < h-3; ++z) { // loop through the height
+        for(int i = 2; i < w-3; ++i) {// go across each row
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// current pixel
+             // opposite of current pixel
             cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
+            // opposite width, same height
             cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
+            // opposite height, same width
             cv::Vec3b &pix3 = orig.at<cv::Vec3b>((h-z), i);
+            // current pixel components equal
+            // add each pixel value together
              buffer[0] = (pix1[0]+pix2[0]+pix3[0]);
              buffer[1] = (pix1[1]+pix2[1]+pix3[1]);
              buffer[2] = (pix1[2]+pix2[2]+pix3[2]);
+            // swap RGB positions
             swapColors(frame, z, i);
+            // if the negative switch is on, invert
             if(isNegative) invert(frame, z, i);
         }
     }
+    // static direction changes after pos_max reachs a point
     static int direction = 1;
+    // pos max is equal to 4.0f
     static double pos_max = 4.0f;
+    // if direction is 1
     if(direction == 1) {
+        // add to the kernel
         pos += 0.1;
+        // if pos > pos_max
         if(pos > pos_max) {
             pos = pos_max;
+            // switch direction
             direction = 0;
+            // pos max increases
             pos_max += 1.0f;
         }
-    } else if(direction == 0) {
-        pos -= 0.1;
-        if(pos <= 1.0) {
+    } else if(direction == 0) { // if direction is 0
+        pos -= 0.1;// pos minus 0.1 decreasing
+        if(pos <= 1.0) { // when equal to 1
             if(pos_max > 4.0f) pos_max = 1.0f;
-            direction = 1;
+            direction = 1; // change direction back to 1
         }
     }
 }
