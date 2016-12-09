@@ -1735,41 +1735,49 @@ void ac::MirrorBlend(cv::Mat &frame) {
     }
 }
 
+// Pulse color in and out
+// takes cv::Mat reference
 void ac::Pulse(cv::Mat &frame) {
-    static double pos = 1.0;
-    int w = frame.cols;
-    int h = frame.rows;
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
+    static double pos = 1.0; // index
+    int w = frame.cols;// width variable
+    int h = frame.rows;// height variable
+    for(int z = 0; z < h; ++z) { // from top to bottom
+        for(int i = 0; i < w; ++i) { // from left to right
+            // current pixel reference cv::Vec3b
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            // pixel rgb components plus equal multiplied by pos
             buffer[0] += buffer[0]*pos;
             buffer[1] += buffer[1]*pos;
             buffer[2] += buffer[2]*pos;
+            // swap colors
             swapColors(frame, z, i);
+            // if negative variable true invert pixel
             if(isNegative) invert(frame, z, i);
         }
     }
-    static int direction = 1;
-    static double pos_max = 3.0f;
-    if(direction == 1) {
-        pos += 0.1;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 1.0f;
+    static int direction = 1; // current direction
+    static double pos_max = 3.0f; // maximum
+    if(direction == 1) { // direction equals 1
+        pos += 0.1; // pos plus equal 0.1
+        if(pos > pos_max) {// pos greater than pos max
+            pos = pos_max;// pos equals pox max
+            direction = 0; // direction is zero
+            pos_max += 1.0f; // pos max plus equal 1.0
         }
-    } else if(direction == 0) {
-        pos -= 0.1;
-        if(pos <= 1.0) {
+    } else if(direction == 0) { // direction is 0
+        pos -= 0.1; // pos minus equal 0.1
+        if(pos <= 1.0) { // less thane equal 1
+            // reset pos max
             if(pos_max > 3.0f) pos_max = 1.0f;
-            direction = 1;
+            direction = 1; // direction set to 1
         }
     }
 }
+
 // Sideways Mirror function
 // takes reference cv::Mat (an image)
 void ac::SidewaysMirror(cv::Mat &frame) {
-    static double pos = 1.0; // kernel
+    static double pos = 1.0;
     int w = frame.cols;// frame image width
     int h = frame.rows;// frame image height
     cv::Mat orig;// unaltered image matrix
