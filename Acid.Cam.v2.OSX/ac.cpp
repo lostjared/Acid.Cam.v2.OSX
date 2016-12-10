@@ -111,35 +111,40 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
 }
-
+// Self Scale - Scale pixel values by double
+// Takes cv::Mat reference
 void ac::SelfScale(cv::Mat &frame) {
-    static double pos = 1.0;
-    int w = frame.cols;
-    int h = frame.rows;
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
+    static double pos = 1.0; // pos the scale
+    int w = frame.cols; // width variable
+    int h = frame.rows; // height variable
+    for(int z = 0; z < h; ++z) {// top to bottom
+        for(int i = 0; i < w; ++i) { // left to right
+            // current pixel at x,y
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // scale each rgb value by pos
             pixel[0] = pixel[0] * pos;
             pixel[1] = pixel[1] * pos;
             pixel[2] = pixel[2] * pos;
-            swapColors(frame, z, i);
+            swapColors(frame, z, i);// swap colors
+            // if is negative set, invert pixel
             if(isNegative) invert(frame, z, i);
         }
     }
+    // static direction variable
     static int direction = 1;
-    static double pos_max = 7.0f;
-    if(direction == 1) {
-        pos += 0.05;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+    static double pos_max = 7.0f; // position max
+    if(direction == 1) { // direction equals 1
+        pos += 0.05; // pos plus equal 0.05
+        if(pos > pos_max) { // pos greater than pos_max
+            pos = pos_max; // set pos to pos_max
+            direction = 0; // set direction to zero
+            pos_max += 0.5f; // add 0.5 to pos_max
         }
-    } else if(direction == 0) {
-        pos -= 0.05;
-        if(pos <= 1.0) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) { // direction is zero
+        pos -= 0.05; // minus equal 0.05
+        if(pos <= 1.0) { // pos <= 1.0
+            if(pos_max > 15) pos_max = 1.0f; // reset pos if greater than 15
+            direction = 1;// set direction to 1
         }
     }
 }
