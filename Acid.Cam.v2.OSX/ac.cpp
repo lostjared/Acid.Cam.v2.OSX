@@ -80,65 +80,34 @@ inline void ac::invert(cv::Mat &frame, int x, int y) {
     if(iRev == true) { // if reverse
         cv::Vec3b temp;
         temp = cur;
+        // reverse order
         cur[2] = temp[0];
         cur[1] = temp[1];
         cur[0] = temp[2];
     }
 }
-
-inline void ac::randAlpha(double &alpha) {
-    static int max = 1, total = 25;
-    static double d = 0.1f;
-    static bool dir = true;
-    alpha = (d) * (1 + (rand() % max));
-    if (dir == true)
-        ++max;
-    else
-        --max;
-    if (max > total) {
-        dir = false;
-        total++;
-        d += 0.1f;
-    } else if (max <= 1) {
-        dir = true;
-    }
-}
-
-void ac::resetAll() {
-    slide_Show = false;
-    slide_Rand = false;
-    alpha = 1.0f;
-    tr = 0.1f;
-    blur_First = false;
-    iRev = false;
-    isNegative = false;
-    blur_Second = false;
-}
-
-void ac::enablePass2(bool pass2_enabled, bool pass2_alpha) {
-    ac::pass2_enabled = pass2_enabled;
-    ac::pass2_alpha = pass2_alpha;
-}
-
+// SelfAlphaBlend - Perform out of Bounds AlphaBlend on source image
 void ac::SelfAlphaBlend(cv::Mat &frame) {
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &colorval = frame.at<cv::Vec3b>(z, i);
+    for(int z = 0; z < frame.rows; ++z) {// from top to bottom
+        for(int i = 0; i < frame.cols; ++i) {// from left to right
+            cv::Vec3b &colorval = frame.at<cv::Vec3b>(z, i);// at x,y
             colorval[0] += colorval[0]*alpha;
             colorval[1] += colorval[1]*alpha;
             colorval[2] += colorval[2]*alpha;
-            swapColors(frame, z, i);
-            if(isNegative == true) {
-                invert(frame, z, i);
+            swapColors(frame, z, i);// swap colors
+            if(isNegative == true) { // if negative
+                invert(frame, z, i);// invert
             }
         }
     }
-    static int direction = 1;
-    if(direction == 1) {
-        alpha += 0.1f;
+    static int direction = 1;// direction equals 1
+    if(direction == 1) {// if direction equals 1
+        alpha += 0.1f; // plus equal 0.1
+        // if alpha greater than 10
         if(alpha > 10) { alpha = 10; direction = 2; }
     } else {
-        alpha -= 0.05f;
+        alpha -= 0.05f; // minus equal 0.05
+        // if alpha <= 0.1f
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
 }
