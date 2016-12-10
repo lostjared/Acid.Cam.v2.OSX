@@ -39,11 +39,13 @@ namespace ac {
     inline void swapColors(cv::Mat &frame, int x, int y);
 }
 
+// swapColors inline function takes frame and x, y position
 inline void ac::swapColors(cv::Mat &frame, int x, int y) {
-    if(color_order == 0) return;
+    if(color_order == 0) return; // if no swap needed return
     cv::Vec3b &cur = frame.at<cv::Vec3b>(x,y);
-    cv::Vec3b temp;
-    temp = cur;
+    cv::Vec3b temp;// temp
+    temp = cur;// temp = cur
+    // swap RGB orders
     switch(color_order) {
         case 1:
             cur[0] = temp[2];
@@ -67,15 +69,15 @@ inline void ac::swapColors(cv::Mat &frame, int x, int y) {
             break;
     }
 }
-
+// invert pixel in frame at x,y
 inline void ac::invert(cv::Mat &frame, int x, int y) {
-    cv::Vec3b &cur = frame.at<cv::Vec3b>(x,y);
-    if(isNegative == true) {
-        cur[0] = ~cur[0];
+    cv::Vec3b &cur = frame.at<cv::Vec3b>(x,y);// cur pixel
+    if(isNegative == true) {// if isNegative is true
+        cur[0] = ~cur[0]; // bit manipulation sets opposite
         cur[1] = ~cur[1];
         cur[2] = ~cur[2];
     }
-    if(iRev == true) {
+    if(iRev == true) { // if reverse
         cv::Vec3b temp;
         temp = cur;
         cur[2] = temp[0];
