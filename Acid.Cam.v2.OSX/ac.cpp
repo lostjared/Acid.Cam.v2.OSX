@@ -1918,50 +1918,60 @@ void ac::Fuzz(cv::Mat &frame) {
     }
 }
 
+// Double vision
+// takes cv::Mat by refrence
 void ac::DoubleVision(cv::Mat &frame) {
-    static double pos = 1.0;
-    int w = frame.cols;
-    int h = frame.rows;
-    cv::Mat orig = frame.clone();
-    for(int z = 3; z < h-3; ++z) {
-        for(int i = 3; i < w-3; ++i) {
+    static double pos = 1.0; // index
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    cv::Mat orig = frame.clone(); // clone frame to orig
+    for(int z = 3; z < h-3; ++z) {// top to bottom
+        for(int i = 3; i < w-3; ++i) { // left to right
+            // current pixel
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
-            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
-            if((i%2) == 0) {
-                if((z%2) == 0) {
-                    buffer[2] += (i+z)*pos;
+            cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i); // pixel at h-y, x
+            cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i)); // pixel at y, w-x
+            // this is what gives the diamond image
+            if((i%2) == 0) {// if modulus i by two returns zero
+                if((z%2) == 0) {// modulus z by two returns zero
+                    buffer[2] += (i+z)*pos;// buffer[2] plus equals (i plus z) multiplied by pos
                 } else {
-                    buffer[2] += (i-z)*pos;
+                    buffer[2] += (i-z)*pos; // buffer[2] plus equals (i minus z) mulitplied by pos
                 }
             } else {
-                if((z%2) == 0) {
-                    buffer[2] += (i-z)*pos;
+                if((z%2) == 0) {// modulus z by two equals zero
+                    buffer[2] += (i-z)*pos; // buffer[2] plus equals (i minus z) multiplied by pos
                 } else {
-                    buffer[2] += (i+z)*pos;
+                    buffer[2] += (i+z)*pos; // buffer[2] plus equals (i plus z) multiplied by pos
                 }
             }
+            // this is what adds the rgb from other positions
             buffer[0] += g[0];
             buffer[1] += b[1];
-                                            
+            // swap colors
             swapColors(frame, z, i);
+            // if negative variable set invert pixel
             if(isNegative) invert(frame, z, i);
         }
     }
+    // static int direction
     static int direction = 1;
+    // pos max
     static double pos_max = 7.0f;
+    // if direction equals 1
     if(direction == 1) {
-        pos += 0.05;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+        pos += 0.05; // pos plus equal 0.05
+        if(pos > pos_max) { // if pos > pos max
+            pos = pos_max; // pos = pos_max
+            direction = 0;// direction equals 0
+            pos_max += 0.5f; // pos_max increases by 0.5
         }
-    } else if(direction == 0) {
-        pos -= 0.05;
-        if(pos <= 1.0) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// direction equals 1
+        pos -= 0.05;// pos -= 0.05
+        if(pos <= 1.0) {// if pos <= 1.0
+            if(pos_max > 15) pos_max = 1.0f;// if pos max at maxmium
+            						// set to 1.0
+            direction = 1;// set direction back to 1
         }
     }
 }
