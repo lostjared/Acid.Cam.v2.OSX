@@ -58,6 +58,8 @@ namespace ac {
     inline void invert(cv::Mat &frame, int x, int y);
     /* filter functions */
     typedef void (*DrawFunction)(cv::Mat &frame);
+    
+    // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
     void StrobeEffect(cv::Mat &frame);
