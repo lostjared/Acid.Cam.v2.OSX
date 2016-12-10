@@ -1850,36 +1850,41 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
         }
     }
 }
-
+// Sort the Fuzz
 void ac::SortFuzz(cv::Mat &frame) {
-    unsigned int r = rand()%255;
-    int w = frame.cols;
-    int h = frame.rows;
-    static std::vector<unsigned int> v;
-    v.reserve(w);
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
-            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
-            unsigned int vv = 0;
-            unsigned char *cv = (unsigned char*)&vv;
+    unsigned int r = rand()%255; // random number betwen 0-254
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    static std::vector<unsigned int> v;// vector for row of bytes info
+    v.reserve(w);// reserve at least width bytes
+    for(int z = 0; z < h; ++z) { //  loop: top to bottom
+        for(int i = 0; i < w; ++i) { // loop: left ro right
+            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i); // current pixel
+            unsigned int vv = 0; // unsigned integer
+            unsigned char *cv = (unsigned char*)&vv; // pointer to unsigned char*
+            // set each byte
             cv[0] = value[0];
             cv[1] = value[1];
             cv[2] = value[2];
             cv[3] = 0;
-            v.push_back(vv);
+            v.push_back(vv); // push back
         }
-        std::sort(v.begin(), v.end(), std::greater<int>());
-        for(int i = 0; i < w; ++i) {
+        std::sort(v.begin(), v.end(), std::greater<int>());// sort greater
+        for(int i = 0; i < w; ++i) { // left to right
             unsigned char *value = (unsigned char*)&v[i];
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// pixel at i,z
+            // pixel values plus equal value plus r
             pixel[0] += value[0]+r;
             pixel[1] += value[1]+r;
             pixel[2] += value[2]+r;
+            // swap colors
             swapColors(frame, z, i);
+            // if negative variable set invert pixel
             if(isNegative) invert(frame, z, i);
             
         }
-        v.erase(v.begin(), v.end());
+        v.erase(v.begin(), v.end()); // erase row
+        // repeat
     }
 }
 
