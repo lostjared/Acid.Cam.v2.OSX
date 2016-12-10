@@ -352,79 +352,87 @@ void ac::RandTriBlend(cv::Mat &frame) {
     alpha += trans_var;// add to alpha translation variable
 }
 
+// Blank
+// takes cv::Mat reference
 void ac::Blank(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static unsigned char val[3] = { 0 };
-    static bool color_switch = false;
-    for(int z = 0; z < frame.cols; ++z) {
-        for(int i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+    static double alpha = 1.0f; // static alpha set to 1.0
+    static unsigned char val[3] = { 0 };// val array set to zero
+    static bool color_switch = false;// color switch set to false
+    for(int z = 0; z < frame.cols; ++z) {// left to right
+        for(int i = 0; i < frame.rows; ++i) { // top to bottom
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // current pixel
             for(int j = 0; j < 3; ++j) {
+                // process pixel values
                 val[j] = (alpha*color_value[j]) / (2-j+1);
                 color_value[j] += val[2-j] / (j+1);
                 if(color_switch == true) color_value[j] = -color_value[j];
             }
             swapColors(frame, i, z);
             if(isNegative == true) {
-                invert(frame, i, z);
+                invert(frame, i, z); // invert pixel
             }
         }
     }
-    color_switch = !color_switch;
+    color_switch = !color_switch;// not color switch
     static double max = 4.0f, trans_var = translation_variable;
     if (alpha < 0)
-        trans_var = translation_variable;
+        trans_var = translation_variable; // positive (up)
     else if (alpha > max) {
-        trans_var = -translation_variable;
+        trans_var = -translation_variable; // negative (down)
         max += 3.0f;
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;
+    alpha += trans_var; // add to alpha trans_Var
 }
-
+// Tri
+// takes cv::Mat reference
 void ac::Tri(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    for(int z = 0; z < frame.cols-3; ++z) {
-        for(int i = 0; i < frame.rows-3; ++i) {
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-            cv::Vec3b colors[2];
+    static double alpha = 1.0f;// static alpha set to 1
+    for(int z = 0; z < frame.cols-3; ++z) {// left to right
+        for(int i = 0; i < frame.rows-3; ++i) {// top to bottom
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// current pixel
+            cv::Vec3b colors[2];// colors
+            // grab pixels
             colors[0] = frame.at<cv::Vec3b>(i+1, z);
             colors[1] = frame.at<cv::Vec3b>(i+2, z);
+            // set pixels
             color_value[0] += color_value[0]*alpha;
             color_value[1] += color_value[1]+colors[0][1]+colors[1][1]*alpha;
             color_value[2] += color_value[2]+colors[0][2]+colors[1][2]*alpha;
-            swapColors(frame, i, z);
+            swapColors(frame, i, z);// swap
             if(isNegative == true) {
-                invert(frame, i, z);
+                invert(frame, i, z); // invert pixel
             }
         }
     }
     static double max = 4.0f, trans_var = 0.1f;
     if (alpha < 0)
-        trans_var = translation_variable;
+        trans_var = translation_variable; // positive (up)
     else if (alpha > max) {
-        trans_var = -translation_variable;
+        trans_var = -translation_variable; // negative (down)
         max += 3.0f;
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;
+    alpha += trans_var;// add to alpha trans var
 }
-
+// Distort
+// takes cv::Mat reference
 void ac::Distort(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
+    static double alpha = 1.0f; // static alpha set to 1
+    static int i = 0, z = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) { // left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            // set pixel values
             color_value[0] = (i*alpha)+color_value[0];
             color_value[2] = (z*alpha)+color_value[2];
             color_value[1] = (alpha*color_value[1]);
             if(strobe_It == true) color_value[1] = ((i+z)*alpha)+color_value[1];
-            swapColors(frame, i, z);
+            swapColors(frame, i, z); //swap
             if(isNegative == true) {
-                invert(frame, i, z);
+                invert(frame, i, z);// invert
             }
         }
     }
@@ -437,30 +445,31 @@ void ac::Distort(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;
+    alpha += trans_var;// add translation to alpha
 }
-
+// takes cv::Mat reference
 void ac::CDraw(cv::Mat &frame) {
-    static int i=0,z=0;
-    static double rad = 80.0f;
-    static double deg = 1.0f;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
+    static int i=0,z=0;// loop variables
+    static double rad = 80.0f;// radius
+    static double deg = 1.0f;// degrees
+    for(z = 0; z < frame.cols; ++z) { // left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
             int cX = int(rad * cosf(deg));
             int cY = int(rad * sinf(deg));
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // grab pixel reference
+            // set values
             color_value[0] = color_value[0]*(cX * alpha);
             color_value[1] = color_value[1]*(cY * alpha);
             color_value[2] = color_value[2]*alpha;
             deg += 0.1f;
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap
+            if(isNegative) invert(frame, i, z);// if isNegative invert
         }
     }
-    alpha += 0.1f;
-    rad += 0.1f;
-    if(rad > 90) rad = 0;
-    if(alpha > 20) alpha = 0;
+    alpha += 0.1f;// add to alpha
+    rad += 0.1f;// add to rad
+    if(rad > 90) rad = 0;// greater than 90 reset
+    if(alpha > 20) alpha = 0;// greater than 20 reset
 }
 // Light Strobe
 // first cycle through the image
