@@ -225,54 +225,58 @@ void ac::Blend3(cv::Mat &frame) {
     for (int q = 0; q < 3; ++q)
         rValue[q] += ((rand() % 10) > 5) ? -0.1f : 0.1f;
 }
-
+// takes cv::Mat reference
 void ac::NegParadox(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    for (int z = 0; z < frame.cols - 3; ++z) {
-        for (int i = 0; i < frame.rows - 3; ++i) {
-            cv::Vec3b colors[4];
-            colors[0] = frame.at<cv::Vec3b>(i, z);
+    static double alpha = 1.0f; // alpha equals 1.0
+    for (int z = 0; z < frame.cols - 3; ++z) { // left to right
+        for (int i = 0; i < frame.rows - 3; ++i) { // top to bottom
+            cv::Vec3b colors[4];// vector array
+            colors[0] = frame.at<cv::Vec3b>(i, z);// grab pixels
             colors[1] = frame.at<cv::Vec3b>(i + 1, z);
             colors[2] = frame.at<cv::Vec3b>(i + 2, z);
             colors[3] = frame.at<cv::Vec3b>(i + 3, z);
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab pixel
+            // set final pixel color values
             color_value[0] += (colors[0][0] * alpha) + (colors[1][0] * alpha);
             color_value[1] += (colors[1][1] * alpha) + (colors[3][1] * alpha);
             color_value[2] += (colors[1][2] * alpha) + (colors[2][2] * alpha);
-            swapColors(frame, i, z);
-            if(isNegative == true) {
-                invert(frame, i, z);
+            swapColors(frame, i, z); // swap the colors
+            if(isNegative == true) { // if negative is true
+                invert(frame, i, z);// invert pixel
             }
         }
     }
-    static double trans_var = 0.1f;
+    static double trans_var = 0.1f; // translation variable
     if (alpha < 0)
-        trans_var = translation_variable;
+        trans_var = translation_variable;// increase
     else if (alpha > 15)
-        trans_var = -translation_variable;
-    alpha += trans_var;
+        trans_var = -translation_variable; // decrease
+    alpha += trans_var; // add variable
 }
 
+// Thought Mode
+// takes cv::Mat reference
 void ac::ThoughtMode(cv::Mat &frame) {
-    static double alpha = 1.0f, trans_var = 0.1f;;
-    static int mode = 0;
+    static double alpha = 1.0f, trans_var = 0.1f; // alpha
+    static int mode = 0;// current mode
     static int sw = 1, tr = 1;
     for(int z = 2; z < frame.cols-2; ++z) {
         for(int i = 2; i < frame.rows-4; ++i) {
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // current pixel
+            // set pixel rgb values
             if(sw == 1) color_value[0]+= color_value[mode]*alpha;
             if(tr == 0) color_value[mode] -= color_value[rand()%2]*alpha;
             color_value[mode] += color_value[mode]*alpha;
-            mode++;
-            if(mode >= 3) mode = 0;
-            swapColors(frame, i, z);
-            if(isNegative == true) {
-                invert(frame, i, z);
+            mode++; // increase mode
+            if(mode >= 3) mode = 0; // reset mode if greater than equal three
+            swapColors(frame, i, z);// swap colors
+            if(isNegative == true) { // if is negative true
+                invert(frame, i, z);// invert pixel
             }
         }
    	}
-    sw = !sw;
-    tr = !tr;
+    sw = !sw;// not sw
+    tr = !tr;// not tr
     static double max = 4.0f;
     if(alpha < 0)
         trans_var = translation_variable;
@@ -281,58 +285,63 @@ void ac::ThoughtMode(cv::Mat &frame) {
         max += 3.0f;
         if(max > 23) max = 4.0f;
     }
-    alpha += trans_var;
+    alpha += trans_var; // add to alpha
 }
-
+// blend with original pixel
 void ac::Pass2Blend(cv::Mat &frame) {
-    for(int z = 0;  z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);
+    for(int z = 0;  z < frame.rows; ++z) { // top to bottom
+        for(int i = 0; i < frame.cols; ++i) { // left to right
+            cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
+            cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
             for(int q = 0; q < 3; ++q)
-                color1[q] = color1[q]+color2[q]*(unsigned char)ac::pass2_alpha;
+                color1[q] = color1[q]+color2[q]*(unsigned char)ac::pass2_alpha;// multiply
         }
     }
 }
 
+// Takes cv::Mat reference
 void ac::RandTriBlend(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int i = 0, z = 0;
-    int counter = 0;
-    cv::Vec3b colors[6];
+    static double alpha = 1.0f;//alpha equals 1.0
+    static int i = 0, z = 0;// i,z loop variables
+    int counter = 0;// center variable
+    cv::Vec3b colors[6];// array of six colors
     for (z = 2; z < frame.cols - 2; ++z) {
         for (i = 2; i < frame.rows - 2; ++i) {
+            // grab pixels
             colors[0] = frame.at<cv::Vec3b>(i, z);
             colors[1] = frame.at<cv::Vec3b>(i + 1, z);
             colors[2] = frame.at<cv::Vec3b>(i + 2, z);
             // chaos
             counter = rand() % 3;
-            if (counter == 0) {
+            if (counter == 0) { // if counter equals zero
+                // set pixel values
                 colors[3][0] = (colors[0][0] + colors[1][0] + colors[2][0])
                 * alpha;
                 colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
                 colors[3][2] = (colors[0][2]) * alpha;
-                counter++;
-            } else if (counter == 1) {
+                counter++; // increase counter
+            } else if (counter == 1) { // if counter equals one
+                // set pixel values
                 colors[3][0] = (colors[0][0]) * alpha;
                 colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
                 colors[3][2] = (colors[0][2] + colors[1][2] + colors[2][2]) * alpha;
-                counter++;
+                counter++; // increase counter
             } else {
+                // set pixel values
                 colors[3][0] = (colors[0][0]) * alpha;
                 colors[3][2] = (colors[0][1] + colors[1][1]) * alpha;
                 colors[3][1] = (colors[0][2] + colors[1][2] + colors[2][2]) * alpha;
             }
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
-            color_value = colors[3];
-            swapColors(frame, i, z);
-            if(isNegative == true) {
-                invert(frame, i, z);
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab current pixel
+            color_value = colors[3];// assign pixel
+            swapColors(frame, i, z);// swap colors
+            if(isNegative == true) { // if isNegative
+                invert(frame, i, z);// invert pixel
             }
         }
     }
-    static double max = 4.0f, trans_var = translation_variable;
-    if (alpha < 0)
+    static double max = 4.0f, trans_var = translation_variable;// max, translation variable
+    if (alpha < 0) // if alpha less than zero
         trans_var = translation_variable;
     else if (alpha > max) {
         trans_var = -translation_variable;
@@ -340,7 +349,7 @@ void ac::RandTriBlend(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;
+    alpha += trans_var;// add to alpha translation variable
 }
 
 void ac::Blank(cv::Mat &frame) {
