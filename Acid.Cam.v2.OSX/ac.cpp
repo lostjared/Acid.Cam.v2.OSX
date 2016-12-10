@@ -148,55 +148,59 @@ void ac::SelfScale(cv::Mat &frame) {
         }
     }
 }
-
+// StrobeEffect - Change frame values by passIndex, incrememnt each frame
 void ac::StrobeEffect(cv::Mat &frame) {
-    static unsigned int passIndex = 0;
-    static double alpha = 1.0f;
+    static unsigned int passIndex = 0;// passIndex variable
+    static double alpha = 1.0f;// alpha is 1.0
     for (int z = 0; z < frame.cols - 2; ++z) {
         for (int i = 0; i < frame.rows - 2; ++i) {
-            cv::Vec3b &colors = frame.at<cv::Vec3b>(i, z);
+            
+            cv::Vec3b &colors = frame.at<cv::Vec3b>(i, z); // current pixel
+            
             switch (passIndex) {
-                case 0:
+                case 0: // pass 0 set colors
                     colors[0] = colors[0] * (-alpha);
                     colors[1] = colors[1] * alpha;
                     colors[2] = colors[2] * alpha;
                     break;
-                case 1:
+                case 1: // pass 1 set colors
                     colors[0] += colors[0] * alpha;
                     colors[1] += colors[1] * (-alpha);
                     colors[2] += colors[2] * alpha;
                     break;
-                case 2:
+                case 2: // pas 2 set colors
                     colors[0] = colors[0] * alpha;
                     colors[1] = colors[1] * alpha;
                     colors[2] = colors[2] * (-alpha);
                     break;
-                case 3: {
-                    cv::Vec3b &color1 = frame.at<cv::Vec3b>(i + 1, z);
-                    cv::Vec3b &color2 = frame.at<cv::Vec3b>(i + 2, z);
+                case 3: { // pass 3 grab pixels +1, and +2 ahead and use for colors
+                    cv::Vec3b &color1 = frame.at<cv::Vec3b>(i + 1, z);// x,y + 1
+                    cv::Vec3b &color2 = frame.at<cv::Vec3b>(i + 2, z);// x,y + 2
+                    // set colors accordingly
                     colors[0] += colors[0] * alpha;
                     colors[1] += color1[1] * alpha;
                     colors[2] += color2[2] * alpha;
                     break;
                 }
             }
+            // swap colors
             swapColors(frame, i, z);
-            if(isNegative == true) {
-                invert(frame, i, z);
+            if(isNegative == true) { // if negative variable set
+                invert(frame, i, z);//invert pixel
             }
         }
     }
-    ++passIndex;
-    if(passIndex > 3) passIndex = 0;
-    static double max = 4.0f;
-    if(alpha < 0)
-        tr = translation_variable;
-    else if(alpha > max) {
-        tr = -translation_variable;
-        max += 3.0f;
-        if(max > 23) max = 4.0f;
+    ++passIndex; // pass index increased once each frame
+    if(passIndex > 3) passIndex = 0; // if greater than 3 set back to zero
+    static double max = 4.0f;// max
+    if(alpha < 0) // alpha less than zero
+        tr = translation_variable; // set as translation variable
+    else if(alpha > max) { // greater than max
+        tr = -translation_variable; // negative translation variable
+        max += 3.0f;// max plus equal 3.0
+        if(max > 23) max = 4.0f;// max greater than twenty three max equal four
     }
-    alpha += tr;
+    alpha += tr; // change position
 }
 
 void ac::Blend3(cv::Mat &frame) {
