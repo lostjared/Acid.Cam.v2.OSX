@@ -1533,48 +1533,53 @@ void ac::alphaFlame(cv::Mat &frame) {
     }
 }
 
+// Resize X variable
 int AC_GetFX(int oldw,int x, int nw) {
     float xp = (float)x * (float)oldw / (float)nw;
     return (int)xp;
 }
-
+// Resize Y Variable
 int AC_GetFZ(int oldh, int y, int nh) {
     float yp = (float)y * (float)oldh / (float)nh;
     return (int)yp;
 }
 
+// Image blend
+// cv::Mat as reference
 void ac::imageBlend(cv::Mat &frame) {
-    static double pos = 1.0f;
-    if(blend_set == true) {
+    static double pos = 1.0f;// static pos set to 1
+    if(blend_set == true) {// if image is set
         int i,z;
-        for(i = 0; i < frame.cols; ++i) {
-            for(z = 0; z < frame.rows; ++z) {
+        for(i = 0; i < frame.cols; ++i) { // top to bottom
+            for(z = 0; z < frame.rows; ++z) {// left to right
+                // get resized x,y
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);// get current pixel
+                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);// get pixel to blend from resized x,y
+                // set pixel values
                 current[0] = current[0]+(im[0]*pos);
                 current[1] = current[1]+(im[1]*pos);
                 current[2] = current[2]+(im[2]*pos);
-                swapColors(frame, z, i);
-                if(isNegative) invert(frame, z, i);
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// invert pixel
             }
         }
     }
-    static int direction = 1;
-    static double pos_max = 7.0f;
-    if(direction == 1) {
-        pos += 0.05;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+    static int direction = 1; // static direction is equal to 1
+    static double pos_max = 7.0f;// max pos value
+    if(direction == 1) {// if direction is equal to 1
+        pos += 0.05; // add 0.05 to pos
+        if(pos > pos_max) {// greater than max pos size
+            pos = pos_max;// pos = pos_max
+            direction = 0;// direction set to zero
+            pos_max += 0.5f;// pos max increased by 0.5
         }
-    } else if(direction == 0) {
-        pos -= 0.05;
-        if(pos <= 1) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// direction is zero
+        pos -= 0.05;// pos minus equal 0.05
+        if(pos <= 1) {// pos less than 1
+            if(pos_max > 15) pos_max = 1.0f;// reset pos max
+            direction = 1;// direction set back to 1
         }
     }
 }
