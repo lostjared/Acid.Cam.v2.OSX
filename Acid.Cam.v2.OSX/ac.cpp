@@ -158,17 +158,17 @@ void ac::StrobeEffect(cv::Mat &frame) {
             cv::Vec3b &colors = frame.at<cv::Vec3b>(i, z); // current pixel
             
             switch (passIndex) {
-                case 0: // pass 0 set colors
+                case 0: // pass 0 set color values
                     colors[0] = colors[0] * (-alpha);
                     colors[1] = colors[1] * alpha;
                     colors[2] = colors[2] * alpha;
                     break;
-                case 1: // pass 1 set colors
+                case 1: // pass 1 set color values
                     colors[0] += colors[0] * alpha;
                     colors[1] += colors[1] * (-alpha);
                     colors[2] += colors[2] * alpha;
                     break;
-                case 2: // pas 2 set colors
+                case 2: // pass 2 set color values
                     colors[0] = colors[0] * alpha;
                     colors[1] = colors[1] * alpha;
                     colors[2] = colors[2] * (-alpha);
@@ -203,20 +203,25 @@ void ac::StrobeEffect(cv::Mat &frame) {
     alpha += tr; // change position
 }
 
+// Blend3
+// takes cv::Mat as reference
 void ac::Blend3(cv::Mat &frame) {
-    static int i=0,z=0;
+    static int i=0,z=0;// set i,z to zero
     static double rValue[3] = { 0, 0, 0 };
     for (z = 0; z < frame.cols; ++z) {
         for (i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // get pixel value
             for (int j = 0; j < 3; ++j)
-                color_value[j] += color_value[j] * rValue[j];
+                color_value[j] += color_value[j] * rValue[j]; // loop through each color multiply by rValue
+            // swap colors
             swapColors(frame, i, z);
-            if(isNegative == true) {
-                invert(frame, i, z);
+            if(isNegative == true) {// if isNegative true
+                invert(frame, i, z);// invert pixel
             }
         }
     }
+    // change rValue array based on random function
+    // set to either -0.1 or 0.1
     for (int q = 0; q < 3; ++q)
         rValue[q] += ((rand() % 10) > 5) ? -0.1f : 0.1f;
 }
