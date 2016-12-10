@@ -1998,18 +1998,22 @@ void ac::DoubleVision(cv::Mat &frame) {
         }
     }
 }
-
+// RGB Shift
+// takes cv::Mat reference
 void ac::RGBShift(cv::Mat &frame) {
-    int w = frame.cols;
-    int h = frame.rows;
-    cv::Mat orig = frame.clone();
-    static int shift = 0;
-    for(int z = 3; z < h-3; ++z) {
-        for(int i = 3; i < w-3; ++i) {
+    int w = frame.cols; // frame width
+    int h = frame.rows;// frame height
+    cv::Mat orig = frame.clone();// clone frame to orig
+    static int shift = 0;// shift equals 0
+    for(int z = 3; z < h-3; ++z) {// top to bottom
+        for(int i = 3; i < w-3; ++i) {// left to right
+            // grab pixel values
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
             cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
             cv::Vec3b &r = orig.at<cv::Vec3b>((h-z), (w-i));
+            // switch shift, each state preforms addition on different
+            // pixel component values
             switch(shift) {
                 case 0:
                     buffer[0] += r[0];
@@ -2026,27 +2030,30 @@ void ac::RGBShift(cv::Mat &frame) {
                     buffer[2] += g[2];
                     break;
             }
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            swapColors(frame, z, i);// swap the colors
+            if(isNegative) invert(frame, z, i);// invert current pixel
         }
     }
-    ++shift;
-    if(shift > 2) shift = 0;
+    ++shift;// increase shift
+    if(shift > 2) shift = 0;// shift greater than two reset shift
 }
-
+// RGB Seperation
+// takes cv::Mat
 void ac::RGBSep(cv::Mat &frame) {
-    int w = frame.cols;
-    int h = frame.rows;
-    cv::Mat orig = frame.clone();
-    for(int z = 3; z < h-3; ++z) {
-        for(int i = 3; i < w-3; ++i) {
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    cv::Mat orig = frame.clone();// orig is clone of frame
+    for(int z = 3; z < h-3; ++z) {// top to bottom
+        for(int i = 3; i < w-3; ++i) {// left to right
+            // grab pixel values
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
             cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
+            // set pixel values
             buffer[0] += g[0];
             buffer[2] += b[2];
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            swapColors(frame, z, i); // swap colors
+            if(isNegative) invert(frame, z, i); // invert pixel
         }
     }
 }
