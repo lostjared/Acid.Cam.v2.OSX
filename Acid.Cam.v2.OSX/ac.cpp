@@ -1583,39 +1583,42 @@ void ac::imageBlend(cv::Mat &frame) {
         }
     }
 }
-
+// takes cv::Mat reference
 void ac::imageBlendTwo(cv::Mat &frame) {
-    static double pos = 1.0f;
-    if(blend_set == true) {
-        int i,z;
-        for(i = 0; i < frame.cols; ++i) {
-            for(z = 0; z < frame.rows; ++z) {
+    static double pos = 1.0f; // static pos equal 1.0
+    if(blend_set == true) {// if image is set to blend with
+        int i,z;// loop variables
+        for(i = 0; i < frame.cols; ++i) { // left to right
+            for(z = 0; z < frame.rows; ++z) {// top to bottom
+                // resize x,y
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                // grab pixels
                 cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
+                // set pixel values
                 current[0] = im[0]+(current[0]*pos);
                 current[1] = im[1]+(current[1]*pos);
                 current[2] = im[2]+(current[2]*pos);
-                swapColors(frame, z, i);
-                if(isNegative) invert(frame, z, i);
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i); // invert pixel
             }
         }
     }
-    static int direction = 1;
-    static double pos_max = 7.0f;
-    if(direction == 1) {
-        pos += 0.05;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+    static int direction = 1;// static direction equals 1
+    static double pos_max = 7.0f;// max position set to 7.0
+    if(direction == 1) {// direction equals 1
+        pos += 0.05;// pos plus equal 0.05
+        if(pos > pos_max) {// pos greater than pos_max
+            pos = pos_max;// pos equal pos_max
+            direction = 0;// direction set to zero
+            pos_max += 0.5f;// pos max increases by 0.5
         }
-    } else if(direction == 0) {
-        pos -= 0.05;
-        if(pos <= 1) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// direction equals 0
+        pos -= 0.05;// pos minus 0.05
+        if(pos <= 1) {// less than equal to one
+            if(pos_max > 15) pos_max = 1.0f;// reset
+            direction = 1;// set direction back to 1
         }
     }
 }
