@@ -1887,30 +1887,34 @@ void ac::SortFuzz(cv::Mat &frame) {
         // repeat
     }
 }
-
+// Fuzz filter
+// takes cv::Mat reference
 void ac::Fuzz(cv::Mat &frame) {
-    int w = frame.cols;
-    int h = frame.rows;
-    static int amount = 5;
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
-            if((rand()%amount)==1) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                pixel[0] += rand()%255;
+    int w = frame.cols;// width of frame
+    int h = frame.rows;// height of frame
+    static int amount = 5; // num pixel distortion
+    for(int z = 0; z < h; ++z) {// loop top to bottom
+        for(int i = 0; i < w; ++i) { // loop from left ro gith
+            if((rand()%amount)==1) {// if random is true
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// grab pixel
+                pixel[0] += rand()%255;// add random numbers
                 pixel[1] += rand()%255;
                 pixel[2] += rand()%255;
             }
+            // swap colors
             swapColors(frame, z, i);
+            // if negative invert pixel
             if(isNegative) invert(frame, z, i);
         }
     }
+    // direction equals 1 to start
     static int direction = 1;
-    if(direction == 1) {
-        ++amount;
-        if(amount >= 10) direction = 0;
+    if(direction == 1) {// if direction equals 1
+        ++amount; // increase amount
+        if(amount >= 10) direction = 0; // greater than ten lower to zero
     } else {
-        --amount;
-        if(amount <= 5) direction = 1;
+        --amount;// decrease amount
+        if(amount <= 5) direction = 1;// less than five direction equals 1
     }
 }
 
