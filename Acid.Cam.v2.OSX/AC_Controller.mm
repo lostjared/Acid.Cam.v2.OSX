@@ -287,6 +287,11 @@ void setEnabledProg() {
         stopCV();
         return;
     }
+    
+    if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
+        ac::orig_frame = frame.clone();
+    }
+    
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
         if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
         else ac::isNegative = true;
