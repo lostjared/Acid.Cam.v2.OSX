@@ -1731,38 +1731,44 @@ void ac::DiamondPattern(cv::Mat &frame) {
         }
     }
 }
-
+// Mirror blend
+// blend current pixel in loop with current pixel
+// on opposite side of image (width-x), (height-y)
+// then increase / decrease the pixel colors
+// takes cv::Mat reference
 void ac::MirrorBlend(cv::Mat &frame) {
-    static double pos = 1.0;
-    int w = frame.cols;
-    int h = frame.rows;
-    cv::Mat orig;
-    orig = frame.clone();
-    for(int z = 2; z < h-3; ++z) {
-        for(int i = 2; i < w-3; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
+    static double pos = 1.0; // pos set to 1.0
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    cv::Mat orig;// unaltered image
+    orig = frame.clone();// clone to orig
+    for(int z = 2; z < h-3; ++z) { // from top to bottom
+        for(int i = 2; i < w-3; ++i) {// from left to right
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i); // get pixel at i,z
+            cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));// get pixel at w-i, h-z
+            // set pixel rgb components
             buffer[0] += pix1[0]*pos;
             buffer[1] += pix1[1]*pos;
             buffer[2] += pix1[2]*pos;
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i); // invert if isNegative true
         }
     }
+    // static direction variable
     static int direction = 1;
-    static double pos_max = 2.0f;
-    if(direction == 1) {
-        pos += 0.1;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 1.0f;
+    static double pos_max = 2.0f; // position maximum
+    if(direction == 1) {// if direction is equal to 1
+        pos += 0.1;// pos plus equal 0.1
+        if(pos > pos_max) {// pos greater than pos max
+            pos = pos_max;// pos = pos max
+            direction = 0;// direction equals 0
+            pos_max += 1.0f;// pos max pluse qual 1.0
         }
-    } else if(direction == 0) {
-        pos -= 0.1;
-        if(pos <= 1.0) {
-            if(pos_max > 2.0f) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// if direction equals zero
+        pos -= 0.1;// pos plus equal 0.1
+        if(pos <= 1.0) {// pos less than 1.0
+            if(pos_max > 2.0f) pos_max = 1.0f;// pos max greater than 2, pos_max set to 1
+            direction = 1;// direction set back to 1
         }
     }
 }
