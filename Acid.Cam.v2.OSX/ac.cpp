@@ -2066,12 +2066,12 @@ void ac::RGBSep(cv::Mat &frame) {
         }
     }
 }
-
+// Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {
-    ac::pass2_alpha = 0.50;
-    Pass2Blend(frame);
+    ac::pass2_alpha = 0.50; // set to 50%
+    Pass2Blend(frame);// call Pass2 function
 }
-
+// call custom fitler defined elsewhere
 void ac::custom(cv::Mat &frame) {
     custom_filter(frame);
 }
