@@ -641,7 +641,7 @@ void ac::triBlendWithImage(cv::Mat &frame) {
     beta += -trans_var;
 }
 
-// Image Strob - unused
+// Image Strobe - unused
 void ac::imageStrobe(cv::Mat &frame) {
     if(images_Enabled == false) return;
     static double alpha = 1.0f;
@@ -749,22 +749,25 @@ void ac::colorAccumulate1(cv::Mat &frame) {
 }
 // Color Accumulate 2
 void ac::colorAccumulate2(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
+    static double alpha = 1.0f;// static alpha set to 1.0
+    static int i = 0, z = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) {// left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
+            // grab pixel
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            // set pixel rgb values
             buffer[0] += (buffer[2]*alpha)+i;
             buffer[1] += (buffer[0]*alpha)+z;
             buffer[2] += (buffer[1]*alpha)+i-z;
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap
+            if(isNegative) invert(frame, i, z);// if isNegative invert
         }
     }
-    static double trans_var = 0.05f;
-    alpha += trans_var;
-    if(alpha > 24) alpha = 1.0f;
+    static double trans_var = 0.05f;// translation variable
+    alpha += trans_var;// alpha plus equal translation variable
+    if(alpha > 24) alpha = 1.0f;// if alpha greater than 24 reset to 1
 }
+
 void ac::colorAccumulate3(cv::Mat &frame) {
     static double alpha = 1.0f;
     static int i = 0, z = 0;
