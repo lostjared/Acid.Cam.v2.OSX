@@ -73,19 +73,9 @@ inline void ac::swapColors(cv::Mat &frame, int x, int y) {
 // invert pixel in frame at x,y
 inline void ac::invert(cv::Mat &frame, int x, int y) {
     cv::Vec3b &cur = frame.at<cv::Vec3b>(x,y);// cur pixel
-    if(isNegative == true) {// if isNegative is true
-        cur[0] = ~cur[0]; // bit manipulation sets opposite
-        cur[1] = ~cur[1];
-        cur[2] = ~cur[2];
-    }
-    if(iRev == true) { // if reverse
-        cv::Vec3b temp;
-        temp = cur;
-        // reverse order
-        cur[2] = temp[0];
-        cur[1] = temp[1];
-        cur[0] = temp[2];
-    }
+    cur[0] = ~cur[0]; // bit manipulation sets opposite
+    cur[1] = ~cur[1];
+    cur[2] = ~cur[2];
 }
 // SelfAlphaBlend - Perform out of Bounds AlphaBlend on source image
 void ac::SelfAlphaBlend(cv::Mat &frame) {
