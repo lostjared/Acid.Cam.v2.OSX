@@ -1659,75 +1659,85 @@ void ac::imageBlendThree(cv::Mat &frame) {
         }
     }
 }
-
+// preform GaussianBlur
 void ac::GaussianBlur(cv::Mat &frame) {
     cv::Mat out;
     cv::GaussianBlur(frame, out, cv::Size(5, 5), 0, 0);
     frame = out;
 }
-
+// preform MedianBlur
 void ac::MedianBlur(cv::Mat &frame) {
     cv::Mat out;
     cv::medianBlur(frame, out, 5);
     frame = out;
 }
-
+// Increase / Decrease GaussianBlur
+// takes cv::Mat reference
 void ac::BlurDistortion(cv::Mat &frame) {
-    cv::Mat out;
+    cv::Mat out;// output
     static unsigned int index = 1, direction = 1;
-    cv::GaussianBlur(frame, out, cv::Size(index, index), 0, 0);
-    if(direction == 1) {
-    	if(index >= 51) direction = 0;
-    	else index += 2;
+    cv::GaussianBlur(frame, out, cv::Size(index, index), 0, 0);// output
+    if(direction == 1) {// if direction equals 1
+    	if(index >= 51) direction = 0;// if greater than 51 set to zero go
+        // opposite direction
+    	else index += 2;// increase
     } else {
-        if(index <= 1) direction = 1;
-        else index -= 2;
+        if(index <= 1) direction = 1;// go opposite direction
+        else index -= 2;// decrease
     }
-    frame = out;
+    frame = out;// frame equals out
 }
 
+// Draw gradient diamonds that grow and shrink and blend with source image
+// takes cv::Mat reference
 void ac::DiamondPattern(cv::Mat &frame) {
-    static double pos = 1.0;
-    int w = frame.cols;
-    int h = frame.rows;
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
-            if((i%2) == 0) {
-                if((z%2) == 0) {
+    static double pos = 1.0;// set pos to 1.0
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    for(int z = 0; z < h; ++z) {// from top to bottom
+        for(int i = 0; i < w; ++i) {// from left to right
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// get current pixel
+            // calculate the colors of the gradient diamonds
+            if((i%2) == 0) {// if i % 2 equals 0
+                if((z%2) == 0) {// if z % 2 equals 0
+                    // set pixel component values
                     buffer[0] = 1-pos*buffer[0];
                     buffer[2] = (i+z)*pos;
                 } else {
+                    // set pixel coomponent values
                     buffer[0] = pos*buffer[0]-z;
                     buffer[2] = (i-z)*pos;
                 }
             } else {
-                if((z%2) == 0) {
+                if((z%2) == 0) {// if z % 2 equals 0
+                    // set pixel component values
                     buffer[0] = pos*buffer[0]-i;
                     buffer[2] = (i-z)*pos;
                 } else {
+                    // set pixel component values
                     buffer[0] = pos*buffer[0]-z;
                     buffer[2] = (i+z)*pos;
                 }
             }
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel
         }
     }
+    // static direction starts off with 1
     static int direction = 1;
-    static double pos_max = 7.0f;
-    if(direction == 1) {
-        pos += 0.05;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+    static double pos_max = 7.0f;// pos maximum
+    if(direction == 1) {// direction is 1
+        pos += 0.05;// pos plus equal 0.05
+        if(pos > pos_max) {// if pos greater than pos_max
+            pos = pos_max;// set pos to pos_max
+            direction = 0;// set direction to zero (go other direction)
+            pos_max += 0.5f;// pos_max plus equal 0.5
         }
-    } else if(direction == 0) {
-        pos -= 0.05;
-        if(pos <= 1.0) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// direction is equal to zero
+        pos -= 0.05;// pos minus equal 0.05
+        if(pos <= 1.0) {// if pos <= 1.0
+            if(pos_max > 15) pos_max = 1.0f;// reset is greater than 15
+            direction = 1;// set direction to 1
         }
     }
 }
