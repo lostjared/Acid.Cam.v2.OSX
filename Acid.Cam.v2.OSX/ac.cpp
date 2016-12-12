@@ -847,15 +847,15 @@ void ac::filter3(cv::Mat &frame) {
 void ac::rainbowBlend(cv::Mat &frame) {
     static double alpha = 1.0f;// set static alpha to 1.0
     static int rb = 0, gb = 0, bb = 0;// set static integer r,g,b values
-    if(rb == 0) {// if rb equals 0
+    if(rb == 0) // if rb equals 0
         rb = rand()%255;// set rb to random number
-    } else ++rb;// else increase rb
-    if(gb == 0) {// if gb equals 0
+    else ++rb;// else increase rb
+    if(gb == 0) // if gb equals 0
         gb = rand()%255;// gb equals random number
-    } else ++gb;// else gb increases
-    if(bb == 0) {// if bb equals 0
+    else ++gb;// else gb increases
+    if(bb == 0) // if bb equals 0
         bb = rand()%255;// bb equals random number
-    } else ++bb;// else increase bb
+    else ++bb;// else increase bb
     static int i = 0, z = 0;// loop variables
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
