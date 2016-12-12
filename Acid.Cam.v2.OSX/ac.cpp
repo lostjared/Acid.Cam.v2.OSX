@@ -889,19 +889,21 @@ void ac::rainbowBlend(cv::Mat &frame) {
     }
 }
 
+// random pixel value added to each pixel RGB value each frame
+// takes cv::Mat reference
 void ac::randBlend(cv::Mat &frame) {
-    unsigned char rr = rand()%255;
-    unsigned char rg = rand()%255;
-    unsigned char rb = rand()%255;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-            buffer[0] += rr;
-            buffer[1] += rg;
-            buffer[2] += rb;
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+    unsigned char rr = rand()%255;// random Red
+    unsigned char rg = rand()%255;// random Green
+    unsigned char rb = rand()%255;// random Blue
+    static int i = 0, z = 0;// i,z loop variables
+    for(z = 0; z < frame.cols; ++z) {// from left to right
+        for(i = 0; i < frame.rows; ++i) {// from top to bottom
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// pixel at
+            buffer[0] += rr;// add random R
+            buffer[1] += rg;// add random G
+            buffer[2] += rb;// add random B
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if negative, invert pixel
         }
     }
 }
