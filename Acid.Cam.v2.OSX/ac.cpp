@@ -908,148 +908,172 @@ void ac::randBlend(cv::Mat &frame) {
     }
 }
 
+// takes cv::Mat reference
 void ac::newBlend(cv::Mat &frame) {
-    static int pos = 300;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
+    static int pos = 300; // static int pos equal 300
+    static int i = 0, z = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) {// left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
+            // grab pixel
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            // set pixel RGB values
             buffer[0] = buffer[2]+(1+(i*z)/pos);
             buffer[1] = buffer[1]+(1+(i*z)/pos);
             buffer[2] = buffer[0]+(1+(i*z)/pos);
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if(isNegative) invert pixel
         }
     }
-    static unsigned int dir = 1;
-    if(dir == 1) {
-        pos += 25;
-        if(pos > 1024) {
+    static unsigned int dir = 1;// static direction equals 1
+    if(dir == 1) {// dir equals 1
+        pos += 25;// pos plus equal 25
+        if(pos > 1024) {// greater than 1024
             pos = 1024;
-            dir = 2;
+            dir = 2;// set direction to 2
         }
     }
-    else {
-        pos -= 25;
-        if(pos < 100) {
+    else {// direction != 1
+        pos -= 25;// minus 25
+        if(pos < 100) {// less than 100
             pos = 100;
-            dir = 1;
+            dir = 1;// set direction to 1
         }
     }
 }
-
+// pixelScale
+// takes cv::Mat reference
 void ac::pixelScale(cv::Mat &frame) {
-    static double pos = 1.0f;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
+    static double pos = 1.0f;// pos equals 1.0
+    static int i = 0, z = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) {// left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
+            // grab pixel reference
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-            cv::Vec3b buf = buffer;
+            cv::Vec3b buf = buffer;// temp pixel
+            // set RGB pixel values
             buffer[0] = (buf[0]*pos)+(buf[0]-buffer[2]);
             buffer[1] = (buf[1]*pos)+(buf[1]+buffer[1]);
             buffer[2] = (buf[2]*pos)+(buf[2]-buffer[0]);
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if isNegative invert pixel
         }
     }
-    static int direction = 1;
-    static double pos_max = 3.0f;
-    if(direction == 1) {
-        pos += 0.1f;
-        if(pos > pos_max) {
+    static int direction = 1;// direction equals 1
+    static double pos_max = 3.0f;// pos_max equals 3.0
+    if(direction == 1) {// direction equals 1
+        pos += 0.1f;// plus equal 0.1
+        if(pos > pos_max) {// greater than pos_max
             pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+            direction = 0;// set direction to zero
+            pos_max += 0.5f;// increase pos_max
         }
-    } else if(direction == 0) {
-        pos -= 0.1f;
-        if(pos <= 0) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// direction equals 0
+        pos -= 0.1f;// pos minus equal 0.1
+        if(pos <= 0) {// pos less than equal 0
+            if(pos_max > 15) pos_max = 1.0f;// pos_max > 14 reset
+            direction = 1;// direction set back to 1
         }
     }
 }
-
+// glitchSort
+// takes cv::Mat reference
 void ac::glitchSort(cv::Mat &frame) {
-
-    static double pos = 1.0f;
-    int w = frame.cols;
-    int h = frame.rows;
-    static std::vector<unsigned int> v;
-    v.reserve(w);
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
+    static double pos = 1.0f; // static pos set to 1.0
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    static std::vector<unsigned int> v;// static vector of unsigned int
+    v.reserve(w);// reserve at least w bytes
+    for(int z = 0; z < h; ++z) {// top to bottom
+        for(int i = 0; i < w; ++i) { // left to right
+            // grab current pixel value reference
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
+            // temporary unsigned int variable
             unsigned int vv = 0;
+            // pointer to unsigned char * of vv variable
             unsigned char *cv = (unsigned char*)&vv;
+            // set RGB values
             cv[0] = value[0];
             cv[1] = value[1];
             cv[2] = value[2];
             cv[3] = 0;
-            v.push_back(vv);
+            v.push_back(vv);// push back into vector
         }
-        std::sort(v.begin(), v.end());
-        for(int i = 0; i < w; ++i) {
+        std::sort(v.begin(), v.end());// sort the row of pixels
+        for(int i = 0; i < w; ++i) {// left to right
+            // pointer to unsigned integer stored at index i
             unsigned char *value = (unsigned char*)&v[i];
+            // grab current pixel reference as cv::Vec3b
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // alphablend pixel with values from v at index i
             pixel[0] = pixel[0] + (pos)*value[0];
             pixel[1] = pixel[1] + (pos)*value[1];
             pixel[2] = pixel[2] + (pos)*value[2];
+            // swap the colors
             swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            if(isNegative) invert(frame, z, i); // if isNegative invert pixel
             
         }
-        v.erase(v.begin(), v.end());
+        v.erase(v.begin(), v.end());// erase pixel data
     }
-    static int direction = 1;
-    static double pos_max = 7.0f;
-    if(direction == 1) {
-        pos += 0.05;
-        if(pos > pos_max) {
-            pos = pos_max;
-            direction = 0;
-            pos_max += 0.5f;
+    static int direction = 1;// static direction set to 1
+    static double pos_max = 7.0f;// pos_max = 7.0
+    if(direction == 1) {// direction equals 1
+        pos += 0.05;// pos plus equal 0.05
+        if(pos > pos_max) {// pos greater than pos_max
+            pos = pos_max;// set pos to pos_max
+            direction = 0;// direction equals 0
+            pos_max += 0.5f;// pos_max plus equal 0.5
         }
-    } else if(direction == 0) {
-        pos -= 0.05;
-        if(pos <= 1) {
-            if(pos_max > 15) pos_max = 1.0f;
-            direction = 1;
+    } else if(direction == 0) {// direction is 0
+        pos -= 0.05;// pos minus equal 0.05
+        if(pos <= 1) {// pos less than equal 1
+            // if pos_max greater than 15
+            if(pos_max > 15) pos_max = 1.0f;//reset pos_max
+            direction = 1;// set direction back to 1
         }
     }
 }
 
+// takes cv::Mat reference
 void ac::pixelSort(cv::Mat &frame) {
-    int w = frame.cols;
-    int h = frame.rows;
-    static std::vector<unsigned int> v;
-    v.reserve(w);
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    static std::vector<unsigned int> v;// static vector of unsigned int
+    v.reserve(w);// reserve w bytes
+    for(int z = 0; z < h; ++z) { // top to bottom
+        for(int i = 0; i < w; ++i) { // left to right
             //unsigned int value = frame.at<unsigned int>(z, i);
+            // grab pixel reference
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
             unsigned int vv = 0;
+            // unsigned char * of vv
             unsigned char *cv = (unsigned char*)&vv;
+            // set RGB values
             cv[0] = value[0];
             cv[1] = value[1];
             cv[2] = value[2];
             cv[3] = 0;
+            // push back into vector v
             v.push_back(vv);
         }
+        // sort vector v
         std::sort(v.begin(), v.end());
-        for(int i = 0; i < w; ++i) {
+        for(int i = 0; i < w; ++i) {// left to right
+            // unsigned char pointer of vector v at index i
             unsigned char *value = (unsigned char*)&v[i];
+            // get pixel reference
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // add to pixel without scaling
             pixel[0] += value[0];
             pixel[1] += value[1];
             pixel[2] += value[2];
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// invert pixel
         }
         v.erase(v.begin(), v.end());
     }
 }
-
+// preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
     int num;
     do {
@@ -1058,6 +1082,7 @@ void ac::randomFilter(cv::Mat &frame) {
     draw_func[num](frame);
 }
 
+// variables for changePixel
 int current_filterx = 0;
 int bytesPerSample = 0;
 int bytesPerRow = 0;
@@ -1071,7 +1096,9 @@ int randomNumber = 0;
 int reverse = 0;
 bool negate = false;
 
+// changePixel for Alpha Flame Filters
 void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double pos, double *count) {
+    //each case is a different operation on the RGB values stored in buffer
     switch(current_filterx) {
         case 0:
         {
@@ -1520,31 +1547,36 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
     }
 }
 
+// alpha flame filters
+// a collection of filters
 void ac::alphaFlame(cv::Mat &frame) {
-    static double pos = 1.0f;
-    double count = 1.0f;
-    static int i = 0, z = 0;
-    width = frame.cols;
-    height = frame.rows;
+    static double pos = 1.0f;// pos set to 1
+    double count = 1.0f;// count set to 1
+    static int i = 0, z = 0;// i,z variables
+    width = frame.cols;// frame width
+    height = frame.rows;// frame height
     for(z = 0; z < frame.cols; ++z) {
         for(i = 0; i < frame.rows; ++i) {
+            // grab pixel reference as cv::Vec3b
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            // call change pixel function
             changePixel(frame, z, i, buffer, pos, &count);
         }
     }
+    // static direction set to 1
     static int direction = 1;
-    if(direction == 1) {
-        pos += 0.1f;
-        if(pos > 512) {
-            pos = 512;
-            direction = 0;
+    if(direction == 1) {// if direction is equal to 1
+        pos += 0.1f;// pos plus equal 0.1
+        if(pos > 512) {// pos greater than 512
+            pos = 512;// pos equal 512
+            direction = 0;// direction equals 0
         }
     }
     else {
-        pos -= 0.1f;
-        if(pos < 1) {
-            pos = 1;
-            direction = 1;
+        pos -= 0.1f; // pos minus equal 0.1
+        if(pos < 1) {// if pos less than 1
+            pos = 1;// pos equal 1
+            direction = 1;// direction set back to 1
         }
     }
 }
