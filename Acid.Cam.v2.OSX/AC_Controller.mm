@@ -121,7 +121,7 @@ void setEnabledProg() {
     if(ac::draw_strings[ac::draw_offset] == "Plugin") {
         [plugin_window orderFront:self];
     }
-    if((ac::draw_strings[ac::draw_offset] == "Blend with Image") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #2") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #3")) {
+    if((ac::draw_strings[ac::draw_offset] == "Blend with Image") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #2") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #3") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #4")) {
         [image_select orderFront: self];
     }
 }

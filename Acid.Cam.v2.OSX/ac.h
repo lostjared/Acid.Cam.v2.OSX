@@ -98,6 +98,7 @@ namespace ac {
     void imageBlend(cv::Mat &frame);
     void imageBlendTwo(cv::Mat &frame);
     void imageBlendThree(cv::Mat &frame);
+    void imageBlendFour(cv::Mat &frame);
     void GaussianBlur(cv::Mat &frame);
     void MedianBlur(cv::Mat &frame);
     void BlurDistortion(cv::Mat &frame);

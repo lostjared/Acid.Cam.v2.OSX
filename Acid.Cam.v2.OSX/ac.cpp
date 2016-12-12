@@ -26,14 +26,14 @@ namespace ac {
     int snapshot_Type = 0;
     
     // draw strings (function names)
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 51;
+    int draw_max = 52;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -1713,6 +1713,68 @@ void ac::imageBlendThree(cv::Mat &frame) {
         }
     }
 }
+
+// imageblend4
+void ac::imageBlendFour(cv::Mat &frame) {
+    if(blend_set == true) {
+        static unsigned int state = 0;
+        static double pos = 1.0;
+        int w = frame.cols;// frame width
+        int h = frame.rows;// frame height
+        int cw = blend_image.cols;
+        int ch = blend_image.rows;
+        for(int z = 3; z < h-3; ++z) {// top to bottom
+            for(int i = 3; i < w-3; ++i) {// left to right
+                // current pixel by reference
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                // calculate resized image based x,y positions
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                // grab pixel refernces from blend_image
+                cv::Vec3b &pr = blend_image.at<cv::Vec3b>((ch-cY), (cw-cX));
+                cv::Vec3b &pg = blend_image.at<cv::Vec3b>((ch-cY), cX);
+                cv::Vec3b &pb = blend_image.at<cv::Vec3b>(cY, (cw-cX));
+                // perform operation based on current state variable
+                switch(state) {
+                    case 0:
+                        pixel[0] += (pr[0]+pg[1]+pb[2])*pos;
+                        pixel[1] += (pr[2]+pg[1]+pb[0])*pos;
+                        break;
+                    case 1:
+                        pixel[1] += (pr[2]+pg[1]+pb[0])*pos;
+                        pixel[2] += (pr[0]+pg[1]+pb[2])*pos;
+                        break;
+                    case 2:
+                        pixel[2] += (pr[0]+pg[1]+pb[2])*pos;
+                        pixel[0] += (pr[2]+pg[1]+pb[0])*pos;
+                        break;
+                }
+                
+            }
+            
+        }
+        ++state;// increase state
+        if(state > 2) state = 0; // greater than 2 reset state
+        static int direction = 1;
+        // static pos_max equals 7.0
+        static double pos_max = 3.0f;
+        if(direction == 1) {// if direction equals 1
+            pos += 0.005;// pos plus equal 0.005
+            if(pos > pos_max) {// pos greater than pos_max
+                pos = pos_max;// pos set to pos_max
+                direction = 0;// direction set to zero
+                pos_max += 0.5f;// pos_max plus equal 0.5
+            }
+        } else if(direction == 0) {// direction is set to 0
+            pos -= 0.005;// pos minus equal 0.005
+            if(pos <= 1) {/// pos less than equal 1
+                if(pos_max > 3) pos_max = 1.0f;//reset pos_max if greater than 15
+                direction = 1;// direction set to 1
+            }
+        }
+    }
+}
+
 // preform GaussianBlur
 void ac::GaussianBlur(cv::Mat &frame) {
     cv::Mat out;
