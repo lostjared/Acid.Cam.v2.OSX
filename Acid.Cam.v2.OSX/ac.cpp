@@ -767,104 +767,124 @@ void ac::colorAccumulate2(cv::Mat &frame) {
     alpha += trans_var;// alpha plus equal translation variable
     if(alpha > 24) alpha = 1.0f;// if alpha greater than 24 reset to 1
 }
-
+// Color Accumulate #3
+// takes cv::Mat reference
 void ac::colorAccumulate3(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+    static double alpha = 1.0f;// set alpha to 1.0
+    static int i = 0, z = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) {// from left to right
+        for(i = 0; i < frame.rows; ++i) {// from top to bottom
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel reference
+            // set rgb values
             buffer[0] = (-buffer[2])+z;
             buffer[1] = (-buffer[0])+i;
             buffer[2] = (-buffer[1])+alpha;
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if isNegative true invert pixel
         }
     }
-    static double trans_var = 0.05f;
-    alpha += trans_var;
-    if(alpha > 24) alpha = 1.0f;
+    static double trans_var = 0.05f;// 0.05 variable
+    alpha += trans_var;// alpha plus equal translation variable
+    if(alpha > 24) alpha = 1.0f;// alpha greater than 24 set to 1 (reset)
 }
 
+// takes cv::Mat reference
 void ac::filter8(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int i = 0, z = 0, q = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-            for(q = 0; q < 3; ++q) {
-                buffer[q] = buffer[q]+((i+z)*alpha);
+    static double alpha = 1.0f;// set static alpha to 1.0
+    static int i = 0, z = 0, q = 0;// loop variable
+    for(z = 0; z < frame.cols; ++z) {// from left to right
+        for(i = 0; i < frame.rows; ++i) {// from top to bottom
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel
+            for(q = 0; q < 3; ++q) {// loop each rgb value
+                buffer[q] = buffer[q]+((i+z)*alpha);// preform calculation
                 
             }
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if isNegative invert
         }
     }
+    // static direction equals 1
     static int direction = 1;
-    if(direction == 1) {
-        alpha += 0.05f;
-        if(alpha > 3) { alpha = 3; direction = 2; }
+    if(direction == 1) {// if direction equals 1
+        alpha += 0.05f;// alpha plus equal 0.05
+        if(alpha > 3) { alpha = 3; direction = 2; }// alpha greater than 3 set direction to 2
     } else {
-        alpha -= 0.05f;
-        if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
+        alpha -= 0.05f;// alpha minus equal 0.05
+        if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }//alpha greater than 3 set direction to 1
     }
 }
 
+// takes cv::Mat reference
 void ac::filter3(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int i = 0, z = 0, q = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-            for(q = 0; q < 3; ++q) {
-                buffer[q] = buffer[0]+(buffer[q])*(alpha);
+    static double alpha = 1.0f;// set static alpha to 1.0
+    static int i = 0, z = 0, q = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) {// left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel reference
+            for(q = 0; q < 3; ++q) {// loop through rgb values
+                buffer[q] = buffer[0]+(buffer[q])*(alpha);// preform calculation
             }
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if isNegative invert pixel
         }
     }
+    // direction equals 1
     static int direction = 1;
-    if(direction == 1) {
-        alpha += 0.1f;
-        if(alpha > 6) { alpha = 6; direction = 2; }
+    if(direction == 1) { // if direction equals 1
+        alpha += 0.1f;// alpha plus equal 0.1
+        if(alpha > 6) { alpha = 6; direction = 2; } // if alpha greater than 6 set alpha to 6 direction to 2
     } else {
-        alpha -= 0.05f;
-        if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
+        alpha -= 0.05f;// alpha minus equal 0.1
+        if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; } // if alpha lses than equal 0.1 set to 0.1 direction equals 1
     }
 }
 
+// takes cv::Mat as reference
+// uses 3 static variables to represent the RGB values
+// to mulitply by the alpha variable
+// each frame they either increase or are reset to a random number when set to zero
+// when they reach a number greater than 255 they are reset to zero
 void ac::rainbowBlend(cv::Mat &frame) {
-    static double alpha = 1.0f;
-    static int rb = 0, gb = 0, bb = 0;
-    if(rb == 0) {
-        rb = rand()%255;
-    } else ++rb;
-    if(gb == 0) {
-        gb = rand()%255;
-    } else ++gb;
-    if(bb == 0) {
-        bb = rand()%255;
-    } else ++bb;
-    static int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
+    static double alpha = 1.0f;// set static alpha to 1.0
+    static int rb = 0, gb = 0, bb = 0;// set static integer r,g,b values
+    if(rb == 0) {// if rb equals 0
+        rb = rand()%255;// set rb to random number
+    } else ++rb;// else increase rb
+    if(gb == 0) {// if gb equals 0
+        gb = rand()%255;// gb equals random number
+    } else ++gb;// else gb increases
+    if(bb == 0) {// if bb equals 0
+        bb = rand()%255;// bb equals random number
+    } else ++bb;// else increase bb
+    static int i = 0, z = 0;// loop variables
+    for(z = 0; z < frame.cols; ++z) {// left to right
+        for(i = 0; i < frame.rows; ++i) {// top to bottom
+            // grab pixel as cv::Vec3b reference
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            // add to rgb values alpha * rb,gb,bb variables
             buffer[0] += alpha*rb;
             buffer[1] += alpha*gb;
             buffer[2] += alpha*bb;
-            swapColors(frame, i, z);
-            if(isNegative) invert(frame, i, z);
+            swapColors(frame, i, z);// swap colors
+            if(isNegative) invert(frame, i, z);// if isNegative invert pixel
         }
     }
+    // if rb greater than 255 set to zero
     if(rb > 255) rb = 0;
+    // if gb greater than 255 set to zero
     if(gb > 255) gb = 0;
+    // if bb greater than 255 set to zero
     if(bb > 255) bb = 0;
+    // static int direction equals 1
     static int direction = 1;
-    if(direction == 1) {
-        alpha += 0.1f;
+    if(direction == 1) {// if direction equals 1
+        alpha += 0.1f;// increase alpha
+        // alpha greater than 6 change direction
         if(alpha > 6) { alpha = 6; direction = 2; }
     } else {
+        // decrease alpha
         alpha -= 0.05f;
+        // if alpha <= 0.1 change direction
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
 }
