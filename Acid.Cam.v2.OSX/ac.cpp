@@ -1085,22 +1085,24 @@ void ac::randomFilter(cv::Mat &frame) {
 void ac::randomFlash(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static double pos = 1.0;
-    
+    static double pos = 1.0;// pos index
+    // a random red,green,blue value
     int random_r = rand()%255, random_g = rand()%255, random_b = rand()%255;
-    
+    // top to bottom
     for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
+        for(int i = 0; i < w; ++i) {// left to right
+            // get pixel reference
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // calculate RGB values
             pixel[0] += pos*random_r;
             pixel[1] += pos*random_g;
             pixel[2] += pos*random_b;
-            
+            // swap colors
             swapColors(frame, z, i);
+            // if isNegative true invert pixel
             if(isNegative) invert(frame, z, i);
         }
     }
-    
     // static int direction
     static int direction = 1;
     // pos max
