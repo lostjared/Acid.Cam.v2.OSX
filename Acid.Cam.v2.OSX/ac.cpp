@@ -9,7 +9,7 @@
 #include "ac.h"
 #include "fractal.h"
 
-// acid cam namespace
+// Acid Cam namespace
 namespace ac {
     // variables
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
@@ -1097,8 +1097,9 @@ int reverse = 0;
 bool negate = false;
 
 // changePixel for Alpha Flame Filters
+// this function is called once for each pixel in the source image
 void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double pos, double *count) {
-    //each case is a different operation on the RGB values stored in buffer
+    //each case is a different operation on the RGB pixel values stored in buffer
     switch(current_filterx) {
         case 0:
         {
