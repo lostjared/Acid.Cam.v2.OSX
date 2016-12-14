@@ -95,6 +95,7 @@ namespace ac {
     void glitchSort(cv::Mat &frame);
     void pixelSort(cv::Mat &frame);
     void randomFilter(cv::Mat &frame);
+    void randomFlash(cv::Mat &frame);
     void imageBlend(cv::Mat &frame);
     void imageBlendTwo(cv::Mat &frame);
     void imageBlendThree(cv::Mat &frame);
