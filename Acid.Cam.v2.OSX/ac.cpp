@@ -1,10 +1,15 @@
 /*
  *
- *  Acid Cam functions for OpenCV
+ * Acid Cam functions for OpenCV
  * written by Jared Bruni
  * http://lostsidedead.com
  * (C) 2016 under GPL
- */
+ * One quick note, most of the time when writing programs using x,y variables x goes first
+ * the OpenCV Mat at function that returns a pixel is reversed. 
+ * y is first. Example
+ * cv::Vec3b &v = frame.at<cv::Vec3b>(y, x);
+ *
+*/
 
 #include "ac.h"
 #include "fractal.h"
