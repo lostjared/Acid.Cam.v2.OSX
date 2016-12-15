@@ -2247,22 +2247,30 @@ void ac::RGBSep(cv::Mat &frame) {
         }
     }
 }
-
+// Gradient Rainbow
+// takes cv::Mat reference
 void ac::GradientRainbow(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    
+    // start color double
     double start_color = (1+(rand()%255))* 0.5;
     
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
+    for(int z = 0; z < h; ++z) { // top to bottom
+        for(int i = 0; i < w; ++i) {// left to right
+            // reference to current pixel
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // color RGB variables
             int color_R = start_color * 4, color_G = start_color * 6, color_B = start_color * 8;
+            // add to pixel color
             pixel[0] += color_R;
             pixel[1] += color_G;
             pixel[2] += color_B;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
-        start_color += 0.1;
+        start_color += 0.1;// increase start_color
     }
 }
 
