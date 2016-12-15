@@ -6,7 +6,7 @@
 #include "fractal.h"
 
 namespace frac {
-	double paramA = 0.519;
+    double paramA = 0.9;//0.519;
 	double paramB = 0.688;
 	float zoom = 0.5;
     double red_color = 3.3;
@@ -23,16 +23,16 @@ namespace frac {
 
 void frac::FractalLogic() {
     if(dir == 1) {
-        paramA -= 0.05f;
+        paramA -= 0.01f;
         if(paramA <= 0.2f) {
             dir = 0;
-            paramB -= 0.1f;
-            if(paramB < 0.500) paramB = 0.688;
+            radius -= rand()%50;
+            if(radius > 60) radius = 180;
         }
         
     } else {
-        paramA += 0.05f;
-        if(paramA > 0.519) dir = 1;
+        paramA += 0.01f;
+        if(paramA >= 1.0f) dir = 1;
     }
 
 }
