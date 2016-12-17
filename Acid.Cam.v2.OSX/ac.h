@@ -115,6 +115,7 @@ namespace ac {
     void RGBSep(cv::Mat &frame);
     void GradientRainbow(cv::Mat &frame);
     void GradientRainbowFlash(cv::Mat &frame);
+    void Reverse(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
