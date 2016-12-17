@@ -2331,13 +2331,11 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
 void ac::Reverse(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-
-    cv::Mat orig = frame.clone();
-    
-    for(int z = 0; z < h; ++z) {
-        for(int i = 1; i < w-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &rev = orig.at<cv::Vec3b>(z, (w-i));
+    cv::Mat orig = frame.clone(); // clone frame (make a copy)
+    for(int z = 0; z < h; ++z) {// top to botom
+        for(int i = 1; i < w-1; ++i) { // left to right
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // cur pixel
+            cv::Vec3b &rev = orig.at<cv::Vec3b>(z, (w-i)); // opposite pixel (width-i)
             pixel = rev;
         }
     }
