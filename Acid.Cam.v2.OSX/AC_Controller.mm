@@ -284,10 +284,24 @@ void setEnabledProg() {
     if(isPaused) return;
     cv::Mat frame;
     if(capture.read(frame) == false) {
+        ++frame_cnt;
+        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+        if(ac::noRecord == false) {
+            writer.write(frame);
+            if(file.is_open()) {
+                file.seekg(0, std::ios::end);
+                file_size = file.tellg();
+            }
+            float val = frame_cnt;
+            float size = total_frames;
+            
+            if(size != 0)
+            ftext << " - " <<(val/size)*100 << "% ";
+        }
+        setFrameLabel(ftext);
         stopCV();
         return;
     }
-    
     if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
         ac::orig_frame = frame.clone();
     }
@@ -300,7 +314,15 @@ void setEnabledProg() {
     ac::draw_func[ac::draw_offset](frame);
 	++frame_cnt;
     imshow("Acid Cam v2", frame);
+
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+    
+    if(ac::noRecord == false) {
+        float val = frame_cnt;
+        float size = total_frames;
+        if(size != 0)
+        ftext << " - " << (val/size)*100 << "% ";
+    }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
         writer.write(frame);
