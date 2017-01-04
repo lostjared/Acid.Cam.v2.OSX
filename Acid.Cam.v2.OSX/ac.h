@@ -119,6 +119,7 @@ namespace ac {
     void Scanlines(cv::Mat &frame);
     void TVStatic(cv::Mat &frame);
     void MirrorAverage(cv::Mat &frame);
+    void MirrorAverageMix(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
