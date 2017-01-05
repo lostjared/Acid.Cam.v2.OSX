@@ -2370,24 +2370,30 @@ void ac::TVStatic(cv::Mat &frame) {
     if(dir >= 2) dir = 0;
 }
 // Mirror Average
+// takes cv::Mat reference
 void ac::MirrorAverage(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    cv::Mat orig = frame.clone();
-    static float pos = 1.0f;
-    for(int z = 1; z < h-1; ++z) {
-        for(int i = 1; i < w-1; ++i) {
+    cv::Mat orig = frame.clone(); // clone original frame (make a copy)
+    static float pos = 1.0f; // current index
+    for(int z = 1; z < h-1; ++z) { // top to bottom
+        for(int i = 1; i < w-1; ++i) {// left to right
+            // refernce to current pixel located at i,z
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b mir_pix[3];
-            mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i));
-            mir_pix[1] = orig.at<cv::Vec3b>((h-z), i);
-            mir_pix[2] = orig.at<cv::Vec3b>(z,(w-i));
+            cv::Vec3b mir_pix[3]; // array of Vec3b variables
+            mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i)); // pixel at w-i, h-z
+            mir_pix[1] = orig.at<cv::Vec3b>((h-z), i); // pixel at i, h-z
+            mir_pix[2] = orig.at<cv::Vec3b>(z,(w-i)); // pixel at w-i, z
+            // take each component from mir_pix and find the average
+            // with the same index from each variable in the mir_pix array
+            // then multiply it by the position index (pos) then add it
+            // to current pixel
             pixel[0] += ((mir_pix[0][0]+mir_pix[1][0]+mir_pix[2][0])/3)*pos;
             pixel[1] += ((mir_pix[0][1]+mir_pix[1][1]+mir_pix[2][1])/3)*pos;
             pixel[2] += ((mir_pix[0][2]+mir_pix[1][2]+mir_pix[2][2])/3)*pos;
         }
     }
-    
+    // move up and down the color scale
     // static int direction
     static int direction = 1;
     // pos max
