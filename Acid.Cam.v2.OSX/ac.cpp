@@ -2415,12 +2415,13 @@ void ac::MirrorAverage(cv::Mat &frame) {
         }
     }
 }
-
+// Mirror Average Mix
+// Takes cv::Mat matrix
 void ac::MirrorAverageMix(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     cv::Mat orig = frame.clone(); // clone original frame
-    static float pos = 1.0f; // position index floating point
+    static double pos = 1.0; // position index floating point
     for(int z = 1; z < h-1; ++z) { // loop from top to bottom
         for(int i = 1; i < w-1; ++i) { // loop from left to right
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // current pixel at i,z
@@ -2428,8 +2429,9 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
             mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i)); // pixel at w-i, h-z
             mir_pix[1] = orig.at<cv::Vec3b>((h-z), i); // pixel at i, h-z
             mir_pix[2] = orig.at<cv::Vec3b>(z,(w-i)); // pixel at w-i, z
-            // take each pixel and average together its values and add to
-            // different component in pixel reference vector
+            // take each pixel and average together mulitply by pos
+            // and add its value to different components in
+            // pixel reference vector
             pixel[0] += ((mir_pix[0][0]+mir_pix[0][1]+mir_pix[0][2])/3)*pos;
             pixel[1] += ((mir_pix[1][0]+mir_pix[1][1]+mir_pix[1][2])/3)*pos;
             pixel[2] += ((mir_pix[2][0]+mir_pix[2][1]+mir_pix[2][2])/3)*pos;
@@ -2438,19 +2440,19 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
     // static int direction
     static int direction = 1;
     // pos max
-    static double pos_max = 7.0f;
+    static double pos_max = 7.0;
     // if direction equals 1
     if(direction == 1) {
         pos += 0.05; // pos plus equal 0.05
         if(pos > pos_max) { // if pos > pos max
             pos = pos_max; // pos = pos_max
             direction = 0;// direction equals 0
-            pos_max += 0.5f; // pos_max increases by 0.5
+            pos_max += 0.5; // pos_max increases by 0.5
         }
     } else if(direction == 0) {// direction equals 1
         pos -= 0.05;// pos -= 0.05
         if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0f;// if pos max at maxmium
+            if(pos_max > 15) pos_max = 1.0;// if pos max at maxmium
             // set to 1.0
             direction = 1;// set direction back to 1
         }
