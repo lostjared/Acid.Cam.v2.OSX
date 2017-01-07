@@ -103,6 +103,7 @@ void setEnabledProg() {
     ftext.setf(std::ios::fixed, std::ios::floatfield);
     ftext.precision(2);
     srand((unsigned int)time(0));
+    pauseStepTrue = false;
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -281,7 +282,10 @@ void setEnabledProg() {
 
 - (void) cvProc: (id) sender {
     if(breakProgram == true || stopProgram == true) { stopCV(); return; }
-    if(isPaused) return;
+    if(isPaused && pauseStepTrue == true) {
+        pauseStepTrue = false;
+    }
+    else if(isPaused) return;
     cv::Mat frame;
     if(capture.read(frame) == false) {
         ++frame_cnt;
@@ -457,6 +461,10 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) stepPause: (id) sender {
+    pauseStepTrue = true;
+}
+
 - (IBAction) selectFileForPrefix: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];
     if([panel runModal]) {
@@ -472,10 +480,12 @@ void setEnabledProg() {
     NSInteger checkedState = [menuPaused state];
     if(checkedState == NSOnState) {
         [menuPaused setState: NSOffState];
+        [pause_step setEnabled: NO];
         isPaused = false;
     } else {
         [menuPaused setState: NSOnState];
         isPaused = true;
+        [pause_step setEnabled: YES];
     }
 }
 

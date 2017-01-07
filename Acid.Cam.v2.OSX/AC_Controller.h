@@ -28,7 +28,7 @@ extern drawn d;
     IBOutlet NSPopUpButton *vid_format_2;
     IBOutlet NSButton *record_op2,*startaction_2;
     IBOutlet NSTextView *t_view;
-    IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters;
+    IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters, *pause_step;
     IBOutlet NSButton *startProg;
     IBOutlet NSPopUpButton *current_filter, *corder, *output_Type;
     IBOutlet NSComboBox *filter_combo;
@@ -49,6 +49,7 @@ extern drawn d;
     IBOutlet NSWindow *image_select;
     IBOutlet NSComboBox *image_combo;
     bool disableFilter;
+    bool pauseStepTrue;
 }
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
@@ -86,6 +87,7 @@ extern drawn d;
 - (IBAction) selectImage: (id) sender;
 - (IBAction) setAsImage: (id) sender;
 - (IBAction) downloadNewestVersion: (id) sender;
+- (IBAction) stepPause: (id) sender;
 
 @end
 

@@ -33,6 +33,7 @@
                 <outlet property="menuPaused" destination="Isy-gQ-uSb" id="BeU-Zh-4FO"/>
                 <outlet property="negate_checked" destination="eDA-pn-7R7" id="5YZ-bW-ZMd"/>
                 <outlet property="output_Type" destination="rOk-Yh-mZb" id="D7G-rY-Zgn"/>
+                <outlet property="pause_step" destination="vta-z2-KqS" id="fG1-0w-JST"/>
                 <outlet property="plugin_dir" destination="3tf-4d-aHN" id="PLv-dK-4Q1"/>
                 <outlet property="plugin_name" destination="WxG-7y-2je" id="NAO-mA-Xur"/>
                 <outlet property="plugin_window" destination="lg6-0V-qNM" id="9Ek-nb-w9H"/>
@@ -124,6 +125,12 @@
                                     <action selector="pauseProgram:" target="630" id="7Zn-7B-0iq"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Step" enabled="NO" keyEquivalent="i" id="vta-z2-KqS">
+                                <connections>
+                                    <action selector="stepPause:" target="630" id="Mss-GT-ir7"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="uVa-un-dC1"/>
                             <menuItem title="Disable Filters" keyEquivalent="d" id="OsF-br-7Fg">
                                 <connections>
                                     <action selector="disableFilters:" target="630" id="Xcj-XT-vHD"/>
@@ -140,6 +147,7 @@
                                     <action selector="stopProgram:" target="630" id="kg6-5x-BTv"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="1or-4q-4qG"/>
                             <menuItem isSeparatorItem="YES" id="zbR-BR-Pc6"/>
                             <menuItem title="Take Snapshot JPG" keyEquivalent="s" id="649">
                                 <connections>
