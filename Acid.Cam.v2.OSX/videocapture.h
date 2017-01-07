@@ -1,7 +1,7 @@
 /*
  * Acid Cam v2 - OpenCV Edition
  * written by Jared Bruni ( http://lostsidedead.com )
- * (C) 2016 GPL
+ * (C) 2017 GPL
  */
 
 #ifndef Acid_Cam_2_videocapture_h

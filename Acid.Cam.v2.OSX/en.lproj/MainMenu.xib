@@ -187,8 +187,8 @@
         <customObject id="420" customClass="NSFontManager"/>
         <window title="Acid Cam v2 - Start New Session" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="538">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="195" y="1032" width="320" height="219"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
+            <rect key="contentRect" x="165" y="704" width="320" height="219"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="539">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
@@ -345,13 +345,13 @@
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="132" y="-36.5"/>
+            <point key="canvasLocation" x="-212" y="313"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
-            <windowPositionMask key="initialPositionMask" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1848" y="177" width="681" height="292"/>
-            <rect key="screenRect" x="1920" y="0.0" width="1920" height="1057"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="1000" y="162" width="681" height="292"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="4gS-UV-fUL">
                 <rect key="frame" x="0.0" y="0.0" width="681" height="292"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -450,6 +450,7 @@
                     </popUpButton>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="141" y="-372"/>
         </window>
         <window title="Custom Filter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="92I-tF-b7z">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -923,7 +924,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="920" y="331"/>
+            <point key="canvasLocation" x="880" y="105"/>
         </window>
         <window title="Image Blend" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="E8K-bK-ljP" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
@@ -967,7 +968,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="409" y="439"/>
+            <point key="canvasLocation" x="458" y="297"/>
         </window>
         <button verticalHuggingPriority="750" id="X0F-j3-bOe">
             <rect key="frame" x="0.0" y="0.0" width="82" height="32"/>

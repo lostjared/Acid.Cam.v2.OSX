@@ -1,7 +1,7 @@
 /* Acid Cam Functions for OpenCV
  * written by Jared Bruni
  * http://lostsidedead.com
- * (C) 2016 - GPL
+ * (C) 2017 - GPL
  */
 #ifndef __AC_H__
 #define __AC_H__

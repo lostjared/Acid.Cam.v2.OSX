@@ -3,7 +3,7 @@
 //  Acid.Cam.2
 //
 //  Created by Jared Bruni on 6/3/13.
-//  Copyright (c) 2013 Jared Bruni. All rights reserved.
+//  Copyright (c) 2017 Jared Bruni. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -3,7 +3,7 @@
  * Acid Cam functions for OpenCV
  * written by Jared Bruni
  * http://lostsidedead.com
- * (C) 2016 under GPL
+ * (C) 2017 under GPL
  * One quick note, most of the time when writing programs using x,y variables x goes first
  * the OpenCV Mat at function that returns a pixel is reversed. 
  * y is first. Example
@@ -2458,6 +2458,7 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
         }
     }
 }
+
 
 // Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {
