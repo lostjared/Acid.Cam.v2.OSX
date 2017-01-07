@@ -15,7 +15,7 @@ This project contains the compiled static libraries / include files required to 
 The project is for Xcode 8.1
 
 
-So far there is 85 Filters Total.
+So far there are 87 Filters Total.
 
 
 Project home page: http://lostsidedead.com/blog/?index=212
