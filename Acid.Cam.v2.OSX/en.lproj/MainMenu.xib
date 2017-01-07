@@ -21,6 +21,7 @@
                 <outlet property="current_filter" destination="fPc-yC-WAQ" id="mWn-2h-TcC"/>
                 <outlet property="custom_window" destination="92I-tF-b7z" id="aeZ-BW-0IX"/>
                 <outlet property="device_index" destination="586" id="633"/>
+                <outlet property="disable_filters" destination="OsF-br-7Fg" id="RJ3-2o-sr4"/>
                 <outlet property="filter_combo" destination="yC7-Xi-Ive" id="PCg-Om-VLe"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
                 <outlet property="framecount" destination="lqg-7A-aEC" id="Phj-U2-SxT"/>
@@ -121,6 +122,11 @@
                             <menuItem title="Pause" keyEquivalent="p" id="Isy-gQ-uSb">
                                 <connections>
                                     <action selector="pauseProgram:" target="630" id="7Zn-7B-0iq"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Disable Filters" keyEquivalent="d" id="OsF-br-7Fg">
+                                <connections>
+                                    <action selector="disableFilters:" target="630" id="Xcj-XT-vHD"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Go To Frame" id="mn3-fh-8CV">

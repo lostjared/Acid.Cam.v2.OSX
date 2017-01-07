@@ -311,7 +311,7 @@ void setEnabledProg() {
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
-    ac::draw_func[ac::draw_offset](frame);
+    if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
 	++frame_cnt;
     imshow("Acid Cam v2", frame);
 
@@ -476,6 +476,19 @@ void setEnabledProg() {
     } else {
         [menuPaused setState: NSOnState];
         isPaused = true;
+    }
+}
+
+- (IBAction) disableFilters: (id) sender {
+    NSInteger checkedState = [disable_filters state];
+    if(checkedState == NSOnState) {
+        [disable_filters setState: NSOffState];
+        // enable
+        disableFilter = false;
+    } else {
+        [disable_filters setState: NSOnState];
+        // disable
+        disableFilter = true;
     }
 }
 
