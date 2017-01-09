@@ -162,6 +162,43 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="View" id="BI5-ri-Jwv">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="View" id="lff-Mm-UAd">
+                        <items>
+                            <menuItem title="View Activity Log" id="ivf-KO-PCo">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showActivityLog:" target="630" id="MyN-1B-U0f"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Select Image" id="c0U-Q2-K7o">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showSelectImage:" target="630" id="17c-9w-Uvo"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Custom" id="LkK-ce-iEk">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showCustom:" target="630" id="lCZ-YQ-A4f"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Alpha Flame Filters" id="OtF-i2-bKH">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showAlpha:" target="630" id="98g-KL-fd4"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Plugins" id="gHW-wd-YsI">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showPlugins:" target="630" id="w1j-gX-y8x"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Window" id="19">
                     <menu key="submenu" title="Window" systemMenu="window" id="24">
                         <items>
@@ -937,14 +974,14 @@ Gw
         <window title="Image Blend" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="E8K-bK-ljP" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
-            <rect key="contentRect" x="1461" y="722" width="266" height="76"/>
+            <rect key="contentRect" x="1461" y="722" width="494" height="70"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="ixy-TP-xGm">
-                <rect key="frame" x="0.0" y="0.0" width="266" height="76"/>
+                <rect key="frame" x="0.0" y="0.0" width="494" height="70"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z6j-u7-bfW">
-                        <rect key="frame" x="20" y="44" width="239" height="26"/>
+                        <rect key="frame" x="21" y="37" width="465" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="fw1-FI-ZPC">
                             <font key="font" metaFont="system"/>
@@ -952,19 +989,8 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </comboBoxCell>
                     </comboBox>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RLf-qi-rMh">
-                        <rect key="frame" x="15" y="13" width="79" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NuI-nw-crL">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="selectImage:" target="630" id="gRE-pk-IwM"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rla-8T-wkf">
-                        <rect key="frame" x="201" y="13" width="61" height="32"/>
+                        <rect key="frame" x="428" y="7" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8EJ-eb-isV">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -974,9 +1000,20 @@ Gw
                             <action selector="setAsImage:" target="630" id="9yh-mz-gVN"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RLf-qi-rMh">
+                        <rect key="frame" x="356" y="7" width="79" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NuI-nw-crL">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="selectImage:" target="630" id="gRE-pk-IwM"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="458" y="297"/>
+            <point key="canvasLocation" x="572" y="294"/>
         </window>
         <button verticalHuggingPriority="750" id="X0F-j3-bOe">
             <rect key="frame" x="0.0" y="0.0" width="82" height="32"/>

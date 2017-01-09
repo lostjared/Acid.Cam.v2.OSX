@@ -569,6 +569,24 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) showCustom: (id) sender {
+    [custom_window orderFront: self];
+    
+}
+- (IBAction) showActivityLog: (id) sender {
+    [window1 orderFront: self];
+}
+- (IBAction) showSelectImage: (id) sender {
+    [image_select orderFront: self];
+}
+- (IBAction) showAlpha: (id) sender {
+    [alpha_window orderFront: self];
+}
+- (IBAction) showPlugins: (id) sender {
+    [plugin_window orderFront:self];
+}
+
+
 @end
 
 void custom_filter(cv::Mat &frame) {

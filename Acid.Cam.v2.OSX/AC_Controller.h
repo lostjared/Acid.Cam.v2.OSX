@@ -88,6 +88,12 @@ extern drawn d;
 - (IBAction) setAsImage: (id) sender;
 - (IBAction) downloadNewestVersion: (id) sender;
 - (IBAction) stepPause: (id) sender;
+- (IBAction) showCustom: (id) sender;
+- (IBAction) showActivityLog: (id) sender;
+- (IBAction) showSelectImage: (id) sender;
+- (IBAction) showAlpha: (id) sender;
+- (IBAction) showPlugins: (id) sender;
+
 
 @end
 
