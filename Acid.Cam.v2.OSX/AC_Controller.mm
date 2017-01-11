@@ -418,7 +418,6 @@ void setEnabledProg() {
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
     return [custom_array count];
-    NSLog(@"count");
 }
 
 - (IBAction) addCustomItem: (id) sender {

@@ -2210,10 +2210,10 @@ void ac::RGBShift(cv::Mat &frame) {
                     buffer[1] += g[1];
                     buffer[2] += b[2];
                 case 1:
-                    break;
                     buffer[0] += g[0];
                     buffer[1] += b[1];
                     buffer[2] += r[2];
+                    break;
                 case 2:
                     buffer[0] += b[0];
                     buffer[1] += r[1];
