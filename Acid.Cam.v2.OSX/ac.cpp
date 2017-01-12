@@ -10,7 +10,6 @@
  * cv::Vec3b &v = frame.at<cv::Vec3b>(y, x);
  *
 */
-
 #include "ac.h"
 #include "fractal.h"
 

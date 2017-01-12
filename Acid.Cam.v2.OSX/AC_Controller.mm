@@ -6,8 +6,6 @@
 //  Copyright (c) 2017 Jared Bruni. All rights reserved.
 //
 #import "AC_Controller.h"
-#import"videocapture.h"
-#import"ac.h"
 #include<string>
 #include<dlfcn.h>
 #include<unistd.h>

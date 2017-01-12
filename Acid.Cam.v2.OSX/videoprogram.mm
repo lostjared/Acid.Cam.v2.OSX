@@ -4,12 +4,14 @@
  * (C) 2017 GPL
  */
 
-#import"ac.h"
-#import"videocapture.h"
+
 #import"AC_Controller.h"
 #include<fstream>
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#undef check
+#include"videocapture.h"
+
 unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
@@ -155,12 +157,12 @@ std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
     if(renderTimer != nil && renderTimer.valid) {
-        capture.release();
+        //capture.release();
         if(!ac::noRecord && input_name.length() == 0) {
             if(rec_Audio == true) stopRecord();
         }
         if(!ac::noRecord) {
-            writer.release();
+            //writer.release();
             sout << "Wrote to Video File: " << ac::fileName << "\n";
         }
         [renderTimer invalidate];

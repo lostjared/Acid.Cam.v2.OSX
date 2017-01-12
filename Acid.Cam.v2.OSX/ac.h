@@ -5,6 +5,9 @@
  */
 #ifndef __AC_H__
 #define __AC_H__
+#include<opencv2/videoio.hpp>
+#include<opencv2/imgproc.hpp>
+#include<opencv2/highgui.hpp>
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -14,7 +17,7 @@
 #include<ctime>
 #include<cmath>
 #include<algorithm>
-#include "opencv2/opencv.hpp"
+
 /*
  * to use set appropriate variables, call the function
  *

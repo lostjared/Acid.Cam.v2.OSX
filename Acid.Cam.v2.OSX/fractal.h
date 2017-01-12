@@ -6,9 +6,8 @@
 
 #ifndef __FRACTAL__H_
 #define __FRACTAL__H_
-
+#include<opencv2/opencv.hpp>
 #include<complex>
-#include"opencv2/opencv.hpp"
 #include<string>
 
 namespace frac {
