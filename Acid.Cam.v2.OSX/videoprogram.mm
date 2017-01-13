@@ -222,6 +222,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
         int aw = capture.get(CV_CAP_PROP_FRAME_WIDTH);
         int ah = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
         sout << "Resolution: " << aw << "x" << ah << "\n";
+        ac::fps = capture.get(CV_CAP_PROP_FPS);
         if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture.get(CV_CAP_PROP_FPS);
         sout << "FPS: " << ac::fps << "\n";
         cv::Mat frame;
