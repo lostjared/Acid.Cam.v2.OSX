@@ -302,7 +302,6 @@ void setEnabledProg() {
         ++frame_cnt;
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
-            writer.write(frame);
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
                 file_size = file.tellg();
