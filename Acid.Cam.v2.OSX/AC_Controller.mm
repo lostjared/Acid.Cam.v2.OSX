@@ -168,6 +168,11 @@ void setEnabledProg() {
         plugin_loaded = false;
     else
         plugin_loaded = true;
+    
+    std::ostringstream plug;
+    plug << "Loaded Plugin: " << [file_type UTF8String] << "\n";
+    flushToLog(plug);
+    
 }
 
 - (void) loadDir: (std::string) str {
@@ -472,6 +477,9 @@ void setEnabledProg() {
 
 - (IBAction) stepPause: (id) sender {
     pauseStepTrue = true;
+    std::ostringstream stream;
+    stream << "Stepped to next frame.\n";
+    flushToLog(stream);
 }
 
 - (IBAction) selectFileForPrefix: (id) sender {
@@ -487,27 +495,39 @@ void setEnabledProg() {
 
 - (IBAction) pauseProgram: (id) sender {
     NSInteger checkedState = [menuPaused state];
+    std::ostringstream stream;
     if(checkedState == NSOnState) {
         [menuPaused setState: NSOffState];
         [pause_step setEnabled: NO];
         isPaused = false;
+        stream << "Program unpaused.\n";
+        flushToLog(stream);
+        
     } else {
         [menuPaused setState: NSOnState];
         isPaused = true;
         [pause_step setEnabled: YES];
+        stream << "Program paused.\n";
+        flushToLog(stream);
     }
 }
 
 - (IBAction) disableFilters: (id) sender {
     NSInteger checkedState = [disable_filters state];
+    std::ostringstream stream;
     if(checkedState == NSOnState) {
         [disable_filters setState: NSOffState];
         // enable
         disableFilter = false;
+        stream << "Filters enabled.\n";
+        flushToLog(stream);
+        
     } else {
         [disable_filters setState: NSOnState];
         // disable
         disableFilter = true;
+        stream << "Filters disabled.\n";
+        flushToLog(stream);
     }
 }
 
