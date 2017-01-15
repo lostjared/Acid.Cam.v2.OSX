@@ -534,6 +534,9 @@ void setEnabledProg() {
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
     jumptoFrame(val);
+    std::ostringstream stream;
+    stream << "Jumped to frame: " << val << "\n";
+    flushToLog(stream);
 }
 
 - (IBAction) setGoto: (id) sender {
@@ -546,7 +549,7 @@ void setEnabledProg() {
     if(total_frames != 0) {
         [goto_frame orderFront:self];
     } else {
-        _NSRunAlertPanel(@"Cannot jump to frame from webcam feed", @"Recording from Webcam", @"Ok", nil, nil);
+        _NSRunAlertPanel(@"Cannot jump to frame must be in video mode", @"Recording Error", @"Ok", nil, nil);
     }
 }
 
@@ -594,7 +597,9 @@ void setEnabledProg() {
     	NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
     	blend_image = cv::imread([current UTF8String]);
     	blend_set = true;
-        std::cout << "Image set..\n";
+        std::ostringstream stream;
+        stream << "Image set: " << [current UTF8String] << "\n";
+        flushToLog(stream);
     }
 }
 
