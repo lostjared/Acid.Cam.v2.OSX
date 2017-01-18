@@ -8,7 +8,7 @@
 namespace frac {
     double paramA = -1.0;//0.519;
     double paramB = 0.2;
-    float zoom_x = 1, zoom_y = 1, zoom_w = 1, zoom_h = 1;
+    float zoom_x = 1.5, zoom_y = 1.5, zoom_w = 0.5, zoom_h = 0.5;
     double red_color = 6;
     double green_color = 25;
     double blue_color = 50;
