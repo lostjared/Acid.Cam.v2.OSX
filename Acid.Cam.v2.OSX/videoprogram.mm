@@ -157,15 +157,15 @@ std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
     if(renderTimer != nil && renderTimer.valid) {
-        //capture.release();
         if(!ac::noRecord && input_name.length() == 0) {
             if(rec_Audio == true) stopRecord();
         }
+        [renderTimer invalidate];
         if(!ac::noRecord) {
-            //writer.release();
+            writer.release();
             sout << "Wrote to Video File: " << ac::fileName << "\n";
         }
-        [renderTimer invalidate];
+        capture.release();
         cv::destroyWindow("Acid Cam v2");
         cv::destroyWindow("Controls");
         sout << frame_cnt << " Total frames\n";
