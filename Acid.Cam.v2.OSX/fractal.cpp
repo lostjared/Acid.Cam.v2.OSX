@@ -20,24 +20,18 @@ namespace frac {
 }
 
 void frac::FractalLogic() {
-    
     static double alpha_r = 1.0;
-    
     alpha_r += 0.05;
-    
     red_color += alpha_r;
     green_color += alpha_r;
     blue_color += alpha_r;
-    
     if(alpha_r > 255) alpha_r = 1.0;
-    
     if(red_color > 255) red_color = rand()%255;
     if(green_color > 255) green_color = rand()%255;
     if(blue_color > 255) blue_color = rand()%255;
     
     switch(dir) {
         case 1: {
-            
             paramA += 0.01;
             if(paramA >= 1.0) {
                 dir = 2;
@@ -51,7 +45,6 @@ void frac::FractalLogic() {
             break;
         case 2: {
             paramA -= 0.01;
-            
             if(paramA <= -1) {
                 paramB += 0.05;
                 dir = 1;
@@ -74,7 +67,6 @@ void frac::FractalLogic() {
         }
             break;
         case 4: {
-            
             paramB += 0.01;
             if(paramB >= 1) {
                 paramA += 0.05;
@@ -84,12 +76,10 @@ void frac::FractalLogic() {
                 }
                 
             }
-            
         }
     
             break;
     }
-
    // std::cout << paramA << ": " << paramB << " :" << " dir: " << dir << "\n";
 }
 
@@ -99,8 +89,6 @@ void frac::DrawFractal(cv::Mat &frame, bool neg)
     float x2=mod_x+1.0f*zoom_w;
     float y1=mod_y-1.0f*zoom_y;
     float y2=mod_y+1.0f*zoom_h;
-    
-    
     int width=frame.cols, height=frame.rows;
     std::complex<double> C (paramA, paramB);
     std::complex<double> Z;
