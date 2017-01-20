@@ -32,7 +32,7 @@ void frac::FractalLogic() {
     
     switch(dir) {
         case 1: {
-            paramA += 0.01;
+            paramA += 0.005;
             if(paramA >= 1.0) {
                 dir = 2;
                 paramB += 0.05;
@@ -44,7 +44,7 @@ void frac::FractalLogic() {
         }
             break;
         case 2: {
-            paramA -= 0.01;
+            paramA -= 0.005;
             if(paramA <= -1) {
                 paramB += 0.05;
                 dir = 1;
@@ -55,7 +55,7 @@ void frac::FractalLogic() {
         }
             break;
         case 3: {
-            paramB -= 0.01;
+            paramB -= 0.005;
             if(paramB <= -1.0) {
                 dir = 3;
                 paramA -= 0.05;
@@ -67,7 +67,7 @@ void frac::FractalLogic() {
         }
             break;
         case 4: {
-            paramB += 0.01;
+            paramB += 0.005;
             if(paramB >= 1) {
                 paramA += 0.05;
                 dir = 3;
