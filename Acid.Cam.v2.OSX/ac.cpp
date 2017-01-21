@@ -2383,6 +2383,11 @@ void ac::MirrorAverage(cv::Mat &frame) {
             pixel[0] += ((mir_pix[0][0]+mir_pix[1][0]+mir_pix[2][0])/3)*pos;
             pixel[1] += ((mir_pix[0][1]+mir_pix[1][1]+mir_pix[2][1])/3)*pos;
             pixel[2] += ((mir_pix[0][2]+mir_pix[1][2]+mir_pix[2][2])/3)*pos;
+            
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     // move up and down the color scale
@@ -2427,6 +2432,10 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
             pixel[0] += ((mir_pix[0][0]+mir_pix[0][1]+mir_pix[0][2])/3)*pos;
             pixel[1] += ((mir_pix[1][0]+mir_pix[1][1]+mir_pix[1][2])/3)*pos;
             pixel[2] += ((mir_pix[2][0]+mir_pix[2][1]+mir_pix[2][2])/3)*pos;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     // static int direction
