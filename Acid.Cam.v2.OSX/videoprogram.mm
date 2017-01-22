@@ -4,12 +4,14 @@
  * (C) 2017 GPL
  */
 
-#import"ac.h"
-#import"videocapture.h"
+
 #import"AC_Controller.h"
 #include<fstream>
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#undef check
+#include"videocapture.h"
+
 unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
@@ -155,15 +157,15 @@ std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
     if(renderTimer != nil && renderTimer.valid) {
-        capture.release();
         if(!ac::noRecord && input_name.length() == 0) {
             if(rec_Audio == true) stopRecord();
         }
+        [renderTimer invalidate];
         if(!ac::noRecord) {
             writer.release();
             sout << "Wrote to Video File: " << ac::fileName << "\n";
         }
-        [renderTimer invalidate];
+        capture.release();
         cv::destroyWindow("Acid Cam v2");
         cv::destroyWindow("Controls");
         sout << frame_cnt << " Total frames\n";
@@ -220,6 +222,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
         int aw = capture.get(CV_CAP_PROP_FRAME_WIDTH);
         int ah = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
         sout << "Resolution: " << aw << "x" << ah << "\n";
+        ac::fps = capture.get(CV_CAP_PROP_FPS);
         if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture.get(CV_CAP_PROP_FPS);
         sout << "FPS: " << ac::fps << "\n";
         cv::Mat frame;

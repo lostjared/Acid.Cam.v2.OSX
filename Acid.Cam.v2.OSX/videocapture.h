@@ -7,9 +7,9 @@
 #ifndef Acid_Cam_2_videocapture_h
 #define Acid_Cam_2_videocapture_h
 
-#include<string>
+#include"ac.h"
 #include<sstream>
-#include"opencv2/opencv.hpp"
+
 
 extern bool breakProgram, programRunning, stopProgram;
 extern bool isPaused;

@@ -10,7 +10,6 @@
  * cv::Vec3b &v = frame.at<cv::Vec3b>(y, x);
  *
 */
-
 #include "ac.h"
 #include "fractal.h"
 
@@ -31,14 +30,14 @@ namespace ac {
     int snapshot_Type = 0;
     
     // draw strings (function names)
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "FlipTrip", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,FlipTrip, BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 60;
+    int draw_max = 61;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -2329,16 +2328,9 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
 // Reverse Frame
 // takes cv::Mat reference
 void ac::Reverse(cv::Mat &frame) {
-    int w = frame.cols;// frame width
-    int h = frame.rows;// frame height
-    cv::Mat orig = frame.clone(); // clone frame (make a copy)
-    for(int z = 0; z < h; ++z) {// top to botom
-        for(int i = 1; i < w-1; ++i) { // left to right
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // cur pixel
-            cv::Vec3b &rev = orig.at<cv::Vec3b>(z, (w-i)); // opposite pixel (width-i)
-            pixel = rev;
-        }
-    }
+    cv::Mat output;
+    cv::flip(frame, output, 1);
+    frame = output;
 }
 // Scanlines - Draws scanlines like a CRT.
 void ac::Scanlines(cv::Mat &frame) {
@@ -2391,6 +2383,11 @@ void ac::MirrorAverage(cv::Mat &frame) {
             pixel[0] += ((mir_pix[0][0]+mir_pix[1][0]+mir_pix[2][0])/3)*pos;
             pixel[1] += ((mir_pix[0][1]+mir_pix[1][1]+mir_pix[2][1])/3)*pos;
             pixel[2] += ((mir_pix[0][2]+mir_pix[1][2]+mir_pix[2][2])/3)*pos;
+            
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     // move up and down the color scale
@@ -2435,6 +2432,10 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
             pixel[0] += ((mir_pix[0][0]+mir_pix[0][1]+mir_pix[0][2])/3)*pos;
             pixel[1] += ((mir_pix[1][0]+mir_pix[1][1]+mir_pix[1][2])/3)*pos;
             pixel[2] += ((mir_pix[2][0]+mir_pix[2][1]+mir_pix[2][2])/3)*pos;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     // static int direction
@@ -2459,6 +2460,20 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
     }
 }
 
+void ac::FlipTrip(cv::Mat &frame) {
+    static int _flip = 0;
+    cv::Mat output;
+    switch(_flip){
+        case 0:
+            cv::flip(frame, output, 1);
+            frame = output;
+            _flip++;
+            break;
+        case 1:
+            _flip = 0;
+            break;
+    }
+}
 
 // Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {

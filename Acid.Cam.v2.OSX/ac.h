@@ -5,6 +5,9 @@
  */
 #ifndef __AC_H__
 #define __AC_H__
+#include<opencv2/videoio.hpp>
+#include<opencv2/imgproc.hpp>
+#include<opencv2/highgui.hpp>
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -14,7 +17,7 @@
 #include<ctime>
 #include<cmath>
 #include<algorithm>
-#include "opencv2/opencv.hpp"
+
 /*
  * to use set appropriate variables, call the function
  *
@@ -40,7 +43,7 @@ extern cv::Mat blend_image;
 // acid cam namespace
 namespace ac {
     // version string
-    static const std::string version="2.1.2";
+    static const std::string version="2.1.3";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,iRev;
@@ -121,6 +124,7 @@ namespace ac {
     void MirrorAverage(cv::Mat &frame);
     void MirrorAverageMix(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
+    void FlipTrip(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];

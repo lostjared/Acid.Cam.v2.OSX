@@ -1,5 +1,11 @@
 # Acid.Cam.v2.OSX
 
+OpenCV3 Version Still working on this.
+To compile first clone then extract libippicv.a.zip to cvlibs
+then open with Xcode and build.
+
+
+
 ![AnimatedImage](http://lostsidedead.biz/gif/jaredpeace.gif "screenshot")
 
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/acscreen.jpg?raw=true "screenshot")

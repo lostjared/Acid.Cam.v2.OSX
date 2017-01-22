@@ -6,8 +6,6 @@
 //  Copyright (c) 2017 Jared Bruni. All rights reserved.
 //
 #import "AC_Controller.h"
-#import"videocapture.h"
-#import"ac.h"
 #include<string>
 #include<dlfcn.h>
 #include<unistd.h>
@@ -29,6 +27,19 @@ std::ostringstream ftext;
 std::ostringstream stream;
 cv::Mat blend_image;
 bool blend_set = false;
+
+
+void _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
+    NSAlert *alert = [[NSAlert alloc] init];
+    if(button1 != nil) [alert addButtonWithTitle:button1];
+    if(button2 != nil) [alert addButtonWithTitle:button2];
+    if(msg1 != nil) [alert setMessageText:msg1];
+    if(msg2 != nil) [alert setInformativeText:msg2];
+    if ([alert runModal] == NSAlertFirstButtonReturn) {
+
+    }
+    [alert release];
+}
 
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
@@ -157,6 +168,11 @@ void setEnabledProg() {
         plugin_loaded = false;
     else
         plugin_loaded = true;
+    
+    std::ostringstream plug;
+    plug << "Loaded Plugin: " << [file_type UTF8String] << "\n";
+    flushToLog(plug);
+    
 }
 
 - (void) loadDir: (std::string) str {
@@ -188,7 +204,7 @@ void setEnabledProg() {
     library = dlopen([str UTF8String], RTLD_LAZY);
     if(library == NULL) {
         std::cerr << "Error could not open: " << [str UTF8String] << "\n";
-        NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
+        _NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
         exit(1);
     }
     void *addr;
@@ -200,7 +216,7 @@ void setEnabledProg() {
     error = dlerror();
     if(error) {
         std::cerr << "Could not load pixel: " << error << "\n";
-        NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
+        _NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
         return NULL;
     }
     addr = dlsym(library,"drawn");
@@ -208,7 +224,7 @@ void setEnabledProg() {
     error = dlerror();
     if(error) {
         std::cerr << "Could not load pixel: " << error << "\n";
-        NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
+        _NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
         return NULL;
     }
     return pix;
@@ -225,7 +241,7 @@ void setEnabledProg() {
     if([videoFileInput integerValue] != 0) {
         input_file = [[video_file stringValue] UTF8String];
         if(input_file.length() == 0) {
-            NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
+            _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
             return;
         }
     }
@@ -274,7 +290,7 @@ void setEnabledProg() {
     
     int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     if(ret_val != 0) {
-        NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
+        _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
         programRunning = false;
     }
@@ -291,7 +307,6 @@ void setEnabledProg() {
         ++frame_cnt;
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
-            writer.write(frame);
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
                 file_size = file.tellg();
@@ -462,6 +477,9 @@ void setEnabledProg() {
 
 - (IBAction) stepPause: (id) sender {
     pauseStepTrue = true;
+    std::ostringstream stream;
+    stream << "Stepped to next frame.\n";
+    flushToLog(stream);
 }
 
 - (IBAction) selectFileForPrefix: (id) sender {
@@ -477,33 +495,48 @@ void setEnabledProg() {
 
 - (IBAction) pauseProgram: (id) sender {
     NSInteger checkedState = [menuPaused state];
+    std::ostringstream stream;
     if(checkedState == NSOnState) {
         [menuPaused setState: NSOffState];
         [pause_step setEnabled: NO];
         isPaused = false;
+        stream << "Program unpaused.\n";
+        flushToLog(stream);
+        
     } else {
         [menuPaused setState: NSOnState];
         isPaused = true;
         [pause_step setEnabled: YES];
+        stream << "Program paused.\n";
+        flushToLog(stream);
     }
 }
 
 - (IBAction) disableFilters: (id) sender {
     NSInteger checkedState = [disable_filters state];
+    std::ostringstream stream;
     if(checkedState == NSOnState) {
         [disable_filters setState: NSOffState];
         // enable
         disableFilter = false;
+        stream << "Filters enabled.\n";
+        flushToLog(stream);
+        
     } else {
         [disable_filters setState: NSOnState];
         // disable
         disableFilter = true;
+        stream << "Filters disabled.\n";
+        flushToLog(stream);
     }
 }
 
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
     jumptoFrame(val);
+    std::ostringstream stream;
+    stream << "Jumped to frame: " << val << "\n";
+    flushToLog(stream);
 }
 
 - (IBAction) setGoto: (id) sender {
@@ -516,7 +549,7 @@ void setEnabledProg() {
     if(total_frames != 0) {
         [goto_frame orderFront:self];
     } else {
-        NSRunAlertPanel(@"Cannot jump to frame from webcam feed", @"Recording from Webcam", @"Ok", nil, nil);
+        _NSRunAlertPanel(@"Cannot jump to frame must be in video mode", @"Recording Error", @"Ok", nil, nil);
     }
 }
 
@@ -564,7 +597,9 @@ void setEnabledProg() {
     	NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
     	blend_image = cv::imread([current UTF8String]);
     	blend_set = true;
-        std::cout << "Image set..\n";
+        std::ostringstream stream;
+        stream << "Image set: " << [current UTF8String] << "\n";
+        flushToLog(stream);
     }
 }
 

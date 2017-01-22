@@ -6,8 +6,11 @@
 //  Copyright (c) 2017 Jared Bruni. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#undef check
+#include"videocapture.h"
 #include<sstream>
 
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
