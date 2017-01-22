@@ -1,9 +1,7 @@
 # Acid.Cam.v2.OSX
 
-OpenCV3 Version Still working on this.
-To compile first clone then extract libippicv.a.zip to cvlibs
-then open with Xcode and build.
-
+OpenCV3 Version is default now, to use the old version switch to oldmacosx branch
+To compile first clone then open with Xcode and build.
 
 
 ![AnimatedImage](http://lostsidedead.biz/gif/jaredpeace.gif "screenshot")
