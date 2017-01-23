@@ -11,7 +11,6 @@
 #include<string>
 
 namespace frac {
-    
     extern double paramA,paramB;
     extern float radius;
     extern float zoom_x, zoom_y, zoom_w, zoom_h;

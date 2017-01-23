@@ -29,16 +29,15 @@ cv::Mat blend_image;
 bool blend_set = false;
 
 
-void _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
+NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     NSAlert *alert = [[NSAlert alloc] init];
     if(button1 != nil) [alert addButtonWithTitle:button1];
     if(button2 != nil) [alert addButtonWithTitle:button2];
     if(msg1 != nil) [alert setMessageText:msg1];
     if(msg2 != nil) [alert setInformativeText:msg2];
-    if ([alert runModal] == NSAlertFirstButtonReturn) {
-
-    }
+    NSInteger rt_val = [alert runModal];
     [alert release];
+    return rt_val;
 }
 
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);

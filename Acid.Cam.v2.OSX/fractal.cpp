@@ -106,9 +106,7 @@ void frac::DrawFractal(cv::Mat &frame, bool neg)
             }
             cv::Vec3b &cf = frame.at<cv::Vec3b>(y, x);
             if(i == max_iter) {
-            /*    cf[0] += 1;
-                cf[1] += 1;
-                cf[2] += 1; */
+        
             } else {
                 cf[2] += sin(i*red_color/100)*255;
                 cf[1] += sin(i*green_color/100)*255;

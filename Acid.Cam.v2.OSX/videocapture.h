@@ -10,7 +10,6 @@
 #include"ac.h"
 #include<sstream>
 
-
 extern bool breakProgram, programRunning, stopProgram;
 extern bool isPaused;
 extern unsigned int total_frames;
