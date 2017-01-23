@@ -167,9 +167,9 @@ void stopCV() {
         if(!ac::noRecord && input_name.length() == 0) {
             if(rec_Audio == true) stopRecord();
         }
-        if(!ac::noRecord && writer.isOpened()) {
+        if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
-            writer.release();
+            writer->release();
         }
         sout << frame_cnt << " Total frames\n";
         sout << (frame_cnt/ac::fps) << " Seconds\n";
@@ -187,7 +187,7 @@ void stopCV() {
 
 NSTimer *renderTimer;
 std::ostringstream sout;
-cv::VideoWriter writer;
+cv::VideoWriter *writer = 0;
 std::fstream file;
 unsigned long file_size;
 std::string add_path;
@@ -211,7 +211,21 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
     ac::tr =  0.3;
     ac::fps = 29.97;
     file_size = 0;
-    if(capture == 0) capture = new cv::VideoCapture();
+    
+    if(capture == 0)
+        capture = new cv::VideoCapture();
+    else if(capture != 0) {
+        capture = new cv::VideoCapture(); // i know memory leak
+    }
+    
+    
+    if(writer == 0)
+        writer = new cv::VideoWriter();
+    else if(writer != 0) {
+        delete writer;
+        writer = new cv::VideoWriter();
+        
+    }
     
     try {
         if(input_file.size() == 0) capture->open(capture_device);
@@ -242,10 +256,10 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
         setSliders(total_frames);
         if(ac::noRecord == false) {
             if(outputType == 0)
-                writer.open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
+                writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
             else
-                writer.open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
-            if(writer.isOpened() == false) {
+                writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
+            if(writer->isOpened() == false) {
                 sout << "Error video file could not be created.\n";
                 exit(0);
             }

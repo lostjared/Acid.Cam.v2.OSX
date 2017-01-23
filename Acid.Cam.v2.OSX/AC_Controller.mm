@@ -351,7 +351,7 @@ void setEnabledProg() {
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
-        if(writer.isOpened())writer.write(frame);
+        if(writer->isOpened() )writer->write(frame);
         if(file.is_open()) {
             file.seekg(0, std::ios::end);
             file_size = file.tellg();
