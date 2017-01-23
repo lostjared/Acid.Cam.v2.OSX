@@ -30,3 +30,4 @@ Watch this video for information how to use the program: https://youtu.be/DpBrX2
 Watch this video for a tutorial on how to create custom filter plugins: https://youtu.be/hOnBUJIdAyU
 
 
+- Jared Bruni
