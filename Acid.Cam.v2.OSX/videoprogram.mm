@@ -247,7 +247,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
             file.open(ac::fileName.c_str(), std::ios::in);
         }
         if(ac::noRecord == false)
-            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4" : "XvID") << " \n";
+            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";
         else
             sout << "Recording disabled ..\n";
         cv::namedWindow("Acid Cam v2", cv::WINDOW_AUTOSIZE);
