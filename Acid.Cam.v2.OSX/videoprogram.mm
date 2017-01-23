@@ -199,7 +199,7 @@ void stopCV() {
 }
 
 
-int program_main(cv::VideoCapture *capture, int outputType, std::string input_file, bool noRecord, bool recAudio, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(int outputType, std::string input_file, bool noRecord, bool recAudio, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_countx, float pass2_alpha, std::string file_path) {
     rec_Audio = recAudio;
     programRunning = true;
     sout << "Acid Cam " << ac::version << " ..\n";
