@@ -239,15 +239,15 @@ void setEnabledProg() {
 
 -(IBAction) startProgram: (id) sender {
     std::string input_file;
-    camera_mode = 0;
-    if([videoFileInput integerValue] != 0) {
+    if([videoFileInput state] == NSOnState) {
         input_file = [[video_file stringValue] UTF8String];
         if(input_file.length() == 0) {
             _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
             return;
         }
         camera_mode = 1;
-    }
+    } else camera_mode = 0;
+    
     NSInteger res = [resolution indexOfSelectedItem];
     int res_x[3] = { 640, 1280, 1920 };
     int res_y[3] = { 480, 720, 1080 };
@@ -298,6 +298,8 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
         programRunning = false;
+    } else {
+        [videoFileInput setEnabled: NO];
     }
 }
 

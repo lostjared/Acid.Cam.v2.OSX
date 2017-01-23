@@ -163,7 +163,6 @@ void stopCV() {
             
             [renderTimer invalidate];
             renderTimer = nil;
-            
             cv::destroyWindow("Acid Cam v2");
             cv::destroyWindow("Controls");
             if(!ac::noRecord && input_name.length() == 0) {
@@ -239,7 +238,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
         cv::Mat frame;
         capture->read(frame);
         cv::Size frameSize = frame.size();
-        if(input_file == "" && capture_width != 0 && capture_height != 0) {
+        if(camera_mode == 0 && capture_width != 0 && capture_height != 0) {
             capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
             capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
             sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
@@ -266,7 +265,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
-        if(ac::noRecord == false && input_file.length() == 0 && recAudio == true) {
+        if(ac::noRecord == false && camera_mode == 0 && recAudio == true) {
             std::string str_filename=ac::fileName+".caf";
             startRecord(str_filename.c_str());
         }
