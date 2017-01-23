@@ -114,6 +114,7 @@ void setEnabledProg() {
     ftext.precision(2);
     srand((unsigned int)time(0));
     pauseStepTrue = false;
+    camera_mode = 0;
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -237,7 +238,9 @@ void setEnabledProg() {
 
 -(IBAction) startProgram: (id) sender {
     std::string input_file;
+    camera_mode = 0;
     if([videoFileInput integerValue] != 0) {
+        camera_mode = 1;
         input_file = [[video_file stringValue] UTF8String];
         if(input_file.length() == 0) {
             _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
@@ -287,6 +290,8 @@ void setEnabledProg() {
                                         userInfo:nil
                                          repeats:YES];
     
+    
+    
     int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
@@ -305,16 +310,18 @@ void setEnabledProg() {
     if(capture.read(frame) == false) {
         ++frame_cnt;
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+        
         if(ac::noRecord == false) {
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
                 file_size = file.tellg();
             }
-            float val = frame_cnt;
+        }
+        if(camera_mode == 1) {
+            // float val = frame_cnt;
             float size = total_frames;
-            
             if(size != 0)
-            ftext << " - " <<(val/size)*100 << "% ";
+                ftext << " - 100% ";
         }
         setFrameLabel(ftext);
         stopCV();
@@ -331,11 +338,12 @@ void setEnabledProg() {
     }
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
 	++frame_cnt;
+    
     imshow("Acid Cam v2", frame);
 
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     
-    if(ac::noRecord == false) {
+    if(camera_mode == 1) {
         float val = frame_cnt;
         float size = total_frames;
         if(size != 0)

@@ -53,6 +53,7 @@ extern drawn d;
     IBOutlet NSComboBox *image_combo;
     bool disableFilter;
     bool pauseStepTrue;
+    int camera_mode;
 }
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
