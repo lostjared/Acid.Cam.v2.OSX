@@ -17,7 +17,7 @@ bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
 void ProcFrame(cv::Mat &frame);
 
-cv::VideoCapture *capture = 0;
+std::unique_ptr<cv::VideoCapture> capture;
 int frame_cnt, key;
 /*** CoreAudio ***/
 const int kNumberRecordBuffers = 3;
@@ -157,6 +157,9 @@ std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
     
+    
+    @try {
+    
     if(renderTimer != nil && renderTimer.valid) {
 
         [renderTimer invalidate];
@@ -183,11 +186,15 @@ void stopCV() {
         }
         
     }
+    }
+    @catch(...) {
+        
+    }
 }
 
 NSTimer *renderTimer;
 std::ostringstream sout;
-cv::VideoWriter *writer = 0;
+std::unique_ptr<cv::VideoWriter> writer;
 std::fstream file;
 unsigned long file_size;
 std::string add_path;
@@ -212,21 +219,9 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
     ac::fps = 29.97;
     file_size = 0;
     
-    if(capture == 0)
-        capture = new cv::VideoCapture();
-    else if(capture != 0) {
-        capture = new cv::VideoCapture(); // i know memory leak
-    }
-    
-    
-    if(writer == 0)
-        writer = new cv::VideoWriter();
-    else if(writer != 0) {
-        delete writer;
-        writer = new cv::VideoWriter();
-        
-    }
-    
+    capture.reset(new cv::VideoCapture());
+    writer.reset(new cv::VideoWriter());
+
     try {
         if(input_file.size() == 0) capture->open(capture_device);
         else {
