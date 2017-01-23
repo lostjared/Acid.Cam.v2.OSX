@@ -17,6 +17,7 @@ typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
 extern pixel pix;
 extern drawn d;
+extern int camera_mode;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     IBOutlet NSPopUpButton *resolution;
@@ -53,7 +54,6 @@ extern drawn d;
     IBOutlet NSComboBox *image_combo;
     bool disableFilter;
     bool pauseStepTrue;
-    int camera_mode;
 }
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;

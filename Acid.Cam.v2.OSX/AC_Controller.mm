@@ -27,9 +27,10 @@ std::ostringstream ftext;
 std::ostringstream stream;
 cv::Mat blend_image;
 bool blend_set = false;
-
+int camera_mode = 0;
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
+    
     NSAlert *alert = [[NSAlert alloc] init];
     if(button1 != nil) [alert addButtonWithTitle:button1];
     if(button2 != nil) [alert addButtonWithTitle:button2];
@@ -240,12 +241,12 @@ void setEnabledProg() {
     std::string input_file;
     camera_mode = 0;
     if([videoFileInput integerValue] != 0) {
-        camera_mode = 1;
         input_file = [[video_file stringValue] UTF8String];
         if(input_file.length() == 0) {
             _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
             return;
         }
+        camera_mode = 1;
     }
     NSInteger res = [resolution indexOfSelectedItem];
     int res_x[3] = { 640, 1280, 1920 };

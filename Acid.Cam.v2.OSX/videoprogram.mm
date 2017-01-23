@@ -16,8 +16,7 @@ unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
 void ProcFrame(cv::Mat &frame);
-
-std::unique_ptr<cv::VideoCapture> capture;
+std::unique_ptr<cv::VideoCapture> capture(new cv::VideoCapture());
 int frame_cnt, key;
 /*** CoreAudio ***/
 const int kNumberRecordBuffers = 3;
@@ -218,13 +217,10 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
     ac::tr =  0.3;
     ac::fps = 29.97;
     file_size = 0;
-    
-    capture.reset(new cv::VideoCapture());
     writer.reset(new cv::VideoWriter());
-
     try {
-        if(input_file.size() == 0) capture->open(capture_device);
-        else {
+        if(camera_mode == 0 && capture->isOpened() == false) capture->open(capture_device);
+        else if(camera_mode == 1)  {
             capture->open(input_file);
             total_frames = capture->get(CV_CAP_PROP_FRAME_COUNT);
         }
