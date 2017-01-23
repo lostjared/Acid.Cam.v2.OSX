@@ -250,7 +250,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
             sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";
         else
             sout << "Recording disabled ..\n";
-        cv::namedWindow("Acid Cam v2", cv::WINDOW_AUTOSIZE);
+        cv::namedWindow("Acid Cam v2");
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
