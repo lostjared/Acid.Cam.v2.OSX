@@ -29,6 +29,7 @@ cv::Mat blend_image;
 bool blend_set = false;
 int camera_mode = 0;
 bool disableFilter;
+cv::VideoCapture *capture;
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     
@@ -293,14 +294,18 @@ void setEnabledProg() {
                                          repeats:YES];
     
     
+    if(camera_mode == 1)
+        capture = capture_video.get();
+    else
+        capture = capture_camera.get();
     
-    int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    int ret_val = program_main(capture, (int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
         programRunning = false;
     } else {
-        [videoFileInput setEnabled: NO];
+        //[videoFileInput setEnabled: NO];
     }
 }
 

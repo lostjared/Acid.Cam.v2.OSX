@@ -16,8 +16,18 @@ unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
 void ProcFrame(cv::Mat &frame);
-std::unique_ptr<cv::VideoCapture> capture(new cv::VideoCapture());
+std::unique_ptr<cv::VideoCapture> capture_camera(new cv::VideoCapture());
+std::unique_ptr<cv::VideoCapture> capture_video(new cv::VideoCapture());
 int frame_cnt, key;
+NSTimer *renderTimer;
+std::ostringstream sout;
+std::unique_ptr<cv::VideoWriter> writer;
+std::fstream file;
+unsigned long file_size;
+std::string add_path;
+
+
+
 /*** CoreAudio ***/
 const int kNumberRecordBuffers = 3;
 typedef struct Recorder {
@@ -190,14 +200,8 @@ void stopCV() {
     }
 }
 
-NSTimer *renderTimer;
-std::ostringstream sout;
-std::unique_ptr<cv::VideoWriter> writer;
-std::fstream file;
-unsigned long file_size;
-std::string add_path;
 
-int program_main(int outputType, std::string input_file, bool noRecord, bool recAudio, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(cv::VideoCapture *capture, int outputType, std::string input_file, bool noRecord, bool recAudio, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_countx, float pass2_alpha, std::string file_path) {
     rec_Audio = recAudio;
     programRunning = true;
     sout << "Acid Cam " << ac::version << " ..\n";
