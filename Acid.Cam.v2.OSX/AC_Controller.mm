@@ -138,7 +138,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) downloadNewestVersion: (id) sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lostsidedead.com/blog/?index=212"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
 }
 
 - (IBAction) stopProgram: (id) sender {
