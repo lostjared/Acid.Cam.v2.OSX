@@ -28,6 +28,7 @@ std::ostringstream stream;
 cv::Mat blend_image;
 bool blend_set = false;
 int camera_mode = 0;
+bool disableFilter;
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     

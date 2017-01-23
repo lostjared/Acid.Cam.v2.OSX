@@ -254,6 +254,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
                 sout << "Error video file could not be created.\n";
                 exit(0);
             }
+            if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
             writer->write(frame);
             file.open(ac::fileName.c_str(), std::ios::in);
         }
