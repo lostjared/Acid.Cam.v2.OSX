@@ -250,7 +250,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
             sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4" : "XvID") << " \n";
         else
             sout << "Recording disabled ..\n";
-        cv::namedWindow("Acid Cam v2", 1);
+        cv::namedWindow("Acid Cam v2", cv::WINDOW_AUTOSIZE);
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
@@ -275,35 +275,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
 }
 
 std::ostringstream strout;
-
-void BuildImages(std::string filename) {
-    std::fstream file;
-    file.open(filename.c_str(), std::ios::in);
-    if (!file.is_open()) {
-        std::cerr << "Error opening list file: " << filename << "\n";
-        exit(0);
-    }
-    std::vector<std::string> images;
-    while (!file.eof()) {
-        std::string str;
-        std::getline(file, str);
-        images.push_back(str);
-    }
-    file.close();
-    if (images.size() < 4) {
-        std::cerr << "Error four images are required\n";
-        exit(0);
-    }
-    for(int i = 0; i < 4; ++i) {
-        ac::image_files[i] = cv::imread(images[i]);
-        if(!ac::image_files[i].data) {
-            std::cerr << "Error could not load image: " << images[i] << "\n";
-            exit(0);
-        } else std::cout <<  images[i] << " Successfully loaded.\n";
-    }
-    ac::images_Enabled = true;
-    std::cout << "Images enabled..\n";
-}
 
 void jumptoFrame(int frame) {
     capture.set(CV_CAP_PROP_POS_FRAMES,frame);
