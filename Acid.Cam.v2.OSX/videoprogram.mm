@@ -165,8 +165,6 @@ void stopRecord() {
 std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
-    
-    
     @try {
         
         if(renderTimer != nil && renderTimer.valid) {
