@@ -597,7 +597,9 @@ void setEnabledProg() {
     	blend_image = cv::imread([current UTF8String]);
     	blend_set = true;
         std::ostringstream stream;
-        stream << "Image set: " << [current UTF8String] << "\n";
+        stream << "Image set to: " << [current UTF8String] << "\n";
+        NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
+        _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
         flushToLog(stream);
     }
 }
@@ -618,7 +620,6 @@ void setEnabledProg() {
 - (IBAction) showPlugins: (id) sender {
     [plugin_window orderFront:self];
 }
-
 
 @end
 
