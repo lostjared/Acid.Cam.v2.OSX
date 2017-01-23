@@ -307,7 +307,7 @@ void setEnabledProg() {
     }
     else if(isPaused) return;
     cv::Mat frame;
-    if(capture.read(frame) == false) {
+    if(capture->isOpened() && capture->read(frame) == false) {
         ++frame_cnt;
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
         
@@ -351,7 +351,7 @@ void setEnabledProg() {
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
-        writer.write(frame);
+        if(writer.isOpened())writer.write(frame);
         if(file.is_open()) {
             file.seekg(0, std::ios::end);
             file_size = file.tellg();

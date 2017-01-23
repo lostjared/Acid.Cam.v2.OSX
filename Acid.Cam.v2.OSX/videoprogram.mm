@@ -16,8 +16,8 @@ unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
 unsigned int total_frames = 0;
 void ProcFrame(cv::Mat &frame);
-void BuildImages(std::string filename);
-cv::VideoCapture capture;
+
+cv::VideoCapture *capture = 0;
 int frame_cnt, key;
 /*** CoreAudio ***/
 const int kNumberRecordBuffers = 3;
@@ -156,29 +156,32 @@ void stopRecord() {
 std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
+    
     if(renderTimer != nil && renderTimer.valid) {
+
+        [renderTimer invalidate];
+        renderTimer = nil;
+        
+        cv::destroyWindow("Acid Cam v2");
+        cv::destroyWindow("Controls");
         if(!ac::noRecord && input_name.length() == 0) {
             if(rec_Audio == true) stopRecord();
         }
-        [renderTimer invalidate];
-        if(!ac::noRecord) {
-            writer.release();
+        if(!ac::noRecord && writer.isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
+            writer.release();
         }
-        capture.release();
-        cv::destroyWindow("Acid Cam v2");
-        cv::destroyWindow("Controls");
         sout << frame_cnt << " Total frames\n";
         sout << (frame_cnt/ac::fps) << " Seconds\n";
         file.close();
         // flush to log
         flushToLog(sout);
-        renderTimer = nil;
         setEnabledProg();
         [controller stopCV_prog];
         if(breakProgram == true) {
             [NSApp terminate:nil];
         }
+        
     }
 }
 
@@ -208,38 +211,40 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
     ac::tr =  0.3;
     ac::fps = 29.97;
     file_size = 0;
+    if(capture == 0) capture = new cv::VideoCapture();
+    
     try {
-        if(input_file.size() == 0) capture = cv::VideoCapture(capture_device);
+        if(input_file.size() == 0) capture->open(capture_device);
         else {
-            capture = cv::VideoCapture(input_file);
-            total_frames = capture.get(CV_CAP_PROP_FRAME_COUNT);
+            capture->open(input_file);
+            total_frames = capture->get(CV_CAP_PROP_FRAME_COUNT);
         }
-        if (!capture.isOpened()) {
+        if (!capture->isOpened()) {
             std::cerr << "Error could not open Camera device..\n";
             return -1;
         } else
             sout << "Acid Cam " << ac::version << " Capture device opened..\n";
-        int aw = capture.get(CV_CAP_PROP_FRAME_WIDTH);
-        int ah = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
+        int aw = capture->get(CV_CAP_PROP_FRAME_WIDTH);
+        int ah = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
         sout << "Resolution: " << aw << "x" << ah << "\n";
-        ac::fps = capture.get(CV_CAP_PROP_FPS);
-        if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture.get(CV_CAP_PROP_FPS);
+        ac::fps = capture->get(CV_CAP_PROP_FPS);
+        if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(CV_CAP_PROP_FPS);
         sout << "FPS: " << ac::fps << "\n";
         cv::Mat frame;
-        capture.read(frame);
+        capture->read(frame);
         cv::Size frameSize = frame.size();
         if(input_file == "" && capture_width != 0 && capture_height != 0) {
-            capture.set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
-            capture.set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
+            capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
+            capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
             sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
         }
         setSliders(total_frames);
         if(ac::noRecord == false) {
             if(outputType == 0)
-                writer = cv::VideoWriter(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
+                writer.open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
             else
-                writer = cv::VideoWriter(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
+                writer.open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
             if(writer.isOpened() == false) {
                 sout << "Error video file could not be created.\n";
                 exit(0);
@@ -277,6 +282,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
 std::ostringstream strout;
 
 void jumptoFrame(int frame) {
-    capture.set(CV_CAP_PROP_POS_FRAMES,frame);
+    capture->set(CV_CAP_PROP_POS_FRAMES,frame);
     frame_cnt = frame;
 }
