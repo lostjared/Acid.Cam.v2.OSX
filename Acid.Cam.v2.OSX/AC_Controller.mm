@@ -32,7 +32,6 @@ bool disableFilter;
 cv::VideoCapture *capture;
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
-    
     NSAlert *alert = [[NSAlert alloc] init];
     if(button1 != nil) [alert addButtonWithTitle:button1];
     if(button2 != nil) [alert addButtonWithTitle:button2];
