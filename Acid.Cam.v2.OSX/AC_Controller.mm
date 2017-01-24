@@ -640,15 +640,19 @@ void setEnabledProg() {
 @end
 
 void custom_filter(cv::Mat &frame) {
-   // ac::isNegative = false;
-   // ac::color_order = 0;
+    ac::in_custom = true;
     NSInteger len = [custom_array count];
     for(NSInteger i = 0; i < len; ++i) {
+        
+        if(i == len-1)
+            ac::in_custom = false;
+        
         NSNumber *num = [custom_array objectAtIndex:i];
         NSInteger index = [num integerValue];
         ac::draw_func[(int)index](frame);
         //        [num release];
     }
+    ac::in_custom = false;
 }
 
 void setSliders(int frame_count) {

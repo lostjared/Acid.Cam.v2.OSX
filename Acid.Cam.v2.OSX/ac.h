@@ -56,6 +56,7 @@ namespace ac {
     extern cv::Mat image_files[4];
     extern bool images_Enabled,fps_force;
     extern int snapshot_Type;
+    extern bool in_custom;
     inline int GetFX(cv::Mat &frame, int x, int nw);
     inline int GetFY(cv::Mat &frame, int y, int nh);
     inline void invert(cv::Mat &frame, int x, int y);
