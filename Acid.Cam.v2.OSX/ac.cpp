@@ -2328,9 +2328,9 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
 // Reverse Frame
 // takes cv::Mat reference
 void ac::Reverse(cv::Mat &frame) {
-    cv::Mat output;
-    cv::flip(frame, output, 1);
-    frame = output;
+    cv::Mat output;//output matrix
+    cv::flip(frame, output, 1); // flip image
+    frame = output; // set frame to output
 }
 // Scanlines - Draws scanlines like a CRT.
 void ac::Scanlines(cv::Mat &frame) {

@@ -348,7 +348,7 @@ void setEnabledProg() {
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
 	++frame_cnt;
     
-    imshow("Acid Cam v2", frame);
+    cv::imshow("Acid Cam v2", frame);
 
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     
