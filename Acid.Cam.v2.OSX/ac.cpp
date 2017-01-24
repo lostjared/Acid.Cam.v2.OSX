@@ -2460,17 +2460,20 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
     }
 }
 
+// Flip takes cv::Mat reference
+// flip the iamge every other frame
 void ac::FlipTrip(cv::Mat &frame) {
-    static int _flip = 0;
-    cv::Mat output;
+    static int _flip = 0;// index variable
+    cv::Mat output;// output matrix
     switch(_flip){
         case 0:
-            cv::flip(frame, output, 1);
-            frame = output;
-            _flip++;
+            cv::flip(frame, output, 1); // flip matrix
+            frame = output;// frame equals output
+            _flip++;// increase index
             break;
         case 1:
-            _flip = 0;
+            // do nothing
+            _flip = 0; // index equals zero
             break;
     }
 }
