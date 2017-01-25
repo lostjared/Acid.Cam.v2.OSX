@@ -124,10 +124,12 @@ namespace ac {
     void TVStatic(cv::Mat &frame);
     void MirrorAverage(cv::Mat &frame);
     void MirrorAverageMix(cv::Mat &frame);
-    void FlipTrip(cv::Mat &frame);
     void Mean(cv::Mat &frame);
     void Laplacian(cv::Mat &frame);
     void Bitwise_XOR(cv::Mat &frame);
+    void Bitwise_AND(cv::Mat &frame);
+    void Bitwise_OR(cv::Mat &frame);
+    void FlipTrip(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
