@@ -126,6 +126,7 @@ namespace ac {
     void MirrorAverageMix(cv::Mat &frame);
     void FlipTrip(cv::Mat &frame);
     void Mean(cv::Mat &frame);
+    void Laplacian(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
