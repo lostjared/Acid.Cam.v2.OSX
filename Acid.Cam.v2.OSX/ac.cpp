@@ -2550,19 +2550,20 @@ void ac::Equalize(cv::Mat &frame) {
 
 // Channel sort - takes cv::Mat reference
 void ac::ChannelSort(cv::Mat &frame) {
-    static double pos = 1.0;
-    std::vector<cv::Mat> v;
-    cv::split(frame, v);
-    cv::Mat channels[3];
-    cv::Mat output, foutput;
-    cv::sort(v[0], channels[0],cv::SORT_ASCENDING);
+    static double pos = 1.0; // color scale
+    std::vector<cv::Mat> v; // to hold the Matrix for split
+    cv::split(frame, v);// split the channels into seperate matrices
+    cv::Mat channels[3]; // output channels
+    cv::Mat output; // for merge
+    cv::sort(v[0], channels[0],cv::SORT_ASCENDING); // sort each matrix
     cv::sort(v[1], channels[1],cv::SORT_ASCENDING);
     cv::sort(v[2], channels[2],cv::SORT_ASCENDING);
-    cv::merge(channels, 3, output);
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b &ch_pixel = output.at<cv::Vec3b>(z, i);
+    cv::merge(channels, 3, output); // combine the matrices
+    for(int z = 0; z < frame.rows; ++z) { // top to bottom
+        for(int i = 0; i < frame.cols; ++i) { // left to right
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // get reference to pixel
+            cv::Vec3b &ch_pixel = output.at<cv::Vec3b>(z, i); // get reference to pixel
+            // add and multiply components to channels
             pixel[0] += ch_pixel[0]*pos;
             pixel[1] += ch_pixel[1]*pos;
             pixel[2] += ch_pixel[2]*pos;
