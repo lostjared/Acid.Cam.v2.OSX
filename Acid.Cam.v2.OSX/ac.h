@@ -129,6 +129,7 @@ namespace ac {
     void Bitwise_XOR(cv::Mat &frame);
     void Bitwise_AND(cv::Mat &frame);
     void Bitwise_OR(cv::Mat &frame);
+    void Equalize(cv::Mat &frame);
     void FlipTrip(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
