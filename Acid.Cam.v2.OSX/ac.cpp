@@ -42,6 +42,7 @@ namespace ac {
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
     inline void swapColors(cv::Mat &frame, int x, int y);
+    inline void procPos(int &direction, double &pos, double &pos_max);
 }
 
 // swapColors inline function takes frame and x, y position
@@ -83,6 +84,29 @@ inline void ac::invert(cv::Mat &frame, int x, int y) {
     cur[1] = ~cur[1];
     cur[2] = ~cur[2];
 }
+
+// proc position
+void ac::procPos(int &direction, double &pos, double &pos_max) {
+    // static int direction
+    // pos max
+    // if direction equals 1
+    if(direction == 1) {
+        pos += 0.05; // pos plus equal 0.05
+        if(pos > pos_max) { // if pos > pos max
+            pos = pos_max; // pos = pos_max
+            direction = 0;// direction equals 0
+            pos_max += 0.5; // pos_max increases by 0.5
+        }
+    } else if(direction == 0) {// direction equals 1
+        pos -= 0.05;// pos -= 0.05
+        if(pos <= 1.0) {// if pos <= 1.0
+            if(pos_max > 15) pos_max = 1.0;// if pos max at maxmium
+            // set to 1.0
+            direction = 1;// set direction back to 1
+        }
+    }
+}
+
 // SelfAlphaBlend - Perform out of Bounds AlphaBlend on source image
 void ac::SelfAlphaBlend(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {// from top to bottom
@@ -1021,23 +1045,9 @@ void ac::glitchSort(cv::Mat &frame) {
         }
         v.erase(v.begin(), v.end());// erase pixel data
     }
-    static int direction = 1;// static direction set to 1
     static double pos_max = 7.0f;// pos_max = 7.0
-    if(direction == 1) {// direction equals 1
-        pos += 0.05;// pos plus equal 0.05
-        if(pos > pos_max) {// pos greater than pos_max
-            pos = pos_max;// set pos to pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5f;// pos_max plus equal 0.5
-        }
-    } else if(direction == 0) {// direction is 0
-        pos -= 0.05;// pos minus equal 0.05
-        if(pos <= 1) {// pos less than equal 1
-            // if pos_max greater than 15
-            if(pos_max > 15) pos_max = 1.0f;//reset pos_max
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 
 // takes cv::Mat reference
@@ -1109,26 +1119,9 @@ void ac::randomFlash(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    // static int direction
-    static int direction = 1;
-    // pos max
     static double pos_max = 7.0f;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5f; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0f;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 
 // variables for changePixel
@@ -1664,22 +1657,9 @@ void ac::imageBlend(cv::Mat &frame) {
             }
         }
     }
-    static int direction = 1; // static direction is equal to 1
     static double pos_max = 7.0f;// max pos value
-    if(direction == 1) {// if direction is equal to 1
-        pos += 0.05; // add 0.05 to pos
-        if(pos > pos_max) {// greater than max pos size
-            pos = pos_max;// pos = pos_max
-            direction = 0;// direction set to zero
-            pos_max += 0.5f;// pos max increased by 0.5
-        }
-    } else if(direction == 0) {// direction is zero
-        pos -= 0.05;// pos minus equal 0.05
-        if(pos <= 1) {// pos less than 1
-            if(pos_max > 15) pos_max = 1.0f;// reset pos max
-            direction = 1;// direction set back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 // takes cv::Mat reference
 void ac::imageBlendTwo(cv::Mat &frame) {
@@ -1703,22 +1683,9 @@ void ac::imageBlendTwo(cv::Mat &frame) {
             }
         }
     }
-    static int direction = 1;// static direction equals 1
     static double pos_max = 7.0f;// max position set to 7.0
-    if(direction == 1) {// direction equals 1
-        pos += 0.05;// pos plus equal 0.05
-        if(pos > pos_max) {// pos greater than pos_max
-            pos = pos_max;// pos equal pos_max
-            direction = 0;// direction set to zero
-            pos_max += 0.5f;// pos max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 0
-        pos -= 0.05;// pos minus 0.05
-        if(pos <= 1) {// less than equal to one
-            if(pos_max > 15) pos_max = 1.0f;// reset
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 // blend with Image
 // takes cv::Mat reference
@@ -1890,22 +1857,9 @@ void ac::DiamondPattern(cv::Mat &frame) {
         }
     }
     // static direction starts off with 1
-    static int direction = 1;
     static double pos_max = 7.0f;// pos maximum
-    if(direction == 1) {// direction is 1
-        pos += 0.05;// pos plus equal 0.05
-        if(pos > pos_max) {// if pos greater than pos_max
-            pos = pos_max;// set pos to pos_max
-            direction = 0;// set direction to zero (go other direction)
-            pos_max += 0.5f;// pos_max plus equal 0.5
-        }
-    } else if(direction == 0) {// direction is equal to zero
-        pos -= 0.05;// pos minus equal 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0f;// reset is greater than 15
-            direction = 1;// set direction to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 // Mirror blend
 // blend current pixel in loop with current pixel
@@ -2017,24 +1971,10 @@ void ac::SidewaysMirror(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    // static int variable for direction
-    static int direction = 1;
     // max size
     static double pos_max = 4.0f;
-    if(direction == 1) { // direction is 1
-        pos += 0.1; // add 0.1
-        if(pos > pos_max) {
-            pos = pos_max; // set to max
-            direction = 0; // set direction to 0
-            pos_max += 1.0f;// add 1 to pos_max
-        }
-    } else if(direction == 0) { // direction is 0
-        pos -= 0.1;// add 0.1 to pos
-        if(pos <= 1.0) {
-            if(pos_max > 4.0f) pos_max = 1.0f;
-            direction = 1; // set direction to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 
 // Mirror function without blending
@@ -2169,25 +2109,10 @@ void ac::DoubleVision(cv::Mat &frame) {
         }
     }
     // static int direction
-    static int direction = 1;
     // pos max
     static double pos_max = 7.0f;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5f; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0f;// if pos max at maxmium
-            						// set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 // RGB Shift
 // takes cv::Mat reference
@@ -2393,26 +2318,10 @@ void ac::MirrorAverage(cv::Mat &frame) {
         }
     }
     // move up and down the color scale
-    // static int direction
-    static int direction = 1;
-    // pos max
+    
     static double pos_max = 7.0;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5f; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0f;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 // Mirror Average Mix
 // Takes cv::Mat matrix
@@ -2440,26 +2349,10 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    // static int direction
-    static int direction = 1;
     // pos max
     static double pos_max = 7.0;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 // Mean takes cv::Mat reference
 void ac::Mean(cv::Mat &frame) {
@@ -2479,26 +2372,9 @@ void ac::Mean(cv::Mat &frame) {
         }
     }
     
-    // static int direction
-    static int direction = 1;
-    // pos max
     static double pos_max = 7.0;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 
 // Laplacian - takes cv::Mat reference
@@ -2573,26 +2449,10 @@ void ac::ChannelSort(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    // static int direction
-    static int direction = 1;
     // pos max
     static double pos_max = 7.0;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 
 // takes cv::Mat reference
@@ -2614,26 +2474,9 @@ void ac::Reverse_XOR(cv::Mat &frame) {
         }
     }
     initial = start;
-    // static int direction
-    static int direction = 1;
-    // pos max
     static double pos_max = 7.0;
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5; // pos_max increases by 0.5
-        }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > 15) pos_max = 1.0;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
-        }
-    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
 }
 
 // Flip takes cv::Mat reference
