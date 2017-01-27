@@ -262,6 +262,10 @@ void setEnabledProg() {
     else
         raudio = false;
     
+    
+    NSInteger checkedState = [menuPaused state];
+    isPaused = (checkedState == NSOnState) ? true : false;
+    
     static unsigned int counter = 0;
     std::ostringstream fname_stream;
     std::string filename;
