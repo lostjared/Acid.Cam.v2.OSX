@@ -98,6 +98,8 @@ void setEnabledProg() {
     [window2 setLevel: NSStatusWindowLevel];
     [custom_window setLevel: NSStatusWindowLevel];
     [alpha_window setLevel: NSStatusWindowLevel];
+    [image_select setLevel: NSStatusWindowLevel];
+    [plugin_window setLevel: NSStatusWindowLevel];
     for(unsigned int i = 0; i < ac::draw_max-3; ++i){
         NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
