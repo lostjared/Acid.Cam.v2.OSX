@@ -132,6 +132,7 @@ namespace ac {
     void Equalize(cv::Mat &frame);
     void ChannelSort(cv::Mat &frame);
     void Reverse_XOR(cv::Mat &frame);
+    void CombinePixels(cv::Mat &frame);
     void FlipTrip(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);

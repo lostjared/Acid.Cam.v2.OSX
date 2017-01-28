@@ -30,11 +30,11 @@ namespace ac {
     int snapshot_Type = 0;
     bool in_custom = false;
     // draw strings (function names)
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR","FlipTrip", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,FlipTrip, BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip, BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
     int draw_max = 69;
@@ -2387,6 +2387,9 @@ void ac::Laplacian(cv::Mat &frame) {
 // XOR - takes cv::Mat reference
 void ac::Bitwise_XOR(cv::Mat &frame) {
     static cv::Mat initial = frame;
+    if(initial.cols != frame.cols || initial.rows != frame.rows) {
+        initial = frame;
+    }
     cv::Mat start = frame.clone();
     cv::Mat output;
     cv::bitwise_xor(frame, initial, output);
@@ -2397,6 +2400,9 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
 // And takes cv::Mat reference
 void ac::Bitwise_AND(cv::Mat &frame) {
     static cv::Mat initial = frame;
+    if(initial.cols != frame.cols || initial.rows != frame.rows) {
+        initial = frame;
+    }
     cv::Mat start = frame.clone();
     cv::Mat output;
     cv::bitwise_and(frame, initial, output);
@@ -2406,6 +2412,9 @@ void ac::Bitwise_AND(cv::Mat &frame) {
 // takes cv::Mat reference
 void ac::Bitwise_OR(cv::Mat &frame) {
     static cv::Mat initial = frame;
+    if(initial.cols != frame.cols || initial.rows != frame.rows) {
+        initial = frame;
+    }
     cv::Mat start = frame.clone();
     cv::Mat output;
     cv::bitwise_or(frame, initial, output);
@@ -2458,6 +2467,9 @@ void ac::ChannelSort(cv::Mat &frame) {
 // takes cv::Mat reference
 void ac::Reverse_XOR(cv::Mat &frame) {
     static cv::Mat initial = frame;
+    if(initial.cols != frame.cols || initial.rows != frame.rows) {
+        initial = frame;
+    }
     static double pos = 1.0;
     cv::Mat start = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
@@ -2476,6 +2488,33 @@ void ac::Reverse_XOR(cv::Mat &frame) {
     initial = start;
     static double pos_max = 7.0;
     static int direction = 1;
+    procPos(direction, pos, pos_max);
+}
+
+// takes cv::Mat reference
+void ac::CombinePixels(cv::Mat &frame) {
+    static double pos = 1.0, pos_max = 7.0;
+    static int direction = 1;
+    
+    for(int z = 2; z < frame.rows-2; ++z) {
+        for(int i = 2; i < frame.cols-2; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pixels[4];
+            pixels[0] = frame.at<cv::Vec3b>(z, i+1);
+            pixels[1] = frame.at<cv::Vec3b>(z+1, i);
+            pixels[2] = frame.at<cv::Vec3b>(z+1, i+1);
+            pixel[0] ^= (pixels[0][0]+pixels[1][0]+pixels[2][0]);
+            pixel[1] ^= (pixels[0][1]+pixels[1][1]+pixels[2][1]);
+            pixel[2] ^= (pixels[0][2]+pixels[1][2]+pixels[2][2]);
+            pixel[0] *= pos;
+            pixel[1] *= pos;
+            pixel[2] *= pos;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
+        }
+    }
     procPos(direction, pos, pos_max);
 }
 
