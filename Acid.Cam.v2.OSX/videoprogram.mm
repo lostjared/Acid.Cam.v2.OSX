@@ -165,35 +165,28 @@ void stopRecord() {
 std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
-    @try {
-        
-        if(renderTimer != nil && renderTimer.valid) {
-            
-            [renderTimer invalidate];
-            renderTimer = nil;
-            cv::destroyWindow("Acid Cam v2");
-            cv::destroyWindow("Controls");
-            if(!ac::noRecord && input_name.length() == 0) {
-                if(rec_Audio == true) stopRecord();
-            }
-            if(!ac::noRecord && writer->isOpened()) {
-                sout << "Wrote to Video File: " << ac::fileName << "\n";
-                writer->release();
-            }
-            sout << frame_cnt << " Total frames\n";
-            sout << (frame_cnt/ac::fps) << " Seconds\n";
-            file.close();
-            // flush to log
-            flushToLog(sout);
-            setEnabledProg();
-            [controller stopCV_prog];
-            if(breakProgram == true) {
-                [NSApp terminate:nil];
-            }
-            
+    if(renderTimer != nil && renderTimer.valid) {
+        [renderTimer invalidate];
+        renderTimer = nil;
+        cv::destroyWindow("Acid Cam v2");
+        cv::destroyWindow("Controls");
+        if(!ac::noRecord && input_name.length() == 0) {
+            if(rec_Audio == true) stopRecord();
         }
-    }
-    @catch(...) {
+        if(!ac::noRecord && writer->isOpened()) {
+            sout << "Wrote to Video File: " << ac::fileName << "\n";
+            writer->release();
+        }
+        sout << frame_cnt << " Total frames\n";
+        sout << (frame_cnt/ac::fps) << " Seconds\n";
+        file.close();
+        // flush to log
+        flushToLog(sout);
+        setEnabledProg();
+        [controller stopCV_prog];
+        if(breakProgram == true) {
+            [NSApp terminate:nil];
+        }
         
     }
 }
