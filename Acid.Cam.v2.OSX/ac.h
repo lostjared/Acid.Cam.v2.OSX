@@ -134,6 +134,7 @@ namespace ac {
     void Reverse_XOR(cv::Mat &frame);
     void CombinePixels(cv::Mat &frame);
     void FlipTrip(cv::Mat &frame);
+    void Canny(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
