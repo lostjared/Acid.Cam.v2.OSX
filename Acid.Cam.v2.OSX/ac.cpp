@@ -528,9 +528,9 @@ void ac::NewOne(cv::Mat &frame) {
             cv::Vec3b &colv = frame.at<cv::Vec3b>(i, z);// get pixels
             cv::Vec3b &cola = frame.at<cv::Vec3b>((frame.rows-1)-i, (frame.cols-1)-z);//frame.at<cv::Vec3b>((frame.cols-1)-z, (frame.rows-1)-i);
             // set arrays
-            unsigned int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
-            unsigned int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
-            unsigned int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
+            int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
+            int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
+            int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
             unsigned char R = 0,G = 0,B = 0;
             // loop through arrays
             for(unsigned int iq = 0; iq <= 2; ++iq) {
@@ -1211,9 +1211,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             cola[1] = buffer[1];
             cola[2] = buffer[0];
             unsigned int alpha = (int)pos;
-            unsigned int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
-            unsigned int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
-            unsigned int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
+            int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
+            int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
+            int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
             unsigned char R = 0,G = 0,B = 0;
             for(unsigned int iq = 0; iq <= 2; ++iq) {
                 R += red_values[iq];
@@ -1241,9 +1241,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             cola[1] = t[1];
             cola[2] = t[2];
             unsigned int alpha = (int)pos;
-            unsigned int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
-            unsigned int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
-            unsigned int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
+            int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
+            int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
+            int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
             unsigned char R = 0,G = 0,B = 0;
             for(unsigned int iq = 0; iq <= 2; ++iq) {
                 R += red_values[iq];
