@@ -1546,9 +1546,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             break;
         case 36:
         {
-            buffer[0] += sinf(M_PI+pos)*pos;
-            buffer[1] += cosf(M_PI+pos)*pos;
-            buffer[2] += tanf(M_PI+pos)*pos;
+            buffer[0] += sinf(3.14+pos)*pos;
+            buffer[1] += cosf(3.14+pos)*pos;
+            buffer[2] += tanf(3.14+pos)*pos;
         }
             break;
     }
@@ -2023,7 +2023,7 @@ void ac::SortFuzz(cv::Mat &frame) {
             cv[3] = 0;
             v.push_back(vv); // push back
         }
-        std::sort(v.begin(), v.end(), std::greater<int>());// sort greater
+        std::sort(v.begin(), v.end());// sort greater
         for(int i = 0; i < w; ++i) { // left to right
             unsigned char *value = (unsigned char*)&v[i];
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// pixel at i,z
