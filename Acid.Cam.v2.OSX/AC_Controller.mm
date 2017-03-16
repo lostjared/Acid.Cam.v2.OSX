@@ -290,7 +290,6 @@ void setEnabledProg() {
     std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
     std::cout << add_path << "\n";
     [startProg setEnabled: NO];
-    [window1 orderFront:self];
     [menuPaused setEnabled: YES];
     renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
                                           target:self
@@ -309,8 +308,11 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
         programRunning = false;
+        [startProg setEnabled: YES];
+        [window1 orderOut:self];
     } else {
         //[videoFileInput setEnabled: NO];
+        [window1 orderFront:self];
     }
 }
 
