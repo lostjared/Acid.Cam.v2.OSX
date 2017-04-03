@@ -135,6 +135,7 @@ namespace ac {
     void CombinePixels(cv::Mat &frame);
     void FlipTrip(cv::Mat &frame);
     void Canny(cv::Mat &frame);
+    void Boxes(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
