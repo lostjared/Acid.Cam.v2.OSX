@@ -2547,14 +2547,14 @@ void ac::Boxes(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     static unsigned int pixel_size = 8;
-    for(int z = 0; z < h; z += pixel_size) {
-        for(int i = 0; i < w; i += pixel_size) {
+    for(unsigned int z = 0; z < h; z += pixel_size) {
+        for(unsigned int i = 0; i < w; i += pixel_size) {
             unsigned char rgb[3];
             rgb[0] = rand()%255;
             rgb[1] = rand()%255;
             rgb[2] = rand()%255;
-            for(int y = z; y < z+pixel_size; ++y) {
-                for(int x = i; x < i+pixel_size; ++x) {
+            for(unsigned int y = z; y < z+pixel_size; ++y) {
+                for(unsigned int x = i; x < i+pixel_size; ++x) {
                     if(x < w && y < h) {
                     	cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
                         pixel[0] += rgb[0];
