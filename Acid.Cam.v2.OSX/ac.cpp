@@ -2544,8 +2544,8 @@ void ac::FlipTrip(cv::Mat &frame) {
 }
 
 void ac::Boxes(cv::Mat &frame) {
-    int w = frame.cols;// frame width
-    int h = frame.rows;// frame height
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
     static unsigned int pixel_size = 8;
     for(unsigned int z = 0; z < h; z += pixel_size) {
         for(unsigned int i = 0; i < w; i += pixel_size) {
