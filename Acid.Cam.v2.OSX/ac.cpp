@@ -2546,18 +2546,19 @@ void ac::FlipTrip(cv::Mat &frame) {
 void ac::Boxes(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    static unsigned int pixel_size = 8;
-    for(unsigned int z = 0; z < h; z += pixel_size) {
-        for(unsigned int i = 0; i < w; i += pixel_size) {
-            unsigned char rgb[3];
-            rgb[0] = rand()%255;
+    static unsigned int pixel_size = 8; // size of each tile
+    for(unsigned int z = 0; z < h; z += pixel_size) { // from top to bottom
+        for(unsigned int i = 0; i < w; i += pixel_size) { // from left to right
+            unsigned char rgb[3]; // 3 bytes
+            rgb[0] = rand()%255; // set to random number
             rgb[1] = rand()%255;
             rgb[2] = rand()%255;
-            for(unsigned int y = z; y < z+pixel_size; ++y) {
-                for(unsigned int x = i; x < i+pixel_size; ++x) {
-                    if(x < w && y < h) {
+            for(unsigned int y = z; y < z+pixel_size; ++y) { // tile top to bottom
+                for(unsigned int x = i; x < i+pixel_size; ++x) {// tile left to right
+                    if(x < w && y < h) { // is x,y on screen?
+                        // reference to pixel
                     	cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
-                        pixel[0] += rgb[0];
+                        pixel[0] += rgb[0]; // add each component
                         pixel[1] += rgb[1];
                         pixel[2] += rgb[2];
                     }
@@ -2565,12 +2566,13 @@ void ac::Boxes(cv::Mat &frame) {
             }
         }
     }
-    static int direction = 1;
+    static int direction = 1; // current direction, grow versus shrink
     if(direction == 1) {
-    	++pixel_size;
+    	++pixel_size;// grow by 1
+        // if greater than 1/6 of frame size set to zero
         if(pixel_size > (w/6)) direction = 0;
-    } else if(direction == 0) {
-        --pixel_size;
+    } else if(direction == 0) {// direction equals zero shrink
+        --pixel_size;// shrink
         if(pixel_size < 24) direction = 1;
     }
 }
