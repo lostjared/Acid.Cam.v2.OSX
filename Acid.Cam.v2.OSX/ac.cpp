@@ -30,14 +30,14 @@ namespace ac {
     int snapshot_Type = 0;
     bool in_custom = false;
     // draw strings (function names)
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 72;
+    int draw_max = 73;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -2543,6 +2543,7 @@ void ac::FlipTrip(cv::Mat &frame) {
     }
 }
 
+// Loop tiled boxes
 void ac::Boxes(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
@@ -2569,6 +2570,54 @@ void ac::Boxes(cv::Mat &frame) {
     static int direction = 1; // current direction, grow versus shrink
     if(direction == 1) {
     	++pixel_size;// grow by 1
+        // if greater than 1/6 of frame size set to zero
+        if(pixel_size > (w/6)) direction = 0;
+    } else if(direction == 0) {// direction equals zero shrink
+        --pixel_size;// shrink
+        if(pixel_size < 24) direction = 1;
+    }
+}
+// Loop tiled box fade
+void ac::BoxesFade(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    static cv::Vec3b color(rand()%255, rand()%255, rand()%255); // random color
+    static int sw = 0; // with component to increase
+    static unsigned int pixel_size = 8; // size of each tile
+    for(unsigned int z = 0; z < h; z += pixel_size) { // from top to bottom
+        ++sw;// increase
+        if(sw > 2) sw = 0;//greater than 2 reset
+        for(unsigned int i = 0; i < w; i += pixel_size) { // from left to right
+            switch(sw) {
+                case 0: // increase B
+                    ++color[0];
+                    break;
+                case 1://  increase G
+            		++color[1];
+                    break;
+                case 2:// increase R
+            		++color[2];
+                    break;
+            }
+            if(color[0] >= 254) color[0] = rand()%255; // reset if over
+            if(color[1] >= 254) color[1] = rand()%255;
+            if(color[2] >= 254) color[2] = rand()%255;
+            for(unsigned int y = z; y < z+pixel_size; ++y) { // tile top to bottom
+                for(unsigned int x = i; x < i+pixel_size; ++x) {// tile left to right
+                    if(x < w && y < h) { // is x,y on screen?
+                        // reference to pixel
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        pixel[0] += color[0]; // add each component
+                        pixel[1] += color[1];
+                        pixel[2] += color[2];
+                    }
+                }
+            }
+        }
+    }
+    static int direction = 1; // current direction, grow versus shrink
+    if(direction == 1) {
+        ++pixel_size;// grow by 1
         // if greater than 1/6 of frame size set to zero
         if(pixel_size > (w/6)) direction = 0;
     } else if(direction == 0) {// direction equals zero shrink
