@@ -2558,7 +2558,7 @@ void ac::Boxes(cv::Mat &frame) {
                 for(unsigned int x = i; x < i+pixel_size; ++x) {// tile left to right
                     if(x < w && y < h) { // is x,y on screen?
                         // reference to pixel
-                    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
                         pixel[0] += rgb[0]; // add each component
                         pixel[1] += rgb[1];
                         pixel[2] += rgb[2];
@@ -2569,7 +2569,7 @@ void ac::Boxes(cv::Mat &frame) {
     }
     static int direction = 1; // current direction, grow versus shrink
     if(direction == 1) {
-    	++pixel_size;// grow by 1
+        ++pixel_size;// grow by 1
         // if greater than 1/6 of frame size set to zero
         if(pixel_size > (w/6)) direction = 0;
     } else if(direction == 0) {// direction equals zero shrink
@@ -2588,24 +2588,25 @@ void ac::BoxesFade(cv::Mat &frame) {
         ++sw;// increase
         if(sw > 2) sw = 0;//greater than 2 reset
         for(unsigned int i = 0; i < w; i += pixel_size) { // from left to right
-            switch(sw) {
-                case 0: // increase B
-                    ++color[0];
-                    break;
-                case 1://  increase G
-            		++color[1];
-                    break;
-                case 2:// increase R
-            		++color[2];
-                    break;
-            }
-            if(color[0] >= 254) color[0] = rand()%255; // reset if over
-            if(color[1] >= 254) color[1] = rand()%255;
-            if(color[2] >= 254) color[2] = rand()%255;
             for(unsigned int y = z; y < z+pixel_size; ++y) { // tile top to bottom
                 for(unsigned int x = i; x < i+pixel_size; ++x) {// tile left to right
                     if(x < w && y < h) { // is x,y on screen?
                         // reference to pixel
+                        switch(sw) {
+                            case 0: // increase B
+                                ++color[0];
+                                break;
+                            case 1://  increase G
+                                ++color[1];
+                                break;
+                            case 2:// increase R
+                                ++color[2];
+                                break;
+                        }
+                        if(color[0] >= 254) color[0] = rand()%255; // reset if over
+                        if(color[1] >= 254) color[1] = rand()%255;
+                        if(color[2] >= 254) color[2] = rand()%255;
+
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
                         pixel[0] += color[0]; // add each component
                         pixel[1] += color[1];
