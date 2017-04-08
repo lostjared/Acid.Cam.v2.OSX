@@ -2522,7 +2522,9 @@ void ac::Canny(cv::Mat &frame) {
     cv::Mat out;
     static double x = 50, y = 10;
     cv::Canny(frame, out, x, y);
-    frame = out;
+    cv::Mat converted;
+    cv::cvtColor(out, converted, cv::COLOR_GRAY2RGB);
+    frame = converted;
 }
 
 // Flip takes cv::Mat reference
