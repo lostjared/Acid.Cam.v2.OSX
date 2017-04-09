@@ -2523,7 +2523,7 @@ void ac::Canny(cv::Mat &frame) {
     static double x = 50, y = 10;
     cv::Canny(frame, out, x, y);
     cv::Mat converted;
-    cv::cvtColor(out, converted, cv::COLOR_GRAY2RGB);
+    cv::cvtColor(out, converted, cv::COLOR_GRAY2BGR);
     frame = converted;
 }
 
