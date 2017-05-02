@@ -30,14 +30,14 @@ namespace ac {
     int snapshot_Type = 0;
     bool in_custom = false;
     // draw strings (function names)
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black","Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 73;
+    int draw_max = 74;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -2627,6 +2627,23 @@ void ac::BoxesFade(cv::Mat &frame) {
         --pixel_size;// shrink
         if(pixel_size < 24) direction = 1;
     }
+}
+
+
+void ac::FlashBlack(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    static cv::Vec3b black(0, 0, 0);
+    static bool flash = false;
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0;  i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(flash == true)
+                pixel = black;
+            
+        }
+    }
+    flash = !flash;
 }
 
 // Alpha Blend with Original Frame

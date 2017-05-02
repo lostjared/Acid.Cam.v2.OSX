@@ -43,7 +43,7 @@ extern cv::Mat blend_image;
 // acid cam namespace
 namespace ac {
     // version string
-    static const std::string version="2.1.6";
+    static const std::string version="2.1.7";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,iRev;
@@ -138,6 +138,7 @@ namespace ac {
     void Boxes(cv::Mat &frame);
     void BoxesFade(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
+    void FlashBlack(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
