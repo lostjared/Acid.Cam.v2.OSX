@@ -2651,17 +2651,17 @@ void ac::SlideRGB(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     static int offset_x = 0;
+    int color[2] = { rand()%3, rand()%3 };
+
     
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(offset_x+i < (w-1)) {
                 cv::Vec3b off_pix = frame.at<cv::Vec3b>(z, offset_x+i);
-                pixel[0] += off_pix[0];
-                if( (w-(offset_x+i)) >= 1) {
-                    cv::Vec3b off_red = frame.at<cv::Vec3b>(z, (w-(offset_x+i)));
-                    pixel[2] += off_red[2];
-                }
+                pixel[color[0]] += off_pix[color[0]];
+            	cv::Vec3b off_red = frame.at<cv::Vec3b>(z, (w-(offset_x+i)));
+                pixel[color[1]] += off_red[color[1]];
             }
         }
     }
@@ -2670,7 +2670,7 @@ void ac::SlideRGB(cv::Mat &frame) {
     static unsigned int direction = 1;
     if(direction == 1) {
     	++offset_x;
-        if(offset_x > 10) {
+        if(offset_x > 5) {
             direction = 0;
         }
     } else {
