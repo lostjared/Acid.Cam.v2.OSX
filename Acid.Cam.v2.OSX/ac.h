@@ -139,6 +139,7 @@ namespace ac {
     void BoxesFade(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void FlashBlack(cv::Mat &frame);
+    void SlideRGB(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
