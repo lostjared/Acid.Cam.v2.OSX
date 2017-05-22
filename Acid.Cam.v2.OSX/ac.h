@@ -142,6 +142,8 @@ namespace ac {
     void SlideRGB(cv::Mat &frame);
     void Side2Side(cv::Mat &frame);
     void Top2Bottom(cv::Mat &frame);
+    void StrobeRedGreenBlue(cv::Mat &frame);
+    void Blend_Angle(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
