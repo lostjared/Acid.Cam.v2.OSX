@@ -1,5 +1,7 @@
 # Acid.Cam.v2.OSX
 
+View Facebook page for sample videos: http://facebook.com/AcidCam
+
 OpenCV3 Version is on the master branch  now, to use the old version switch to oldmacosx branch
 To compile first clone then open with Xcode and build.
 
@@ -19,7 +21,7 @@ for other platforms specifically Linux/Windows.
 This project contains the compiled static libraries / include files required to build the program.
 The project is for Xcode 8.2
 
-So far there are 91 Filters Total.
+So far there are 108 Filters Total.
 
 Project home page: http://lostsidedead.com/blog/?index=212
 
