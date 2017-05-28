@@ -2795,7 +2795,7 @@ void ac::Outward(cv::Mat &frame) {
             pixel[1] += (pos*offset[1]);
             pixel[2] += (pos*offset[2]);
         }
-        pos += 0.0005;
+        pos += 0.005;
     }
     
     pos = start_pos;
@@ -2807,12 +2807,14 @@ void ac::Outward(cv::Mat &frame) {
             pixel[1] += (pos*offset[1]);
             pixel[2] += (pos*offset[2]);
         }
-        pos += 0.0005;
+        pos += 0.005;
     }
     
     offset[0] += 12;
     offset[1] += 6;
     offset[2] += 3;
+    
+    for(int i = 0; i < 3; ++i) if(offset[i] > 200) offset[i] = 0;
     
     static int direction = 1;
    	procPos(direction, start_pos, pos_max);
