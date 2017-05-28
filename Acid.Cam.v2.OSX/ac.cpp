@@ -2795,6 +2795,7 @@ void ac::Outward(cv::Mat &frame) {
             pixel[1] += (pos*offset[1]);
             pixel[2] += (pos*offset[2]);
         }
+        pos += 0.0005;
     }
     
     pos = start_pos;
@@ -2806,6 +2807,7 @@ void ac::Outward(cv::Mat &frame) {
             pixel[1] += (pos*offset[1]);
             pixel[2] += (pos*offset[2]);
         }
+        pos += 0.0005;
     }
     
     offset[0] += 12;
