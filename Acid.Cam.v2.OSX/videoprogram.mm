@@ -251,6 +251,9 @@ int program_main(int outputType, std::string input_file, bool noRecord, bool rec
                 writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
             else
                 writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
+            
+            outfilename = ac::fileName;
+            
             if(writer->isOpened() == false) {
                 sout << "Error video file could not be created.\n";
                 exit(0);

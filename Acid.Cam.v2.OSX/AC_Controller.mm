@@ -12,6 +12,7 @@
 #include<dirent.h>
 #include<time.h>
 
+
 NSTextView *logView;
 NSTextField *frame_count;
 NSMutableArray *custom_array;
@@ -32,6 +33,7 @@ bool disableFilter;
 cv::VideoCapture *capture;
 NSThread *background;
 bool camera_active = false;
+std::string outfilename;
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     NSAlert *alert = [[NSAlert alloc] init];
@@ -417,7 +419,7 @@ void setEnabledProg() {
         }
 
         if(!ac::noRecord && writer->isOpened()) {
-            sout << "Wrote to Video File: " << ac::fileName << "\n";
+            sout << "Wrote to Video File: " << outfilename << "\n";
             writer->release();
         }
     	sout << frame_cnt << " Total frames\n";

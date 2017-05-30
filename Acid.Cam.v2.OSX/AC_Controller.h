@@ -21,6 +21,7 @@ extern int camera_mode;
 extern bool disableFilter;
 extern NSThread *background;
 extern  bool camera_active;
+extern std::string outfilename;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     IBOutlet NSPopUpButton *resolution;
