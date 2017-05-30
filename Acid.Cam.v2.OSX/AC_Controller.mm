@@ -367,7 +367,6 @@ void setEnabledProg() {
         if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
             ac::orig_frame = frame.clone();
         }
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
 	        if(ac::draw_strings[ac::draw_offset] != "Custom") {
 	            if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
@@ -378,7 +377,7 @@ void setEnabledProg() {
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         ++frame_cnt;
         dispatch_sync(dispatch_get_main_queue(), ^{
-        	cv::imshow("Acid Cam v2", frame);
+            cv::imshow("Acid Cam v2", frame);
             ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
             if(camera_mode == 1) {
                 float val = frame_cnt;
@@ -387,27 +386,29 @@ void setEnabledProg() {
                     ftext << " - " << (val/size)*100 << "% ";
             }
             setFrameLabel(ftext);
-            if(ac::noRecord == false) {
-                if(writer->isOpened() )writer->write(frame);
-                if(file.is_open()) {
-                    file.seekg(0, std::ios::end);
-                    file_size = file.tellg();
-                }
-            }
-            if(ac::snapShot == true) {
-                static unsigned int index = 0;
-                stream.str("");
-                time_t t = time(0);
-                struct tm *m;
-                m = localtime(&t);
-                stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
-                imwrite(stream.str(), frame);
-                sout << "Took snapshot: " << stream.str() << "\n";
-                ac::snapShot = false;
-                // flush to log
-                flushToLog(sout);
-            }
         });
+        if(ac::noRecord == false) {
+            if(writer->isOpened() )writer->write(frame);
+            if(file.is_open()) {
+                file.seekg(0, std::ios::end);
+                file_size = file.tellg();
+            }
+        }
+        if(ac::snapShot == true) {
+            static unsigned int index = 0;
+            stream.str("");
+            time_t t = time(0);
+            struct tm *m;
+            m = localtime(&t);
+            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+            imwrite(stream.str(), frame);
+            sout << "Took snapshot: " << stream.str() << "\n";
+            ac::snapShot = false;
+            // flush to log
+            dispatch_sync(dispatch_get_main_queue(), ^{
+            	flushToLog(sout);
+            });
+        }
     }
     dispatch_sync(dispatch_get_main_queue(), ^{
         [finish_queue orderOut:self];
@@ -432,8 +433,8 @@ void setEnabledProg() {
         }
         programRunning = false;
         [startProg setEnabled: YES];
+        [background release];
     });
-    
 }
 
 - (void) cvProc: (id) sender {
