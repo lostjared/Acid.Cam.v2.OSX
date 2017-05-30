@@ -165,6 +165,12 @@ void stopRecord() {
 std::string input_name = "";
 bool rec_Audio = false;
 void stopCV() {
+    
+    if(camera_active == true) {
+        camera_active = false;
+        return;
+    }
+    
     if(renderTimer != nil && renderTimer.valid) {
         [renderTimer invalidate];
         renderTimer = nil;

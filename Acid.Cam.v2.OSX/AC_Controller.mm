@@ -30,6 +30,8 @@ bool blend_set = false;
 int camera_mode = 0;
 bool disableFilter;
 cv::VideoCapture *capture;
+NSThread *background;
+bool camera_active = false;
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     NSAlert *alert = [[NSAlert alloc] init];
@@ -73,8 +75,10 @@ void setEnabledProg() {
 
 
 - (IBAction) quitProgram: (id) sender {
-    if(programRunning == true)
+    if(programRunning == true) {
         breakProgram = true;
+        camera_active = false;
+    }
     else {
         [NSApp terminate:nil];
     }
@@ -291,11 +295,16 @@ void setEnabledProg() {
     std::cout << add_path << "\n";
     [startProg setEnabled: NO];
     [menuPaused setEnabled: YES];
-    renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
-                                          target:self
-                                        selector:@selector(cvProc:)
-                                        userInfo:nil
-                                         repeats:YES];
+    
+    if(camera_mode == 1) {
+    	renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
+        	                                  target:self
+            	                            selector:@selector(cvProc:)
+                	                        userInfo:nil
+                    	                     repeats:YES];
+    } else {
+        renderTimer = [NSTimer timerWithTimeInterval: 0.001 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
+    }
     
     
     if(camera_mode == 1)
@@ -304,6 +313,7 @@ void setEnabledProg() {
         capture = capture_camera.get();
     
     int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -312,8 +322,116 @@ void setEnabledProg() {
         [window1 orderOut:self];
     } else {
         //[videoFileInput setEnabled: NO];
+        if(camera_mode == 0) {
+            background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
+            [background start];
+            camera_active = true;
+        }
         [window1 orderFront:self];
+            }
+}
+
+- (void) stopCamera {
+    camera_active = false;
+    [finish_queue orderFront:self];
+    if(renderTimer != nil && renderTimer.valid) {
+        [renderTimer invalidate];
+        renderTimer = nil;
+        //capture_camera.release();
+        capture = NULL;
+   }
+}
+
+- (void) camProc: (id) sender {
+    if(breakProgram == true || stopProgram == true) {
+        [self stopCamera];
     }
+    
+    if(isPaused && pauseStepTrue == true) {
+        pauseStepTrue = false;
+    }
+    else if(isPaused) return;
+    
+    
+    if(capture != NULL && capture->isOpened() && camera_active == true) {
+    	capture->grab();
+        [NSThread sleepForTimeInterval: 1.000/ac::fps];
+    }
+}
+
+- (void) camThread: (id) sender {
+    cv::Mat frame;
+    while(camera_active == true && capture != NULL && capture->retrieve(frame)) {
+        if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
+            ac::orig_frame = frame.clone();
+        }
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+	        if(ac::draw_strings[ac::draw_offset] != "Custom") {
+	            if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
+	            else ac::isNegative = true;
+	            ac::color_order = (int) [corder indexOfSelectedItem];
+        	}
+        });
+        if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+        ++frame_cnt;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+        	cv::imshow("Acid Cam v2", frame);
+            ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+            if(camera_mode == 1) {
+                float val = frame_cnt;
+                float size = total_frames;
+                if(size != 0)
+                    ftext << " - " << (val/size)*100 << "% ";
+            }
+            setFrameLabel(ftext);
+            if(ac::noRecord == false) {
+                if(writer->isOpened() )writer->write(frame);
+                if(file.is_open()) {
+                    file.seekg(0, std::ios::end);
+                    file_size = file.tellg();
+                }
+            }
+            if(ac::snapShot == true) {
+                static unsigned int index = 0;
+                stream.str("");
+                time_t t = time(0);
+                struct tm *m;
+                m = localtime(&t);
+                stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+                imwrite(stream.str(), frame);
+                sout << "Took snapshot: " << stream.str() << "\n";
+                ac::snapShot = false;
+                // flush to log
+                flushToLog(sout);
+            }
+        });
+    }
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [finish_queue orderOut:self];
+    	cv::destroyWindow("Acid Cam v2");
+    	cv::destroyWindow("Controls");
+        
+        if(!ac::noRecord && input_name.length() == 0) {
+            if(rec_Audio == true) stopRecord();
+        }
+
+        if(!ac::noRecord && writer->isOpened()) {
+            sout << "Wrote to Video File: " << ac::fileName << "\n";
+            writer->release();
+        }
+    	sout << frame_cnt << " Total frames\n";
+    	sout << (frame_cnt/ac::fps) << " Seconds\n";
+    	file.close();
+    	flushToLog(sout);
+        setEnabledProg();
+        if(breakProgram == true) {
+            [NSApp terminate:nil];
+        }
+        programRunning = false;
+        [startProg setEnabled: YES];
+    });
+    
 }
 
 - (void) cvProc: (id) sender {

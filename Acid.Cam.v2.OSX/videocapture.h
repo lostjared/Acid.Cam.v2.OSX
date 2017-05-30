@@ -10,9 +10,13 @@
 #include"ac.h"
 #include<sstream>
 #include<memory>
+#include<string>
+
 
 extern bool breakProgram, programRunning, stopProgram;
 extern bool isPaused;
+extern bool rec_Audio;
+extern std::string input_name;
 extern unsigned int total_frames;
 extern int program_main(int outputType, std::string input_file, bool noRecord, bool recAudio, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 extern std::unique_ptr<cv::VideoWriter> writer;
@@ -28,4 +32,5 @@ extern int key;
 inline std::string boolStr(bool b) { if(b) return "True"; return "False"; };
 extern void stopCV();
 extern void setEnabledProg();
+extern void stopRecord();
 #endif

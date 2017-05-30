@@ -19,6 +19,8 @@ extern pixel pix;
 extern drawn d;
 extern int camera_mode;
 extern bool disableFilter;
+extern NSThread *background;
+extern  bool camera_active;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     IBOutlet NSPopUpButton *resolution;
@@ -53,8 +55,11 @@ extern bool disableFilter;
     IBOutlet NSButton *negate_checked;
     IBOutlet NSWindow *image_select;
     IBOutlet NSComboBox *image_combo;
+    IBOutlet NSWindow *finish_queue;
+    IBOutlet NSProgressIndicator *finish_queue_progress;
     
     bool pauseStepTrue;
+   
 }
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
@@ -98,6 +103,9 @@ extern bool disableFilter;
 - (IBAction) showSelectImage: (id) sender;
 - (IBAction) showAlpha: (id) sender;
 - (IBAction) showPlugins: (id) sender;
+- (void) camProc: (id) sender;
+- (void) camThread: (id) sender;
+- (void) stopCamera;
 
 
 @end
