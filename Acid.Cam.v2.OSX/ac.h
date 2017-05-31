@@ -50,7 +50,7 @@ namespace ac {
     extern int color_order;
     extern double fps;
     extern int draw_offset;
-    static std::string fileName ="VideoFile.avi";
+    extern std::string fileName;
     extern cv::Mat orig_frame;
     extern cv::Mat blendW_frame;
     extern cv::Mat image_files[4];
