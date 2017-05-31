@@ -28,7 +28,7 @@ extern std::string outfilename;
     IBOutlet NSPopUpButton *vid_format;
     IBOutlet NSPopUpButton *device_index, *startaction;
     IBOutlet NSTextField   *prefix_input, *framecount, *goto_ti, *goto_fr;
-    IBOutlet NSButton      *record_op, *record_audio;
+    IBOutlet NSButton      *record_op;
     IBOutlet NSButton      *prefix_grab;
     IBOutlet NSWindow      *window1, *window2;
     IBOutlet NSButton      *videoFileInput, *selectVideoFile;

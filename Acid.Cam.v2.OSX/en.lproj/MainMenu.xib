@@ -40,7 +40,6 @@
                 <outlet property="plugin_name" destination="WxG-7y-2je" id="NAO-mA-Xur"/>
                 <outlet property="plugin_window" destination="lg6-0V-qNM" id="9Ek-nb-w9H"/>
                 <outlet property="prefix_input" destination="615" id="638"/>
-                <outlet property="record_audio" destination="ksR-VL-H3U" id="rW2-FU-zCD"/>
                 <outlet property="record_op" destination="701" id="706"/>
                 <outlet property="resolution" destination="540" id="632"/>
                 <outlet property="reverse_box" destination="9Gr-qr-GK9" id="eOh-ix-rOP"/>
@@ -243,7 +242,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="540">
-                        <rect key="frame" x="18" y="110" width="192" height="26"/>
+                        <rect key="frame" x="18" y="110" width="191" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="640x480 (SD)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="543" id="541">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -374,14 +373,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ksR-VL-H3U">
-                        <rect key="frame" x="213" y="113" width="95" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Audio" bezelStyle="regularSquare" imagePosition="left" inset="2" id="eLV-Cq-5yn">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="575">
                         <rect key="frame" x="213" y="137" width="56" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -393,7 +384,7 @@
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-212" y="313"/>
+            <point key="canvasLocation" x="-212" y="312.5"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>

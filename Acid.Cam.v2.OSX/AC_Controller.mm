@@ -97,7 +97,6 @@ void setEnabledProg() {
     [video_file setEnabled: NO];
     [resolution setEnabled: NO];
     [device_index setEnabled: NO];
-    [record_audio setEnabled: NO];
     logView = t_view;
     frame_count = framecount;
     [window1 setLevel: NSStatusWindowLevel];
@@ -260,15 +259,12 @@ void setEnabledProg() {
     NSInteger res = [resolution indexOfSelectedItem];
     int res_x[3] = { 640, 1280, 1920 };
     int res_y[3] = { 480, 720, 1080 };
-    bool r, raudio;
+    bool r;
     if([record_op integerValue] == 1)
         r = false;
     else
         r = true;
-    if([record_audio integerValue] == 1)
-        raudio = true;
-    else
-        raudio = false;
+
     
     
     NSInteger checkedState = [menuPaused state];
@@ -314,7 +310,7 @@ void setEnabledProg() {
     else
         capture = capture_camera.get();
     
-    int ret_val = program_main((int)popupType, input_file, r, raudio, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    int ret_val = program_main((int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
@@ -415,10 +411,6 @@ void setEnabledProg() {
     	cv::destroyWindow("Acid Cam v2");
     	cv::destroyWindow("Controls");
         
-        if(!ac::noRecord && input_name.length() == 0) {
-            if(rec_Audio == true) stopRecord();
-        }
-
         if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << outfilename << "\n";
             writer->release();
@@ -547,14 +539,12 @@ void setEnabledProg() {
         [video_file setEnabled: NO];
         [resolution setEnabled: YES];
         [device_index setEnabled: YES];
-        [record_audio setEnabled: YES];
         [selectVideoFile setEnabled: NO];
     }
     else {
         [video_file setEnabled: NO];
         [resolution setEnabled: NO];
         [device_index setEnabled: NO];
-        [record_audio setEnabled: NO];
         [selectVideoFile setEnabled: YES];
     }
 }
