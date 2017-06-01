@@ -264,8 +264,6 @@ void setEnabledProg() {
     else
         r = true;
 
-    
-    
     NSInteger checkedState = [menuPaused state];
     isPaused = (checkedState == NSOnState) ? true : false;
     
@@ -320,6 +318,7 @@ void setEnabledProg() {
     } else {
         //[videoFileInput setEnabled: NO];
         if(camera_mode == 0) {
+            
             background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
             [background start];
             camera_active = true;
@@ -336,6 +335,7 @@ void setEnabledProg() {
         [renderTimer invalidate];
         renderTimer = nil;
         //capture_camera.release();
+        
    }
 }
 
@@ -424,6 +424,7 @@ void setEnabledProg() {
         }
         programRunning = false;
         [startProg setEnabled: YES];
+        [background release];
     });
 }
 
