@@ -331,17 +331,18 @@ void setEnabledProg() {
 - (void) stopCamera {
     camera_active = false;
     [finish_queue orderFront:self];
+    [finish_queue_progress startAnimation:self];
     if(renderTimer != nil && renderTimer.valid) {
         [renderTimer invalidate];
         renderTimer = nil;
         //capture_camera.release();
-        capture = NULL;
    }
 }
 
 - (void) camProc: (id) sender {
     if(breakProgram == true || stopProgram == true) {
         [self stopCamera];
+        return;
     }
     
     if(isPaused && pauseStepTrue == true) {
@@ -350,8 +351,8 @@ void setEnabledProg() {
     else if(isPaused) return;
     
     
-    if(capture != NULL && capture->isOpened() && camera_active == true) {
-    	capture->grab();
+    if(capture_camera->isOpened() && camera_active == true) {
+    	capture_camera->grab();
         //[NSThread sleepForTimeInterval: 1.000/ac::fps];
     }
 }
@@ -409,7 +410,6 @@ void setEnabledProg() {
         [finish_queue orderOut:self];
     	cv::destroyWindow("Acid Cam v2");
     	cv::destroyWindow("Controls");
-        
         if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
@@ -424,7 +424,6 @@ void setEnabledProg() {
         }
         programRunning = false;
         [startProg setEnabled: YES];
-        [background release];
     });
 }
 
@@ -759,16 +758,17 @@ void setEnabledProg() {
 
 void custom_filter(cv::Mat &frame) {
     ac::in_custom = true;
-    NSInteger len = [custom_array count];
-    for(NSInteger i = 0; i < len; ++i) {
-        
-        if(i == len-1)
-            ac::in_custom = false;
-        
-        NSNumber *num = [custom_array objectAtIndex:i];
-        NSInteger index = [num integerValue];
-        ac::draw_func[(int)index](frame);
-        //        [num release];
+    for(NSInteger i = 0; i < [custom_array count]; ++i) {
+        if(i == [custom_array count]-1)
+    	ac::in_custom = false;
+        NSNumber *num;
+        @try {
+         	num = [custom_array objectAtIndex:i];
+        	NSInteger index = [num integerValue];
+        	ac::draw_func[(int)index](frame);
+        } @catch(NSException *e) {
+            NSLog(@"%@\n", [e reason]);
+        }
     }
     ac::in_custom = false;
 }
