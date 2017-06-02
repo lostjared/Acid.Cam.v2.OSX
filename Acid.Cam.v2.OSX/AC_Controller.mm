@@ -373,6 +373,11 @@ void setEnabledProg() {
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         ++frame_cnt;
         dispatch_sync(dispatch_get_main_queue(), ^{
+            if([corder indexOfSelectedItem] == 5) {
+                cv::Mat change;
+                cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
+                cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
+            }
             cv::imshow("Acid Cam v2", frame);
             ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
             if(camera_mode == 1) {
@@ -466,6 +471,12 @@ void setEnabledProg() {
     }
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
 	++frame_cnt;
+    
+    if([corder indexOfSelectedItem] == 5) {
+    	cv::Mat change;
+    	cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
+    }
     
     cv::imshow("Acid Cam v2", frame);
 
