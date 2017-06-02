@@ -31,14 +31,14 @@ namespace ac {
     bool in_custom = false;
     std::string fileName ="VideoFile.avi";
     // draw strings (function names)
-    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black", "SlideRGB", "Side2Side","Top2Bottom","Strobe Red Then Green Then Blue","Blend_Angle", "Outward",  "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black", "SlideRGB", "Side2Side","Top2Bottom","Strobe Red Then Green Then Blue","Blend_Angle", "Outward", "Outward Square", "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
 
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
-        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 80;
+    int draw_max = 81;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -2795,6 +2795,11 @@ void ac::Outward(cv::Mat &frame) {
             pixel[0] += (pos*offset[0]);
             pixel[1] += (pos*offset[1]);
             pixel[2] += (pos*offset[2]);
+            // swap colors
+            swapColors(frame, y, x);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, y, x);
+            
         }
         pos += 0.005;
     }
@@ -2807,6 +2812,10 @@ void ac::Outward(cv::Mat &frame) {
             pixel[0] += (pos*offset[0]);
             pixel[1] += (pos*offset[1]);
             pixel[2] += (pos*offset[2]);
+            // swap colors
+            swapColors(frame, y, x);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, y, x);
         }
         pos += 0.005;
     }
@@ -2817,6 +2826,78 @@ void ac::Outward(cv::Mat &frame) {
     
     for(int i = 0; i < 3; ++i) if(offset[i] > 200) offset[i] = 0;
     
+    static int direction = 1;
+   	procPos(direction, start_pos, pos_max);
+}
+
+void ac::OutwardSquare(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    unsigned int wx = w/2;
+    static double start_pos = 1, pos = 1.0, pos_max = 5.0;
+    static cv::Scalar offset(5, 50, 100);
+    pos = start_pos;
+
+    for(int y = h/2; y > 0; --y) {
+        for(int x = 0; x < wx; ++x) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+            pixel[0] += (pos*offset[0]);
+            pixel[1] += (pos*offset[1]);
+            pixel[2] += (pos*offset[2]);
+            // swap colors
+            swapColors(frame, y, x);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, y, x);
+        }
+        pos += 0.005;
+    }
+    //pos = start_pos;
+    for(int y = h/2; y > 0; --y) {
+        for(int x = w-1; x > wx-1; --x) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+            pixel[0] += (pos*offset[0]);
+            pixel[1] += (pos*offset[1]);
+            pixel[2] += (pos*offset[2]);
+            // swap colors
+            swapColors(frame, y, x);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, y, x);
+        }
+        pos += 0.005;
+    }
+    
+   	pos = start_pos;
+    for(int y = h/2+1; y < h; ++y) {
+        for(int x = 0; x < wx; ++x) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+            pixel[0] += (pos*offset[0]);
+            pixel[1] += (pos*offset[1]);
+            pixel[2] += (pos*offset[2]);
+            // swap colors
+            swapColors(frame, y, x);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, y, x);
+        }
+        pos += 0.005;
+    }
+    //pos = start_pos;
+    for(int y = h/2+1; y < h; ++y) {
+        for(int x = w-1; x > wx-1; --x) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+            pixel[0] += (pos*offset[0]);
+            pixel[1] += (pos*offset[1]);
+            pixel[2] += (pos*offset[2]);
+            // swap colors
+            swapColors(frame, y, x);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, y, x);
+        }
+        pos += 0.005;
+    }
+    offset[0] += 12;
+    offset[1] += 6;
+    offset[2] += 3;
+    for(int i = 0; i < 3; ++i) if(offset[i] > 200) offset[i] = 0;
     static int direction = 1;
    	procPos(direction, start_pos, pos_max);
 }
