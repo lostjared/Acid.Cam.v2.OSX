@@ -137,7 +137,6 @@ namespace ac {
     void Canny(cv::Mat &frame);
     void Boxes(cv::Mat &frame);
     void BoxesFade(cv::Mat &frame);
-    void BlendWithSource(cv::Mat &frame);
     void FlashBlack(cv::Mat &frame);
     void SlideRGB(cv::Mat &frame);
     void Side2Side(cv::Mat &frame);
@@ -146,6 +145,8 @@ namespace ac {
     void Outward(cv::Mat &frame);
     void OutwardSquare(cv::Mat &frame);
     void Blend_Angle(cv::Mat &frame);
+    void ShiftPixels(cv::Mat &frame);
+    void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
