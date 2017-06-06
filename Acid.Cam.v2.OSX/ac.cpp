@@ -2915,6 +2915,10 @@ void ac::ShiftPixels(cv::Mat &frame) {
             pixel[1] += source[1];
             pixel[2] += source[2];
             ++start;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
         for(unsigned int i = 0; i < offset-1 && start < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -2923,6 +2927,10 @@ void ac::ShiftPixels(cv::Mat &frame) {
             pixel[1] += source[1];
             pixel[2] += source[2];
             ++start;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int direction = 1;
