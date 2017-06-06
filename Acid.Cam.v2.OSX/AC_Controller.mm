@@ -324,11 +324,11 @@ void setEnabledProg() {
             camera_active = true;
         }
         [window1 orderFront:self];
-            }
+    }
 }
 
 - (void) stopCamera {
-    camera_active = false;
+    //camera_active = false;
     [finish_queue orderFront:self];
     [finish_queue_progress startAnimation:self];
     if(renderTimer != nil && renderTimer.valid) {
@@ -430,6 +430,7 @@ void setEnabledProg() {
         programRunning = false;
         [startProg setEnabled: YES];
         [background release];
+        camera_active = false;
     });
 }
 
