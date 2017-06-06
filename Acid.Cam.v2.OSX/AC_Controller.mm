@@ -78,7 +78,7 @@ void setEnabledProg() {
 - (IBAction) quitProgram: (id) sender {
     if(programRunning == true) {
         breakProgram = true;
-        camera_active = false;
+        //camera_active = false;
     }
     else {
         [NSApp terminate:nil];
@@ -318,7 +318,7 @@ void setEnabledProg() {
     } else {
         //[videoFileInput setEnabled: NO];
         if(camera_mode == 0) {
-            
+            frames_captured = 0;
             background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
             [background start];
             camera_active = true;
@@ -328,15 +328,13 @@ void setEnabledProg() {
 }
 
 - (void) stopCamera {
-    //camera_active = false;
+    camera_active = false;
     [finish_queue orderFront:self];
     [finish_queue_progress startAnimation:self];
     if(renderTimer != nil && renderTimer.valid) {
         [renderTimer invalidate];
         renderTimer = nil;
-        //capture_camera.release();
-        
-   }
+    }
 }
 
 - (void) camProc: (id) sender {
@@ -353,13 +351,18 @@ void setEnabledProg() {
     
     if(capture_camera->isOpened() && camera_active == true) {
     	capture_camera->grab();
+        frames_captured++;
         //[NSThread sleepForTimeInterval: 1.000/ac::fps];
     }
 }
 
 - (void) camThread: (id) sender {
     cv::Mat frame;
-    while(camera_active == true && capture != NULL && capture->retrieve(frame)) {
+    while(camera_active && capture->retrieve(frame)) {
+        
+        if(isPaused) continue;
+        
+        ++frame_cnt;
         if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
             ac::orig_frame = frame.clone();
         }
@@ -371,7 +374,7 @@ void setEnabledProg() {
         	}
         });
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-        ++frame_cnt;
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
                 cv::Mat change;
@@ -379,7 +382,7 @@ void setEnabledProg() {
                 cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
             }
             cv::imshow("Acid Cam v2", frame);
-            ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+            ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
             if(camera_mode == 1) {
                 float val = frame_cnt;
                 float size = total_frames;

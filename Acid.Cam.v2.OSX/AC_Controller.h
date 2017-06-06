@@ -60,6 +60,7 @@ extern  bool camera_active;
     IBOutlet NSProgressIndicator *finish_queue_progress;
     
     bool pauseStepTrue;
+    int frames_captured;
    
 }
 - (IBAction) selectPlugin: (id) sender;
