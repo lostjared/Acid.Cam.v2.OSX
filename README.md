@@ -1,6 +1,11 @@
 # Acid.Cam.v2.OSX
 
-View Facebook page for sample videos: http://facebook.com/AcidCam
+View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
+
+View this YouTube playlist for videos created with this software
+
+https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
+
 
 OpenCV3 Version is on the master branch  now, to use the old version switch to oldmacosx branch
 To compile first clone then open with Xcode and build.
