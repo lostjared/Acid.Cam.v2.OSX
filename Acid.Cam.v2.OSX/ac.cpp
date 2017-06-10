@@ -16,6 +16,7 @@
 // Acid Cam namespace
 namespace ac {
     // variables
+    unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
     bool images_Enabled = false, fps_force = false,iRev = false;
     bool blur_Second = false;
@@ -49,10 +50,16 @@ namespace ac {
 // swapColors inline function takes frame and x, y position
 inline void ac::swapColors(cv::Mat &frame, int x, int y) {
     if(in_custom == true) return;
-    if(color_order == 0) return; // if no swap needed return
+    if(color_order == 0 && swapColor_r == 0 && swapColor_g == 0 && swapColor_b == 0) return; // if no swap needed return
     cv::Vec3b &cur = frame.at<cv::Vec3b>(x,y);
+    
+    cur[0] += swapColor_b;
+    cur[1] += swapColor_g;
+    cur[2] += swapColor_r;
+    
     cv::Vec3b temp;// temp
     temp = cur;// temp = cur
+
     // swap RGB orders
     switch(color_order) {
         case 1:

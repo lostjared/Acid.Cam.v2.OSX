@@ -770,6 +770,19 @@ void setEnabledProg() {
     [plugin_window orderFront:self];
 }
 
+- (IBAction) setRGB_Values: (id) sender {
+    NSInteger red_val = [red_slider integerValue];
+    NSInteger green_val = [green_slider integerValue];
+    NSInteger blue_val = [blue_slider integerValue];
+    ac::swapColor_r = (unsigned int)red_val;
+    ac::swapColor_g = (unsigned int)green_val;
+    ac::swapColor_b = (unsigned int)blue_val;
+    [t_red setIntegerValue: red_val];
+    [t_green setIntegerValue: green_val];
+    [t_blue setIntegerValue: blue_val];
+}
+
+
 @end
 
 void custom_filter(cv::Mat &frame) {

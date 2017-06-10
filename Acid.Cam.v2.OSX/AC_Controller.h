@@ -27,7 +27,7 @@ extern  bool camera_active;
     IBOutlet NSPopUpButton *resolution;
     IBOutlet NSPopUpButton *vid_format;
     IBOutlet NSPopUpButton *device_index, *startaction;
-    IBOutlet NSTextField   *prefix_input, *framecount, *goto_ti, *goto_fr;
+    IBOutlet NSTextField   *prefix_input, *framecount, *goto_ti, *goto_fr, *t_red, *t_green, *t_blue;
     IBOutlet NSButton      *record_op;
     IBOutlet NSButton      *prefix_grab;
     IBOutlet NSWindow      *window1, *window2;
@@ -58,7 +58,7 @@ extern  bool camera_active;
     IBOutlet NSComboBox *image_combo;
     IBOutlet NSWindow *finish_queue;
     IBOutlet NSProgressIndicator *finish_queue_progress;
-    
+    IBOutlet NSSlider *red_slider, *green_slider, *blue_slider;
     bool pauseStepTrue;
     int frames_captured;
    
@@ -108,7 +108,7 @@ extern  bool camera_active;
 - (void) camProc: (id) sender;
 - (void) camThread: (id) sender;
 - (void) stopCamera;
-
+- (IBAction) setRGB_Values: (id) sender;
 
 @end
 
