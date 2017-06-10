@@ -352,7 +352,7 @@ void setEnabledProg() {
     if(capture_camera->isOpened() && camera_active == true) {
     	capture_camera->grab();
         frames_captured++;
-        //[NSThread sleepForTimeInterval: 1.000/ac::fps];
+       // [NSThread sleepForTimeInterval: 1.000/ac::fps];
     }
 }
 

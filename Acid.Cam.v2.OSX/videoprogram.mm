@@ -76,7 +76,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
     ac::fps = 29.97;
     file_size = 0;
     writer.reset(new cv::VideoWriter());
-    
     try {
         if(camera_mode == 0 && capture->isOpened() == false) capture->open(capture_device);
         else if(camera_mode == 1)  {
