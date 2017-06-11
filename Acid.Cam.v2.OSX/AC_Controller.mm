@@ -88,6 +88,8 @@ void setEnabledProg() {
 - (void) dealloc {
     [custom_array release];
     [self closePlugin];
+    [menu_cat release];
+    [menu_all release];
     [super dealloc];
 }
 
@@ -119,7 +121,6 @@ void setEnabledProg() {
     
     [categories setMenu: menu_cat];
 
-    
     menu_all = [[NSMenu alloc] init];
     
     for(unsigned int i = 0; i < ac::draw_max-3; ++i){
