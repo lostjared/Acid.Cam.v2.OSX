@@ -2788,8 +2788,8 @@ void ac::Blend_Angle(cv::Mat &frame) {
 }
 
 void ac::Outward(cv::Mat &frame) {
-    unsigned int w = frame.cols;// frame width
-    unsigned int h = frame.rows;// frame height
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
     static double start_pos = 1, pos = 1.0, pos_max = 5.0;
 
     static cv::Scalar offset(5, 50, 100);
@@ -2838,9 +2838,9 @@ void ac::Outward(cv::Mat &frame) {
 }
 
 void ac::OutwardSquare(cv::Mat &frame) {
-    unsigned int w = frame.cols;// frame width
-    unsigned int h = frame.rows;// frame height
-    unsigned int wx = w/2;
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    int wx = w/2;
     static double start_pos = 1, pos = 1.0, pos_max = 5.0;
     static cv::Scalar offset(5, 50, 100);
     pos = start_pos;
@@ -2914,7 +2914,7 @@ void ac::ShiftPixels(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     for(unsigned int z = 0; z < h; ++z) {
-        int start = 0;
+        unsigned int start = 0;
         for(unsigned int i = offset; i < w && start < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b &source = frame.at<cv::Vec3b>(z, start);
@@ -2941,7 +2941,7 @@ void ac::ShiftPixels(cv::Mat &frame) {
         }
     }
     static int direction = 1;
-    static int max_up = (w/16);
+    static unsigned int max_up = (w/16);
     if(direction == 1) {
         ++offset;
         if(offset > max_up)  {
@@ -2963,7 +2963,7 @@ void ac::ShiftPixelsDown(cv::Mat &frame) {
     unsigned int h = frame.rows;// frame height
     static double pos = 1.0, pos_max = 7.0;
     for(unsigned int i = 0; i < w; ++i) {
-        int start = 0;
+        unsigned int start = 0;
         for(unsigned int z = offset; z < h && start < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b &source = frame.at<cv::Vec3b>(z, start);
@@ -2990,7 +2990,7 @@ void ac::ShiftPixelsDown(cv::Mat &frame) {
         }
     }
     static int direction = 1;
-    static int max_up = (h/8);
+    static unsigned int max_up = (h/8);
     if(direction == 1) {
         ++offset;
         if(offset > max_up)  {
