@@ -104,14 +104,35 @@ void setEnabledProg() {
     [alpha_window setLevel: NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
+    
+    menu_cat = [[NSMenu alloc] init];
+    [menu_cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Distort" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Pattern" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Morph" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Gradient" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Mirror" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
+    
+    [categories setMenu: menu_cat];
+
+    
+    menu_all = [[NSMenu alloc] init];
+    
     for(unsigned int i = 0; i < ac::draw_max-3; ++i){
         NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
-        [[current_filter menu] addItem:item];
+        [menu_all addItem:item];
         [item release];
         if(ac::draw_strings[i] != "Custom")
             [filter_combo addItemWithObjectValue:s];
     }
+    
+    [current_filter setMenu: menu_all];
+    
     custom_array = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
     [table_view setDataSource:self];
@@ -124,6 +145,11 @@ void setEnabledProg() {
     pauseStepTrue = false;
     camera_mode = 0;
 }
+
+- (IBAction) menuSelected: (id) sender {
+    
+}
+
 
 - (IBAction) changeFilter: (id) sender {
     NSInteger current = [current_filter indexOfSelectedItem];

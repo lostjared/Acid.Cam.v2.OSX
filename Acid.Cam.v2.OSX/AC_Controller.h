@@ -38,7 +38,7 @@ extern  bool camera_active;
     IBOutlet NSTextView *t_view;
     IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters, *pause_step;
     IBOutlet NSButton *startProg;
-    IBOutlet NSPopUpButton *current_filter, *corder, *output_Type;
+    IBOutlet NSPopUpButton *current_filter, *corder, *output_Type, *categories;
     IBOutlet NSComboBox *filter_combo;
     IBOutlet NSWindow   *custom_window, *goto_frame;
     IBOutlet NSTableView *table_view;
@@ -61,8 +61,13 @@ extern  bool camera_active;
     IBOutlet NSSlider *red_slider, *green_slider, *blue_slider;
     bool pauseStepTrue;
     int frames_captured;
+    NSMenu *menu_cat;
+    NSMenu *menu_all;
    
 }
+
+
+- (IBAction) menuSelected: (id) sender;
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
 - (IBAction) openWebcamDialog: (id) sender;
