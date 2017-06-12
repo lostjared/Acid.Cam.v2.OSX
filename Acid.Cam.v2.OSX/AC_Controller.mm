@@ -90,6 +90,11 @@ void setEnabledProg() {
     [self closePlugin];
     [menu_cat release];
     [menu_all release];
+    
+    for(unsigned int i = 1; i < 10; ++i) {
+        [menu_items[i] release];
+    }
+    
     [super dealloc];
 }
 
@@ -109,18 +114,42 @@ void setEnabledProg() {
     
     menu_cat = [[NSMenu alloc] init];
     [menu_cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Blend" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Distort" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Pattern" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Morph" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Gradient" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Mirror" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
+    [menu_cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
     [menu_cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     
     [categories setMenu: menu_cat];
-
+    
+    for(unsigned int i = 1; i < 10; ++i) {
+        menu_items[i] = [[NSMenu alloc] init];
+    }
+    
+   
+    static const char *szBlend[] = { "Self AlphaBlend", 0 };
+    static const char *szDistort[] = { "", 0 };
+    static const char *szPattern[] = { "", 0 };
+    static const char *szGradient[] = { "", 0 };
+    static const char *szMirror[] = { "", 0 };
+    static const char *szStrobe[] = { "", 0 };
+    static const char *szBlur[] = { "", 0 };
+    static const char *szImage[] = { "", 0 };
+    static const char *szOther[] = { "", 0 };
+    
+    [self fillMenuWithString: menu_items[1] stringValues:szBlend];
+    [self fillMenuWithString: menu_items[2] stringValues:szDistort];
+    [self fillMenuWithString: menu_items[3] stringValues:szPattern];
+    [self fillMenuWithString: menu_items[4] stringValues:szGradient];
+    [self fillMenuWithString: menu_items[5] stringValues:szMirror];
+    [self fillMenuWithString: menu_items[6] stringValues:szStrobe];
+    [self fillMenuWithString: menu_items[7] stringValues:szBlur];
+    [self fillMenuWithString: menu_items[8] stringValues:szImage];
+    [self fillMenuWithString: menu_items[9] stringValues:szOther];
     menu_all = [[NSMenu alloc] init];
     
     for(unsigned int i = 0; i < ac::draw_max-3; ++i){
@@ -132,7 +161,9 @@ void setEnabledProg() {
             [filter_combo addItemWithObjectValue:s];
     }
     
-    [current_filter setMenu: menu_all];
+    menu_items[0] = menu_all;
+    
+    [current_filter setMenu: menu_items[0]];
     
     custom_array = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
@@ -147,8 +178,16 @@ void setEnabledProg() {
     camera_mode = 0;
 }
 
+- (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items {
+    for(unsigned int q = 0; items[q] != 0; ++q) {
+        [menu addItemWithTitle: [NSString stringWithUTF8String:items[q]] action:nil keyEquivalent:@""];
+    }
+}
+
+
 - (IBAction) menuSelected: (id) sender {
-    
+    NSInteger index = [categories indexOfSelectedItem];
+    [current_filter setMenu: menu_items[index]];
 }
 
 

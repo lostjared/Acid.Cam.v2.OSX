@@ -63,10 +63,11 @@ extern  bool camera_active;
     int frames_captured;
     NSMenu *menu_cat;
     NSMenu *menu_all;
+    NSMenu *menu_items[10];
    
 }
 
-
+- (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
 - (IBAction) menuSelected: (id) sender;
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
