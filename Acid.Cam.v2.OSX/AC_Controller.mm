@@ -112,92 +112,11 @@ void setEnabledProg() {
     [alpha_window setLevel: NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
-    
-    menu_cat = [[NSMenu alloc] init];
-    [menu_cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Blend" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Distort" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Pattern" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Gradient" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Mirror" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
-    [menu_cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
-    
-    menu_cat_custom = [[NSMenu alloc] init];
-    [menu_cat_custom addItemWithTitle:@"All" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Blend" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Distort" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Pattern" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Gradient" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Mirror" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
-    [menu_cat_custom addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
-    
+    ac::fill_filter_map();
+    [self createMenu: &menu_cat menuAll:menu_all items:menu_items custom:NO];
+    [self createMenu: &menu_cat_custom menuAll: menu_all_custom items:menu_items_custom custom:YES];
     [categories setMenu: menu_cat];
     [categories_custom setMenu:menu_cat_custom];
-    
-    for(unsigned int i = 1; i < 10; ++i) {
-        menu_items[i] = [[NSMenu alloc] init];
-        menu_items_custom[i] = [[NSMenu alloc] init];
-    }
-    
-    ac::fill_filter_map();
-   
-    static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", 0 };
-    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", 0 };
-    static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
-    static const char *szGradient[] = { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square", 0 };
-    static const char *szMirror[] = { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", 0 };
-    static const char *szStrobe[] = {  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", 0 };
-    static const char *szBlur[] = { "GaussianBlur", "Median Blur", "Blur Distortion", 0 };
-    static const char *szImage[] = {  "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", 0 };
-    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", "Custom", 0 };
-    static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", 0 };
-    
-    
-    [self fillMenuWithString: menu_items[1] stringValues:szBlend];
-    [self fillMenuWithString: menu_items[2] stringValues:szDistort];
-    [self fillMenuWithString: menu_items[3] stringValues:szPattern];
-    [self fillMenuWithString: menu_items[4] stringValues:szGradient];
-    [self fillMenuWithString: menu_items[5] stringValues:szMirror];
-    [self fillMenuWithString: menu_items[6] stringValues:szStrobe];
-    [self fillMenuWithString: menu_items[7] stringValues:szBlur];
-    [self fillMenuWithString: menu_items[8] stringValues:szImage];
-    [self fillMenuWithString: menu_items[9] stringValues:szOther];
-    
-    [self fillMenuWithString: menu_items_custom[1] stringValues:szBlend];
-    [self fillMenuWithString: menu_items_custom[2] stringValues:szDistort];
-    [self fillMenuWithString: menu_items_custom[3] stringValues:szPattern];
-    [self fillMenuWithString: menu_items_custom[4] stringValues:szGradient];
-    [self fillMenuWithString: menu_items_custom[5] stringValues:szMirror];
-    [self fillMenuWithString: menu_items_custom[6] stringValues:szStrobe];
-    [self fillMenuWithString: menu_items_custom[7] stringValues:szBlur];
-    [self fillMenuWithString: menu_items_custom[8] stringValues:szImage];
-    [self fillMenuWithString: menu_items_custom[9] stringValues:szOther_Custom];
-    
-    
-    menu_all = [[NSMenu alloc] init];
-    menu_all_custom = [[NSMenu alloc] init];
-    
-    for(unsigned int i = 0; i < ac::draw_max-3; ++i){
-        NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
-        [menu_all addItem:item];
-        [item release];
-        if(ac::draw_strings[i] != "Custom") {
-        	NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
-        	[menu_all_custom addItem:item_custom];
-            [item_custom release];
-        }
-    }
-    
-    menu_items[0] = menu_all;
-    menu_items_custom[0] = menu_all_custom;
-    
     [current_filter setMenu: menu_items[0]];
     [current_filter_custom setMenu: menu_items_custom[0]];
     
@@ -212,6 +131,68 @@ void setEnabledProg() {
     srand((unsigned int)time(0));
     pauseStepTrue = false;
     camera_mode = 0;
+}
+
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu *)all items: (NSMenu **)it_arr custom:(BOOL)cust {
+    
+    *cat = [[NSMenu alloc] init];
+    [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Blend" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Distort" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Pattern" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Gradient" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Mirror" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
+    
+    for(unsigned int i = 1; i < 10; ++i) {
+        it_arr[i] = [[NSMenu alloc] init];
+    }
+    static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", 0 };
+    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", 0 };
+    static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
+    static const char *szGradient[] = { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square", 0 };
+    static const char *szMirror[] = { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", 0 };
+    static const char *szStrobe[] = {  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", 0 };
+    static const char *szBlur[] = { "GaussianBlur", "Median Blur", "Blur Distortion", 0 };
+    static const char *szImage[] = {  "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", 0 };
+    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", "Custom", 0 };
+    static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", 0 };
+    
+
+    [self fillMenuWithString: it_arr[1] stringValues:szBlend];
+    [self fillMenuWithString: it_arr[2] stringValues:szDistort];
+    [self fillMenuWithString: it_arr[3] stringValues:szPattern];
+    [self fillMenuWithString: it_arr[4] stringValues:szGradient];
+    [self fillMenuWithString: it_arr[5] stringValues:szMirror];
+    [self fillMenuWithString: it_arr[6] stringValues:szStrobe];
+    [self fillMenuWithString: it_arr[7] stringValues:szBlur];
+    [self fillMenuWithString: it_arr[8] stringValues:szImage];
+    if(cust == NO)
+        [self fillMenuWithString: it_arr[9] stringValues:szOther];
+     else
+        [self fillMenuWithString: it_arr[9] stringValues:szOther_Custom];
+    
+    all = [[NSMenu alloc] init];
+    
+    for(unsigned int i = 0; i < ac::draw_max-3; ++i){
+        NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
+        if(cust == YES) {
+        	if(ac::draw_strings[i] != "Custom") {
+            	NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
+            	[all addItem:item_custom];
+            	[item_custom release];
+        	}
+        } else {
+            NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
+            [all addItem:item_custom];
+            [item_custom release];
+        }
+    }
+    
+    it_arr[0] = all;
 }
 
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items {

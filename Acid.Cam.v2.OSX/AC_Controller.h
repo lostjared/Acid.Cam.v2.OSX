@@ -68,7 +68,7 @@ extern  bool camera_active;
     NSMenu *menu_cat_custom;
    
 }
-
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu *)all items: (NSMenu **)it_arr custom:(BOOL)cust;
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
 - (IBAction) menuSelected: (id) sender;
 - (IBAction) customMenuSelected:(id) sender;
