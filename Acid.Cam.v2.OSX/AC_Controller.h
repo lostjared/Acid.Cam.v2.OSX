@@ -38,8 +38,7 @@ extern  bool camera_active;
     IBOutlet NSTextView *t_view;
     IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters, *pause_step;
     IBOutlet NSButton *startProg;
-    IBOutlet NSPopUpButton *current_filter, *corder, *output_Type, *categories;
-    IBOutlet NSComboBox *filter_combo;
+    IBOutlet NSPopUpButton *current_filter, *corder, *output_Type, *categories, *current_filter_custom, *categories_custom;
     IBOutlet NSWindow   *custom_window, *goto_frame;
     IBOutlet NSTableView *table_view;
     IBOutlet NSSlider *goto_t, *goto_f;
@@ -64,11 +63,15 @@ extern  bool camera_active;
     NSMenu *menu_cat;
     NSMenu *menu_all;
     NSMenu *menu_items[10];
+    NSMenu *menu_items_custom[10];
+    NSMenu *menu_all_custom;
+    NSMenu *menu_cat_custom;
    
 }
 
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
 - (IBAction) menuSelected: (id) sender;
+- (IBAction) customMenuSelected:(id) sender;
 - (IBAction) selectPlugin: (id) sender;
 - (IBAction) startProgram: (id) sender;
 - (IBAction) openWebcamDialog: (id) sender;

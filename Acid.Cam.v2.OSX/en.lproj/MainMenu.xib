@@ -17,14 +17,15 @@
             <connections>
                 <outlet property="alpha_window" destination="tfb-J3-hzp" id="b3r-rz-K3E"/>
                 <outlet property="blue_slider" destination="Bzt-gi-IJ0" id="u8A-JN-dIp"/>
-                <outlet property="categories" destination="duQ-Gy-aeM" id="6Ra-vU-G4r"/>
+                <outlet property="categories" destination="duQ-Gy-aeM" id="zBJ-Q2-JO2"/>
+                <outlet property="categories_custom" destination="pJA-QY-H3x" id="SoH-b2-a5i"/>
                 <outlet property="check_box" destination="0fN-gU-vpb" id="acF-X9-ngV"/>
                 <outlet property="corder" destination="le2-WX-IhK" id="fFe-DS-KBm"/>
-                <outlet property="current_filter" destination="fPc-yC-WAQ" id="mWn-2h-TcC"/>
+                <outlet property="current_filter" destination="fPc-yC-WAQ" id="QUm-mH-CSS"/>
+                <outlet property="current_filter_custom" destination="W5Y-Jr-pAq" id="3kr-nF-4l5"/>
                 <outlet property="custom_window" destination="92I-tF-b7z" id="aeZ-BW-0IX"/>
                 <outlet property="device_index" destination="586" id="633"/>
                 <outlet property="disable_filters" destination="OsF-br-7Fg" id="RJ3-2o-sr4"/>
-                <outlet property="filter_combo" destination="yC7-Xi-Ive" id="PCg-Om-VLe"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
                 <outlet property="finish_queue" destination="8dK-49-42N" id="k24-yP-vFE"/>
                 <outlet property="finish_queue_progress" destination="scO-9p-ahu" id="sOa-26-Amu"/>
@@ -447,13 +448,13 @@
                             <menu key="menu" title="OtherViews" id="y92-Db-f01"/>
                         </popUpButtonCell>
                         <connections>
-                            <action selector="changeFilter:" target="630" id="heH-wL-0h2"/>
+                            <action selector="changeFilter:" target="630" id="Gdo-2T-bhe"/>
                         </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DJc-Dy-kjc">
-                        <rect key="frame" x="18" y="47" width="60" height="17"/>
+                        <rect key="frame" x="18" y="47" width="64" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Category" id="ETc-IZ-APe">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Category:" id="ETc-IZ-APe">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -584,7 +585,7 @@
                             <menu key="menu" id="yXk-EN-c5o"/>
                         </popUpButtonCell>
                         <connections>
-                            <action selector="menuSelected:" target="630" id="AEY-JB-rUi"/>
+                            <action selector="menuSelected:" target="630" id="8zf-Yu-kFZ"/>
                         </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEC-fU-IIQ">
@@ -609,21 +610,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="575" height="416"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yC7-Xi-Ive">
-                        <rect key="frame" x="20" y="372" width="538" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="QiI-8o-jRT">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </comboBoxCell>
-                    </comboBox>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CF3-sd-QMw">
                         <rect key="frame" x="20" y="50" width="535" height="316"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="Kca-yO-0lq">
                             <rect key="frame" x="1" y="0.0" width="533" height="315"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rNv-eJ-jDi" id="oR9-5h-21a">
                                     <rect key="frame" x="0.0" y="0.0" width="533" height="292"/>
@@ -719,6 +711,45 @@
                             <action selector="moveCustomDown:" target="630" id="lqV-nU-L1h"/>
                         </connections>
                     </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wW4-kQ-B7I">
+                        <rect key="frame" x="18" y="379" width="64" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Category:" id="dYN-iu-VmN">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dUH-s9-L7q">
+                        <rect key="frame" x="291" y="377" width="39" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter:" id="Wxo-5Q-oly">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pJA-QY-H3x">
+                        <rect key="frame" x="86" y="373" width="202" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="EH5-b5-Qjr">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="CY3-I5-WYT"/>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="customMenuSelected:" target="630" id="EPl-PD-ppZ"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5Y-Jr-pAq">
+                        <rect key="frame" x="334" y="372" width="224" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="ttA-gs-s63">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="IuA-4I-MbH"/>
+                        </popUpButtonCell>
+                    </popUpButton>
                 </subviews>
             </view>
             <point key="canvasLocation" x="1403.5" y="451"/>
