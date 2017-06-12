@@ -130,16 +130,17 @@ void setEnabledProg() {
         menu_items[i] = [[NSMenu alloc] init];
     }
     
+    ac::fill_filter_map();
    
-    static const char *szBlend[] = { "Self AlphaBlend", 0 };
-    static const char *szDistort[] = { "", 0 };
-    static const char *szPattern[] = { "", 0 };
-    static const char *szGradient[] = { "", 0 };
-    static const char *szMirror[] = { "", 0 };
-    static const char *szStrobe[] = { "", 0 };
-    static const char *szBlur[] = { "", 0 };
-    static const char *szImage[] = { "", 0 };
-    static const char *szOther[] = { "", 0 };
+    static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","New Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", 0 };
+    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", 0 };
+    static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
+    static const char *szGradient[] = { "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square", 0 };
+    static const char *szMirror[] = { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", 0 };
+    static const char *szStrobe[] = {  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue", 0 };
+    static const char *szBlur[] = { "GaussianBlur", "Median Blur", "Blur Distortion", 0 };
+    static const char *szImage[] = {  "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", 0 };
+    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", "Custom", 0 };
     
     [self fillMenuWithString: menu_items[1] stringValues:szBlend];
     [self fillMenuWithString: menu_items[2] stringValues:szDistort];
@@ -193,7 +194,11 @@ void setEnabledProg() {
 
 - (IBAction) changeFilter: (id) sender {
     NSInteger current = [current_filter indexOfSelectedItem];
-    ac::draw_offset = (int)current;
+    NSInteger index = [categories indexOfSelectedItem];
+    
+    NSMenuItem *item = [menu_items[index] itemAtIndex:current];
+    NSString *title = [item title];
+    ac::draw_offset = ac::filter_map[[title UTF8String]];
     std::ostringstream strout;
     strout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
     flushToLog(strout);

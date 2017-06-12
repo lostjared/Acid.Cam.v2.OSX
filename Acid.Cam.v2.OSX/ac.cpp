@@ -45,6 +45,15 @@ namespace ac {
     // swap colors inline function
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15);
+    
+    std::unordered_map<std::string, int> filter_map;
+    
+}
+
+void ac::fill_filter_map() {
+    for(unsigned int i = 0; i < ac::draw_max; ++i) {
+        filter_map[draw_strings[i]] = i;
+    }
 }
 
 // swapColors inline function takes frame and x, y position

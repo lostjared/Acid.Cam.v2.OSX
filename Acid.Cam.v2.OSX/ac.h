@@ -17,6 +17,7 @@
 #include<ctime>
 #include<cmath>
 #include<algorithm>
+#include<unordered_map>
 
 /*
  * to use set appropriate variables, call the function
@@ -156,6 +157,8 @@ namespace ac {
     extern DrawFunction draw_func[];
     extern int draw_max;
     extern bool snapShot;
+    extern std::unordered_map<std::string, int> filter_map;
+    void fill_filter_map();
 }
 // custom filter function, must be defined in program so it will link
 extern void custom_filter(cv::Mat &frame);
