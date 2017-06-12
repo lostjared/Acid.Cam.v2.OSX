@@ -113,8 +113,8 @@ void setEnabledProg() {
     [image_select setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
-    [self createMenu: &menu_cat menuAll:menu_all items:menu_items custom:NO];
-    [self createMenu: &menu_cat_custom menuAll: menu_all_custom items:menu_items_custom custom:YES];
+    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
+    [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES];
     [categories setMenu: menu_cat];
     [categories_custom setMenu:menu_cat_custom];
     [current_filter setMenu: menu_items[0]];
@@ -133,7 +133,7 @@ void setEnabledProg() {
     camera_mode = 0;
 }
 
-- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu *)all items: (NSMenu **)it_arr custom:(BOOL)cust {
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
     
     *cat = [[NSMenu alloc] init];
     [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
@@ -175,24 +175,24 @@ void setEnabledProg() {
      else
         [self fillMenuWithString: it_arr[9] stringValues:szOther_Custom];
     
-    all = [[NSMenu alloc] init];
+    *all = [[NSMenu alloc] init];
     
     for(unsigned int i = 0; i < ac::draw_max-3; ++i){
         NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
         if(cust == YES) {
         	if(ac::draw_strings[i] != "Custom") {
             	NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
-            	[all addItem:item_custom];
+            	[*all addItem:item_custom];
             	[item_custom release];
         	}
         } else {
             NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
-            [all addItem:item_custom];
+            [*all addItem:item_custom];
             [item_custom release];
         }
     }
     
-    it_arr[0] = all;
+    it_arr[0] = *all;
 }
 
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items {
