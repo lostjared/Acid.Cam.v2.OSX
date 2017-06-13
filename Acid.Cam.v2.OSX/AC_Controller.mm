@@ -161,7 +161,7 @@ void setEnabledProg() {
     static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", "Custom", 0 };
     static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", 0 };
     
-
+    
     [self fillMenuWithString: it_arr[1] stringValues:szBlend];
     [self fillMenuWithString: it_arr[2] stringValues:szDistort];
     [self fillMenuWithString: it_arr[3] stringValues:szPattern];
@@ -172,7 +172,7 @@ void setEnabledProg() {
     [self fillMenuWithString: it_arr[8] stringValues:szImage];
     if(cust == NO)
         [self fillMenuWithString: it_arr[9] stringValues:szOther];
-     else
+    else
         [self fillMenuWithString: it_arr[9] stringValues:szOther_Custom];
     
     *all = [[NSMenu alloc] init];
@@ -180,11 +180,11 @@ void setEnabledProg() {
     for(unsigned int i = 0; i < ac::draw_max-3; ++i){
         NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
         if(cust == YES) {
-        	if(ac::draw_strings[i] != "Custom") {
-            	NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
-            	[*all addItem:item_custom];
-            	[item_custom release];
-        	}
+            if(ac::draw_strings[i] != "Custom") {
+                NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
+                [*all addItem:item_custom];
+                [item_custom release];
+            }
         } else {
             NSMenuItem *item_custom = [[NSMenuItem alloc] initWithTitle:s action:NULL keyEquivalent:@""];
             [*all addItem:item_custom];
@@ -355,7 +355,7 @@ void setEnabledProg() {
         r = false;
     else
         r = true;
-
+    
     NSInteger checkedState = [menuPaused state];
     isPaused = (checkedState == NSOnState) ? true : false;
     
@@ -384,11 +384,11 @@ void setEnabledProg() {
     [menuPaused setEnabled: YES];
     
     if(camera_mode == 1) {
-    	renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
-        	                                  target:self
-            	                            selector:@selector(cvProc:)
-                	                        userInfo:nil
-                    	                     repeats:YES];
+        renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
+                                              target:self
+                                            selector:@selector(cvProc:)
+                                            userInfo:nil
+                                             repeats:YES];
     } else {
         renderTimer = [NSTimer timerWithTimeInterval: 0.001 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
     }
@@ -442,9 +442,9 @@ void setEnabledProg() {
     
     
     if(capture_camera->isOpened() && camera_active == true) {
-    	capture_camera->grab();
+        capture_camera->grab();
         frames_captured++;
-       // [NSThread sleepForTimeInterval: 1.000/ac::fps];
+        // [NSThread sleepForTimeInterval: 1.000/ac::fps];
     }
 }
 
@@ -459,11 +459,11 @@ void setEnabledProg() {
             ac::orig_frame = frame.clone();
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
-	        if(ac::draw_strings[ac::draw_offset] != "Custom") {
-	            if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
-	            else ac::isNegative = true;
-	            ac::color_order = (int) [corder indexOfSelectedItem];
-        	}
+            if(ac::draw_strings[ac::draw_offset] != "Custom") {
+                if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
+                else ac::isNegative = true;
+                ac::color_order = (int) [corder indexOfSelectedItem];
+            }
         });
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         
@@ -502,22 +502,22 @@ void setEnabledProg() {
             ac::snapShot = false;
             // flush to log
             dispatch_sync(dispatch_get_main_queue(), ^{
-            	flushToLog(sout);
+                flushToLog(sout);
             });
         }
     }
     dispatch_sync(dispatch_get_main_queue(), ^{
         [finish_queue orderOut:self];
-    	cv::destroyWindow("Acid Cam v2");
-    	cv::destroyWindow("Controls");
+        cv::destroyWindow("Acid Cam v2");
+        cv::destroyWindow("Controls");
         if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
         }
-    	sout << frame_cnt << " Total frames\n";
-    	sout << (frame_cnt/ac::fps) << " Seconds\n";
-    	file.close();
-    	flushToLog(sout);
+        sout << frame_cnt << " Total frames\n";
+        sout << (frame_cnt/ac::fps) << " Seconds\n";
+        file.close();
+        flushToLog(sout);
         setEnabledProg();
         if(breakProgram == true) {
             [NSApp terminate:nil];
@@ -566,23 +566,23 @@ void setEnabledProg() {
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-	++frame_cnt;
+    ++frame_cnt;
     
     if([corder indexOfSelectedItem] == 5) {
-    	cv::Mat change;
-    	cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
+        cv::Mat change;
+        cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
     
     cv::imshow("Acid Cam v2", frame);
-
+    
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     
     if(camera_mode == 1) {
         float val = frame_cnt;
         float size = total_frames;
         if(size != 0)
-        ftext << " - " << (val/size)*100 << "% ";
+            ftext << " - " << (val/size)*100 << "% ";
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
@@ -690,11 +690,11 @@ void setEnabledProg() {
     }
     
     /*
-    NSInteger index = [filter_combo indexOfSelectedItem];
-    if(index >= 0) {
-        [custom_array addObject: [NSNumber numberWithInt: (int)index]];
-        [table_view reloadData];
-    }*/
+     NSInteger index = [filter_combo indexOfSelectedItem];
+     if(index >= 0) {
+     [custom_array addObject: [NSNumber numberWithInt: (int)index]];
+     [table_view reloadData];
+     }*/
     
     
 }
@@ -850,9 +850,9 @@ void setEnabledProg() {
 }
 - (IBAction) setAsImage: (id) sender {
     if([image_combo indexOfSelectedItem] >= 0) {
-    	NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
-    	blend_image = cv::imread([current UTF8String]);
-    	blend_set = true;
+        NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
+        blend_image = cv::imread([current UTF8String]);
+        blend_set = true;
         std::ostringstream stream;
         stream << "Image set to: " << [current UTF8String] << "\n";
         NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
@@ -897,12 +897,12 @@ void custom_filter(cv::Mat &frame) {
     ac::in_custom = true;
     for(NSInteger i = 0; i < [custom_array count]; ++i) {
         if(i == [custom_array count]-1)
-    	ac::in_custom = false;
+            ac::in_custom = false;
         NSNumber *num;
         @try {
-         	num = [custom_array objectAtIndex:i];
-        	NSInteger index = [num integerValue];
-        	ac::draw_func[(int)index](frame);
+            num = [custom_array objectAtIndex:i];
+            NSInteger index = [num integerValue];
+            ac::draw_func[(int)index](frame);
         } @catch(NSException *e) {
             NSLog(@"%@\n", [e reason]);
         }

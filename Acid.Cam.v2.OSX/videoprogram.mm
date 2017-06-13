@@ -59,7 +59,7 @@ void stopCV() {
 
 int program_main(int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
-    sout << "Acid Cam " << ac::version << " ..\n";
+    sout << "Acid Cam v" << ac::version << " Initialized ..\n";
     add_path="default";
     input_name = input_file;
     srand(static_cast<unsigned int>(time(0)));
@@ -86,7 +86,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             std::cerr << "Error could not open Camera device..\n";
             return -1;
         } else
-            sout << "Acid Cam " << ac::version << " Capture device opened..\n";
+            sout << "Acid Cam Capture device [" << ((camera_mode == 0) ? "Camera" : "Video") << "] opened..\n";
         int aw = capture->get(CV_CAP_PROP_FRAME_WIDTH);
         int ah = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
         sout << "Resolution: " << aw << "x" << ah << "\n";
