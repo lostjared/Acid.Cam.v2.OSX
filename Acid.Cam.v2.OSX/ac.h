@@ -65,6 +65,17 @@ namespace ac {
     /* filter functions */
     typedef void (*DrawFunction)(cv::Mat &frame);
     
+    template<typename T>
+    inline T ror(T x, unsigned int m)
+    {
+        return (x >> m) | (x << sizeof(T)*8 - m);
+    }
+    
+    template<typename T>
+    inline T rol(T x, unsigned int m) {
+        return (x << m) | (x >> (sizeof(T)*8 -m));
+    }
+    
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -150,6 +161,7 @@ namespace ac {
     void ShiftPixels(cv::Mat &frame);
     void ShiftPixelsDown(cv::Mat &frame);
     void XorMultiBlend(cv::Mat &frame);
+    void BitwiseRotate(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings

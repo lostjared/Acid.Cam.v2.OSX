@@ -131,6 +131,7 @@ void setEnabledProg() {
     srand((unsigned int)time(0));
     pauseStepTrue = false;
     camera_mode = 0;
+    
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
@@ -158,8 +159,8 @@ void setEnabledProg() {
     static const char *szStrobe[] = {  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", 0 };
     static const char *szBlur[] = { "GaussianBlur", "Median Blur", "Blur Distortion", 0 };
     static const char *szImage[] = {  "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", 0 };
-    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", "Custom", 0 };
-    static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", 0 };
+    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", "Custom", 0 };
+    static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate", "Equalize","PixelSort", "GlitchSort", "Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Blend with Source", "Plugin", 0 };
     
     
     [self fillMenuWithString: it_arr[1] stringValues:szBlend];
