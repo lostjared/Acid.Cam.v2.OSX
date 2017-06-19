@@ -3043,18 +3043,17 @@ void ac::BitwiseRotate(cv::Mat &frame) {
     unsigned int h = frame.rows;// frame height
     static unsigned int offset = 0;
     static int direction = 1;
-    
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-    
+            
             if(direction == 1) {
             	pixel[0] = ror(pixel[0], offset);
-            	pixel[1] = ror(pixel[1], offset);
+            	pixel[1] = rol(pixel[1], offset);
             	pixel[2] = ror(pixel[2], offset);
             } else {
                 pixel[0] = rol(pixel[0], offset);
-                pixel[1] = rol(pixel[1], offset);
+                pixel[1] = ror(pixel[1], offset);
                 pixel[2] = rol(pixel[2], offset);
             }
         }
