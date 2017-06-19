@@ -162,6 +162,7 @@ namespace ac {
     void ShiftPixelsDown(cv::Mat &frame);
     void XorMultiBlend(cv::Mat &frame);
     void BitwiseRotate(cv::Mat &frame);
+    void BitwiseRotateDiff(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
