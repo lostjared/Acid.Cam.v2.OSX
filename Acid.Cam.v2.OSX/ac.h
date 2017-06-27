@@ -165,6 +165,7 @@ namespace ac {
     void BitwiseRotateDiff(cv::Mat &frame);
     void HPPD(cv::Mat &frame);
     void FuzzyLines(cv::Mat &frame);
+    void GradientLines(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
