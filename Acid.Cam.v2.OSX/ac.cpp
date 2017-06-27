@@ -3149,7 +3149,6 @@ void ac::FuzzyLines(cv::Mat &frame) {
 void ac::GradientLines(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    static double pos = 1.0, pos_max = 7.0;
     static unsigned int count = 0, index = 0;
     
     for(unsigned int z = 0; z < h; ++z) {
@@ -3166,8 +3165,6 @@ void ac::GradientLines(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    static int direction = 1;
-    procPos(direction, pos, pos_max);
 }
 
 
