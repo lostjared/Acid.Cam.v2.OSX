@@ -44,7 +44,7 @@ extern cv::Mat blend_image;
 // acid cam namespace
 namespace ac {
     // version string
-    static const std::string version="2.2.0";
+    static const std::string version="2.2.1";
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,iRev;
@@ -166,6 +166,7 @@ namespace ac {
     void HPPD(cv::Mat &frame);
     void FuzzyLines(cv::Mat &frame);
     void GradientLines(cv::Mat &frame);
+    void GradientSelf(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
