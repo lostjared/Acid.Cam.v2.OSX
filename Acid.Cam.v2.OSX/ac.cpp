@@ -3180,6 +3180,9 @@ void ac::GradientSelf(cv::Mat &frame) {
             if(count >= 255) {
                 count = 0;
             }
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
         ++index;
         if(index > 2) index = 0;
