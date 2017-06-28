@@ -167,6 +167,7 @@ namespace ac {
     void FuzzyLines(cv::Mat &frame);
     void GradientLines(cv::Mat &frame);
     void GradientSelf(cv::Mat &frame);
+    void GradientDown(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
