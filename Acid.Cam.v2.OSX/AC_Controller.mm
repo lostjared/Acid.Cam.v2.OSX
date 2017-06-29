@@ -154,7 +154,7 @@ void setEnabledProg() {
     static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", 0 };
     static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", 0 };
     static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
-    static const char *szGradient[] = { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf", "GradientDown", 0 };
+    static const char *szGradient[] = { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf", "GradientDown","GraidentHorizontal", 0 };
     static const char *szMirror[] = { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", 0 };
     static const char *szStrobe[] = {  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", 0 };
     static const char *szBlur[] = { "GaussianBlur", "Median Blur", "Blur Distortion", 0 };
