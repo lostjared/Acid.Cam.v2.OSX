@@ -170,6 +170,7 @@ namespace ac {
     void GradientDown(cv::Mat &frame);
     void GraidentHorizontal(cv::Mat &frame);
     void GradientSelfVertical(cv::Mat &frame);
+    void GradientRGB(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
