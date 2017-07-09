@@ -44,8 +44,8 @@ void stopCV() {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
         }
-        sout << frame_cnt << " Total frames\n";
-        sout << (frame_cnt/ac::fps) << " Seconds\n";
+        sout << (video_total_frames+frame_cnt) << " Total frames\n";
+        sout << ((video_total_frames+frame_cnt)/ac::fps) << " Seconds\n";
         file.close();
         // flush to log
         flushToLog(sout);
