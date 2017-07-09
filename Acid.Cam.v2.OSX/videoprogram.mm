@@ -19,6 +19,7 @@ void ProcFrame(cv::Mat &frame);
 std::unique_ptr<cv::VideoCapture> capture_camera(new cv::VideoCapture());
 std::unique_ptr<cv::VideoCapture> capture_video(new cv::VideoCapture());
 int frame_cnt, key;
+int video_total_frames = 0;
 NSTimer *renderTimer;
 std::ostringstream sout;
 std::unique_ptr<cv::VideoWriter> writer;
@@ -75,6 +76,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
     ac::tr =  0.3;
     ac::fps = 29.97;
     file_size = 0;
+    video_total_frames = 0;
     writer.reset(new cv::VideoWriter());
     try {
         if(camera_mode == 0 && capture->isOpened() == false) capture->open(capture_device);

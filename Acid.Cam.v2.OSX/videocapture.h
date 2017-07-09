@@ -25,6 +25,7 @@ extern std::unique_ptr<cv::VideoCapture> capture_camera;
 extern std::unique_ptr<cv::VideoCapture> capture_video;
 extern cv::VideoCapture *capture;
 extern int frame_cnt;
+extern int video_total_frames;
 extern unsigned long file_size;
 extern std::ostringstream sout;
 extern std::string add_path;

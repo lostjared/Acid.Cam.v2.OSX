@@ -540,7 +540,7 @@ void setEnabledProg() {
     cv::Mat frame;
     if(capture->isOpened() && capture->read(frame) == false) {
         ++frame_cnt;
-        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
@@ -555,6 +555,7 @@ void setEnabledProg() {
         }
         setFrameLabel(ftext);
         if([chk_repeat integerValue] != 0) {
+            video_total_frames += frame_cnt;
             jumptoFrame(0);
             return;
         }
@@ -581,7 +582,7 @@ void setEnabledProg() {
     
     cv::imshow("Acid Cam v2", frame);
     
-    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     
     if(camera_mode == 1) {
         float val = frame_cnt;
