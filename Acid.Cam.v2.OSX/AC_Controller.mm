@@ -541,7 +541,6 @@ void setEnabledProg() {
     if(capture->isOpened() && capture->read(frame) == false) {
         ++frame_cnt;
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
-        
         if(ac::noRecord == false) {
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
@@ -555,6 +554,10 @@ void setEnabledProg() {
                 ftext << " - 100% ";
         }
         setFrameLabel(ftext);
+        if([chk_repeat integerValue] != 0) {
+            jumptoFrame(0);
+            return;
+        }
         stopCV();
         return;
     }
@@ -648,12 +651,14 @@ void setEnabledProg() {
         [resolution setEnabled: YES];
         [device_index setEnabled: YES];
         [selectVideoFile setEnabled: NO];
+        [chk_repeat setEnabled:NO];
     }
     else {
         [video_file setEnabled: NO];
         [resolution setEnabled: NO];
         [device_index setEnabled: NO];
         [selectVideoFile setEnabled: YES];
+        [chk_repeat setEnabled:YES];
     }
 }
 

@@ -20,6 +20,7 @@
                 <outlet property="categories" destination="duQ-Gy-aeM" id="zBJ-Q2-JO2"/>
                 <outlet property="categories_custom" destination="pJA-QY-H3x" id="SoH-b2-a5i"/>
                 <outlet property="check_box" destination="0fN-gU-vpb" id="acF-X9-ngV"/>
+                <outlet property="chk_repeat" destination="70r-gC-kLy" id="Sx6-el-yi4"/>
                 <outlet property="corder" destination="le2-WX-IhK" id="fFe-DS-KBm"/>
                 <outlet property="current_filter" destination="fPc-yC-WAQ" id="QUm-mH-CSS"/>
                 <outlet property="current_filter_custom" destination="W5Y-Jr-pAq" id="3kr-nF-4l5"/>
@@ -244,7 +245,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="124" y="717" width="320" height="219"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
             <view key="contentView" id="539">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -390,6 +391,14 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="70r-gC-kLy">
+                        <rect key="frame" x="112" y="191" width="96" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Repeat" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NGJ-os-cWs">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-212" y="312.5"/>

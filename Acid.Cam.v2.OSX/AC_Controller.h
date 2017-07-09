@@ -32,6 +32,7 @@ extern  bool camera_active;
     IBOutlet NSButton      *prefix_grab;
     IBOutlet NSWindow      *window1, *window2;
     IBOutlet NSButton      *videoFileInput, *selectVideoFile;
+    IBOutlet NSButton *chk_repeat;
     IBOutlet NSTextField *prefix_input_2, *video_file;
     IBOutlet NSPopUpButton *vid_format_2;
     IBOutlet NSButton *record_op2,*startaction_2;
