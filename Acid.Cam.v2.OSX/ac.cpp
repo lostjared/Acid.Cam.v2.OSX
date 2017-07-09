@@ -3331,6 +3331,9 @@ void ac::UpDown(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(unsigned int q = 0; q < 3; ++q)
                 	pixel[q] = alpha+(pixel[q]*pos);
+                
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
         	}
             alpha += 0.1;
         } else {
@@ -3339,10 +3342,14 @@ void ac::UpDown(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(unsigned int q = 0; q < 3; ++q)
                     pixel[q] = alpha-(pixel[q]*pos);
+                
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
             }
             
             alpha += 0.1;
         }
+ 
     }
     
     static int direction = 1;
@@ -3362,6 +3369,9 @@ void ac::LeftRight(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(unsigned int q = 0; q < 3; ++q)
                     pixel[q] = alpha+(pixel[q]*pos);
+                
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
             }
             alpha += 0.1;
         } else {
@@ -3370,6 +3380,9 @@ void ac::LeftRight(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(unsigned int q = 0; q < 3; ++q)
                     pixel[q] = alpha-(pixel[q]*pos);
+              
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
             }
             
             alpha += 0.1;
