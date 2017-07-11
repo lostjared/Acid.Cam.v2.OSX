@@ -906,6 +906,7 @@ void custom_filter(cv::Mat &frame) {
     for(NSInteger i = 0; i < [custom_array count]; ++i) {
         if(i == [custom_array count]-1)
             ac::in_custom = false;
+        
         NSNumber *num;
         @try {
             num = [custom_array objectAtIndex:i];
