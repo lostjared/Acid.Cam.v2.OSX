@@ -3396,7 +3396,6 @@ void ac::StrobeScan(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     static double pos = 1.0, pos_max = 7.0;
-    cv::Scalar add(1, 1, 1);
     static int color_mode = 0;
     unsigned int over = rand()%255;
     static unsigned int cdirection = 1;
