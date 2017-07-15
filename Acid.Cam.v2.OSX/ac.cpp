@@ -3432,18 +3432,17 @@ void ac::StrobeScan(cv::Mat &frame) {
                 }
                     break;
             }
+        
         if(cdirection == 1) {
             ++color_mode;
             if(color_mode > 2) {
                 cdirection = 0;
             }
-            ++over;
         } else if(cdirection == 0) {
             --color_mode;
             if(color_mode < 0) {
                 cdirection = 1;
             }
-            --over;
         }
     }
     static int direction = 1;
