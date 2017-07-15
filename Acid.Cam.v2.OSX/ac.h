@@ -174,6 +174,7 @@ namespace ac {
     void Inter(cv::Mat &frame);
     void UpDown(cv::Mat &frame);
     void LeftRight(cv::Mat &frame);
+    void StrobeScan(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
