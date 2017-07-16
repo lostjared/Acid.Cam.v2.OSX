@@ -176,6 +176,7 @@ namespace ac {
     void LeftRight(cv::Mat &frame);
     void StrobeScan(cv::Mat &frame);
     void BlendedScanLines(cv::Mat &frame);
+    void GradientStripes(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
