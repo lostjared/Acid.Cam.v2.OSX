@@ -3489,7 +3489,7 @@ void ac::GradientStripes(cv::Mat &frame) {
     if(offset > 2)
         offset = 0;
 }
-
+// this one pixelates the image very heavily.
 void ac::XorSine(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
