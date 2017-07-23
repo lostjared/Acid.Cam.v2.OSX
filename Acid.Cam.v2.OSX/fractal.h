@@ -1,6 +1,6 @@
 /*
  * Acid Cam v2 - OpenCV Edition
- * written by Jared Bruni ( http://lostsidedead.com )
+ * written by Jared Bruni ( http://lostsidedead.com / https://github.com/lostjared )
  * (C) 2016 GPL
  */
 

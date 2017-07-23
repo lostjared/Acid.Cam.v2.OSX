@@ -3,6 +3,7 @@
 //  Acid.Cam.2
 //
 //  Created by Jared Bruni on 6/3/13.
+//  https://github.com/lostjared
 //  Copyright (c) 2017 Jared Bruni. All rights reserved.
 //
 

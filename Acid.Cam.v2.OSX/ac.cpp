@@ -1,7 +1,7 @@
 /*
  *
  * Acid Cam functions for OpenCV
- * written by Jared Bruni
+ * written by Jared Bruni https://github.com/lostjared
  * http://lostsidedead.com
  * (C) 2017 under GPL
  * One quick note, most of the time when writing programs using x,y variables x goes first

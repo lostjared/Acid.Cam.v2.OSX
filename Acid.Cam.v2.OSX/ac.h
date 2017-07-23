@@ -1,5 +1,5 @@
 /* Acid Cam Functions for OpenCV
- * written by Jared Bruni
+ * written by Jared Bruni https://github.com/lostjared
  * http://lostsidedead.com
  * (C) 2017 - GPL
  */

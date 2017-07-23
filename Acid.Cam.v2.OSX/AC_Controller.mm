@@ -1,7 +1,7 @@
 //
 //  AC_Controller.m
 //  Acid.Cam.2
-//
+//  https://github.com/lostjared
 //  Created by Jared Bruni on 6/3/13.
 //  Copyright (c) 2017 Jared Bruni. All rights reserved.
 //
