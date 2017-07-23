@@ -52,7 +52,7 @@ namespace ac {
 }
 
 void ac::fill_filter_map() {
-    for(unsigned int i = 0; i < ac::draw_max; ++i) {
+    for(int i = 0; i < ac::draw_max; ++i) {
         filter_map[draw_strings[i]] = i;
     }
 }
@@ -3137,7 +3137,9 @@ void ac::FuzzyLines(cv::Mat &frame) {
             
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
-            prev_pixel = pixel;
+            prev_pixel[0] = pixel[0];
+            prev_pixel[1] = pixel[1];
+            prev_pixel[2] = pixel[2];
         }
     }
     

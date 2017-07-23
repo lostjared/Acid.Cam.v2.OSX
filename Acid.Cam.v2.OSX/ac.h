@@ -68,7 +68,7 @@ namespace ac {
     template<typename T>
     inline T ror(T x, unsigned int m)
     {
-        return (x >> m) | (x << sizeof(T)*8 - m);
+        return (x >> m) | (x << (sizeof(T)*8 - m));
     }
     
     template<typename T>
