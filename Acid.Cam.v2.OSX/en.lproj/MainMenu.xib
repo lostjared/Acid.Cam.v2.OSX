@@ -50,6 +50,8 @@
                 <outlet property="resolution" destination="540" id="632"/>
                 <outlet property="reverse_box" destination="9Gr-qr-GK9" id="eOh-ix-rOP"/>
                 <outlet property="rgb_box" destination="9Gr-qr-GK9" id="0TP-wG-ZkM"/>
+                <outlet property="rotate_h" destination="Nug-i4-OlJ" id="RYs-kX-0C8"/>
+                <outlet property="rotate_v" destination="YyK-0a-mS5" id="5OI-IB-XBy"/>
                 <outlet property="selectVideoFile" destination="601" id="ZUS-zS-Sxb"/>
                 <outlet property="slider_blue" destination="0TI-xF-ebE" id="16V-O7-Oyf"/>
                 <outlet property="slider_blue_pos" destination="Sqc-GP-FwF" id="MDD-Z1-9mV"/>
@@ -172,6 +174,25 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Image" id="DCc-lp-wGW">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Image" id="soX-kv-x2v">
+                        <items>
+                            <menuItem title="Rotate Image Vertical" id="YyK-0a-mS5">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="setRotate_V:" target="630" id="Ez4-lA-8Oe"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Rotate Image Horizontal" id="Nug-i4-OlJ">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="setRotate_H:" target="630" id="kY9-Jl-sEU"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="View" id="BI5-ri-Jwv">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="lff-Mm-UAd">
@@ -245,7 +266,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="124" y="717" width="320" height="219"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="539">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
                 <autoresizingMask key="autoresizingMask"/>

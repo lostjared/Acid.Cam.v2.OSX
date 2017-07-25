@@ -455,9 +455,17 @@ void setEnabledProg() {
 - (void) camThread: (id) sender {
     cv::Mat frame;
     while(camera_active && capture->retrieve(frame)) {
-        
         if(isPaused) continue;
+        cv::Mat temp_frame;
         
+        if([rotate_v state] == NSOnState) {
+            cv::flip(frame, temp_frame, 1);
+            frame = temp_frame;
+        }
+        if([rotate_h state] == NSOnState) {
+            cv::flip(frame, temp_frame, 0);
+            frame = temp_frame;
+        }
         ++frame_cnt;
         if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
             ac::orig_frame = frame.clone();
@@ -564,6 +572,16 @@ void setEnabledProg() {
         stopCV();
         return;
     }
+    cv::Mat temp_frame;
+    if([rotate_v state] == NSOnState) {
+        cv::flip(frame, temp_frame, 1);
+        frame = temp_frame;
+    }
+    if([rotate_h state] == NSOnState) {
+        cv::flip(frame, temp_frame, 0);
+        frame = temp_frame;
+    }
+    
     if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
         ac::orig_frame = frame.clone();
     }
@@ -637,6 +655,25 @@ void setEnabledProg() {
         }
     }
 }
+
+- (IBAction) setRotate_V:(id) sender {
+    NSInteger state = [rotate_v state];
+    if(state == NSOffState) {
+        [rotate_v setState:NSOnState];
+    } else {
+        [rotate_v setState:NSOffState];
+    }
+    
+}
+- (IBAction) setRotate_H:(id) sender {
+    NSInteger state = [rotate_h state];
+    if(state == NSOffState) {
+        [rotate_h setState:NSOnState];
+    } else {
+        [rotate_h setState:NSOffState];
+    }
+}
+
 
 - (IBAction) takeSnopshot: (id) sender {
     ac::snapShot = true;
