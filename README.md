@@ -18,7 +18,9 @@ Contains a lot of filters, and you can combine them with the custom filter optio
 It also supports plugins (write your own filters in C++). This project was created
 in hopes of providing some entertainment, or for the Glitch artist  to give you a 
 starting image/video to use with other tools. There are also versions of this program
-for other platforms specifically Linux/Windows. 
+for other platforms specifically Linux/Windows. The video this program outputs is a very high bitrate. Sometimes you will
+need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower 
+the bitrate. Another program you could use would be Handbrake.
 
 This project contains the compiled static libraries / include files required to build the program.
 The project is for Xcode 8
