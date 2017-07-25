@@ -152,7 +152,7 @@ void setEnabledProg() {
         it_arr[i] = [[NSMenu alloc] init];
     }
     static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", "UpDown","LeftRight", "BlendedScanLines","XorSine", 0 };
-    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", 0 };
+    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", "SquareSwap", 0 };
     static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
    
     static const char *szGradient[] = { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", 0 };
