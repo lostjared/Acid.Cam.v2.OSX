@@ -3569,17 +3569,18 @@ struct Point {
     int x, y;
 };
 
-
 // SquareSwap
 void ac::SquareSwap(cv::Mat &frame) {
-    static Square squares[8];
+    const unsigned int num_w = 8, num_h = 4;
+    static Square squares[num_w*num_h];
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    unsigned int square_w=(w/4), square_h=(h/2);
+    unsigned int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
-    Point points[8];
-    for(int rx = 0; rx < 4; ++rx) {
-        for(int ry = 0; ry < 2; ++ry) {
+    Point points[num_w*num_h];
+    std::vector<Square *> square_vec;
+    for(int rx = 0; rx < num_w; ++rx) {
+        for(int ry = 0; ry < num_h; ++ry) {
             int cx = rx*square_w;
             int cy = ry*square_h;
             points[pos].x = cx;
@@ -3587,12 +3588,14 @@ void ac::SquareSwap(cv::Mat &frame) {
             squares[pos].setPos(pos);
             squares[pos].setSize(cx, cy, square_w, square_h);
             squares[pos].copyImage(frame);
+            square_vec.push_back(&squares[pos]);
             ++pos;
         }
     }
+    std::srand(static_cast<unsigned int>(time(0)));
+    std::random_shuffle(square_vec.begin(), square_vec.end());
     for(int i = 0; i < pos; ++i) {
-        int rnd = rand()%8;
-        squares[i].copyImageToTarget(points[rnd].x, points[rnd].y,frame);
+        square_vec[i]->copyImageToTarget(points[i].x, points[i].y,frame);
     }
 }
 
