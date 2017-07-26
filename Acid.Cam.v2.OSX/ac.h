@@ -182,6 +182,8 @@ namespace ac {
     void SquareSwap4x2(cv::Mat &frame);
     void SquareSwap8x4(cv::Mat &frame);
     void SquareSwap16x8(cv::Mat &frame);
+    void SquareSwap64x32(cv::Mat &frame);
+    void SquareBars(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings

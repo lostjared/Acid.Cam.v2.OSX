@@ -33,7 +33,7 @@ namespace ac {
     std::string fileName ="VideoFile.avi";
     // draw strings (function names)
     std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black", "SlideRGB", "Side2Side","Top2Bottom","Strobe Red Then Green Then Blue","Blend_Angle", "Outward", "Outward Square", "ShiftPixels", "ShiftPixelsDown", "XorMultiBlend", "Bitwise_Rotate", "Bitwise_Rotate Diff", "HPPD", "FuzzyLines","GradientLines","GradientSelf","GradientSelfVertical", "GradientDown", "GraidentHorizontal", "GradientRGB","Inter", "UpDown","LeftRight","StrobeScan","BlendedScanLines","GradientStripes","XorSine","SquareSwap",
-        "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8",
+        "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars",
         
         
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
@@ -41,11 +41,11 @@ namespace ac {
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,
-        SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,
+        SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,
         BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 105;
+    int draw_max = 107;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -3614,9 +3614,12 @@ void ac::SquareSwap(cv::Mat &frame) {
         case 2:
             SquareSwap16x8(frame);
             break;
+        case 3:
+            SquareSwap64x32(frame);
+            break;
     }
     ++cnt;
-    if(cnt > 2) cnt = 0;
+    if(cnt > 3) cnt = 0;
 }
 
 void ac::SquareSwap4x2(cv::Mat &frame) {
@@ -3635,6 +3638,19 @@ void ac::SquareSwap16x8(cv::Mat &frame) {
     const unsigned int num_w = 16, num_h = 8;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame);
+}
+
+void ac::SquareSwap64x32(cv::Mat &frame) {
+    const unsigned int num_w = 64, num_h = 32;
+    static Square squares[num_w*num_h];
+    Square_Swap(squares, num_w, num_h, frame);
+}
+
+void ac::SquareBars(cv::Mat &frame) {
+    const unsigned int num_w = 16, num_h = 1;
+    static Square squares[num_w*num_h];
+    Square_Swap(squares, num_w, num_h, frame);
+    
 }
 
 // Alpha Blend with Original Frame
