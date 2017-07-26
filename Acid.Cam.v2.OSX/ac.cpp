@@ -3533,7 +3533,6 @@ public:
             width = w;
             height = h;
             image.create(cvSize(w, h), CV_8UC3);
-            std::cout << "Image created: " << w << "x" << h << "\n";
         }
     }
     void setPos(const int &p) {
