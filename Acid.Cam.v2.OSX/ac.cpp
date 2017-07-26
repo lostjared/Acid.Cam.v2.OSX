@@ -3533,12 +3533,12 @@ public:
             width = w;
             height = h;
             image.create(cvSize(w, h), CV_8UC3);
+            std::cout << "Image created: " << w << "x" << h << "\n";
         }
     }
     void setPos(const int &p) {
         pos = p;
     }
-    
     void copyImage(const cv::Mat &f) {
         for(int i = 0, src_x = x; i < width; ++i, ++src_x) {
             for(int z = 0, src_y = y; z < height; ++z, ++src_y) {
@@ -3548,7 +3548,6 @@ public:
             }
         }
     }
-    
     void copyImageToTarget(int xx, int yy, cv::Mat &f) {
         for(int i = 0, dst_x = xx; i < width; ++i, ++dst_x) {
             for(int z = 0, dst_y = yy; z < height; ++z, ++dst_y) {

@@ -148,8 +148,9 @@ void setEnabledProg() {
     [*cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
     
-    for(unsigned int i = 1; i < 10; ++i) {
+    for(unsigned int i = 1; i < 11; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
     }
     static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", "UpDown","LeftRight", "BlendedScanLines","XorSine", 0 };
@@ -167,6 +168,8 @@ void setEnabledProg() {
     
     static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter", "Blend with Source", "Plugin", 0 };
     
+    static const char *szCustom[] = {"Blend with Source", "Plugin", "Custom",0};
+    static const char *szCustom_Spec[] = {"Blend with Source", "Plugin",0};
     
     [self fillMenuWithString: it_arr[1] stringValues:szBlend];
     [self fillMenuWithString: it_arr[2] stringValues:szDistort];
@@ -176,10 +179,14 @@ void setEnabledProg() {
     [self fillMenuWithString: it_arr[6] stringValues:szStrobe];
     [self fillMenuWithString: it_arr[7] stringValues:szBlur];
     [self fillMenuWithString: it_arr[8] stringValues:szImage];
-    if(cust == NO)
+    if(cust == NO) {
         [self fillMenuWithString: it_arr[9] stringValues:szOther];
-    else
+        [self fillMenuWithString: it_arr[10] stringValues:szCustom];
+    }
+    else {
         [self fillMenuWithString: it_arr[9] stringValues:szOther_Custom];
+        [self fillMenuWithString: it_arr[10] stringValues:szCustom_Spec];
+    }
     
     *all = [[NSMenu alloc] init];
     
