@@ -112,6 +112,7 @@ void setEnabledProg() {
     [alpha_window setLevel: NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
+    [goto_frame setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
     [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
     [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES];
@@ -592,6 +593,7 @@ void setEnabledProg() {
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
+    
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
     ++frame_cnt;
     
