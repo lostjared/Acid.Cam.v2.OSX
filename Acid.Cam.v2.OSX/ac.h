@@ -185,8 +185,8 @@ namespace ac {
     void SquareSwap64x32(cv::Mat &frame);
     void SquareBars(cv::Mat &frame);
     void SquareBars8(cv::Mat &frame);
-    void SquareHorizontal8(cv::Mat &frame);
-    void SquareHorizontal16(cv::Mat &frame);
+    void SquareVertical8(cv::Mat &frame);
+    void SquareVertical16(cv::Mat &frame);
     void SquareVertical_Roll(cv::Mat &frame);
     void SquareSwapRand16x8(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
