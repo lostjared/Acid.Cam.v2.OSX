@@ -189,6 +189,7 @@ namespace ac {
     void SquareVertical16(cv::Mat &frame);
     void SquareVertical_Roll(cv::Mat &frame);
     void SquareSwapRand16x8(cv::Mat &frame);
+    void SquareSwapSort_Roll(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
     // draw functions / strings
