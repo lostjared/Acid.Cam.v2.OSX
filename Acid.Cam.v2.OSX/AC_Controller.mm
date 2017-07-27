@@ -147,14 +147,15 @@ void setEnabledProg() {
     [*cat addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Square" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
     
-    for(unsigned int i = 1; i < 11; ++i) {
+    for(unsigned int i = 1; i < 12; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
     }
     static const char *szBlend[] = { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", "UpDown","LeftRight", "BlendedScanLines","XorSine", 0 };
-    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", "SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareHorizontal8", "SquareHorizontal16", 0 };
+    static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown", 0 };
     
     static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
    
@@ -168,6 +169,7 @@ void setEnabledProg() {
     
     static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter", "Blend with Source", "Plugin", 0 };
     
+    static const char *szSquare[] = {"SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareHorizontal8", "SquareHorizontal16", 0};
     static const char *szCustom[] = {"Blend with Source", "Plugin", "Custom",0};
     static const char *szCustom_Spec[] = {"Blend with Source", "Plugin",0};
     
@@ -179,13 +181,15 @@ void setEnabledProg() {
     [self fillMenuWithString: it_arr[6] stringValues:szStrobe];
     [self fillMenuWithString: it_arr[7] stringValues:szBlur];
     [self fillMenuWithString: it_arr[8] stringValues:szImage];
+    [self fillMenuWithString: it_arr[9] stringValues:szSquare];
+    
     if(cust == NO) {
-        [self fillMenuWithString: it_arr[9] stringValues:szOther];
-        [self fillMenuWithString: it_arr[10] stringValues:szCustom];
+        [self fillMenuWithString: it_arr[10] stringValues:szOther];
+        [self fillMenuWithString: it_arr[11] stringValues:szCustom];
     }
     else {
-        [self fillMenuWithString: it_arr[9] stringValues:szOther_Custom];
-        [self fillMenuWithString: it_arr[10] stringValues:szCustom_Spec];
+        [self fillMenuWithString: it_arr[10] stringValues:szOther_Custom];
+        [self fillMenuWithString: it_arr[11] stringValues:szCustom_Spec];
     }
     
     *all = [[NSMenu alloc] init];

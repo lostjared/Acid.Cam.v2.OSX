@@ -65,8 +65,8 @@ extern  bool camera_active;
     int frames_captured;
     NSMenu *menu_cat;
     NSMenu *menu_all;
-    NSMenu *menu_items[11];
-    NSMenu *menu_items_custom[11];
+    NSMenu *menu_items[12];
+    NSMenu *menu_items_custom[12];
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
    
