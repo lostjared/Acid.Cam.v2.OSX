@@ -3698,9 +3698,8 @@ void ShiftSquares(std::vector<Square *> &s) {
     }
 }
 
-void ac::SquareVertical_Roll(cv::Mat &frame) {
+void SquareVertical(Square *squares, cv::Mat &frame) {
     const unsigned int num_w = 1, num_h = 32;
-    static Square squares[num_w*num_h];
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     unsigned int square_w=(w/num_w), square_h=(h/num_h);
@@ -3708,10 +3707,10 @@ void ac::SquareVertical_Roll(cv::Mat &frame) {
     int cpos = 0;
     static int lazy = 0;
     if(lazy == 0) {
-    	for(int cx = 0; cx < num_w; ++cx)
+        for(int cx = 0; cx < num_w; ++cx)
             for(int cy = 0; cy < num_h; ++cy) {
                 ++cpos;
-            	squares[cpos].setPos(cpos);
+                squares[cpos].setPos(cpos);
             }
         lazy = 1;
     }
@@ -3730,11 +3729,18 @@ void ac::SquareVertical_Roll(cv::Mat &frame) {
         }
     }
     ShiftSquares(square_vec);
-    std::sort(square_vec.begin(), square_vec.end());
     for(int i = 0; i < pos; ++i) {
         const int p = square_vec[i]->getPos();
         square_vec[i]->copyImageToTarget(points[p].x, points[p].y, frame);
     }
+}
+
+
+
+void ac::SquareVertical_Roll(cv::Mat &frame) {
+    const unsigned int num_w = 1, num_h = 32;
+    static Square squares[num_w*num_h];
+    SquareVertical(squares, frame);
 }
 
 // Alpha Blend with Original Frame
