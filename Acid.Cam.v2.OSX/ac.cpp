@@ -34,7 +34,7 @@ namespace ac {
     // draw strings (function names)
     std::string draw_strings[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8","filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern", "MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black", "SlideRGB", "Side2Side","Top2Bottom","Strobe Red Then Green Then Blue","Blend_Angle", "Outward", "Outward Square", "ShiftPixels", "ShiftPixelsDown", "XorMultiBlend", "Bitwise_Rotate", "Bitwise_Rotate Diff", "HPPD", "FuzzyLines","GradientLines","GradientSelf","GradientSelfVertical", "GradientDown", "GraidentHorizontal", "GradientRGB","Inter", "UpDown","LeftRight","StrobeScan","BlendedScanLines","GradientStripes","XorSine","SquareSwap",
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
-        "SquareHorizontal8", "SquareHorizontal16",
+        "SquareHorizontal8", "SquareHorizontal16","SquareVertical_Roll",
         
         
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
@@ -43,11 +43,11 @@ namespace ac {
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
-        SquareHorizontal8,SquareHorizontal16,
+        SquareHorizontal8,SquareHorizontal16,SquareVertical_Roll,
         BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 111;
+    int draw_max = 112;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -3560,6 +3560,11 @@ public:
         std::cout << "X: " << x << " Y: " << y << " W: " << width << " H: " << height << "\n";
     }
     
+    bool operator<(const Square &s) const {
+        if(pos < s.pos) return true;
+        return false;
+    }
+    
     int getPos() const { return pos; }
     int getWidth() const { return width; }
     int getHeight() const { return height; }
@@ -3678,6 +3683,58 @@ void ac::SquareHorizontal16(cv::Mat &frame) {
     const unsigned int num_w = 1, num_h = 16;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame);
+}
+
+
+void ShiftSquares(std::vector<Square *> &s) {
+    for(unsigned int i = 0; i < s.size(); ++i) {
+        int p = s[i]->getPos();
+        if(p+1 > s.size()-1) {
+            s[i]->setPos(0);
+        } else {
+            ++p;
+            s[i]->setPos(p);
+        }
+    }
+}
+
+void ac::SquareVertical_Roll(cv::Mat &frame) {
+    const unsigned int num_w = 1, num_h = 32;
+    static Square squares[num_w*num_h];
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    unsigned int square_w=(w/num_w), square_h=(h/num_h);
+    int pos = 0;
+    int cpos = 0;
+    static int lazy = 0;
+    if(lazy == 0) {
+    	for(int cx = 0; cx < num_w; ++cx)
+            for(int cy = 0; cy < num_h; ++cy) {
+                ++cpos;
+            	squares[cpos].setPos(cpos);
+            }
+        lazy = 1;
+    }
+    Point points[num_w*num_h];
+    std::vector<Square *> square_vec;
+    for(int rx = 0; rx < num_w; ++rx) {
+        for(int ry = 0; ry < num_h; ++ry) {
+            int cx = rx*square_w;
+            int cy = ry*square_h;
+            points[pos].x = cx;
+            points[pos].y = cy;
+            squares[pos].setSize(cx, cy, square_w, square_h);
+            squares[pos].copyImage(frame);
+            square_vec.push_back(&squares[pos]);
+            ++pos;
+        }
+    }
+    ShiftSquares(square_vec);
+    std::sort(square_vec.begin(), square_vec.end());
+    for(int i = 0; i < pos; ++i) {
+        const int p = square_vec[i]->getPos();
+        square_vec[i]->copyImageToTarget(points[p].x, points[p].y, frame);
+    }
 }
 
 // Alpha Blend with Original Frame
