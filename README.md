@@ -11,6 +11,8 @@ To compile first clone then open with Xcode and build.
 
 ![AnimatedImage](http://lostsidedead.biz/gif/jaredpeace.gif "screenshot")
 
+![AI](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/AcidCam.jared.gif?raw=true "animation")
+
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/AcidCam2_ScreenShot.png?raw=true "screenshot")
 
 Acid Cam is a application that turns your webcam/video files into a work of Art.
