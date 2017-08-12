@@ -38,7 +38,7 @@ extern  bool camera_active;
     IBOutlet NSPopUpButton *vid_format_2;
     IBOutlet NSButton *record_op2,*startaction_2;
     IBOutlet NSTextView *t_view;
-    IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters, *pause_step;
+    IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters, *pause_step, *menu_freeze;
     IBOutlet NSMenuItem *rotate_v, *rotate_h;
     IBOutlet NSButton *startProg;
     IBOutlet NSPopUpButton *current_filter, *corder, *output_Type, *categories, *current_filter_custom, *categories_custom;
@@ -69,6 +69,7 @@ extern  bool camera_active;
     NSMenu *menu_items_custom[12];
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
+    unsigned int freeze_count;
    
 }
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
@@ -123,6 +124,7 @@ extern  bool camera_active;
 - (void) camThread: (id) sender;
 - (void) stopCamera;
 - (IBAction) setRGB_Values: (id) sender;
+- (IBAction) menuFreeze: (id) sender;
 
 @end
 
@@ -132,3 +134,5 @@ extern void setSliders(int frame_count);
 extern void jumptoFrame(int frame);
 extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
+extern cv::Mat old_frame;
+

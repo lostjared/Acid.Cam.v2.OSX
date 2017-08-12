@@ -33,6 +33,8 @@ bool disableFilter;
 cv::VideoCapture *capture;
 NSThread *background;
 bool camera_active = false;
+cv::Mat old_frame;
+
 
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     NSAlert *alert = [[NSAlert alloc] init];
@@ -132,7 +134,6 @@ void setEnabledProg() {
     srand((unsigned int)time(0));
     pauseStepTrue = false;
     camera_mode = 0;
-    
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
@@ -264,6 +265,7 @@ void setEnabledProg() {
 - (IBAction) stopProgram: (id) sender {
     stopProgram = true;
     [menuPaused setEnabled: NO];
+    [menu_freeze setEnabled: NO];
     stopCV();
 }
 
@@ -375,6 +377,7 @@ void setEnabledProg() {
     else
         r = true;
     
+    freeze_count = 0;
     NSInteger checkedState = [menuPaused state];
     isPaused = (checkedState == NSOnState) ? true : false;
     
@@ -434,6 +437,12 @@ void setEnabledProg() {
             [background start];
             camera_active = true;
         }
+        
+        if([menu_freeze state] == NSOnState) {
+            capture->read(old_frame);
+            ++frame_cnt;
+        }
+        
         [window1 orderFront:self];
     }
 }
@@ -563,9 +572,19 @@ void setEnabledProg() {
     }
     else if(isPaused) return;
     cv::Mat frame;
-    if(capture->isOpened() && capture->read(frame) == false) {
+    
+    bool frame_read = true;
+    
+    if([menu_freeze state] == NSOffState) {
+        frame_read = capture->read(frame);
+        old_frame = frame.clone();
+    } else {
+        frame = old_frame.clone();
+    }
+    
+    if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
-        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((freeze_count+video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
@@ -608,7 +627,10 @@ void setEnabledProg() {
     }
     
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-    ++frame_cnt;
+    if([menu_freeze state] == NSOffState)
+    	++frame_cnt;
+    else
+        ++freeze_count;
     
     if([corder indexOfSelectedItem] == 5) {
         cv::Mat change;
@@ -618,7 +640,7 @@ void setEnabledProg() {
     
     cv::imshow("Acid Cam v2", frame);
     
-    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((freeze_count+video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
     
     if(camera_mode == 1) {
         float val = frame_cnt;
@@ -951,6 +973,14 @@ void setEnabledProg() {
     [t_red setIntegerValue: red_val];
     [t_green setIntegerValue: green_val];
     [t_blue setIntegerValue: blue_val];
+}
+
+- (IBAction) menuFreeze: (id) sender {
+    if([menu_freeze state] == NSOnState) {
+        [menu_freeze setState: NSOffState];
+    } else {
+        [menu_freeze setState: NSOnState];
+    }
 }
 
 

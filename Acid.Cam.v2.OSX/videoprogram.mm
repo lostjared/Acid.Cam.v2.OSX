@@ -119,6 +119,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             cv::resize(frame, outframe, frameSize);
             frame = outframe;
             ac::orig_frame = frame.clone();
+            old_frame = frame.clone();
             blend_image = frame.clone();
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
             writer->write(frame);

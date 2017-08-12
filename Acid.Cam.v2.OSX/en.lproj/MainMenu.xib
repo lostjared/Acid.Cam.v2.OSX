@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
@@ -38,6 +38,7 @@
                 <outlet property="image_combo" destination="Z6j-u7-bfW" id="9Gh-e4-VOI"/>
                 <outlet property="image_select" destination="E8K-bK-ljP" id="cBR-9o-uJv"/>
                 <outlet property="menuPaused" destination="Isy-gQ-uSb" id="BeU-Zh-4FO"/>
+                <outlet property="menu_freeze" destination="J0h-Ug-VbD" id="KMF-EJ-A03"/>
                 <outlet property="negate_checked" destination="eDA-pn-7R7" id="5YZ-bW-ZMd"/>
                 <outlet property="output_Type" destination="rOk-Yh-mZb" id="D7G-rY-Zgn"/>
                 <outlet property="pause_step" destination="vta-z2-KqS" id="fG1-0w-JST"/>
@@ -188,6 +189,13 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="setRotate_H:" target="630" id="kY9-Jl-sEU"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="JMa-C6-w0P"/>
+                            <menuItem title="Freeze" id="J0h-Ug-VbD">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuFreeze:" target="630" id="2Df-7a-7oL"/>
                                 </connections>
                             </menuItem>
                         </items>
