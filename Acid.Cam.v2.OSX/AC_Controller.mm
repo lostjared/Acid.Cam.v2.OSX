@@ -431,18 +431,17 @@ void setEnabledProg() {
         [window1 orderOut:self];
     } else {
         //[videoFileInput setEnabled: NO];
+        if([menu_freeze state] == NSOnState) {
+            capture->read(old_frame);
+            ++frame_cnt;
+        }
+        
         if(camera_mode == 0) {
             frames_captured = 0;
             background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
             [background start];
             camera_active = true;
         }
-        
-        if([menu_freeze state] == NSOnState) {
-            capture->read(old_frame);
-            ++frame_cnt;
-        }
-        
         [window1 orderFront:self];
     }
 }
@@ -470,17 +469,27 @@ void setEnabledProg() {
     
     
     if(capture_camera->isOpened() && camera_active == true) {
-        capture_camera->grab();
-        frames_captured++;
+        
+        if([menu_freeze state] == NSOffState) {
+            capture_camera->grab();
+        	frames_captured++;
+        }
         // [NSThread sleepForTimeInterval: 1.000/ac::fps];
     }
 }
 
 - (void) camThread: (id) sender {
     cv::Mat frame;
-    while(camera_active && capture->retrieve(frame)) {
+    bool got_frame = true;
+    while(camera_active && got_frame) {
         if(isPaused) continue;
         cv::Mat temp_frame;
+        if([menu_freeze state] == NSOffState) {
+            got_frame = capture->retrieve(frame);
+            old_frame = frame.clone();
+        } else {
+            frame = old_frame.clone();
+        }
         
         if([rotate_v state] == NSOnState) {
             cv::flip(frame, temp_frame, 1);
