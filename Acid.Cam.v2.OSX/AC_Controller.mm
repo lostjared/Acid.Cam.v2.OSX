@@ -356,7 +356,6 @@ void setEnabledProg() {
         dlclose(library);
 }
 
-
 -(IBAction) startProgram: (id) sender {
     std::string input_file;
     if([videoFileInput state] == NSOnState) {
@@ -367,7 +366,6 @@ void setEnabledProg() {
         }
         camera_mode = 1;
     } else camera_mode = 0;
-    
     NSInteger res = [resolution indexOfSelectedItem];
     int res_x[3] = { 640, 1280, 1920 };
     int res_y[3] = { 480, 720, 1080 };
@@ -376,11 +374,9 @@ void setEnabledProg() {
         r = false;
     else
         r = true;
-    
     freeze_count = 0;
     NSInteger checkedState = [menuPaused state];
     isPaused = (checkedState == NSOnState) ? true : false;
-    
     static unsigned int counter = 0;
     std::ostringstream fname_stream;
     std::string filename;
@@ -397,14 +393,12 @@ void setEnabledProg() {
         fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".mov";
     else
         fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".avi";
-    
     filename = fname_stream.str();
     NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
     std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
     std::cout << add_path << "\n";
     [startProg setEnabled: NO];
     [menuPaused setEnabled: YES];
-    
     if(camera_mode == 1) {
         renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
                                               target:self
@@ -414,15 +408,11 @@ void setEnabledProg() {
     } else {
         renderTimer = [NSTimer timerWithTimeInterval: 0.001 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
     }
-    
-    
     if(camera_mode == 1)
         capture = capture_video.get();
     else
         capture = capture_camera.get();
-    
     int ret_val = program_main((int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-    
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize camera\n", @"Camera Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -430,12 +420,10 @@ void setEnabledProg() {
         [startProg setEnabled: YES];
         [window1 orderOut:self];
     } else {
-        //[videoFileInput setEnabled: NO];
         if([menu_freeze state] == NSOnState) {
             capture->read(old_frame);
             ++frame_cnt;
         }
-        
         if(camera_mode == 0) {
             frames_captured = 0;
             background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
@@ -461,20 +449,15 @@ void setEnabledProg() {
         [self stopCamera];
         return;
     }
-    
     if(isPaused && pauseStepTrue == true) {
         pauseStepTrue = false;
     }
     else if(isPaused) return;
-    
-    
     if(capture_camera->isOpened() && camera_active == true) {
-        
         if([menu_freeze state] == NSOffState) {
             capture_camera->grab();
         	frames_captured++;
         }
-        // [NSThread sleepForTimeInterval: 1.000/ac::fps];
     }
 }
 
@@ -581,16 +564,13 @@ void setEnabledProg() {
     }
     else if(isPaused) return;
     cv::Mat frame;
-    
     bool frame_read = true;
-    
     if([menu_freeze state] == NSOffState) {
         frame_read = capture->read(frame);
         old_frame = frame.clone();
     } else {
         frame = old_frame.clone();
     }
-    
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((freeze_count+video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
@@ -624,33 +604,26 @@ void setEnabledProg() {
         cv::flip(frame, temp_frame, 0);
         frame = temp_frame;
     }
-    
     if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
         ac::orig_frame = frame.clone();
     }
-    
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
         if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
-    
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
     if([menu_freeze state] == NSOffState)
     	++frame_cnt;
     else
         ++freeze_count;
-    
     if([corder indexOfSelectedItem] == 5) {
         cv::Mat change;
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-    
     cv::imshow("Acid Cam v2", frame);
-    
     ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((freeze_count+video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
-    
     if(camera_mode == 1) {
         float val = frame_cnt;
         float size = total_frames;
@@ -721,7 +694,6 @@ void setEnabledProg() {
     }
 }
 
-
 - (IBAction) takeSnopshot: (id) sender {
     ac::snapShot = true;
     ac::snapshot_Type = 0;
@@ -782,16 +754,8 @@ void setEnabledProg() {
         [table_view reloadData];
         
     }
-    
-    /*
-     NSInteger index = [filter_combo indexOfSelectedItem];
-     if(index >= 0) {
-     [custom_array addObject: [NSNumber numberWithInt: (int)index]];
-     [table_view reloadData];
-     }*/
-    
-    
 }
+
 - (IBAction) removeCustomItem: (id) sender {
     NSInteger index = [table_view selectedRow];
     if(index >= 0) {
@@ -991,7 +955,6 @@ void setEnabledProg() {
         [menu_freeze setState: NSOnState];
     }
 }
-
 
 @end
 
