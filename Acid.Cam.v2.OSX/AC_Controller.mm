@@ -122,7 +122,6 @@ void setEnabledProg() {
     [categories_custom setMenu:menu_cat_custom];
     [current_filter setMenu: menu_items[0]];
     [current_filter_custom setMenu: menu_items_custom[0]];
-    
     custom_array = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
     [table_view setDataSource:self];
@@ -137,7 +136,6 @@ void setEnabledProg() {
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
-    
     *cat = [[NSMenu alloc] init];
     [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Blend" action:nil keyEquivalent:@""];
@@ -293,7 +291,6 @@ void setEnabledProg() {
     std::ostringstream plug;
     plug << "Loaded Plugin: " << [file_type UTF8String] << "\n";
     flushToLog(plug);
-    
 }
 
 - (void) loadDir: (std::string) str {
@@ -921,17 +918,20 @@ void setEnabledProg() {
 
 - (IBAction) showCustom: (id) sender {
     [custom_window orderFront: self];
-    
 }
+
 - (IBAction) showActivityLog: (id) sender {
     [window1 orderFront: self];
 }
+
 - (IBAction) showSelectImage: (id) sender {
     [image_select orderFront: self];
 }
+
 - (IBAction) showAlpha: (id) sender {
     [alpha_window orderFront: self];
 }
+
 - (IBAction) showPlugins: (id) sender {
     [plugin_window orderFront:self];
 }
