@@ -3725,7 +3725,7 @@ void SquareVertical(const unsigned int num_w, const unsigned int num_h, Square *
 }
 
 void ac::SquareVertical_Roll(cv::Mat &frame) {
-    const unsigned int num_w = 1, num_h = 8;
+    const unsigned int num_w = 1, num_h = 20;
     static Square squares[num_w*num_h];
     static int lazy = 0;
     if(lazy == 0) {
@@ -3757,7 +3757,7 @@ void ac::SquareSwapSort_Roll(cv::Mat &frame) {
 }
 
 void ac::SquareVertical_RollReverse(cv::Mat &frame) {
-    const unsigned int num_w = 1, num_h = 8;
+    const unsigned int num_w = 1, num_h = 20;
     static Square squares[num_w*num_h];
     static int lazy = 0;
     if(lazy == 0) {
