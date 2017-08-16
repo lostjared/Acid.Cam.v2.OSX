@@ -172,7 +172,7 @@ void setEnabledProg() {
         "SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse",
         0};
     static const char *szCustom[] = {"No Filter", "Blend with Source", "Plugin", "Custom",0};
-    static const char *szCustom_Spec[] = {"Blend with Source", "Plugin",0};
+    static const char *szCustom_Spec[] = {"No Filter", "Blend with Source", "Plugin",0};
     
     [self fillMenuWithString: it_arr[1] stringValues:szBlend];
     [self fillMenuWithString: it_arr[2] stringValues:szDistort];
