@@ -171,7 +171,7 @@ void setEnabledProg() {
     static const char *szSquare[] = {"SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8", "SquareVertical16", "SquareVertical_Roll",
         "SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse",
         0};
-    static const char *szCustom[] = {"Blend with Source", "Plugin", "Custom",0};
+    static const char *szCustom[] = {"No Filter", "Blend with Source", "Plugin", "Custom",0};
     static const char *szCustom_Spec[] = {"Blend with Source", "Plugin",0};
     
     [self fillMenuWithString: it_arr[1] stringValues:szBlend];
