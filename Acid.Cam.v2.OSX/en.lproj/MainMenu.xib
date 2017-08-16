@@ -1145,7 +1145,7 @@ Gw
             <point key="canvasLocation" x="880" y="105"/>
         </window>
         <window title="Image Blend" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="E8K-bK-ljP" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="56" y="160" width="494" height="70"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
