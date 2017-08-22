@@ -192,9 +192,9 @@ void setEnabledProg() {
     static const char *szStrobe[] = {  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", "StrobeScan", 0 };
     static const char *szBlur[] = { "GaussianBlur", "Median Blur", "Blur Distortion", 0 };
     static const char *szImage[] = {  "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", 0 };
-    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Blend with Source", "Plugin", "Custom", 0 };
+    static const char *szOther[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Circular","Blend with Source", "Plugin", "Custom", 0 };
     
-    static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter", "Blend with Source", "Plugin", 0 };
+    static const char *szOther_Custom[] = { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter","Circular", "Blend with Source", "Plugin", 0 };
     
     static const char *szSquare[] = {"SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8", "SquareVertical16", "SquareVertical_Roll",
         "SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse",
