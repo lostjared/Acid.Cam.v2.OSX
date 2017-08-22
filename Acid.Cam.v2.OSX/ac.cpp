@@ -3,7 +3,7 @@
  * Acid Cam functions for OpenCV
  * written by Jared Bruni https://github.com/lostjared
  * http://lostsidedead.com
-
+ 
  
  BSD 2-Clause License
  
@@ -33,11 +33,11 @@
  
  
  * One quick note, most of the time when writing programs using x,y variables x goes first
- * the OpenCV Mat at function that returns a pixel is reversed. 
+ * the OpenCV Mat at function that returns a pixel is reversed.
  * y is first. Example
  * cv::Vec3b &v = frame.at<cv::Vec3b>(y, x);
  *
-*/
+ */
 #include "ac.h"
 #include "fractal.h"
 
@@ -64,7 +64,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
-
+    
     // filter callback functions
     DrawFunction draw_func[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply, colorAccumulate1, colorAccumulate2, colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,
@@ -100,7 +100,7 @@ inline void ac::swapColors(cv::Mat &frame, int x, int y) {
     
     cv::Vec3b temp;// temp
     temp = cur;// temp = cur
-
+    
     // swap RGB orders
     switch(color_order) {
         case 1:
@@ -1860,9 +1860,9 @@ void ac::BlurDistortion(cv::Mat &frame) {
     static unsigned int index = 1, direction = 1;
     cv::GaussianBlur(frame, out, cv::Size(index, index), 0, 0);// output
     if(direction == 1) {// if direction equals 1
-    	if(index >= 51) direction = 0;// if greater than 51 set to zero go
+        if(index >= 51) direction = 0;// if greater than 51 set to zero go
         // opposite direction
-    	else index += 2;// increase
+        else index += 2;// increase
     } else {
         if(index <= 1) direction = 1;// go opposite direction
         else index -= 2;// decrease
@@ -2001,7 +2001,7 @@ void ac::SidewaysMirror(cv::Mat &frame) {
     orig = frame.clone();// clone frame to orig
     for(int z = 2; z < h-3; ++z) {// loop from top to bottom
         for(int i = 2; i < w-3; ++i) {// loop each row from left
-                                     // to right
+            // to right
             // current pixel
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
             // h minus y, width minus x positioned pixel
@@ -2035,7 +2035,7 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
     for(int z = 2; z < h-3; ++z) { // loop through the height
         for(int i = 2; i < w-3; ++i) {// go across each row
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// current pixel
-             // opposite of current pixel
+            // opposite of current pixel
             cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
             // opposite width, same height
             cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
@@ -2043,9 +2043,9 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
             cv::Vec3b &pix3 = orig.at<cv::Vec3b>((h-z), i);
             // current pixel components equal
             // add each pixel value together
-             buffer[0] = (pix1[0]+pix2[0]+pix3[0]);
-             buffer[1] = (pix1[1]+pix2[1]+pix3[1]);
-             buffer[2] = (pix1[2]+pix2[2]+pix3[2]);
+            buffer[0] = (pix1[0]+pix2[0]+pix3[0]);
+            buffer[1] = (pix1[1]+pix2[1]+pix3[1]);
+            buffer[2] = (pix1[2]+pix2[2]+pix3[2]);
             // swap RGB positions
             swapColors(frame, z, i);
             // if the negative switch is on, invert
@@ -2657,7 +2657,7 @@ void ac::BoxesFade(cv::Mat &frame) {
                         if(color[0] >= 254) color[0] = rand()%255; // reset if over
                         if(color[1] >= 254) color[1] = rand()%255;
                         if(color[2] >= 254) color[2] = rand()%255;
-
+                        
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
                         pixel[0] += color[0]; // add each component
                         pixel[1] += color[1];
@@ -2706,14 +2706,14 @@ void ac::SlideRGB(cv::Mat &frame) {
             if(offset_x+i < (w-1)) {
                 cv::Vec3b off_pix = frame.at<cv::Vec3b>(z, offset_x+i);
                 pixel[color[0]] += off_pix[color[0]];
-            	cv::Vec3b off_red = frame.at<cv::Vec3b>(z, (w-(offset_x+i)));
+                cv::Vec3b off_red = frame.at<cv::Vec3b>(z, (w-(offset_x+i)));
                 pixel[color[1]] += off_red[color[1]];
             }
         }
     }
     static unsigned int direction = 1;
     if(direction == 1) {
-    	++offset_x;
+        ++offset_x;
         if(offset_x > 5) {
             direction = 0;
         }
@@ -2832,7 +2832,7 @@ void ac::Outward(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     static double start_pos = 1, pos = 1.0, pos_max = 5.0;
-
+    
     static cv::Scalar offset(5, 50, 100);
     
     pos = start_pos;
@@ -2885,7 +2885,7 @@ void ac::OutwardSquare(cv::Mat &frame) {
     static double start_pos = 1, pos = 1.0, pos_max = 5.0;
     static cv::Scalar offset(5, 50, 100);
     pos = start_pos;
-
+    
     for(int y = h/2; y > 0; --y) {
         for(int x = 0; x < wx; ++x) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
@@ -3056,7 +3056,7 @@ void ac::XorMultiBlend(cv::Mat &frame) {
     static double pos = 1.0, pos_max = 3.0;
     cv::Scalar s(pos, -pos, pos);
     for(int y = h-1; y > 0; --y) {
-		for(int x = w-1; x > 0; --x) {
+        for(int x = w-1; x > 0; --x) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
             pixel[0] = (pixel[0]^(int)s[0])*pos;
             pixel[1] = (pixel[1]^(int)s[1])*pos;
@@ -3080,9 +3080,9 @@ void ac::BitwiseRotate(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             
             if(direction == 1) {
-            	pixel[0] = ror(pixel[0], offset);
-            	pixel[1] = rol(pixel[1], offset);
-            	pixel[2] = ror(pixel[2], offset);
+                pixel[0] = ror(pixel[0], offset);
+                pixel[1] = rol(pixel[1], offset);
+                pixel[2] = ror(pixel[2], offset);
             } else {
                 pixel[0] = rol(pixel[0], offset);
                 pixel[1] = ror(pixel[1], offset);
@@ -3138,7 +3138,7 @@ void ac::HPPD(cv::Mat &frame) {
             pixel[0] = pixel[0]-total[0]*pos;
             pixel[1] = pixel[1]-total[1]*pos;
             pixel[2] = pixel[2]-total[2]*pos;
-      		swapColors(frame, z, i);
+            swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
     }
@@ -3158,7 +3158,7 @@ void ac::FuzzyLines(cv::Mat &frame) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b temp = pixel;
-    
+            
             value[0] += temp[0]+temp[1]+temp[2];
             value[1] -= temp[0]+temp[1]+temp[2];
             value[2] += temp[0]+temp[1]+temp[2];
@@ -3176,7 +3176,7 @@ void ac::FuzzyLines(cv::Mat &frame) {
     
     static int direction = 1;
     procPos(direction, pos, pos_max);
-
+    
     
 }
 
@@ -3300,24 +3300,24 @@ void ac::GradientRGB(cv::Mat &frame) {
     static unsigned int count = 0, index = 0;
     static unsigned int direction = 1;
     if(direction == 1) {
-    for(unsigned int z = 0; z < h; ++z) {
-    	for(unsigned int i = 0; i < w; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[index] = pixel[index]*count;
-            ++count;
-            if(count >= 255) {
-                ++index;
-                if(index > 2) {
-                    index = 0;
+        for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int i = 0; i < w; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel[index] = pixel[index]*count;
+                ++count;
+                if(count >= 255) {
+                    ++index;
+                    if(index > 2) {
+                        index = 0;
+                    }
                 }
+                swapColors(frame, z, i);
+                if(isNegative) invert(frame, z, i);
             }
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
-    	}
-    }
+        }
     } else {
         for(unsigned int i = 0; i < w; ++i) {
-        for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int z = 0; z < h; ++z) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 pixel[index] = pixel[index]*count;
                 ++count;
@@ -3360,14 +3360,14 @@ void ac::UpDown(cv::Mat &frame) {
     for(unsigned int i = 0; i < w; ++i) {
         if(order == true) {
             order = false;
-        	for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int z = 0; z < h; ++z) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(unsigned int q = 0; q < 3; ++q)
-                	pixel[q] = alpha+(pixel[q]*pos);
+                    pixel[q] = alpha+(pixel[q]*pos);
                 
                 swapColors(frame, z, i);
                 if(isNegative) invert(frame, z, i);
-        	}
+            }
             alpha += 0.1;
         } else {
             order = true;
@@ -3382,7 +3382,7 @@ void ac::UpDown(cv::Mat &frame) {
             
             alpha += 0.1;
         }
- 
+        
     }
     
     static int direction = 1;
@@ -3413,7 +3413,7 @@ void ac::LeftRight(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(unsigned int q = 0; q < 3; ++q)
                     pixel[q] = alpha-(pixel[q]*pos);
-              
+                
                 swapColors(frame, z, i);
                 if(isNegative) invert(frame, z, i);
             }
@@ -3434,37 +3434,37 @@ void ac::StrobeScan(cv::Mat &frame) {
     static unsigned int cdirection = 1;
     
     for(unsigned int z = 0; z < h; ++z) {
-                switch(color_mode) {
-                case 0: {
-                    for(unsigned int i = 0; i < w; ++i) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                        pixel[color_mode] = over+(pixel[color_mode]*pos);
-                        swapColors(frame, z, i);
-                        if(isNegative) invert(frame, z, i);
-                    }
+        switch(color_mode) {
+            case 0: {
+                for(unsigned int i = 0; i < w; ++i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    pixel[color_mode] = over+(pixel[color_mode]*pos);
+                    swapColors(frame, z, i);
+                    if(isNegative) invert(frame, z, i);
                 }
-                    break;
-                case 1: {
-                    for(unsigned int i = w-1; i > 1; --i) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                        pixel[color_mode] -= over+(pixel[1]*pos);
-                        swapColors(frame, z, i);
-                        if(isNegative) invert(frame, z, i);
-
-                    }
-                }
-                    break;
-                case 2: {
-                    for(unsigned int i = 0; i < w; ++i) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                        pixel[color_mode] ^= static_cast<unsigned char>(over+(pixel[color_mode]*pos));
-                        swapColors(frame, z, i);
-                        if(isNegative) invert(frame, z, i);
-
-                    }
-                }
-                    break;
             }
+                break;
+            case 1: {
+                for(unsigned int i = w-1; i > 1; --i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    pixel[color_mode] -= over+(pixel[1]*pos);
+                    swapColors(frame, z, i);
+                    if(isNegative) invert(frame, z, i);
+                    
+                }
+            }
+                break;
+            case 2: {
+                for(unsigned int i = 0; i < w; ++i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    pixel[color_mode] ^= static_cast<unsigned char>(over+(pixel[color_mode]*pos));
+                    swapColors(frame, z, i);
+                    if(isNegative) invert(frame, z, i);
+                    
+                }
+            }
+                break;
+        }
         
         if(cdirection == 1) {
             ++color_mode;
@@ -3619,7 +3619,7 @@ void Square_Swap(Square *squares, int num_w, int num_h, cv::Mat &frame, bool ran
     for(int i = 0; i < pos; ++i) {
         if(random == false)
             // use shuffled
-        	square_vec[i]->copyImageToTarget(points[i].x, points[i].y,frame);
+            square_vec[i]->copyImageToTarget(points[i].x, points[i].y,frame);
         else
             // use random
             square_vec[rand()%pos]->copyImageToTarget(points[i].x, points[i].y,frame);
@@ -3707,7 +3707,7 @@ void ShiftSquares(std::vector<Square *> &s, int pos, bool direction=true) {
     if(direction == true) {
         for(unsigned int i = 0; i < s.size(); ++i) {
             int p = s[i]->getPos();
-            if(p+1 > s.size()-1) {
+            if(p+1 > (int)s.size()-1) {
                 s[i]->setPos(0);
             } else {
                 ++p;
@@ -3715,7 +3715,7 @@ void ShiftSquares(std::vector<Square *> &s, int pos, bool direction=true) {
             }
         }
     } else {
-        for(unsigned int i = 0; i < pos; ++i) {
+        for(int i = 0; i < pos; ++i) {
             int p = s[i]->getPos();
             --p;
             s[i]->setPos(p);
@@ -3727,14 +3727,14 @@ void ShiftSquares(std::vector<Square *> &s, int pos, bool direction=true) {
 }
 
 void SquareVertical(const unsigned int num_w, const unsigned int num_h, Square *squares, cv::Mat &frame, bool direction=true) {
-    unsigned int w = frame.cols;// frame width
-    unsigned int h = frame.rows;// frame height
-    unsigned int square_w=(w/num_w), square_h=(h/num_h);
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
     Point points[num_w*num_h];
     std::vector<Square *> square_vec;
-    for(int rx = 0; rx < num_w; ++rx) {
-        for(int ry = 0; ry < num_h; ++ry) {
+    for(int rx = 0; rx < (int)num_w; ++rx) {
+        for(int ry = 0; ry < (int)num_h; ++ry) {
             int cx = rx*square_w;
             int cy = ry*square_h;
             points[pos].x = cx;
@@ -3753,7 +3753,7 @@ void SquareVertical(const unsigned int num_w, const unsigned int num_h, Square *
 }
 
 void ac::SquareVertical_Roll(cv::Mat &frame) {
-    const unsigned int num_w = 1, num_h = 20;
+    const int num_w = 1, num_h = 20;
     static Square squares[num_w*num_h];
     static int lazy = 0;
     if(lazy == 0) {
@@ -3769,7 +3769,7 @@ void ac::SquareVertical_Roll(cv::Mat &frame) {
 }
 
 void ac::SquareSwapSort_Roll(cv::Mat &frame) {
-    const unsigned int num_w = 16, num_h = 8;
+    const int num_w = 16, num_h = 8;
     static Square squares[num_w*num_h];
     static int lazy = 0;
     if(lazy == 0) {
@@ -3785,7 +3785,7 @@ void ac::SquareSwapSort_Roll(cv::Mat &frame) {
 }
 
 void ac::SquareVertical_RollReverse(cv::Mat &frame) {
-    const unsigned int num_w = 1, num_h = 20;
+    const int num_w = 1, num_h = 20;
     static Square squares[num_w*num_h];
     static int lazy = 0;
     if(lazy == 0) {
@@ -3802,7 +3802,7 @@ void ac::SquareVertical_RollReverse(cv::Mat &frame) {
 }
 
 void ac::SquareSwapSort_RollReverse(cv::Mat &frame) {
-    const unsigned int num_w = 16, num_h = 8;
+    const int num_w = 16, num_h = 8;
     static Square squares[num_w*num_h];
     static int lazy = 0;
     if(lazy == 0) {
