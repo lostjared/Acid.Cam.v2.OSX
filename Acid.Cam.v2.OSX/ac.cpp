@@ -3847,7 +3847,7 @@ void ac::Circular(cv::Mat &frame) {
 void ac::WhitePixel(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    unsigned int pixel_count = 0;
+    static unsigned int pixel_count = 0;
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             if(pixel_count == 4) {
