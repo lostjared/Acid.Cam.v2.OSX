@@ -222,6 +222,7 @@ namespace ac {
     void SquareSwapSort_RollReverse(cv::Mat &frame);
     void Circular(cv::Mat &frame);
     void WhitePixel(cv::Mat &frame);
+    void FrameBlend(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
