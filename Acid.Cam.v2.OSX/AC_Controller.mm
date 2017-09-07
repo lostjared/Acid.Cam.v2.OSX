@@ -185,7 +185,7 @@ void setEnabledProg() {
     static const char *szDistort[] = { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", 0 };
     
     static const char *szPattern[] = { "Blend Fractal","Blend Fractal Mood","Diamond Pattern", 0 };
-   
+    
     static const char *szGradient[] = { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", 0 };
     
     static const char *szMirror[] = { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", 0 };
@@ -481,7 +481,7 @@ void setEnabledProg() {
     if(capture_camera->isOpened() && camera_active == true) {
         if([menu_freeze state] == NSOffState) {
             capture_camera->grab();
-        	frames_captured++;
+            frames_captured++;
         }
     }
 }
@@ -639,7 +639,7 @@ void setEnabledProg() {
     }
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
     if([menu_freeze state] == NSOffState)
-    	++frame_cnt;
+        ++frame_cnt;
     else
         ++freeze_count;
     if([corder indexOfSelectedItem] == 5) {

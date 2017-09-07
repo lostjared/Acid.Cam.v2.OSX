@@ -64,7 +64,7 @@ void frac::FractalLogic() {
                 paramB += 0.05;
                 if(paramB >= 1.0) {
                     dir = 3;
-        
+                    
                 }
             }
         }
@@ -103,10 +103,10 @@ void frac::FractalLogic() {
                 
             }
         }
-    
+            
             break;
     }
-   // std::cout << paramA << ": " << paramB << " :" << " dir: " << dir << "\n";
+    // std::cout << paramA << ": " << paramB << " :" << " dir: " << dir << "\n";
 }
 
 void frac::DrawFractal(cv::Mat &frame, bool neg)
@@ -132,7 +132,7 @@ void frac::DrawFractal(cv::Mat &frame, bool neg)
             }
             cv::Vec3b &cf = frame.at<cv::Vec3b>(y, x);
             if(i == max_iter) {
-        
+                
             } else {
                 cf[2] += sin(i*red_color/100)*255;
                 cf[1] += sin(i*green_color/100)*255;

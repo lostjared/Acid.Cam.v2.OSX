@@ -1,8 +1,8 @@
 /* Acid Cam Functions for OpenCV
  * written by Jared Bruni https://github.com/lostjared
  * Check out my YouTube channel for code related videos
-
- 	http://youtube.com/LostSideDead
+ 
+ http://youtube.com/LostSideDead
 	http://lostsidedead.com
  
  BSD 2-Clause License
@@ -3823,7 +3823,7 @@ void ac::Circular(cv::Mat &frame) {
     static double pos = 1.0, pos_max = 7.0;
     static double deg = 0.0;
     static double rad = 50;
-
+    
     for(unsigned int i = 0; i < w; ++i) {
         for(unsigned int z = 0; z < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -3907,8 +3907,8 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
             switch(swap) {
                 case 0:
                     pixel[0] += (old_pixel[0]^pixel[0])*pos;
-            		pixel[1] += (old_pixel[1]&pixel[1])*pos;
-            		pixel[2] += (old_pixel[2]|pixel[2])*pos;
+                    pixel[1] += (old_pixel[1]&pixel[1])*pos;
+                    pixel[2] += (old_pixel[2]|pixel[2])*pos;
                     break;
                 case 1:
                     pixel[0] += (old_pixel[0]&pixel[0])*pos;

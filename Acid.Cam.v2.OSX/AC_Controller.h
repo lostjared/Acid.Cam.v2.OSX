@@ -78,9 +78,9 @@ extern  bool camera_active;
     IBOutlet NSButton *check_box, *reverse_box, *opposite_dir;
     IBOutlet NSPopUpButton *rgb_box;
     IBOutlet NSWindow *alpha_window;
-	IBOutlet NSWindow *plugin_window;
-	IBOutlet NSTextField *plugin_name;
-	IBOutlet NSComboBox *plugin_dir;
+    IBOutlet NSWindow *plugin_window;
+    IBOutlet NSTextField *plugin_name;
+    IBOutlet NSComboBox *plugin_dir;
     IBOutlet NSButton *negate_checked;
     IBOutlet NSWindow *image_select;
     IBOutlet NSComboBox *image_combo;
@@ -96,7 +96,7 @@ extern  bool camera_active;
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
     unsigned int freeze_count;
-   
+    
 }
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
