@@ -3957,7 +3957,6 @@ public:
 void ac::TrailsFilter(cv::Mat &frame) {
     static Collection collection;
     collection.shiftFrames(frame);
-    static double pos = 1.0, pos_max = 7.0;
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     
@@ -3978,9 +3977,6 @@ void ac::TrailsFilter(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    
-    static int direction = 1;
-    procPos(direction, pos, pos_max);
 }
 
 // No Filter
