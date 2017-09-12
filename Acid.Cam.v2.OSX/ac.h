@@ -224,6 +224,7 @@ namespace ac {
     void WhitePixel(cv::Mat &frame);
     void FrameBlend(cv::Mat &frame);
     void FrameBlendRGB(cv::Mat &frame);
+    void TrailsFilter(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
