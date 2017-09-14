@@ -64,7 +64,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -72,11 +72,11 @@ namespace ac {
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
-        TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,
+        TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 123;
+    int draw_max = 124;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4034,6 +4034,33 @@ void ac::TrailsFilterSelfAlpha(cv::Mat &frame) {
     procPos(direction, pos, pos_max);
 }
 
+void ac::TrailsFilterXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static double pos = 1.0, pos_max = 7.0;
+    collection.shiftFrames(frame);
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Scalar s;
+            cv::Vec3b frame_pixels[8];
+            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
+            frame_pixels[3] = collection.frames[4].at<cv::Vec3b>(z, i);
+            frame_pixels[4] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[5] = collection.frames[6].at<cv::Vec3b>(z, i);
+            pixel[0] ^= (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0] + frame_pixels[3][0] + frame_pixels[4][0] + frame_pixels[5][0]);
+            pixel[1] ^= (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1] + frame_pixels[3][1] + frame_pixels[4][1] + frame_pixels[5][1]);
+            pixel[2] ^= (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2] + frame_pixels[3][2] + frame_pixels[4][2] + frame_pixels[5][2]);
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
+}
 
 // No Filter
 void ac::NoFilter(cv::Mat &frame) {}

@@ -227,6 +227,7 @@ namespace ac {
     void TrailsFilter(cv::Mat &frame);
     void TrailsFilterIntense(cv::Mat &frame);
     void TrailsFilterSelfAlpha(cv::Mat &frame);
+    void TrailsFilterXor(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
