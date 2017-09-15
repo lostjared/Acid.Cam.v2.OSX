@@ -5,6 +5,19 @@
 //  Created by Jared Bruni on 6/3/13.
 //  Copyright (c) 2017 Jared Bruni. All rights reserved.
 /*
+
+ 
+ GitHub: http://github.com/lostjared
+ Website: http://lostsidedead.com
+ YouTube: http://youtube.com/LostSideDead
+ Instagram: http://instagram.com/jaredbruni
+ Twitter: http://twitter.com/jaredbruni
+ Facebook: http://facebook.com/LostSideDead0x
+ 
+ You can use this program free of charge and redistrubute as long
+ as you do not charge anything for this program. This program is 100%
+ Free.
+ 
  BSD 2-Clause License
  
  Copyright (c) 2017, Jared Bruni
