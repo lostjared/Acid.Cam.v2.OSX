@@ -9,7 +9,7 @@ https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
 OpenCV3 Version is on the master branch  now, to use the old version switch to oldmacosx branch
 To compile first clone then open with Xcode and build.
 
-![AnimatedImage](http://lostsidedead.biz/gif/jaredpeace.gif "screenshot")
+![AnimatedImage](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/jaredpeace.gif "screenshot")
 
 ![AI](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam.jared.gif?raw=true "animation")
 
