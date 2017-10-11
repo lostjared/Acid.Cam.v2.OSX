@@ -4096,7 +4096,6 @@ void ac::ColorTrails(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-
 }
 
 // No Filter
