@@ -236,6 +236,8 @@ namespace ac {
     void TrailsFilterSelfAlpha(cv::Mat &frame);
     void TrailsFilterXor(cv::Mat &frame);
     void ColorTrails(cv::Mat &frame);
+    void MoveRed(cv::Mat &frame);
+    void MoveRGB(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
