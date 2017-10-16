@@ -4168,14 +4168,13 @@ void ac::MoveRedGreenBlue(cv::Mat &frame) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int q = 0; q < 3; ++q) {
-                if(i+movement[0] < (w-1)) {
+                if(i+movement[q] < (w-1)) {
                     cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i+movement[q]));
                     pixel[q] += (add[q]*pos);
                 } else if((i-movement[q]) > 1) {
                     cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i-movement[q]));
                     pixel[q] += (add[q]*pos);
                 }
-                
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
