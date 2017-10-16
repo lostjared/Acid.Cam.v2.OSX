@@ -4159,7 +4159,7 @@ void ac::MoveRedGreenBlue(cv::Mat &frame) {
     static double pos = 1.0, pos_max = 7.0;
     static int movement[3] = {0, static_cast<int>(w), 0};
     static unsigned int stored_w = w;
-    if(stored_w != w) {
+    if(stored_w != w-1) {
         movement[2] = w-1;
         stored_w = w-1;
     }
