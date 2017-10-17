@@ -4157,22 +4157,24 @@ void ac::MoveRedGreenBlue(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
     static double pos = 1.0, pos_max = 7.0;
-    static int movement[3] = {0, static_cast<int>(w), 0};
-    static unsigned int stored_w = w-1;
-    if(stored_w != w-1) {
-        movement[2] = w-1;
-        stored_w = w-1;
+    static int movement[4] = {0, static_cast<int>(w), 0};
+    static unsigned int stored_w = w;
+    if(stored_w != w) {
+        movement[2] = w;
+        stored_w = w;
     }
     cv::Mat frame_copy = frame.clone();
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int q = 0; q < 3; ++q) {
-                if(i+movement[q] < (w-1)) {
-                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i+movement[q]));
+            for(unsigned int q = 0; q <= 2; ++q) {
+                unsigned int pos_x = i+movement[q];
+                unsigned int pos_y = i-movement[q];
+                if(pos_x < (w-1) && pos_x > 0) {
+                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_x);
                     pixel[q] += (add[q]*pos);
-                } else if((i-movement[q]) > 1) {
-                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i-movement[q]));
+                } else if(pos_y > 0 && pos_y < (w-1)) {
+                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_y);
                     pixel[q] += (add[q]*pos);
                 }
             }
