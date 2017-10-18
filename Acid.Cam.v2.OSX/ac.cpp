@@ -4156,43 +4156,40 @@ void ac::MoveRGB(cv::Mat &frame) {
 void ac::MoveRedGreenBlue(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
-    static double pos = 1.0, pos_max = 7.0;
-    static int movement[4] = {0, static_cast<int>(w), 0};
-    static unsigned int stored_w = w;
+    static double pos = 1.0, pos_max = 7.0; // position in transition, maximum value
+    static int movement[4] = {0, static_cast<int>(w), 0}; // movement variable array
+    static unsigned int stored_w = w; // stored_w in case the frame size changes
     if(stored_w != w) {
-        movement[2] = w;
-        stored_w = w;
+        movement[1] = w-1; // set movement[1] to width
+        stored_w = w; // stored_w set to new width
     }
-    cv::Mat frame_copy = frame.clone();
-    for(unsigned int z = 0; z < h; ++z) {
-        for(unsigned int i = 0; i < w; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int q = 0; q <= 2; ++q) {
-                unsigned int pos_x = i+movement[q];
-                unsigned int pos_y = i-movement[q];
-                if(pos_x < (w-1) && pos_x > 0) {
-                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_x);
-                    pixel[q] += (add[q]*pos);
-                } else if(pos_y > 0 && pos_y < (w-1)) {
-                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_y);
-                    pixel[q] += (add[q]*pos);
+    cv::Mat frame_copy = frame.clone(); // make a copy of the frame
+    for(unsigned int z = 0; z < h; ++z) { // loop from top to bottom
+        for(unsigned int i = 0; i < w; ++i) { // loop from left to right
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // reference to current pixel
+            for(unsigned int q = 0; q <= 2; ++q) { // loop from 0 to 2
+                unsigned int pos_x = i+movement[q];// pixel position
+                unsigned int pos_y = i-movement[q];// pixel position
+                if(pos_x < (w-1) && pos_x > 0) { // if within the screen
+                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_x); // grab pixel
+                    pixel[q] += (add[q]*pos); // add to current index multiplied by position
+                } else if(pos_y > 0 && pos_y < (w-1)) {// if pos y within the screen
+                    cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_y); // grab pixel
+                    pixel[q] += (add[q]*pos);// add to current index multiplied by position
                 }
             }
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
         }
     }
-    movement[0] += 4;
+    movement[0] += 4; // movement position increase by 4
     if(movement[0] > (w-1)) movement[0] = 0;
-    
-    movement[1] -= 4;
-    if(movement[1] < 1) movement[1] = w-1;
-    
-    movement[2] += 8;
-    if(movement[2] > (w-1)) movement[2] = 0;
-    
-    static int direction = 1;
-    procPos(direction, pos, pos_max);
+    movement[1] -= 4;// movement position decrease by 4
+    if(movement[1] < 1) movement[1] = w-1; // set to width -1
+    movement[2] += 8;// movement position increase by 8
+    if(movement[2] > (w-1)) movement[2] = 0;// if greater than widthset to zero
+    static int direction = 1;// direction of transition animation
+    procPos(direction, pos, pos_max);// proc the position by increasing/decreasing
 }
 
 // No Filter
