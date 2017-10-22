@@ -239,6 +239,7 @@ namespace ac {
     void MoveRed(cv::Mat &frame);
     void MoveRGB(cv::Mat &frame);
     void MoveRedGreenBlue(cv::Mat &frame);
+    void BlurSim(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
