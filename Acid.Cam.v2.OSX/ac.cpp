@@ -4204,7 +4204,7 @@ void ac::BlurSim(cv::Mat &frame) {
             bool grabbed = true;
             for(unsigned int a = 0; a < 2; a++) {
                 for(unsigned int b = 0; b < 2; b++) {
-                    if(a < (w-1) && b < (h-1)) {
+                    if((a+i) < (w-1) && (b+z) < (h-1)) {
                         pixels[a][b] = frame.at<cv::Vec3b>(z+b, i+a);
                     } else {
                         grabbed = false;
