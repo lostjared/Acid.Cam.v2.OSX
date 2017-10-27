@@ -70,7 +70,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -78,11 +78,11 @@ namespace ac {
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
-        TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,
+        TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 132;
+    int draw_max = 133;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4246,6 +4246,8 @@ void ac::Block(cv::Mat &frame) {
                     }
                 }
             }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
         }
     }
     static int direction = 1;
@@ -4273,9 +4275,13 @@ void ac::BlockXor(cv::Mat &frame) {
                         pix[0] ^= static_cast<unsigned char>(pixel[0]*pos);
                         pix[1] ^= static_cast<unsigned char>(pixel[1]*pos);
                         pix[2] ^= static_cast<unsigned char>(pixel[2]*pos);
+                        
                     }
                 }
             }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+            
         }
     }
     static int direction = 1;
@@ -4308,6 +4314,8 @@ void ac::BlockScale(cv::Mat &frame) {
                     }
                 }
             }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
         }
     }
     static int direction = 1;
@@ -4320,6 +4328,37 @@ void ac::BlockScale(cv::Mat &frame) {
     }
     static int posDirection = 1;
     procPos(posDirection, pos, pos_max);
+}
+
+void ac::BlockStrobe(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    static unsigned int square = 2;
+    for(unsigned int z = 0; z < h; z += square) {
+        for(unsigned int i = 0; i < w; i += square) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(unsigned int x = 0; x < square; ++x) {
+                for(unsigned int y = 0; y < square; ++y) {
+                    if(y+z < h && i+x < w) {
+                        cv::Vec3b &pix = frame.at<cv::Vec3b>(y+z, i+x);
+                        pix[0] += static_cast<unsigned char>(pixel[0]*(x*y));
+                        pix[1] += static_cast<unsigned char>(pixel[1]*(x*y));
+                        pix[2] += static_cast<unsigned char>(pixel[2]*(x*y));
+                    }
+                }
+            }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+        }
+    }
+    static int direction = 1;
+    if(direction == 1) {
+        square += 2;
+        if(square >= 8) direction = 0;
+    } else {
+        square -= 2;
+        if(square <= 2) direction = 1;
+    }
 }
 
 // No Filter
