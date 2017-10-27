@@ -4102,7 +4102,7 @@ void ac::MoveRed(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
     static double pos = 1.0, pos_max = 7.0;
-    static int movement = 0;
+    static unsigned int movement = 0;
     cv::Mat frame_copy = frame.clone();
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
@@ -4129,7 +4129,7 @@ void ac::MoveRGB(cv::Mat &frame) {
     unsigned int h = frame.rows;// frame heigh
     static double pos = 1.0, pos_max = 7.0;
     static unsigned int rgb = 0;
-    static int movement = 0;
+    static unsigned int movement = 0;
     cv::Mat frame_copy = frame.clone();
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
@@ -4157,7 +4157,7 @@ void ac::MoveRedGreenBlue(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
     static double pos = 1.0, pos_max = 7.0; // position in transition, maximum value
-    static int movement[4] = {0, static_cast<int>(w), 0}; // movement variable array
+    static unsigned int movement[4] = {0, w, 0}; // movement variable array
     static unsigned int stored_w = w; // stored_w in case the frame size changes
     if(stored_w != w) {
         movement[1] = w-1; // set movement[1] to width
