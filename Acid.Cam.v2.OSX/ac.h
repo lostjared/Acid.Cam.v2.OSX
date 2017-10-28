@@ -244,6 +244,7 @@ namespace ac {
     void BlockXor(cv::Mat &frame);
     void BlockScale(cv::Mat &frame);
     void BlockStrobe(cv::Mat &frame);
+    void PrevFrameBlend(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
