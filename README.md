@@ -28,7 +28,7 @@ The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will n
 
 
 This project contains the compiled static libraries / include files required to build the program.
-The project is for Xcode 8
+The project is for Xcode 9
 
 Project home page: http://lostsidedead.com/blog/?index=212
 
