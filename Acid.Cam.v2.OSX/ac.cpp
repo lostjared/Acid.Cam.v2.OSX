@@ -3608,7 +3608,7 @@ void Square_Swap(Square *squares, int num_w, int num_h, cv::Mat &frame, bool ran
     unsigned int h = frame.rows;// frame height
     unsigned int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
-    Point points[num_w*num_h];
+    Point *points = new Point[num_w*num_h];
     std::vector<Square *> square_vec;
     for(int rx = 0; rx < num_w; ++rx) {
         for(int ry = 0; ry < num_h; ++ry) {
@@ -3633,6 +3633,7 @@ void Square_Swap(Square *squares, int num_w, int num_h, cv::Mat &frame, bool ran
             // use random
             square_vec[rand()%pos]->copyImageToTarget(points[i].x, points[i].y,frame);
     }
+    delete [] points;
 }
 
 
@@ -3740,7 +3741,7 @@ void SquareVertical(const unsigned int num_w, const unsigned int num_h, Square *
     int h = frame.rows;// frame height
     int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
-    Point points[num_w*num_h];
+    Point *points = new Point[num_w*num_h];
     std::vector<Square *> square_vec;
     for(int rx = 0; rx < (int)num_w; ++rx) {
         for(int ry = 0; ry < (int)num_h; ++ry) {
@@ -3759,6 +3760,7 @@ void SquareVertical(const unsigned int num_w, const unsigned int num_h, Square *
         const int p = square_vec[i]->getPos();
         square_vec[i]->copyImageToTarget(points[p].x, points[p].y, frame);
     }
+    delete [] points;
 }
 
 void ac::SquareVertical_Roll(cv::Mat &frame) {
