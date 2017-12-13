@@ -3677,9 +3677,9 @@ void ac::SquareSwap16x8(cv::Mat &frame) {
 }
 
 void ac::SquareSwap64x32(cv::Mat &frame) {
-    const unsigned int num_w = 64, num_h = 32;
-    static Square squares[num_w*num_h];
-    Square_Swap(squares, num_w, num_h, frame);
+    //const unsigned int num_w = 64, num_h = 32;
+    //static Square squares[num_w*num_h];
+    //Square_Swap(squares, num_w, num_h, frame);
 }
 
 void ac::SquareBars(cv::Mat &frame) {

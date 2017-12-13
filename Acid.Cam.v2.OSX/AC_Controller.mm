@@ -834,10 +834,11 @@ void setEnabledProg() {
     
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSInteger cate = [categories_custom indexOfSelectedItem];
-    NSMenuItem *item = [menu_items[cate] itemAtIndex: index];
+    NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
     
     if(index >= 0 && cate >= 0) {
+
         int filter_value = ac::filter_map[[title UTF8String]];
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
         [table_view reloadData];
