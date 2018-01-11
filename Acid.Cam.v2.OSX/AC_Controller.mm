@@ -20,7 +20,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2017, Jared Bruni
+ Copyright (c) 2018, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
