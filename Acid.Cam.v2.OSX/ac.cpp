@@ -70,7 +70,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -78,11 +78,11 @@ namespace ac {
         alphaFlame, pixelScale,pixelSort, glitchSort,randomFilter,randomFlash, imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour, GaussianBlur, MedianBlur, BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom, StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
-        TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,
+        TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 134;
+    int draw_max = 135;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4394,6 +4394,89 @@ void ac::PrevFrameBlend(cv::Mat &frame) {
         pos -= 0.1;
         if(pos <= 1.0) direction = 1;
     }
+}
+
+class WavePoints {
+public:
+    WavePoints() : x1(0), x2(0), x1_dir(0), x2_dir(0),c_dir(0),color(0) {}
+    unsigned int x1,x2;
+    unsigned int x1_dir, x2_dir, c_dir;
+    double color;
+};
+
+/*
+void delete_Points(WavePoints **p, unsigned int w, unsigned int h) {
+    for(unsigned int i = 0; i < w; ++i) {
+        delete [] p[i];
+    }
+    delete [] p;
+    p = nullptr;
+}*/
+
+void ac::Wave(cv::Mat &frame) {
+    static unsigned int width = 0, height = 0;
+    static WavePoints *points = nullptr;
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    if(width != w || height != h) {
+        points = new WavePoints[w];
+        width = w;
+        height = h;
+        for(unsigned int i = 0; i < w; ++i) {
+            points[i].x1 = rand()%h;
+            points[i].x2 = rand()%h;
+            points[i].color = rand()%10;
+            points[i].x1_dir = 1;
+            points[i].x2_dir = 0;
+            points[i].c_dir = 0;
+        }
+    }
+    for(unsigned int z = 0; z <h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(z >= points[i].x1 && z <= points[i].x2) {
+                pixel[0] += pixel[0]*points[i].color;
+                pixel[1] += pixel[1]*points[i].color;
+                pixel[2] += pixel[2]*points[i].color;
+            }
+        }
+    }
+    for(unsigned int i = 0; i < w; ++i) {
+        if(points[i].c_dir == 0) {
+            points[i].color += 0.1;
+            if(points[i].color >= 10) {
+                points[i].c_dir = 1;
+            }
+        } else if(points[i].c_dir == 1) {
+            points[i].color -= 0.1;
+            if(points[i].color <= 1) {
+                points[i].c_dir = 0;
+            }
+        }
+        if(points[i].x1_dir == 0) {
+            points[i].x1 ++;
+            if(points[i].x1 > h-1) {
+                points[i].x1_dir = 1;
+            }
+        } else if(points[i].x1_dir == 1) {
+            points[i].x1--;
+            if(points[i].x1 < 1) {
+                points[i].x1_dir = 0;
+            }
+        }
+        if(points[i].x2_dir == 1) {
+            points[i].x2 ++;
+            if(points[i].x2 > h-1) {
+                points[i].x2_dir = 1;
+            }
+        } else if(points[i].x2_dir == 0) {
+            points[i].x2--;
+            if(points[i].x2 < 1) {
+                points[i].x2_dir = 0;
+            }
+        }
+    }
+    
 }
 
 // No Filter
