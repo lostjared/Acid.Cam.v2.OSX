@@ -4419,6 +4419,10 @@ void ac::Wave(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     if(width != w || height != h) {
+        
+        if(points != nullptr)
+            delete [] points;
+        
         points = new WavePoints[w];
         width = w;
         height = h;
