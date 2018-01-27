@@ -4412,7 +4412,7 @@ void ac::Wave(cv::Mat &frame) {
     static WavePoints *points = nullptr;
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    const unsigned int slice = (h/4);
+    const unsigned int slice = (h/16);
 
     if(width != w || height != h) {
         
@@ -4424,8 +4424,8 @@ void ac::Wave(cv::Mat &frame) {
         height = h;
         
         for(unsigned int i = 0; i < w; ++i) {
-            points[i].x1 = rand()%50;
-            points[i].x2 = h-rand()%50;
+            points[i].x1 = rand()%slice;
+            points[i].x2 = h-rand()%slice;
             points[i].color = rand()%13;
             points[i].x1_dir = 0;
             points[i].x2_dir = 0;
@@ -4459,7 +4459,7 @@ void ac::Wave(cv::Mat &frame) {
         // x1 point direction/move down and up
         if(points[i].x1_dir == 0) {
             points[i].x1 ++;
-            if(points[i].x1 > 50) {
+            if(points[i].x1 > slice) {
                 points[i].x1_dir = 1;
             }
         } else if(points[i].x1_dir == 1) {
@@ -4472,7 +4472,7 @@ void ac::Wave(cv::Mat &frame) {
         // x2 point up/down
         if(points[i].x2_dir == 0) {
             points[i].x2--;
-            if(points[i].x2 < (h-50)) {
+            if(points[i].x2 < (h-slice)) {
                 points[i].x2_dir = 1;
             }
         } else if(points[i].x2_dir == 1) {
