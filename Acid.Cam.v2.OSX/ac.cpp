@@ -4404,20 +4404,16 @@ public:
     double color;
 };
 
-/*
-void delete_Points(WavePoints **p, unsigned int w, unsigned int h) {
-    for(unsigned int i = 0; i < w; ++i) {
-        delete [] p[i];
-    }
-    delete [] p;
-    p = nullptr;
-}*/
 
 void ac::Wave(cv::Mat &frame) {
     static unsigned int width = 0, height = 0;
+    // uses lazy allocation when frame is resized pointer is reallocated.
+    // last deallocation is done when program exits so no need to manually release
     static WavePoints *points = nullptr;
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
+    const unsigned int slice = (h/4);
+
     if(width != w || height != h) {
         
         if(points != nullptr)
@@ -4426,11 +4422,12 @@ void ac::Wave(cv::Mat &frame) {
         points = new WavePoints[w];
         width = w;
         height = h;
+        
         for(unsigned int i = 0; i < w; ++i) {
-            points[i].x1 = rand()%h;
-            points[i].x2 = rand()%h;
-            points[i].color = rand()%10;
-            points[i].x1_dir = 1;
+            points[i].x1 = rand()%50;
+            points[i].x2 = h-rand()%50;
+            points[i].color = rand()%13;
+            points[i].x1_dir = 0;
             points[i].x2_dir = 0;
             points[i].c_dir = 0;
         }
@@ -4446,7 +4443,7 @@ void ac::Wave(cv::Mat &frame) {
         }
     }
     for(unsigned int i = 0; i < w; ++i) {
-        
+        // color direction
         if(points[i].c_dir == 0) {
             points[i].color += 0.1;
             if(points[i].color >= 10) {
@@ -4459,9 +4456,10 @@ void ac::Wave(cv::Mat &frame) {
             }
         }
         
+        // x1 point direction/move down and up
         if(points[i].x1_dir == 0) {
             points[i].x1 ++;
-            if(points[i].x1 > (h/2)) {
+            if(points[i].x1 > 50) {
                 points[i].x1_dir = 1;
             }
         } else if(points[i].x1_dir == 1) {
@@ -4471,19 +4469,19 @@ void ac::Wave(cv::Mat &frame) {
             }
         }
         
-        if(points[i].x2_dir == 1) {
-            points[i].x2 ++;
-            if(points[i].x2 > h-1) {
+        // x2 point up/down
+        if(points[i].x2_dir == 0) {
+            points[i].x2--;
+            if(points[i].x2 < (h-50)) {
                 points[i].x2_dir = 1;
             }
-        } else if(points[i].x2_dir == 0) {
-            points[i].x2--;
-            if(points[i].x2 < (h/2)) {
+        } else if(points[i].x2_dir == 1) {
+            points[i].x2++;
+            if(points[i].x2 > (h-4)) {
                 points[i].x2_dir = 0;
             }
         }
     }
-    
 }
 
 // No Filter
