@@ -4446,6 +4446,7 @@ void ac::Wave(cv::Mat &frame) {
         }
     }
     for(unsigned int i = 0; i < w; ++i) {
+        
         if(points[i].c_dir == 0) {
             points[i].color += 0.1;
             if(points[i].color >= 10) {
@@ -4457,9 +4458,10 @@ void ac::Wave(cv::Mat &frame) {
                 points[i].c_dir = 0;
             }
         }
+        
         if(points[i].x1_dir == 0) {
             points[i].x1 ++;
-            if(points[i].x1 > h-1) {
+            if(points[i].x1 > (h/2)) {
                 points[i].x1_dir = 1;
             }
         } else if(points[i].x1_dir == 1) {
@@ -4468,6 +4470,7 @@ void ac::Wave(cv::Mat &frame) {
                 points[i].x1_dir = 0;
             }
         }
+        
         if(points[i].x2_dir == 1) {
             points[i].x2 ++;
             if(points[i].x2 > h-1) {
@@ -4475,7 +4478,7 @@ void ac::Wave(cv::Mat &frame) {
             }
         } else if(points[i].x2_dir == 0) {
             points[i].x2--;
-            if(points[i].x2 < 1) {
+            if(points[i].x2 < (h/2)) {
                 points[i].x2_dir = 0;
             }
         }
