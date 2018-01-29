@@ -82,7 +82,7 @@ namespace ac {
         VerticalSort,VerticalChannelSort,NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 137;
+    int draw_max = 138;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
