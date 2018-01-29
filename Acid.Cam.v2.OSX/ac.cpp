@@ -1,6 +1,6 @@
 /* Acid Cam Functions for OpenCV
  * written by Jared Bruni https://github.com/lostjared
-
+ 
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
  Instagram: http://instagram.com/jaredbruni
@@ -70,7 +70,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -79,10 +79,10 @@ namespace ac {
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
-        NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+        VerticalSort,VerticalChannelSort,NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 136;
+    int draw_max = 137;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -353,7 +353,7 @@ void ac::ThoughtMode(cv::Mat &frame) {
                 invert(frame, i, z);// invert pixel
             }
         }
-   	}
+    }
     sw = !sw;// not sw
     tr = !tr;// not tr
     static double max = 4.0f;
@@ -2884,7 +2884,7 @@ void ac::Outward(cv::Mat &frame) {
     for(int i = 0; i < 3; ++i) if(offset[i] > 200) offset[i] = 0;
     
     static int direction = 1;
-   	procPos(direction, start_pos, pos_max);
+    procPos(direction, start_pos, pos_max);
 }
 
 void ac::OutwardSquare(cv::Mat &frame) {
@@ -2923,7 +2923,7 @@ void ac::OutwardSquare(cv::Mat &frame) {
         pos += 0.005;
     }
     
-   	pos = start_pos;
+    pos = start_pos;
     for(int y = h/2+1; y < h; ++y) {
         for(int x = 0; x < wx; ++x) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
@@ -2956,7 +2956,7 @@ void ac::OutwardSquare(cv::Mat &frame) {
     offset[2] += 3;
     for(int i = 0; i < 3; ++i) if(offset[i] > 200) offset[i] = 0;
     static int direction = 1;
-   	procPos(direction, start_pos, pos_max);
+    procPos(direction, start_pos, pos_max);
 }
 
 void ac::ShiftPixels(cv::Mat &frame) {
@@ -4236,15 +4236,15 @@ void ac::BlurSim(cv::Mat &frame) {
 void ac::Block(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
-	static unsigned int square = 2;
+    static unsigned int square = 2;
     for(unsigned int z = 0; z < h; z += square) {
         for(unsigned int i = 0; i < w; i += square) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int x = 0; x < square; ++x) {
                 for(unsigned int y = 0; y < square; ++y) {
                     if(y+z < h && i+x < w) {
-                    	cv::Vec3b &pix = frame.at<cv::Vec3b>(y+z, i+x);
-                    	pix = pixel;
+                        cv::Vec3b &pix = frame.at<cv::Vec3b>(y+z, i+x);
+                        pix = pixel;
                     }
                 }
             }
@@ -4413,7 +4413,7 @@ void ac::Wave(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     const unsigned int slice = (h/16);
-
+    
     if(width != w || height != h) {
         
         if(points != nullptr)
@@ -4440,6 +4440,8 @@ void ac::Wave(cv::Mat &frame) {
                 pixel[1] += pixel[1]*points[i].color;
                 pixel[2] += pixel[2]*points[i].color;
             }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
         }
     }
     for(unsigned int i = 0; i < w; ++i) {
@@ -4517,6 +4519,8 @@ void ac::HighWave(cv::Mat &frame) {
             pixel[0] -= pixel[0]*points[i].color;
             pixel[1] += pixel[1]*points[i].color;
             pixel[2] -= pixel[2]*points[i].color;
+            swapColors(frame, z, i);// swap colors for rgb slides
+            if(isNegative) invert(frame, z, i); // if is negative
         }
     }
     for(unsigned int i = 0; i < w; ++i) {
@@ -4533,6 +4537,79 @@ void ac::HighWave(cv::Mat &frame) {
             }
         }
     }
+}
+
+void ac::VerticalSort(cv::Mat &frame) {
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    static std::vector<unsigned int> v;// static vector of unsigned int
+    v.reserve(w);// reserve w bytes
+    for(int i = 0; i < w; ++i) { // top to bottom
+        for(int z = 0; z < h; ++z) { // left to right
+            //unsigned int value = frame.at<unsigned int>(z, i);
+            // grab pixel reference
+            
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+            
+            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
+            unsigned int vv = 0;
+            // unsigned char * of vv
+            unsigned char *cv = (unsigned char*)&vv;
+            // set RGB values
+            cv[0] = value[0];
+            cv[1] = value[1];
+            cv[2] = value[2];
+            cv[3] = 0;
+            // push back into vector v
+            v.push_back(vv);
+        }
+        // sort vector v
+        std::sort(v.begin(), v.end(), std::greater<int>());
+        for(int q = 0; q < h; ++q) {// left to right
+            // unsigned char pointer of vector v at index i
+            unsigned char *value = (unsigned char*)&v[q];
+            // get pixel reference
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(q, i);
+            // add to pixel without scaling
+            pixel[0] = value[0];
+            pixel[1] = value[1];
+            pixel[2] = value[2];
+            
+        }
+        v.erase(v.begin(), v.end());
+    }
+}
+
+void ac::VerticalChannelSort(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    std::vector<unsigned char> pixels[3];
+    for(unsigned int i = 0; i < w; ++i) {
+        for(unsigned int z = 0; z < h; ++z) {
+            
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(unsigned int j = 0; j < 3; ++j)
+                pixels[j].push_back(pixel[j]);
+        }
+        
+        for(unsigned int j = 0; j < 3; ++j)
+            std::sort(pixels[j].begin(), pixels[j].end(), std::greater<unsigned char>());
+        
+        for(unsigned int z = 0; z < h; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = pixels[0][z];
+            pixel[1] = pixels[1][z];
+            pixel[2] = pixels[2][z];
+        }
+        for(unsigned int j = 0; j < 3; ++j)
+            if(!pixels[j].empty())
+                pixels[j].erase(pixels[j].begin(), pixels[j].end());
+    }
+    
 }
 
 // No Filter
