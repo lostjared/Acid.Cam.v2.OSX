@@ -4618,7 +4618,6 @@ void ac::HorizontalBlend(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     static double alpha[3] = {1,8,16};
-    
     for(unsigned int i = 0; i < w; ++i) {
         for(unsigned int z = 0; z < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -4629,14 +4628,13 @@ void ac::HorizontalBlend(cv::Mat &frame) {
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
-        
         if((rand()%4)==0) {
-            alpha[0] += 1;
-            alpha[1] += 1;
-            alpha[2] += 1;
+            for(unsigned int i = 0; i < 3; ++i) {
+            	alpha[i] += 0.1;
+                if(alpha[i] > 25) alpha[i] = 1;
+            }
         }
     }
-
 }
 
 // No Filter
