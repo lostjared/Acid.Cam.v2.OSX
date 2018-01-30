@@ -4617,7 +4617,7 @@ void ac::VerticalChannelSort(cv::Mat &frame) {
 void ac::HorizontalBlend(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    static double alpha[3] = {1,1,1};
+    static double alpha[3] = {1,8,16};
     
     for(unsigned int i = 0; i < w; ++i) {
         for(unsigned int z = 0; z < h; ++z) {
