@@ -4567,7 +4567,7 @@ void ac::VerticalSort(cv::Mat &frame) {
             v.push_back(vv);
         }
         // sort vector v
-        std::sort(v.begin(), v.end(), std::greater<int>());
+        std::sort(v.begin(), v.end());
         for(int q = 0; q < h; ++q) {// left to right
             // unsigned char pointer of vector v at index i
             unsigned char *value = (unsigned char*)&v[q];
@@ -4599,7 +4599,7 @@ void ac::VerticalChannelSort(cv::Mat &frame) {
         }
         
         for(unsigned int j = 0; j < 3; ++j)
-            std::sort(pixels[j].begin(), pixels[j].end(), std::greater<unsigned char>());
+            std::sort(pixels[j].begin(), pixels[j].end());
         
         for(unsigned int z = 0; z < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -4617,19 +4617,24 @@ void ac::VerticalChannelSort(cv::Mat &frame) {
 void ac::HorizontalBlend(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-    static double alpha = 1.0;
+    static double alpha[3] = {1,1,1};
     
     for(unsigned int i = 0; i < w; ++i) {
         for(unsigned int z = 0; z < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[0] += pixel[0] * alpha;
-            pixel[1] += pixel[1] * alpha;
-            pixel[2] += pixel[2] * alpha;
+            pixel[0] = pixel[0] * alpha[0];
+            pixel[1] = pixel[1] * alpha[1];
+            pixel[2] = pixel[2] * alpha[2];
             
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
-        alpha += 0.001;
+        
+        if((rand()%4)==0) {
+            alpha[0] += 1;
+            alpha[1] += 1;
+            alpha[2] += 1;
+        }
     }
 
 }
