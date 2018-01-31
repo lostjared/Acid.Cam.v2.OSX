@@ -70,7 +70,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -79,12 +79,12 @@ namespace ac {
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
-        VerticalSort,VerticalChannelSort,HorizontalBlend,
+        VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,
         
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 139;
+    int draw_max = 140;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4635,6 +4635,31 @@ void ac::HorizontalBlend(cv::Mat &frame) {
             }
         }
     }
+}
+
+void ac::VerticalBlend(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    static double alpha[3] = {1,8,16};
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = pixel[0] * alpha[0];
+            pixel[1] = pixel[1] * alpha[1];
+            pixel[2] = pixel[2] * alpha[2];
+            
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+        }
+        if((rand()%4)==0) {
+            for(unsigned int i = 0; i < 3; ++i) {
+                alpha[i] += 0.1;
+                if(alpha[i] > 25) alpha[i] = 1;
+            }
+        }
+    }
+
+    
 }
 
 // No Filter
