@@ -251,6 +251,7 @@ namespace ac {
     void VerticalChannelSort(cv::Mat &frame);
     void HorizontalBlend(cv::Mat &frame);
     void VerticalBlend(cv::Mat &frame);
+    void OppositeBlend(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
