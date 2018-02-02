@@ -70,7 +70,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -79,12 +79,12 @@ namespace ac {
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
-        VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,
+        VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,
         
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 141;
+    int draw_max = 142;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4664,22 +4664,40 @@ void ac::OppositeBlend(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     cv::Mat temp = frame.clone();
-    
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w-1; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b temp_pixel = temp.at<cv::Vec3b>(z, w-i-1);
-            
             pixel[0] = (pixel[0]+temp_pixel[0]);
             pixel[1] = (pixel[1]+temp_pixel[1]);
             pixel[2] = (pixel[2]+temp_pixel[2]);
-            
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
     }
-    
 }
+
+void ac::DiagonalLines(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+    cv::Mat temp = frame.clone();
+    static double pos = 1.0;
+    
+    for(unsigned int i = 0; i < w-1; ++i) {
+        for(unsigned int z = 0; z < h-1; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b temp_pixel = temp.at<cv::Vec3b>(h-z-1, i);
+            for(unsigned int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]+temp_pixel[j])+pos;
+                ++pos;
+                if(pos > 100) pos = 0;
+            }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+        }
+    }
+}
+
 
 // No Filter
 void ac::NoFilter(cv::Mat &frame) {}
