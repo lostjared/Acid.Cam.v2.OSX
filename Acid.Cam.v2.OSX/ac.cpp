@@ -70,7 +70,7 @@ namespace ac {
         "SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8",
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
-        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines", "No Filter",
+        "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","NewTestFunc","No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -79,12 +79,12 @@ namespace ac {
         SquareSwap4x2, SquareSwap8x4, SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
-        VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,
+        VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,NewTestFunc,
         
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 143;
+    int draw_max = 144;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4717,6 +4717,42 @@ void ac::HorizontalLines(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i); // if is negative
         }
     }
+}
+
+void ac::NewTestFunc(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame height
+
+    static unsigned int index = 0;
+    static double alpha = 1.0;
+    static double pos_max = 14.0;
+    
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0: {
+             	   for(unsigned int j = 0; j < 3; ++j)
+                	pixel[j] = (~pixel[j])*alpha;
+                	index++;
+                }
+                case 1: {
+                    cv::Vec3b temp = pixel;
+                    pixel[0] = temp[2]*alpha;
+                    pixel[1] = temp[1]*alpha;
+                    pixel[2] = temp[0]*alpha;
+                    index++;
+                }
+                    break;
+                case 2:
+                    index = 0;
+                    break;
+            }
+        }
+    }
+    
+    static int direction = 1;
+    procPos(direction, alpha, pos_max);
 }
 
 // No Filter
