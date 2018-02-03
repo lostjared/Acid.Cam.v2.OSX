@@ -255,6 +255,7 @@ namespace ac {
     void DiagonalLines(cv::Mat &frame);
     void HorizontalLines(cv::Mat &frame);
     void InvertedScanlines(cv::Mat &frame);
+    void Soft_Mirror(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
