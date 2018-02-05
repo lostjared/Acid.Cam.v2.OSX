@@ -234,7 +234,7 @@ void setEnabledProg() {
     const char **szGradient = convertToStringArray(svGradient);
     [self fillMenuWithString: it_arr[4] stringValues:szGradient];
     eraseArray(szGradient, svGradient.size());
-    std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaHigh"};
+    std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaTrip"};
     std::sort(svMirror.begin(), svMirror.end());
     const char **szMirror = convertToStringArray(svMirror);
     [self fillMenuWithString: it_arr[5] stringValues:szMirror];
