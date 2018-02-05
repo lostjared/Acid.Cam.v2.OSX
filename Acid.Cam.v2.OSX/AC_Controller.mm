@@ -219,7 +219,7 @@ void setEnabledProg() {
     [self fillMenuWithString: it_arr[1] stringValues:szBlend];
     eraseArray(szBlend, vzBlend.size());
     
-    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines"};
+    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing"};
     std::sort(svDistort.begin(), svDistort.end());
     const char **szDistort = convertToStringArray(svDistort);
     [self fillMenuWithString: it_arr[2] stringValues:szDistort];

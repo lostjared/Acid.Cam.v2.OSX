@@ -257,6 +257,7 @@ namespace ac {
     void InvertedScanlines(cv::Mat &frame);
     void Soft_Mirror(cv::Mat &frame);
     void KanapaTrip(cv::Mat &frame);
+    void ColorMorphing(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
