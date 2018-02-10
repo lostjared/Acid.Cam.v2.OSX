@@ -259,6 +259,7 @@ namespace ac {
     void KanapaTrip(cv::Mat &frame);
     void ColorMorphing(cv::Mat &frame);
     void ScanSwitch(cv::Mat &frame);
+    void ScanAlphaSwitch(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
