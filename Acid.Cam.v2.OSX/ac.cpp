@@ -4896,9 +4896,9 @@ void ac::NegativeStrobe(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     static unsigned int flash = 1;
-    for(unsigned int z = 0; z < h; ++z) {
-        for(unsigned int i = 0; i < w; ++i) {
-            if(flash == 1) {
+    if(flash == 1) {
+        for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int i = 0; i < w; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 pixel[0] = ~pixel[0];
                 pixel[1] = ~pixel[1];
