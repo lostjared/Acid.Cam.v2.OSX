@@ -262,6 +262,7 @@ namespace ac {
     void ScanAlphaSwitch(cv::Mat &frame);
     void NegativeStrobe(cv::Mat &frame);
     void XorAddMul(cv::Mat &frame);
+    void ParticleRelease(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);

@@ -71,7 +71,7 @@ namespace ac {
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
         "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","InvertedScanlines","Soft_Mirror",
-        "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul", "No Filter",
+        "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -81,11 +81,11 @@ namespace ac {
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
         VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,
-        NegativeStrobe,XorAddMul,
+        NegativeStrobe,XorAddMul,ParticleRelease,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 151;
+    int draw_max = 152;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4932,6 +4932,97 @@ void ac::XorAddMul(cv::Mat &frame) {
     static int direction = 1;
     procPos(direction, blend, blend_max);
     //if(blend > 255) blend = 1.0;
+}
+
+enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
+
+class Particle {
+public:
+    cv::Vec3b pixel;
+    unsigned int x, y, dir;
+};
+
+class ParticleEmiter {
+public:
+    ParticleEmiter() : w(0), h(0), part(0) {}
+    void set(cv::Mat &frame) {
+        if(frame.cols != w || frame.rows != h) {
+            if(part != 0) {
+                for(unsigned int i = 0; i < w; ++i)
+                    delete [] part[i];
+                delete [] part;
+            }
+            w = frame.cols;
+            h = frame.rows;
+            part = new Particle*[w];
+            for(unsigned int i = 0; i < w; ++i) {
+                part[i] = new Particle[h];
+                for(unsigned int z = 0; z < h; ++z) {
+                    part[i][z].x = i;
+                    part[i][z].y = z;
+                    part[i][z].dir = rand()%4;
+                }
+            }
+        }
+        for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int i = 0; i < w; ++i) {
+                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                part[i][z].pixel = pixel;
+            }
+        }
+    }
+    void draw(cv::Mat &frame) {
+        movePixels();
+        for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int i = 0; i < w; ++i) {
+                int x_pos = part[i][z].x;
+                int y_pos = part[i][z].y;
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                pixel = part[i][z].pixel;
+            }
+        }
+    }
+    
+    void movePixels() {
+        for(unsigned int i = 0; i < w; ++i) {
+            for(unsigned int z = 0; z < h; ++z) {
+                Particle &p = part[i][z];
+                switch(p.dir) {
+                    case DIR_UP:
+                        if(p.y > 0) {
+                            p.y--;
+                        } else p.dir = rand()%4;
+                        break;
+                    case DIR_DOWN:
+                        if(p.y < h-1) {
+                            p.y++;
+                        } else p.dir = rand()%4;
+                        break;
+                    case DIR_LEFT:
+                        if(p.x > 0) {
+                            p.x--;
+                        } else p.dir = rand()%4;
+                        break;
+                    case DIR_RIGHT:
+                        if(p.x < w-1) {
+                            p.x++;
+                        } else p.dir = rand()%4;
+                        break;
+                }
+            }
+        }
+    }
+    
+private:
+    Particle **part;
+    unsigned int w, h;
+           
+};
+
+void ac::ParticleRelease(cv::Mat &frame) {
+    static ParticleEmiter emiter;
+    emiter.set(frame);
+    emiter.draw(frame);
 }
 
 // No Filter
