@@ -4989,8 +4989,10 @@ public:
             for(unsigned int i = 0; i < w; ++i) {
                 int x_pos = part[i][z].x;
                 int y_pos = part[i][z].y;
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
-                pixel = part[i][z].pixel;
+                if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
+                	cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                	pixel = part[i][z].pixel;
+                }
             }
         }
     }
@@ -5009,22 +5011,34 @@ public:
                     case DIR_UP:
                         if(p.y > 0) {
                             p.y--;
-                        } else p.dir = rand()%4;
+                        } else {
+                            p.y = 1+rand()%(h-1);
+                            p.dir = rand()%4;
+                        }
                         break;
                     case DIR_DOWN:
                         if(p.y < h-1) {
                             p.y++;
-                        } else p.dir = rand()%4;
+                        } else {
+                            p.dir = rand()%4;
+                            p.y = 1+rand()%(h-1);
+                        }
                         break;
                     case DIR_LEFT:
                         if(p.x > 0) {
                             p.x--;
-                        } else p.dir = rand()%4;
+                        } else {
+                            p.dir = rand()%4;
+                            p.x = 1+rand()%(w-1);
+                        }
                         break;
                     case DIR_RIGHT:
                         if(p.x < w-1) {
                             p.x++;
-                        } else p.dir = rand()%4;
+                        } else {
+                            p.dir = rand()%4;
+                            p.x = rand()%(w-1);
+                        }
                         break;
                     default:
                         p.dir = rand()%4;
