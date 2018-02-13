@@ -4947,6 +4947,16 @@ public:
 class ParticleEmiter {
 public:
     ParticleEmiter() : w(0), h(0), part(0) {}
+    
+    ~ParticleEmiter() {
+        if(part != 0) {
+            for(unsigned int i = 0; i < w; ++i)
+                delete [] part[i];
+            delete [] part;
+            part = 0;
+        }
+    }
+    
     void set(cv::Mat &frame) {
         if(frame.cols != w || frame.rows != h) {
             if(part != 0) {
@@ -4990,7 +5000,7 @@ public:
             for(unsigned int z = 0; z < h; ++z) {
                 Particle &p = part[i][z];
                 p.m_count ++;
-                if(p.m_count > 200) {
+                if(p.m_count > 250) {
                     p.m_count = 0;
                     p.dir = rand()%4;
                     break;
