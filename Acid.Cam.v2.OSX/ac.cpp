@@ -4938,8 +4938,10 @@ enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
 
 class Particle {
 public:
+    Particle() : x(0), y(0), dir(0), m_count(0) {}
     cv::Vec3b pixel;
     unsigned int x, y, dir;
+    unsigned int m_count;
 };
 
 class ParticleEmiter {
@@ -4987,6 +4989,12 @@ public:
         for(unsigned int i = 0; i < w; ++i) {
             for(unsigned int z = 0; z < h; ++z) {
                 Particle &p = part[i][z];
+                p.m_count ++;
+                if(p.m_count > 200) {
+                    p.m_count = 0;
+                    p.dir = rand()%4;
+                    break;
+                }
                 switch(p.dir) {
                     case DIR_UP:
                         if(p.y > 0) {
@@ -5008,6 +5016,8 @@ public:
                             p.x++;
                         } else p.dir = rand()%4;
                         break;
+                    default:
+                        p.dir = rand()%4;
                 }
             }
         }
