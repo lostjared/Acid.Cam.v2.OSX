@@ -5005,7 +5005,7 @@ public:
                 if(p.m_count > 250) {
                     p.m_count = 0;
                     p.dir = rand()%4;
-                    break;
+                    continue;
                 }
                 switch(p.dir) {
                     case DIR_UP:
