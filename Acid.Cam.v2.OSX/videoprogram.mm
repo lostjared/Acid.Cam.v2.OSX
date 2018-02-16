@@ -82,8 +82,8 @@ void stopCV() {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
         }
-        sout << (video_total_frames+frame_cnt) << " Total frames\n";
-        sout << ((video_total_frames+frame_cnt)/ac::fps) << " Seconds\n";
+        sout << frame_proc << " Total frames\n";
+        sout << (frame_proc/ac::fps) << " Seconds\n";
         file.close();
         // flush to log
         flushToLog(sout);
@@ -171,6 +171,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
+        frame_proc = 0;
         [[NSRunLoop currentRunLoop] addTimer:renderTimer
                                      forMode:NSEventTrackingRunLoopMode];
         
@@ -191,5 +192,9 @@ std::ostringstream strout;
 
 void jumptoFrame(int frame) {
     capture->set(CV_CAP_PROP_POS_FRAMES,frame);
+    cv::Mat pos;
+    capture->read(pos);
+    capture->set(CV_CAP_PROP_POS_FRAMES,frame);
+    cv::imshow("Acid Cam v2", pos);
     frame_cnt = frame;
 }

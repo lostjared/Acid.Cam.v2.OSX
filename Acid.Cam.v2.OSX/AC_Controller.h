@@ -61,7 +61,7 @@ extern int camera_mode;
 extern bool disableFilter;
 extern NSThread *background;
 extern  bool camera_active;
-
+extern unsigned int frame_proc;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     IBOutlet NSPopUpButton *resolution;
@@ -109,6 +109,7 @@ extern  bool camera_active;
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
     unsigned int freeze_count;
+    
     
 }
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
@@ -159,6 +160,7 @@ extern  bool camera_active;
 - (IBAction) showPlugins: (id) sender;
 - (IBAction) setRotate_V:(id) sender;
 - (IBAction) setRotate_H:(id) sender;
+- (IBAction) rewindToStart:(id) sender;
 - (void) camProc: (id) sender;
 - (void) camThread: (id) sender;
 - (void) stopCamera;

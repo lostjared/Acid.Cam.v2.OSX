@@ -76,6 +76,7 @@ cv::VideoCapture *capture;
 NSThread *background;
 bool camera_active = false;
 cv::Mat old_frame;
+unsigned int frame_proc = 0;
 
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
@@ -191,6 +192,7 @@ void setEnabledProg() {
     srand((unsigned int)time(0));
     pauseStepTrue = false;
     camera_mode = 0;
+    frame_proc = 0;
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
@@ -464,6 +466,7 @@ void setEnabledProg() {
     else
         r = true;
     freeze_count = 0;
+    frame_proc = 0;
     NSInteger checkedState = [menuPaused state];
     isPaused = (checkedState == NSOnState) ? true : false;
     static unsigned int counter = 0;
@@ -512,6 +515,7 @@ void setEnabledProg() {
         if([menu_freeze state] == NSOnState) {
             capture->read(old_frame);
             ++frame_cnt;
+            ++frame_proc;
         }
         if(camera_mode == 0) {
             frames_captured = 0;
@@ -572,6 +576,7 @@ void setEnabledProg() {
             frame = temp_frame;
         }
         ++frame_cnt;
+        ++frame_proc;
         if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
             ac::orig_frame = frame.clone();
         }
@@ -591,7 +596,7 @@ void setEnabledProg() {
                 cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
             }
             cv::imshow("Acid Cam v2", frame);
-            ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+            ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
             if(camera_mode == 1) {
                 float val = frame_cnt;
                 float size = total_frames;
@@ -662,7 +667,12 @@ void setEnabledProg() {
     }
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
-        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((freeze_count+video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+        ++frame_proc;
+        
+        double seconds = ((total_frames)/ac::fps);
+        double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+        
+        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" <<  seconds-cfps  << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
             if(file.is_open()) {
                 file.seekg(0, std::ios::end);
@@ -702,8 +712,10 @@ void setEnabledProg() {
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-    if([menu_freeze state] == NSOffState)
+    if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
+        ++frame_proc;
+    }
     else
         ++freeze_count;
     if([corder indexOfSelectedItem] == 5) {
@@ -712,7 +724,11 @@ void setEnabledProg() {
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
     cv::imshow("Acid Cam v2", frame);
-    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << ((freeze_count+video_total_frames+frame_cnt)/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+    
+    double seconds = ((total_frames)/ac::fps);
+    double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+    
+    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << seconds-cfps << "/" << ((file_size/1024)/1024) << " MB";
     if(camera_mode == 1) {
         float val = frame_cnt;
         float size = total_frames;
@@ -1048,6 +1064,13 @@ void setEnabledProg() {
         [menu_freeze setState: NSOnState];
     }
 }
+
+- (IBAction) rewindToStart:(id) sender {
+    jumptoFrame(0);
+    frame_count = 0;
+    [frame_slider setIntegerValue:(NSInteger)frame_count];
+}
+
 
 @end
 
