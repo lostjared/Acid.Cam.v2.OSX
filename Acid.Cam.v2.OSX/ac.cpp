@@ -71,7 +71,7 @@ namespace ac {
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
         "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","InvertedScanlines","Soft_Mirror",
-        "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "No Filter",
+        "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch", "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -81,11 +81,11 @@ namespace ac {
         SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
         VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,
-        NegativeStrobe,XorAddMul,ParticleRelease,
+        NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 152;
+    int draw_max = 153;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -4627,7 +4627,7 @@ void ac::HorizontalBlend(cv::Mat &frame) {
         }
         if((rand()%4)==0) {
             for(unsigned int i = 0; i < 3; ++i) {
-            	alpha[i] += 0.1;
+                alpha[i] += 0.1;
                 if(alpha[i] > 25) alpha[i] = 1;
             }
         }
@@ -4719,7 +4719,7 @@ void ac::HorizontalLines(cv::Mat &frame) {
 void ac::InvertedScanlines(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
-
+    
     static unsigned int index = 0;
     static double alpha = 1.0;
     static double pos_max = 14.0;
@@ -4729,9 +4729,9 @@ void ac::InvertedScanlines(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             switch(index) {
                 case 0: {
-             	   for(unsigned int j = 0; j < 3; ++j)
-                	pixel[j] = (~pixel[j])*alpha;
-                	index++;
+                    for(unsigned int j = 0; j < 3; ++j)
+                        pixel[j] = (~pixel[j])*alpha;
+                    index++;
                 }
                 case 1: {
                     cv::Vec3b temp = pixel;
@@ -4954,7 +4954,7 @@ public:
     }
     
     void set(cv::Mat &frame) {
-
+        
         if(static_cast<unsigned int>(frame.cols) != w || static_cast<unsigned int>(frame.rows) != h) {
             if(part != 0) {
                 for(unsigned int i = 0; i < w; ++i)
@@ -4987,8 +4987,8 @@ public:
                 int x_pos = part[i][z].x;
                 int y_pos = part[i][z].y;
                 if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                	cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
-                	pixel = part[i][z].pixel;
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                    pixel = part[i][z].pixel;
                 }
             }
         }
@@ -5047,13 +5047,30 @@ public:
 private:
     Particle **part;
     unsigned int w, h;
-           
+    
 };
 
 void ac::ParticleRelease(cv::Mat &frame) {
     static ParticleEmiter emiter;
     emiter.set(frame);
     emiter.draw(frame);
+}
+
+void ac::BlendSwitch(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    static unsigned int pos = 0;
+    static unsigned char blend_pixel = 0;
+    for(unsigned int i = 0; i < w; ++i) {
+        for(unsigned int z = 0; z < h; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[pos] *= blend_pixel++;
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+        }
+        pos++;
+        if(pos > 2) pos = 0;
+    }
 }
 
 // No Filter
