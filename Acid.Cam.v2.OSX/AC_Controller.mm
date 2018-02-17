@@ -961,7 +961,13 @@ void setEnabledProg() {
 
 - (IBAction) setGoto: (id) sender {
     NSInteger time_val = [frame_slider integerValue];
-    NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %f Seconds Frame #%d", time_val/ac::fps, (int)time_val];
+    
+    double seconds = time_val/ac::fps;
+    double minutes = seconds/60;
+    unsigned int min = (unsigned int)minutes;
+    unsigned int sec = (min%60);
+    
+    NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %d Minutes %d Seconds @ Frame #%d", min, sec, (int)time_val];
     [goto_fr setStringValue: str_val];
 }
 
