@@ -1071,6 +1071,10 @@ void setEnabledProg() {
     [frame_slider setIntegerValue:(NSInteger)frame_count];
 }
 
+- (IBAction) changeVideoPos: (id) sender {
+    [self goto_Frame: self];
+    [self setGoto: self];
+}
 
 @end
 

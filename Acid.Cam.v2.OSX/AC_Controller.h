@@ -166,6 +166,7 @@ extern unsigned int frame_proc;
 - (void) stopCamera;
 - (IBAction) setRGB_Values: (id) sender;
 - (IBAction) menuFreeze: (id) sender;
+- (IBAction) changeVideoPos: (id) sender;
 
 @end
 

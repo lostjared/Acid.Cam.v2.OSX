@@ -804,10 +804,11 @@
                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1a-ql-e34">
                         <rect key="frame" x="18" y="50" width="444" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" alignment="left" maxValue="100" doubleValue="9.7988696808510625" tickMarkPosition="above" sliderType="linear" id="Xgy-lN-enC"/>
-                        <connections>
-                            <action selector="setGoto:" target="630" id="RCO-SA-rQd"/>
-                        </connections>
+                        <sliderCell key="cell" alignment="left" maxValue="100" doubleValue="9.7988696808510625" tickMarkPosition="above" sliderType="linear" id="Xgy-lN-enC">
+                            <connections>
+                                <action selector="changeVideoPos:" target="630" id="nqh-O1-fue"/>
+                            </connections>
+                        </sliderCell>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7aN-7U-SI2">
                         <rect key="frame" x="18" y="81" width="438" height="17"/>
