@@ -167,7 +167,6 @@ extern unsigned int frame_proc;
 - (IBAction) setRGB_Values: (id) sender;
 - (IBAction) menuFreeze: (id) sender;
 - (IBAction) changeVideoPos: (id) sender;
-
 @end
 
 extern void flushToLog(std::ostringstream &sout);

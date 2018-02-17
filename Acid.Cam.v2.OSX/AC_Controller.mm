@@ -723,6 +723,7 @@ void setEnabledProg() {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
+    
     cv::imshow("Acid Cam v2", frame);
     
     double seconds = ((total_frames)/ac::fps);
