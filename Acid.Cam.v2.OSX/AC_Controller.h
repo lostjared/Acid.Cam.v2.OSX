@@ -62,6 +62,7 @@ extern bool disableFilter;
 extern NSThread *background;
 extern  bool camera_active;
 extern unsigned int frame_proc;
+extern bool resize_value;
 
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     IBOutlet NSPopUpButton *resolution;

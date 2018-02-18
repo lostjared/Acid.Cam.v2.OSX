@@ -79,6 +79,7 @@ cv::Mat old_frame;
 unsigned int frame_proc = 0;
 bool resize_frame = false;
 NSRect rc;
+bool resize_value = false;
 
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
@@ -519,6 +520,11 @@ void setEnabledProg() {
             ++frame_cnt;
             ++frame_proc;
         }
+        if(resize_value == true) {
+            [stretch_scr setState: NSOnState];
+        } else {
+            [stretch_scr setState: NSOffState];
+        }
         if(camera_mode == 0) {
             frames_captured = 0;
             background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
@@ -752,8 +758,10 @@ void setEnabledProg() {
     NSString *main_window = [[NSApp mainWindow] title];
     NSWindow *main_w = [NSApp mainWindow];
     static bool fulls = false;
+    NSRect size_i = [[NSScreen mainScreen] frame];
     if([main_window isEqualToString:@"Acid Cam v2"]) {
-        if(mask & NSWindowStyleMaskFullScreen) {
+        
+        if((mask & NSWindowStyleMaskFullScreen) || (frame.cols > size_i.size.width && frame.rows > size_i.size.height)) {
             fulls = true;
             rc = [self getScreenSize];
         }
@@ -1121,9 +1129,6 @@ void setEnabledProg() {
     jumptoFrame(0);
     frame_count = 0;
     [frame_slider setIntegerValue:(NSInteger)frame_count];
-    NSRect rc = [self getScreenSize];
-    NSLog(@"%f %f\n", rc.size.width, rc.size.height);
-    resize_frame = true;
 }
 
 - (IBAction) changeVideoPos: (id) sender {
