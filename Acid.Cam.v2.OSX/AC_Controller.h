@@ -167,6 +167,7 @@ extern unsigned int frame_proc;
 - (IBAction) setRGB_Values: (id) sender;
 - (IBAction) menuFreeze: (id) sender;
 - (IBAction) changeVideoPos: (id) sender;
+- (NSRect) getScreenSize;
 @end
 
 extern void flushToLog(std::ostringstream &sout);
@@ -176,4 +177,4 @@ extern void jumptoFrame(int frame);
 extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
 extern cv::Mat old_frame;
-
+extern bool resize_frame;

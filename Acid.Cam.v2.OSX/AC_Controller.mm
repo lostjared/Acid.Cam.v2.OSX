@@ -77,6 +77,7 @@ NSThread *background;
 bool camera_active = false;
 cv::Mat old_frame;
 unsigned int frame_proc = 0;
+bool resize_frame = false;
 
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
@@ -723,8 +724,18 @@ void setEnabledProg() {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-    
-    cv::imshow("Acid Cam v2", frame);
+    NSRect rc = [self getScreenSize];
+    NSInteger mask = [[NSApp mainWindow] styleMask];
+    if((rc.size.width < frame.cols && rc.size.height < frame.rows) || (mask & NSFullScreenWindowMask)) {
+        cv::Mat dst;
+        dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
+    	cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
+        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+    	cv::imshow("Acid Cam v2", dst);
+    } else {
+        cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+        cv::imshow("Acid Cam v2", frame);
+    }
     
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
@@ -1074,11 +1085,20 @@ void setEnabledProg() {
     jumptoFrame(0);
     frame_count = 0;
     [frame_slider setIntegerValue:(NSInteger)frame_count];
+    NSRect rc = [self getScreenSize];
+    NSLog(@"%f %f\n", rc.size.width, rc.size.height);
+    resize_frame = true;
 }
 
 - (IBAction) changeVideoPos: (id) sender {
     [self goto_Frame: self];
     [self setGoto: self];
+}
+
+- (NSRect) getScreenSize {
+    NSScreen *main = [NSScreen mainScreen];
+    NSRect rect = [main visibleFrame];
+    return rect;
 }
 
 @end
