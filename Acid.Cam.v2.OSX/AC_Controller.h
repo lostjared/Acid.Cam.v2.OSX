@@ -178,3 +178,4 @@ extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
 extern cv::Mat old_frame;
 extern bool resize_frame;
+

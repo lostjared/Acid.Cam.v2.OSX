@@ -726,7 +726,14 @@ void setEnabledProg() {
     }
     NSRect rc = [self getScreenSize];
     NSInteger mask = [[NSApp mainWindow] styleMask];
-    if((rc.size.width < frame.cols && rc.size.height < frame.rows) || (mask & NSWindowStyleMaskFullScreen)) {
+    NSString *main_window = [[NSApp mainWindow] title];
+    static bool fulls = false;
+    if([main_window isEqualToString:@"Acid Cam v2"]) {
+        if(mask & NSWindowStyleMaskFullScreen) fulls = true;
+        else fulls = false;
+    }
+    
+    if((rc.size.width < frame.cols && rc.size.height < frame.rows) || fulls == true) {
         cv::Mat dst;
         dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
     	cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
@@ -1096,9 +1103,7 @@ void setEnabledProg() {
 }
 
 - (NSRect) getScreenSize {
-    NSScreen *main = [NSScreen mainScreen];
-    NSRect rect = [main visibleFrame];
-    return rect;
+    return [[NSScreen mainScreen] frame];
 }
 
 @end
