@@ -726,7 +726,7 @@ void setEnabledProg() {
     }
     NSRect rc = [self getScreenSize];
     NSInteger mask = [[NSApp mainWindow] styleMask];
-    if((rc.size.width < frame.cols && rc.size.height < frame.rows) || (mask & NSFullScreenWindowMask)) {
+    if((rc.size.width < frame.cols && rc.size.height < frame.rows) || (mask & NSWindowStyleMaskFullScreen)) {
         cv::Mat dst;
         dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
     	cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
