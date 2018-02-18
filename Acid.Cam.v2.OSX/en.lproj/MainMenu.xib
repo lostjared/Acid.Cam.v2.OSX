@@ -62,6 +62,7 @@
                 <outlet property="slider_red_pos" destination="S4C-AA-haV" id="7Xg-vp-Wcc"/>
                 <outlet property="startProg" destination="624" id="fSI-qU-vVv"/>
                 <outlet property="stop_prog" destination="AhA-QM-fZT" id="tGq-Wi-bIT"/>
+                <outlet property="stretch_scr" destination="KDy-87-FEf" id="dpI-bj-Wy9"/>
                 <outlet property="t_blue" destination="RGD-8Y-jEt" id="678-Yx-cN5"/>
                 <outlet property="t_green" destination="hsX-nQ-Lfe" id="GnH-0a-llw"/>
                 <outlet property="t_red" destination="m3P-As-OgG" id="mXd-cA-huW"/>
@@ -233,6 +234,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showPlugins:" target="630" id="w1j-gX-y8x"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Fit Video to Window" id="KDy-87-FEf">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="setStretch:" target="630" id="BLI-th-nku"/>
                                 </connections>
                             </menuItem>
                         </items>

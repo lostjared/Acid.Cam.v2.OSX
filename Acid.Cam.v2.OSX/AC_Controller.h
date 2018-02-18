@@ -100,6 +100,7 @@ extern unsigned int frame_proc;
     IBOutlet NSWindow *finish_queue;
     IBOutlet NSProgressIndicator *finish_queue_progress;
     IBOutlet NSSlider *red_slider, *green_slider, *blue_slider;
+    IBOutlet NSMenuItem *stretch_scr;
     bool pauseStepTrue;
     int frames_captured;
     NSMenu *menu_cat;
@@ -168,6 +169,7 @@ extern unsigned int frame_proc;
 - (IBAction) menuFreeze: (id) sender;
 - (IBAction) changeVideoPos: (id) sender;
 - (NSRect) getScreenSize;
+- (IBAction) setStretch: (id) sender;
 @end
 
 extern void flushToLog(std::ostringstream &sout);
@@ -178,4 +180,4 @@ extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
 extern cv::Mat old_frame;
 extern bool resize_frame;
-
+extern NSRect rc;

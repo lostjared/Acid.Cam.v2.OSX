@@ -78,6 +78,7 @@ bool camera_active = false;
 cv::Mat old_frame;
 unsigned int frame_proc = 0;
 bool resize_frame = false;
+NSRect rc;
 
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
@@ -596,7 +597,30 @@ void setEnabledProg() {
                 cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
                 cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
             }
-            cv::imshow("Acid Cam v2", frame);
+            NSInteger mask = [[NSApp mainWindow] styleMask];
+            NSString *main_window = [[NSApp mainWindow] title];
+            NSWindow *main_w = [NSApp mainWindow];
+            static bool fulls = false;
+            if([main_window isEqualToString:@"Acid Cam v2"]) {
+                if(mask & NSWindowStyleMaskFullScreen) {
+                    fulls = true;
+                    rc = [self getScreenSize];
+                }
+                else {
+                    fulls = false;
+                    rc = [main_w frame];
+                }
+            }
+            
+            if([stretch_scr state] == NSOnState) {
+                cv::Mat dst;
+                dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
+                cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
+                cv::imshow("Acid Cam v2", dst);
+            } else {
+                cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+                cv::imshow("Acid Cam v2", frame);
+            }
             ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
             if(camera_mode == 1) {
                 float val = frame_cnt;
@@ -724,21 +748,26 @@ void setEnabledProg() {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-    NSRect rc = [self getScreenSize];
     NSInteger mask = [[NSApp mainWindow] styleMask];
     NSString *main_window = [[NSApp mainWindow] title];
+    NSWindow *main_w = [NSApp mainWindow];
     static bool fulls = false;
     if([main_window isEqualToString:@"Acid Cam v2"]) {
-        if(mask & NSWindowStyleMaskFullScreen) fulls = true;
-        else fulls = false;
+        if(mask & NSWindowStyleMaskFullScreen) {
+            fulls = true;
+            rc = [self getScreenSize];
+        }
+        else {
+            fulls = false;
+            rc = [main_w frame];
+        }
     }
     
-    if((rc.size.width < frame.cols && rc.size.height < frame.rows) || fulls == true) {
-        cv::Mat dst;
-        dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
+    if([stretch_scr state] == NSOnState) {
+    	cv::Mat dst;
+    	dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
     	cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
-        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
-    	cv::imshow("Acid Cam v2", dst);
+		cv::imshow("Acid Cam v2", dst);
     } else {
         cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
         cv::imshow("Acid Cam v2", frame);
@@ -1104,6 +1133,15 @@ void setEnabledProg() {
 
 - (NSRect) getScreenSize {
     return [[NSScreen mainScreen] frame];
+}
+
+- (IBAction) setStretch: (id) sender {
+    if([stretch_scr state] == NSOnState) {
+        [stretch_scr setState: NSOffState];
+    } else {
+        [stretch_scr setState: NSOnState];
+        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+    }
 }
 
 @end
