@@ -170,6 +170,10 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         
         cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
         cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
+        cv::imshow("Acid Cam v2", frame);
+    	if(camera_mode == 0) jumptoFrame(0);
+        
+        
         
         NSRect screen = [[NSScreen mainScreen] frame];
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {

@@ -1040,6 +1040,8 @@ void setEnabledProg() {
     double minutes = seconds/60;
     unsigned int min = (unsigned int)minutes;
     unsigned int sec = (min%60);
+    if(seconds < 60) sec = seconds;
+    
     NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %d Minutes %d Seconds @ Frame #%d", min, sec, (int)time_val];
     [goto_fr setStringValue: str_val];
 }
