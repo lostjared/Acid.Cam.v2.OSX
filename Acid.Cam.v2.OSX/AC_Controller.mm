@@ -546,6 +546,8 @@ void setEnabledProg() {
             [stretch_scr setState: NSOffState];
         }
         if(camera_mode == 0) {
+            isPaused = false;
+            [menuPaused setState:NSOffState];
             frames_captured = 0;
             background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
             [background start];
@@ -989,6 +991,15 @@ void setEnabledProg() {
 }
 
 - (IBAction) pauseProgram: (id) sender {
+    
+    if(camera_mode == 0) {
+        [menuPaused setState:NSOffState];
+        [pause_step setEnabled:NO];
+        isPaused = false;
+        _NSRunAlertPanel(@"Cannot pause in camera mode", @"Cannot pause", @"Ok", nil, nil);
+        return;
+    }
+                         
     NSInteger checkedState = [menuPaused state];
     std::ostringstream stream;
     if(checkedState == NSOnState) {
