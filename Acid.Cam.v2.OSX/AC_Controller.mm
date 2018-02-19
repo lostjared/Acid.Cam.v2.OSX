@@ -81,6 +81,26 @@ bool resize_frame = false;
 NSRect rc;
 bool resize_value = false;
 
+// from stack overflow
+// https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
+cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
+{
+    cv::Mat output;
+    double h1 = dstSize.width * (input.rows/(double)input.cols);
+    double w2 = dstSize.height * (input.cols/(double)input.rows);
+    if( h1 <= dstSize.height) {
+        cv::resize( input, output, cv::Size(dstSize.width, h1));
+    } else {
+        cv::resize( input, output, cv::Size(w2, dstSize.height));
+    }
+    int top = (dstSize.height-output.rows) / 2;
+    int down = (dstSize.height-output.rows+1) / 2;
+    int left = (dstSize.width - output.cols) / 2;
+    int right = (dstSize.width - output.cols+1) / 2;
+    cv::copyMakeBorder(output, output, top, down, left, right, cv::BORDER_CONSTANT, bgcolor );
+    return output;
+}
+
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
     for(unsigned int i = 0; i < v.size(); ++i) {
@@ -617,11 +637,9 @@ void setEnabledProg() {
                     rc = [main_w frame];
                 }
             }
-            
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
-                dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
-                cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
+				dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
                 cv::imshow("Acid Cam v2", dst);
             } else {
                 cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
@@ -773,8 +791,9 @@ void setEnabledProg() {
     
     if([stretch_scr state] == NSOnState) {
     	cv::Mat dst;
-    	dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
-    	cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
+    	//dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
+    	//cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
+        dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
 		cv::imshow("Acid Cam v2", dst);
     } else {
         cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
