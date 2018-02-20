@@ -55,6 +55,7 @@
 #include<vector>
 #include<algorithm>
 
+// Global varaibles
 NSTextView *logView;
 NSTextField *frame_count;
 NSMutableArray *custom_array;
@@ -81,7 +82,7 @@ bool resize_frame = false;
 NSRect rc;
 bool resize_value = false;
 
-// from stack overflow
+//  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
 {
@@ -100,7 +101,7 @@ cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, con
     cv::copyMakeBorder(output, output, top, down, left, right, cv::BORDER_CONSTANT, bgcolor );
     return output;
 }
-
+// convert Vector to array of char pointers
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
     for(unsigned int i = 0; i < v.size(); ++i) {
@@ -112,12 +113,14 @@ const char **convertToStringArray(std::vector<std::string> &v) {
     return (const char**)arr;
 }
 
+// erase Array of char pointers
 void eraseArray(const char **szArray, unsigned long size) {
     for(unsigned long i = 0; i < size; ++i)
         delete [] szArray[i];
     delete [] szArray;
 }
 
+// Apple removed this function so I rewrote it
 NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3) {
     NSAlert *alert = [[NSAlert alloc] init];
     if(button1 != nil) [alert addButtonWithTitle:button1];
@@ -129,8 +132,10 @@ NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NS
     return rt_val;
 }
 
+// extern program init in another file
 extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
+// flush string stream to output
 void flushToLog(std::ostringstream &sout) {
     NSTextView *sv = logView;
     NSString *value = [[sv textStorage] string];
@@ -141,16 +146,19 @@ void flushToLog(std::ostringstream &sout) {
     sout.str("");
 }
 
+// set the Frame's label
 void setFrameLabel(std::ostringstream &text) {
     NSString *str = [NSString stringWithUTF8String: text.str().c_str()];
     [frame_count setStringValue: str];
     text.str("");
 }
 
+// set Enabled
 void setEnabledProg() {
     [stop_prog_i setEnabled: NO];
 }
 
+// Objective-C implemtation of class AC_Controller
 @implementation AC_Controller
 
 - (void) stopCV_prog {
