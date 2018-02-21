@@ -371,6 +371,9 @@ void setEnabledProg() {
         [negate_checked setIntegerValue: NSOffState];
         [custom_window orderFront:self];
     }
+    if(ac::draw_strings[ac::draw_offset] == "ParticleRelease") {
+        emiter.reset();
+    }
     if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
         [alpha_window orderFront:self];
     }

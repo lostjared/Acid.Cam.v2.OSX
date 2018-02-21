@@ -97,6 +97,7 @@ namespace ac {
     inline int GetFX(cv::Mat &frame, int x, int nw);
     inline int GetFY(cv::Mat &frame, int y, int nh);
     inline void invert(cv::Mat &frame, int x, int y);
+    
     /* filter functions */
     typedef void (*DrawFunction)(cv::Mat &frame);
     
@@ -274,8 +275,38 @@ namespace ac {
     extern bool snapShot;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
+    
+    class Particle {
+    public:
+        Particle() : x(0), y(0), dir(0), m_count(0) {}
+        cv::Vec3b pixel;// color
+        unsigned int x, y, dir; // position/direction
+        unsigned int m_count; // counter
+    };
+    
+    class ParticleEmiter {
+    public:
+        // initalize to null
+        ParticleEmiter();
+        // clean up after done
+        ~ParticleEmiter();
+        // set frame pixel values
+        void set(cv::Mat &frame);
+        // draw pixel values to frame
+        void draw(cv::Mat &frame);
+        // move pixel coordinates around
+        void movePixels();
+        // reset
+        void reset();
+        
+    private:
+        Particle **part; // array of pointers for Particles
+        unsigned int w, h; // frame width/height
+        
+    };
 }
 // custom filter function, must be defined in program so it will link
+extern ac::ParticleEmiter emiter;
 extern void custom_filter(cv::Mat &frame);
 
 #endif

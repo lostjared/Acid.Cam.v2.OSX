@@ -4937,22 +4937,13 @@ void ac::XorAddMul(cv::Mat &frame) {
 enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
 
 // Class particle to hold individual variables for each moving pixel
-class Particle {
-public:
-    Particle() : x(0), y(0), dir(0), m_count(0) {}
-    cv::Vec3b pixel;// color
-    unsigned int x, y, dir; // position/direction
-    unsigned int m_count; // counter
-};
 
-// Class to process particle data
-class ParticleEmiter {
-public:
+
     // initalize to null
-    ParticleEmiter() : part(0), w(0), h(0) {}
+ac::ParticleEmiter::ParticleEmiter() : part(0), w(0), h(0) {}
     
     // clean up after done
-    ~ParticleEmiter() {
+ac::ParticleEmiter::~ParticleEmiter() {
         if(part != 0) {
             for(unsigned int i = 0; i < w; ++i)
                 delete [] part[i];
@@ -4960,8 +4951,14 @@ public:
             part = 0;
         }
     }
+
+void ac::ParticleEmiter::reset() {
+    w = 0;
+    h = 0;
+}
+
     // set frame pixel values
-    void set(cv::Mat &frame) {
+void ac::ParticleEmiter::set(cv::Mat &frame) {
         if(static_cast<unsigned int>(frame.cols) != w || static_cast<unsigned int>(frame.rows) != h) {
             if(part != 0) {
                 for(unsigned int i = 0; i < w; ++i)
@@ -4988,7 +4985,7 @@ public:
         }
     }
     // draw pixel values to frame
-    void draw(cv::Mat &frame) {
+void ac::ParticleEmiter::draw(cv::Mat &frame) {
         movePixels();//move values before drawing
         for(unsigned int z = 0; z < h; ++z) {
             for(unsigned int i = 0; i < w; ++i) {
@@ -5002,7 +4999,7 @@ public:
         }
     }
     // move pixel coordinates around
-    void movePixels() {
+void ac::ParticleEmiter::movePixels() {
         for(unsigned int i = 0; i < w; ++i) {
             for(unsigned int z = 0; z < h; ++z) {
                 Particle &p = part[i][z];
@@ -5051,16 +5048,13 @@ public:
             }
         }
     }
-    
-private:
-    Particle **part; // array of pointers for Particles
-    unsigned int w, h; // frame width/height
-    
-};
+
+
+
+ac::ParticleEmiter emiter; // initialize
 
 // Particle Filter
 void ac::ParticleRelease(cv::Mat &frame) {
-    static ParticleEmiter emiter; // initialize
     emiter.set(frame);// set values each frame
     emiter.draw(frame); // draw values each frame
 }
