@@ -51,6 +51,7 @@
 #include<string>
 
 
+// Global external functions/variables
 extern bool breakProgram, programRunning, stopProgram;
 extern bool isPaused;
 extern bool rec_Audio;

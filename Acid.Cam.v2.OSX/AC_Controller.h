@@ -53,8 +53,11 @@
 #include"videocapture.h"
 #include<sstream>
 
+// type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
+
+// global variables
 extern pixel pix;
 extern drawn d;
 extern int camera_mode;
@@ -64,7 +67,9 @@ extern  bool camera_active;
 extern unsigned int frame_proc;
 extern bool resize_value;
 
+// Main controller class for the program
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
+    // interface builder cocoa
     IBOutlet NSPopUpButton *resolution;
     IBOutlet NSPopUpButton *vid_format;
     IBOutlet NSPopUpButton *device_index, *startaction;
@@ -87,7 +92,6 @@ extern bool resize_value;
     IBOutlet NSSlider *goto_t, *goto_f;
     IBOutlet NSSlider *slider_red, *slider_green, *slider_blue;
     IBOutlet NSTextField *slider_pos, *slider_red_pos, *slider_green_pos, *slider_blue_pos;
-    NSImage *current_image;
     IBOutlet NSPopUpButton *filter_selector;
     IBOutlet NSButton *check_box, *reverse_box, *opposite_dir;
     IBOutlet NSPopUpButton *rgb_box;
@@ -102,6 +106,7 @@ extern bool resize_value;
     IBOutlet NSProgressIndicator *finish_queue_progress;
     IBOutlet NSSlider *red_slider, *green_slider, *blue_slider;
     IBOutlet NSMenuItem *stretch_scr;
+    // variables
     bool pauseStepTrue;
     int frames_captured;
     NSMenu *menu_cat;
@@ -110,10 +115,10 @@ extern bool resize_value;
     NSMenu *menu_items_custom[12];
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
+    NSImage *current_image;
     unsigned int freeze_count;
-    
-    
 }
+// classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
 - (IBAction) menuSelected: (id) sender;
@@ -173,6 +178,7 @@ extern bool resize_value;
 - (IBAction) setStretch: (id) sender;
 @end
 
+// global variables / functions
 extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(int frame_count);
