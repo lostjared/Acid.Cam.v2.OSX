@@ -4296,20 +4296,20 @@ void ac::BlockXor(cv::Mat &frame) {
     static int posDirection = 1;
     procPos(posDirection, pos, pos_max);
 }
-
+// BlockScale
 void ac::BlockScale(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
     static double pos = 1.0, pos_max = 3.0;
     static unsigned int square = 2;
-    for(unsigned int z = 0; z < h; z += square) {
-        for(unsigned int i = 0; i < w; i += square) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int x = 0; x < square; ++x) {
-                for(unsigned int y = 0; y < square; ++y) {
-                    if(y+z < h && i+x < w) {
-                        cv::Vec3b &pix = frame.at<cv::Vec3b>(y+z, i+x);
-                        pix[0] = static_cast<unsigned char>(pixel[0]*pos);
+    for(unsigned int z = 0; z < h; z += square) { // loop from top to bottom
+        for(unsigned int i = 0; i < w; i += square) { // loop from left to right
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// grab pixel value
+            for(unsigned int x = 0; x < square; ++x) {// draw square from left to right
+                for(unsigned int y = 0; y < square; ++y) {// draw square form top to bottom
+                    if(y+z < h && i+x < w) {// within bounds?
+                        cv::Vec3b &pix = frame.at<cv::Vec3b>(y+z, i+x); // grab pixel
+                        pix[0] = static_cast<unsigned char>(pixel[0]*pos); // calculate values
                         pix[1] = static_cast<unsigned char>(pixel[1]*pos);
                         pix[2] = static_cast<unsigned char>(pixel[2]*pos);
                     }
@@ -4319,6 +4319,7 @@ void ac::BlockScale(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i); // if is negative
         }
     }
+    // move in/out direction
     static int direction = 1;
     if(direction == 1) {
         square += 2;
@@ -4362,6 +4363,8 @@ void ac::BlockStrobe(cv::Mat &frame) {
     }
 }
 
+// Prev Frame Blend
+// store previous frame and manipulate with current frame
 void ac::PrevFrameBlend(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
