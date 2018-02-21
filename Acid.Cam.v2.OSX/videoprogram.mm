@@ -62,7 +62,6 @@ int video_total_frames = 0;
 NSTimer *renderTimer;
 std::ostringstream sout;
 std::unique_ptr<cv::VideoWriter> writer;
-std::fstream file;
 unsigned long file_size;
 std::string add_path;
 
@@ -85,7 +84,6 @@ void stopCV() {
         }
         sout << frame_proc << " Total frames\n";
         sout << (frame_proc/ac::fps) << " Seconds\n";
-        file.close();
         // flush to log
         flushToLog(sout);
         setEnabledProg();
@@ -163,7 +161,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             blend_image = frame.clone();
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
             writer->write(frame);
-            file.open(ac::fileName.c_str(), std::ios::in);
         }
         if(ac::noRecord == false)
             sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";

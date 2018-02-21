@@ -59,7 +59,6 @@ extern std::string input_name;
 extern unsigned int total_frames;
 extern int program_main(int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 extern std::unique_ptr<cv::VideoWriter> writer;
-extern std::fstream file;
 extern std::unique_ptr<cv::VideoCapture> capture_camera;
 extern std::unique_ptr<cv::VideoCapture> capture_video;
 extern cv::VideoCapture *capture;

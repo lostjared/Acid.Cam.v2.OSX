@@ -54,6 +54,7 @@
 #include<time.h>
 #include<vector>
 #include<algorithm>
+#include<sys/stat.h>
 
 // Global varaibles
 NSTextView *logView;
@@ -666,10 +667,9 @@ void setEnabledProg() {
         });
         if(ac::noRecord == false) {
             if(writer->isOpened()) writer->write(frame);
-            if(file.is_open()) {
-                file.seekg(0, std::ios::end);
-                file_size = file.tellg();
-            }
+            struct stat buf;
+            stat(ac::fileName.c_str(), &buf);
+            file_size = buf.st_size;
         }
         if(ac::snapShot == true) {
             static unsigned int index = 0;
@@ -697,7 +697,6 @@ void setEnabledProg() {
         }
         sout << (video_total_frames+frame_cnt) << " Total frames\n";
         sout << ((video_total_frames+frame_cnt)/ac::fps) << " Seconds\n";
-        file.close();
         flushToLog(sout);
         setEnabledProg();
         if(breakProgram == true) {
@@ -733,10 +732,9 @@ void setEnabledProg() {
         
         ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" <<  seconds-cfps  << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
-            if(file.is_open()) {
-                file.seekg(0, std::ios::end);
-                file_size = file.tellg();
-            }
+            struct stat buf;
+            stat(ac::fileName.c_str(), &buf);
+            file_size = buf.st_size;
         }
         if(camera_mode == 1) {
             // float val = frame_cnt;
@@ -823,10 +821,13 @@ void setEnabledProg() {
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
         if(writer->isOpened() )writer->write(frame);
-        if(file.is_open()) {
+        struct stat buf;
+        stat(ac::fileName.c_str(), &buf);
+        file_size = buf.st_size;
+        /*if(file.is_open()) {
             file.seekg(0, std::ios::end);
             file_size = file.tellg();
-        }
+        }*/
     }
     if(ac::snapShot == true) {
         static unsigned int index = 0;
@@ -999,7 +1000,6 @@ void setEnabledProg() {
 }
 
 - (IBAction) pauseProgram: (id) sender {
-    
     if(camera_mode == 0) {
         [menuPaused setState:NSOffState];
         [pause_step setEnabled:NO];
@@ -1007,7 +1007,7 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Cannot pause in camera mode", @"Cannot pause", @"Ok", nil, nil);
         return;
     }
-                         
+
     NSInteger checkedState = [menuPaused state];
     std::ostringstream stream;
     if(checkedState == NSOnState) {
