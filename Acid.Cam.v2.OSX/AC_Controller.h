@@ -179,6 +179,7 @@ extern bool resize_value;
 @end
 
 // global variables / functions
+extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);
 extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(int frame_count);

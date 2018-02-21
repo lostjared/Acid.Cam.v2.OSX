@@ -42,7 +42,7 @@
  
  */
 
-
+// This file contains the functions to Start/Stop the capture/recording devices
 #import"AC_Controller.h"
 #include<fstream>
 #import <Foundation/Foundation.h>
@@ -64,20 +64,23 @@ std::ostringstream sout;
 std::unique_ptr<cv::VideoWriter> writer;
 unsigned long file_size;
 std::string add_path;
-
-
 std::string input_name = "";
 
+// Stop the OpenCV capture
 void stopCV() {
     if(camera_active == true) {
         camera_active = false;
         return;
     }
+    // if timer is valid
     if(renderTimer != nil && renderTimer.valid) {
+        // stop timer
         [renderTimer invalidate];
         renderTimer = nil;
+        // destroy the OpenCV Windows
         cv::destroyWindow("Acid Cam v2");
         cv::destroyWindow("Controls");
+        // if recording clean up and release the writer
         if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
@@ -117,11 +120,13 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
     video_total_frames = 0;
     writer.reset(new cv::VideoWriter());
     try {
+        // open either camera or video file
         if(camera_mode == 0 && capture->isOpened() == false) capture->open(capture_device);
         else if(camera_mode == 1)  {
             capture->open(input_file);
             total_frames = capture->get(CV_CAP_PROP_FRAME_COUNT);
         }
+        // check that it is opened
         if (!capture->isOpened()) {
             std::cerr << "Error could not open Camera device..\n";
             return -1;
@@ -143,15 +148,18 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             frameSize = cv::Size(capture_width, capture_height);
         }
         setSliders(total_frames);
+        bool opened = false;
+        // if recording open the writer object with desired codec
         if(ac::noRecord == false) {
             if(outputType == 0)
-                writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
+                opened = writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
             else
-                writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
-            
-            if(writer->isOpened() == false) {
+                opened = writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
+            // if writer is not opened exit
+            if(writer->isOpened() == false || opened == false) {
                 sout << "Error video file could not be created.\n";
-                exit(0);
+                _NSRunAlertPanel(@"Error", @"Video file could not be created Output direcotry exisit?\n", @"Close", nil, nil);
+                return -1;
             }
             cv::Mat outframe;
             cv::resize(frame, outframe, frameSize);
@@ -162,18 +170,20 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
             writer->write(frame);
         }
+        // output wehther recording or not
         if(ac::noRecord == false)
             sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";
         else
             sout << "Recording disabled ..\n";
         
+        // create the window and show initial frame
         cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
         cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
         cv::imshow("Acid Cam v2", frame);
+        // if video file go back to start
     	if(camera_mode == 0) jumptoFrame(0);
         
-        
-        
+        // grab the screen info
         NSRect screen = [[NSScreen mainScreen] frame];
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
             rc.size.width = screen.size.width;
@@ -194,17 +204,19 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
                                      forMode:NSDefaultRunLoopMode];
         return 0;
     }
+    // standard exceptions handled here
     catch(std::exception &e) {
         std::cerr << e.what() << " was thrown!\n";
     }
+    // unknown exceptions handled here
     catch(...) {
         std::cerr << "Unknown error thrown.\n";
     }
     return 0;
 }
-
+// string stream for output
 std::ostringstream strout;
-
+// jump to frame in video
 void jumptoFrame(int frame) {
     capture->set(CV_CAP_PROP_POS_FRAMES,frame);
     cv::Mat pos;
