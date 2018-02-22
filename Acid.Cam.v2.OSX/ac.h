@@ -281,15 +281,24 @@ namespace ac {
     // Square class to hold broken up cv::Mat
     class Square {
     public:
+        // constructor init's vars
         Square() : pos(0), width(0), height(0), x(0), y(0) {}
+        // change the size of a square
         void setSize(const int &xx, const int &yy, const int &w, const int &h);
+        // set position
         void setPos(const int &p);
+        // copy image from cv::Mat
         void copyImage(const cv::Mat &f);
+        // copy Image to Target Matrix
         void copyImageToTarget(int xx, int yy, cv::Mat &f);
+        // get position
         int getPos() const { return pos; }
+        // get square width
         int getWidth() const { return width; }
+        // get square height
         int getHeight() const { return height; }
     protected:
+        // protected vars
         int pos,width,height,x,y;
         cv::Mat image;
     };
