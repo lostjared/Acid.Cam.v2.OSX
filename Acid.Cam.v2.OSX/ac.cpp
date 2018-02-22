@@ -4921,12 +4921,6 @@ void ac::XorAddMul(cv::Mat &frame) {
     //if(blend > 255) blend = 1.0;
 }
 
-// Particle movement directions
-enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
-
-// Class particle to hold individual variables for each moving pixel
-
-
 // initalize to null
 ac::ParticleEmiter::ParticleEmiter() : part(0), w(0), h(0) {}
 

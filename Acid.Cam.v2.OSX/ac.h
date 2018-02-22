@@ -308,6 +308,9 @@ namespace ac {
         int x, y;
     };
     
+    // Particle movement directions
+    enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
+    
     // contains info for each pixel
     class Particle {
     public:
