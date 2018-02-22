@@ -2413,13 +2413,14 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
 }
 // Mean takes cv::Mat reference
 void ac::Mean(cv::Mat &frame) {
-    static double pos = 1.0;
+    static double pos = 1.0; // position index floating point
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     cv::Scalar s = cv::mean(frame);
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+    for(int z = 0; z < h; ++z) { // from top to bottom
+        for(int i = 0; i < w; ++i) {// from left to right
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // pixel at (i,z)
+            // add to pixel values
             pixel[0] += pos*s[0];
             pixel[1] += pos*s[1];
             pixel[2] += pos*s[2];
@@ -2428,7 +2429,7 @@ void ac::Mean(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    
+    // position movement
     static double pos_max = 7.0;
     static int direction = 1;
     procPos(direction, pos, pos_max);
@@ -2443,51 +2444,52 @@ void ac::Laplacian(cv::Mat &frame) {
 
 // XOR - takes cv::Mat reference
 void ac::Bitwise_XOR(cv::Mat &frame) {
-    static cv::Mat initial = frame;
+    static cv::Mat initial = frame; /// set initial frame
+    
     if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame;
+        initial = frame; // resize? set new values
     }
-    cv::Mat start = frame.clone();
-    cv::Mat output;
-    cv::bitwise_xor(frame, initial, output);
-    initial = start;
-    frame = output;
+    cv::Mat start = frame.clone(); // clone image
+    cv::Mat output;// output value
+    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_xor
+    initial = start;// set initial to start
+    frame = output; // set frame to output
 }
 
 // And takes cv::Mat reference
 void ac::Bitwise_AND(cv::Mat &frame) {
-    static cv::Mat initial = frame;
+    static cv::Mat initial = frame;// set initial frame
     if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame;
+        initial = frame; // did frame resize? if so set the new frame value
     }
-    cv::Mat start = frame.clone();
-    cv::Mat output;
-    cv::bitwise_and(frame, initial, output);
-    initial = start;
-    frame = output;
+    cv::Mat start = frame.clone(); // clone frame (make a copy)
+    cv::Mat output;// output variable
+    cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
+    initial = start;// set initial to start
+    frame = output; // set frame to output
 }
 // takes cv::Mat reference
 void ac::Bitwise_OR(cv::Mat &frame) {
-    static cv::Mat initial = frame;
+    static cv::Mat initial = frame;// set initial frame
     if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame;
+        initial = frame;// did frame resize? if so set new frame
     }
-    cv::Mat start = frame.clone();
-    cv::Mat output;
-    cv::bitwise_or(frame, initial, output);
-    initial = start;
-    frame = output;
+    cv::Mat start = frame.clone(); // set start to copy of frame
+    cv::Mat output;// output variable
+    cv::bitwise_or(frame, initial, output);// OpenCV bitwise_or
+    initial = start;// set initial to start
+    frame = output;// set frame to output
 }
 // takes cv::Mat reference
 // Equalize image
 void ac::Equalize(cv::Mat &frame) {
-    cv::Mat output[3];
-    std::vector<cv::Mat> v;
-    cv::split(frame, v);
-    cv::equalizeHist(v[0], output[0]);
+    cv::Mat output[3]; // array of cv::Mat
+    std::vector<cv::Mat> v; // vector to hold cv::Mat values
+    cv::split(frame, v);// split b,g,r values
+    cv::equalizeHist(v[0], output[0]);// equalize
     cv::equalizeHist(v[1], output[1]);
     cv::equalizeHist(v[2], output[2]);
-    cv::merge(output,3,frame);
+    cv::merge(output,3,frame);// merge back to create final output
 }
 
 // Channel sort - takes cv::Mat reference
