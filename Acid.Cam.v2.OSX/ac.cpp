@@ -3556,59 +3556,45 @@ void ac::XorSine(cv::Mat &frame) {
     procPos(direction, pos, pos_max);
 }
 
-class Square {
-public:
-    Square() : pos(0), width(0), height(0), x(0), y(0) {}
-    void setSize(const int &xx, const int &yy, const int &w, const int &h) {
-        x = xx;
-        y = yy;
-        if(width != w || height != h) {
-            width = w;
-            height = h;
-            image.create(cvSize(w, h), CV_8UC3);
-        }
-    }
-    void setPos(const int &p) {
-        pos = p;
-    }
-    void copyImage(const cv::Mat &f) {
-        for(int i = 0, src_x = x; i < width; ++i, ++src_x) {
-            for(int z = 0, src_y = y; z < height; ++z, ++src_y) {
-                cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
-                cv::Vec3b src = f.at<cv::Vec3b>(src_y, src_x);
-                pixel = src;
-            }
-        }
-    }
-    void copyImageToTarget(int xx, int yy, cv::Mat &f) {
-        for(int i = 0, dst_x = xx; i < width; ++i, ++dst_x) {
-            for(int z = 0, dst_y = yy; z < height; ++z, ++dst_y) {
-                cv::Vec3b &pixel = f.at<cv::Vec3b>(dst_y, dst_x);
-                cv::Vec3b src = image.at<cv::Vec3b>(z, i);
-                pixel = src;
-            }
-        }
-    }
-    
-    int getPos() const { return pos; }
-    int getWidth() const { return width; }
-    int getHeight() const { return height; }
-protected:
-    int pos,width,height,x,y;
-    cv::Mat image;
-};
 
-struct Point {
-    int x, y;
-};
+void ac::Square::setSize(const int &xx, const int &yy, const int &w, const int &h) {
+    x = xx;
+    y = yy;
+    if(width != w || height != h) {
+        width = w;
+        height = h;
+        image.create(cvSize(w, h), CV_8UC3);
+    }
+}
+void ac::Square::setPos(const int &p) {
+    pos = p;
+}
+void ac::Square::copyImage(const cv::Mat &f) {
+    for(int i = 0, src_x = x; i < width; ++i, ++src_x) {
+        for(int z = 0, src_y = y; z < height; ++z, ++src_y) {
+            cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
+            cv::Vec3b src = f.at<cv::Vec3b>(src_y, src_x);
+            pixel = src;
+        }
+    }
+}
+void ac::Square::copyImageToTarget(int xx, int yy, cv::Mat &f) {
+    for(int i = 0, dst_x = xx; i < width; ++i, ++dst_x) {
+        for(int z = 0, dst_y = yy; z < height; ++z, ++dst_y) {
+            cv::Vec3b &pixel = f.at<cv::Vec3b>(dst_y, dst_x);
+            cv::Vec3b src = image.at<cv::Vec3b>(z, i);
+            pixel = src;
+        }
+    }
+}
 
-void Square_Swap(Square *squares, int num_w, int num_h, cv::Mat &frame, bool random = false) {
+void Square_Swap(ac::Square *squares, int num_w, int num_h, cv::Mat &frame, bool random = false) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame height
     unsigned int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
-    Point *points = new Point[num_w*num_h];
-    std::vector<Square *> square_vec;
+    ac::Point *points = new ac::Point[num_w*num_h];
+    std::vector<ac::Square *> square_vec;
     for(int rx = 0; rx < num_w; ++rx) {
         for(int ry = 0; ry < num_h; ++ry) {
             int cx = rx*square_w;
@@ -3712,7 +3698,7 @@ void ac::SquareVertical16(cv::Mat &frame) {
 }
 
 
-void ShiftSquares(std::vector<Square *> &s, int pos, bool direction=true) {
+void ShiftSquares(std::vector<ac::Square *> &s, int pos, bool direction=true) {
     if(direction == true) {
         for(unsigned int i = 0; i < s.size(); ++i) {
             int p = s[i]->getPos();
@@ -3735,13 +3721,13 @@ void ShiftSquares(std::vector<Square *> &s, int pos, bool direction=true) {
     }
 }
 
-void SquareVertical(const unsigned int num_w, const unsigned int num_h, Square *squares, cv::Mat &frame, bool direction=true) {
+void SquareVertical(const unsigned int num_w, const unsigned int num_h, ac::Square *squares, cv::Mat &frame, bool direction=true) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
-    Point *points = new Point[num_w*num_h];
-    std::vector<Square *> square_vec;
+    ac::Point *points = new ac::Point[num_w*num_h];
+    std::vector<ac::Square *> square_vec;
     for(int rx = 0; rx < (int)num_w; ++rx) {
         for(int ry = 0; ry < (int)num_h; ++ry) {
             int cx = rx*square_w;
@@ -4939,115 +4925,115 @@ enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
 // Class particle to hold individual variables for each moving pixel
 
 
-    // initalize to null
+// initalize to null
 ac::ParticleEmiter::ParticleEmiter() : part(0), w(0), h(0) {}
-    
-    // clean up after done
+
+// clean up after done
 ac::ParticleEmiter::~ParticleEmiter() {
-        if(part != 0) {
-            for(unsigned int i = 0; i < w; ++i)
-                delete [] part[i];
-            delete [] part;
-            part = 0;
-        }
+    if(part != 0) {
+        for(unsigned int i = 0; i < w; ++i)
+            delete [] part[i];
+        delete [] part;
+        part = 0;
     }
+}
 
 void ac::ParticleEmiter::reset() {
     w = 0;
     h = 0;
 }
 
-    // set frame pixel values
+// set frame pixel values
 void ac::ParticleEmiter::set(cv::Mat &frame) {
-        if(static_cast<unsigned int>(frame.cols) != w || static_cast<unsigned int>(frame.rows) != h) {
-            if(part != 0) {
-                for(unsigned int i = 0; i < w; ++i)
-                    delete [] part[i];
-                delete [] part;
-            }
-            w = frame.cols;
-            h = frame.rows;
-            part = new Particle*[w];
-            for(unsigned int i = 0; i < w; ++i) {
-                part[i] = new Particle[h];
-                for(unsigned int z = 0; z < h; ++z) {
-                    part[i][z].x = i;
-                    part[i][z].y = z;
-                    part[i][z].dir = rand()%4;
-                }
-            }
+    if(static_cast<unsigned int>(frame.cols) != w || static_cast<unsigned int>(frame.rows) != h) {
+        if(part != 0) {
+            for(unsigned int i = 0; i < w; ++i)
+                delete [] part[i];
+            delete [] part;
         }
-        for(unsigned int z = 0; z < h; ++z) {
-            for(unsigned int i = 0; i < w; ++i) {
-                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
-                part[i][z].pixel = pixel;
-            }
-        }
-    }
-    // draw pixel values to frame
-void ac::ParticleEmiter::draw(cv::Mat &frame) {
-        movePixels();//move values before drawing
-        for(unsigned int z = 0; z < h; ++z) {
-            for(unsigned int i = 0; i < w; ++i) {
-                int x_pos = part[i][z].x;
-                int y_pos = part[i][z].y;
-                if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
-                    pixel = part[i][z].pixel;
-                }
-            }
-        }
-    }
-    // move pixel coordinates around
-void ac::ParticleEmiter::movePixels() {
+        w = frame.cols;
+        h = frame.rows;
+        part = new Particle*[w];
         for(unsigned int i = 0; i < w; ++i) {
+            part[i] = new Particle[h];
             for(unsigned int z = 0; z < h; ++z) {
-                Particle &p = part[i][z];
-                p.m_count ++;
-                if(p.m_count > 250) {
-                    p.m_count = 0;
-                    p.dir = rand()%4;
-                    continue;
-                }
-                switch(p.dir) {
-                    case DIR_UP:
-                        if(p.y > 0) {
-                            p.y--;
-                        } else {
-                            p.y = 1+rand()%(h-1);
-                            p.dir = rand()%4;
-                        }
-                        break;
-                    case DIR_DOWN:
-                        if(p.y < h-1) {
-                            p.y++;
-                        } else {
-                            p.dir = rand()%4;
-                            p.y = 1+rand()%(h-1);
-                        }
-                        break;
-                    case DIR_LEFT:
-                        if(p.x > 0) {
-                            p.x--;
-                        } else {
-                            p.dir = rand()%4;
-                            p.x = 1+rand()%(w-1);
-                        }
-                        break;
-                    case DIR_RIGHT:
-                        if(p.x < w-1) {
-                            p.x++;
-                        } else {
-                            p.dir = rand()%4;
-                            p.x = rand()%(w-1);
-                        }
-                        break;
-                    default:
-                        p.dir = rand()%4;
-                }
+                part[i][z].x = i;
+                part[i][z].y = z;
+                part[i][z].dir = rand()%4;
             }
         }
     }
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+            part[i][z].pixel = pixel;
+        }
+    }
+}
+// draw pixel values to frame
+void ac::ParticleEmiter::draw(cv::Mat &frame) {
+    movePixels();//move values before drawing
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            int x_pos = part[i][z].x;
+            int y_pos = part[i][z].y;
+            if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                pixel = part[i][z].pixel;
+            }
+        }
+    }
+}
+// move pixel coordinates around
+void ac::ParticleEmiter::movePixels() {
+    for(unsigned int i = 0; i < w; ++i) {
+        for(unsigned int z = 0; z < h; ++z) {
+            Particle &p = part[i][z];
+            p.m_count ++;
+            if(p.m_count > 250) {
+                p.m_count = 0;
+                p.dir = rand()%4;
+                continue;
+            }
+            switch(p.dir) {
+                case DIR_UP:
+                    if(p.y > 0) {
+                        p.y--;
+                    } else {
+                        p.y = 1+rand()%(h-1);
+                        p.dir = rand()%4;
+                    }
+                    break;
+                case DIR_DOWN:
+                    if(p.y < h-1) {
+                        p.y++;
+                    } else {
+                        p.dir = rand()%4;
+                        p.y = 1+rand()%(h-1);
+                    }
+                    break;
+                case DIR_LEFT:
+                    if(p.x > 0) {
+                        p.x--;
+                    } else {
+                        p.dir = rand()%4;
+                        p.x = 1+rand()%(w-1);
+                    }
+                    break;
+                case DIR_RIGHT:
+                    if(p.x < w-1) {
+                        p.x++;
+                    } else {
+                        p.dir = rand()%4;
+                        p.x = rand()%(w-1);
+                    }
+                    break;
+                default:
+                    p.dir = rand()%4;
+            }
+        }
+    }
+}
 
 
 
