@@ -5031,8 +5031,6 @@ void ac::ParticleEmiter::movePixels() {
     }
 }
 
-
-
 ac::ParticleEmiter emiter; // initialize
 
 // Particle Filter
