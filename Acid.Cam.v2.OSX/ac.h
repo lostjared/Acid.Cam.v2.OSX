@@ -40,9 +40,15 @@
  */
 #ifndef __AC_H__
 #define __AC_H__
+
+#ifdef __APPLE__
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
 #include<opencv2/highgui.hpp>
+#else
+#include<opencv2/opencv.hpp>
+#endif
+
 #include<iostream>
 #include<fstream>
 #include<string>

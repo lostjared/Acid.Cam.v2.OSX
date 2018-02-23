@@ -5059,6 +5059,7 @@ void ac::BlendSwitch(cv::Mat &frame) {
     }
 }
 
+// set all color components other than red to zero
 void ac::AllRed(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
@@ -5069,7 +5070,7 @@ void ac::AllRed(cv::Mat &frame) {
         }
     }
 }
-
+// set all color components other than green to zero
 void ac::AllGreen(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
@@ -5080,7 +5081,7 @@ void ac::AllGreen(cv::Mat &frame) {
         }
     }
 }
-
+// set all color components other than blue to zero
 void ac::AllBlue(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
@@ -5091,7 +5092,8 @@ void ac::AllBlue(cv::Mat &frame) {
         }
     }
 }
-
+// set colors to zero based on counter
+// increment counter after each nested loop
 void ac::LineRGB(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
@@ -5117,7 +5119,8 @@ void ac::LineRGB(cv::Mat &frame) {
         if(counter > 2) counter = 0;
     }
 }
-
+// set colors to zero based on counter
+// increment counter each iteration of nested loop
 void ac::PixelRGB(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
