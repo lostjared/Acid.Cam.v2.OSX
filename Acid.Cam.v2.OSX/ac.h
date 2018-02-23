@@ -265,6 +265,11 @@ namespace ac {
     void XorAddMul(cv::Mat &frame);
     void ParticleRelease(cv::Mat &frame);
     void BlendSwitch(cv::Mat &frame);
+    void AllRed(cv::Mat &frame);
+    void AllGreen(cv::Mat &frame);
+    void AllBlue(cv::Mat &frame);
+    void LineRGB(cv::Mat &frame);
+    void PixelRGB(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);

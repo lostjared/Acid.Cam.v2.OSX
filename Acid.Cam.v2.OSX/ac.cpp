@@ -71,7 +71,9 @@ namespace ac {
         "SquareVertical8", "SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend", "FrameBlendRGB",
         "TrailsFilter",
         "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","InvertedScanlines","Soft_Mirror",
-        "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch", "No Filter",
+        "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch",
+        "All Red", "All Green", "All Blue", "LineRGB","PixelRGB",
+        "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
     // filter callback functions
@@ -82,10 +84,11 @@ namespace ac {
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
         VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,
         NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,
+        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 153;
+    int draw_max = 158;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -5055,6 +5058,92 @@ void ac::BlendSwitch(cv::Mat &frame) {
         if(pos > 2) pos = 0;
     }
 }
+
+void ac::AllRed(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = pixel[1] = 0;
+        }
+    }
+}
+
+void ac::AllGreen(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = pixel[2] = 0;
+        }
+    }
+}
+
+void ac::AllBlue(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[2] = pixel[1] = 0;
+        }
+    }
+}
+
+void ac::LineRGB(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    static unsigned int counter = 0;
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            switch(counter) {
+                case 0:
+                    pixel[0] = pixel[1] = 0;
+                    break;
+                case 1:
+                    pixel[0] = pixel[2] = 0;
+                    break;
+                case 2:
+                    pixel[2] = pixel[1] = 0;
+                    break;
+            }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+        }
+        ++counter;
+        if(counter > 2) counter = 0;
+    }
+}
+
+void ac::PixelRGB(cv::Mat &frame) {
+    unsigned int w = frame.cols;// frame width
+    unsigned int h = frame.rows;// frame heigh
+    static unsigned int counter = 0;
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            switch(counter) {
+                case 0:
+                    pixel[0] = pixel[1] = 0;
+                    break;
+                case 1:
+                    pixel[0] = pixel[2] = 0;
+                    break;
+                case 2:
+                    pixel[2] = pixel[1] = 0;
+                    break;
+            }
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+            ++counter;
+            if(counter > 2) counter = 0;
+        }
+    }
+}
+
 
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
