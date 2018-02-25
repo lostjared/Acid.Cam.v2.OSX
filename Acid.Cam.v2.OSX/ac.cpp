@@ -5180,6 +5180,8 @@ void ac::KruegerSweater(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
     static int row_counter = 0;
+    static unsigned int rg = 0;
+    row_counter = rg;
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -5196,9 +5198,12 @@ void ac::KruegerSweater(cv::Mat &frame) {
         }
         if((z%32) == 0) {
             ++row_counter;
-            if(row_counter > 2) row_counter = 0;
+            if(row_counter >= 2) {
+                row_counter = 0;
+            }
         }
     }
+    rg = (rg == 0) ? 1 : 0;
 }
 
 // No Filter
