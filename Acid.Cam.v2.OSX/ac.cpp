@@ -5147,91 +5147,97 @@ void ac::PixelRGB(cv::Mat &frame) {
     }
 }
 
-
+// Boxed RGB
 void ac::BoxedRGB(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
-    static int row_counter = 0;
-    for(unsigned int z = 0; z < h; ++z) {
-        for(unsigned int i = 0; i < w; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            switch(row_counter) {
+    static int row_counter = 0; // row counter
+    
+    for(unsigned int z = 0; z < h; ++z) { // from top to bottom
+        for(unsigned int i = 0; i < w; ++i) { // from left to right
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // pixel
+            switch(row_counter) {// row counter iterate between red,green,and blue
                 case 0:
-                    pixel[0] = pixel[1] = 0;
+                    pixel[0] = pixel[1] = 0; // red
                     break;
                 case 1:
-                    pixel[0] = pixel[2] = 0;
+                    pixel[0] = pixel[2] = 0; // green
                     break;
                 case 2:
-                    pixel[2] = pixel[1] = 0;
+                    pixel[2] = pixel[1] = 0; // blue
                     break;
             }
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
+        // if z is evenly divideable by 32
         if((z%32) == 0) {
-            ++row_counter;
+            ++row_counter;// increment row counter
             if(row_counter > 3) row_counter = 0;
         }
     }
 }
 
+// joke filter
+// color the image with red/green bars switching color each frame
 void ac::KruegerSweater(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
-    static int row_counter = 0;
-    static unsigned int rg = 0;
-    row_counter = rg;
+    static int row_counter = 0;// row counter
+    static unsigned int rg = 0;// row counter start variable
+    row_counter = rg; // set row counter to start
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // set the colors other than red or green to zero based on row counter
             switch(row_counter) {
                 case 0:
-                    pixel[0] = pixel[1] = 0;
+                    pixel[0] = pixel[1] = 0; // red
                     break;
                 case 1:
-                    pixel[0] = pixel[2] = 0;
+                    pixel[0] = pixel[2] = 0; // green
                     break;
             }
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
         if((z%32) == 0) {
-            ++row_counter;
-            if(row_counter >= 2) {
-                row_counter = 0;
+            ++row_counter; // increment row counter
+            if(row_counter >= 2) { // if greater than or equal 2
+                row_counter = 0; // set to row_counter to zero
             }
         }
     }
-    rg = (rg == 0) ? 1 : 0;
+    rg = (rg == 0) ? 1 : 0; // swap back and forth rg between zero and one.
 }
 
 void ac::RGBFlash(cv::Mat &frame) {
     unsigned int w = frame.cols;// frame width
     unsigned int h = frame.rows;// frame heigh
-    static unsigned int counter = 0;
-    static unsigned int start = 0;
-    for(unsigned int z = start; z < h; z += 2) {
+    static unsigned int counter = 0; // counter for setting the pixel
+    static unsigned int start = 0; // start position
+    for(unsigned int z = start; z < h; z += 2) { // top to bottom, skipping 1 each time
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // set pixel a certain color based on the counter
             switch(counter) {
                 case 0:
-                    pixel[2] = 255;
+                    pixel[2] = 255;// set red
                     break;
                 case 1:
-                    pixel[1] = 255;
+                    pixel[1] = 255; // set green
                     break;
                 case 2:
-                    pixel[0] = 255;
+                    pixel[0] = 255;// set blue
                     break;
             }
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
     }
-    ++counter;
-    if(counter > 2) counter = 0;
-    start = (start == 0) ? 1 : 0;
+    ++counter;// increment counter
+    if(counter > 2) counter = 0; // if greater than 2 reset to zero
+    start = (start == 0) ? 1 : 0; // swap start back and forth between 0 and 1
 }
 
 // No Filter
