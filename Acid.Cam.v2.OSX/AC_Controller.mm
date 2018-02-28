@@ -829,7 +829,7 @@ void setEnabledProg() {
 
     
     
-    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed << "/" << ((file_size/1024)/1024) << " MB";
+    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
     
     if(camera_mode == 1) {
         float val = frame_cnt;
