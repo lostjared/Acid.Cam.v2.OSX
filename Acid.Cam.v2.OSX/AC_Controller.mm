@@ -17,7 +17,6 @@
  as you do not charge anything for this program. This program is 100%
  Free.
  
- 
  BSD 2-Clause License
  
  Copyright (c) 2018, Jared Bruni
@@ -168,7 +167,6 @@ void setEnabledProg() {
     programRunning = false;
 }
 
-
 - (IBAction) quitProgram: (id) sender {
     if(programRunning == true) {
         breakProgram = true;
@@ -306,8 +304,7 @@ void setEnabledProg() {
 
     const char *szCustom[] = {"No Filter", "Blend with Source", "Plugin", "Custom",0};
     const char *szCustom_Spec[] = {"No Filter", "Blend with Source", "Plugin",0};
-    
-    
+
     if(cust == NO) {
         [self fillMenuWithString: it_arr[10] stringValues:szOther];
         [self fillMenuWithString: it_arr[11] stringValues:szCustom];
@@ -336,7 +333,6 @@ void setEnabledProg() {
             [item_custom release];
         }
     }
-    
     it_arr[0] = *all;
 }
 
@@ -345,7 +341,6 @@ void setEnabledProg() {
         [menu addItemWithTitle: [NSString stringWithUTF8String:items[q]] action:nil keyEquivalent:@""];
     }
 }
-
 
 - (IBAction) menuSelected: (id) sender {
     NSInteger index = [categories indexOfSelectedItem];
@@ -356,7 +351,6 @@ void setEnabledProg() {
     NSInteger index = [categories_custom indexOfSelectedItem];
     [current_filter_custom setMenu: menu_items_custom[index]];
 }
-
 
 - (IBAction) changeFilter: (id) sender {
     NSInteger current = [current_filter indexOfSelectedItem];
@@ -438,7 +432,6 @@ void setEnabledProg() {
             std::string file = e->d_name;
             if (file.find(".dylib") != -1)
             {
-                
                 NSString *s = [NSString stringWithUTF8String: e->d_name];
                 [plugin_dir addItemWithObjectValue: s];
                 
@@ -809,8 +802,6 @@ void setEnabledProg() {
     
     if([stretch_scr state] == NSOnState) {
     	cv::Mat dst;
-    	//dst.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
-    	//cv::resize(frame, dst, dst.size(), 0, 0, cv::INTER_CUBIC);
         dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
 		cv::imshow("Acid Cam v2", dst);
     } else {
@@ -827,8 +818,6 @@ void setEnabledProg() {
     char cfps_s[1024];
     snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
 
-    
-    
     ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
     
     if(camera_mode == 1) {
@@ -843,11 +832,7 @@ void setEnabledProg() {
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;
-        /*if(file.is_open()) {
-            file.seekg(0, std::ios::end);
-            file_size = file.tellg();
-        }*/
-    }
+  }
     if(ac::snapShot == true) {
         static unsigned int index = 0;
         stream.str("");
@@ -952,14 +937,12 @@ void setEnabledProg() {
 }
 
 - (IBAction) addCustomItem: (id) sender {
-    
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSInteger cate = [categories_custom indexOfSelectedItem];
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
     
     if(index >= 0 && cate >= 0) {
-
         int filter_value = ac::filter_map[[title UTF8String]];
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
         [table_view reloadData];
@@ -1026,7 +1009,6 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Cannot pause in camera mode", @"Cannot pause", @"Ok", nil, nil);
         return;
     }
-
     NSInteger checkedState = [menuPaused state];
     std::ostringstream stream;
     if(checkedState == NSOnState) {
@@ -1054,7 +1036,6 @@ void setEnabledProg() {
         disableFilter = false;
         stream << "Filters enabled.\n";
         flushToLog(stream);
-        
     } else {
         [disable_filters setState: NSOnState];
         // disable
@@ -1079,7 +1060,6 @@ void setEnabledProg() {
     unsigned int min = (unsigned int)minutes;
     unsigned int sec = (min%60);
     if(seconds < 60) sec = seconds;
-    
     NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %d Minutes %d Seconds @ Frame #%d", min, sec, (int)time_val];
     [goto_fr setStringValue: str_val];
 }
@@ -1215,7 +1195,6 @@ void custom_filter(cv::Mat &frame) {
     for(NSInteger i = 0; i < [custom_array count]; ++i) {
         if(i == [custom_array count]-1)
             ac::in_custom = false;
-        
         NSNumber *num;
         @try {
             num = [custom_array objectAtIndex:i];
