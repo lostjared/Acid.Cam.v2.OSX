@@ -47,6 +47,7 @@
 
 //
 #import "AC_Controller.h"
+#include<iomanip>
 #include<string>
 #include<dlfcn.h>
 #include<unistd.h>
@@ -732,8 +733,14 @@ void setEnabledProg() {
         
         double seconds = ((total_frames)/ac::fps);
         double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+        double elapsed = (frame_proc/ac::fps);
         
-        ftext  << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" <<  seconds-cfps  << "/" << ((file_size/1024)/1024) << " MB";
+        char elapsed_s[1024];
+        snprintf(elapsed_s, 1023, "%.2f", elapsed);
+        char cfps_s[1024];
+        snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
+
+        ftext  << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
             struct stat buf;
             stat(ac::fileName.c_str(), &buf);
@@ -813,8 +820,17 @@ void setEnabledProg() {
     
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+    double elapsed = (frame_proc/ac::fps);
     
-    ftext << "(Frames/Total Frames/Seconds/MB): " << frame_cnt << "/" << total_frames << "/" << seconds-cfps << "/" << ((file_size/1024)/1024) << " MB";
+    char elapsed_s[1024];
+    snprintf(elapsed_s, 1023, "%.2f", elapsed);
+    char cfps_s[1024];
+    snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
+
+    
+    
+    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed << "/" << ((file_size/1024)/1024) << " MB";
+    
     if(camera_mode == 1) {
         float val = frame_cnt;
         float size = total_frames;
