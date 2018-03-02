@@ -72,7 +72,7 @@ namespace ac {
         "TrailsFilter",
         "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","InvertedScanlines","Soft_Mirror",
         "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch",
-        "All Red", "All Green", "All Blue", "LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash",
+        "All Red", "All Green", "All Blue", "LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreasingBlendHorizontal",
         "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
@@ -84,11 +84,11 @@ namespace ac {
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
         VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,
         NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,
-        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,
+        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreasingBlendHorizontal,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 161;
+    int draw_max = 162;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -5238,6 +5238,25 @@ void ac::RGBFlash(cv::Mat &frame) {
     ++counter;// increment counter
     if(counter > 2) counter = 0; // if greater than 2 reset to zero
     start = (start == 0) ? 1 : 0; // swap start back and forth between 0 and 1
+}
+
+void ac::IncreasingBlendHorizontal(cv::Mat &frame) {
+    unsigned int w = frame.cols;
+    unsigned int h = frame.rows;
+    for(unsigned int i = 0; i < w; ++i) {
+        cv::Vec3b pix;
+        for(unsigned int z = 0; z < h; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pix[0] += pixel[0]/2;
+            pix[1] += pixel[1]/4;
+            pix[2] += pixel[2]/6;
+            pixel[0] += pixel[0] * (pix[0]/32);
+            pixel[1] += pixel[1] * (pix[1]/32);
+            pixel[2] += pixel[2] * (pix[2]/32);
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
+        }
+    }
 }
 
 // No Filter

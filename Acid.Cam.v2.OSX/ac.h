@@ -279,6 +279,7 @@ namespace ac {
     void BoxedRGB(cv::Mat &frame);
     void KruegerSweater(cv::Mat &frame);
     void RGBFlash(cv::Mat &frame);
+    void IncreasingBlendHorizontal(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
