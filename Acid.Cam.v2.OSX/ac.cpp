@@ -72,7 +72,7 @@ namespace ac {
         "TrailsFilter",
         "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","InvertedScanlines","Soft_Mirror",
         "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch",
-        "All Red", "All Green", "All Blue", "LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreasingBlendHorizontal",
+        "All Red", "All Green", "All Blue", "LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreaseBlendHorizontal",
         "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
@@ -84,7 +84,7 @@ namespace ac {
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
         VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,
         NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,
-        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreasingBlendHorizontal,
+        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreaseBlendHorizontal,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
@@ -5240,7 +5240,8 @@ void ac::RGBFlash(cv::Mat &frame) {
     start = (start == 0) ? 1 : 0; // swap start back and forth between 0 and 1
 }
 
-void ac::IncreasingBlendHorizontal(cv::Mat &frame) {
+void ac::IncreaseBlendHorizontal(cv::Mat &frame) {
+    ac::orig_frame = frame.clone();
     unsigned int w = frame.cols;
     unsigned int h = frame.rows;
     for(unsigned int i = 0; i < w; ++i) {
@@ -5257,6 +5258,8 @@ void ac::IncreasingBlendHorizontal(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i); // if is negative
         }
     }
+    ac::pass2_alpha = 0.75;
+    Pass2Blend(frame);
 }
 
 // No Filter
