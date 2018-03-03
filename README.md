@@ -6,7 +6,12 @@ View this YouTube playlist for videos created with this software
 
 https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
 
-OpenCV3 Version is on the master branch  now, to use the old version switch to oldmacosx branch
+OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  version switch to oldmacosx branch
+or for OpenCV 3 go to OpenCV3.
+
+Newest version of the program now requires macOS High Sierra to run. 
+
+
 To compile first clone then open with Xcode and build.
 
 ![AnimatedImage](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/jaredpeace.gif "screenshot")
