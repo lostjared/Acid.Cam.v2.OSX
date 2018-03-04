@@ -1,18 +1,18 @@
 /*
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,6 +29,7 @@
 
 #include "avutil.h"
 #include "pixdesc.h"
+#include "rational.h"
 
 /**
  * Compute the max pixel step for each plane of an image with a
@@ -98,9 +99,6 @@ int av_image_alloc(uint8_t *pointers[4], int linesizes[4],
  * That is, copy "height" number of lines of "bytewidth" bytes each.
  * The first byte of each successive line is separated by *_linesize
  * bytes.
- *
- * bytewidth must be contained by both absolute values of dst_linesize
- * and src_linesize, otherwise the function behavior is undefined.
  *
  * @param dst_linesize linesize for the image plane in dst
  * @param src_linesize linesize for the image plane in src
@@ -190,7 +188,19 @@ int av_image_copy_to_buffer(uint8_t *dst, int dst_size,
  */
 int av_image_check_size(unsigned int w, unsigned int h, int log_offset, void *log_ctx);
 
-int avpriv_set_systematic_pal2(uint32_t pal[256], enum AVPixelFormat pix_fmt);
+/**
+ * Check if the given sample aspect ratio of an image is valid.
+ *
+ * It is considered invalid if the denominator is 0 or if applying the ratio
+ * to the image size would make the smaller dimension less than 1. If the
+ * sar numerator is 0, it is considered unknown and will return as valid.
+ *
+ * @param w width of the image
+ * @param h height of the image
+ * @param sar sample aspect ratio of the image
+ * @return 0 if valid, a negative AVERROR code otherwise
+ */
+int av_image_check_sar(unsigned int w, unsigned int h, AVRational sar);
 
 /**
  * @}

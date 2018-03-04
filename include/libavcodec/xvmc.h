@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2003 Ivan Kalvachev
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,7 +29,11 @@
 
 #include <X11/extensions/XvMC.h>
 
+#include "libavutil/attributes.h"
+#include "version.h"
 #include "avcodec.h"
+
+#if FF_API_XVMC
 
 /**
  * @defgroup lavc_codec_hwaccel_xvmc XvMC
@@ -41,7 +45,7 @@
 #define AV_XVMC_ID                    0x1DC711C0  /**< special value to ensure that regular pixel routines haven't corrupted the struct
                                                        the number is 1337 speak for the letters IDCT MCo (motion compensation) */
 
-struct xvmc_pix_fmt {
+attribute_deprecated struct xvmc_pix_fmt {
     /** The field contains the special constant value AV_XVMC_ID.
         It is used as a test that the application correctly uses the API,
         and that there is no corruption caused by pixel routines.
@@ -164,5 +168,7 @@ struct xvmc_pix_fmt {
 /**
  * @}
  */
+
+#endif /* FF_API_XVMC */
 
 #endif /* AVCODEC_XVMC_H */

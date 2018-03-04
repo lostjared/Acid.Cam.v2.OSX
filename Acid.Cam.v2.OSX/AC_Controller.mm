@@ -83,6 +83,16 @@ bool resize_frame = false;
 NSRect rc;
 bool resize_value = false;
 
+
+void testFunc(cv::UMat &umat) {
+    for(unsigned int i = 0; i < umat.cols; ++i) {
+        for(unsigned int z = 0; z < umat.rows; ++z) {
+            cv::Vec3b &pixel = umat.getMat(cv::ACCESS_RW).at<cv::Vec3b>(z, i);
+            pixel[0] = pixel[1] = pixel[2] = 0;
+        }
+    }
+}
+
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
