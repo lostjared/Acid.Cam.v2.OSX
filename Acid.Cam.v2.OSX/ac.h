@@ -85,7 +85,7 @@ extern cv::Mat blend_image;
 // acid cam namespace
 namespace ac {
     // version string
-    static const std::string version="2.3.2";
+    extern const std::string version;
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,iRev;
@@ -290,9 +290,7 @@ namespace ac {
     extern bool snapShot;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
-    
-    // classes to be used by the filers
-    
+    // classes to be used by the filters
     // Square class to hold broken up cv::Mat
     class Square {
     public:
@@ -350,11 +348,9 @@ namespace ac {
         void movePixels();
         // reset
         void reset();
-        
     private:
         Particle **part; // array of pointers for Particles
         unsigned int w, h; // frame width/height
-        
     };
 }
 // custom filter function, must be defined in program so it will link
