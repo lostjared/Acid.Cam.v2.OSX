@@ -189,6 +189,8 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             rc.size.width = screen.size.width;
             rc.size.height = screen.size.height;
             resize_value = true;
+            cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+            
         } else {
         	rc.size.width = (double) frameSize.width;
         	rc.size.height = (double) frameSize.height;
