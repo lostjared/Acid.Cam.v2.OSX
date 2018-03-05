@@ -109,6 +109,7 @@ void ac::fill_filter_map() {
     }
 }
 
+// swapColors inline function takes frame and x, y position
 inline void ac::swapColors(cv::Mat &frame, int y, int x) {
     if(in_custom == true) return;
     if(color_order == 0 && swapColor_r == 0 && swapColor_g == 0 && swapColor_b == 0) return; // if no swap needed return
@@ -118,7 +119,6 @@ inline void ac::swapColors(cv::Mat &frame, int y, int x) {
     swapColors_(frame, y, x);
 }
 
-// swapColors inline function takes frame and x, y position
 inline void ac::swapColors_(cv::Mat &frame, int y, int x) {
     cv::Vec3b &cur = frame.at<cv::Vec3b>(y,x);
     cur[0] += swapColor_b;
