@@ -651,7 +651,6 @@ void setEnabledProg() {
                 cv::Mat output_f1 = frame.clone();
                 cv::applyColorMap(output_f1, frame, (int)cmap_index-1);
             }
-            
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
 				dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
