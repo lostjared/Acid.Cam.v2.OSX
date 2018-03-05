@@ -623,10 +623,11 @@ void setEnabledProg() {
                 ac::color_order = (int) [corder indexOfSelectedItem];
             }
         });
+        
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+        ac::ApplyColorMap(frame);
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            NSInteger cmap_index = 0;
             if([corder indexOfSelectedItem] == 5) {
                 cv::Mat change;
                 cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
@@ -645,11 +646,6 @@ void setEnabledProg() {
                     fulls = false;
                     rc = [main_w frame];
                 }
-            }
-            cmap_index = [color_map indexOfSelectedItem];
-            if(cmap_index > 0 && cmap_index < 13) {
-                cv::Mat output_f1 = frame.clone();
-                cv::applyColorMap(output_f1, frame, (int)cmap_index-1);
             }
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
@@ -777,9 +773,8 @@ void setEnabledProg() {
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
+    
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-    
-    
     if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
         ++frame_proc;
@@ -792,15 +787,8 @@ void setEnabledProg() {
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
     
-    NSInteger cmap_index = [color_map indexOfSelectedItem];
-    if(cmap_index > 0 && cmap_index < 13) {
-        cv::Mat output;
-        //cv::applyColorMap(frame, output, cv::COLORMAP_JET);
-        cv::applyColorMap(frame, output, (int)cmap_index-1);
-        frame = output;
-    }
-    
-    
+    ac::ApplyColorMap(frame);
+        
     NSInteger mask = [[NSApp mainWindow] styleMask];
     NSString *main_window = [[NSApp mainWindow] title];
     NSWindow *main_w = [NSApp mainWindow];
@@ -1204,6 +1192,11 @@ void setEnabledProg() {
         [stretch_scr setState: NSOnState];
         cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
+}
+
+- (IBAction) setColorMap: (id) sender {
+    NSInteger index = [color_map indexOfSelectedItem];
+    ac::set_color_map = (int) index;
 }
 
 @end

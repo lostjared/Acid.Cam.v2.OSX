@@ -100,6 +100,7 @@ namespace ac {
     extern int snapshot_Type;
     extern bool in_custom;
     extern unsigned int swapColor_r, swapColor_g, swapColor_b;
+    extern int set_color_map;
     inline int GetFX(cv::Mat &frame, int x, int nw);
     inline int GetFY(cv::Mat &frame, int y, int nh);
     inline void invert(cv::Mat &frame, int x, int y);
@@ -283,6 +284,9 @@ namespace ac {
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
+
+    // color maps
+    void ApplyColorMap(cv::Mat &frame);
     // draw functions / strings
     extern std::string draw_strings[];
     extern DrawFunction draw_func[];

@@ -675,6 +675,9 @@
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <action selector="setColorMap:" target="630" id="kSl-ba-oXY"/>
+                        </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cT-Lh-fql">
                         <rect key="frame" x="481" y="12" width="67" height="17"/>

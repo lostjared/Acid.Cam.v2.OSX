@@ -177,6 +177,7 @@ extern bool resize_value;
 - (IBAction) changeVideoPos: (id) sender;
 - (NSRect) getScreenSize;
 - (IBAction) setStretch: (id) sender;
+- (IBAction) setColorMap: (id) sender;
 @end
 
 // global variables / functions

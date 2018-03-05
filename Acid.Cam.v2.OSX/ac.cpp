@@ -47,6 +47,8 @@
 #include "ac.h"
 #include "fractal.h"
 
+
+
 // Acid Cam namespace
 namespace ac {
     const std::string version="2.3.3";
@@ -55,6 +57,7 @@ namespace ac {
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
     bool images_Enabled = false, fps_force = false,iRev = false;
     bool blur_Second = false;
+    int set_color_map = 0;
     cv::Mat orig_frame;
     cv::Mat blendW_frame;
     cv::Mat image_files[4];
@@ -5263,6 +5266,21 @@ void ac::IncreaseBlendHorizontal(cv::Mat &frame) {
     Pass2Blend(frame);
 }
 
+void ac::ApplyColorMap(cv::Mat &frame) {
+    if(set_color_map > 0 && set_color_map < 13) {
+        cv::Mat output_f1 = frame.clone();
+        cv::applyColorMap(output_f1, frame, (int)set_color_map-1);
+        
+        unsigned int w = frame.cols;
+        unsigned int h = frame.rows;
+        for(unsigned int z = 0; z < h; ++z) {
+            for(unsigned int i = 0; i < w; ++i) {
+                ac::swapColors(frame, z, i);
+                if(isNegative) ac::invert(frame, z, i);
+            }
+        }
+    }
+}
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
@@ -5274,4 +5292,11 @@ void ac::BlendWithSource(cv::Mat &frame) {
 // call custom fitler defined elsewhere
 void ac::custom(cv::Mat &frame) {
     custom_filter(frame);
+    
 }
+
+
+
+
+
+
