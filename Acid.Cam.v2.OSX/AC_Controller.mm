@@ -616,20 +616,19 @@ void setEnabledProg() {
         if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
             ac::orig_frame = frame.clone();
         }
+        __block NSInteger after = 0;
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
                 if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
                 else ac::isNegative = true;
                 ac::color_order = (int) [corder indexOfSelectedItem];
             }
+            after = [apply_after integerValue];
         });
         
-        NSInteger after = [apply_after integerValue];
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
-        
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-        
         if(after == NSOnState)
         	ac::ApplyColorMap(frame);
         

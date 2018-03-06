@@ -605,8 +605,63 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cT-Lh-fql">
+                        <rect key="frame" x="516" y="16" width="67" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color Map" id="kTB-yZ-nle">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eDA-pn-7R7">
+                        <rect key="frame" x="579" y="52" width="72" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Negate" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kR1-ok-puc">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setNegative:" target="630" id="GPh-0W-ARx"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Hm-k5-BOy">
+                        <rect key="frame" x="460" y="16" width="52" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="After" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jnx-em-IGI">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="le2-WX-IhK">
+                        <rect key="frame" x="655" y="47" width="75" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="BGR" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ngL-BN-pdi" id="8mR-8v-MQ4">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="1IH-hx-0yg">
+                                <items>
+                                    <menuItem title="BGR" state="on" id="ngL-BN-pdi"/>
+                                    <menuItem title="RGB" id="4vB-ih-rBk"/>
+                                    <menuItem title="GBR" id="wQC-lA-6O4"/>
+                                    <menuItem title="BRG" id="lBY-S4-M4K">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="GRB" id="tKn-cY-ekb">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Grayscale" id="psZ-n0-aWG">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="changeOrder:" target="630" id="HKf-ci-RNb"/>
+                        </connections>
+                    </popUpButton>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xbk-h6-XyP">
-                        <rect key="frame" x="587" y="15" width="141" height="26"/>
+                        <rect key="frame" x="587" y="11" width="141" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="20T-gA-ZgT" id="oPI-xS-8M5">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -651,61 +706,6 @@
                         </popUpButtonCell>
                         <connections>
                             <action selector="setColorMap:" target="630" id="kSl-ba-oXY"/>
-                        </connections>
-                    </popUpButton>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6cT-Lh-fql">
-                        <rect key="frame" x="460" y="18" width="67" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color Map" id="kTB-yZ-nle">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eDA-pn-7R7">
-                        <rect key="frame" x="579" y="52" width="72" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Negate" bezelStyle="regularSquare" imagePosition="left" inset="2" id="kR1-ok-puc">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="setNegative:" target="630" id="GPh-0W-ARx"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Hm-k5-BOy">
-                        <rect key="frame" x="531" y="18" width="52" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="After" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jnx-em-IGI">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
-                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="le2-WX-IhK">
-                        <rect key="frame" x="655" y="47" width="75" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="BGR" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ngL-BN-pdi" id="8mR-8v-MQ4">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" title="OtherViews" id="1IH-hx-0yg">
-                                <items>
-                                    <menuItem title="BGR" state="on" id="ngL-BN-pdi"/>
-                                    <menuItem title="RGB" id="4vB-ih-rBk"/>
-                                    <menuItem title="GBR" id="wQC-lA-6O4"/>
-                                    <menuItem title="BRG" id="lBY-S4-M4K">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                    </menuItem>
-                                    <menuItem title="GRB" id="tKn-cY-ekb">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                    </menuItem>
-                                    <menuItem title="Grayscale" id="psZ-n0-aWG">
-                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                    </menuItem>
-                                </items>
-                            </menu>
-                        </popUpButtonCell>
-                        <connections>
-                            <action selector="changeOrder:" target="630" id="HKf-ci-RNb"/>
                         </connections>
                     </popUpButton>
                 </subviews>
