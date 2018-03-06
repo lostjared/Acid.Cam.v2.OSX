@@ -624,8 +624,14 @@ void setEnabledProg() {
             }
         });
         
+        NSInteger after = [apply_after integerValue];
+        if(after == NSOffState)
+            ac::ApplyColorMap(frame);
+        
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-        ac::ApplyColorMap(frame);
+        
+        if(after == NSOnState)
+        	ac::ApplyColorMap(frame);
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
@@ -774,7 +780,13 @@ void setEnabledProg() {
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
     
+    NSInteger after = [apply_after integerValue];
+    if(after == NSOffState)
+        ac::ApplyColorMap(frame);
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+    if(after == NSOnState)
+        ac::ApplyColorMap(frame);
+    
     if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
         ++frame_proc;

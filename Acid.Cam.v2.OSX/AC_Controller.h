@@ -107,6 +107,7 @@ extern bool resize_value;
     IBOutlet NSSlider *red_slider, *green_slider, *blue_slider;
     IBOutlet NSMenuItem *stretch_scr;
     IBOutlet NSPopUpButton *color_map;
+    IBOutlet NSButton *apply_after;
     // variables
     bool pauseStepTrue;
     int frames_captured;

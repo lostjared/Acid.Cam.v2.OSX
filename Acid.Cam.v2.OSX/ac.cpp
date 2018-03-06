@@ -5279,7 +5279,6 @@ void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
         cv::Mat output_f1 = frame.clone();
         cv::applyColorMap(output_f1, frame, (int)set_color_map-1);
-        
         unsigned int w = frame.cols;
         unsigned int h = frame.rows;
         color_map_set = true;
