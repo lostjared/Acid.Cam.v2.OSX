@@ -37,12 +37,6 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
- 
- * One quick note, most of the time when writing programs using x,y variables x goes first
- * the OpenCV Mat at function that returns a pixel is reversed.
- * y is first. Example
- * cv::Vec3b &v = frame.at<cv::Vec3b>(y, x);
- *
  */
 #include "ac.h"
 #include "fractal.h"

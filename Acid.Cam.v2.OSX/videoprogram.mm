@@ -167,9 +167,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             ac::orig_frame = frame.clone();
             old_frame = frame.clone();
             blend_image = frame.clone();
-            if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-            writer->write(frame);
-        }
+         }
         // output wehther recording or not
         if(ac::noRecord == false)
             sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";
