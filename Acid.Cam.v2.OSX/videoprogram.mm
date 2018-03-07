@@ -164,8 +164,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             cv::Mat outframe;
             cv::resize(frame, outframe, frameSize);
             frame = outframe;
-            ac::orig_frame = frame.clone();
-            old_frame = frame.clone();
             blend_image = frame.clone();
          }
         // output wehther recording or not
@@ -180,7 +178,6 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         cv::imshow("Acid Cam v2", frame);
         // if video file go back to start
     	if(camera_mode == 0) jumptoFrame(0);
-        
         // grab the screen info
         NSRect screen = [[NSScreen mainScreen] frame];
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
