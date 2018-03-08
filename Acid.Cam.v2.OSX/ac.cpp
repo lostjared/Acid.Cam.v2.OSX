@@ -97,6 +97,10 @@ namespace ac {
     bool color_map_set = false;
 }
 
+// globals
+cv::Mat blend_image;
+bool blend_set = false;
+
 void ac::fill_filter_map() {
     for(int i = 0; i < ac::draw_max; ++i) {
         filter_map[draw_strings[i]] = i;

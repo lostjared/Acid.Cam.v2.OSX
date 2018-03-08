@@ -70,8 +70,7 @@ bool plugin_loaded = false;
 void *library = NULL;
 std::ostringstream ftext;
 std::ostringstream stream;
-cv::Mat blend_image;
-bool blend_set = false;
+//cv::Mat blend_image;
 int camera_mode = 0;
 bool disableFilter;
 cv::VideoCapture *capture;
@@ -778,7 +777,6 @@ void setEnabledProg() {
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
-    
     NSInteger after = [apply_after integerValue];
     if(after == NSOffState)
         ac::ApplyColorMap(frame);
@@ -797,9 +795,7 @@ void setEnabledProg() {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-    
     ac::ApplyColorMap(frame);
-        
     NSInteger mask = [[NSApp mainWindow] styleMask];
     NSString *main_window = [[NSApp mainWindow] title];
     NSWindow *main_w = [NSApp mainWindow];
@@ -939,12 +935,10 @@ void setEnabledProg() {
     if( [str isEqualTo:@"Filter"] ) {
         int value = (int)[number integerValue];
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
-        //        [number release];
         return s;
     }
     else {
         NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
-        //        [number release];
         return s;
     }
 }
@@ -958,7 +952,6 @@ void setEnabledProg() {
     NSInteger cate = [categories_custom indexOfSelectedItem];
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
-    
     if(index >= 0 && cate >= 0) {
         int filter_value = ac::filter_map[[title UTF8String]];
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
