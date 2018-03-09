@@ -81,6 +81,8 @@ unsigned int frame_proc = 0;
 bool resize_frame = false;
 NSRect rc;
 bool resize_value = false;
+void custom_filter(cv::Mat &frame);
+
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -223,6 +225,7 @@ void setEnabledProg() {
     pauseStepTrue = false;
     camera_mode = 0;
     frame_proc = 0;
+    ac::setCustom(custom_filter);
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {

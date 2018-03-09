@@ -118,7 +118,6 @@ namespace ac {
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -284,6 +283,7 @@ namespace ac {
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
+    void setCustom(DrawFunction f);
 
     // color maps
     void ApplyColorMap(cv::Mat &frame);
@@ -359,6 +359,5 @@ namespace ac {
 }
 // custom filter function, must be defined in program so it will link
 extern ac::ParticleEmiter emiter;
-extern void custom_filter(cv::Mat &frame);
 
 #endif

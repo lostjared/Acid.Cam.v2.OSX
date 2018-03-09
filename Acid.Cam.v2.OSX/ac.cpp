@@ -45,7 +45,7 @@
 
 // Acid Cam namespace
 namespace ac {
-    const std::string version="2.3.3";
+    const std::string version="2.3.4";
     // variables
     unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
@@ -95,6 +95,7 @@ namespace ac {
     inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15);
     std::unordered_map<std::string, int> filter_map;
     bool color_map_set = false;
+    DrawFunction custom_callback = 0;
 }
 
 // globals
@@ -5297,9 +5298,15 @@ void ac::BlendWithSource(cv::Mat &frame) {
     ac::pass2_alpha = 0.50; // set to 50%
     Pass2Blend(frame);// call Pass2 function
 }
+
+void ac::setCustom(DrawFunction f) {
+    custom_callback = f;
+}
+
 // call custom fitler defined elsewhere
 void ac::custom(cv::Mat &frame) {
-    custom_filter(frame);
+    if(custom_callback != 0)
+        custom_callback(frame);
     
 }
 
