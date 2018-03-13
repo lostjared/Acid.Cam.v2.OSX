@@ -70,7 +70,8 @@ namespace ac {
         "TrailsFilter",
         "TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim", "Block","BlockXor","BlockScale","BlockStrobe", "PrevFrameBlend","Wave","HighWave", "VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines", "HorizontalLines","InvertedScanlines","Soft_Mirror",
         "KanapaTrip", "ColorMorphing", "ScanSwitch", "ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch",
-        "All Red", "All Green", "All Blue", "LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreaseBlendHorizontal",
+        "All Red", "All Green", "All Blue","LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreaseBlendHorizontal",
+        "BlendIncrease",
         "No Filter",
         "Blend with Source", "Plugin", "Custom","Blend With Image #1",  "TriBlend with Image", "Image Strobe", "Image distraction" };
     
@@ -82,11 +83,11 @@ namespace ac {
         TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,
         VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,
         NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,
-        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreaseBlendHorizontal,
+        AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreaseBlendHorizontal,BlendIncrease,
         NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // number of filters
     
-    int draw_max = 162;
+    int draw_max = 163;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -5272,6 +5273,56 @@ void ac::IncreaseBlendHorizontal(cv::Mat &frame) {
     }
     ac::pass2_alpha = 0.75;
     Pass2Blend(frame);
+}
+
+void ac::BlendIncrease(cv::Mat &frame) {
+    static int blend_r = rand()%255, blend_g = rand()%255, blend_b = rand()%255;
+    static bool cblend_r = true, cblend_g = true, cblend_b = true;
+    static unsigned int increase_value = 2;
+    unsigned int w = frame.cols;
+    unsigned int h = frame.rows;
+    if(blend_r > 255) {
+        blend_r = rand()%255;
+        if(cblend_r == true) {
+            blend_r = -blend_r;
+            cblend_r = false;
+        } else {
+            cblend_r = true;
+        }
+    }
+    if(blend_g > 255) {
+        blend_g = rand()%255;
+        if(cblend_g == true) {
+            blend_g = -blend_g;
+            cblend_g = false;
+        } else {
+            cblend_g = true;
+        }
+    }
+    if(blend_b > 255) {
+        blend_b = rand()%255;
+        if(cblend_b == true) {
+            blend_b = -blend_b;
+            cblend_b = false;
+        } else {
+            cblend_b = true;
+        }
+    }
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[2] += blend_r;
+            pixel[1] += blend_g;
+            pixel[0] += blend_b;
+        }
+    }
+    blend_r += increase_value;
+    blend_g += increase_value;
+    blend_b += increase_value;
+    ++increase_value;
+    if(increase_value > 10) {
+        increase_value = 2;
+    }
 }
 
 void ac::ApplyColorMap(cv::Mat &frame) {

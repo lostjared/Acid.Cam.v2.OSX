@@ -280,6 +280,7 @@ namespace ac {
     void KruegerSweater(cv::Mat &frame);
     void RGBFlash(cv::Mat &frame);
     void IncreaseBlendHorizontal(cv::Mat &frame);
+    void BlendIncrease(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     void BlendWithSource(cv::Mat &frame);
     void plugin(cv::Mat &frame);
