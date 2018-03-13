@@ -5314,6 +5314,8 @@ void ac::BlendIncrease(cv::Mat &frame) {
             pixel[2] += blend_r;
             pixel[1] += blend_g;
             pixel[0] += blend_b;
+            swapColors(frame, z, i);// swap colors for rgb sliders
+            if(isNegative) invert(frame, z, i); // if is negative
         }
     }
     blend_r += increase_value_r;
