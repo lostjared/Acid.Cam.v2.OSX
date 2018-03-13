@@ -5278,7 +5278,7 @@ void ac::IncreaseBlendHorizontal(cv::Mat &frame) {
 void ac::BlendIncrease(cv::Mat &frame) {
     static int blend_r = rand()%255, blend_g = rand()%255, blend_b = rand()%255;
     static bool cblend_r = true, cblend_g = true, cblend_b = true;
-    static unsigned int increase_value = 2;
+    static unsigned int increase_value_r = 2, increase_value_g = 2, increase_value_b = 2;
     unsigned int w = frame.cols;
     unsigned int h = frame.rows;
     if(blend_r > 255) {
@@ -5316,12 +5316,20 @@ void ac::BlendIncrease(cv::Mat &frame) {
             pixel[0] += blend_b;
         }
     }
-    blend_r += increase_value;
-    blend_g += increase_value;
-    blend_b += increase_value;
-    ++increase_value;
-    if(increase_value > 10) {
-        increase_value = 2;
+    blend_r += increase_value_r;
+    blend_g += increase_value_g;
+    blend_b += increase_value_b;
+    increase_value_r += rand()%5;
+    increase_value_g += rand()%5;
+    increase_value_b += rand()%5;
+    if(increase_value_r > 20) {
+        increase_value_r = 2;
+    }
+    if(increase_value_g  > 20) {
+        increase_value_g = 2;
+    }
+    if(increase_value_b > 20) {
+        increase_value_b = 2;
     }
 }
 
