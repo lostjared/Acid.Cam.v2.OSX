@@ -619,6 +619,9 @@ void setEnabledProg() {
             ac::orig_frame = frame.clone();
         }
         __block NSInteger after = 0;
+        __block NSInteger slide_value1 = 0;
+        __block NSInteger slide_value2 = 0;
+
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
                 if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
@@ -626,6 +629,8 @@ void setEnabledProg() {
                 ac::color_order = (int) [corder indexOfSelectedItem];
             }
             after = [apply_after integerValue];
+            slide_value1 = [brightness integerValue];
+            slide_value2 = [gamma integerValue];
         });
         
         if(after == NSOffState)
@@ -633,6 +638,14 @@ void setEnabledProg() {
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         if(after == NSOnState)
         	ac::ApplyColorMap(frame);
+        
+        if(slide_value1 > 0)
+            ac::setBrightness(frame, 1.0, (int)slide_value1);
+        
+        if(slide_value2 > 0) {
+            cv::Mat img = frame.clone();
+            ac::setGamma(img,frame,(int)slide_value2);
+        }
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
