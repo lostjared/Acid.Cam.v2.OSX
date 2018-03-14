@@ -1039,7 +1039,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) pauseProgram: (id) sender {
-    if(camera_mode == 0) {
+    if(programRunning == true && camera_mode == 0) {
         [menuPaused setState:NSOffState];
         [pause_step setEnabled:NO];
         isPaused = false;
