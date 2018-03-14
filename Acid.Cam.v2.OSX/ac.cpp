@@ -5360,6 +5360,27 @@ void ac::BlendWithSource(cv::Mat &frame) {
     Pass2Blend(frame);// call Pass2 function
 }
 
+void ac::setBrightness(cv::Mat &frame, double alpha, int beta) {
+    for(unsigned int z = 0; z < frame.rows; ++z) {
+        for(unsigned int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(unsigned int j = 0; j < 3; ++j)
+                pixel[j] = cv::saturate_cast<uchar>((alpha *(pixel[j])+beta));
+            
+        }
+    }
+}
+
+void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
+    cv::Mat lookUpTable(1, 256, CV_8U);
+    uchar* p = lookUpTable.ptr();
+    for(int i = 0; i < 256; ++i) {
+        p[i] = cv::saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+    }
+    cv::Mat res = frame.clone();
+    LUT(frame, lookUpTable, outframe);
+}
+
 void ac::setCustom(DrawFunction f) {
     custom_callback = f;
 }

@@ -288,6 +288,8 @@ namespace ac {
 
     // color maps
     void ApplyColorMap(cv::Mat &frame);
+    void setBrightness(cv::Mat &frame, double alpha, int beta);
+    void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     // draw functions / strings
     extern std::string draw_strings[];
     extern DrawFunction draw_func[];

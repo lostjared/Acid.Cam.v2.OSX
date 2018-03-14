@@ -783,9 +783,20 @@ void setEnabledProg() {
     NSInteger after = [apply_after integerValue];
     if(after == NSOffState)
         ac::ApplyColorMap(frame);
+    //
     if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
     if(after == NSOnState)
         ac::ApplyColorMap(frame);
+    
+    NSInteger slide_value = [brightness integerValue];
+    if(slide_value > 0)
+    	ac::setBrightness(frame, 1.0, (int)slide_value);
+    
+    slide_value = [gamma integerValue];
+    if(slide_value > 0) {
+        cv::Mat img = frame.clone();
+        ac::setGamma(img,frame,(int)slide_value);
+    }
     
     if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
