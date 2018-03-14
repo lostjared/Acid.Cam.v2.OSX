@@ -5361,14 +5361,8 @@ void ac::BlendWithSource(cv::Mat &frame) {
 }
 
 void ac::setBrightness(cv::Mat &frame, double alpha, int beta) {
-    for(unsigned int z = 0; z < frame.rows; ++z) {
-        for(unsigned int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < 3; ++j)
-                pixel[j] = cv::saturate_cast<uchar>((alpha *(pixel[j])+beta));
-            
-        }
-    }
+    cv::Mat c = frame.clone();
+    c.convertTo(frame, -1, alpha, beta);
 }
 
 void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
@@ -5379,6 +5373,18 @@ void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
     }
     cv::Mat res = frame.clone();
     LUT(frame, lookUpTable, outframe);
+}
+
+void ac::setSaturation(cv::Mat &frame, int saturation) {
+    cv::Mat image;
+    cv::cvtColor(frame, image, CV_BGR2HSV);
+    for(unsigned int z = 0; z < image.rows; ++z) {
+        for(unsigned int i = 0; i < image.cols; ++i) {
+            cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
+            pixel[1] = saturation;
+        }
+    }
+    cv::cvtColor(image, frame, CV_HSV2BGR);
 }
 
 void ac::setCustom(DrawFunction f) {

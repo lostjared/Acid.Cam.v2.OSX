@@ -621,6 +621,7 @@ void setEnabledProg() {
         __block NSInteger after = 0;
         __block NSInteger slide_value1 = 0;
         __block NSInteger slide_value2 = 0;
+        __block NSInteger slide_value3 = 0;
 
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
@@ -631,14 +632,13 @@ void setEnabledProg() {
             after = [apply_after integerValue];
             slide_value1 = [brightness integerValue];
             slide_value2 = [gamma integerValue];
+            slide_value3 = [saturation integerValue];
         });
-        
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         if(after == NSOnState)
         	ac::ApplyColorMap(frame);
-        
         if(slide_value1 > 0)
             ac::setBrightness(frame, 1.0, (int)slide_value1);
         
@@ -646,7 +646,9 @@ void setEnabledProg() {
             cv::Mat img = frame.clone();
             ac::setGamma(img,frame,(int)slide_value2);
         }
-        
+        if(slide_value3 > 0) {
+            ac::setSaturation(frame, (int)slide_value3);
+        }
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
                 cv::Mat change;
@@ -809,6 +811,11 @@ void setEnabledProg() {
     if(slide_value > 0) {
         cv::Mat img = frame.clone();
         ac::setGamma(img,frame,(int)slide_value);
+    }
+    
+    slide_value = [saturation integerValue];
+    if(slide_value > 0) {
+        ac::setSaturation(frame, (int)slide_value);
     }
     
     if([menu_freeze state] == NSOffState) {
