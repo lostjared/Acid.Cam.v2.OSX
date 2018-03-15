@@ -281,16 +281,21 @@ namespace ac {
     void RGBFlash(cv::Mat &frame);
     void IncreaseBlendHorizontal(cv::Mat &frame);
     void BlendIncrease(cv::Mat &frame);
+    // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
+    // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
+    // plugin
     void plugin(cv::Mat &frame);
+    // set Custom Filter callback function
     void setCustom(DrawFunction f);
-
     // color maps
     void ApplyColorMap(cv::Mat &frame);
+    // color correction
     void setBrightness(cv::Mat &frame, double alpha, int beta);
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
+    // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     // draw functions / strings
     extern std::string draw_strings[];

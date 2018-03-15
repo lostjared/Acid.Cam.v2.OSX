@@ -832,7 +832,6 @@ void setEnabledProg() {
         }
     }
     
-    
     if(after == NSOnState)
         ac::ApplyColorMap(frame);
     

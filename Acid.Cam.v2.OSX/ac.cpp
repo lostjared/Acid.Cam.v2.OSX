@@ -5274,7 +5274,7 @@ void ac::IncreaseBlendHorizontal(cv::Mat &frame) {
     ac::pass2_alpha = 0.75;
     Pass2Blend(frame);
 }
-
+// blend increase
 void ac::BlendIncrease(cv::Mat &frame) {
     static int blend_r = rand()%255, blend_g = rand()%255, blend_b = rand()%255;
     static bool cblend_r = true, cblend_g = true, cblend_b = true;
@@ -5334,7 +5334,7 @@ void ac::BlendIncrease(cv::Mat &frame) {
         increase_value_b = 2;
     }
 }
-
+// Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
         cv::Mat output_f1 = frame.clone();
@@ -5360,11 +5360,13 @@ void ac::BlendWithSource(cv::Mat &frame) {
     Pass2Blend(frame);// call Pass2 function
 }
 
+// set cv::Mat brightness
 void ac::setBrightness(cv::Mat &frame, double alpha, int beta) {
     cv::Mat c = frame.clone();
     c.convertTo(frame, -1, alpha, beta);
 }
 
+// set cv::Mat gamma
 void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
     cv::Mat lookUpTable(1, 256, CV_8U);
     uchar* p = lookUpTable.ptr();
@@ -5375,6 +5377,7 @@ void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
     LUT(frame, lookUpTable, outframe);
 }
 
+// set cv::Mat saturation
 void ac::setSaturation(cv::Mat &frame, int saturation) {
     cv::Mat image;
     cv::cvtColor(frame, image, CV_BGR2HSV);
@@ -5387,24 +5390,29 @@ void ac::setSaturation(cv::Mat &frame, int saturation) {
     cv::cvtColor(image, frame, CV_HSV2BGR);
 }
 
+// Make two copies of the current frame, apply filter1 to one, filter2 to the other
+// then Alpha Blend them together
 void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
-    unsigned int h = frame.rows;
-    unsigned int w = frame.cols;
+    unsigned int h = frame.rows; // frame height
+    unsigned int w = frame.cols;// framew idth
+    // make copies of original frame
     cv::Mat frame1 = frame.clone(), frame2 = frame.clone();
+    // apply filters on two copies of original frame
     ac::draw_func[filter1](frame1);
     ac::draw_func[filter2](frame2);
+    // loop through image setting each pixel with alphablended pixel
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b frame1_pix = frame1.at<cv::Vec3b>(z, i);
-            cv::Vec3b frame2_pix = frame2.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // target pixel
+            cv::Vec3b frame1_pix = frame1.at<cv::Vec3b>(z, i); // frame1 pixel
+            cv::Vec3b frame2_pix = frame2.at<cv::Vec3b>(z, i); // frame2 pixel
+            // loop through pixel components and set target pixel to alpha blended pixel of two frames
             for(unsigned int q = 0; q < 3; ++q)
                 pixel[q] = frame2_pix[q]+(frame1_pix[q]*alpha);
         }
     }
 }
-
-
+// set custom callback
 void ac::setCustom(DrawFunction f) {
     custom_callback = f;
 }
@@ -5415,9 +5423,3 @@ void ac::custom(cv::Mat &frame) {
         custom_callback(frame);
     
 }
-
-
-
-
-
-
