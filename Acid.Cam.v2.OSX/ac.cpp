@@ -5399,7 +5399,7 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
             cv::Vec3b frame1_pix = frame1.at<cv::Vec3b>(z, i);
             cv::Vec3b frame2_pix = frame2.at<cv::Vec3b>(z, i);
             for(unsigned int q = 0; q < 3; ++q)
-                pixel[q] += (frame2_pix[q]*alpha)+(frame1_pix[q]*alpha);
+                pixel[q] = frame2_pix[q]+(frame1_pix[q]*alpha);
         }
     }
 }

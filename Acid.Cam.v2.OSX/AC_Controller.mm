@@ -647,20 +647,17 @@ void setEnabledProg() {
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
-        
-        
         if(fade_state == NSOffState) {
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         } else {
             
             if(current_fade_alpha >= 0) {
                 ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
-                current_fade_alpha -= 0.05;
+                current_fade_alpha -= 0.08;
             } else {
                 if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
             }
         }
-        
         if(after == NSOnState)
         	ac::ApplyColorMap(frame);
         if(slide_value1 > 0)
@@ -829,7 +826,7 @@ void setEnabledProg() {
         
         if(current_fade_alpha >= 0) {
         	ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
-        	current_fade_alpha -= 0.05;
+        	current_fade_alpha -= 0.08;
         } else {
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         }
