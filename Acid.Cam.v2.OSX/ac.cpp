@@ -5387,6 +5387,24 @@ void ac::setSaturation(cv::Mat &frame, int saturation) {
     cv::cvtColor(image, frame, CV_HSV2BGR);
 }
 
+void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
+    unsigned int h = frame.rows;
+    unsigned int w = frame.cols;
+    cv::Mat frame1 = frame.clone(), frame2 = frame.clone();
+    ac::draw_func[filter1](frame1);
+    ac::draw_func[filter2](frame2);
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b frame1_pix = frame1.at<cv::Vec3b>(z, i);
+            cv::Vec3b frame2_pix = frame2.at<cv::Vec3b>(z, i);
+            for(unsigned int q = 0; q < 3; ++q)
+                pixel[q] += (frame2_pix[q]*alpha)+(frame1_pix[q]*alpha);
+        }
+    }
+}
+
+
 void ac::setCustom(DrawFunction f) {
     custom_callback = f;
 }

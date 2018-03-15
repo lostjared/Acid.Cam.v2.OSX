@@ -291,6 +291,7 @@ namespace ac {
     void setBrightness(cv::Mat &frame, double alpha, int beta);
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
+    void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     // draw functions / strings
     extern std::string draw_strings[];
     extern DrawFunction draw_func[];

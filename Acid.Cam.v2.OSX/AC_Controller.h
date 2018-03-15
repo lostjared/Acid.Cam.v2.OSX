@@ -109,6 +109,7 @@ extern bool resize_value;
     IBOutlet NSPopUpButton *color_map;
     IBOutlet NSButton *apply_after;
     IBOutlet NSSlider *brightness, *gamma, *saturation;
+    IBOutlet NSButton *fade_filter;
     // variables
     bool pauseStepTrue;
     int frames_captured;
@@ -120,6 +121,8 @@ extern bool resize_value;
     NSMenu *menu_cat_custom;
     NSImage *current_image;
     unsigned int freeze_count;
+    NSInteger current_fade;
+    double current_fade_alpha;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;

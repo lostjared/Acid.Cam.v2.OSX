@@ -29,6 +29,7 @@
                 <outlet property="custom_window" destination="92I-tF-b7z" id="aeZ-BW-0IX"/>
                 <outlet property="device_index" destination="586" id="633"/>
                 <outlet property="disable_filters" destination="OsF-br-7Fg" id="RJ3-2o-sr4"/>
+                <outlet property="fade_filter" destination="ybb-Ri-H7o" id="1sa-EL-6Va"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
                 <outlet property="finish_queue" destination="8dK-49-42N" id="k24-yP-vFE"/>
                 <outlet property="finish_queue_progress" destination="scO-9p-ahu" id="sOa-26-Amu"/>
@@ -489,7 +490,7 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPc-yC-WAQ">
-                        <rect key="frame" x="322" y="85" width="254" height="26"/>
+                        <rect key="frame" x="322" y="85" width="193" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="vLS-Ta-axi">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -753,6 +754,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="255" tickMarkPosition="above" sliderType="linear" id="erQ-M2-Z8J"/>
                     </slider>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ybb-Ri-H7o">
+                        <rect key="frame" x="520" y="91" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Fade" bezelStyle="regularSquare" imagePosition="left" inset="2" id="D9c-Vf-VVT">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="165.5" y="-334.5"/>

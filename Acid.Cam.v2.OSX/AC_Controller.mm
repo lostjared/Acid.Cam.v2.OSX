@@ -193,6 +193,8 @@ void setEnabledProg() {
 }
 
 - (void) awakeFromNib {
+    current_fade = 0;
+    current_fade_alpha = 1.0;
     controller = self;
     [video_file setEnabled: NO];
     [resolution setEnabled: NO];
@@ -360,7 +362,14 @@ void setEnabledProg() {
     
     NSMenuItem *item = [menu_items[index] itemAtIndex:current];
     NSString *title = [item title];
-    ac::draw_offset = ac::filter_map[[title UTF8String]];
+    
+    if([fade_filter state] == NSOffState) {
+        ac::draw_offset = ac::filter_map[[title UTF8String]];
+    } else {
+        current_fade = ac::draw_offset;
+        current_fade_alpha = 1.0;
+        ac::draw_offset = ac::filter_map[[title UTF8String]];
+    }
     std::ostringstream strout;
     strout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
     flushToLog(strout);
@@ -798,8 +807,20 @@ void setEnabledProg() {
     NSInteger after = [apply_after integerValue];
     if(after == NSOffState)
         ac::ApplyColorMap(frame);
-    //
-    if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+    
+    if([fade_filter state] == NSOffState) {
+        if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+    } else {
+        
+        if(current_fade_alpha >= 0) {
+        	ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
+        	current_fade_alpha -= 0.05;
+        } else {
+            if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+        }
+    }
+    
+    
     if(after == NSOnState)
         ac::ApplyColorMap(frame);
     
