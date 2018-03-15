@@ -631,7 +631,7 @@ void setEnabledProg() {
         __block NSInteger slide_value1 = 0;
         __block NSInteger slide_value2 = 0;
         __block NSInteger slide_value3 = 0;
-
+        __block NSInteger fade_state = 0;
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
                 if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
@@ -642,10 +642,25 @@ void setEnabledProg() {
             slide_value1 = [brightness integerValue];
             slide_value2 = [gamma integerValue];
             slide_value3 = [saturation integerValue];
+            fade_state = [fade_filter state];
         });
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+        
+        
+        if(fade_state == NSOffState) {
+            if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+        } else {
+            
+            if(current_fade_alpha >= 0) {
+                ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
+                current_fade_alpha -= 0.05;
+            } else {
+                if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+            }
+        }
+        
         if(after == NSOnState)
         	ac::ApplyColorMap(frame);
         if(slide_value1 > 0)
