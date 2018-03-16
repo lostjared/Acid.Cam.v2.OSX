@@ -3679,7 +3679,7 @@ void ac::SquareSwap16x8(cv::Mat &frame) {
     Square_Swap(squares, num_w, num_h, frame);
 }
 
-void ac::SquareSwap64x32(cv::Mat &frame) {
+void ac::SquareSwap64x32(cv::Mat &) {
     //const unsigned int num_w = 64, num_h = 32;
     //static Square squares[num_w*num_h];
     //Square_Swap(squares, num_w, num_h, frame);
@@ -5381,8 +5381,10 @@ void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
 void ac::setSaturation(cv::Mat &frame, int saturation) {
     cv::Mat image;
     cv::cvtColor(frame, image, CV_BGR2HSV);
-    for(unsigned int z = 0; z < image.rows; ++z) {
-        for(unsigned int i = 0; i < image.cols; ++i) {
+    unsigned int w = frame.cols;
+    unsigned int h = frame.rows;
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
             pixel[1] = saturation;
         }
