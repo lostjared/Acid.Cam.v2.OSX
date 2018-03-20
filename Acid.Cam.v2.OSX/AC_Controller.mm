@@ -77,7 +77,7 @@ cv::VideoCapture *capture;
 NSThread *background;
 bool camera_active = false;
 cv::Mat old_frame;
-unsigned int frame_proc = 0;
+unsigned long frame_proc = 0;
 bool resize_frame = false;
 NSRect rc;
 bool resize_value = false;
@@ -1288,7 +1288,7 @@ void custom_filter(cv::Mat &frame) {
     ac::in_custom = false;
 }
 
-void setSliders(int frame_count) {
+void setSliders(long frame_count) {
     [frame_slider setMinValue: 0];
     [frame_slider setMaxValue: frame_count];
 }

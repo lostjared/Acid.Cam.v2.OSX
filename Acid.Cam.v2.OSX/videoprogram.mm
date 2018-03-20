@@ -53,12 +53,12 @@
 // Variable definiton
 unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
-unsigned int total_frames = 0;
+unsigned long total_frames = 0;
 void ProcFrame(cv::Mat &frame);
 std::unique_ptr<cv::VideoCapture> capture_camera(new cv::VideoCapture());
 std::unique_ptr<cv::VideoCapture> capture_video(new cv::VideoCapture());
-int frame_cnt, key;
-int video_total_frames = 0;
+long frame_cnt, key;
+long video_total_frames = 0;
 NSTimer *renderTimer;
 std::ostringstream sout;
 std::unique_ptr<cv::VideoWriter> writer;
@@ -214,7 +214,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
 // string stream for output
 std::ostringstream strout;
 // jump to frame in video
-void jumptoFrame(int frame) {
+void jumptoFrame(long frame) {
     capture->set(CV_CAP_PROP_POS_FRAMES,frame);
     cv::Mat pos;
     capture->read(pos);

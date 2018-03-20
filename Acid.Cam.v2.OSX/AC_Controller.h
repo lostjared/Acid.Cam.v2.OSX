@@ -64,7 +64,7 @@ extern int camera_mode;
 extern bool disableFilter;
 extern NSThread *background;
 extern  bool camera_active;
-extern unsigned int frame_proc;
+extern unsigned long frame_proc;
 extern bool resize_value;
 
 // Main controller class for the program
@@ -112,7 +112,7 @@ extern bool resize_value;
     IBOutlet NSButton *fade_filter;
     // variables
     bool pauseStepTrue;
-    int frames_captured;
+    long frames_captured;
     NSMenu *menu_cat;
     NSMenu *menu_all;
     NSMenu *menu_items[12];
@@ -120,7 +120,7 @@ extern bool resize_value;
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
     NSImage *current_image;
-    unsigned int freeze_count;
+    unsigned long freeze_count;
     NSInteger current_fade;
     double current_fade_alpha;
 }
@@ -189,8 +189,8 @@ extern bool resize_value;
 extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);
 extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
-extern void setSliders(int frame_count);
-extern void jumptoFrame(int frame);
+extern void setSliders(long frame_count);
+extern void jumptoFrame(long frame);
 extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
 extern cv::Mat old_frame;
