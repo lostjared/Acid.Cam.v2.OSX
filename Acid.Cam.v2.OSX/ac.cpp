@@ -4831,7 +4831,6 @@ void ac::ScanSwitch(cv::Mat &frame) {
     unsigned int h = frame.rows;// frame height
     static unsigned int start_index = 0;
     unsigned int index = start_index;
-    cv::Mat temp = frame.clone();
     for(unsigned int z = 3; z < h-3; ++z) {
         for(unsigned int i = 3; i < w-3; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -4864,9 +4863,8 @@ void ac::ScanAlphaSwitch(cv::Mat &frame) {
     static unsigned int start_index = 0;
     static double alpha = 1.0, alpha_max = 10.0;
     unsigned int index = start_index;
-    cv::Mat temp = frame.clone();
-    for(unsigned int z = 1; z < h-1; ++z) {
-        for(unsigned int i = 1; i < w-1; ++i) {
+    for(unsigned int z = 3; z < h-3; ++z) {
+        for(unsigned int i = 3; i < w-3; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             switch(index) {
                 case 0:
