@@ -99,7 +99,7 @@ void stopCV() {
 
 
 // program function to start process
-int program_main(int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
     sout << "Acid Cam v" << ac::version << " Initialized ..\n";
     add_path="default";

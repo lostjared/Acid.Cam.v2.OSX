@@ -45,7 +45,7 @@
 
 // Acid Cam namespace
 namespace ac {
-    const std::string version="2.3.4";
+    const std::string version="2.3.5";
     // variables
     unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
