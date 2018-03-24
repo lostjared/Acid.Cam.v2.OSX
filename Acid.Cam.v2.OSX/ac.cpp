@@ -97,6 +97,7 @@ namespace ac {
     std::unordered_map<std::string, int> filter_map;
     bool color_map_set = false;
     DrawFunction custom_callback = 0;
+    DrawFunction plugin_func = 0;
 }
 
 // globals
@@ -5421,5 +5422,14 @@ void ac::setCustom(DrawFunction f) {
 void ac::custom(cv::Mat &frame) {
     if(custom_callback != 0)
         custom_callback(frame);
-    
+}
+
+void ac::setPlugin(DrawFunction f) {
+    plugin_func = f;
+}
+
+void ac::plugin(cv::Mat &frame) {
+    if(plugin_func != 0) {
+        plugin_func(frame);
+    }
 }

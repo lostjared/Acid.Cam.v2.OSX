@@ -289,6 +289,7 @@ namespace ac {
 	void plugin(cv::Mat &frame);
     // set Custom Filter callback function
     void setCustom(DrawFunction f);
+    void setPlugin(DrawFunction f);
     // color maps
     void ApplyColorMap(cv::Mat &frame);
     // color correction
@@ -299,6 +300,7 @@ namespace ac {
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     // draw functions / strings
     extern std::string draw_strings[];
+    extern DrawFunction plugin_func;
     extern DrawFunction draw_func[];
     extern int draw_max;
     extern bool snapShot;
