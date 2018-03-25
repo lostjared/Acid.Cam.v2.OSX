@@ -2727,8 +2727,8 @@ void ac::SlideRGB(cv::Mat &frame) {
     unsigned int h = frame.rows;// frame height
     static int offset_x = 0;
     int color[2] = { rand()%3, rand()%3 };
-    for(unsigned int z = 0; z < h; ++z) {
-        for(unsigned int i = 0; i < w; ++i) {
+    for(unsigned int z = 3; z < h-3; ++z) {
+        for(unsigned int i = 3; i < w-3; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(offset_x+i < (w-1)) {
                 cv::Vec3b off_pix = frame.at<cv::Vec3b>(z, offset_x+i);
