@@ -284,7 +284,7 @@ void setEnabledProg() {
     const char **szPattern = convertToStringArray(svPattern);
     [self fillMenuWithString: it_arr[3] stringValues:szPattern];
     eraseArray(szPattern, svPattern.size());
-    std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse" };
+    std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical"};
     std::sort(svGradient.begin(), svGradient.end());
     const char **szGradient = convertToStringArray(svGradient);
     [self fillMenuWithString: it_arr[4] stringValues:szGradient];
