@@ -55,6 +55,7 @@
 #include<vector>
 #include<algorithm>
 #include<sys/stat.h>
+#include<AVKit/AVKit.h>
 
 // Global varaibles
 NSTextView *logView;
@@ -229,6 +230,22 @@ void setEnabledProg() {
     frame_proc = 0;
     ac::setCustom(custom_filter);
     ac::setPlugin(plugin_callback);
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    if([devices count] > 0) {
+	    for (AVCaptureDevice *device in devices) {
+	        NSLog(@"Value: %@", [device localizedName]);
+	        [device_index addItemWithTitle: [device localizedName]];
+    	}
+    } else {
+        [device_index addItemWithTitle: @"0"];
+        [device_index addItemWithTitle: @"1"];
+        [device_index addItemWithTitle: @"2"];
+        [device_index addItemWithTitle: @"3"];
+        [device_index addItemWithTitle: @"4"];
+        [device_index addItemWithTitle: @"5"];
+        [device_index addItemWithTitle: @"6"];
+        [device_index addItemWithTitle: @"7"];
+    }
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
