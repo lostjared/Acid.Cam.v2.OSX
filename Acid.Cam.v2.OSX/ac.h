@@ -285,6 +285,7 @@ namespace ac {
     void GradientReverse(cv::Mat &frame);
     void GradientReverseVertical(cv::Mat &frame);
     void GradientReverseBox(cv::Mat &frame);
+    void GradientNewFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
