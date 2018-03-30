@@ -5402,18 +5402,17 @@ void ac::GradientNewFilter(cv::Mat &frame) {
                         pixel[j] = (pixel[j] ^ (unsigned int)(alpha*z));
                     	break;
                 	case 1:
-                        pixel[j] = (pixel[j] ^ (unsigned int)(alpha*i));
+                        pixel[j] = (pixel[j] & (unsigned int)(alpha*i));
                     	break;
-                    case 2: {
+                    case 2:
                         pixel[j] = (pixel[j] ^ (unsigned int)alpha);
-                    }
                 	    break;
             	}
-                ++index;
-                if(index > 2) index = 0;
             }
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
+            ++index;
+            if(index > 2) index = 0;
         }
     }
     static int direction_ = 1;
