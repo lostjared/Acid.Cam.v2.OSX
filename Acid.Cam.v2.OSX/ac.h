@@ -108,13 +108,11 @@ namespace ac {
     
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
-    
+    // ror/rol tempaltes
     template<typename T>
-    inline T ror(T x, unsigned int m)
-    {
+    inline T ror(T x, unsigned int m){
         return (x >> m) | (x << (sizeof(T)*8 - m));
     }
-    
     template<typename T>
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
@@ -305,9 +303,9 @@ namespace ac {
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     // draw functions / strings
-    extern std::string draw_strings[];
+    extern std::string *draw_strings;
     extern DrawFunction plugin_func;
-    extern DrawFunction draw_func[];
+    extern DrawFunction *draw_func;
     extern int draw_max;
     extern bool snapShot;
     extern std::unordered_map<std::string, int> filter_map;
