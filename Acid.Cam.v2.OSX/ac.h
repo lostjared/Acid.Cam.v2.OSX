@@ -286,6 +286,7 @@ namespace ac {
     void GradientNewFilter(cv::Mat &frame);
     void ReinterpretDouble(cv::Mat &frame);
     void ReinterpSelfScale(cv::Mat &frame);
+    void AverageLines(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
