@@ -304,7 +304,7 @@ void setEnabledProg() {
     const char **szBlur = convertToStringArray(svBlur);
     [self fillMenuWithString: it_arr[7] stringValues:szBlur];
     eraseArray(szBlur, svBlur.size());
-    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4"};
+    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor"};
     std::sort(svImage.begin(), svImage.end());
     const char **szImage = convertToStringArray(svImage);
     [self fillMenuWithString: it_arr[8] stringValues:szImage];

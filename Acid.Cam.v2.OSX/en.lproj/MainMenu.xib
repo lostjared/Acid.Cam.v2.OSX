@@ -1278,8 +1278,8 @@ Gw
         </window>
         <window title="Image Blend" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="E8K-bK-ljP" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="56" y="160" width="494" height="70"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
+            <rect key="contentRect" x="1670" y="1020" width="494" height="70"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ixy-TP-xGm">
                 <rect key="frame" x="0.0" y="0.0" width="494" height="70"/>
@@ -1318,7 +1318,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="572" y="294"/>
+            <point key="canvasLocation" x="556" y="132"/>
         </window>
         <window title="Wait for Queue to Finish" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="8dK-49-42N">
             <windowStyleMask key="styleMask" titled="YES"/>
