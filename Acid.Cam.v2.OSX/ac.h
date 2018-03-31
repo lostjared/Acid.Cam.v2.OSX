@@ -289,6 +289,7 @@ namespace ac {
     void AverageLines(cv::Mat &frame);
     void ImageFile(cv::Mat &frame);
     void ImageXor(cv::Mat &frame);
+    void ImageAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
