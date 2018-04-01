@@ -183,6 +183,7 @@ extern bool resize_value;
 - (NSRect) getScreenSize;
 - (IBAction) setStretch: (id) sender;
 - (IBAction) setColorMap: (id) sender;
+- (IBAction) selectedCustomFilter: (id) sender;
 @end
 
 // global variables / functions

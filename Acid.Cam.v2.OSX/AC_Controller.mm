@@ -404,7 +404,9 @@ void setEnabledProg() {
     if(ac::draw_strings[ac::draw_offset] == "Plugin") {
         [plugin_window orderFront:self];
     }
-    if((ac::draw_strings[ac::draw_offset] == "Blend with Image") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #2") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #3") || (ac::draw_strings[ac::draw_offset] == "Blend with Image #4")) {
+    
+    std::string filter_value = ac::draw_strings[ac::draw_offset];
+    if(filter_value.find("Image") != std::string::npos) {
         [image_select orderFront: self];
     }
 }
@@ -1285,6 +1287,27 @@ void setEnabledProg() {
 - (IBAction) setColorMap: (id) sender {
     NSInteger index = [color_map indexOfSelectedItem];
     ac::set_color_map = (int) index;
+}
+
+- (IBAction) selectedCustomFilter: (id) sender {
+    NSInteger index = [current_filter_custom indexOfSelectedItem];
+    NSInteger cate = [categories_custom indexOfSelectedItem];
+    NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
+    NSString *title = [item title];
+    std::string file_str = [title UTF8String];
+    if(file_str == "ParticleRelease") {
+        emiter.reset();
+    }
+    if(file_str == "Alpha Flame Filters") {
+        [alpha_window orderFront:self];
+    }
+    if(file_str == "Plugin") {
+        [plugin_window orderFront:self];
+    }
+    std::string filter_value = file_str;
+    if(filter_value.find("Image") != std::string::npos) {
+        [image_select orderFront: self];
+    }
 }
 
 @end
