@@ -90,6 +90,7 @@ void stopCV() {
         // flush to log
         flushToLog(sout);
         setEnabledProg();
+        capture->release();
         [controller stopCV_prog];
         if(breakProgram == true) {
             [NSApp terminate:nil];
@@ -121,7 +122,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
     writer.reset(new cv::VideoWriter());
     try {
         // open either camera or video file
-        if(camera_mode == 0 && capture->isOpened() == false) capture->open(capture_device);
+        if(camera_mode == 0 /*&& capture->isOpened() == false*/) capture->open(capture_device);
         else if(camera_mode == 1)  {
             capture->open(input_file);
             total_frames = capture->get(CV_CAP_PROP_FRAME_COUNT);

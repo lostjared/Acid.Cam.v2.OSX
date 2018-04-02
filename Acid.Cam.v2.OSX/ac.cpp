@@ -5574,7 +5574,7 @@ void ac::ImageAlphaBlend(cv::Mat &frame) {
 void ac::ColorRange(cv::Mat &frame) {
     const unsigned int w = frame.cols;
     const unsigned int h = frame.rows;
-    static double alpha = 1.0, alpha_max = 11;
+    static double alpha = 1.0, alpha_max = 6;
     for(unsigned int z = 0; z < h; ++z) {
     	for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
