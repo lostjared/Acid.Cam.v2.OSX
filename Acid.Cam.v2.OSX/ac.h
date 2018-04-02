@@ -290,6 +290,7 @@ namespace ac {
     void ImageFile(cv::Mat &frame);
     void ImageXor(cv::Mat &frame);
     void ImageAlphaBlend(cv::Mat &frame);
+    void ColorRange(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -377,6 +378,7 @@ namespace ac {
         Particle **part; // array of pointers for Particles
         unsigned int w, h; // frame width/height
     };
+    extern int colors[3];
 }
 // custom filter function, must be defined in program so it will link
 extern ac::ParticleEmiter emiter;

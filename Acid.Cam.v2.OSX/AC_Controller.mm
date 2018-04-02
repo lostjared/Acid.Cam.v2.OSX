@@ -397,7 +397,19 @@ void setEnabledProg() {
     }
     if(ac::draw_strings[ac::draw_offset] == "ParticleRelease") {
         emiter.reset();
+        strout.str("");
+        strout << "ParticleRelease Variables Reset\n";
     }
+    
+    if(ac::draw_strings[ac::draw_offset] == "ColorRange") {
+        ac::colors[0] = rand()%255;
+        ac::colors[1] = rand()%255;
+        ac::colors[2] = rand()%255;
+        strout.str("");
+        strout << "ColorRange random pixels set to: " << ac::colors[0] << "," << ac::colors[1] << "," << ac::colors[2] << "\n";
+        flushToLog(strout);
+    }
+    
     if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
         [alpha_window orderFront:self];
     }
@@ -408,6 +420,9 @@ void setEnabledProg() {
     std::string filter_value = ac::draw_strings[ac::draw_offset];
     if(filter_value.find("Image") != std::string::npos) {
         [image_select orderFront: self];
+        strout.str("");
+        strout << "Image filter select use Select image window to set image...\n";
+        flushToLog(strout);
     }
 }
 
@@ -1290,6 +1305,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) selectedCustomFilter: (id) sender {
+    std::ostringstream strout;
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSInteger cate = [categories_custom indexOfSelectedItem];
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
@@ -1297,6 +1313,8 @@ void setEnabledProg() {
     std::string file_str = [title UTF8String];
     if(file_str == "ParticleRelease") {
         emiter.reset();
+        strout.str("");
+        strout << "ParticleRelease Variables Reset\n";
     }
     if(file_str == "Alpha Flame Filters") {
         [alpha_window orderFront:self];
@@ -1304,9 +1322,20 @@ void setEnabledProg() {
     if(file_str == "Plugin") {
         [plugin_window orderFront:self];
     }
+    if(file_str == "ColorRange") {
+        ac::colors[0] = rand()%255;
+        ac::colors[1] = rand()%255;
+        ac::colors[2] = rand()%255;
+        strout.str("");
+        strout << "ColorRange random pixels set to: " << ac::colors[0] << "," << ac::colors[1] << "," << ac::colors[2] << "\n";
+        flushToLog(strout);
+    }
     std::string filter_value = file_str;
     if(filter_value.find("Image") != std::string::npos) {
         [image_select orderFront: self];
+        strout.str("");
+        strout << "Image filter select use Select image window to set image...\n";
+        flushToLog(strout);
     }
 }
 
