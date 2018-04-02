@@ -1,5 +1,7 @@
 # Acid.Cam.v2.OSX
 
+I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with another program to help aid in the creation of art.
+
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
 View this YouTube playlist for videos created with this software
