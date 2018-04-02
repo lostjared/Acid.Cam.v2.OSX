@@ -5524,6 +5524,7 @@ void ac::ImageFile(cv::Mat &frame) {
             }
         }
     }
+
 }
 void ac::ImageXor(cv::Mat &frame) {
     if(blend_set == true) {
