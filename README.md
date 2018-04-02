@@ -33,10 +33,9 @@ The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will n
 
 ![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
 
-
 This project contains the compiled static libraries / include files required to build the program.
 
-Updated the project 03.29.17 The project is for Xcode 9.3
+Updated the project 04.02.18 The project is for Xcode 9.3
 
 Project home page: http://lostsidedead.com/blog/?index=212
 
