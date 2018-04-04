@@ -84,6 +84,7 @@ NSRect rc;
 bool resize_value = false;
 void custom_filter(cv::Mat &frame);
 void plugin_callback(cv::Mat &frame);
+NSMutableArray *search_results;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -161,6 +162,49 @@ void setEnabledProg() {
     [stop_prog_i setEnabled: NO];
 }
 
+std::string Lower(const std::string &s) {
+    std::string tmp;
+    for(unsigned int i = 0; i < s.length(); ++i) {
+        tmp += tolower(s[i]);
+    }
+    return tmp;
+}
+
+void SearchForString(NSString *s) {
+    [search_results removeAllObjects];
+    std::string search = Lower([s UTF8String]);
+    for(unsigned int i = 0; i < ac::draw_max-4; ++i) {
+        std::string search_items = Lower(ac::draw_strings[i]);
+        if(search_items.find(search) != std::string::npos) {
+             [search_results addObject: [NSNumber numberWithInt:i]];
+        }
+    }
+    [controller reloadTable];
+}
+
+// search Delegate
+@implementation SearchController
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+    NSString *str =  [[aTableColumn headerCell] stringValue];
+    NSNumber *number = [search_results objectAtIndex:rowIndex];
+    if( [str isEqualTo:@"Filter"] ) {
+        int value = (int)[number integerValue];
+        NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
+        return s;
+    }
+    else {
+        NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
+        return s;
+    }
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+    return [search_results count];
+}
+
+@end
+
 // Objective-C implemtation of class AC_Controller
 @implementation AC_Controller
 
@@ -179,6 +223,10 @@ void setEnabledProg() {
     }
 }
 
+- (void) reloadTable {
+    [find_table reloadData];
+}
+
 - (void) dealloc {
     [custom_array release];
     [self closePlugin];
@@ -190,6 +238,8 @@ void setEnabledProg() {
         [menu_items[i] release];
         [menu_items_custom[i] release];
     }
+    [search_results dealloc];
+    [search_controller release];
     [super dealloc];
 }
 
@@ -197,6 +247,8 @@ void setEnabledProg() {
     current_fade = 0;
     current_fade_alpha = 1.0;
     controller = self;
+    search_results = [[NSMutableArray alloc] init];
+    search_controller = [[SearchController alloc] init];
     [video_file setEnabled: NO];
     [resolution setEnabled: NO];
     [device_index setEnabled: NO];
@@ -209,6 +261,7 @@ void setEnabledProg() {
     [image_select setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
     [goto_frame setLevel: NSStatusWindowLevel];
+    [filter_search_window setLevel:NSStatusWindowLevel];
     ac::fill_filter_map();
     [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
     [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES];
@@ -219,6 +272,8 @@ void setEnabledProg() {
     custom_array = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
     [table_view setDataSource:self];
+    [find_table setDelegate:search_controller];
+    [find_table setDataSource:search_controller];
     [menuPaused setEnabled: NO];
     stop_prog_i = stop_prog;
     frame_slider = goto_f;
@@ -1338,6 +1393,22 @@ void setEnabledProg() {
         strout << "Image filter select use Select image window to set image...\n";
         flushToLog(strout);
     }
+}
+
+- (IBAction) addSearchItem: (id) sender {
+    NSInteger index = [find_table selectedRow];
+    if(index >= 0 && index < [search_results count]) {
+    	NSNumber *num = [search_results objectAtIndex:index];
+        [custom_array addObject:num];
+        [table_view reloadData];
+    }
+}
+- (IBAction) searchForItem: (id) sender {
+    SearchForString([find_text stringValue]);
+}
+
+- (IBAction) viewSearchWindow: (id) sender {
+    [filter_search_window orderFront: self];
 }
 
 @end

@@ -67,6 +67,12 @@ extern  bool camera_active;
 extern unsigned long frame_proc;
 extern bool resize_value;
 
+@interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
+    
+}
+
+@end
+
 // Main controller class for the program
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     // interface builder cocoa
@@ -110,6 +116,10 @@ extern bool resize_value;
     IBOutlet NSButton *apply_after;
     IBOutlet NSSlider *brightness, *gamma, *saturation;
     IBOutlet NSButton *fade_filter;
+    IBOutlet NSTableView *find_table;
+    IBOutlet NSTextField *find_text;
+    IBOutlet NSWindow *filter_search_window;
+    SearchController *search_controller;
     // variables
     bool pauseStepTrue;
     long frames_captured;
@@ -184,6 +194,10 @@ extern bool resize_value;
 - (IBAction) setStretch: (id) sender;
 - (IBAction) setColorMap: (id) sender;
 - (IBAction) selectedCustomFilter: (id) sender;
+- (IBAction) addSearchItem: (id) sender;
+- (IBAction) searchForItem: (id) sender;
+- (IBAction) viewSearchWindow: (id) sender;
+- (void) reloadTable;
 @end
 
 // global variables / functions

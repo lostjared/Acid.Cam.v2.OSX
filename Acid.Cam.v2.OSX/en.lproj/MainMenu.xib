@@ -30,7 +30,10 @@
                 <outlet property="device_index" destination="586" id="633"/>
                 <outlet property="disable_filters" destination="OsF-br-7Fg" id="RJ3-2o-sr4"/>
                 <outlet property="fade_filter" destination="ybb-Ri-H7o" id="1sa-EL-6Va"/>
+                <outlet property="filter_search_window" destination="Z1m-Pb-5Gb" id="Quo-sn-3tX"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
+                <outlet property="find_table" destination="5zp-Ok-oBd" id="0hD-Fm-7Vy"/>
+                <outlet property="find_text" destination="efF-9E-1nR" id="zEl-Ez-ZcU"/>
                 <outlet property="finish_queue" destination="8dK-49-42N" id="k24-yP-vFE"/>
                 <outlet property="finish_queue_progress" destination="scO-9p-ahu" id="sOa-26-Amu"/>
                 <outlet property="framecount" destination="lqg-7A-aEC" id="Phj-U2-SxT"/>
@@ -215,6 +218,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showActivityLog:" target="630" id="MyN-1B-U0f"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Filter Search" id="hgy-XB-2cv">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="viewSearchWindow:" target="630" id="hBj-HH-Pyw"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="View Select Image" id="c0U-Q2-K7o">
@@ -434,7 +443,7 @@
                     </popUpButton>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-212" y="312.5"/>
+            <point key="canvasLocation" x="191" y="353"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
@@ -1343,38 +1352,33 @@ Gw
         <window title="Search Filters" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Z1m-Pb-5Gb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1000" y="1040" width="480" height="214"/>
+            <rect key="contentRect" x="1000" y="1040" width="586" height="442"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="XRb-vM-D8z">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="214"/>
+                <rect key="frame" x="0.0" y="0.0" width="586" height="442"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efF-9E-1nR">
-                        <rect key="frame" x="20" y="19" width="278" height="22"/>
+                        <rect key="frame" x="20" y="19" width="384" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="T7d-2L-rTq">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="searchForItem:" target="630" id="S5U-Tw-XRt"/>
+                        </connections>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gFz-7h-Ofs">
-                        <rect key="frame" x="300" y="12" width="97" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Search" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nwp-iQ-Oqe">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JP-xS-tK4">
-                        <rect key="frame" x="20" y="49" width="440" height="147"/>
+                        <rect key="frame" x="20" y="58" width="546" height="366"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="t1A-tL-tG7">
-                            <rect key="frame" x="1" y="23" width="438" height="123"/>
+                            <rect key="frame" x="1" y="0.0" width="544" height="365"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
-                                    <rect key="frame" x="0.0" y="0.0" width="438" height="123"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1393,7 +1397,7 @@ Gw
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="" width="381" minWidth="40" maxWidth="1000" id="BeB-oO-kB9">
+                                        <tableColumn identifier="" width="487" minWidth="40" maxWidth="1000" id="BeB-oO-kB9">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Filter">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1419,21 +1423,35 @@ Gw
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="8e0-Lb-s5B">
-                            <rect key="frame" x="0.0" y="0.0" width="438" height="23"/>
+                            <rect key="frame" x="0.0" y="0.0" width="544" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4mA-9c-Iiq">
-                        <rect key="frame" x="391" y="13" width="75" height="32"/>
+                        <rect key="frame" x="497" y="13" width="75" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Jmt-Me-xbX">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="addSearchItem:" target="630" id="5EY-SF-vWA"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gFz-7h-Ofs">
+                        <rect key="frame" x="406" y="13" width="97" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Search" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nwp-iQ-Oqe">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="searchForItem:" target="630" id="KeK-m2-ZtM"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="145" y="161"/>
+            <point key="canvasLocation" x="164" y="152"/>
         </window>
     </objects>
 </document>
