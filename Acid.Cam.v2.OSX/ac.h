@@ -292,6 +292,7 @@ namespace ac {
     void ImageAlphaBlend(cv::Mat &frame);
     void ColorRange(cv::Mat &frame);
     void ImageInter(cv::Mat &frame);
+    void TrailsInter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
