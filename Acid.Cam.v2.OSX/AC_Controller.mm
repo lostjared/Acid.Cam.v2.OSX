@@ -176,7 +176,7 @@ void SearchForString(NSString *s) {
     for(unsigned int i = 0; i < ac::draw_max-4; ++i) {
         std::string search_items = Lower(ac::draw_strings[i]);
         if(search_items.find(search) != std::string::npos) {
-             [search_results addObject: [NSNumber numberWithInt:i]];
+            [search_results addObject: [NSNumber numberWithInt:i]];
         }
     }
     [controller reloadTable];
@@ -287,10 +287,10 @@ void SearchForString(NSString *s) {
     ac::setPlugin(plugin_callback);
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     if([devices count] > 0) {
-	    for (AVCaptureDevice *device in devices) {
-	        NSLog(@"Device: %@", [device localizedName]);
-	        [device_index addItemWithTitle: [device localizedName]];
-    	}
+        for (AVCaptureDevice *device in devices) {
+            NSLog(@"Device: %@", [device localizedName]);
+            [device_index addItemWithTitle: [device localizedName]];
+        }
     } else {
         [device_index addItemWithTitle: @"0"];
         [device_index addItemWithTitle: @"1"];
@@ -366,7 +366,7 @@ void SearchForString(NSString *s) {
     eraseArray(szImage, svImage.size());
     std::vector<std::string> svOther { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Circular","MoveRed","MoveRGB","MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch","ScanAlphaSwitch", "XorAddMul", "Blend with Source", "Plugin", "Custom"};
     std::sort(svOther.begin(), svOther.end());
-
+    
     const char **szOther = convertToStringArray(svOther);
     std::vector<std::string> svOther_Custom { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter","Circular","MoveRed","MoveRGB", "MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch", "ScanAlphaSwitch","XorAddMul", "Blend with Source", "Plugin" };
     std::sort(svOther_Custom.begin(), svOther_Custom.end());
@@ -378,10 +378,10 @@ void SearchForString(NSString *s) {
     const char **szSquare = convertToStringArray(svSquare);
     [self fillMenuWithString: it_arr[9] stringValues:szSquare];
     eraseArray(szSquare, svSquare.size());
-
+    
     const char *szCustom[] = {"No Filter", "Blend with Source", "Plugin", "Custom",0};
     const char *szCustom_Spec[] = {"No Filter", "Blend with Source", "Plugin",0};
-
+    
     if(cust == NO) {
         [self fillMenuWithString: it_arr[10] stringValues:szOther];
         [self fillMenuWithString: it_arr[11] stringValues:szCustom];
@@ -750,7 +750,7 @@ void SearchForString(NSString *s) {
             }
         }
         if(after == NSOnState)
-        	ac::ApplyColorMap(frame);
+            ac::ApplyColorMap(frame);
         if(slide_value1 > 0)
             ac::setBrightness(frame, 1.0, (int)slide_value1);
         
@@ -783,7 +783,7 @@ void SearchForString(NSString *s) {
             }
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
-				dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
+                dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
                 cv::imshow("Acid Cam v2", dst);
             } else {
                 cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
@@ -868,7 +868,7 @@ void SearchForString(NSString *s) {
         snprintf(elapsed_s, 1023, "%.2f", elapsed);
         char cfps_s[1024];
         snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
-
+        
         ftext  << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
         if(ac::noRecord == false) {
             struct stat buf;
@@ -916,8 +916,8 @@ void SearchForString(NSString *s) {
     } else {
         
         if(current_fade_alpha >= 0) {
-        	ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
-        	current_fade_alpha -= 0.08;
+            ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
+            current_fade_alpha -= 0.08;
         } else {
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         }
@@ -928,7 +928,7 @@ void SearchForString(NSString *s) {
     
     NSInteger slide_value = [brightness integerValue];
     if(slide_value > 0)
-    	ac::setBrightness(frame, 1.0, (int)slide_value);
+        ac::setBrightness(frame, 1.0, (int)slide_value);
     
     slide_value = [gamma integerValue];
     if(slide_value > 0) {
@@ -971,9 +971,9 @@ void SearchForString(NSString *s) {
     }
     
     if([stretch_scr state] == NSOnState) {
-    	cv::Mat dst;
+        cv::Mat dst;
         dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-		cv::imshow("Acid Cam v2", dst);
+        cv::imshow("Acid Cam v2", dst);
     } else {
         cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
         cv::imshow("Acid Cam v2", frame);
@@ -987,7 +987,7 @@ void SearchForString(NSString *s) {
     snprintf(elapsed_s, 1023, "%.2f", elapsed);
     char cfps_s[1024];
     snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
-
+    
     ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
     
     if(camera_mode == 1) {
@@ -1002,7 +1002,7 @@ void SearchForString(NSString *s) {
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;
-  }
+    }
     if(ac::snapShot == true) {
         static unsigned int index = 0;
         stream.str("");
@@ -1398,7 +1398,7 @@ void SearchForString(NSString *s) {
 - (IBAction) addSearchItem: (id) sender {
     NSInteger index = [find_table selectedRow];
     if(index >= 0 && index < [search_results count]) {
-    	NSNumber *num = [search_results objectAtIndex:index];
+        NSNumber *num = [search_results objectAtIndex:index];
         [custom_array addObject:num];
         [table_view reloadData];
     }

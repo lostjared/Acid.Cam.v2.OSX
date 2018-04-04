@@ -298,7 +298,7 @@ namespace ac {
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
     // plugin must be implemented in project
-	void plugin(cv::Mat &frame);
+    void plugin(cv::Mat &frame);
     // set Custom Filter callback function
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);

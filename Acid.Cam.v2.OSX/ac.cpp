@@ -5330,10 +5330,10 @@ void ac::GradientReverse(cv::Mat &frame) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j) {
-                    if(direction == true)
-                        pixel[j] += i*alpha;
-                	else
-                        pixel[j] -= i*alpha;
+                if(direction == true)
+                    pixel[j] += i*alpha;
+                else
+                    pixel[j] -= i*alpha;
             }
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
@@ -5399,17 +5399,17 @@ void ac::GradientNewFilter(cv::Mat &frame) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j) {
-            	switch(index) {
-                	case 0:
+                switch(index) {
+                    case 0:
                         pixel[j] = (pixel[j] ^ (unsigned int)(alpha*z));
-                    	break;
-                	case 1:
+                        break;
+                    case 1:
                         pixel[j] = (pixel[j] & (unsigned int)(alpha*i));
-                    	break;
+                        break;
                     case 2:
                         pixel[j] = (pixel[j] ^ (unsigned int)alpha);
-                	    break;
-            	}
+                        break;
+                }
             }
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
@@ -5476,7 +5476,7 @@ void ac::ReinterpSelfScale(cv::Mat &frame) {
         ++index;
         if(index > 2) index = 0;
     }
-     static int direction_ = 1;
+    static int direction_ = 1;
     procPos(direction_, alpha, alpha_max);
 }
 
@@ -5524,7 +5524,7 @@ void ac::ImageFile(cv::Mat &frame) {
             }
         }
     }
-
+    
 }
 void ac::ImageXor(cv::Mat &frame) {
     if(blend_set == true) {
@@ -5538,7 +5538,7 @@ void ac::ImageXor(cv::Mat &frame) {
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
                 for(unsigned int j = 0; j < 3; ++j)
-                	pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^add_i[j])*alpha;
+                    pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^add_i[j])*alpha;
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i); // invert pixel
             }
@@ -5577,16 +5577,16 @@ void ac::ColorRange(cv::Mat &frame) {
     const unsigned int h = frame.rows;
     static double alpha = 1.0, alpha_max = 6;
     for(unsigned int z = 0; z < h; ++z) {
-    	for(unsigned int i = 0; i < w; ++i) {
+        for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j)
                 pixel[j] = (pixel[j]+colors[j])*alpha;
-    	}
+        }
     }
     static unsigned int direction[3] = {1, 0, 1};
     for(unsigned int j = 0; j < 3; ++j) {
         if(direction[j] == 1) {
-        	colors[j] ++;
+            colors[j] ++;
             if(colors[j] >= 255) {
                 direction[j] = 0;
                 colors[j] = 255;

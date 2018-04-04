@@ -1,7 +1,7 @@
 /*
  * Acid Cam v2 - OpenCV Edition
  * written by Jared Bruni ( http://lostsidedead.com / https://github.com/lostjared )
-
+ 
  
  GitHub: http://github.com/lostjared
  Website: http://lostsidedead.com
@@ -54,8 +54,8 @@ namespace frac {
     extern float zoom_x, zoom_y, zoom_w, zoom_h;
     extern long max_iter;
     extern double red_color, green_color, blue_color;
-	void FractalLogic();
-	void DrawFractal(cv::Mat &frame, bool neg=false);
+    void FractalLogic();
+    void DrawFractal(cv::Mat &frame, bool neg=false);
 }
 
 #endif
