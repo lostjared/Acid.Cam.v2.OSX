@@ -5642,16 +5642,7 @@ void ac::TrailsInter(cv::Mat &frame) {
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Scalar s;
-            cv::Vec3b frame_pixels[8];
-            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
-            frame_pixels[3] = collection.frames[4].at<cv::Vec3b>(z, i);
-            frame_pixels[4] = collection.frames[5].at<cv::Vec3b>(z, i);
-            frame_pixels[5] = collection.frames[6].at<cv::Vec3b>(z, i);
-            frame_pixels[6] = collection.frames[7].at<cv::Vec3b>(z, i);
-            pixel = frame_pixels[counter];
+            pixel = collection.frames[counter+1].at<cv::Vec3b>(z, i);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
