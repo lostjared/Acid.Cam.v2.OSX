@@ -857,6 +857,22 @@ void SearchForString(NSString *s) {
     } else {
         frame = old_frame.clone();
     }
+    
+    NSColor *color_value = [color_well color];
+    double rf = 0, gf = 0, bf = 0;
+    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+    cv::Vec3b well_color;
+    unsigned int values[3];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    
+    well_color[0] = values[0];
+    well_color[1] = values[1];
+    well_color[2] = values[2];
+    
+    std::cout << "ColorKey: " << values[0] << ":" << values[1] << ":" << values[2] << "\n";
+    
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
         ++frame_proc;
@@ -900,7 +916,7 @@ void SearchForString(NSString *s) {
         cv::flip(frame, temp_frame, 0);
         frame = temp_frame;
     }
-    if((ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
+    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom")) {
         ac::orig_frame = frame.clone();
     }
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
@@ -924,6 +940,8 @@ void SearchForString(NSString *s) {
         }
     }
     
+    
+    
     if(after == NSOnState)
         ac::ApplyColorMap(frame);
     
@@ -940,6 +958,11 @@ void SearchForString(NSString *s) {
     slide_value = [saturation integerValue];
     if(slide_value > 0) {
         ac::setSaturation(frame, (int)slide_value);
+    }
+    
+    if([color_chk state] == NSOnState) {
+        cv::Mat cframe = frame.clone();
+        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
     
     if([menu_freeze state] == NSOffState) {

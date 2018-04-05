@@ -313,6 +313,7 @@ namespace ac {
     void setSaturation(cv::Mat &frame, int saturation);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
+    void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;
@@ -322,6 +323,12 @@ namespace ac {
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
     // classes to be used by the filters
+    
+    // todo: create a class that contains locations of each frames original pixel values that are not the color key
+    // then apply filters
+    // replace original pixel values
+    //
+    
     // Square class to hold broken up cv::Mat
     class Square {
     public:

@@ -119,6 +119,8 @@ extern bool resize_value;
     IBOutlet NSTableView *find_table;
     IBOutlet NSTextField *find_text;
     IBOutlet NSWindow *filter_search_window;
+    IBOutlet NSColorWell *color_well;
+    IBOutlet NSButton *color_chk;
     SearchController *search_controller;
     // variables
     bool pauseStepTrue;
