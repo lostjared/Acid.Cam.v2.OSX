@@ -871,8 +871,6 @@ void SearchForString(NSString *s) {
     well_color[1] = values[1];
     well_color[2] = values[2];
     
-    std::cout << "ColorKey: " << values[0] << ":" << values[1] << ":" << values[2] << "\n";
-    
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
         ++frame_proc;
