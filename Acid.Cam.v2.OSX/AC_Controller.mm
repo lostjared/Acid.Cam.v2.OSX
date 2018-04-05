@@ -960,7 +960,7 @@ void SearchForString(NSString *s) {
         ac::setSaturation(frame, (int)slide_value);
     }
     
-    if([color_chk state] == NSOnState) {
+    if([color_chk state] == NSOnState && blend_set == true && !blend_image.empty()) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
