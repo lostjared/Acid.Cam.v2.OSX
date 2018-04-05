@@ -449,6 +449,7 @@ void SearchForString(NSString *s) {
     if(ac::draw_strings[ac::draw_offset] == "Custom") {
         [negate_checked setIntegerValue: NSOffState];
         [custom_window orderFront:self];
+        [filter_search_window orderFront: self];
     }
     if(ac::draw_strings[ac::draw_offset] == "ParticleRelease") {
         emiter.reset();
@@ -1293,6 +1294,7 @@ void SearchForString(NSString *s) {
 
 - (IBAction) showCustom: (id) sender {
     [custom_window orderFront: self];
+    [filter_search_window orderFront: self];
 }
 
 - (IBAction) showActivityLog: (id) sender {
@@ -1409,6 +1411,7 @@ void SearchForString(NSString *s) {
 
 - (IBAction) viewSearchWindow: (id) sender {
     [filter_search_window orderFront: self];
+    [custom_window orderFront: self];
 }
 
 @end
