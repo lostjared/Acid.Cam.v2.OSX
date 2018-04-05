@@ -294,6 +294,7 @@ namespace ac {
     void ImageInter(cv::Mat &frame);
     void TrailsInter(cv::Mat &frame);
     void TrailsBlend(cv::Mat &frame);
+    void TrailsNegate(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -304,6 +305,7 @@ namespace ac {
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
     // color maps
+    void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);
     // color correction
     void setBrightness(cv::Mat &frame, double alpha, int beta);
