@@ -165,7 +165,8 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             cv::Mat outframe;
             cv::resize(frame, outframe, frameSize);
             frame = outframe;
-            blend_image = frame.clone();
+            if(blend_image.empty())
+            	blend_image = frame.clone();
          }
         // output wehther recording or not
         if(ac::noRecord == false)
