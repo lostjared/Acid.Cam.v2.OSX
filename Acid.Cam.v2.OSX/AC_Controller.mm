@@ -752,7 +752,6 @@ void SearchForString(NSString *s) {
             ac::orig_frame = frame.clone();
         }
         
-        
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);

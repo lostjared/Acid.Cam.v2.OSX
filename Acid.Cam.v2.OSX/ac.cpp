@@ -5774,12 +5774,10 @@ bool testBounds(int value, int low, int high) {
 
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
     if(colorkey_set == false || color_image.empty()) return;
-    
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
     }
-    
     output = orig.clone();
     for(unsigned int z = 0; z < orig.rows; ++z) {
         for(unsigned int i = 0; i < orig.cols; ++i) {
@@ -5793,7 +5791,6 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
             }
         }
     }
-    std::cout << "Color: " << (int)color[0] << ":" << (int)color[1] << ":" << (int) color[2] << "\n";
 }
 
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
