@@ -86,8 +86,9 @@ namespace ac {
 }
 
 // globals
-cv::Mat blend_image;
+cv::Mat blend_image, color_image;
 bool blend_set = false;
+bool colorkey_set = false;
 
 void ac::fill_filter_map() {
     for(int i = 0; i < ac::draw_max; ++i) {
@@ -5772,7 +5773,8 @@ bool testBounds(int value, int low, int high) {
 
 
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
-    if(blend_set == false) return;
+    if(colorkey_set == false || color_image.empty()) return;
+    
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
@@ -5780,9 +5782,9 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
     output = orig.clone();
     for(unsigned int z = 0; z < orig.rows; ++z) {
         for(unsigned int i = 0; i < orig.cols; ++i) {
-            int cX = AC_GetFX(blend_image.cols, i, orig.cols);
-            int cY = AC_GetFZ(blend_image.rows, z, orig.rows);
-            cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+            int cX = AC_GetFX(color_image.cols, i, orig.cols);
+            int cY = AC_GetFZ(color_image.rows, z, orig.rows);
+            cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
             if(add_i == color) {
                 cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);

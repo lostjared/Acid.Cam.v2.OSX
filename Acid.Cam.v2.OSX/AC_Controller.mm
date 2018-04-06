@@ -958,7 +958,7 @@ void SearchForString(NSString *s) {
         ac::setSaturation(frame, (int)slide_value);
     }
     
-    if([color_chk state] == NSOnState && blend_set == true && !blend_image.empty()) {
+    if([color_chk state] == NSOnState && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
@@ -1303,13 +1303,32 @@ void SearchForString(NSString *s) {
 - (IBAction) setAsImage: (id) sender {
     if([image_combo indexOfSelectedItem] >= 0) {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
-        blend_image = cv::imread([current UTF8String]);
-        blend_set = true;
-        std::ostringstream stream;
-        stream << "Image set to: " << [current UTF8String] << "\n";
-        NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
-        _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
-        flushToLog(stream);
+        NSInteger index = [image_to_set indexOfSelectedItem];
+        if(index == 0) {
+        	blend_image = cv::imread([current UTF8String]);
+            if(blend_image.empty()) {
+                _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
+                return;
+            }
+            blend_set = true;
+        	std::ostringstream stream;
+        	stream << "Blend Image set to: " << [current UTF8String] << "\n";
+        	NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
+            _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
+            flushToLog(stream);
+        } else {
+            color_image = cv::imread([current UTF8String]);
+            if(color_image.empty()) {
+                _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
+                return;
+            }
+            colorkey_set = true;
+            std::ostringstream stream;
+            stream << "ColorKey Image set to: " << [current UTF8String] << "\n";
+            NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
+            _NSRunAlertPanel(@"Image Set", s, @"Ok", nil, nil);
+            flushToLog(stream);
+        }
     }
 }
 

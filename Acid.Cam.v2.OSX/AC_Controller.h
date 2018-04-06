@@ -121,6 +121,7 @@ extern bool resize_value;
     IBOutlet NSWindow *filter_search_window;
     IBOutlet NSColorWell *color_well;
     IBOutlet NSButton *color_chk;
+    IBOutlet NSPopUpButton *image_to_set;
     SearchController *search_controller;
     // variables
     bool pauseStepTrue;
