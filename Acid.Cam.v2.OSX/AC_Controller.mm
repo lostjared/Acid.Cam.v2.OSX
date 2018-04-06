@@ -723,6 +723,9 @@ void SearchForString(NSString *s) {
         __block NSInteger slide_value2 = 0;
         __block NSInteger slide_value3 = 0;
         __block NSInteger fade_state = 0;
+        __block NSInteger color_key_set = 0;
+        __block cv::Vec3b well_color;
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
                 if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
@@ -734,6 +737,17 @@ void SearchForString(NSString *s) {
             slide_value2 = [gamma integerValue];
             slide_value3 = [saturation integerValue];
             fade_state = [fade_filter state];
+            color_key_set = [color_chk state];
+            NSColor *color_value = [color_well color];
+            double rf = 0, gf = 0, bf = 0;
+            [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+            unsigned int values[3];
+            values[2] = rf*255.99999f;
+            values[1] = gf*255.99999f;
+            values[0] = bf*255.99999f;
+            well_color[0] = values[0];
+            well_color[1] = values[1];
+            well_color[2] = values[2];
         });
         
         
@@ -763,6 +777,12 @@ void SearchForString(NSString *s) {
         if(slide_value3 > 0) {
             ac::setSaturation(frame, (int)slide_value3);
         }
+        
+        if(color_key_set == NSOnState && colorkey_set == true && !color_image.empty()) {
+			cv::Mat cframe = frame.clone();
+        	ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+        }
+        
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
