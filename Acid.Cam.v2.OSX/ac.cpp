@@ -2447,14 +2447,13 @@ void ac::Laplacian(cv::Mat &frame) {
 
 // XOR - takes cv::Mat reference
 void ac::Bitwise_XOR(cv::Mat &frame) {
-    static cv::Mat initial = frame; /// set initial frame
-    
+    static cv::Mat initial = frame;// set initial frame
     if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame; // resize? set new values
+        initial = frame.clone(); // did frame resize? if so set the new frame value
     }
-    cv::Mat start = frame.clone(); // clone image
-    cv::Mat output;// output value
-    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_xor
+    cv::Mat start = frame.clone(); // clone frame (make a copy)
+    cv::Mat output;// output variable
+    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
 }
@@ -2463,7 +2462,7 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
 void ac::Bitwise_AND(cv::Mat &frame) {
     static cv::Mat initial = frame;// set initial frame
     if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame; // did frame resize? if so set the new frame value
+        initial = frame.clone(); // did frame resize? if so set the new frame value
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output;// output variable
