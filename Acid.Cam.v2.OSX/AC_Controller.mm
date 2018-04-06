@@ -702,6 +702,7 @@ void SearchForString(NSString *s) {
         cv::Mat temp_frame;
         if([menu_freeze state] == NSOffState) {
             got_frame = capture->retrieve(frame);
+            ac::orig_frame = frame.clone();
             old_frame = frame.clone();
         } else {
             frame = old_frame.clone();
@@ -717,7 +718,6 @@ void SearchForString(NSString *s) {
         }
         ++frame_cnt;
         ++frame_proc;
-        ac::orig_frame = frame.clone();
         __block NSInteger after = 0;
         __block NSInteger slide_value1 = 0;
         __block NSInteger slide_value2 = 0;
@@ -735,13 +735,15 @@ void SearchForString(NSString *s) {
             slide_value3 = [saturation integerValue];
             fade_state = [fade_filter state];
         });
+        
+        
+        
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
-        if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+        
         if(fade_state == NSOffState) {
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         } else {
-            
             if(current_fade_alpha >= 0) {
                 ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
                 current_fade_alpha -= 0.08;
@@ -761,6 +763,7 @@ void SearchForString(NSString *s) {
         if(slide_value3 > 0) {
             ac::setSaturation(frame, (int)slide_value3);
         }
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
                 cv::Mat change;
