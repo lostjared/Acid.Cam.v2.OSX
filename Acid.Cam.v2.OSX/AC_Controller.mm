@@ -767,6 +767,7 @@ void SearchForString(NSString *s) {
         }
         if(after == NSOnState)
             ac::ApplyColorMap(frame);
+       
         if(slide_value1 > 0)
             ac::setBrightness(frame, 1.0, (int)slide_value1);
         
@@ -960,11 +961,6 @@ void SearchForString(NSString *s) {
         }
     }
     
-    
-    
-    if(after == NSOnState)
-        ac::ApplyColorMap(frame);
-    
     NSInteger slide_value = [brightness integerValue];
     if(slide_value > 0)
         ac::setBrightness(frame, 1.0, (int)slide_value);
@@ -979,6 +975,9 @@ void SearchForString(NSString *s) {
     if(slide_value > 0) {
         ac::setSaturation(frame, (int)slide_value);
     }
+
+    if(after == NSOnState)
+        ac::ApplyColorMap(frame);
     
     if([color_chk state] == NSOnState && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
@@ -996,7 +995,8 @@ void SearchForString(NSString *s) {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-    ac::ApplyColorMap(frame);
+
+
     NSInteger mask = [[NSApp mainWindow] styleMask];
     NSString *main_window = [[NSApp mainWindow] title];
     NSWindow *main_w = [NSApp mainWindow];
@@ -1477,7 +1477,6 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) clearBlend: (id) sender {
- 
     switch([image_to_set indexOfSelectedItem]) {
         case 0:
             blend_set = false;
