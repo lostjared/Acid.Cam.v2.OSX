@@ -767,7 +767,7 @@ void SearchForString(NSString *s) {
         }
         if(after == NSOnState)
             ac::ApplyColorMap(frame);
-       
+        
         if(slide_value1 > 0)
             ac::setBrightness(frame, 1.0, (int)slide_value1);
         
@@ -780,8 +780,8 @@ void SearchForString(NSString *s) {
         }
         
         if(color_key_set == NSOnState && colorkey_set == true && !color_image.empty()) {
-			cv::Mat cframe = frame.clone();
-        	ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+            cv::Mat cframe = frame.clone();
+            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
         
         
@@ -897,11 +897,9 @@ void SearchForString(NSString *s) {
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
         ++frame_proc;
-        
         double seconds = ((total_frames)/ac::fps);
         double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
         double elapsed = (frame_proc/ac::fps);
-        
         char elapsed_s[1024];
         snprintf(elapsed_s, 1023, "%.2f", elapsed);
         char cfps_s[1024];
@@ -975,7 +973,7 @@ void SearchForString(NSString *s) {
     if(slide_value > 0) {
         ac::setSaturation(frame, (int)slide_value);
     }
-
+    
     if(after == NSOnState)
         ac::ApplyColorMap(frame);
     
@@ -995,8 +993,8 @@ void SearchForString(NSString *s) {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-
-
+    
+    
     NSInteger mask = [[NSApp mainWindow] styleMask];
     NSString *main_window = [[NSApp mainWindow] title];
     NSWindow *main_w = [NSApp mainWindow];
@@ -1327,15 +1325,15 @@ void SearchForString(NSString *s) {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
         NSInteger index = [image_to_set indexOfSelectedItem];
         if(index == 0) {
-        	blend_image = cv::imread([current UTF8String]);
+            blend_image = cv::imread([current UTF8String]);
             if(blend_image.empty()) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
                 return;
             }
             blend_set = true;
-        	std::ostringstream stream;
-        	stream << "Blend Image set to: " << [current UTF8String] << "\n";
-        	NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
+            std::ostringstream stream;
+            stream << "Blend Image set to: " << [current UTF8String] << "\n";
+            NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
             _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
             flushToLog(stream);
         } else {

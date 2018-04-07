@@ -166,8 +166,8 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             cv::resize(frame, outframe, frameSize);
             frame = outframe;
             if(blend_image.empty())
-            	blend_image = frame.clone();
-         }
+                blend_image = frame.clone();
+        }
         // output wehther recording or not
         if(ac::noRecord == false)
             sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";
@@ -179,7 +179,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
         cv::imshow("Acid Cam v2", frame);
         // if video file go back to start
-    	if(camera_mode == 0) jumptoFrame(0);
+        if(camera_mode == 0) jumptoFrame(0);
         // grab the screen info
         NSRect screen = [[NSScreen mainScreen] frame];
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
@@ -189,8 +189,8 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
             
         } else {
-        	rc.size.width = (double) frameSize.width;
-        	rc.size.height = (double) frameSize.height;
+            rc.size.width = (double) frameSize.width;
+            rc.size.height = (double) frameSize.height;
         }
         // flush to log
         flushToLog(sout);

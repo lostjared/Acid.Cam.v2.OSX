@@ -373,10 +373,10 @@ void ac::Pass2Blend(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) { // top to bottom
         for(int i = 0; i < frame.cols; ++i) { // left to right
             if(!frame.empty() && !orig_frame.empty()) {
-        	    cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
-    	        cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
-	            for(int q = 0; q < 3; ++q)
-                color1[q] = color2[q]+(color1[q]*ac::pass2_alpha);// multiply
+                cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
+                cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
+                for(int q = 0; q < 3; ++q)
+                    color1[q] = color2[q]+(color1[q]*ac::pass2_alpha);// multiply
             }
         }
     }
