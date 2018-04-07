@@ -201,6 +201,7 @@ extern bool resize_value;
 - (IBAction) searchForItem: (id) sender;
 - (IBAction) viewSearchWindow: (id) sender;
 - (void) reloadTable;
+- (IBAction) clearBlend: (id) sender;
 @end
 
 // global variables / functions

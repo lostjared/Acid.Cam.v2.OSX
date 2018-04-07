@@ -1307,14 +1307,14 @@ Gw
         <window title="Image Blend" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="E8K-bK-ljP" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
-            <rect key="contentRect" x="1670" y="1020" width="503" height="90"/>
+            <rect key="contentRect" x="1670" y="1020" width="503" height="104"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ixy-TP-xGm">
-                <rect key="frame" x="0.0" y="0.0" width="503" height="90"/>
+                <rect key="frame" x="0.0" y="0.0" width="503" height="104"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z6j-u7-bfW">
-                        <rect key="frame" x="21" y="48" width="345" height="26"/>
+                        <rect key="frame" x="21" y="62" width="345" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="fw1-FI-ZPC">
                             <font key="font" metaFont="system"/>
@@ -1323,7 +1323,7 @@ Gw
                         </comboBoxCell>
                     </comboBox>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rla-8T-wkf">
-                        <rect key="frame" x="428" y="13" width="61" height="32"/>
+                        <rect key="frame" x="428" y="27" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8EJ-eb-isV">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1334,7 +1334,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RLf-qi-rMh">
-                        <rect key="frame" x="357" y="13" width="79" height="32"/>
+                        <rect key="frame" x="357" y="27" width="79" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NuI-nw-crL">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1345,7 +1345,7 @@ Gw
                         </connections>
                     </button>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h31-Wk-Aq4">
-                        <rect key="frame" x="369" y="46" width="117" height="26"/>
+                        <rect key="frame" x="369" y="60" width="117" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Blend Image" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="r7U-WM-Amd" id="JqI-hf-gg6">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1359,17 +1359,28 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kxe-Ag-BED">
-                        <rect key="frame" x="26" y="20" width="308" height="17"/>
+                        <rect key="frame" x="19" y="36" width="220" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Add Images to Combo box then Set desired Image" id="cfX-am-yjB">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Add Images then Set desired Image" id="cfX-am-yjB">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gte-am-uqo">
+                        <rect key="frame" x="291" y="27" width="72" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rxv-kx-xiH">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clearBlend:" target="630" id="gUU-ai-R9c"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="206" y="5"/>
+            <point key="canvasLocation" x="205.5" y="12"/>
         </window>
         <window title="Wait for Queue to Finish" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="8dK-49-42N">
             <windowStyleMask key="styleMask" titled="YES"/>

@@ -1476,6 +1476,23 @@ void SearchForString(NSString *s) {
     [custom_window orderFront: self];
 }
 
+- (IBAction) clearBlend: (id) sender {
+ 
+    switch([image_to_set indexOfSelectedItem]) {
+        case 0:
+            blend_set = false;
+            blend_image.release();
+            _NSRunAlertPanel(@"Blend image released", @"Released Image", @"Ok", nil, nil);
+            break;
+        case 1:
+            colorkey_set = false;
+            color_image.release();
+            _NSRunAlertPanel(@"Color Key image released", @"Released Image", @"Ok", nil, nil);
+            break;
+    }
+    
+}
+
 @end
 
 void custom_filter(cv::Mat &frame) {
