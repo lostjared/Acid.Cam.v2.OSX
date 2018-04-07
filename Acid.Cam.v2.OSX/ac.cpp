@@ -3615,7 +3615,7 @@ void Square_Swap(ac::Square *squares, int num_w, int num_h, cv::Mat &frame, bool
         }
     }
     
-    auto rng = std::default_random_engine {};
+    static auto rng = std::default_random_engine {};
     // shuffle instead of randomize
     if(random == false) std::shuffle(square_vec.begin(), square_vec.end(),rng);
     for(int i = 0; i < pos; ++i) {
@@ -3676,31 +3676,31 @@ void ac::SquareSwap64x32(cv::Mat &) {
 }
 
 void ac::SquareBars(cv::Mat &frame) {
-    const unsigned int num_w = 16, num_h = 1;
+    static const unsigned int num_w = 16, num_h = 1;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame);
 }
 
 void ac::SquareBars8(cv::Mat &frame) {
-    const unsigned int num_w = 8, num_h = 1;
+    static const unsigned int num_w = 8, num_h = 1;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame);
 }
 
 void ac::SquareSwapRand16x8(cv::Mat &frame) {
-    const unsigned int num_w = 16, num_h = 8;
+    static const unsigned int num_w = 16, num_h = 8;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame, true);
 }
 
 void ac::SquareVertical8(cv::Mat &frame) {
-    const unsigned int num_w = 1, num_h = 8;
+    static const unsigned int num_w = 1, num_h = 8;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame);
 }
 
 void ac::SquareVertical16(cv::Mat &frame) {
-    const unsigned int num_w = 1, num_h = 16;
+    static const unsigned int num_w = 1, num_h = 16;
     static Square squares[num_w*num_h];
     Square_Swap(squares, num_w, num_h, frame);
 }
