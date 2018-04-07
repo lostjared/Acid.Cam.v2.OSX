@@ -1314,10 +1314,16 @@ void SearchForString(NSString *s) {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseDirectories:NO];
     [panel setCanChooseFiles: YES];
-    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"jpg", @"png", nil]];
+    [panel setAllowsMultipleSelection: YES];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"bmp",@"jpg", @"png", nil]];
     if([panel runModal]) {
-        NSString *file_name = [[panel URL] path];
-        [image_combo addItemWithObjectValue: file_name];
+        NSArray *file_names = [panel URLs];
+        if([file_names count] > 0) {
+            for(unsigned int i = 0; i < [file_names count]; ++i) {
+                NSURL *file_n = [file_names objectAtIndex:i];
+                [image_combo addItemWithObjectValue: [file_n path]];
+            }
+        }
     }
 }
 - (IBAction) setAsImage: (id) sender {
