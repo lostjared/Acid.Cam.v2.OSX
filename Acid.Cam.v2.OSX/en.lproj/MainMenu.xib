@@ -1369,7 +1369,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="560.5" y="142"/>
+            <point key="canvasLocation" x="206" y="5"/>
         </window>
         <window title="Wait for Queue to Finish" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="8dK-49-42N">
             <windowStyleMask key="styleMask" titled="YES"/>
@@ -1490,7 +1490,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="164" y="152"/>
+            <point key="canvasLocation" x="1095" y="-241"/>
         </window>
     </objects>
 </document>

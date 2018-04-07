@@ -45,7 +45,7 @@
 
 // Acid Cam namespace
 namespace ac {
-    const std::string version="2.3.6";
+    const std::string version="2.3.7";
     // variables
     unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
@@ -2457,32 +2457,32 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
     cv::Mat output = frame.clone();// output variable
     cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
-    frame = output.clone(); // set frame to output
+    frame = output; // set frame to output
 }
 
 // And takes cv::Mat reference
 void ac::Bitwise_AND(cv::Mat &frame) {
-    static cv::Mat initial = frame;// set initial frame
-    if(initial.cols != frame.cols || initial.rows != frame.rows) {
+    static cv::Mat initial;// set initial frame
+    if(initial.size() != frame.size()) {
         initial = frame.clone(); // did frame resize? if so set the new frame value
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
-    cv::Mat output;// output variable
+    cv::Mat output = frame.clone();// output variable
     cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
 }
 // takes cv::Mat reference
 void ac::Bitwise_OR(cv::Mat &frame) {
-    static cv::Mat initial = frame;// set initial frame
-    if(initial.cols != frame.cols || initial.rows != frame.rows) {
-        initial = frame;// did frame resize? if so set new frame
+    static cv::Mat initial;// set initial frame
+    if(initial.size() != frame.size()) {
+        initial = frame.clone(); // did frame resize? if so set the new frame value
     }
-    cv::Mat start = frame.clone(); // set start to copy of frame
-    cv::Mat output;// output variable
-    cv::bitwise_or(frame, initial, output);// OpenCV bitwise_or
+    cv::Mat start = frame.clone(); // clone frame (make a copy)
+    cv::Mat output = frame.clone();// output variable
+    cv::bitwise_or(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
-    frame = output;// set frame to output
+    frame = output; // set frame to output
 }
 // takes cv::Mat reference
 // Equalize image
