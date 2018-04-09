@@ -145,6 +145,13 @@
                 <menuItem title="File" id="83">
                     <menu key="submenu" title="File" id="81">
                         <items>
+                            <menuItem title="Reload Camera Info" id="QqX-Fh-ztu">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="reloadCameraInfo:" target="630" id="0Xj-06-jIl"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="jmw-rL-Oi4"/>
                             <menuItem title="Pause" keyEquivalent="p" id="Isy-gQ-uSb">
                                 <connections>
                                     <action selector="pauseProgram:" target="630" id="7Zn-7B-0iq"/>
@@ -1424,7 +1431,7 @@ Gw
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="958" y="1176" width="509" height="121"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="WCu-HB-nbg">
                 <rect key="frame" x="0.0" y="0.0" width="509" height="121"/>
                 <autoresizingMask key="autoresizingMask"/>

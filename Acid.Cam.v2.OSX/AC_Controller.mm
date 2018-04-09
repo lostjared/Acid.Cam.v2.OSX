@@ -286,6 +286,11 @@ void SearchForString(NSString *s) {
     frame_proc = 0;
     ac::setCustom(custom_filter);
     ac::setPlugin(plugin_callback);
+    [self reloadCameraInfo: self];
+}
+
+- (IBAction) reloadCameraInfo: (id) sender {
+    [device_index removeAllItems];
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     if([devices count] > 0) {
         for (AVCaptureDevice *device in devices) {
@@ -750,8 +755,6 @@ void SearchForString(NSString *s) {
             well_color[2] = values[2];
         });
         
-        
-        
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
         
@@ -783,8 +786,6 @@ void SearchForString(NSString *s) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
-        
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
                 cv::Mat change;

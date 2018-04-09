@@ -202,6 +202,7 @@ extern bool resize_value;
 - (IBAction) viewSearchWindow: (id) sender;
 - (void) reloadTable;
 - (IBAction) clearBlend: (id) sender;
+- (IBAction) reloadCameraInfo: (id) sender;
 @end
 
 // global variables / functions
