@@ -298,6 +298,7 @@ namespace ac {
     void InterReverse(cv::Mat &frame);
     void InterMirror(cv::Mat &frame);
     void InterFullMirror(cv::Mat &frame);
+    void MirrorRGB(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
