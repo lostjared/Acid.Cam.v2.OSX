@@ -54,6 +54,7 @@
 #include<time.h>
 #include<vector>
 #include<algorithm>
+#include"tokenize.hpp"
 #include<sys/stat.h>
 #include<AVKit/AVKit.h>
 
@@ -173,10 +174,18 @@ std::string Lower(const std::string &s) {
 void SearchForString(NSString *s) {
     [search_results removeAllObjects];
     std::string search = Lower([s UTF8String]);
+    std::vector<std::string> tokens;
+    token::tokenize(search, std::string(" "), tokens);
+    std::vector<int> used;
     for(unsigned int i = 0; i < ac::draw_max-4; ++i) {
         std::string search_items = Lower(ac::draw_strings[i]);
-        if(search_items.find(search) != std::string::npos) {
-            [search_results addObject: [NSNumber numberWithInt:i]];
+        for(unsigned q = 0; q < tokens.size(); ++q) {
+            if(search_items.find(tokens[q]) != std::string::npos) {
+                if(std::find(used.begin(), used.end(), i) == std::end(used)) {
+                	[search_results addObject: [NSNumber numberWithInt:i]];
+                    used.push_back(i);
+                }
+            }
         }
     }
     [controller reloadTable];

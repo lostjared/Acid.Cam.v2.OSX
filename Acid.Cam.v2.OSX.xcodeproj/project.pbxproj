@@ -57,6 +57,7 @@
 		7F122ED919C37026000DA576 /* Acid.Cam.v2.OSX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Acid.Cam.v2.OSX.entitlements; sourceTree = "<group>"; };
 		7F18458A17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
 		7F47CB331C6D0549008689B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7F4A50A920800F84009998DA /* tokenize.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tokenize.hpp; path = Acid.Cam.v2.OSX/tokenize.hpp; sourceTree = "<group>"; };
 		7F50E2EE1CF3DFEB007843AE /* libdl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdl.tbd; path = usr/lib/libdl.tbd; sourceTree = SDKROOT; };
 		7F5831E41E27F3CB00101A98 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7F5831E51E27F3CB00101A98 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
@@ -168,6 +169,7 @@
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
 				7F9D70B417DE4F7C009C54DA /* ac.cpp */,
 				7F9D70B517DE4F7C009C54DA /* ac.h */,
+				7F4A50A920800F84009998DA /* tokenize.hpp */,
 				7F9D70B617DE4F7C009C54DA /* en.lproj */,
 				7F9D70BD17DE4F7C009C54DA /* fractal.cpp */,
 				7F9D70BE17DE4F7C009C54DA /* fractal.h */,
