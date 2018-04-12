@@ -1,6 +1,6 @@
 # Acid.Cam.v2.OSX
 
-I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of art.
+I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
 
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
@@ -12,7 +12,7 @@ OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  
 or for OpenCV 3 go to OpenCV3.
 
 Newest version of the program now requires macOS High Sierra to run. 
-
+You can find a some of the old releases on my website here: http://lostsidedead.biz/osx
 
 To compile first clone then open with Xcode and build.
 
@@ -22,7 +22,7 @@ To compile first clone then open with Xcode and build.
 
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam2_ScreenShot.png?raw=true "screenshot")
 
-Acid Cam is a application that turns your webcam/video files into a work of Art.
+Acid Cam is a application that turns your webcam/video files into a work of art.
 Contains a lot of filters, and you can combine them with the custom filter option.
 It also supports plugins (write your own filters in C++). This project was created
 in hopes of providing some entertainment, or for the Glitch artist  to give you a 
