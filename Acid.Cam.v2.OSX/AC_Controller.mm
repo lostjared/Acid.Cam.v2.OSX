@@ -182,7 +182,7 @@ void SearchForString(NSString *s) {
         for(unsigned q = 0; q < tokens.size(); ++q) {
             if(search_items.find(tokens[q]) != std::string::npos) {
                 if(std::find(used.begin(), used.end(), i) == std::end(used)) {
-                	[search_results addObject: [NSNumber numberWithInt:i]];
+                    [search_results addObject: [NSNumber numberWithInt:i]];
                     used.push_back(i);
                 }
             }

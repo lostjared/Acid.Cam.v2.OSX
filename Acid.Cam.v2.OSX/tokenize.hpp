@@ -53,8 +53,8 @@ namespace token {
         size_t lenz = len<type>(source), dlen = len<type>(delim);
         while ( i != 0 && i < lenz && z < lenz ) {
             std::string s = substr(source,z,i);
-            if(s.length() > 0 && s != " ")
-            	v.push_back(s);
+            if(s.length() > 0 && s != delim)
+                v.push_back(s);
             z = i+dlen;
             i = find<type>(i+1, source, delim);
         }
