@@ -321,6 +321,7 @@ void SearchForString(NSString *s) {
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
     *cat = [[NSMenu alloc] init];
     [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"All Sorted" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Blend" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Distort" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Pattern" action:nil keyEquivalent:@""];
@@ -333,51 +334,61 @@ void SearchForString(NSString *s) {
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
     
-    for(unsigned int i = 1; i < 12; ++i) {
+    for(unsigned int i = 1; i < 13; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
     }
+    
+    std::vector<std::string> all_sorted;
+    for(unsigned int x = 0; x < ac::draw_max-4; ++x)
+        all_sorted.push_back(ac::draw_strings[x]);
+    
+    std::sort(all_sorted.begin(), all_sorted.end());
+    
+    const char **szAllSorted = convertToStringArray(all_sorted);
+    [self fillMenuWithString: it_arr[1] stringValues:szAllSorted];
+    eraseArray(szAllSorted, all_sorted.size());
     
     std::vector<std::string> vzBlend { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "Filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", "UpDown","LeftRight", "BlendedScanLines","XorSine", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "DiagonalLines", "HorizontalLines", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "ColorRange"};
     std::sort(vzBlend.begin(), vzBlend.end());
     const char **szBlend = convertToStringArray(vzBlend);
     
-    [self fillMenuWithString: it_arr[1] stringValues:szBlend];
+    [self fillMenuWithString: it_arr[2] stringValues:szBlend];
     eraseArray(szBlend, vzBlend.size());
     
     std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater"};
     std::sort(svDistort.begin(), svDistort.end());
     const char **szDistort = convertToStringArray(svDistort);
-    [self fillMenuWithString: it_arr[2] stringValues:szDistort];
+    [self fillMenuWithString: it_arr[3] stringValues:szDistort];
     eraseArray(szDistort, svDistort.size());
     std::vector<std::string> svPattern { "Blend Fractal","Blend Fractal Mood","Diamond Pattern" };
     std::sort(svPattern.begin(), svPattern.end());
     const char **szPattern = convertToStringArray(svPattern);
-    [self fillMenuWithString: it_arr[3] stringValues:szPattern];
+    [self fillMenuWithString: it_arr[4] stringValues:szPattern];
     eraseArray(szPattern, svPattern.size());
     std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines"};
     std::sort(svGradient.begin(), svGradient.end());
     const char **szGradient = convertToStringArray(svGradient);
-    [self fillMenuWithString: it_arr[4] stringValues:szGradient];
+    [self fillMenuWithString: it_arr[5] stringValues:szGradient];
     eraseArray(szGradient, svGradient.size());
     std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaTrip", "InterReverse", "InterMirror", "InterFullMirror", "MirrorRGB"};
     std::sort(svMirror.begin(), svMirror.end());
     const char **szMirror = convertToStringArray(svMirror);
-    [self fillMenuWithString: it_arr[5] stringValues:szMirror];
+    [self fillMenuWithString: it_arr[6] stringValues:szMirror];
     eraseArray(szMirror, svMirror.size());
     std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", "StrobeScan", "RGBFlash", "ReinterpretDouble"};
     std::sort(svStrobe.begin(), svStrobe.end());
     const char **szStrobe = convertToStringArray(svStrobe);
-    [self fillMenuWithString: it_arr[6] stringValues:szStrobe];
+    [self fillMenuWithString: it_arr[7] stringValues:szStrobe];
     eraseArray(szStrobe, svStrobe.size());
     std::vector<std::string> svBlur { "GaussianBlur", "Median Blur", "Blur Distortion", "ColorTrails", "TrailsFilter", "TrailsFilterIntense", "TrailsFilterSelfAlpha", "TrailsFilterXor","BlurSim", "TrailsInter", "TrailsBlend", "TrailsNegate" };
     std::sort(svBlur.begin(), svBlur.end());
     const char **szBlur = convertToStringArray(svBlur);
-    [self fillMenuWithString: it_arr[7] stringValues:szBlur];
+    [self fillMenuWithString: it_arr[8] stringValues:szBlur];
     eraseArray(szBlur, svBlur.size());
     std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor", "ImageAlphaBlend", "ImageInter"};
     std::sort(svImage.begin(), svImage.end());
     const char **szImage = convertToStringArray(svImage);
-    [self fillMenuWithString: it_arr[8] stringValues:szImage];
+    [self fillMenuWithString: it_arr[9] stringValues:szImage];
     eraseArray(szImage, svImage.size());
     std::vector<std::string> svOther { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Circular","MoveRed","MoveRGB","MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch","ScanAlphaSwitch", "XorAddMul", "Blend with Source", "Plugin", "Custom"};
     std::sort(svOther.begin(), svOther.end());
@@ -391,19 +402,19 @@ void SearchForString(NSString *s) {
         "SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse"};
     std::sort(svSquare.begin(), svSquare.end());
     const char **szSquare = convertToStringArray(svSquare);
-    [self fillMenuWithString: it_arr[9] stringValues:szSquare];
+    [self fillMenuWithString: it_arr[10] stringValues:szSquare];
     eraseArray(szSquare, svSquare.size());
     
     const char *szCustom[] = {"No Filter", "Blend with Source", "Plugin", "Custom",0};
     const char *szCustom_Spec[] = {"No Filter", "Blend with Source", "Plugin",0};
     
     if(cust == NO) {
-        [self fillMenuWithString: it_arr[10] stringValues:szOther];
-        [self fillMenuWithString: it_arr[11] stringValues:szCustom];
+        [self fillMenuWithString: it_arr[11] stringValues:szOther];
+        [self fillMenuWithString: it_arr[12] stringValues:szCustom];
     }
     else {
-        [self fillMenuWithString: it_arr[10] stringValues:szOther_Custom];
-        [self fillMenuWithString: it_arr[11] stringValues:szCustom_Spec];
+        [self fillMenuWithString: it_arr[11] stringValues:szOther_Custom];
+        [self fillMenuWithString: it_arr[12] stringValues:szCustom_Spec];
     }
     
     eraseArray(szOther, svOther.size());

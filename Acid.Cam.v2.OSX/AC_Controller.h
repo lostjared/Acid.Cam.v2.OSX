@@ -70,7 +70,6 @@ extern bool resize_value;
 @interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
     
 }
-
 @end
 
 // Main controller class for the program
@@ -128,8 +127,8 @@ extern bool resize_value;
     long frames_captured;
     NSMenu *menu_cat;
     NSMenu *menu_all;
-    NSMenu *menu_items[12];
-    NSMenu *menu_items_custom[12];
+    NSMenu *menu_items[13];
+    NSMenu *menu_items_custom[13];
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
     NSImage *current_image;
