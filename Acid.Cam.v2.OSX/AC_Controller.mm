@@ -197,9 +197,6 @@ void SearchForString(NSString *s) {
             }
         }
     }
-    for(auto &i : tokens) {
-        std::cout << ":" << i << ":\n";
-    }
     [controller reloadTable];
 }
 

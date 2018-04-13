@@ -47,6 +47,7 @@ namespace token {
         return 0;
     }
     
+    // has flaw for if delim is before first character token
     template<typename type>
     size_t tokenize(type source, type delim, std::vector<type> &v) {
         size_t i = find<type>(0,source,delim),z=0;
