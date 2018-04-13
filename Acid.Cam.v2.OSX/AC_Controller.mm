@@ -175,7 +175,16 @@ void SearchForString(NSString *s) {
     [search_results removeAllObjects];
     std::string search = Lower([s UTF8String]);
     std::vector<std::string> tokens;
-    token::tokenize(search, std::string(" "), tokens);
+    std::string rmv_space;
+    unsigned int pos = 0;
+    for(unsigned int x = 0; x < search.length(); ++x) {
+        if(search[x] != ' ') {
+            pos = x;
+            break;
+        }
+    }
+    rmv_space = search.substr(pos, search.length()-pos);
+    token::tokenize(rmv_space, std::string(" "), tokens);
     std::vector<int> used;
     for(unsigned int i = 0; i < ac::draw_max-4; ++i) {
         std::string search_items = Lower(ac::draw_strings[i]);
@@ -187,6 +196,9 @@ void SearchForString(NSString *s) {
                 }
             }
         }
+    }
+    for(auto &i : tokens) {
+        std::cout << ":" << i << ":\n";
     }
     [controller reloadTable];
 }
