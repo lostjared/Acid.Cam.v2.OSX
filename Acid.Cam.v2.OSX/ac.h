@@ -326,13 +326,7 @@ namespace ac {
     extern bool snapShot;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
-    // classes to be used by the filters
-    
-    // todo: create a class that contains locations of each frames original pixel values that are not the color key
-    // then apply filters
-    // replace original pixel values
-    //
-    
+    // classes to be used by the filter
     // Square class to hold broken up cv::Mat
     class Square {
     public:

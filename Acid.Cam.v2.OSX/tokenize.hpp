@@ -14,7 +14,6 @@ namespace token {
         return temp;
     }
     
-    
     template<> char* substr(char *t, size_t start, size_t stop) {
         char *temp = new char [ stop-start+1 ];
         size_t pos = 0;
@@ -62,7 +61,6 @@ namespace token {
         if( z < lenz ) v.push_back( substr(source,z,lenz) );
         return v.size();
     }
-    
 }
 
 #endif
