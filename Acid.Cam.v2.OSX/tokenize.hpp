@@ -53,7 +53,7 @@ namespace token {
         size_t lenz = len<type>(source), dlen = len<type>(delim);
         while (i != 0 && i < lenz && z < lenz ) {
             type s = substr(source,z,i);
-            if(len(s) > 0 && s != delim)
+            if(len(s) > 0 && s[0] != delim[0])
                 v.push_back(s);
             z = i+dlen;
             i = find<type>(i+1, source, delim);
