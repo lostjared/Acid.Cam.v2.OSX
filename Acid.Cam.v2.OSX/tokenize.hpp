@@ -6,6 +6,7 @@
 #include<string>
 
 namespace token {
+    
     template<typename type>
     type substr(type t, size_t start, size_t stop) {
         type temp;

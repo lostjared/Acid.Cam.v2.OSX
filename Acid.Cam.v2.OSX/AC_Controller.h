@@ -66,6 +66,7 @@ extern NSThread *background;
 extern  bool camera_active;
 extern unsigned long frame_proc;
 extern bool resize_value;
+extern void SearchForString(NSString *s);
 
 @interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
     
