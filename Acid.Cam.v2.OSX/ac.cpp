@@ -5807,7 +5807,7 @@ void ac::RGBStatic1(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pos += 0.0001;
             for(unsigned int j = 0; j < 3; ++j) {
-                pixel[pos] = pixel[pos] * pos;
+                pixel[j] = pixel[j] * pos;
             }
             
             swapColors(frame, z, i);
@@ -5825,7 +5825,7 @@ void ac::RGBStatic2(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pos += 0.001;
             for(unsigned int j = 0; j < 3; ++j) {
-                pixel[pos] = pixel[pos] * pos;
+                pixel[j] = pixel[j] * pos;
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
