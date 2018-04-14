@@ -5801,18 +5801,32 @@ void ac::MirrorRGB(cv::Mat &frame) {
 void ac::RGBStatic1(cv::Mat &frame) {
     const unsigned int w = frame.cols;
     const unsigned int h = frame.rows;
-    static double pos = 1.0;
+    static double pos = 0.25;
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            if((i%16)==0) pos += 0.0001;
-            
+            cv::Vec3b add(rand()%255, rand()%255, rand()%255);
             for(unsigned int j = 0; j < 3; ++j)
-                pixel[j] = pixel[j] * pos;
-            
+            	pixel[j] += add[j] * pos;
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
+    }
+    static int direction = 1;
+    static double direction_max = 0.4;
+    if(direction == 1) {
+        pos += 0.005;
+        if(pos > direction_max) {
+            direction = 0;
+            direction_max += 0.05;
+            if(direction_max >= 0.8) {
+                direction_max = 0.5;
+            }
+        }
+    } else if(direction == 0) {
+        pos -= 0.005;
+        if(pos <= 0.25)
+            direction = 1;
     }
 }
 
