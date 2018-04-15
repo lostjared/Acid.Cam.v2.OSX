@@ -304,6 +304,7 @@ namespace ac {
     void VectorIncrease(cv::Mat &frame);
     void LineByLineReverse(cv::Mat &frame);
     void RandomIntertwine(cv::Mat &frame);
+    void RandomFour(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
