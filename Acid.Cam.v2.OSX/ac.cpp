@@ -64,15 +64,15 @@ namespace ac {
     bool in_custom = false;
     std::string fileName ="VideoFile.avi";
     // draw strings (function names)
-    std::string draw_strings_value[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8","Filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern","MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black", "SlideRGB", "Side2Side","Top2Bottom","Strobe Red Then Green Then Blue","Blend_Angle", "Outward", "Outward Square", "ShiftPixels", "ShiftPixelsDown", "XorMultiBlend", "Bitwise_Rotate", "Bitwise_Rotate Diff", "HPPD", "FuzzyLines","GradientLines","GradientSelf","GradientSelfVertical", "GradientDown", "GraidentHorizontal", "GradientRGB","Inter", "UpDown","LeftRight","StrobeScan","BlendedScanLines","GradientStripes","XorSine","SquareSwap","SquareSwap4x2","SquareSwap8x4","SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8","SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend","FrameBlendRGB","TrailsFilter","TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim","Block","BlockXor","BlockScale","BlockStrobe","PrevFrameBlend","Wave","HighWave","VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines","HorizontalLines","InvertedScanlines","Soft_Mirror","KanapaTrip","ColorMorphing","ScanSwitch","ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch", "All Red", "All Green", "All Blue","LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreaseBlendHorizontal","BlendIncrease","GradientReverse","GradientReverseVertical", "GradientReverseBox","GradientNewFilter","ReinterpretDouble","ReinterpSelfScale", "AverageLines","ImageFile", "ImageXor","ImageAlphaBlend","ColorRange","ImageInter","TrailsInter","TrailsBlend","TrailsNegate","InterReverse","InterMirror","InterFullMirror","MirrorRGB","RGBStatic1","RGBStatic2", "No Filter","Blend with Source", "Plugin", "Custom","Blend With Image #1","TriBlend with Image", "Image Strobe", "Image distraction" };
+    std::string draw_strings_value[] = { "Self AlphaBlend", "Self Scale", "StrobeEffect", "Blend #3", "Negative Paradox", "ThoughtMode", "RandTriBlend", "Blank", "Tri", "Distort", "CDraw", "Type", "NewOne", "Blend Fractal","Blend Fractal Mood", "CosSinMultiply", "Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8","Filter3","Rainbow Blend","Rand Blend","New Blend", "Alpha Flame Filters", "Pixel Scale", "PixelSort", "GlitchSort","Random Filter", "Random Flash", "Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "GaussianBlur", "Median Blur", "Blur Distortion", "Diamond Pattern","MirrorBlend","Pulse","Sideways Mirror","Mirror No Blend","Sort Fuzz","Fuzz","Double Vision","RGB Shift","RGB Sep","Graident Rainbow","Gradient Rainbow Flash", "Reverse", "Scanlines", "TV Static", "Mirror Average", "Mirror Average Mix", "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Equalize", "Channel Sort", "Reverse_XOR", "Combine Pixels", "FlipTrip", "Canny","Boxes","Boxes Fade", "Flash Black", "SlideRGB", "Side2Side","Top2Bottom","Strobe Red Then Green Then Blue","Blend_Angle", "Outward", "Outward Square", "ShiftPixels", "ShiftPixelsDown", "XorMultiBlend", "Bitwise_Rotate", "Bitwise_Rotate Diff", "HPPD", "FuzzyLines","GradientLines","GradientSelf","GradientSelfVertical", "GradientDown", "GraidentHorizontal", "GradientRGB","Inter", "UpDown","LeftRight","StrobeScan","BlendedScanLines","GradientStripes","XorSine","SquareSwap","SquareSwap4x2","SquareSwap8x4","SquareSwap16x8","SquareSwap64x32","SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8","SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse","Circular","WhitePixel","FrameBlend","FrameBlendRGB","TrailsFilter","TrailsFilterIntense","TrailsFilterSelfAlpha","TrailsFilterXor","ColorTrails","MoveRed","MoveRGB","MoveRedGreenBlue","BlurSim","Block","BlockXor","BlockScale","BlockStrobe","PrevFrameBlend","Wave","HighWave","VerticalSort","VerticalChannelSort","HorizontalBlend","VerticalBlend","OppositeBlend","DiagonalLines","HorizontalLines","InvertedScanlines","Soft_Mirror","KanapaTrip","ColorMorphing","ScanSwitch","ScanAlphaSwitch","NegativeStrobe", "XorAddMul","ParticleRelease", "BlendSwitch", "All Red", "All Green", "All Blue","LineRGB","PixelRGB","BoxedRGB","KruegerSweater","RGBFlash","IncreaseBlendHorizontal","BlendIncrease","GradientReverse","GradientReverseVertical", "GradientReverseBox","GradientNewFilter","ReinterpretDouble","ReinterpSelfScale", "AverageLines","ImageFile", "ImageXor","ImageAlphaBlend","ColorRange","ImageInter","TrailsInter","TrailsBlend","TrailsNegate","InterReverse","InterMirror","InterFullMirror","MirrorRGB","RGBStatic1","RGBStatic2", "VectorIncrease", "No Filter","Blend with Source", "Plugin", "Custom","Blend With Image #1","TriBlend with Image", "Image Strobe", "Image distraction" };
     // draw strings
     std::string *draw_strings = draw_strings_value;
     // filter callback functions
-    DrawFunction draw_func_value[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply,colorAccumulate1,colorAccumulate2,colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,alphaFlame,pixelScale,pixelSort,glitchSort,randomFilter,randomFlash,imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour,GaussianBlur,MedianBlur,BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom,StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,SquareSwap4x2,SquareSwap8x4,SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreaseBlendHorizontal,BlendIncrease,GradientReverse,GradientReverseVertical,GradientReverseBox,GradientNewFilter,ReinterpretDouble,ReinterpSelfScale,AverageLines,ImageFile,ImageXor,ImageAlphaBlend,ColorRange,ImageInter,TrailsInter,TrailsBlend,TrailsNegate,InterReverse,InterMirror,InterFullMirror,MirrorRGB,RGBStatic1,RGBStatic2,NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
+    DrawFunction draw_func_value[] = { SelfAlphaBlend, SelfScale, StrobeEffect, Blend3, NegParadox, ThoughtMode, RandTriBlend, Blank, Tri, Distort, CDraw,Type,NewOne,blendFractal,blendFractalMood,cossinMultiply,colorAccumulate1,colorAccumulate2,colorAccumulate3,filter8,filter3,rainbowBlend,randBlend,newBlend,alphaFlame,pixelScale,pixelSort,glitchSort,randomFilter,randomFlash,imageBlend,imageBlendTwo,imageBlendThree,imageBlendFour,GaussianBlur,MedianBlur,BlurDistortion,DiamondPattern,MirrorBlend,Pulse,SidewaysMirror,MirrorNoBlend,SortFuzz,Fuzz,DoubleVision,RGBShift,RGBSep,GradientRainbow,GradientRainbowFlash,Reverse,Scanlines,TVStatic,MirrorAverage,MirrorAverageMix,Mean,Laplacian,Bitwise_XOR,Bitwise_AND,Bitwise_OR,Equalize,ChannelSort,Reverse_XOR,CombinePixels,FlipTrip,Canny,Boxes,BoxesFade,FlashBlack,SlideRGB,Side2Side,Top2Bottom,StrobeRedGreenBlue,Blend_Angle,Outward,OutwardSquare,ShiftPixels,ShiftPixelsDown,XorMultiBlend,BitwiseRotate,BitwiseRotateDiff,HPPD,FuzzyLines,GradientLines,GradientSelf,GradientSelfVertical,GradientDown,GraidentHorizontal,GradientRGB,Inter,UpDown,LeftRight,StrobeScan,BlendedScanLines,GradientStripes,XorSine,SquareSwap,SquareSwap4x2,SquareSwap8x4,SquareSwap16x8,SquareSwap64x32,SquareBars,SquareBars8,SquareSwapRand16x8,SquareVertical8,SquareVertical16,SquareVertical_Roll,SquareSwapSort_Roll,SquareVertical_RollReverse,SquareSwapSort_RollReverse,Circular,WhitePixel,FrameBlend,FrameBlendRGB,TrailsFilter,TrailsFilterIntense,TrailsFilterSelfAlpha,TrailsFilterXor,ColorTrails,MoveRed,MoveRGB,MoveRedGreenBlue,BlurSim,Block,BlockXor,BlockScale,BlockStrobe,PrevFrameBlend,Wave,HighWave,VerticalSort,VerticalChannelSort,HorizontalBlend,VerticalBlend,OppositeBlend,DiagonalLines,HorizontalLines,InvertedScanlines,Soft_Mirror,KanapaTrip,ColorMorphing,ScanSwitch,ScanAlphaSwitch,NegativeStrobe,XorAddMul,ParticleRelease,BlendSwitch,AllRed,AllGreen,AllBlue,LineRGB,PixelRGB,BoxedRGB,KruegerSweater,RGBFlash,IncreaseBlendHorizontal,BlendIncrease,GradientReverse,GradientReverseVertical,GradientReverseBox,GradientNewFilter,ReinterpretDouble,ReinterpSelfScale,AverageLines,ImageFile,ImageXor,ImageAlphaBlend,ColorRange,ImageInter,TrailsInter,TrailsBlend,TrailsNegate,InterReverse,InterMirror,InterFullMirror,MirrorRGB,RGBStatic1,RGBStatic2,VectorIncrease,NoFilter,BlendWithSource,plugin,custom,blendWithImage, triBlendWithImage,imageStrobe, imageDistraction,0};
     // draw functions
     DrawFunction *draw_func = draw_func_value;
     // number of filters
-    int draw_max = 184;
+    int draw_max = 185;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
@@ -5833,19 +5833,53 @@ void ac::RGBStatic1(cv::Mat &frame) {
 void ac::RGBStatic2(cv::Mat &frame) {
     const unsigned int w = frame.cols;
     const unsigned int h = frame.rows;
-    static double pos = 1.0;
+    static double pos = 0.05;
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            if((i%32)==0) pos += 0.001;
-            
+            cv::Vec3b add(rand()%255, rand()%255, rand()%255);
             for(unsigned int j = 0; j < 3; ++j)
-                pixel[j] = pixel[j] * pos;
+                pixel[j] += add[j] * pos;
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int direction = 1;
+    static double direction_max = 0.4;
+    if(direction == 1) {
+        pos += 0.005;
+        if(pos > direction_max) {
+            direction = 0;
+            direction_max += 0.05;
+            if(direction_max >= 0.9) {
+                direction_max = 0.4;
+            }
+        }
+    } else if(direction == 0) {
+        pos -= 0.05;
+        if(pos <= 0.05)
+            direction = 1;
+    }
+
+}
+
+void ac::VectorIncrease(cv::Mat &frame) {
+    const unsigned int w = frame.cols;
+    const unsigned int h = frame.rows;
+    static double pos = 0.25;
+    static cv::Vec3b value(rand()%255, rand()%255, rand()%255);
+    for(unsigned int z = 0; z < h; ++z) {
+        for(unsigned int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(unsigned int j = 0; j < 3; ++j)
+                pixel[j] = (pixel[j]*value[j]) * pos;
             
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
     }
+    for(unsigned int j = 0; j < 3; ++j)
+        value[j] += rand()%8;
 }
 
 // No Filter
