@@ -5983,7 +5983,6 @@ void ac::BlendThree(cv::Mat &frame) {
 }
 
 void ac::AcidTrails(cv::Mat &frame) {
-    static double pos = 1.0, pos_max = 2.0;
     const unsigned int w = frame.cols, h = frame.rows;
     cv::Mat frame_copies[3];
 
@@ -6009,8 +6008,6 @@ void ac::AcidTrails(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    static int direction1 = 1;
-    procPos(direction1, pos, pos_max);
 }
 
 // No Filter
