@@ -5983,29 +5983,34 @@ void ac::BlendThree(cv::Mat &frame) {
 }
 
 void ac::AcidTrails(cv::Mat &frame) {
-    static double pos = 1.0, pos_max = 4.0, pos2 = 0.0, pos2_max = 8.0;
+    static double pos = 1.0, pos_max = 2.0;
     const unsigned int w = frame.cols, h = frame.rows;
-    cv::Mat frame_copies[2];
-    frame_copies[0] = frame.clone();
-    frame_copies[1] = frame.clone();
-    ac::TrailsFilterIntense(frame_copies[0]);
-    ac::TrailsInter(frame_copies[1]);
+    cv::Mat frame_copies[3];
+
+    for(unsigned int j = 0; j < 3; ++j)
+        frame_copies[j] = frame.clone();
+    
+    ac::SelfScale(frame_copies[0]);
+    ac::TrailsInter(frame_copies[0]);
+    ac::Type(frame_copies[1]);
+    ac::Outward(frame_copies[2]);
+    
     for(unsigned int z = 0; z < h; ++z) {
         for(unsigned int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b copy1 = frame_copies[0].at<cv::Vec3b>(z, i);
             cv::Vec3b copy2 = frame_copies[1].at<cv::Vec3b>(z, i);
+            cv::Vec3b copy3 = frame_copies[2].at<cv::Vec3b>(z, i);
+            cv::Vec3b value;
             for(unsigned int j = 0; j < 3; ++j) {
-                pixel[j] = (copy1[j]*pos) + (copy2[j]*pos2);
+                pixel[j] = static_cast<unsigned char>(((copy1[j] ^ copy2[j]) + copy3[j]));
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
     }
     static int direction1 = 1;
-    static int direction2 = 1;
     procPos(direction1, pos, pos_max);
-    procPos(direction2, pos2, pos2_max);
 }
 
 // No Filter
