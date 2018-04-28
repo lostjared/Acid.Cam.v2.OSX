@@ -309,6 +309,7 @@ namespace ac {
     void AcidTrails(cv::Mat &frame);
     void RandomTwo(cv::Mat &frame);
     void HorizontalTrailsInter(cv::Mat &frame);
+    void Trails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
