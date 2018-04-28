@@ -138,6 +138,7 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         sout << "Resolution: " << aw << "x" << ah << "\n";
         ac::fps = capture->get(CV_CAP_PROP_FPS);
         if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(CV_CAP_PROP_FPS);
+        if(ac::fps <= 0 || ac::fps > 60) ac::fps = 30;
         sout << "FPS: " << ac::fps << "\n";
         cv::Mat frame;
         capture->read(frame);
