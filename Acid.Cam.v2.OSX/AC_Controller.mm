@@ -380,7 +380,7 @@ void SearchForString(NSString *s) {
     const char **szStrobe = convertToStringArray(svStrobe);
     [self fillMenuWithString: it_arr[7] stringValues:szStrobe];
     eraseArray(szStrobe, svStrobe.size());
-    std::vector<std::string> svBlur { "GaussianBlur", "Median Blur", "Blur Distortion", "ColorTrails", "TrailsFilter", "TrailsFilterIntense", "TrailsFilterSelfAlpha", "TrailsFilterXor","BlurSim", "TrailsInter", "TrailsBlend", "TrailsNegate", "AcidTrails", "HorizontalTrailsInter" ,"Trails"};
+    std::vector<std::string> svBlur { "GaussianBlur", "Median Blur", "Blur Distortion", "ColorTrails", "TrailsFilter", "TrailsFilterIntense", "TrailsFilterSelfAlpha", "TrailsFilterXor","BlurSim", "TrailsInter", "TrailsBlend", "TrailsNegate", "AcidTrails", "HorizontalTrailsInter" ,"Trails", "BlendTrails"};
     std::sort(svBlur.begin(), svBlur.end());
     const char **szBlur = convertToStringArray(svBlur);
     [self fillMenuWithString: it_arr[8] stringValues:szBlur];
@@ -405,8 +405,8 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[10] stringValues:szSquare];
     eraseArray(szSquare, svSquare.size());
     
-    const char *szCustom[] = {"No Filter", "Blend with Source", "Plugin", "Custom",0};
-    const char *szCustom_Spec[] = {"No Filter", "Blend with Source", "Plugin",0};
+    const char *szCustom[] = {"Negate","No Filter", "Blend with Source", "Plugin", "Custom",0};
+    const char *szCustom_Spec[] = {"Negate","No Filter", "Blend with Source", "Plugin",0};
     
     if(cust == NO) {
         [self fillMenuWithString: it_arr[11] stringValues:szOther];
