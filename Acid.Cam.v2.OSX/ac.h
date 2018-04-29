@@ -406,11 +406,11 @@ namespace ac {
     
     class Box {
     public:
-        Box() : x(0), y(0), w(0), h(0), steps(0), index(0) {}
+        Box() : x(0), y(0), w(0), h(0), steps(0), index(0), frame_index(0) {}
         void initBox(int w, int h);
         void drawBox(cv::Mat &frame);
         void sizeBox();
-        unsigned int x,y,w,h,steps,index;
+        unsigned int x,y,w,h,steps,index,frame_index;
         static unsigned int frame_width, frame_height;
     };
 }
