@@ -6069,7 +6069,9 @@ void ac::Box::initBox(int width, int height) {
     h = rand()%25;
     steps = rand()%10;
     index = 0;
-    frame_index = rand()%25;
+    do {
+    	frame_index = rand()%28;
+    } while(frame_index == 13 || frame_index == 14);
 }
 
 void ac::Box::drawBox(cv::Mat &frame) {
