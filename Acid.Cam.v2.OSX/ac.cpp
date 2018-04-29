@@ -6067,7 +6067,7 @@ void ac::Box::initBox(int width, int height) {
     y = (rand()%height);
     w = rand()%25;
     h = rand()%25;
-    steps = rand()%25;
+    steps = rand()%10;
     index = 0;
     frame_index = rand()%25;
 }
