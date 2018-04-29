@@ -60,6 +60,7 @@
 #include<algorithm>
 #include<random>
 #include<unordered_map>
+#include<memory>
 
 /*
  * to use set appropriate variables, call the function
@@ -311,6 +312,7 @@ namespace ac {
     void HorizontalTrailsInter(cv::Mat &frame);
     void Trails(cv::Mat &frame);
     void BlendTrails(cv::Mat &frame);
+    void RandomFilteredSquare(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -401,6 +403,16 @@ namespace ac {
         unsigned int w, h; // frame width/height
     };
     extern int colors[3];
+    
+    class Box {
+    public:
+        Box() : x(0), y(0), w(0), h(0), steps(0), index(0) {}
+        void initBox(int w, int h);
+        void drawBox(cv::Mat &frame);
+        void sizeBox();
+        unsigned int x,y,w,h,steps,index;
+        static unsigned int frame_width, frame_height;
+    };
 }
 
 extern ac::ParticleEmiter emiter;
