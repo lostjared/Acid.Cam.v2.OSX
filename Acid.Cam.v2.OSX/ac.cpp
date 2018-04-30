@@ -6294,11 +6294,15 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
 void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::Mat &target, unsigned int x, unsigned int y, cv::Size s) {
     for(unsigned int i = 0; i < s.width; ++i) {
         for(unsigned int z = 0; z < s.height; ++z) {
+#ifdef CHECK_BOUNDS
             if(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols) {
-            	cv::Vec3b &pixel = target.at<cv::Vec3b>(y+z, x+i);
-            	cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
-            	pixel = src_pixel;
+#endif
+                cv::Vec3b &pixel = target.at<cv::Vec3b>(y+z, x+i);
+                cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
+                pixel = src_pixel;
+#ifdef CHECK_BOUNDS
             }
+#endif
         }
     }
 }

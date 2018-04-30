@@ -41,6 +41,11 @@
 #ifndef __AC_H__
 #define __AC_H__
 
+// uncomment to test bounds for cv::Mat copy operation
+// (slows program down)
+
+//#define CHECK_BOUNDS
+
 #ifdef __APPLE__
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
