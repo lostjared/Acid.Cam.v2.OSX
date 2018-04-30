@@ -314,7 +314,7 @@ namespace ac {
     void BlendTrails(cv::Mat &frame);
     void RandomFilteredSquare(cv::Mat &frame);
     void ImageX(cv::Mat &frame);
-    void TestFilter101(cv::Mat &frame);
+    void RandomQuads(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -416,7 +416,7 @@ namespace ac {
         static unsigned int frame_width, frame_height; // current resolution
     };
     
-    void copyMat(const cv::Mat &src, cv::Mat &target, unsigned int x, unsigned int y, cv::Size s);
+    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, unsigned int x, unsigned int y, cv::Size s);
 }
 
 extern ac::ParticleEmiter emiter;
