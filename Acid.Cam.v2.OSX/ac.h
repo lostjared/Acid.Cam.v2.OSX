@@ -314,6 +314,7 @@ namespace ac {
     void BlendTrails(cv::Mat &frame);
     void RandomFilteredSquare(cv::Mat &frame);
     void ImageX(cv::Mat &frame);
+    void TestFilter101(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -404,7 +405,7 @@ namespace ac {
         unsigned int w, h; // frame width/height
     };
     extern int colors[3];
-    
+    // class to use for random growing filtered rects.
     class Box {
     public:
         Box() : x(0), y(0), w(0), h(0), steps(0), index(0), frame_index(0) {}
@@ -412,8 +413,10 @@ namespace ac {
         void drawBox(cv::Mat &frame);
         void sizeBox();
         unsigned int x,y,w,h,steps,index,frame_index;
-        static unsigned int frame_width, frame_height;
+        static unsigned int frame_width, frame_height; // current resolution
     };
+    
+    void copyMat(const cv::Mat &src, cv::Mat &target, unsigned int x, unsigned int y, cv::Size s);
 }
 
 extern ac::ParticleEmiter emiter;
