@@ -313,6 +313,7 @@ namespace ac {
     void Trails(cv::Mat &frame);
     void BlendTrails(cv::Mat &frame);
     void RandomFilteredSquare(cv::Mat &frame);
+    void ImageX(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
