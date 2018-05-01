@@ -41,11 +41,6 @@
 #ifndef __AC_H__
 #define __AC_H__
 
-// uncomment to test bounds for cv::Mat copy operation
-// (slows program down)
-
-//#define CHECK_BOUNDS
-
 #ifdef __APPLE__
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
@@ -66,6 +61,16 @@
 #include<random>
 #include<unordered_map>
 #include<memory>
+#include<cassert>
+
+
+//#define ASSERT_CHECK
+
+#ifdef ASSERT_CHECK
+#define ASSERT(X) assert(X)
+#else
+#define ASSERT(X)
+#endif
 
 /*
  * to use set appropriate variables, call the function
@@ -320,6 +325,7 @@ namespace ac {
     void RandomFilteredSquare(cv::Mat &frame);
     void ImageX(cv::Mat &frame);
     void RandomQuads(cv::Mat &frame);
+    void QuadCosSinMultiply(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
