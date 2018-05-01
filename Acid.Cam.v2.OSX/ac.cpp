@@ -86,6 +86,10 @@ namespace ac {
     int colors[3] = {rand()%255, rand()%255, rand()%255};
 }
 
+ac::Rect::Rect() : x(0), y(0), w(0), h(0) {}
+ac::Rect::Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh) : x(xx), y(yy), w(ww), h(hh) {}
+ac::Rect::Rect(unsigned int xx, unsigned int yy) : x(xx), y(yy), w(0), h(0) {}
+ac::Rect::Rect(unsigned int xx, unsigned int yy, cv::Size s) : x(xx), y(yy), w(s.width), h(s.height) {}
 // globals
 cv::Mat blend_image, color_image;
 bool blend_set = false;
@@ -6170,10 +6174,10 @@ void ac::RandomQuads(cv::Mat &frame) {
         ac::draw_func[frame_index](collection.frames[j]);
     }
     cv::Size quarter(frame.cols/2, frame.rows/2);
-    ac::copyMat(collection.frames[0],0, 0, frame, 0, 0, quarter);
-    ac::copyMat(collection.frames[1],frame.cols/2, 0, frame, frame.cols/2,0, quarter);
-    ac::copyMat(collection.frames[2],frame.cols/2, frame.rows/2, frame, frame.cols/2, frame.rows/2, quarter);
-    ac::copyMat(collection.frames[3],0, frame.rows/2, frame, 0,frame.rows/2, quarter);
+    ac::copyMat(collection.frames[0],0, 0, frame, ac::Rect(0, 0, quarter));
+    ac::copyMat(collection.frames[1],frame.cols/2, 0, frame, ac::Rect(frame.cols/2,0, quarter));
+    ac::copyMat(collection.frames[2],frame.cols/2, frame.rows/2, frame, ac::Rect(frame.cols/2, frame.rows/2, quarter));
+    ac::copyMat(collection.frames[3],0, frame.rows/2, frame, ac::Rect(0,frame.rows/2, quarter));
 }
 
 void ac::QuadCosSinMultiply(cv::Mat &frame) {
@@ -6182,13 +6186,13 @@ void ac::QuadCosSinMultiply(cv::Mat &frame) {
     DrawFunction procFunc = ac::draw_func[15];
     procFunc(frame_copy);
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,0, 0, frame, 0, 0, quarter);
+    ac::copyMat(frame_copy,0, 0, frame, ac::Rect(0, 0, quarter));
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,frame.cols/2, 0, frame, frame.cols/2,0, quarter);
+    ac::copyMat(frame_copy,frame.cols/2, 0, frame, ac::Rect(frame.cols/2,0, quarter));
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,frame.cols/2, frame.rows/2, frame, frame.cols/2, frame.rows/2, quarter);
+    ac::copyMat(frame_copy,frame.cols/2, frame.rows/2, frame, ac::Rect(frame.cols/2, frame.rows/2, quarter));
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,0, frame.rows/2, frame, 0,frame.rows/2, quarter);
+    ac::copyMat(frame_copy,0, frame.rows/2, frame, ac::Rect(0,frame.rows/2, quarter));
 }
 
 void ac::QuadRandomFilter(cv::Mat &frame) {
@@ -6199,13 +6203,13 @@ void ac::QuadRandomFilter(cv::Mat &frame) {
     baseFilter(frame_copy);
     DrawFunction procFunc = getRandomFilter(index);
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,0, 0, frame, 0, 0, quarter);
+    ac::copyMat(frame_copy,0, 0, frame, ac::Rect(0, 0, quarter));
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,frame.cols/2, 0, frame, frame.cols/2,0, quarter);
+    ac::copyMat(frame_copy,frame.cols/2, 0, frame, ac::Rect(frame.cols/2,0, quarter));
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,frame.cols/2, frame.rows/2, frame, frame.cols/2, frame.rows/2, quarter);
+    ac::copyMat(frame_copy,frame.cols/2, frame.rows/2, frame, ac::Rect(frame.cols/2, frame.rows/2, quarter));
     procFunc(frame_copy);
-    ac::copyMat(frame_copy,0, frame.rows/2, frame, 0,frame.rows/2, quarter);
+    ac::copyMat(frame_copy,0, frame.rows/2, frame,ac::Rect(0,frame.rows/2, quarter));
 }
 
 // No Filter
@@ -6322,12 +6326,12 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
 }
 
 // Copy cv::Mat
-void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::Mat &target, unsigned int x, unsigned int y, cv::Size s) {
-    for(unsigned int i = 0; i < s.width; ++i) {
-        for(unsigned int z = 0; z < s.height; ++z) {
+void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::Mat &target, ac::Rect rc) {
+    for(unsigned int i = 0; i < rc.w; ++i) {
+        for(unsigned int z = 0; z < rc.h; ++z) {
             //if(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols) {
             ASSERT(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols);
-                cv::Vec3b &pixel = target.at<cv::Vec3b>(y+z, x+i);
+                cv::Vec3b &pixel = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
                 cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
                 pixel = src_pixel;
         	//}

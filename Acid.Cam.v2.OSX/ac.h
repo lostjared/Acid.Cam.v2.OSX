@@ -40,7 +40,6 @@
  */
 #ifndef __AC_H__
 #define __AC_H__
-
 #ifdef __APPLE__
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
@@ -48,7 +47,6 @@
 #else
 #include<opencv2/opencv.hpp>
 #endif
-
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -62,16 +60,13 @@
 #include<unordered_map>
 #include<memory>
 #include<cassert>
-
-
 //#define ASSERT_CHECK
-
+// Macro for assert testing
 #ifdef ASSERT_CHECK
 #define ASSERT(X) assert(X)
 #else
 #define ASSERT(X)
 #endif
-
 /*
  * to use set appropriate variables, call the function
  *
@@ -88,12 +83,10 @@
  * ac::draw_strings[function_index];
  *
  */
-
 // exernal variables
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
 extern bool negate, blend_set, colorkey_set;
 extern cv::Mat blend_image, color_image;
-
 // acid cam namespace
 namespace ac {
     // version string
@@ -116,7 +109,6 @@ namespace ac {
     inline int GetFX(cv::Mat &frame, int x, int nw);
     inline int GetFY(cv::Mat &frame, int y, int nh);
     inline void invert(cv::Mat &frame, int x, int y);
-    
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
     // ror/rol tempaltes
@@ -128,9 +120,7 @@ namespace ac {
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    
     DrawFunction getRandomFilter(unsigned int &index);
-    
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -357,6 +347,17 @@ namespace ac {
     extern bool snapShot;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
+    
+    // Rectangle class
+    class Rect {
+    public:
+        Rect();
+        Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
+        Rect(unsigned int xx, unsigned int yy);
+        Rect(unsigned int xx, unsigned int yy, cv::Size s);
+        unsigned int x,y,w,h;
+    };
+    
     // classes to be used by the filter
     // Square class to hold broken up cv::Mat
     class Square {
@@ -431,7 +432,7 @@ namespace ac {
         static unsigned int frame_width, frame_height; // current resolution
     };
     
-    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, unsigned int x, unsigned int y, cv::Size s);
+    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, ac::Rect rc);
 }
 
 extern ac::ParticleEmiter emiter;
