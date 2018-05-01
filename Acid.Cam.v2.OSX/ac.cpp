@@ -6181,6 +6181,7 @@ void ac::QuadCosSinMultiply(cv::Mat &frame) {
     cv::Size quarter(frame.cols/2, frame.rows/2);
     DrawFunction procFunc = ac::draw_func[15];
     procFunc(frame_copy);
+    procFunc(frame_copy);
     ac::copyMat(frame_copy,0, 0, frame, 0, 0, quarter);
     procFunc(frame_copy);
     ac::copyMat(frame_copy,frame.cols/2, 0, frame, frame.cols/2,0, quarter);
