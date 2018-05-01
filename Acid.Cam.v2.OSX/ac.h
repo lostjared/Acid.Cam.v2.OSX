@@ -128,6 +128,9 @@ namespace ac {
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
+    
+    DrawFunction getRandomFilter();
+    
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -326,6 +329,7 @@ namespace ac {
     void ImageX(cv::Mat &frame);
     void RandomQuads(cv::Mat &frame);
     void QuadCosSinMultiply(cv::Mat &frame);
+    void QuadRandomFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
