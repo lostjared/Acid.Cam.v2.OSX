@@ -129,7 +129,7 @@ namespace ac {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
     
-    DrawFunction getRandomFilter();
+    DrawFunction getRandomFilter(unsigned int &index);
     
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);

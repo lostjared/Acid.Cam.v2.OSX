@@ -6194,7 +6194,10 @@ void ac::QuadCosSinMultiply(cv::Mat &frame) {
 void ac::QuadRandomFilter(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     cv::Size quarter(frame.cols/2, frame.rows/2);
-    DrawFunction procFunc = getRandomFilter();
+    unsigned int base_index = 0, index = 0;
+    DrawFunction baseFilter = getRandomFilter(base_index);
+    baseFilter(frame_copy);
+    DrawFunction procFunc = getRandomFilter(index);
     procFunc(frame_copy);
     ac::copyMat(frame_copy,0, 0, frame, 0, 0, quarter);
     procFunc(frame_copy);
@@ -6353,10 +6356,11 @@ void ac::plugin(cv::Mat &frame) {
     }
 }
 
-ac::DrawFunction ac::getRandomFilter() {
+ac::DrawFunction ac::getRandomFilter(unsigned int &index) {
     unsigned int num;
     do {
         num = rand()%(draw_max-6);
     } while(ac::draw_strings[num] == "Blend Fractal" || ac::draw_strings[num] == "Blend Fractal Mood");
+    index = num;
     return draw_func[num];
 }
