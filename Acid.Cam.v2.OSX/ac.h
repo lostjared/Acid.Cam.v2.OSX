@@ -348,6 +348,13 @@ namespace ac {
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
     
+    class Point {
+    public:
+        Point();
+        Point(unsigned int xx, unsigned int yy);
+        unsigned int x, y;
+    };
+    
     // Rectangle class
     class Rect {
     public:
@@ -355,6 +362,8 @@ namespace ac {
         Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
         Rect(unsigned int xx, unsigned int yy);
         Rect(unsigned int xx, unsigned int yy, cv::Size s);
+        Rect(Point pt, unsigned int ww, unsigned int hh);
+        Rect(Point pt, cv::Size s);
         unsigned int x,y,w,h;
     };
     
@@ -385,9 +394,9 @@ namespace ac {
     };
     
     // Point screen location
-    struct Point {
-        int x, y;
-    };
+    //struct Point {
+    //    int x, y;
+    //};
     
     // Particle movement directions
     enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };

@@ -86,10 +86,15 @@ namespace ac {
     int colors[3] = {rand()%255, rand()%255, rand()%255};
 }
 
+ac::Point::Point() : x(0), y(0) {}
+ac::Point::Point(unsigned int xx, unsigned int yy) : x(xx), y(yy) {}
 ac::Rect::Rect() : x(0), y(0), w(0), h(0) {}
 ac::Rect::Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh) : x(xx), y(yy), w(ww), h(hh) {}
 ac::Rect::Rect(unsigned int xx, unsigned int yy) : x(xx), y(yy), w(0), h(0) {}
 ac::Rect::Rect(unsigned int xx, unsigned int yy, cv::Size s) : x(xx), y(yy), w(s.width), h(s.height) {}
+ac::Rect::Rect(Point pt, unsigned int ww, unsigned int hh) : x(pt.x), y(pt.y), w(ww), h(hh) {}
+ac::Rect::Rect(Point pt, cv::Size s) : x(pt.x), y(pt.y), w(s.width), h(s.height){}
+
 // globals
 cv::Mat blend_image, color_image;
 bool blend_set = false;
