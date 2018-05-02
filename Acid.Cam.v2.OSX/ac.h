@@ -440,8 +440,10 @@ namespace ac {
         unsigned int x,y,w,h,steps,index,frame_index;
         static unsigned int frame_width, frame_height; // current resolution
     };
-    
-    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, ac::Rect rc);
+    // slow
+    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, const ac::Rect &rc);
+    void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::Rect &rc);
+    void copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh);
 }
 
 extern ac::ParticleEmiter emiter;

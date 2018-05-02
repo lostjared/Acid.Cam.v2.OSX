@@ -6331,7 +6331,7 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
 }
 
 // Copy cv::Mat
-void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::Mat &target, ac::Rect rc) {
+void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::Mat &target, const ac::Rect &rc) {
     for(unsigned int i = 0; i < rc.w; ++i) {
         for(unsigned int z = 0; z < rc.h; ++z) {
             //if(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols) {
@@ -6342,6 +6342,14 @@ void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::
         	//}
         }
     }
+}
+
+void ac::copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::Rect &rc) {
+    copyMat(src, p.x, p.y, target, rc);
+}
+
+void ac::copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh) {
+    copyMat(src, x,y,target,Rect(rx,ry,rw,rh));
 }
 
 // set custom callback
