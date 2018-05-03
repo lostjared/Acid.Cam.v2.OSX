@@ -347,14 +347,14 @@ namespace ac {
     extern bool snapShot;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
-    
+    // point class
     class Point {
     public:
         Point();
         Point(unsigned int xx, unsigned int yy);
         unsigned int x, y;
+        void setPoint(unsigned int xx, unsigned int yy);
     };
-    
     // Rectangle class
     class Rect {
     public:
@@ -364,9 +364,9 @@ namespace ac {
         Rect(unsigned int xx, unsigned int yy, cv::Size s);
         Rect(Point pt, unsigned int ww, unsigned int hh);
         Rect(Point pt, cv::Size s);
+        void setRect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
         unsigned int x,y,w,h;
     };
-    
     // classes to be used by the filter
     // Square class to hold broken up cv::Mat
     class Square {
@@ -392,15 +392,8 @@ namespace ac {
         int pos,width,height,x,y;
         cv::Mat image;
     };
-    
-    // Point screen location
-    //struct Point {
-    //    int x, y;
-    //};
-    
     // Particle movement directions
     enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
-    
     // contains info for each pixel
     class Particle {
     public:
@@ -409,7 +402,6 @@ namespace ac {
         unsigned int x, y, dir; // position/direction
         unsigned int m_count; // counter
     };
-    
     // class to process the pixel
     class ParticleEmiter {
     public:
@@ -444,6 +436,9 @@ namespace ac {
     void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, const ac::Rect &rc);
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::Rect &rc);
     void copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh);
+    
+    template<typename F>
+    void transformMat(cv::Mat &src,F func);
 }
 
 extern ac::ParticleEmiter emiter;

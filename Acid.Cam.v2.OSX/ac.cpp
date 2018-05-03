@@ -88,6 +88,12 @@ namespace ac {
 
 ac::Point::Point() : x(0), y(0) {}
 ac::Point::Point(unsigned int xx, unsigned int yy) : x(xx), y(yy) {}
+
+void ac::Point::setPoint(unsigned int xx, unsigned int yy) {
+    x = xx;
+    y = yy;
+}
+
 ac::Rect::Rect() : x(0), y(0), w(0), h(0) {}
 ac::Rect::Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh) : x(xx), y(yy), w(ww), h(hh) {}
 ac::Rect::Rect(unsigned int xx, unsigned int yy) : x(xx), y(yy), w(0), h(0) {}
@@ -95,6 +101,12 @@ ac::Rect::Rect(unsigned int xx, unsigned int yy, cv::Size s) : x(xx), y(yy), w(s
 ac::Rect::Rect(Point pt, unsigned int ww, unsigned int hh) : x(pt.x), y(pt.y), w(ww), h(hh) {}
 ac::Rect::Rect(Point pt, cv::Size s) : x(pt.x), y(pt.y), w(s.width), h(s.height){}
 
+void ac::Rect::setRect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh) {
+    x = xx;
+    y = yy;
+    w = ww;
+    h = hh;
+}
 // globals
 cv::Mat blend_image, color_image;
 bool blend_set = false;
@@ -6350,6 +6362,21 @@ void ac::copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::
 
 void ac::copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh) {
     copyMat(src, x,y,target,Rect(rx,ry,rw,rh));
+}
+
+/*
+	ac::transformMat(frame, [](cv::Vec3b &pixel) {
+
+	});
+*/
+template<typename F>
+void ac::transformMat(cv::Mat &src,F func) {
+    for(unsigned int z = 0; z < src.rows; ++z) {
+        for(unsigned int i = 0; i < src.cols; ++i) {
+            cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
+            func(pixel);
+        }
+    }
 }
 
 // set custom callback
