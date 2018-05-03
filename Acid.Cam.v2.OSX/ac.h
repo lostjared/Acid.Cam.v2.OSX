@@ -322,6 +322,7 @@ namespace ac {
     void QuadRandomFilter(cv::Mat &frame);
     void RollRandom(cv::Mat &frame);
     void AverageRandom(cv::Mat &frame);
+    void HorizontalStripes(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
