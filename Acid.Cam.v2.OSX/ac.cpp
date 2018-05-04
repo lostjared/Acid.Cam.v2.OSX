@@ -6434,7 +6434,7 @@ void ac::Grid::fillGrid(cv::Mat &frame) {
 
 
 void ac::Grid::updateGrid() {
-    unsigned int iter_max = current_offset+100;
+    unsigned int iter_max = current_offset+200;
     while(current_offset < points.size() && current_offset < iter_max) {
         const Point &p = points[current_offset];
         boxes[p.x][p.y].on = false;
@@ -6444,7 +6444,7 @@ void ac::Grid::updateGrid() {
 
 void ac::GridFilter(cv::Mat &frame) {
     static cv::Size s(0, 0);
-    const unsigned int box_size = 16;
+    const unsigned int box_size = 8;
     static Grid grid;
     if(frame.size() != s) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
