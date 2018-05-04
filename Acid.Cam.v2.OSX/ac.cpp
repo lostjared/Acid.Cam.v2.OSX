@@ -6366,8 +6366,14 @@ void ac::SmoothTrails(cv::Mat &frame) {
 ac::GridBox::GridBox() : color(rand()%255, rand()%255, rand()%255), on(true) {}
 ac::GridBox::GridBox(const Rect &r, const cv::Vec3b &col) : location(r), color(col) {}
 ac::GridBox::GridBox(const cv::Vec3b &col) : color(col), on(true) {}
+ac::GridBox::GridBox(const ac::GridBox &gb) : color(gb.color), on(gb.on), location(gb.location) {}
+ac::GridBox &ac::GridBox::operator=(const ac::GridBox &gb) {
+    color = gb.color;
+    location = gb.location;
+    on = gb.on;
+    return *this;
+}
 ac::Grid::Grid() :boxes(0) {}
-
 ac::Grid::~Grid() {
     if(boxes != 0) {
         cleanBoxes();

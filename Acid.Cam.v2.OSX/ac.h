@@ -448,11 +448,13 @@ namespace ac {
     class GridBox {
     public:
         GridBox();
+        GridBox(const GridBox &gb);
         GridBox(const Rect &r, const cv::Vec3b &col);
         GridBox(const cv::Vec3b &col);
         Rect location;
         cv::Vec3b color;
         bool on;
+        GridBox &operator=(const GridBox &gb);
     };
     
     class Grid {
