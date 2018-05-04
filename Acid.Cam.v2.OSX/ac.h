@@ -461,7 +461,7 @@ namespace ac {
         Grid();
         ~Grid();
         void createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsigned int size);
-        void updateGrid();
+        void updateGrid(unsigned int max);
         void Release();
         void cleanBoxes();
         void fillGrid(cv::Mat &frame);

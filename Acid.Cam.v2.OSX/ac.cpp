@@ -6432,9 +6432,8 @@ void ac::Grid::fillGrid(cv::Mat &frame) {
     
 }
 
-
-void ac::Grid::updateGrid() {
-    unsigned int iter_max = current_offset+200;
+void ac::Grid::updateGrid(unsigned int max) {
+    unsigned int iter_max = current_offset+max;
     while(current_offset < points.size() && current_offset < iter_max) {
         const Point &p = points[current_offset];
         boxes[p.x][p.y].on = false;
@@ -6450,7 +6449,16 @@ void ac::GridFilter(cv::Mat &frame) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
         s = frame.size();
     }
-    grid.updateGrid();
+    unsigned int num = 0;
+    if(frame.rows >= 1080)
+        num = 200;
+    else if(frame.rows >= 720)
+        num = 150;
+    else if(frame.rows >= 400)
+        num = 100;
+    else
+        num = 50;
+    grid.updateGrid(num);
     grid.fillGrid(frame);
     for(unsigned int z = 0; z < grid.g_h; ++z) {
         for(unsigned int i = 0; i < grid.g_w; ++i) {
@@ -6578,7 +6586,7 @@ void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::
     for(unsigned int i = 0; i < rc.w; ++i) {
         for(unsigned int z = 0; z < rc.h; ++z) {
             //if(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols) {
-            ASSERT(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols);
+            ASSERT(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols);
                 cv::Vec3b &pixel = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
                 cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
                 pixel = src_pixel;
@@ -6598,14 +6606,14 @@ void ac::copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &ta
 void ac::fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel) {
     for(unsigned int i = r.x; i < r.x+r.w; ++i) {
         for(unsigned int z = r.y; z < r.y+r.h; ++z) {
+            ASSERT(i < m.cols && z < m.rows);
             cv::Vec3b &pix = m.at<cv::Vec3b>(z, i);
             pix = pixel;
         }
     }
 }
-
 /*
-	ac::transformMat(frame, [](cv::Vec3b &pixel, unsigned int x, unsigned int y) {
+ 	ac::transformMat(frame, [](cv::Vec3b &pixel, unsigned int x, unsigned int y) {
 
 	});
 */
