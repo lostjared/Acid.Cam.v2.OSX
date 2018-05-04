@@ -7,6 +7,7 @@
 //  Copyright (c) 2018 Jared Bruni. All rights reserved.
 /*
  
+ This software is dedicated to all the people that struggle with mental illness. 
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead

@@ -1,6 +1,8 @@
 /* Acid Cam Functions for OpenCV
  * written by Jared Bruni https://github.com/lostjared
  
+ This software is dedicated to all the people that struggle with mental illness. 
+ 
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
  Instagram: http://instagram.com/jaredbruni
@@ -6269,7 +6271,7 @@ void ac::HorizontalStripes(cv::Mat &frame) {
                 double val = rval * 0.001;
                 value[j] += val;
                 if(value[j] > 255) value[j] = 0;
-                pixel[j] = pixel[j] ^ (unsigned int)value[j];
+                pixel[j] = pixel[j] ^ static_cast<unsigned int>(value[j]);
             }
         }
     }

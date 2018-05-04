@@ -7,6 +7,7 @@
 
 /*
  
+ This software is dedicated to all the people that struggle with mental illness.
  
  GitHub: http://github.com/lostjared
  Website: http://lostsidedead.com
