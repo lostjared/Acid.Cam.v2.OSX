@@ -327,6 +327,7 @@ namespace ac {
     void HorizontalStripes(cv::Mat &frame);
     void DiamondStrobe(cv::Mat &frame);
     void SmoothTrails(cv::Mat &frame);
+    void GridFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -358,20 +359,24 @@ namespace ac {
     class Point {
     public:
         Point();
+        Point(const Point &p);
         Point(unsigned int xx, unsigned int yy);
         unsigned int x, y;
         void setPoint(unsigned int xx, unsigned int yy);
+        Point &operator=(const Point &p);
     };
     // Rectangle class
     class Rect {
     public:
         Rect();
+        Rect(const Rect &r);
         Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
         Rect(unsigned int xx, unsigned int yy);
         Rect(unsigned int xx, unsigned int yy, cv::Size s);
         Rect(Point pt, unsigned int ww, unsigned int hh);
         Rect(Point pt, cv::Size s);
         void setRect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
+        Rect &operator=(const Rect &r);
         unsigned int x,y,w,h;
     };
     // classes to be used by the filter
@@ -439,10 +444,40 @@ namespace ac {
         unsigned int x,y,w,h,steps,index,frame_index;
         static unsigned int frame_width, frame_height; // current resolution
     };
+    
+    class GridBox {
+    public:
+        GridBox();
+        GridBox(const Rect &r, const cv::Vec3b &col);
+        GridBox(const cv::Vec3b &col);
+        Rect location;
+        cv::Vec3b color;
+        bool on;
+    };
+    
+    class Grid {
+    public:
+        GridBox **boxes;
+        Grid();
+        ~Grid();
+        void createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsigned int size);
+        void updateGrid();
+        void Release();
+        void cleanBoxes();
+        void fillGrid(cv::Mat &frame);
+        unsigned int g_w, g_h, g_s;
+        std::vector<Point> points;
+        std::default_random_engine rng;
+        unsigned int current_offset;
+    };
+    
+    bool operator<(const Point &p1, const Point &p2);
+    
     // slow
     void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, const ac::Rect &rc);
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::Rect &rc);
     void copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh);
+    void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
     template<typename F>
     void transformMat(cv::Mat &src,F func);
