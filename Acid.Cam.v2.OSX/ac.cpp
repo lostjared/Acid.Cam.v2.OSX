@@ -6449,7 +6449,7 @@ void ac::Grid::updateGrid(unsigned int max) {
 
 void ac::GridFilter(cv::Mat &frame) {
     static cv::Size s(0, 0);
-    const unsigned int box_size = 8;
+    static const unsigned int box_size = 8;
     static Grid grid;
     if(frame.size() != s) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
@@ -6457,14 +6457,14 @@ void ac::GridFilter(cv::Mat &frame) {
     }
     unsigned int num = 0;
     if(frame.rows >= 1080)
-        num = 200;
+        num = 125;
     else if(frame.rows >= 720)
-        num = 150;
-    else if(frame.rows >= 400)
         num = 100;
+    else if(frame.rows >= 400)
+        num = 75;
     else
         num = 50;
-    grid.updateGrid(num);
+    grid.updateGrid(100+rand()%num);
     grid.fillGrid(frame);
     for(unsigned int z = 0; z < grid.g_h; ++z) {
         for(unsigned int i = 0; i < grid.g_w; ++i) {
