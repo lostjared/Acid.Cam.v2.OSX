@@ -327,7 +327,8 @@ namespace ac {
     void HorizontalStripes(cv::Mat &frame);
     void DiamondStrobe(cv::Mat &frame);
     void SmoothTrails(cv::Mat &frame);
-    void GridFilter(cv::Mat &frame);
+    void GridFilter8x(cv::Mat &frame);
+    void GridFilter16x(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
