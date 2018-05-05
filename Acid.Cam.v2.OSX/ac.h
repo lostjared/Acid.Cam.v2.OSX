@@ -329,6 +329,7 @@ namespace ac {
     void SmoothTrails(cv::Mat &frame);
     void GridFilter8x(cv::Mat &frame);
     void GridFilter16x(cv::Mat &frame);
+    void GridFilter8xBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
