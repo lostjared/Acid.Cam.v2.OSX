@@ -1,5 +1,11 @@
 # Acid.Cam.v2.OSX
 
+
+Acid Cam distorts video to create art. It is designed to bo used with other software or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
+
+This project was created in hopes of providing some entertainment, or for the Glitch artist  to give you a 
+starting image/video to use with other tools.
+
 I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
 
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
@@ -21,13 +27,6 @@ To compile first clone then open with Xcode and build.
 ![AI](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam.jared.gif?raw=true "animation")
 
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam2_ScreenShot.png?raw=true "screenshot")
-
-Acid Cam is a application that turns your webcam/video files into a work of art.
-Contains a lot of filters, and you can combine them with the custom filter option.
-It also supports plugins (write your own filters in C++). This project was created
-in hopes of providing some entertainment, or for the Glitch artist  to give you a 
-starting image/video to use with other tools. There are also versions of this program
-for other platforms specifically Linux/Windows. 
 
 The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower the bitrate by exporting it as H.264. Another program you could use would be Handbrake. The following image is of MediaInfo on a 4K video created with Acid Cam. The overall bitrate is very high.
 
