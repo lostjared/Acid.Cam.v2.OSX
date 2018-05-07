@@ -330,6 +330,7 @@ namespace ac {
     void GridFilter8x(cv::Mat &frame);
     void GridFilter16x(cv::Mat &frame);
     void GridFilter8xBlend(cv::Mat &frame);
+    void GridRandom(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -465,6 +466,7 @@ namespace ac {
         Grid();
         ~Grid();
         void createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsigned int size);
+        void randomGrid();
         void updateGrid(unsigned int max);
         void Release();
         void cleanBoxes();
@@ -473,6 +475,7 @@ namespace ac {
         std::vector<Point> points;
         std::default_random_engine rng;
         unsigned int current_offset;
+        bool g_random;
     };
     
     bool operator<(const Point &p1, const Point &p2);
