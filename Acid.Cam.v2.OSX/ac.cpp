@@ -6608,18 +6608,16 @@ void ac::GridRandomPixel(cv::Mat &frame) {
 void ac::Dual_SelfAlphaRainbow(cv::Mat &frame) {
     static double alpha1 = 2.0, alpha2 = 10.0, pos_max = 10.0;
     static bool  switch_on = true;
-    
     rainbowBlend(frame);
-    
     for(unsigned int z = 0; z < frame.rows-1; ++z) {
         for(unsigned int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(switch_on == true) {
                 for(unsigned int j = 0; j < 3; ++j)
-                    pixel[j] += pixel[j]*alpha1;
+                    pixel[j] = pixel[j]*alpha1;
             } else {
                 for(unsigned int j = 0; j < 3; ++j)
-                    pixel[j] += pixel[j]*alpha2;
+                    pixel[j] = pixel[j]*alpha2;
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
