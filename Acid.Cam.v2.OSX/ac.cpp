@@ -6414,22 +6414,17 @@ void ac::Grid::createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsign
             Point p(i, z);
             points.push_back(p);
             boxes[i][z] = GridBox(pixel);
+            if(g_random)
+                boxes[i][z].on = ((rand()%4) == 0) ? false : true;
+
         }
     }
     std::shuffle(points.begin(), points.end(), rng);
     current_offset = 0;
 }
 
-void ac::Grid::randomGrid() {
-    for(unsigned int i = 0; i < g_w; ++i) {
-        for(unsigned int z = 0; z < g_h; ++z) {
-            boxes[i][z].on = ((rand()%2) == 0) ? true : false;
-        }
-    }
-}
 
 void ac::Grid::fillGrid(cv::Mat &frame) {
-
     if(current_offset < points.size())
         return;
     
@@ -6437,15 +6432,13 @@ void ac::Grid::fillGrid(cv::Mat &frame) {
         for(unsigned int z = 0; z < g_h; ++z) {
             cv::Vec3b pixel = frame.at<cv::Vec3b>(z*g_s, i*g_s);
             boxes[i][z] = GridBox(pixel);
+            if(g_random)
+                boxes[i][z].on = ((rand()%4) == 0) ? false : true;
+
         }
     }
-    
-    if(g_random)
-        randomGrid();
-    
     current_offset = 0;
     std::shuffle(points.begin(), points.end(), rng);
-    
 }
 
 void ac::Grid::updateGrid(unsigned int max) {
@@ -6552,13 +6545,15 @@ void ac::GridRandom(cv::Mat &frame) {
     static const unsigned int box_size = 16;
     static Grid grid;
     if(frame.size() != s) {
+        grid.g_random = true;
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
-        grid.randomGrid();
         s = frame.size();
     }
     unsigned int num = 0;
+    if(frame.rows >= 2000)
+        num = 250;
     if(frame.rows >= 1080)
-        num = 50;
+        num = 100;
     else if(frame.rows >= 720)
         num = 40;
     else if(frame.rows >= 400)
