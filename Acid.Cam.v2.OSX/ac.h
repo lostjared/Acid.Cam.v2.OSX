@@ -331,6 +331,7 @@ namespace ac {
     void GridFilter16x(cv::Mat &frame);
     void GridFilter8xBlend(cv::Mat &frame);
     void GridRandom(cv::Mat &frame);
+    void GridRandomPixel(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
