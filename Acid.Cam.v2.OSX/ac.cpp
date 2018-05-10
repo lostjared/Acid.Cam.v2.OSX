@@ -601,7 +601,7 @@ void ac::CDraw(cv::Mat &frame) {
 // each frame the largest value is calculated by adding the rgb values together for one element each iteration.
 // test this first
 void ac::Type(cv::Mat &frame) {
-    signed int i = 0, z = 0;// loop variables
+    unsigned int i = 0, z = 0;// loop variables
     static double add_r = 1.0; // add_r
     static int off = 0;// off variable
     for(z = 0; z < frame.rows; ++z) { // top to bottom
@@ -613,8 +613,8 @@ void ac::Type(cv::Mat &frame) {
             current[2] += add_r+current[2];
             // set value indexed by off which changes each frame
             current[off] = current[0]+current[1]+current[2];
-            swapColors(frame, i, z);// swap the colors
-            if(isNegative) invert(frame, i, z); // invert pixel
+            swapColors(frame, z, i);// swap the colors
+            if(isNegative) invert(frame, z, i); // invert pixel
         }
     }
     ++off;// increase off
@@ -6678,14 +6678,11 @@ void ac::WeakBlend(cv::Mat &frame) {
     for(unsigned int i = 0; i < frame.cols; ++i) {
         for(unsigned int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            
             for(unsigned int j = 0; j < 3; ++j) {
                 unsigned int val = pixel[j]+(pixel[j]*value[index]);
                 val /= 2;
-                
                 pixel[j] = static_cast<unsigned char>(val);
             }
-            
             index ++;
             if(index > 2)
                 index = 0;
