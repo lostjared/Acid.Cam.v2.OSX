@@ -337,6 +337,7 @@ namespace ac {
     void SurroundPixelXor(cv::Mat &frame);
     void Darken(cv::Mat &frame);
     void WeakBlend(cv::Mat &frame);
+    void AverageVertical(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
