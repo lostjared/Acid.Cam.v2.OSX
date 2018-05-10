@@ -335,6 +335,7 @@ namespace ac {
     void Dual_SelfAlphaRainbow(cv::Mat &frame);
     void Dual_SelfAlphaBlur(cv::Mat &frame);
     void SurroundPixelXor(cv::Mat &frame);
+    void Darken(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
