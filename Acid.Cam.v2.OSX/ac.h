@@ -340,6 +340,8 @@ namespace ac {
     void AverageVertical(cv::Mat &frame);
     void RandomCollectionAverage(cv::Mat &frame);
     void RandomCollectionAverageMax(cv::Mat &frame);
+    void SmoothSelfAlphaBlend(cv::Mat &frame);
+    void SmoothRainbowBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -356,6 +358,9 @@ namespace ac {
     void setBrightness(cv::Mat &frame, double alpha, int beta);
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
+    inline void swapColors(cv::Mat &frame, int x, int y);
+    inline void swapColors_(cv::Mat &frame, int x, int y);
+    inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
@@ -393,6 +398,31 @@ namespace ac {
         }
         unsigned int size() const { return ArraySize; }
     };
+    
+    template<int Size>
+    void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
+        collection->shiftFrames(frame);
+        for(unsigned int z = 0; z < frame.rows; ++z) {
+            for(unsigned int i = 0; i < frame.cols; ++i) {
+                cv::Scalar test;
+                for(unsigned int q = 0; q < collection->size()-1; ++q) {
+                    cv::Mat &framev = collection->frames[q];
+                    cv::Vec3b pix = framev.at<cv::Vec3b>(z, i);
+                    for(unsigned int j = 0; j < 3; ++j) {
+                        test[j] += pix[j];
+                    }
+                }
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(unsigned int j = 0; j < 3; ++j) {
+                    test[j] /= (collection->size()-1);
+                    pixel[j] = cv::saturate_cast<unsigned char>(test[j]);
+                }
+                ac::swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel
+            }
+        }
+    }
+    
     // point class
     class Point {
     public:
