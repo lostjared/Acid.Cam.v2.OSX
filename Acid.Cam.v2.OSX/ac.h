@@ -339,6 +339,7 @@ namespace ac {
     void WeakBlend(cv::Mat &frame);
     void AverageVertical(cv::Mat &frame);
     void RandomCollectionAverage(cv::Mat &frame);
+    void RandomCollectionAverageMax(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
