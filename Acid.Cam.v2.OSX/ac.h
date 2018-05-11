@@ -340,8 +340,8 @@ namespace ac {
     void AverageVertical(cv::Mat &frame);
     void RandomCollectionAverage(cv::Mat &frame);
     void RandomCollectionAverageMax(cv::Mat &frame);
-    void SmoothSelfAlphaBlend(cv::Mat &frame);
-    void SmoothRainbowBlend(cv::Mat &frame);
+    void SmoothTrailsSelfAlphaBlend(cv::Mat &frame);
+    void SmoothTrailsRainbowBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
