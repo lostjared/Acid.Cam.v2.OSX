@@ -3976,32 +3976,6 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
     procPos(direction, pos, pos_max);
 }
 
-template<int Size>
-class MatrixCollection {
-public:
-    static constexpr unsigned int ArraySize = Size;
-    MatrixCollection() : w(0), h(0) {}
-    cv::Mat frames[Size+1];
-    int w, h;
-    void shiftFrames(cv::Mat &frame) {
-        int wx = frame.cols;
-        int wh = frame.rows;
-        if(w != wx || h != wh) {
-            for(unsigned int i = 0; i < Size; ++i)
-                frames[i] = frame.clone();
-            w = wx;
-            h = wh;
-            return;
-        }
-        
-        for(int i = Size-1; i > 0; --i) {
-            frames[i] = frames[i-1];
-        }
-        frames[0] = frame.clone();
-    }
-    unsigned int size() const { return ArraySize; }
-};
-
 void ac::TrailsFilterIntense(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
