@@ -6157,7 +6157,7 @@ void ac::Box::sizeBox() {
 }
 
 void ac::RandomFilteredSquare(cv::Mat &frame) {
-    static std::unique_ptr<Box> boxes;
+    static std::unique_ptr<Box[]> boxes;
     unsigned int num_boxes = frame.cols/0.5;
     if(boxes == 0 || (frame.cols != Box::frame_width)) {
         boxes.reset(new Box[num_boxes]);
@@ -6701,7 +6701,7 @@ void ac::WeakBlend(cv::Mat &frame) {
 
 void ac::AverageVertical(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 8.0;
-    std::unique_ptr<cv::Scalar> values(new cv::Scalar[frame.rows]);
+    std::unique_ptr<cv::Scalar[]> values(new cv::Scalar[frame.rows]);
     for(unsigned int i = 0; i < frame.cols; ++i) {
         for(unsigned int z = 0; z < frame.rows; ++z) {
             cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
