@@ -399,6 +399,7 @@ namespace ac {
         unsigned int size() const { return ArraySize; }
     };
     
+    // Trails function
     template<int Size>
     void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
         collection->shiftFrames(frame);

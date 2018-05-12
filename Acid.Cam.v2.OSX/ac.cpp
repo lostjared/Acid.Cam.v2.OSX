@@ -6316,25 +6316,7 @@ void ac::DiamondStrobe(cv::Mat &frame) {
 
 void ac::SmoothTrails(cv::Mat &frame) {
     static MatrixCollection<8> collection;
-    collection.shiftFrames(frame);
-    for(unsigned int z = 0; z < frame.rows; ++z) {
-        for(unsigned int i = 0; i < frame.cols; ++i) {
-            cv::Scalar test;
-            for(unsigned int q = 0; q < collection.size()-1; ++q) {
-                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
-                for(unsigned int j = 0; j < 3; ++j) {
-                    test[j] += pix[j];
-                }
-            }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < 3; ++j) {
-                test[j] /= (collection.size()-1);
-                pixel[j] = cv::saturate_cast<unsigned char>(test[j]);
-            }
-            swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// if isNegative invert pixel
-        }
-    }
+    Smooth(frame, &collection);
 }
 
 ac::GridBox::GridBox() : color(rand()%255, rand()%255, rand()%255), on(true) {}
