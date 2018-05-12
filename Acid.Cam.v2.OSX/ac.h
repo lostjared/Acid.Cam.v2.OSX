@@ -342,6 +342,7 @@ namespace ac {
     void RandomCollectionAverageMax(cv::Mat &frame);
     void SmoothTrailsSelfAlphaBlend(cv::Mat &frame);
     void SmoothTrailsRainbowBlend(cv::Mat &frame);
+    void MedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -552,7 +553,7 @@ namespace ac {
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
     template<typename F>
-    void transformMat(cv::Mat &src,F func);
+    void transformMat(cv::Mat &src,const Rect &rc,F func);
 }
 
 extern ac::ParticleEmiter emiter;
