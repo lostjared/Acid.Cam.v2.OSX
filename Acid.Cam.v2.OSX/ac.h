@@ -343,6 +343,7 @@ namespace ac {
     void SmoothTrailsSelfAlphaBlend(cv::Mat &frame);
     void SmoothTrailsRainbowBlend(cv::Mat &frame);
     void MedianBlend(cv::Mat &frame);
+    void SmoothRandomImageBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
