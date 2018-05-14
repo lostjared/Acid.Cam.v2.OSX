@@ -88,7 +88,7 @@
 // exernal variables
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
 extern bool negate, blend_set, colorkey_set;
-extern cv::Mat blend_image, color_image;
+extern cv::Mat blend_image, blend_image_scaled, color_image;
 // acid cam namespace
 namespace ac {
     // version string
@@ -107,6 +107,7 @@ namespace ac {
     extern int snapshot_Type;
     extern bool in_custom;
     extern unsigned int swapColor_r, swapColor_g, swapColor_b;
+    extern cv::Size resolution;
     extern int set_color_map;
     inline int GetFX(cv::Mat &frame, int x, int nw);
     inline int GetFY(cv::Mat &frame, int y, int nh);

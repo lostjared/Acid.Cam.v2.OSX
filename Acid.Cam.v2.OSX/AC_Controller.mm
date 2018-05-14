@@ -665,6 +665,7 @@ void SearchForString(NSString *s) {
         capture = capture_camera.get();
     
     int ret_val = program_main((int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -733,6 +734,11 @@ void SearchForString(NSString *s) {
             old_frame = frame.clone();
         } else {
             frame = old_frame.clone();
+        }
+        
+        if(blend_set == true && (blend_image_scaled.size() != frame.size())) {
+            ac::resolution = frame.size();
+            cv::resize(blend_image, blend_image_scaled, ac::resolution);
         }
         
         if([rotate_v state] == NSOnState) {
@@ -902,6 +908,11 @@ void SearchForString(NSString *s) {
         old_frame = frame.clone();
     } else {
         frame = old_frame.clone();
+    }
+    
+    if(blend_set == true && (blend_image_scaled.size() != frame.size())) {
+        ac::resolution = frame.size();
+        cv::resize(blend_image, blend_image_scaled, ac::resolution);
     }
     
     NSColor *color_value = [color_well color];
