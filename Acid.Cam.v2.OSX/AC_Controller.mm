@@ -1536,7 +1536,6 @@ void SearchForString(NSString *s) {
     std::ostringstream log;
     log << "Proccess Mode Set to: " << pos << "\n";
     flushToLog(log);
-    NSLog(@"here!\n");
 }
 
 - (IBAction) showPrefs:(id) sender {

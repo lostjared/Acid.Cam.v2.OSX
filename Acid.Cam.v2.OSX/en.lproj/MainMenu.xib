@@ -482,7 +482,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="209"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView ambiguous="YES" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="209"/>
@@ -500,7 +500,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="duY-MZ-OiB">
-                            <rect key="frame" x="691" y="1" width="15" height="209"/>
+                            <rect key="frame" x="1" y="1" width="15" height="0.0"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -804,7 +804,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="Kca-yO-0lq">
                             <rect key="frame" x="1" y="0.0" width="533" height="315"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rNv-eJ-jDi" id="oR9-5h-21a">
                                     <rect key="frame" x="0.0" y="0.0" width="533" height="292"/>
@@ -1355,7 +1355,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="t1A-tL-tG7">
                             <rect key="frame" x="1" y="0.0" width="544" height="365"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
                                     <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>
@@ -1558,7 +1558,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="660-SV-BgH">
-                        <rect key="frame" x="141" y="40" width="123" height="32"/>
+                        <rect key="frame" x="148" y="39" width="123" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Save Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lIj-db-Mzb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
