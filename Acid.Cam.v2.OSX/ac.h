@@ -347,6 +347,7 @@ namespace ac {
     void SmoothRandomImageBlend(cv::Mat &frame);
     void SmoothImageAlphaBlend(cv::Mat &frame);
     void RandomAlphaBlend(cv::Mat &frame);
+    void RandomTwoFilterAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

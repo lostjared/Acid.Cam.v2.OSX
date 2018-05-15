@@ -103,7 +103,7 @@ void stopCV() {
 // program function to start process
 int program_main(int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
-    sout << "Acid Cam v" << ac::version << " Initialized ..\n";
+    sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::draw_max-4 << " Filters Loaded...\n";
     add_path="default";
     input_name = input_file;
     srand(static_cast<unsigned int>(time(0)));
