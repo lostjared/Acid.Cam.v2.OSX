@@ -123,6 +123,8 @@ extern void SearchForString(NSString *s);
     IBOutlet NSColorWell *color_well;
     IBOutlet NSButton *color_chk;
     IBOutlet NSPopUpButton *image_to_set;
+    IBOutlet NSPopUpButton *procMode;
+    IBOutlet NSWindow *procMode_Window;
     SearchController *search_controller;
     // variables
     bool pauseStepTrue;
@@ -204,6 +206,8 @@ extern void SearchForString(NSString *s);
 - (void) reloadTable;
 - (IBAction) clearBlend: (id) sender;
 - (IBAction) reloadCameraInfo: (id) sender;
+- (IBAction) setPref: (id) sender;
+- (IBAction) showPrefs:(id) sender;
 @end
 
 // global variables / functions

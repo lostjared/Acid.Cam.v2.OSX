@@ -1530,6 +1530,20 @@ void SearchForString(NSString *s) {
     
 }
 
+- (IBAction) setPref: (id) sender {
+    NSInteger pos = [procMode indexOfSelectedItem];
+    ac::setProcMode(static_cast<unsigned int >(pos));
+    std::ostringstream log;
+    log << "Proccess Mode Set to: " << pos << "\n";
+    flushToLog(log);
+    NSLog(@"here!\n");
+}
+
+- (IBAction) showPrefs:(id) sender {
+    [procMode_Window orderFront:self];
+}
+
+
 @end
 
 void custom_filter(cv::Mat &frame) {

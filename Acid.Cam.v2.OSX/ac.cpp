@@ -83,6 +83,8 @@ namespace ac {
     DrawFunction custom_callback = 0;
     DrawFunction plugin_func = 0;
     int colors[3] = {rand()%255, rand()%255, rand()%255};
+    unsigned int proc_mode = 0;
+    
 }
 
 ac::Point::Point() : x(0), y(0) {}
@@ -184,24 +186,54 @@ inline void ac::invert(cv::Mat &frame, int y, int x) {
 
 // proc position
 void ac::procPos(int &direction, double &pos, double &pos_max, const double max_size) {
-    // static int direction
-    // pos max
-    // if direction equals 1
-    if(direction == 1) {
-        pos += 0.05; // pos plus equal 0.05
-        if(pos > pos_max) { // if pos > pos max
-            pos = pos_max; // pos = pos_max
-            direction = 0;// direction equals 0
-            pos_max += 0.5; // pos_max increases by 0.5
+    
+    switch(proc_mode) {
+        case 0: { // move in - increase move out movin - increase move out
+            // static int direction
+            // pos max
+            // if direction equals 1
+            if(direction == 1) {
+                pos += 0.05; // pos plus equal 0.05
+                if(pos > pos_max) { // if pos > pos max
+                    pos = pos_max; // pos = pos_max
+                    direction = 0;// direction equals 0
+                    pos_max += 0.5; // pos_max increases by 0.5
+                }
+            } else if(direction == 0) {// direction equals 0
+                pos -= 0.05;// pos -= 0.05
+                if(pos <= 1.0) {// if pos <= 1.0
+                    if(pos_max > max_size) pos_max = 1.0;// if pos max at maxmium
+                    // set to 1.0
+                    direction = 1;// set direction back to 1
+                }
+            }
         }
-    } else if(direction == 0) {// direction equals 1
-        pos -= 0.05;// pos -= 0.05
-        if(pos <= 1.0) {// if pos <= 1.0
-            if(pos_max > max_size) pos_max = 1.0;// if pos max at maxmium
-            // set to 1.0
-            direction = 1;// set direction back to 1
+            break;
+        case 1: { // flat fade in fade out
+            if(direction == 1) {
+                pos += 0.05;
+                if(pos > max_size) direction = 0;
+                
+            } else if(direction == 0) {
+                pos -= 0.05;
+                if(pos <= 1) direction = 1;
+            }
+            
         }
+            break;
+        case 2: {
+            pos += 0.05;
+            if(pos >= pos_max) {
+                pos = 1.0;
+            }
+        }
+            break;
     }
+}
+
+
+void ac::setProcMode(unsigned int value) {
+    proc_mode = value;
 }
 
 // SelfAlphaBlend - Perform out of Bounds AlphaBlend on source image
