@@ -346,6 +346,7 @@ namespace ac {
     void MedianBlend(cv::Mat &frame);
     void SmoothRandomImageBlend(cv::Mat &frame);
     void SmoothImageAlphaBlend(cv::Mat &frame);
+    void RandomAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -362,7 +363,7 @@ namespace ac {
     void setBrightness(cv::Mat &frame, double alpha, int beta);
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
-    void AlphaBlend(cv::Mat &one, cv::Mat &two, cv::Mat &output, double alpha);
+    void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void swapColors_(cv::Mat &frame, int x, int y);
     inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15);
