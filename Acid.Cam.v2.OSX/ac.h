@@ -349,6 +349,7 @@ namespace ac {
     void RandomAlphaBlend(cv::Mat &frame);
     void RandomTwoFilterAlphaBlend(cv::Mat &frame);
     void PixelatedSquare(cv::Mat &frame);
+    void AlphaBlendPosition(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
