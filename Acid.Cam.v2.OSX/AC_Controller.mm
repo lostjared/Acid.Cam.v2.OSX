@@ -111,7 +111,7 @@ cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, con
 // convert Vector to array of char pointers
 const char **convertToStringArray(std::vector<std::string> &v) {
     char **arr = new char*[v.size()+2];
-    for(unsigned int i = 0; i < v.size(); ++i) {
+    for(int i = 0; i < v.size(); ++i) {
         std::string::size_type len = v[i].length();
         arr[i] = new char [len+2];
         snprintf(arr[i],len+1,"%s", v[i].c_str());
@@ -167,7 +167,7 @@ void setEnabledProg() {
 
 std::string Lower(const std::string &s) {
     std::string tmp;
-    for(unsigned int i = 0; i < s.length(); ++i) {
+    for(int i = 0; i < s.length(); ++i) {
         tmp += tolower(s[i]);
     }
     return tmp;
@@ -179,7 +179,7 @@ void SearchForString(NSString *s) {
     std::vector<std::string> tokens;
     token::tokenize(search, std::string(" "), tokens);
     std::vector<int> used;
-    for(unsigned int i = 0; i < ac::draw_max-4; ++i) {
+    for(int i = 0; i < ac::draw_max-4; ++i) {
         std::string search_items = Lower(ac::draw_strings[i]);
         for(unsigned q = 0; q < tokens.size(); ++q) {
             if(search_items.find(tokens[q]) != std::string::npos) {
@@ -245,7 +245,7 @@ void SearchForString(NSString *s) {
     [menu_all release];
     [menu_cat_custom release];
     [menu_all_custom release];
-    for(unsigned int i = 1; i < 10; ++i) {
+    for(int i = 1; i < 10; ++i) {
         [menu_items[i] release];
         [menu_items_custom[i] release];
     }
@@ -336,12 +336,12 @@ void SearchForString(NSString *s) {
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
     
-    for(unsigned int i = 1; i < 13; ++i) {
+    for(int i = 1; i < 13; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
     }
     
     std::vector<std::string> all_sorted;
-    for(unsigned int x = 0; x < ac::draw_max-4; ++x)
+    for(int x = 0; x < ac::draw_max-4; ++x)
         all_sorted.push_back(ac::draw_strings[x]);
     
     std::sort(all_sorted.begin(), all_sorted.end());
@@ -424,7 +424,7 @@ void SearchForString(NSString *s) {
     
     *all = [[NSMenu alloc] init];
     
-    for(unsigned int i = 0; i < ac::draw_max-3; ++i){
+    for(int i = 0; i < ac::draw_max-3; ++i){
         NSString *s = [NSString stringWithUTF8String: ac::draw_strings[i].c_str()];
         if(cust == YES) {
             if(ac::draw_strings[i] != "Custom") {
@@ -442,7 +442,7 @@ void SearchForString(NSString *s) {
 }
 
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items {
-    for(unsigned int q = 0; items[q] != 0; ++q) {
+    for(int q = 0; items[q] != 0; ++q) {
         [menu addItemWithTitle: [NSString stringWithUTF8String:items[q]] action:nil keyEquivalent:@""];
     }
 }
@@ -1353,7 +1353,7 @@ void SearchForString(NSString *s) {
     if([panel runModal]) {
         NSArray *file_names = [panel URLs];
         if([file_names count] > 0) {
-            for(unsigned int i = 0; i < [file_names count]; ++i) {
+            for(int i = 0; i < [file_names count]; ++i) {
                 NSURL *file_n = [file_names objectAtIndex:i];
                 [image_combo addItemWithObjectValue: [file_n path]];
             }
