@@ -7020,9 +7020,9 @@ void ac::fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel) {
 */
 
 template<typename F>
-void ac::transformMat(cv::Mat &src,const ac::Rect &rc,F func) {
-    for(unsigned int z = rc.y; z < rc.h && z < src.rows; ++z) {
-        for(unsigned int i = rc.x; i < rc.w && i < src.cols; ++i) {
+void ac::transformMat(cv::Mat &src, const ac::Rect &rc,F func) {
+    for(unsigned int z = rc.y; z < rc.y+rc.h && z < src.rows; ++z) {
+        for(unsigned int i = rc.x; i < rc.x+rc.w && i < src.cols; ++i) {
             cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
             func(pixel, i, z);
         }
