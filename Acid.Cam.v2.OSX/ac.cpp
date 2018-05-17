@@ -1966,22 +1966,22 @@ void ac::DiamondPattern(cv::Mat &frame) {
             if((i%2) == 0) {// if i % 2 equals 0
                 if((z%2) == 0) {// if z % 2 equals 0
                     // set pixel component values
-                    buffer[0] = 1-pos*buffer[0];
-                    buffer[2] = (i+z)*pos;
+                    buffer[0] = static_cast<unsigned char>(1-pos*buffer[0]);
+                    buffer[2] = static_cast<unsigned char>((i+z)*pos);
                 } else {
                     // set pixel coomponent values
-                    buffer[0] = pos*buffer[0]-z;
-                    buffer[2] = (i-z)*pos;
+                    buffer[0] = static_cast<unsigned char>(pos*buffer[0]-z);
+                    buffer[2] = static_cast<unsigned char>((i-z)*pos);
                 }
             } else {
                 if((z%2) == 0) {// if z % 2 equals 0
                     // set pixel component values
-                    buffer[0] = pos*buffer[0]-i;
-                    buffer[2] = (i-z)*pos;
+                    buffer[0] = static_cast<unsigned char>(pos*buffer[0]-i);
+                    buffer[2] = static_cast<unsigned char>((i-z)*pos);
                 } else {
                     // set pixel component values
-                    buffer[0] = pos*buffer[0]-z;
-                    buffer[2] = (i+z)*pos;
+                    buffer[0] = static_cast<unsigned char>(pos*buffer[0]-z);
+                    buffer[2] = static_cast<unsigned char>((i+z)*pos);
                 }
             }
             swapColors(frame, z, i);// swap colors
@@ -2009,9 +2009,9 @@ void ac::MirrorBlend(cv::Mat &frame) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i); // get pixel at i,z
             cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));// get pixel at w-i, h-z
             // set pixel rgb components
-            buffer[0] += pix1[0]*pos;
-            buffer[1] += pix1[1]*pos;
-            buffer[2] += pix1[2]*pos;
+            buffer[0] += static_cast<unsigned char>(pix1[0]*pos);
+            buffer[1] += static_cast<unsigned char>(pix1[1]*pos);
+            buffer[2] += static_cast<unsigned char>(pix1[2]*pos);
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i); // invert if isNegative true
         }
@@ -2046,9 +2046,9 @@ void ac::Pulse(cv::Mat &frame) {
             // current pixel reference cv::Vec3b
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
             // pixel rgb components plus equal multiplied by pos
-            buffer[0] += buffer[0]*pos;
-            buffer[1] += buffer[1]*pos;
-            buffer[2] += buffer[2]*pos;
+            buffer[0] += static_cast<unsigned char>(buffer[0]*pos);
+            buffer[1] += static_cast<unsigned char>(buffer[1]*pos);
+            buffer[2] += static_cast<unsigned char>(buffer[2]*pos);
             // swap colors
             swapColors(frame, z, i);
             // if negative variable true invert pixel
@@ -2093,10 +2093,10 @@ void ac::SidewaysMirror(cv::Mat &frame) {
             cv::Vec3b &pix2 = orig.at<cv::Vec3b>(z, (w-i));
             // current pixel compponents equal
             // pix1[0] plus pix2[0] multiplied by kernel
-            buffer[0] += (pix1[0]+pix2[0])*pos;
+            buffer[0] += static_cast<unsigned char>((pix1[0]+pix2[0])*pos);
             // do the same for each component
-            buffer[1] += (pix1[1]+pix2[1])*pos;
-            buffer[2] += (pix1[2]+pix2[2])*pos;
+            buffer[1] += static_cast<unsigned char>((pix1[1]+pix2[1])*pos);
+            buffer[2] += static_cast<unsigned char>((pix1[2]+pix2[2])*pos);
             // swap colors
             swapColors(frame, z, i);
             // if negative flag set invert frame
@@ -2160,9 +2160,9 @@ void ac::SortFuzz(cv::Mat &frame) {
             unsigned char *value = (unsigned char*)&v[i];
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// pixel at i,z
             // pixel values plus equal value plus r
-            pixel[0] += value[0]+r;
-            pixel[1] += value[1]+r;
-            pixel[2] += value[2]+r;
+            pixel[0] += static_cast<unsigned char>(value[0]+r);
+            pixel[1] += static_cast<unsigned char>(value[1]+r);
+            pixel[2] += static_cast<unsigned char>(value[2]+r);
             // swap colors
             swapColors(frame, z, i);
             // if negative variable set invert pixel
@@ -2220,15 +2220,15 @@ void ac::DoubleVision(cv::Mat &frame) {
             // this is what gives the diamond image
             if((i%2) == 0) {// if modulus i by two returns zero
                 if((z%2) == 0) {// modulus z by two returns zero
-                    buffer[2] += (i+z)*pos;// buffer[2] plus equals (i plus z) multiplied by pos
+                    buffer[2] += static_cast<unsigned char>((i+z)*pos);// buffer[2] plus equals (i plus z) multiplied by pos
                 } else {
-                    buffer[2] += (i-z)*pos; // buffer[2] plus equals (i minus z) mulitplied by pos
+                    buffer[2] += static_cast<unsigned char>((i-z)*pos); // buffer[2] plus equals (i minus z) mulitplied by pos
                 }
             } else {
                 if((z%2) == 0) {// modulus z by two equals zero
-                    buffer[2] += (i-z)*pos; // buffer[2] plus equals (i minus z) multiplied by pos
+                    buffer[2] += static_cast<unsigned char>((i-z)*pos); // buffer[2] plus equals (i minus z) multiplied by pos
                 } else {
-                    buffer[2] += (i+z)*pos; // buffer[2] plus equals (i plus z) multiplied by pos
+                    buffer[2] += static_cast<unsigned char>((i+z)*pos); // buffer[2] plus equals (i plus z) multiplied by pos
                 }
             }
             // this is what adds the rgb from other positions
@@ -2320,9 +2320,9 @@ void ac::GradientRainbow(cv::Mat &frame) {
             // color RGB variables
             int color_R = start_color * 4, color_G = start_color * 6, color_B = start_color * 8;
             // add to pixel color
-            pixel[0] += color_R;
-            pixel[1] += color_G;
-            pixel[2] += color_B;
+            pixel[0] += static_cast<unsigned char>(color_R);
+            pixel[1] += static_cast<unsigned char>(color_G);
+            pixel[2] += static_cast<unsigned char>(color_B);
             // swap colors
             swapColors(frame, z, i);
             // if isNegative true invert pixel
@@ -2347,9 +2347,9 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
             // color RGB variables
             int color_R = start_color * 4, color_G = start_color * 6, color_B = start_color * 8;
             // add to pixel colors
-            pixel[2] += color_R;
-            pixel[1] += color_G;
-            pixel[0] += color_B;
+            pixel[2] += static_cast<unsigned char>(color_R);
+            pixel[1] += static_cast<unsigned char>(color_G);
+            pixel[0] += static_cast<unsigned char>(color_B);
             // flash
             if(shift == 0) {
                 pixel[2] = ~pixel[2];
@@ -2439,9 +2439,9 @@ void ac::MirrorAverage(cv::Mat &frame) {
             // with the same index from each variable in the mir_pix array
             // then multiply it by the position index (pos) then add it
             // to current pixel
-            pixel[0] += ((mir_pix[0][0]+mir_pix[1][0]+mir_pix[2][0])/3)*pos;
-            pixel[1] += ((mir_pix[0][1]+mir_pix[1][1]+mir_pix[2][1])/3)*pos;
-            pixel[2] += ((mir_pix[0][2]+mir_pix[1][2]+mir_pix[2][2])/3)*pos;
+            pixel[0] += static_cast<unsigned char>(((mir_pix[0][0]+mir_pix[1][0]+mir_pix[2][0])/3)*pos);
+            pixel[1] += static_cast<unsigned char>(((mir_pix[0][1]+mir_pix[1][1]+mir_pix[2][1])/3)*pos);
+            pixel[2] += static_cast<unsigned char>(((mir_pix[0][2]+mir_pix[1][2]+mir_pix[2][2])/3)*pos);
             
             // swap colors
             swapColors(frame, z, i);
@@ -2472,9 +2472,9 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
             // take each pixel and average together mulitply by pos
             // and add its value to different components in
             // pixel reference vector
-            pixel[0] += ((mir_pix[0][0]+mir_pix[0][1]+mir_pix[0][2])/3)*pos;
-            pixel[1] += ((mir_pix[1][0]+mir_pix[1][1]+mir_pix[1][2])/3)*pos;
-            pixel[2] += ((mir_pix[2][0]+mir_pix[2][1]+mir_pix[2][2])/3)*pos;
+            pixel[0] += static_cast<unsigned char>(((mir_pix[0][0]+mir_pix[0][1]+mir_pix[0][2])/3)*pos);
+            pixel[1] += static_cast<unsigned char>(((mir_pix[1][0]+mir_pix[1][1]+mir_pix[1][2])/3)*pos);
+            pixel[2] += static_cast<unsigned char>(((mir_pix[2][0]+mir_pix[2][1]+mir_pix[2][2])/3)*pos);
             // swap colors
             swapColors(frame, z, i);
             // if isNegative true invert pixel
@@ -2496,9 +2496,9 @@ void ac::Mean(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) {// from left to right
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // pixel at (i,z)
             // add to pixel values
-            pixel[0] += pos*s[0];
-            pixel[1] += pos*s[1];
-            pixel[2] += pos*s[2];
+            pixel[0] += static_cast<unsigned char>(pos*s[0]);
+            pixel[1] += static_cast<unsigned char>(pos*s[1]);
+            pixel[2] += static_cast<unsigned char>(pos*s[2]);
             swapColors(frame, z, i);
             // if isNegative true invert pixel
             if(isNegative) invert(frame, z, i);
@@ -2582,9 +2582,9 @@ void ac::ChannelSort(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // get reference to pixel
             cv::Vec3b &ch_pixel = output.at<cv::Vec3b>(z, i); // get reference to pixel
             // add and multiply components to channels
-            pixel[0] += ch_pixel[0]*pos;
-            pixel[1] += ch_pixel[1]*pos;
-            pixel[2] += ch_pixel[2]*pos;
+            pixel[0] += static_cast<unsigned char>(ch_pixel[0]*pos);
+            pixel[1] += static_cast<unsigned char>(ch_pixel[1]*pos);
+            pixel[2] += static_cast<unsigned char>(ch_pixel[2]*pos);
             // swap colors
             swapColors(frame, z, i);
             // if isNegative true invert pixel
@@ -2639,9 +2639,9 @@ void ac::CombinePixels(cv::Mat &frame) {
             pixel[0] ^= (pixels[0][0]+pixels[1][0]+pixels[2][0]);
             pixel[1] ^= (pixels[0][1]+pixels[1][1]+pixels[2][1]);
             pixel[2] ^= (pixels[0][2]+pixels[1][2]+pixels[2][2]);
-            pixel[0] *= pos;
-            pixel[1] *= pos;
-            pixel[2] *= pos;
+            pixel[0] *= static_cast<unsigned char>(pos);
+            pixel[1] *= static_cast<unsigned char>(pos);
+            pixel[2] *= static_cast<unsigned char>(pos);
             // swap colors
             swapColors(frame, z, i);
             // if isNegative true invert pixel
@@ -2789,9 +2789,9 @@ void ac::SlideRGB(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(offset_x+i < (w-1)) {
                 cv::Vec3b off_pix = frame.at<cv::Vec3b>(z, offset_x+i);
-                pixel[color[0]] += off_pix[color[0]];
+                pixel[color[0]] += static_cast<unsigned char>(off_pix[color[0]]);
                 cv::Vec3b off_red = frame.at<cv::Vec3b>(z, (w-(offset_x+i)));
-                pixel[color[1]] += off_red[color[1]];
+                pixel[color[1]] += static_cast<unsigned char>(off_red[color[1]]);
             }
         }
     }
@@ -2820,9 +2820,9 @@ void ac::Side2Side(cv::Mat &frame) {
             total[0] += (pixel[0]/2);
             total[1] += (pixel[1]/2);
             total[2] += (pixel[2]/2);
-            pixel[0] = pixel[0] + (total[0]*pos)*0.01;
-            pixel[1] = pixel[1] + (total[1]*pos)*0.01;
-            pixel[2] = pixel[2] + (total[2]*pos)*0.01;
+            pixel[0] = static_cast<unsigned char>(pixel[0] + (total[0]*pos)*0.01);
+            pixel[1] = static_cast<unsigned char>(pixel[1] + (total[1]*pos)*0.01);
+            pixel[2] = static_cast<unsigned char>(pixel[2] + (total[2]*pos)*0.01);
             
             // swap colors
             swapColors(frame, z, i);
@@ -2845,9 +2845,9 @@ void ac::Top2Bottom(cv::Mat &frame) {
             total[0] += (pixel[0]/2);
             total[1] += (pixel[1]/2);
             total[2] += (pixel[2]/2);
-            pixel[0] = pixel[0] + (total[0]*pos)*0.01;
-            pixel[1] = pixel[1] + (total[1]*pos)*0.01;
-            pixel[2] = pixel[2] + (total[2]*pos)*0.01;
+            pixel[0] = static_cast<unsigned char>(pixel[0] + (total[0]*pos)*0.01);
+            pixel[1] = static_cast<unsigned char>(pixel[1] + (total[1]*pos)*0.01);
+            pixel[2] = static_cast<unsigned char>(pixel[2] + (total[2]*pos)*0.01);
             // swap colors
             swapColors(frame, z, i);
             // if isNegative true invert pixel
