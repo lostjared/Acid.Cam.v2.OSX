@@ -241,9 +241,9 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {// from top to bottom
         for(int i = 0; i < frame.cols; ++i) {// from left to right
             cv::Vec3b &colorval = frame.at<cv::Vec3b>(z, i);// at x,y
-            colorval[0] += colorval[0]*alpha;
-            colorval[1] += colorval[1]*alpha;
-            colorval[2] += colorval[2]*alpha;
+            colorval[0] += static_cast<unsigned char>(colorval[0]*alpha);
+            colorval[1] += static_cast<unsigned char>(colorval[1]*alpha);
+            colorval[2] += static_cast<unsigned char>(colorval[2]*alpha);
             swapColors(frame, z, i);// swap colors
             if(isNegative == true) { // if negative
                 invert(frame, z, i);// invert
@@ -272,9 +272,9 @@ void ac::SelfScale(cv::Mat &frame) {
             // current pixel at x,y
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             // scale each rgb value by pos
-            pixel[0] = pixel[0] * pos;
-            pixel[1] = pixel[1] * pos;
-            pixel[2] = pixel[2] * pos;
+            pixel[0] = static_cast<unsigned char>(pixel[0] * pos);
+            pixel[1] = static_cast<unsigned char>(pixel[1] * pos);
+            pixel[2] = static_cast<unsigned char>(pixel[2] * pos);
             swapColors(frame, z, i);// swap colors
             // if is negative set, invert pixel
             if(isNegative) invert(frame, z, i);
@@ -309,27 +309,27 @@ void ac::StrobeEffect(cv::Mat &frame) {
             
             switch (passIndex) {
                 case 0: // pass 0 set color values
-                    colors[0] = colors[0] * (-alpha);
-                    colors[1] = colors[1] * alpha;
-                    colors[2] = colors[2] * alpha;
+                    colors[0] = static_cast<unsigned char>(colors[0] * (-alpha));
+                    colors[1] = static_cast<unsigned char>(colors[1] * alpha);
+                    colors[2] = static_cast<unsigned char>(colors[2] * alpha);
                     break;
                 case 1: // pass 1 set color values
-                    colors[0] += colors[0] * alpha;
-                    colors[1] += colors[1] * (-alpha);
-                    colors[2] += colors[2] * alpha;
+                    colors[0] += static_cast<unsigned char>(colors[0] * alpha);
+                    colors[1] += static_cast<unsigned char>(colors[1] * (-alpha));
+                    colors[2] += static_cast<unsigned char>(colors[2] * alpha);
                     break;
                 case 2: // pass 2 set color values
-                    colors[0] = colors[0] * alpha;
-                    colors[1] = colors[1] * alpha;
-                    colors[2] = colors[2] * (-alpha);
+                    colors[0] = static_cast<unsigned char>(colors[0] * alpha);
+                    colors[1] = static_cast<unsigned char>(colors[1] * alpha);
+                    colors[2] = static_cast<unsigned char>(colors[2] * (-alpha));
                     break;
                 case 3: { // pass 3 grab pixels +1, and +2 ahead and use for colors
                     cv::Vec3b &color1 = frame.at<cv::Vec3b>(i + 1, z);// x,y + 1
                     cv::Vec3b &color2 = frame.at<cv::Vec3b>(i + 2, z);// x,y + 2
                     // set colors accordingly
-                    colors[0] += colors[0] * alpha;
-                    colors[1] += color1[1] * alpha;
-                    colors[2] += color2[2] * alpha;
+                    colors[0] += static_cast<unsigned char>(colors[0] * alpha);
+                    colors[1] += static_cast<unsigned char>(color1[1] * alpha);
+                    colors[2] += static_cast<unsigned char>(color2[2] * alpha);
                     break;
                 }
             }
@@ -362,7 +362,7 @@ void ac::Blend3(cv::Mat &frame) {
         for (i = 0; i < frame.rows; ++i) {
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // get pixel value
             for (int j = 0; j < 3; ++j)
-                color_value[j] += color_value[j] * rValue[j]; // loop through each color multiply by rValue
+                color_value[j] += static_cast<unsigned char>(color_value[j] * rValue[j]); // loop through each color multiply by rValue
             // swap colors
             swapColors(frame, i, z);
             if(isNegative == true) {// if isNegative true
@@ -387,9 +387,9 @@ void ac::NegParadox(cv::Mat &frame) {
             colors[3] = frame.at<cv::Vec3b>(i + 3, z);
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab pixel
             // set final pixel color values
-            color_value[0] += (colors[0][0] * alpha) + (colors[1][0] * alpha);
-            color_value[1] += (colors[1][1] * alpha) + (colors[3][1] * alpha);
-            color_value[2] += (colors[1][2] * alpha) + (colors[2][2] * alpha);
+            color_value[0] += static_cast<unsigned char>((colors[0][0] * alpha) + (colors[1][0] * alpha));
+            color_value[1] += static_cast<unsigned char>((colors[1][1] * alpha) + (colors[3][1] * alpha));
+            color_value[2] += static_cast<unsigned char>((colors[1][2] * alpha) + (colors[2][2] * alpha));
             swapColors(frame, i, z); // swap the colors
             if(isNegative == true) { // if negative is true
                 invert(frame, i, z);// invert pixel
@@ -414,9 +414,9 @@ void ac::ThoughtMode(cv::Mat &frame) {
         for(int i = 2; i < frame.rows-4; ++i) {
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // current pixel
             // set pixel rgb values
-            if(sw == 1) color_value[0]+= color_value[mode]*alpha;
-            if(tr == 0) color_value[mode] -= color_value[rand()%2]*alpha;
-            color_value[mode] += color_value[mode]*alpha;
+            if(sw == 1) color_value[0] += static_cast<unsigned char>(color_value[mode]*alpha);
+            if(tr == 0) color_value[mode] -= static_cast<unsigned char>(color_value[rand()%2]*alpha);
+            color_value[mode] += static_cast<unsigned char>(color_value[mode]*alpha);
             mode++; // increase mode
             if(mode >= 3) mode = 0; // reset mode if greater than equal three
             swapColors(frame, i, z);// swap colors
@@ -445,7 +445,7 @@ void ac::Pass2Blend(cv::Mat &frame) {
                 cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
                 cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
                 for(int q = 0; q < 3; ++q)
-                    color1[q] = color2[q]+(color1[q]*ac::pass2_alpha);// multiply
+                    color1[q] = static_cast<unsigned char>(color2[q]+(color1[q]*ac::pass2_alpha));// multiply
             }
         }
     }
@@ -469,20 +469,20 @@ void ac::RandTriBlend(cv::Mat &frame) {
                 // set pixel values
                 colors[3][0] = (colors[0][0] + colors[1][0] + colors[2][0])
                 * alpha;
-                colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
-                colors[3][2] = (colors[0][2]) * alpha;
+                colors[3][1] = static_cast<unsigned char>((colors[0][1] + colors[1][1]) * alpha);
+                colors[3][2] = static_cast<unsigned char>((colors[0][2]) * alpha);
                 counter++; // increase counter
             } else if (counter == 1) { // if counter equals one
                 // set pixel values
-                colors[3][0] = (colors[0][0]) * alpha;
-                colors[3][1] = (colors[0][1] + colors[1][1]) * alpha;
-                colors[3][2] = (colors[0][2] + colors[1][2] + colors[2][2]) * alpha;
+                colors[3][0] = static_cast<unsigned char>((colors[0][0]) * alpha);
+                colors[3][1] = static_cast<unsigned char>((colors[0][1] + colors[1][1]) * alpha);
+                colors[3][2] = static_cast<unsigned char>((colors[0][2] + colors[1][2] + colors[2][2]) * alpha);
                 counter++; // increase counter
             } else {
                 // set pixel values
-                colors[3][0] = (colors[0][0]) * alpha;
-                colors[3][2] = (colors[0][1] + colors[1][1]) * alpha;
-                colors[3][1] = (colors[0][2] + colors[1][2] + colors[2][2]) * alpha;
+                colors[3][0] = static_cast<unsigned char>((colors[0][0]) * alpha);
+                colors[3][2] = static_cast<unsigned char>((colors[0][1] + colors[1][1]) * alpha);
+                colors[3][1] = static_cast<unsigned char>((colors[0][2] + colors[1][2] + colors[2][2]) * alpha);
             }
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab current pixel
             color_value = colors[3];// assign pixel
@@ -515,9 +515,9 @@ void ac::Blank(cv::Mat &frame) {
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // current pixel
             for(int j = 0; j < 3; ++j) {
                 // process pixel values
-                val[j] = (alpha*color_value[j]) / (2-j+1);
-                color_value[j] += val[2-j] / (j+1);
-                if(color_switch == true) color_value[j] = -color_value[j];
+                val[j] = static_cast<unsigned char>((alpha*color_value[j]) / (2-j+1));
+                color_value[j] += static_cast<unsigned char>(val[2-j] / (j+1));
+                if(color_switch == true) color_value[j] = static_cast<unsigned char>(-color_value[j]);
             }
             swapColors(frame, i, z);
             if(isNegative == true) {
@@ -549,9 +549,9 @@ void ac::Tri(cv::Mat &frame) {
             colors[0] = frame.at<cv::Vec3b>(i+1, z);
             colors[1] = frame.at<cv::Vec3b>(i+2, z);
             // set pixels
-            color_value[0] += color_value[0]*alpha;
-            color_value[1] += color_value[1]+colors[0][1]+colors[1][1]*alpha;
-            color_value[2] += color_value[2]+colors[0][2]+colors[1][2]*alpha;
+            color_value[0] += static_cast<unsigned char>(color_value[0]*alpha);
+            color_value[1] += static_cast<unsigned char>(color_value[1]+colors[0][1]+colors[1][1]*alpha);
+            color_value[2] += static_cast<unsigned char>(color_value[2]+colors[0][2]+colors[1][2]*alpha);
             swapColors(frame, i, z);// swap
             if(isNegative == true) {
                 invert(frame, i, z); // invert pixel
@@ -578,10 +578,10 @@ void ac::Distort(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
             // set pixel values
-            color_value[0] = (i*alpha)+color_value[0];
-            color_value[2] = (z*alpha)+color_value[2];
-            color_value[1] = (alpha*color_value[1]);
-            if(strobe_It == true) color_value[1] = ((i+z)*alpha)+color_value[1];
+            color_value[0] = static_cast<unsigned char>((i*alpha)+color_value[0]);
+            color_value[2] = static_cast<unsigned char>((z*alpha)+color_value[2]);
+            color_value[1] = static_cast<unsigned char>((alpha*color_value[1]));
+            if(strobe_It == true) color_value[1] = static_cast<unsigned char>(((i+z)*alpha)+color_value[1]);
             swapColors(frame, i, z); //swap
             if(isNegative == true) {
                 invert(frame, i, z);// invert
@@ -610,9 +610,9 @@ void ac::CDraw(cv::Mat &frame) {
             int cY = int(rad * sinf(deg));
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // grab pixel reference
             // set values
-            color_value[0] = color_value[0]*(cX * alpha);
-            color_value[1] = color_value[1]*(cY * alpha);
-            color_value[2] = color_value[2]*alpha;
+            color_value[0] = static_cast<unsigned char>(color_value[0]*(cX * alpha));
+            color_value[1] = static_cast<unsigned char>(color_value[1]*(cY * alpha));
+            color_value[2] = static_cast<unsigned char>(color_value[2]*alpha);
             deg += 0.1f;
             swapColors(frame, i, z);// swap
             if(isNegative) invert(frame, i, z);// if isNegative invert
@@ -637,9 +637,9 @@ void ac::Type(cv::Mat &frame) {
         for(i = 0; i < frame.cols; ++i) {// left to right
             cv::Vec3b &current = frame.at<cv::Vec3b>(z, i); // grab pixel reference
             // set pixel values
-            current[0] += add_r+current[0];
-            current[1] += add_r+current[1];
-            current[2] += add_r+current[2];
+            current[0] += static_cast<unsigned char>(add_r+current[0]);
+            current[1] += static_cast<unsigned char>(add_r+current[1]);
+            current[2] += static_cast<unsigned char>(add_r+current[2]);
             // set value indexed by off which changes each frame
             current[off] = current[0]+current[1]+current[2];
             swapColors(frame, z, i);// swap the colors
@@ -673,9 +673,9 @@ void ac::NewOne(cv::Mat &frame) {
                 B /= 3;
             }
             // set pixel values
-            colv[0] += alpha*R;
-            colv[1] += alpha*G;
-            colv[2] += alpha*B;
+            colv[0] += static_cast<unsigned char>(alpha*R);
+            colv[1] += static_cast<unsigned char>(alpha*G);
+            colv[2] += static_cast<unsigned char>(alpha*B);
             swapColors(frame, i, z);//swap colors
             if(isNegative) invert(frame, i, z); // if isNegative invert pixel
         }
@@ -746,7 +746,7 @@ void ac::blendWithImage(cv::Mat &frame) {
             cv::Vec3b &frame_two = blendW_frame.at<cv::Vec3b>(q, j);
             // set pixel values
             for(int p = 0; p < 3; ++p)
-                frame_one[p] += (frame_one[p]*alpha)+(frame_two[p]*beta);
+                frame_one[p] += static_cast<unsigned char>((frame_one[p]*alpha)+(frame_two[p]*beta));
             swapColors(frame, i, z); // swap colors
             if(isNegative == true) {
                 invert(frame, i, z);// invert pixel
@@ -780,9 +780,9 @@ void ac::triBlendWithImage(cv::Mat &frame) {
             for(j = 0; j < 3; ++j) {
                 colors[j] = image_files[j].at<cv::Vec3b>(cx[j], cy[j]);
             }
-            color_value[0] = ((color_value[0]+colors[0][0])/2)*alpha;
-            color_value[1] += ((color_value[1]+colors[0][1])/2)*alpha;
-            color_value[2] = ((color_value[2]+colors[0][2]+colors[1][2]+colors[2][2])/3)*beta;
+            color_value[0] = static_cast<unsigned char>(((color_value[0]+colors[0][0])/2)*alpha);
+            color_value[1] += static_cast<unsigned char>(((color_value[1]+colors[0][1])/2)*alpha);
+            color_value[2] = static_cast<unsigned char>(((color_value[2]+colors[0][2]+colors[1][2]+colors[2][2])/3)*beta);
             swapColors(frame, i, z);
             if(isNegative == true) {
                 invert(frame, i, z);
@@ -816,7 +816,7 @@ void ac::imageStrobe(cv::Mat &frame) {
             for(j = 0; j < 3; ++j)
                 colors[j] = image_files[j].at<cv::Vec3b>(cx[j], cy[j]);
             for(j = 0; j < 3; ++j)
-                color_value[j] += (colors[image_offset][j]*alpha);
+                color_value[j] += static_cast<unsigned char>((colors[image_offset][j]*alpha));
             swapColors(frame, i, z);
             if(isNegative == true) {
                 invert(frame, i, z);
@@ -846,9 +846,9 @@ void ac::imageDistraction(cv::Mat &frame) {
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
             int cX = GetFX(image_files[im_off], i, frame.rows), cY = GetFY(image_files[im_off], z, frame.cols);
             cv::Vec3b manip_color = image_files[im_off].at<cv::Vec3b>(cX, cY);
-            color_value[0] = (z*alpha)+color_value[0];
-            color_value[1] = manip_color[1]*alpha;
-            color_value[2] = (i*alpha)+color_value[2];
+            color_value[0] = static_cast<unsigned char>((z*alpha)+color_value[0]);
+            color_value[1] = static_cast<unsigned char>(manip_color[1]*alpha);
+            color_value[2] = static_cast<unsigned char>((i*alpha)+color_value[2]);
             swapColors(frame, i, z);
             if(isNegative) invert(frame, i, z);
         }
@@ -876,9 +876,9 @@ void ac::cossinMultiply(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z); // grab pixel
             // set pixel values
-            buffer[0] += 1+(sinf(alpha))*z;
-            buffer[1] += 1+(cosf(alpha))*i;
-            buffer[2] += (buffer[0]+buffer[1]+buffer[2])/3;
+            buffer[0] += static_cast<unsigned char>(1+(sinf(alpha))*z);
+            buffer[1] += static_cast<unsigned char>(1+(cosf(alpha))*i);
+            buffer[2] += static_cast<unsigned char>((buffer[0]+buffer[1]+buffer[2])/3);
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// invert pixel
         }
@@ -896,9 +896,9 @@ void ac::colorAccumulate1(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// current pixel
             // set pixel values
-            buffer[0] += (buffer[2]*alpha);
-            buffer[1] += (buffer[0]*alpha);
-            buffer[2] += (buffer[1]*alpha);
+            buffer[0] += static_cast<unsigned char>((buffer[2]*alpha));
+            buffer[1] += static_cast<unsigned char>((buffer[0]*alpha));
+            buffer[2] += static_cast<unsigned char>((buffer[1]*alpha));
             swapColors(frame, i, z); // swap colors
             if(isNegative) invert(frame, i, z);// invert pixel
         }
@@ -917,9 +917,9 @@ void ac::colorAccumulate2(cv::Mat &frame) {
             // grab pixel
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             // set pixel rgb values
-            buffer[0] += (buffer[2]*alpha)+i;
-            buffer[1] += (buffer[0]*alpha)+z;
-            buffer[2] += (buffer[1]*alpha)+i-z;
+            buffer[0] += static_cast<unsigned char>((buffer[2]*alpha)+i);
+            buffer[1] += static_cast<unsigned char>((buffer[0]*alpha)+z);
+            buffer[2] += static_cast<unsigned char>((buffer[1]*alpha)+i-z);
             swapColors(frame, i, z);// swap
             if(isNegative) invert(frame, i, z);// if isNegative invert
         }
@@ -937,9 +937,9 @@ void ac::colorAccumulate3(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// from top to bottom
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel reference
             // set rgb values
-            buffer[0] = (-buffer[2])+z;
-            buffer[1] = (-buffer[0])+i;
-            buffer[2] = (-buffer[1])+alpha;
+            buffer[0] = static_cast<unsigned char>((-buffer[2])+z);
+            buffer[1] = static_cast<unsigned char>((-buffer[0])+i);
+            buffer[2] = static_cast<unsigned char>((-buffer[1])+alpha);
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// if isNegative true invert pixel
         }
@@ -957,7 +957,7 @@ void ac::filter8(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// from top to bottom
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel
             for(q = 0; q < 3; ++q) {// loop each rgb value
-                buffer[q] = buffer[q]+((i+z)*alpha);// preform calculation
+                buffer[q] = static_cast<unsigned char>(buffer[q]+((i+z)*alpha));// preform calculation
                 
             }
             swapColors(frame, i, z);// swap colors
@@ -983,7 +983,7 @@ void ac::filter3(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel reference
             for(q = 0; q < 3; ++q) {// loop through rgb values
-                buffer[q] = buffer[0]+(buffer[q])*(alpha);// preform calculation
+                buffer[q] = static_cast<unsigned char>(buffer[0]+(buffer[q])*(alpha));// preform calculation
             }
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// if isNegative invert pixel
@@ -1023,9 +1023,9 @@ void ac::rainbowBlend(cv::Mat &frame) {
             // grab pixel as cv::Vec3b reference
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             // add to rgb values alpha * rb,gb,bb variables
-            buffer[0] += alpha*rb;
-            buffer[1] += alpha*gb;
-            buffer[2] += alpha*bb;
+            buffer[0] += static_cast<unsigned char>(alpha*rb);
+            buffer[1] += static_cast<unsigned char>(alpha*gb);
+            buffer[2] += static_cast<unsigned char>(alpha*bb);
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// if isNegative invert pixel
         }
@@ -1078,9 +1078,9 @@ void ac::newBlend(cv::Mat &frame) {
             // grab pixel
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             // set pixel RGB values
-            buffer[0] = buffer[2]+(1+(i*z)/pos);
-            buffer[1] = buffer[1]+(1+(i*z)/pos);
-            buffer[2] = buffer[0]+(1+(i*z)/pos);
+            buffer[0] = static_cast<unsigned char>(buffer[2]+(1+(i*z)/pos));
+            buffer[1] = static_cast<unsigned char>(buffer[1]+(1+(i*z)/pos));
+            buffer[2] = static_cast<unsigned char>(buffer[0]+(1+(i*z)/pos));
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// if(isNegative) invert pixel
         }
@@ -1112,9 +1112,9 @@ void ac::pixelScale(cv::Mat &frame) {
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
             cv::Vec3b buf = buffer;// temp pixel
             // set RGB pixel values
-            buffer[0] = (buf[0]*pos)+(buf[0]-buffer[2]);
-            buffer[1] = (buf[1]*pos)+(buf[1]+buffer[1]);
-            buffer[2] = (buf[2]*pos)+(buf[2]-buffer[0]);
+            buffer[0] = static_cast<unsigned char>((buf[0]*pos)+(buf[0]-buffer[2]));
+            buffer[1] = static_cast<unsigned char>((buf[1]*pos)+(buf[1]+buffer[1]));
+            buffer[2] = static_cast<unsigned char>((buf[2]*pos)+(buf[2]-buffer[0]));
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// if isNegative invert pixel
         }
@@ -1166,9 +1166,9 @@ void ac::glitchSort(cv::Mat &frame) {
             // grab current pixel reference as cv::Vec3b
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             // alphablend pixel with values from v at index i
-            pixel[0] = pixel[0] + (pos)*value[0];
-            pixel[1] = pixel[1] + (pos)*value[1];
-            pixel[2] = pixel[2] + (pos)*value[2];
+            pixel[0] = static_cast<unsigned char>(pixel[0] + (pos)*value[0]);
+            pixel[1] = static_cast<unsigned char>(pixel[1] + (pos)*value[1]);
+            pixel[2] = static_cast<unsigned char>(pixel[2] + (pos)*value[2]);
             // swap the colors
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i); // if isNegative invert pixel
@@ -1242,9 +1242,9 @@ void ac::randomFlash(cv::Mat &frame) {
             // get pixel reference
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             // calculate RGB values
-            pixel[0] += pos*random_r;
-            pixel[1] += pos*random_g;
-            pixel[2] += pos*random_b;
+            pixel[0] += static_cast<unsigned char>(pos*random_r);
+            pixel[1] += static_cast<unsigned char>(pos*random_g);
+            pixel[2] += static_cast<unsigned char>(pos*random_b);
             // swap colors
             swapColors(frame, z, i);
             // if isNegative true invert pixel
@@ -1278,48 +1278,48 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
         case 0:
         {
             double value = pos;
-            buffer[0] = (unsigned char) value*buffer[0];
-            buffer[1] = (unsigned char) value*buffer[1];
-            buffer[2] = (unsigned char) value*buffer[2];
+            buffer[0] = static_cast<unsigned char>(value*buffer[0]);
+            buffer[1] = static_cast<unsigned char>(value*buffer[1]);
+            buffer[2] = static_cast<unsigned char>(value*buffer[2]);
         }
             break;
         case 1:
         {
             double value = pos;
-            buffer[0] = (unsigned char) value*buffer[0];
-            buffer[1] = (unsigned char) (-value)*buffer[1];
-            buffer[2] = (unsigned char) value*buffer[2];
+            buffer[0] = static_cast<unsigned char>(value*buffer[0]);
+            buffer[1] = static_cast<unsigned char>((-value)*buffer[1]);
+            buffer[2] = static_cast<unsigned char>(value*buffer[2]);
         }
             break;
         case 2:
         {
-            buffer[0] += buffer[0]*-pos;
-            buffer[1] += buffer[1]*pos;
-            buffer[2] += buffer[2]*-pos;
+            buffer[0] += static_cast<unsigned char>(buffer[0]*-pos);
+            buffer[1] += static_cast<unsigned char>(buffer[1]*pos);
+            buffer[2] += static_cast<unsigned char>(buffer[2]*-pos);
         }
             break;
         case 3:
         {
             int current_pos = pos*0.2f;
-            buffer[0] = (i*current_pos)+buffer[0];
-            buffer[2] = (z*current_pos)+buffer[2];
-            buffer[1] = (current_pos*buffer[1]);
+            buffer[0] = static_cast<unsigned char>((i*current_pos)+buffer[0]);
+            buffer[2] = static_cast<unsigned char>((z*current_pos)+buffer[2]);
+            buffer[1] = static_cast<unsigned char>((current_pos*buffer[1]));
         }
             break;
         case 4:
         {
             int current_pos = pos*0.2f;
-            buffer[0] = (z*current_pos)+buffer[0];
-            buffer[1] = (i*current_pos)+buffer[1];
-            buffer[2] = ((i+z)*current_pos)+buffer[2];
+            buffer[0] = static_cast<unsigned char>((z*current_pos)+buffer[0]);
+            buffer[1] = static_cast<unsigned char>((i*current_pos)+buffer[1]);
+            buffer[2] = static_cast<unsigned char>(((i+z)*current_pos)+buffer[2]);
         }
             break;
         case 5:
         {
             int current_pos = pos*0.2f;
-            buffer[0] = -(z*current_pos)+buffer[0];
-            buffer[1] = -(i*current_pos)+buffer[1];
-            buffer[2] = -((i+z)*current_pos)+buffer[2];
+            buffer[0] = static_cast<unsigned char>(-(z*current_pos)+buffer[0]);
+            buffer[1] = static_cast<unsigned char>(-(i*current_pos)+buffer[1]);
+            buffer[2] = static_cast<unsigned char>(-((i+z)*current_pos)+buffer[2]);
         }
             break;
             
@@ -1328,9 +1328,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             int zq = z+1, iq = i+1;
             if(zq > height-1 || iq > width-1) return;
             cv::Vec3b &temp = full_buffer.at<cv::Vec3b>(zq, iq);
-            buffer[0] += (i*pos)+temp[0];
-            buffer[1] += (z*pos)+temp[1];
-            buffer[2] += (i/(z+1))+temp[2];
+            buffer[0] += static_cast<unsigned char>((i*pos)+temp[0]);
+            buffer[1] += static_cast<unsigned char>((z*pos)+temp[1]);
+            buffer[2] += static_cast<unsigned char>((i/(z+1))+temp[2]);
         }
             break;
         case 7:
@@ -1355,9 +1355,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
                 B += blue_values[iq];
                 B /= 3;
             }
-            buffer[0] += alpha*R;
-            buffer[1] += alpha*G;
-            buffer[2] += alpha*B;
+            buffer[0] += static_cast<unsigned char>(alpha*R);
+            buffer[1] += static_cast<unsigned char>(alpha*G);
+            buffer[2] += static_cast<unsigned char>(alpha*B);
         }
             break;
         case 8:
@@ -1385,9 +1385,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
                 B += blue_values[iq];
                 B /= 3;
             }
-            buffer[0] += alpha*R;
-            buffer[1] += alpha*G;
-            buffer[2] += alpha*B;
+            buffer[0] += static_cast<unsigned char>(alpha*R);
+            buffer[1] += static_cast<unsigned char>(alpha*G);
+            buffer[2] += static_cast<unsigned char>(alpha*B);
         }
             break;
         case 9:
@@ -1410,93 +1410,93 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             int total_g = colorz[1][0]+colorz[1][1]+colorz[1][2];
             total_g /= 3;
             total_g *= alpha;
-            buffer[0] = (unsigned char)total_r;
-            buffer[1] = (unsigned char)total_g;
-            buffer[2] = (unsigned char)total_r+total_g*alpha;
+            buffer[0] = static_cast<unsigned char>(total_r);
+            buffer[1] = static_cast<unsigned char>(total_g);
+            buffer[2] = static_cast<unsigned char>(total_r+total_g*alpha);
             
         }
             break;
         case 10:
         {
-            buffer[0] = ((i+z)*pos)/(i+z+1)+buffer[0]*pos;
-            buffer[1] += ((i*pos)/(z+1))+buffer[1];
-            buffer[2] += ((z*pos)/(i+1))+buffer[2];
+            buffer[0] = static_cast<unsigned char>(((i+z)*pos)/(i+z+1)+buffer[0]*pos);
+            buffer[1] += static_cast<unsigned char>(((i*pos)/(z+1))+buffer[1]);
+            buffer[2] += static_cast<unsigned char>(((z*pos)/(i+1))+buffer[2]);
         }
             break;
         case 11:
         {
-            buffer[0] += (buffer[2]+(i*pos))/(pos+1);
-            buffer[1] += (buffer[1]+(z*pos))/(pos+1);
+            buffer[0] += static_cast<unsigned char>((buffer[2]+(i*pos))/(pos+1));
+            buffer[1] += static_cast<unsigned char>((buffer[1]+(z*pos))/(pos+1));
             buffer[2] += buffer[0];
         }
             break;
         case 12:
         {
-            buffer[0] += (i/(z+1))*pos+buffer[0];
-            buffer[1] += (z/(i+1))*pos+buffer[1];
-            buffer[2] += ((i+z)/(pos+1)+buffer[2]);
+            buffer[0] += static_cast<unsigned char>((i/(z+1))*pos+buffer[0]);
+            buffer[1] += static_cast<unsigned char>((z/(i+1))*pos+buffer[1]);
+            buffer[2] += static_cast<unsigned char>(((i+z)/(pos+1)+buffer[2]));
         }
             break;
         case 13:
         {
-            buffer[0] += (pos*(i/(pos+1))+buffer[2]);
-            buffer[1] += (pos*(z/(pos+1))+buffer[1]);
-            buffer[2] += (pos*((i*z)/(pos+1)+buffer[0]));
+            buffer[0] += static_cast<unsigned char>((pos*(i/(pos+1))+buffer[2]));
+            buffer[1] += static_cast<unsigned char>((pos*(z/(pos+1))+buffer[1]));
+            buffer[2] += static_cast<unsigned char>((pos*((i*z)/(pos+1)+buffer[0])));
         }
             break;
         case 14:
         {
-            buffer[0] = ((i+z)*pos)/(i+z+1)+buffer[0]*pos;
-            buffer[1] += (buffer[1]+(z*pos))/(pos+1);
-            buffer[2] += ((i+z)/(pos+1)+buffer[2]);
+            buffer[0] = static_cast<unsigned char>(((i+z)*pos)/(i+z+1)+buffer[0]*pos);
+            buffer[1] += static_cast<unsigned char>((buffer[1]+(z*pos))/(pos+1));
+            buffer[2] += static_cast<unsigned char>(((i+z)/(pos+1)+buffer[2]));
         }
             break;
         case 15:
         {
-            buffer[0] = (i%(z+1))*pos+buffer[0];
-            buffer[1] = (z%(i+1))*pos+buffer[1];
-            buffer[2] = (i+z%((int)pos+1))+buffer[2];
+            buffer[0] = static_cast<unsigned char>((i%(z+1))*pos+buffer[0]);
+            buffer[1] = static_cast<unsigned char>((z%(i+1))*pos+buffer[1]);
+            buffer[2] = static_cast<unsigned char>((i+z%((int)pos+1))+buffer[2]);
         }
             break;
         case 16:
         {
             unsigned int r = 0;
             r = (buffer[0]+buffer[1]+buffer[2])/3;
-            buffer[0] += pos*r;
-            buffer[1] += -(pos*r);
-            buffer[2] += pos*r;
+            buffer[0] += static_cast<unsigned char>(pos*r);
+            buffer[1] += static_cast<unsigned char>(-(pos*r));
+            buffer[2] += static_cast<unsigned char>(pos*r);
         }
             break;
         case 17:
         {
             unsigned long r = 0;;
             r = (buffer[0]+buffer[1]+buffer[2])/(pos+1);
-            buffer[0] += r*pos;
+            buffer[0] += static_cast<unsigned char>(r*pos);
             r = (buffer[0]+buffer[1]+buffer[2])/3;
-            buffer[1] += r*pos;
+            buffer[1] += static_cast<unsigned char>(r*pos);
             r = (buffer[0]+buffer[1]+buffer[2])/5;
-            buffer[2] += r*pos;
+            buffer[2] += static_cast<unsigned char>(r*pos);
         }
             break;
         case 18:
         {
-            buffer[0] += 1+(sinf(pos))*z;
-            buffer[1] += 1+(cosf(pos))*i;
-            buffer[2] += (buffer[0]+buffer[1]+buffer[2])/3;
+            buffer[0] += static_cast<unsigned char>(1+(sinf(pos))*z);
+            buffer[1] += static_cast<unsigned char>(1+(cosf(pos))*i);
+            buffer[2] += static_cast<unsigned char>((buffer[0]+buffer[1]+buffer[2])/3);
         }
             break;
         case 19:
         {
-            buffer[0] += (buffer[2]-i)*((((int)pos+1)%15)+2);
-            buffer[1] += (buffer[1]-z)*((((int)pos+1)%15)+2);
-            buffer[2] += buffer[0]-(i+z)*((((int)pos+1)%15)+2);
+            buffer[0] += static_cast<unsigned char>((buffer[2]-i)*((((int)pos+1)%15)+2));
+            buffer[1] += static_cast<unsigned char>((buffer[1]-z)*((((int)pos+1)%15)+2));
+            buffer[2] += static_cast<unsigned char>(buffer[0]-(i+z)*((((int)pos+1)%15)+2));
         }
             break;
         case 20:
         {
-            buffer[0] += (buffer[0]+buffer[1]-buffer[2])/3*pos;
-            buffer[1] -= (buffer[0]-buffer[1]+buffer[2])/6*pos;
-            buffer[2] += (buffer[0]-buffer[1]-buffer[2])/9*pos;
+            buffer[0] += static_cast<unsigned char>((buffer[0]+buffer[1]-buffer[2])/3*pos);
+            buffer[1] -= static_cast<unsigned char>((buffer[0]-buffer[1]+buffer[2])/6*pos);
+            buffer[2] += static_cast<unsigned char>((buffer[0]-buffer[1]-buffer[2])/9*pos);
         }
             break;
         case 21:
@@ -1513,23 +1513,23 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             ib = buffer[2]-temp[2]-temp2[2];
             if(z%2 == 0) {
                 if(i%2 == 0) {
-                    buffer[0] = ir+(0.5*pos);
-                    buffer[1] = ig+(0.5*pos);
-                    buffer[2] = ib+(0.5*pos);
+                    buffer[0] = static_cast<unsigned char>(ir+(0.5*pos));
+                    buffer[1] = static_cast<unsigned char>(ig+(0.5*pos));
+                    buffer[2] = static_cast<unsigned char>(ib+(0.5*pos));
                 } else {
-                    buffer[0] = ir+(1.5*pos);
-                    buffer[1] = ig+(1.5*pos);
-                    buffer[2] = ib+(1.5*pos);
+                    buffer[0] = static_cast<unsigned char>(ir+(1.5*pos));
+                    buffer[1] = static_cast<unsigned char>(ig+(1.5*pos));
+                    buffer[2] = static_cast<unsigned char>(ib+(1.5*pos));
                 }
             } else {
                 if(i%2 == 0) {
-                    buffer[0] += ir+(0.1*pos);
-                    buffer[1] += ig+(0.1*pos);
-                    buffer[2] += ib+(0.1*pos);
+                    buffer[0] += static_cast<unsigned char>(ir+(0.1*pos));
+                    buffer[1] += static_cast<unsigned char>(ig+(0.1*pos));
+                    buffer[2] += static_cast<unsigned char>(ib+(0.1*pos));
                 } else {
-                    buffer[0] -= ir+(i*pos);
-                    buffer[1] -= ig+(z*pos);
-                    buffer[2] -= ib+(0.1*pos);
+                    buffer[0] -= static_cast<unsigned char>(ir+(i*pos));
+                    buffer[1] -= static_cast<unsigned char>(ig+(z*pos));
+                    buffer[2] -= static_cast<unsigned char>(ib+(0.1*pos));
                 }
             }
         }
@@ -1538,63 +1538,63 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
         {
             if((i%2) == 0) {
                 if((z%2) == 0) {
-                    buffer[0] = 1-pos*buffer[0];
-                    buffer[2] = (i+z)*pos;
+                    buffer[0] = static_cast<unsigned char>(1-pos*buffer[0]);
+                    buffer[2] = static_cast<unsigned char>((i+z)*pos);
                 } else {
-                    buffer[0] = pos*buffer[0]-z;
-                    buffer[2] = (i-z)*pos;
+                    buffer[0] = static_cast<unsigned char>(pos*buffer[0]-z);
+                    buffer[2] = static_cast<unsigned char>((i-z)*pos);
                 }
             } else {
                 if((z%2) == 0) {
-                    buffer[0] = pos*buffer[0]-i;
-                    buffer[2] = (i-z)*pos;
+                    buffer[0] = static_cast<unsigned char>(pos*buffer[0]-i);
+                    buffer[2] = static_cast<unsigned char>((i-z)*pos);
                 } else {
-                    buffer[0] = pos*buffer[0]-z;
-                    buffer[2] = (i+z)*pos;
+                    buffer[0] = static_cast<unsigned char>(pos*buffer[0]-z);
+                    buffer[2] = static_cast<unsigned char>((i+z)*pos);
                 }
             }
         }
             break;
         case 23:
         {
-            buffer[0] = buffer[0]+buffer[1]*2+pos;
-            buffer[1] = buffer[1]+buffer[0]*2+pos;
-            buffer[2] = buffer[2]+buffer[0]+pos;
+            buffer[0] = static_cast<unsigned char>(buffer[0]+buffer[1]*2+pos);
+            buffer[1] = static_cast<unsigned char>(buffer[1]+buffer[0]*2+pos);
+            buffer[2] = static_cast<unsigned char>(buffer[2]+buffer[0]+pos);
         }
             break;
         case 24:
         {
-            buffer[0] += buffer[2]+pos;
-            buffer[1] += buffer[1]+pos;
-            buffer[2] += buffer[0]+pos;
+            buffer[0] += static_cast<unsigned char>(buffer[2]+pos);
+            buffer[1] += static_cast<unsigned char>(buffer[1]+pos);
+            buffer[2] += static_cast<unsigned char>(buffer[0]+pos);
         }
             break;
         case 25:
         {
-            buffer[0] += (buffer[2]*pos);
-            buffer[1] += (buffer[0]*pos);
-            buffer[2] += (buffer[1]*pos);
+            buffer[0] += static_cast<unsigned char>((buffer[2]*pos));
+            buffer[1] += static_cast<unsigned char>((buffer[0]*pos));
+            buffer[2] += static_cast<unsigned char>((buffer[1]*pos));
         }
             break;
         case 26:
         {
-            buffer[0] += (buffer[2]*pos)+i;
-            buffer[1] += (buffer[0]*pos)+z;
-            buffer[2] += (buffer[1]*pos)+i-z;
+            buffer[0] += static_cast<unsigned char>((buffer[2]*pos)+i);
+            buffer[1] += static_cast<unsigned char>((buffer[0]*pos)+z);
+            buffer[2] += static_cast<unsigned char>((buffer[1]*pos)+i-z);
         }
             break;
         case 27:
         {
-            buffer[0] = (-buffer[2])+z;
-            buffer[1] = (-buffer[0])+i;
-            buffer[2] = (-buffer[1])+pos;
+            buffer[0] = static_cast<unsigned char>((-buffer[2])+z);
+            buffer[1] = static_cast<unsigned char>((-buffer[0])+i);
+            buffer[2] = static_cast<unsigned char>((-buffer[1])+pos);
         }
             break;
         case 28:
         {
-            buffer[0] = buffer[2]+(1+(i*z)/pos);
-            buffer[1] = buffer[1]+(1+(i*z)/pos);
-            buffer[2] = buffer[0]+(1+(i*z)/pos);
+            buffer[0] = static_cast<unsigned char>(buffer[2]+(1+(i*z)/pos));
+            buffer[1] = static_cast<unsigned char>(buffer[1]+(1+(i*z)/pos));
+            buffer[2] = static_cast<unsigned char>(buffer[0]+(1+(i*z)/pos));
         }
             break;
         case 29:
@@ -1612,12 +1612,12 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             if(zq > height-2) return;
             cv::Vec3b &temp4 = full_buffer.at<cv::Vec3b>(zq, iq);
             unsigned char col[4];
-            col[0] = (temp[0]+temp2[0]+temp3[0]+temp4[0])/4;
-            col[1] = (temp[1]+temp2[1]+temp3[1]+temp4[1])/4;
-            col[2] = (temp[2]+temp2[2]+temp3[2]+temp4[2])/4;
-            buffer[0] = col[0]*pos;
-            buffer[1] = col[1]*pos;
-            buffer[2] = col[2]*pos;
+            col[0] = static_cast<unsigned char>((temp[0]+temp2[0]+temp3[0]+temp4[0])/4);
+            col[1] = static_cast<unsigned char>((temp[1]+temp2[1]+temp3[1]+temp4[1])/4);
+            col[2] = static_cast<unsigned char>((temp[2]+temp2[2]+temp3[2]+temp4[2])/4);
+            buffer[0] = static_cast<unsigned char>(col[0]*pos);
+            buffer[1] = static_cast<unsigned char>(col[1]*pos);
+            buffer[2] = static_cast<unsigned char>(col[2]*pos);
         }
             break;
         case 30:
@@ -1627,17 +1627,17 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             int x = (int)rad * cos(degree);
             int y = (int)rad * sin(degree);
             int z = (int)rad * tanf((double)degree);
-            buffer[0] = buffer[0]+x;
-            buffer[2] = buffer[1]+y;
-            buffer[1] = buffer[1]+z;
+            buffer[0] = static_cast<unsigned char>(buffer[0]+x);
+            buffer[2] = static_cast<unsigned char>(buffer[1]+y);
+            buffer[1] = static_cast<unsigned char>(buffer[1]+z);
         }
             break;
         case 31:
         {
-            int average= (buffer[0]+buffer[1]+buffer[2]+1)/3;
-            buffer[0] += buffer[2]+average*(pos);
-            buffer[1] += buffer[0]+average*(pos);
-            buffer[2] += buffer[1]+average*(pos);
+            int average= static_cast<unsigned char>((buffer[0]+buffer[1]+buffer[2]+1)/3);
+            buffer[0] += static_cast<unsigned char>(buffer[2]+average*(pos));
+            buffer[1] += static_cast<unsigned char>(buffer[0]+average*(pos));
+            buffer[2] += static_cast<unsigned char>(buffer[1]+average*(pos));
         }
             break;
         case 32:
@@ -1645,42 +1645,42 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             unsigned int value = 0;
             value  = ~buffer[0] + ~buffer[1] + ~buffer[2];
             value /= 2;
-            buffer[0] = buffer[0]+value*pos;
+            buffer[0] = static_cast<unsigned char>(buffer[0]+value*pos);
             value /= 2;
-            buffer[1] = buffer[1]+value*pos;
+            buffer[1] = static_cast<unsigned char>(buffer[1]+value*pos);
             value /= 2;
-            buffer[2] = buffer[2]+value*pos;
+            buffer[2] = static_cast<unsigned char>(buffer[2]+value*pos);
         }
             break;
         case 33:
         {
-            buffer[0] += *count*pos;
-            buffer[1] += *count*pos;
-            buffer[2] += *count*pos;
+            buffer[0] += static_cast<unsigned char>(*count*pos);
+            buffer[1] += static_cast<unsigned char>(*count*pos);
+            buffer[2] += static_cast<unsigned char>(*count*pos);
             *count += 0.00001f;
             if(*count > 255) *count = 0;
         }
             break;
         case 34:
         {
-            buffer[0] += pos*(randomNumber+pos);
-            buffer[1] += pos*(randomNumber+z);
-            buffer[2] += pos*(randomNumber+i);
+            buffer[0] += static_cast<unsigned char>(pos*(randomNumber+pos));
+            buffer[1] += static_cast<unsigned char>(pos*(randomNumber+z));
+            buffer[2] += static_cast<unsigned char>(pos*(randomNumber+i));
         }
             break;
         case 35:
         {
-            buffer[0] += *count *z;
-            buffer[1] += *count *pos;
-            buffer[2] += *count *z;
+            buffer[0] += static_cast<unsigned char>(*count *z);
+            buffer[1] += static_cast<unsigned char>(*count *pos);
+            buffer[2] += static_cast<unsigned char>(*count *z);
             *count += 0.0000001f;
         }
             break;
         case 36:
         {
-            buffer[0] += sinf(3.14+pos)*pos;
-            buffer[1] += cosf(3.14+pos)*pos;
-            buffer[2] += tanf(3.14+pos)*pos;
+            buffer[0] += static_cast<unsigned char>(sinf(3.14+pos)*pos);
+            buffer[1] += static_cast<unsigned char>(cosf(3.14+pos)*pos);
+            buffer[2] += static_cast<unsigned char>(tanf(3.14+pos)*pos);
         }
             break;
     }
@@ -1781,9 +1781,9 @@ void ac::imageBlend(cv::Mat &frame) {
                 cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);// get current pixel
                 cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);// get pixel to blend from resized x,y
                 // set pixel values
-                current[0] = current[0]+(im[0]*pos);
-                current[1] = current[1]+(im[1]*pos);
-                current[2] = current[2]+(im[2]*pos);
+                current[0] = static_cast<unsigned char>(current[0]+(im[0]*pos));
+                current[1] = static_cast<unsigned char>(current[1]+(im[1]*pos));
+                current[2] = static_cast<unsigned char>(current[2]+(im[2]*pos));
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// invert pixel
             }
@@ -1807,9 +1807,9 @@ void ac::imageBlendTwo(cv::Mat &frame) {
                 cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
                 // set pixel values
-                current[0] = im[0]+(current[0]*pos);
-                current[1] = im[1]+(current[1]*pos);
-                current[2] = im[2]+(current[2]*pos);
+                current[0] = static_cast<unsigned char>(im[0]+(current[0]*pos));
+                current[1] = static_cast<unsigned char>(im[1]+(current[1]*pos));
+                current[2] = static_cast<unsigned char>(im[2]+(current[2]*pos));
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i); // invert pixel
             }
@@ -1836,7 +1836,7 @@ void ac::imageBlendThree(cv::Mat &frame) {
                 // calculate pixel data
                 pixel[0] += (pixel[0]^im[0]);
                 pixel[1] += (pixel[1]^im[1]);
-                pixel[2] += (pixel[2]^im[2])*pos;
+                pixel[2] += static_cast<unsigned char>((pixel[2]^im[2])*pos);
                 swapColors(frame, z, i);//swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel
                 
@@ -1886,16 +1886,16 @@ void ac::imageBlendFour(cv::Mat &frame) {
                 // perform operation based on current state variable
                 switch(state) {
                     case 0:
-                        pixel[0] += (pr[0]+pg[1]+pb[2])*pos;
-                        pixel[1] += (pr[2]+pg[1]+pb[0])*pos;
+                        pixel[0] += static_cast<unsigned char>((pr[0]+pg[1]+pb[2])*pos);
+                        pixel[1] += static_cast<unsigned char>((pr[2]+pg[1]+pb[0])*pos);
                         break;
                     case 1:
-                        pixel[1] += (pr[2]+pg[1]+pb[0])*pos;
-                        pixel[2] += (pr[0]+pg[1]+pb[2])*pos;
+                        pixel[1] += static_cast<unsigned char>((pr[2]+pg[1]+pb[0])*pos);
+                        pixel[2] += static_cast<unsigned char>((pr[0]+pg[1]+pb[2])*pos);
                         break;
                     case 2:
-                        pixel[2] += (pr[0]+pg[1]+pb[2])*pos;
-                        pixel[0] += (pr[2]+pg[1]+pb[0])*pos;
+                        pixel[2] += static_cast<unsigned char>((pr[0]+pg[1]+pb[2])*pos);
+                        pixel[0] += static_cast<unsigned char>((pr[2]+pg[1]+pb[0])*pos);
                         break;
                 }
                 
