@@ -125,6 +125,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *image_to_set;
     IBOutlet NSPopUpButton *procMode;
     IBOutlet NSWindow *procMode_Window;
+    IBOutlet NSButton *up4k;
     SearchController *search_controller;
     // variables
     bool pauseStepTrue;
@@ -139,6 +140,7 @@ extern void SearchForString(NSString *s);
     unsigned long freeze_count;
     NSInteger current_fade;
     double current_fade_alpha;
+    bool upscale_video;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;

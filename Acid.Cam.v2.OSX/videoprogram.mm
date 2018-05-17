@@ -101,7 +101,7 @@ void stopCV() {
 
 
 // program function to start process
-int program_main(int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
     sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::draw_max-4 << " Filters Loaded...\n";
     add_path="default";
@@ -136,7 +136,11 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
             sout << "Acid Cam Capture device [" << ((camera_mode == 0) ? "Camera" : "Video") << "] opened..\n";
         int aw = capture->get(CV_CAP_PROP_FRAME_WIDTH);
         int ah = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
-        sout << "Resolution: " << aw << "x" << ah << "\n";
+        if(u4k && aw != 3840 && ah != 2160)
+            sout << "Resolution Upscaled to 3840x2160\n";
+        else
+        	sout << "Resolution: " << aw << "x" << ah << "\n";
+        
         ac::fps = capture->get(CV_CAP_PROP_FPS);
         if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(CV_CAP_PROP_FPS);
         if(ac::fps <= 0 || ac::fps > 60) ac::fps = 30;
@@ -147,6 +151,9 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         if(camera_mode == 0 && capture_width != 0 && capture_height != 0) {
             capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
             capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
+            if(u4k)
+                sout << "Resolution upsacled to  3840x2160\n";
+            else
             sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
         }
@@ -154,10 +161,14 @@ int program_main(int outputType, std::string input_file, bool noRecord, std::str
         bool opened = false;
         // if recording open the writer object with desired codec
         if(ac::noRecord == false) {
+            cv::Size s4k = cv::Size(3840, 2160);
+            if(u4k ==false) {
+                s4k = frameSize;
+            }
             if(outputType == 0)
-                opened = writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, frameSize, true);
+                opened = writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, s4k, true);
             else
-                opened = writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, frameSize, true);
+                opened = writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, s4k, true);
             // if writer is not opened exit
             if(writer->isOpened() == false || opened == false) {
                 sout << "Error video file could not be created.\n";

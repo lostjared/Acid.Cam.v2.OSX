@@ -6319,22 +6319,22 @@ void ac::DiamondStrobe(cv::Mat &frame) {
             if((i%2) == 0) {// if i % 2 equals 0
                 if((z%2) == 0) {// if z % 2 equals 0
                     // set pixel component values
-                    buffer[index1] = 1-pos*buffer[0];
-                    buffer[index2] = (i+z)*pos;
+                    buffer[index1] = static_cast<unsigned char>(1-pos*buffer[0]);
+                    buffer[index2] = static_cast<unsigned char>((i+z)*pos);
                 } else {
                     // set pixel coomponent values
-                    buffer[index1] = pos*buffer[0]-z;
-                    buffer[index2] = (i-z)*pos;
+                    buffer[index1] = static_cast<unsigned char>(pos*buffer[0]-z);
+                    buffer[index2] = static_cast<unsigned char>((i-z)*pos);
                 }
             } else {
                 if((z%2) == 0) {// if z % 2 equals 0
                     // set pixel component values
-                    buffer[index1] = pos*buffer[0]-i;
-                    buffer[index2] = (i-z)*pos;
+                    buffer[index1] = static_cast<unsigned char>(pos*buffer[0]-i);
+                    buffer[index2] = static_cast<unsigned char>((i-z)*pos);
                 } else {
                     // set pixel component values
-                    buffer[index1] = pos*buffer[0]-z;
-                    buffer[index2] = (i+z)*pos;
+                    buffer[index1] = static_cast<unsigned char>(pos*buffer[0]-z);
+                    buffer[index2] = static_cast<unsigned char>((i+z)*pos);
                 }
             }
             swapColors(frame, z, i);// swap colors
@@ -6518,8 +6518,8 @@ void ac::GridFilter8xBlend(cv::Mat &frame) {
             if(grid.boxes[i][z].on) {
                 cv::Vec3b pixel = frame.at<cv::Vec3b>(z*grid.g_s, i*grid.g_s);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = (pixel[j]+grid.boxes[i][z].color[j])/2;
-                    pixel[j] *= alpha;
+                    pixel[j] = static_cast<unsigned char>((pixel[j]+grid.boxes[i][z].color[j])/2);
+                    pixel[j] *= static_cast<unsigned char>(alpha);
                 }
                 fillRect(frame, ac::Rect(i*box_size, z*box_size, grid.g_s, grid.g_s), pixel);
             }
@@ -6601,10 +6601,10 @@ void ac::Dual_SelfAlphaRainbow(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(switch_on == true) {
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] = pixel[j]*alpha1;
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1);
             } else {
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] = pixel[j]*alpha2;
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha2);
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
@@ -6638,7 +6638,7 @@ void ac::SurroundPixelXor(cv::Mat &frame) {
             value[3] = pix[0][2]+pix[1][2]+pix[2][2];
             for(int j = 0; j < 3; ++j) {
                 unsigned int val = static_cast<unsigned int>(value[j]);
-                pixel[j] = (val^pixel[j])*alpha;
+                pixel[j] = static_cast<unsigned char>((val^pixel[j])*alpha);
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
@@ -6702,7 +6702,7 @@ void ac::AverageVertical(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 val[j] /= frame.rows;
-                pixel[j] += val[j]*alpha;
+                pixel[j] += static_cast<unsigned char>(val[j]*alpha);
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
@@ -6859,7 +6859,7 @@ void ac::AlphaBlendPosition(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-            	pixel[j] = (pixel[j]*alpha)+(pix[j]*alpha);
+            	pixel[j] = static_cast<unsigned char>((pixel[j]*alpha)+(pix[j]*alpha));
             
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
@@ -6944,7 +6944,7 @@ void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
     cv::Mat lookUpTable(1, 256, CV_8U);
     uchar* p = lookUpTable.ptr();
     for(int i = 0; i < 256; ++i) {
-        p[i] = cv::saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+        p[i] = cv::saturate_cast<unsigned char>(pow(i / 255.0, gamma) * 255.0);
     }
     cv::Mat res = frame.clone();
     LUT(frame, lookUpTable, outframe);
@@ -6959,7 +6959,7 @@ void ac::setSaturation(cv::Mat &frame, int saturation) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = image.at<cv::Vec3b>(z, i);
-            pixel[1] = saturation;
+            pixel[1] = static_cast<unsigned char>(saturation);
         }
     }
     cv::cvtColor(image, frame, CV_HSV2BGR);
@@ -7012,9 +7012,9 @@ void ac::AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output,doub
             cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
             pix[0] = one.at<cv::Vec3b>(z, i);
             pix[1] = two.at<cv::Vec3b>(z, i);
-            pixel[0] = (pix[0][0] * alpha) + (pix[1][0] * alpha);
-            pixel[1] = (pix[0][1] * alpha) + (pix[1][1] * alpha);
-            pixel[2] = (pix[0][2] * alpha) + (pix[1][2] * alpha);
+            pixel[0] = static_cast<unsigned char>((pix[0][0] * alpha) + (pix[1][0] * alpha));
+            pixel[1] = static_cast<unsigned char>((pix[0][1] * alpha) + (pix[1][1] * alpha));
+            pixel[2] = static_cast<unsigned char>((pix[0][2] * alpha) + (pix[1][2] * alpha));
         }
     }
 }
@@ -7062,7 +7062,7 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
             cv::Vec3b frame2_pix = frame2.at<cv::Vec3b>(z, i); // frame2 pixel
             // loop through pixel components and set target pixel to alpha blended pixel of two frames
             for(int q = 0; q < 3; ++q)
-                pixel[q] = frame2_pix[q]+(frame1_pix[q]*alpha);
+                pixel[q] = static_cast<unsigned char>(frame2_pix[q]+(frame1_pix[q]*alpha));
         }
     }
 }

@@ -298,6 +298,8 @@ void SearchForString(NSString *s) {
     ac::setCustom(custom_filter);
     ac::setPlugin(plugin_callback);
     [self reloadCameraInfo: self];
+    upscale_video = false;
+    [up4k setEnabled: YES];
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -518,6 +520,12 @@ void SearchForString(NSString *s) {
     stopProgram = true;
     [menuPaused setEnabled: NO];
     [menu_freeze setEnabled: NO];
+    
+    if([videoFileInput integerValue] == 0) {
+    	[up4k setEnabled: NO];
+    } else {
+        [up4k setEnabled: YES];
+    }
     stopCV();
 }
 
@@ -650,6 +658,8 @@ void SearchForString(NSString *s) {
     std::cout << add_path << "\n";
     [startProg setEnabled: NO];
     [menuPaused setEnabled: YES];
+    [up4k setEnabled: NO];
+    
     if(camera_mode == 1) {
         renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
                                               target:self
@@ -664,7 +674,9 @@ void SearchForString(NSString *s) {
     else
         capture = capture_camera.get();
     
-    int ret_val = program_main((int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    bool u4k = ([up4k state] == NSOnState) ? true : false;;
+    
+    int ret_val = program_main(u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
 
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
@@ -852,7 +864,13 @@ void SearchForString(NSString *s) {
             setFrameLabel(ftext);
         });
         if(ac::noRecord == false) {
-            if(writer->isOpened()) writer->write(frame);
+            cv::Mat up;
+            if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
+                up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+            } else {
+                up = frame;
+            }
+            if(writer->isOpened()) writer->write(up);
             struct stat buf;
             stat(ac::fileName.c_str(), &buf);
             file_size = buf.st_size;
@@ -1074,7 +1092,13 @@ void SearchForString(NSString *s) {
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
-        if(writer->isOpened() )writer->write(frame);
+        cv::Mat up;
+        if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
+            up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+        } else {
+            up = frame;
+        }
+        if(writer->isOpened() )writer->write(up);
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;
@@ -1152,6 +1176,8 @@ void SearchForString(NSString *s) {
         [device_index setEnabled: YES];
         [selectVideoFile setEnabled: NO];
         [chk_repeat setEnabled:NO];
+        [up4k setEnabled: NO];
+        [up4k setState: NSOffState];
     }
     else {
         [video_file setEnabled: NO];
@@ -1159,6 +1185,7 @@ void SearchForString(NSString *s) {
         [device_index setEnabled: NO];
         [selectVideoFile setEnabled: YES];
         [chk_repeat setEnabled:YES];
+        [up4k setEnabled: YES];
     }
 }
 

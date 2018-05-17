@@ -81,6 +81,7 @@
                 <outlet property="t_red" destination="m3P-As-OgG" id="mXd-cA-huW"/>
                 <outlet property="t_view" destination="asC-Zi-PdA" id="BG7-qq-fQz"/>
                 <outlet property="table_view" destination="oR9-5h-21a" id="UXP-JM-woL"/>
+                <outlet property="up4k" destination="GTi-zi-kC5" id="dS5-O5-ZbT"/>
                 <outlet property="videoFileInput" destination="686" id="G3w-FB-gY4"/>
                 <outlet property="video_file" destination="553" id="639"/>
                 <outlet property="window1" destination="6Ke-TD-3vc" id="XNz-gM-AJN"/>
@@ -464,9 +465,17 @@
                             <menu key="menu" title="OtherViews" id="588"/>
                         </popUpButtonCell>
                     </popUpButton>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GTi-zi-kC5">
+                        <rect key="frame" x="92" y="15" width="95" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="4K" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Fl6-vo-Vfj">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="191" y="353"/>
+            <point key="canvasLocation" x="191" y="352.5"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
@@ -1527,14 +1536,14 @@ Gw
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="283" y="305" width="285" height="116"/>
+            <rect key="contentRect" x="283" y="305" width="285" height="115"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ZQs-8e-2LN">
-                <rect key="frame" x="0.0" y="0.0" width="285" height="116"/>
+                <rect key="frame" x="0.0" y="0.0" width="285" height="115"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ED-56-zaU">
-                        <rect key="frame" x="21" y="53" width="247" height="26"/>
+                        <rect key="frame" x="21" y="52" width="247" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Move Out Increase, Move In" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="aBo-sm-air" id="gvh-Yf-P6V">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1549,7 +1558,7 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QDC-w8-Bcl">
-                        <rect key="frame" x="24" y="85" width="205" height="17"/>
+                        <rect key="frame" x="24" y="84" width="205" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Process Mode (For some Filters):" id="uzK-1J-jhL">
                             <font key="font" metaFont="system"/>
@@ -1570,7 +1579,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-666.5" y="-1137"/>
+            <point key="canvasLocation" x="-666.5" y="-1137.5"/>
         </window>
     </objects>
 </document>
