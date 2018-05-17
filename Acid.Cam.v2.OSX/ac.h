@@ -352,6 +352,7 @@ namespace ac {
     void AlphaBlendPosition(cv::Mat &frame);
     void BlendRowAlpha(cv::Mat &frame);
     void BlendRow(cv::Mat &frame);
+    void BlendRowByVar(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
