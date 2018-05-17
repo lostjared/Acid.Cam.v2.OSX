@@ -3522,7 +3522,7 @@ void ac::StrobeScan(cv::Mat &frame) {
             case 0: {
                 for(int i = 0; i < w; ++i) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    pixel[color_mode] = over+(pixel[color_mode]*pos);
+                    pixel[color_mode] = static_cast<unsigned char>(over+(pixel[color_mode]*pos));
                     swapColors(frame, z, i);
                     if(isNegative) invert(frame, z, i);
                 }
@@ -3531,7 +3531,7 @@ void ac::StrobeScan(cv::Mat &frame) {
             case 1: {
                 for(int i = w-1; i > 1; --i) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    pixel[color_mode] -= over+(pixel[1]*pos);
+                    pixel[color_mode] -= static_cast<unsigned char>(over+(pixel[1]*pos));
                     swapColors(frame, z, i);
                     if(isNegative) invert(frame, z, i);
                     
@@ -3574,7 +3574,7 @@ void ac::BlendedScanLines(cv::Mat &frame) {
         int r = rand()%255;
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[cnt] += r;
+            pixel[cnt] += static_cast<unsigned char>(r);
             ++r;
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -3594,8 +3594,8 @@ void ac::GradientStripes(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[offset] += count;
-            pixel[2-offset] -= count_i;
+            pixel[offset] += static_cast<unsigned char>(count);
+            pixel[2-offset] -= static_cast<unsigned char>(count_i);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
@@ -3903,9 +3903,9 @@ void ac::Circular(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             int X_color = int(rad * cos(deg));
             int Y_color = int(rad * sin(deg));
-            pixel[0] += pos*X_color;
-            pixel[1] *= pos;
-            pixel[2] += pos*Y_color;
+            pixel[0] += static_cast<unsigned char>(pos*X_color);
+            pixel[1] *= static_cast<unsigned char>(pos);
+            pixel[2] += static_cast<unsigned char>(pos*Y_color);
             deg += 0.1;
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -3951,9 +3951,9 @@ void ac::FrameBlend(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b old_pixel = stored_frame.at<cv::Vec3b>(z, i);
-            pixel[0] += (old_pixel[0]^pixel[0])*pos;
-            pixel[1] += (old_pixel[1]&pixel[1])*pos;
-            pixel[2] += (old_pixel[2]|pixel[2])*pos;
+            pixel[0] += static_cast<unsigned char>((old_pixel[0]^pixel[0])*pos);
+            pixel[1] += static_cast<unsigned char>((old_pixel[1]&pixel[1])*pos);
+            pixel[2] += static_cast<unsigned char>((old_pixel[2]|pixel[2])*pos);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
@@ -3980,19 +3980,19 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
             cv::Vec3b old_pixel = stored_frame.at<cv::Vec3b>(z, i);
             switch(swap) {
                 case 0:
-                    pixel[0] += (old_pixel[0]^pixel[0])*pos;
-                    pixel[1] += (old_pixel[1]&pixel[1])*pos;
-                    pixel[2] += (old_pixel[2]|pixel[2])*pos;
+                    pixel[0] += static_cast<unsigned char>((old_pixel[0]^pixel[0])*pos);
+                    pixel[1] += static_cast<unsigned char>((old_pixel[1]&pixel[1])*pos);
+                    pixel[2] += static_cast<unsigned char>((old_pixel[2]|pixel[2])*pos);
                     break;
                 case 1:
-                    pixel[0] += (old_pixel[0]&pixel[0])*pos;
-                    pixel[1] += (old_pixel[1]|pixel[1])*pos;
-                    pixel[2] += (old_pixel[2]^pixel[2])*pos;
+                    pixel[0] += static_cast<unsigned char>((old_pixel[0]&pixel[0])*pos);
+                    pixel[1] += static_cast<unsigned char>((old_pixel[1]|pixel[1])*pos);
+                    pixel[2] += static_cast<unsigned char>((old_pixel[2]^pixel[2])*pos);
                     break;
                 case 2:
-                    pixel[0] += (old_pixel[0]|pixel[0])*pos;
-                    pixel[1] += (old_pixel[1]^pixel[1])*pos;
-                    pixel[2] += (old_pixel[2]&pixel[2])*pos;
+                    pixel[0] += static_cast<unsigned char>((old_pixel[0]|pixel[0])*pos);
+                    pixel[1] += static_cast<unsigned char>((old_pixel[1]^pixel[1])*pos);
+                    pixel[2] += static_cast<unsigned char>((old_pixel[2]&pixel[2])*pos);
                     break;
             }
             swapColors(frame, z, i);
@@ -4150,10 +4150,10 @@ void ac::MoveRed(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(i+movement < (w-1)) {
                 cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i+movement));
-                pixel[2] += (add[2]*pos);
+                pixel[2] += static_cast<unsigned char>((add[2]*pos));
             } else if((i-movement) > 1) {
                 cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i-movement));
-                pixel[2] += (add[2]*pos);
+                pixel[2] += static_cast<unsigned char>((add[2]*pos));
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -4177,10 +4177,10 @@ void ac::MoveRGB(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(i+movement < (w-1)) {
                 cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i+movement));
-                pixel[rgb] += (add[rgb]*pos);
+                pixel[rgb] += static_cast<unsigned char>((add[rgb]*pos));
             } else if((i-movement) > 1) {
                 cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, (i-movement));
-                pixel[rgb] += (add[rgb]*pos);
+                pixel[rgb] += static_cast<unsigned char>((add[rgb]*pos));
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -4213,10 +4213,10 @@ void ac::MoveRedGreenBlue(cv::Mat &frame) {
                 unsigned int pos_y = i-movement[q];// pixel position
                 if(pos_x < (w-1) && pos_x > 0) { // if within the screen
                     cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_x); // grab pixel
-                    pixel[q] += (add[q]*pos); // add to current index multiplied by position
+                    pixel[q] += static_cast<unsigned char>((add[q]*pos)); // add to current index multiplied by position
                 } else if(pos_y > 0 && pos_y < (w-1)) {// if pos y within the screen
                     cv::Vec3b add = frame_copy.at<cv::Vec3b>(z, pos_y); // grab pixel
-                    pixel[q] += (add[q]*pos);// add to current index multiplied by position
+                    pixel[q] += static_cast<unsigned char>((add[q]*pos));// add to current index multiplied by position
                 }
             }
             swapColors(frame, z, i);// swap colors for rgb sliders
@@ -4420,9 +4420,9 @@ void ac::PrevFrameBlend(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b old_pixel = stored.at<cv::Vec3b>(z, i);
-            pixel[0] = (pixel[0])+(1-old_pixel[0])*pos;
-            pixel[1] = (pixel[1])+(1-old_pixel[1])*pos;
-            pixel[2] = (pixel[2])+(1-old_pixel[2])*pos;
+            pixel[0] = static_cast<unsigned char>((pixel[0])+(1-old_pixel[0])*pos);
+            pixel[1] = static_cast<unsigned char>((pixel[1])+(1-old_pixel[1])*pos);
+            pixel[2] = static_cast<unsigned char>((pixel[2])+(1-old_pixel[2])*pos);
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
@@ -4451,17 +4451,13 @@ void ac::Wave(cv::Mat &frame) {
     static unsigned int width = 0, height = 0;
     // uses lazy allocation when frame is resized pointer is reallocated.
     // last deallocation is done when program exits so no need to manually release
-    static WavePoints *points = nullptr;
+    static std::unique_ptr<WavePoints[]> points;
     const int w = frame.cols;// frame width
     const int h = frame.rows;// frame height
     const int slice = (h/16);
     
     if(width != w || height != h) {
-        
-        if(points != nullptr)
-            delete [] points;
-        
-        points = new WavePoints[w];
+        points.reset(new WavePoints[w]);
         width = w;
         height = h;
         
@@ -4530,19 +4526,13 @@ void ac::Wave(cv::Mat &frame) {
 
 void ac::HighWave(cv::Mat &frame) {
     static unsigned int width = 0, height = 0;
-    // uses lazy allocation when frame is resized pointer is reallocated.
-    // last deallocation is done when program exits so no need to manually release
-    static WavePoints *points = nullptr;
+    static std::unique_ptr<WavePoints[]> points;
     const int w = frame.cols;// frame width
     const int h = frame.rows;// frame height
     const int slice = (h/8);
     
     if(width != w || height != h) {
-        
-        if(points != nullptr)
-            delete [] points;
-        
-        points = new WavePoints[w];
+        points.reset(new WavePoints[w]);
         width = w;
         height = h;
         
@@ -4661,9 +4651,9 @@ void ac::HorizontalBlend(cv::Mat &frame) {
     for(int i = 0; i < w; ++i) {
         for(int z = 0; z < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[0] = pixel[0] * alpha[0];
-            pixel[1] = pixel[1] * alpha[1];
-            pixel[2] = pixel[2] * alpha[2];
+            pixel[0] = static_cast<unsigned char>(pixel[0] * alpha[0]);
+            pixel[1] = static_cast<unsigned char>(pixel[1] * alpha[1]);
+            pixel[2] = static_cast<unsigned char>(pixel[2] * alpha[2]);
             
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
@@ -4684,9 +4674,9 @@ void ac::VerticalBlend(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[0] = pixel[0] * alpha[0];
-            pixel[1] = pixel[1] * alpha[1];
-            pixel[2] = pixel[2] * alpha[2];
+            pixel[0] = static_cast<unsigned char>(pixel[0] * alpha[0]);
+            pixel[1] = static_cast<unsigned char>(pixel[1] * alpha[1]);
+            pixel[2] = static_cast<unsigned char>(pixel[2] * alpha[2]);
             
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
@@ -4708,9 +4698,9 @@ void ac::OppositeBlend(cv::Mat &frame) {
         for(int i = 0; i < w-1; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b temp_pixel = temp.at<cv::Vec3b>(z, w-i-1);
-            pixel[0] = (pixel[0]+temp_pixel[0]);
-            pixel[1] = (pixel[1]+temp_pixel[1]);
-            pixel[2] = (pixel[2]+temp_pixel[2]);
+            pixel[0] = static_cast<unsigned char>((pixel[0]+temp_pixel[0]));
+            pixel[1] = static_cast<unsigned char>((pixel[1]+temp_pixel[1]));
+            pixel[2] = static_cast<unsigned char>((pixel[2]+temp_pixel[2]));
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
@@ -4728,7 +4718,7 @@ void ac::DiagonalLines(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b temp_pixel = temp.at<cv::Vec3b>(h-z-1, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = (pixel[j]+temp_pixel[j])+pos;
+                pixel[j] = static_cast<unsigned char>((pixel[j]+temp_pixel[j])+pos);
                 ++pos;
                 if(pos > 100) pos = 0;
             }
@@ -4747,7 +4737,7 @@ void ac::HorizontalLines(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = pixel[j] + pos[j];
+                pixel[j] = static_cast<unsigned char>(pixel[j] + pos[j]);
                 pos[j] += 0.1;
                 if(pos[j] > 100)
                     pos[j] = 0;
@@ -4773,14 +4763,14 @@ void ac::InvertedScanlines(cv::Mat &frame) {
             switch(index) {
                 case 0: {
                     for(int j = 0; j < 3; ++j)
-                        pixel[j] = (~pixel[j])*alpha;
+                        pixel[j] = static_cast<unsigned char>((~pixel[j])*alpha);
                     index++;
                 }
                 case 1: {
                     cv::Vec3b temp = pixel;
-                    pixel[0] = temp[2]*alpha;
-                    pixel[1] = temp[1]*alpha;
-                    pixel[2] = temp[0]*alpha;
+                    pixel[0] = static_cast<unsigned char>(temp[2]*alpha);
+                    pixel[1] = static_cast<unsigned char>(temp[1]*alpha);
+                    pixel[2] = static_cast<unsigned char>(temp[0]*alpha);
                     index++;
                 }
                     break;
@@ -4910,9 +4900,9 @@ void ac::ScanAlphaSwitch(cv::Mat &frame) {
                     pixel[2] = ~pixel[2];
                     break;
                 case 1: {
-                    pixel[0] += pixel[0]*alpha;
-                    pixel[1] += pixel[1]*alpha;
-                    pixel[2] += pixel[2]*alpha;
+                    pixel[0] += static_cast<unsigned char>(pixel[0]*alpha);
+                    pixel[1] += static_cast<unsigned char>(pixel[1]*alpha);
+                    pixel[2] += static_cast<unsigned char>(pixel[2]*alpha);
                     index = 0;
                 }
                     break;
@@ -5345,9 +5335,9 @@ void ac::BlendIncrease(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel[2] += blend_r;
-            pixel[1] += blend_g;
-            pixel[0] += blend_b;
+            pixel[2] += static_cast<unsigned char>(blend_r);
+            pixel[1] += static_cast<unsigned char>(blend_g);
+            pixel[0] += static_cast<unsigned char>(blend_b);
             swapColors(frame, z, i);// swap colors for rgb sliders
             if(isNegative) invert(frame, z, i); // if is negative
         }
@@ -5379,9 +5369,9 @@ void ac::GradientReverse(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 if(direction == true)
-                    pixel[j] += i*alpha;
+                    pixel[j] += static_cast<unsigned char>(i*alpha);
                 else
-                    pixel[j] -= i*alpha;
+                    pixel[j] -= static_cast<unsigned char>(i*alpha);
             }
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
@@ -5402,9 +5392,9 @@ void ac::GradientReverseBox(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 if(direction == true)
-                    pixel[j] += (i*alpha);
+                    pixel[j] += static_cast<unsigned char>((i*alpha));
                 else
-                    pixel[j] -= (z*alpha);
+                    pixel[j] -= static_cast<unsigned char>((z*alpha));
             }
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
@@ -5425,9 +5415,9 @@ void ac::GradientReverseVertical(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 if(direction == true)
-                    pixel[j] += (z*alpha);
+                    pixel[j] += static_cast<unsigned char>((z*alpha));
                 else
-                    pixel[j] -= (z*alpha);
+                    pixel[j] -= static_cast<unsigned char>((z*alpha));
             }
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
@@ -5449,13 +5439,13 @@ void ac::GradientNewFilter(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 switch(index) {
                     case 0:
-                        pixel[j] = (pixel[j] ^ (unsigned int)(alpha*z));
+                        pixel[j] = static_cast<unsigned char>((pixel[j] ^ (unsigned int)(alpha*z)));
                         break;
                     case 1:
-                        pixel[j] = (pixel[j] & (unsigned int)(alpha*i));
+                        pixel[j] = static_cast<unsigned char>((pixel[j] & (unsigned int)(alpha*i)));
                         break;
                     case 2:
-                        pixel[j] = (pixel[j] ^ (unsigned int)alpha);
+                        pixel[j] = static_cast<unsigned char>((pixel[j] ^ (unsigned int)alpha));
                         break;
                 }
             }
@@ -5540,9 +5530,9 @@ void ac::AverageLines(cv::Mat &frame) {
             s[0] += pixel[0];
             s[1] += pixel[1];
             s[2] += pixel[2];
-            pixel[0] = (pixel[0]^average[0])*alpha;
-            pixel[1] = (pixel[1]^average[1])*alpha;
-            pixel[2] = (pixel[2]^average[2])*alpha;
+            pixel[0] = static_cast<unsigned char>((pixel[0]^average[0])*alpha);
+            pixel[1] = static_cast<unsigned char>((pixel[1]^average[1])*alpha);
+            pixel[2] = static_cast<unsigned char>((pixel[2]^average[2])*alpha);
             ac::swapColors(frame, z, i);
             if(isNegative) ac::invert(frame, z, i);
         }
@@ -5628,7 +5618,7 @@ void ac::ColorRange(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = (pixel[j]+colors[j])*alpha;
+                pixel[j] = static_cast<unsigned char>((pixel[j]+colors[j])*alpha);
         }
     }
     static unsigned int direction[3] = {1, 0, 1};
@@ -5835,7 +5825,7 @@ void ac::MirrorRGB(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b frame_pixels[4] = {frame_copy.at<cv::Vec3b>(h-z-1, i), frame_copy.at<cv::Vec3b>(z, w-i-1), frame_copy.at<cv::Vec3b>(h-z-1, w-i-1)};
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += frame_pixels[j][j];
+                pixel[j] += static_cast<unsigned char>(frame_pixels[j][j]);
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -5852,7 +5842,7 @@ void ac::RGBStatic1(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b add(rand()%255, rand()%255, rand()%255);
             for(int j = 0; j < 3; ++j)
-                pixel[j] += add[j] * pos;
+                pixel[j] += static_cast<unsigned char>(add[j] * pos);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
@@ -5884,7 +5874,7 @@ void ac::RGBStatic2(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b add(rand()%255, rand()%255, rand()%255);
             for(int j = 0; j < 3; ++j)
-                pixel[j] += add[j] * pos;
+                pixel[j] += static_cast<unsigned char>(add[j] * pos);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
@@ -5917,7 +5907,7 @@ void ac::VectorIncrease(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = (pixel[j]*value[j]) * pos;
+                pixel[j] = static_cast<unsigned char>((pixel[j]*value[j]) * pos);
             
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -6015,7 +6005,7 @@ void ac::BlendThree(cv::Mat &frame) {
             
             for(int j = 0; j < 3; ++j) {
                 pixel[j] /= 3;
-                pixel[j] *= pos;
+                pixel[j] *= static_cast<unsigned char>(pos);
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
@@ -6195,7 +6185,7 @@ void ac::ImageX(cv::Mat &frame) {
                 pixel = pix;
                 cv::Vec3b &pix_value = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pix_value[j] = pixel[j]+(pix_value[j]*alpha);
+                    pix_value[j] = static_cast<unsigned char>(pixel[j]+(pix_value[j]*alpha));
             }
         }
         static int direction = 1;
@@ -6274,7 +6264,7 @@ void ac::AverageRandom(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j] + pix1[j] + pix2[j];
                 pixel[j] /= 1.5;
-                pixel[j] = pixel[j] * alpha;
+                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha);
             }
         }
     }
