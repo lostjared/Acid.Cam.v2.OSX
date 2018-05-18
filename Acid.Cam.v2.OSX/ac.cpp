@@ -6863,7 +6863,6 @@ void ac::BlendRowAlpha(cv::Mat &frame) {
     static int row = 0;
     static double alpha = 1.0, alpha_max = 4.0;
     for(int i = 0; i < frame.cols; ++i) {
-        cv::Vec3b pix = frame.at<cv::Vec3b>(row, i);
         row++;
         if(row > frame.cols) row = 0;
     	for(int z = 0; z < frame.rows; ++z) {
@@ -6882,7 +6881,6 @@ void ac::BlendRowAlpha(cv::Mat &frame) {
 void ac::BlendRow(cv::Mat &frame) {
     static int row = 0;
     for(int i = 0; i < frame.cols; ++i) {
-        cv::Vec3b pix = frame.at<cv::Vec3b>(row, i);
         row++;
         if(row > frame.cols) row = 0;
         for(int z = 0; z < frame.rows; ++z) {
@@ -6899,7 +6897,6 @@ void ac::BlendRow(cv::Mat &frame) {
 void ac::BlendRowByVar(cv::Mat &frame) {
     static int row = 0;
     for(int i = 0; i < frame.cols; ++i) {
-        cv::Vec3b pix = frame.at<cv::Vec3b>(row, i);
         row++;
         if(row > frame.cols) row = 0;
         for(int z = 0; z < frame.rows; ++z) {
