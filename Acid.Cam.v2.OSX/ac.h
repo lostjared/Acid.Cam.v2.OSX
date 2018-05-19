@@ -359,6 +359,7 @@ namespace ac {
     void BitwiseXorScale(cv::Mat &frame);
     void XorTrails(cv::Mat &frame);
     void RainbowTrails(cv::Mat &frame);
+    void NegativeTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
