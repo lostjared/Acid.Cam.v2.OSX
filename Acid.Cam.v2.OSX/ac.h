@@ -362,6 +362,7 @@ namespace ac {
     void NegativeTrails(cv::Mat &frame);
     void IntenseTrails(cv::Mat &frame);
     void SelfAlphaRGB(cv::Mat &frame);
+    void BlendImageOnOff(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
