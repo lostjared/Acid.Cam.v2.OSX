@@ -101,7 +101,7 @@ void stopCV() {
 
 
 // program function to start process
-int program_main(bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
     sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::draw_max-4 << " Filters Loaded...\n";
     add_path="default";
@@ -164,6 +164,10 @@ int program_main(bool u4k, int outputType, std::string input_file, bool noRecord
             cv::Size s4k = cv::Size(3840, 2160);
             if(u4k ==false) {
                 s4k = frameSize;
+            }
+            if(camera_mode == 0 && fps_on == true) {
+                ac::fps = fps_val;
+            	sout << "Forced Frame Rate: " << fps_val << "\n";
             }
             if(outputType == 0)
                 opened = writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, s4k, true);

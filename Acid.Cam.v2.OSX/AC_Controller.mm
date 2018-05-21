@@ -300,6 +300,8 @@ void SearchForString(NSString *s) {
     [self reloadCameraInfo: self];
     upscale_video = false;
     [up4k setEnabled: YES];
+    set_frame_rate = false;
+    set_frame_rate_val = 24;
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -676,7 +678,8 @@ void SearchForString(NSString *s) {
     
     bool u4k = ([up4k state] == NSOnState) ? true : false;;
     
-    int ret_val = program_main(u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    
+    int ret_val = program_main(set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
 
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
@@ -770,6 +773,7 @@ void SearchForString(NSString *s) {
         __block NSInteger fade_state = 0;
         __block NSInteger color_key_set = 0;
         __block cv::Vec3b well_color;
+        __block NSInteger up4ki = 0;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
@@ -793,6 +797,7 @@ void SearchForString(NSString *s) {
             well_color[0] = values[0];
             well_color[1] = values[1];
             well_color[2] = values[2];
+            up4ki = [up4k state];
         });
         
         if(after == NSOffState)
@@ -865,7 +870,7 @@ void SearchForString(NSString *s) {
         });
         if(ac::noRecord == false) {
             cv::Mat up;
-            if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
+            if(up4ki == NSOnState && frame.size() != cv::Size(3840, 2160)) {
                 up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
             } else {
                 up = frame;
@@ -1562,6 +1567,22 @@ void SearchForString(NSString *s) {
     ac::setProcMode(static_cast<unsigned int >(pos));
     std::ostringstream log;
     log << "Proccess Mode Set to: " << pos << "\n";
+    if([cam_frame_rate_chk state] == NSOnState) {
+        set_frame_rate = true;
+        set_frame_rate_val = [cam_frame_rate floatValue];
+        if(set_frame_rate_val <= 10 || set_frame_rate_val > 60) {
+            _NSRunAlertPanel(@"Frame Rate invalid Try again", @"Change Rate", @"Ok", nil, nil);
+            return;
+        } else {
+        	std::cout << "Frame Rate set to: " << set_frame_rate_val << "\n";
+        }
+        
+    } else {
+        set_frame_rate = false;
+        set_frame_rate_val = 24;
+    }
+    
+    _NSRunAlertPanel(@"Frame Rate Forced", @"Frame Rate Set", @"Ok", nil, nil);
     flushToLog(log);
 }
 

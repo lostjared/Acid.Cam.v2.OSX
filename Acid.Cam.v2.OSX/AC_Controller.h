@@ -126,7 +126,10 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *procMode;
     IBOutlet NSWindow *procMode_Window;
     IBOutlet NSButton *up4k;
+    IBOutlet NSTextField *cam_frame_rate;
+    IBOutlet NSButton *cam_frame_rate_chk;
     SearchController *search_controller;
+    
     // variables
     bool pauseStepTrue;
     long frames_captured;
@@ -141,6 +144,8 @@ extern void SearchForString(NSString *s);
     NSInteger current_fade;
     double current_fade_alpha;
     bool upscale_video;
+    bool set_frame_rate;
+    double set_frame_rate_val;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
