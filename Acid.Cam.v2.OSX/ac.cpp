@@ -7191,6 +7191,7 @@ void ac::BlendImageOnOff(cv::Mat &frame) {
 void ac::XorSelfAlphaImage(cv::Mat &frame) {
     if(blend_set == true) {
         static double alpha = 1.0, alpha_max = 2.0;
+        static double alpha_r = 14.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -7198,12 +7199,14 @@ void ac::XorSelfAlphaImage(cv::Mat &frame) {
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
                 for(unsigned int j = 0; j < 3; ++j) {
-                    pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
+                    //pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
+                    pixel[j] = (pixel[j] * alpha) + (pix[j] * alpha_r);
                 }
             }
         }
-        static int dir = 1;
+        static int dir = 1, dir_r = 0;
         procPos(dir, alpha, alpha_max);
+        procPos(dir_r, alpha_r, alpha_max);
     }
 }
 
