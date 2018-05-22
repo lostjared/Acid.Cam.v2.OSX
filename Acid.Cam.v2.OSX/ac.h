@@ -363,6 +363,7 @@ namespace ac {
     void IntenseTrails(cv::Mat &frame);
     void SelfAlphaRGB(cv::Mat &frame);
     void BlendImageOnOff(cv::Mat &frame);
+    void TestFilter108(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

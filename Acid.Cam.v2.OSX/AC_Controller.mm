@@ -750,12 +750,6 @@ void SearchForString(NSString *s) {
         } else {
             frame = old_frame.clone();
         }
-        
-        if(blend_set == true && (blend_image_scaled.size() != frame.size())) {
-            ac::resolution = frame.size();
-            cv::resize(blend_image, blend_image_scaled, ac::resolution);
-        }
-        
         if([rotate_v state] == NSOnState) {
             cv::flip(frame, temp_frame, 1);
             frame = temp_frame;
@@ -932,12 +926,6 @@ void SearchForString(NSString *s) {
     } else {
         frame = old_frame.clone();
     }
-    
-    if(blend_set == true && (blend_image_scaled.size() != frame.size())) {
-        ac::resolution = frame.size();
-        cv::resize(blend_image, blend_image_scaled, ac::resolution);
-    }
-    
     NSColor *color_value = [color_well color];
     double rf = 0, gf = 0, bf = 0;
     [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
@@ -1402,6 +1390,7 @@ void SearchForString(NSString *s) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
                 return;
             }
+            cv::resize(blend_image, blend_image_scaled, ac::resolution);
             blend_set = true;
             std::ostringstream stream;
             stream << "Blend Image set to: " << [current UTF8String] << "\n";
@@ -1581,7 +1570,6 @@ void SearchForString(NSString *s) {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
-    
     _NSRunAlertPanel(@"Frame Rate Forced", @"Frame Rate Set", @"Ok", nil, nil);
     flushToLog(log);
 }
@@ -1589,7 +1577,6 @@ void SearchForString(NSString *s) {
 - (IBAction) showPrefs:(id) sender {
     [procMode_Window orderFront:self];
 }
-
 
 @end
 

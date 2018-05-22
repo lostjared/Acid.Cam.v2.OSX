@@ -148,6 +148,10 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
         cv::Mat frame;
         capture->read(frame);
         cv::Size frameSize = frame.size();
+        ac::resolution = frame.size();
+        if(!blend_image.empty() && blend_set == true && blend_image_scaled.size()!=ac::resolution)
+            cv::resize(blend_image, blend_image_scaled, ac::resolution);
+        
         if(camera_mode == 0 && capture_width != 0 && capture_height != 0) {
             capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
             capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
