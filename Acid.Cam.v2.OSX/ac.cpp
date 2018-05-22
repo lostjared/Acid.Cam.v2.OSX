@@ -7198,7 +7198,7 @@ void ac::XorSelfAlphaImage(cv::Mat &frame) {
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
                 for(unsigned int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((pixel[j]^pix[j])*alpha);
+                    pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
                 }
             }
         }
