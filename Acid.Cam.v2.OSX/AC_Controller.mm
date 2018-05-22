@@ -1390,6 +1390,12 @@ void SearchForString(NSString *s) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
                 return;
             }
+            
+            if(ac::resolution == cv::Size(0, 0)) {
+                _NSRunAlertPanel(@"Cannot Set", @"Must be in active session to set image.", @"Ok", nil, nil);
+                return;
+            }
+            
             cv::resize(blend_image, blend_image_scaled, ac::resolution);
             blend_set = true;
             std::ostringstream stream;
