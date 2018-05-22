@@ -125,7 +125,7 @@ void ac::Rect::setRect(unsigned int xx, unsigned int yy, unsigned int ww, unsign
     h = hh;
 }
 // globals
-cv::Mat blend_image, color_image, blend_image_scaled;
+cv::Mat blend_image, color_image;
 bool blend_set = false;
 bool colorkey_set = false;
 
@@ -6781,6 +6781,8 @@ void ac::SmoothImageAlphaBlend(cv::Mat &frame) {
         static MatrixCollection<8> collection;
         cv::Mat temp_frame;
         cv::Mat temp_image;
+        cv::Mat blend_image_scaled;
+        cv::resize(blend_image, blend_image_scaled, frame.size());
         temp_frame = frame.clone();
         AlphaBlend(temp_frame,blend_image_scaled,frame,alpha);
         collection.shiftFrames(frame);
@@ -7188,7 +7190,7 @@ void ac::BlendImageOnOff(cv::Mat &frame) {
 
 void ac::XorSelfAlphaImage(cv::Mat &frame) {
     if(blend_set == true) {
-        static double alpha = 1.0, alpha_max = 8.0;
+        static double alpha = 1.0, alpha_max = 2.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
