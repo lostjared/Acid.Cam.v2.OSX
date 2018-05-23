@@ -47,7 +47,7 @@
 
 // Acid Cam namespace
 namespace ac {
-    const std::string version="2.4.2";
+    const std::string version="2.4.3";
     // variables
     unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
@@ -85,6 +85,10 @@ namespace ac {
     int colors[3] = {rand()%255, rand()%255, rand()%255};
     unsigned int proc_mode = 0;
     
+}
+
+std::string ac::getVersion() {
+    return version;
 }
 
 ac::Point::Point() : x(0), y(0) {}
@@ -6850,7 +6854,7 @@ void ac::AlphaBlendPosition(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-            	pixel[j] = static_cast<unsigned char>((pixel[j]*alpha)+(pix[j]*alpha));
+                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha)+(pix[j]*alpha));
             
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
@@ -6866,14 +6870,14 @@ void ac::BlendRowAlpha(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         row++;
         if(row > frame.cols) row = 0;
-    	for(int z = 0; z < frame.rows; ++z) {
+        for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j] ^ row)*alpha);
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
-    	}
+        }
     }
     static int direction = 1;
     procPos(direction, alpha, alpha_max);
@@ -6916,7 +6920,7 @@ void ac::BlendRowByDirection(cv::Mat &frame) {
     static int direction = 1;
     for(int i = 0; i < frame.cols; ++i) {
         if(direction == 1) {
-        	++row;
+            ++row;
             if(row > frame.cols)
                 direction = 0;
         } else if(direction == 0) {
@@ -6925,7 +6929,7 @@ void ac::BlendRowByDirection(cv::Mat &frame) {
                 direction = 1;
             }
         }
-    	for(int z = 0; z < frame.rows; ++z) {
+        for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j) {
                 if(direction == 1)
@@ -6935,7 +6939,7 @@ void ac::BlendRowByDirection(cv::Mat &frame) {
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
-    	}
+        }
     }
 }
 
@@ -6972,7 +6976,7 @@ void ac::SelfXorScale(cv::Mat &frame) {
     static unsigned int value = 1;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]^value)*alpha);
             }
@@ -6982,8 +6986,8 @@ void ac::SelfXorScale(cv::Mat &frame) {
     }
     static int direction = 1;
     if(direction == 1)  {
-    	++value;
-    	if(value > 254)
+        ++value;
+        if(value > 254)
             direction = 0;
     } else if(direction == 0) {
         --value;
@@ -7120,9 +7124,9 @@ void ac::SelfAlphaRGB(cv::Mat &frame) {
             pix[3] = pixel;
             switch(index) {
                 case 0:
-            		pixel[0] = static_cast<unsigned char>(pix[0][0]*alpha);
-            		pixel[1] = static_cast<unsigned char>((pix[0][1]+pix[1][1])*alpha);
-            		pixel[2] = static_cast<unsigned char>((pix[0][2]+pix[1][2]+pix[2][2])*alpha);
+                    pixel[0] = static_cast<unsigned char>(pix[0][0]*alpha);
+                    pixel[1] = static_cast<unsigned char>((pix[0][1]+pix[1][1])*alpha);
+                    pixel[2] = static_cast<unsigned char>((pix[0][2]+pix[1][2]+pix[2][2])*alpha);
                     break;
                 case 1:
                     pixel[2] = static_cast<unsigned char>(pix[0][0]*alpha);
@@ -7189,7 +7193,7 @@ void ac::BlendImageOnOff(cv::Mat &frame) {
         }
         ++index;
         if(index > 1) index = 0;
-
+        
         static int dir = 1;
         procPos(dir, alpha, alpha_max);
     }
@@ -7228,8 +7232,8 @@ void ac::BitwiseXorStrobe(cv::Mat &frame) {
             switch(index) {
                 case 0:
                     pixel[0] += cv::saturate_cast<unsigned char>(pixel[0] * alpha1);
-            		pixel[1] += cv::saturate_cast<unsigned char>(pixel[1] * alpha2);
-            		pixel[2] += cv::saturate_cast<unsigned char>(pixel[2] * alpha3);
+                    pixel[1] += cv::saturate_cast<unsigned char>(pixel[1] * alpha2);
+                    pixel[2] += cv::saturate_cast<unsigned char>(pixel[2] * alpha3);
                     break;
                 case 1:
                     pixel[2] += cv::saturate_cast<unsigned char>(pixel[0] * alpha1);
@@ -7451,7 +7455,7 @@ void ac::fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel) {
 /*
  ac::transformMat(frame, ac::Rect(0,0,frame.size()),  [](cv::Vec3b &pixel, unsigned int x, unsigned int y) {
  });
-*/
+ */
 
 template<typename F>
 void ac::transformMat(cv::Mat &src, const ac::Rect &rc,F func) {
