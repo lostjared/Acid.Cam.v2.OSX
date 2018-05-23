@@ -364,6 +364,7 @@ namespace ac {
     void SelfAlphaRGB(cv::Mat &frame);
     void BlendImageOnOff(cv::Mat &frame);
     void XorSelfAlphaImage(cv::Mat &frame);
+    void BitwiseXorStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
