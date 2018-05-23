@@ -7262,29 +7262,20 @@ void ac::BitwiseXorStrobe(cv::Mat &frame) {
 
 
 void ac::AlphaBlendRandom(cv::Mat &frame) {
-    static double alpha[3] = {8, 1, 8}, alpha_max = 4.0;
+    static double val = 0.30;
+    static int val_dir = 1;
     unsigned int index = 0;
     DrawFunction func[2];
     func[0] = getRandomFilter(index);
     func[1] = getRandomFilter(index);
-    static unsigned int value = 0;
     cv::Mat copy[4];
     copy[0] = frame.clone();
     copy[1] = frame.clone();
     copy[2] = frame.clone();
     func[0](copy[0]);
     func[1](copy[1]);
-    AlphaBlend(copy[0], copy[1], copy[3], alpha[value]);
-    static int dir[3] = { 0, 1, 0 };
-    for(unsigned int j = 0; j < 3; ++j)
-        procPos(dir[j], alpha[j], alpha_max);
-    
-    static double val = 0.30;
-    static int val_dir = 1;
+    AlphaBlend(copy[0], copy[1], copy[3], 0.5);
     AlphaBlend(copy[2], copy[3], frame, val);
-    
-    ++value;
-    if(value > 2) value = 0;
     
     if(val_dir == 1) {
         val += 0.05;
