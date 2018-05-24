@@ -368,6 +368,7 @@ namespace ac {
     void XorSelfAlphaImage(cv::Mat &frame);
     void BitwiseXorStrobe(cv::Mat &frame);
     void AlphaBlendRandom(cv::Mat &frame);
+    void ChannelSortAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -388,7 +389,7 @@ namespace ac {
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void swapColors_(cv::Mat &frame, int x, int y);
-    inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15);
+    inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, const double iter = 0.05);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
