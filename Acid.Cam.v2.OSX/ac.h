@@ -369,6 +369,7 @@ namespace ac {
     void BitwiseXorStrobe(cv::Mat &frame);
     void AlphaBlendRandom(cv::Mat &frame);
     void ChannelSortAlphaBlend(cv::Mat &frame);
+    void XorChannelSort(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
