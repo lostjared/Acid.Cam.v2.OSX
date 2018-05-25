@@ -70,6 +70,7 @@
 #define ASSERT(X)
 #endif
 /*
+ * Be sure to call fill_filter_map
  * to use set appropriate variables, call the function
  *
  * ac::SelfAlphaBlend(mat);
@@ -126,6 +127,10 @@ namespace ac {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
     DrawFunction getRandomFilter(unsigned int &index);
+    void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
+    void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
+    void DrawFilter(unsigned int index, cv::Mat &frame);
+    void DrawFilter(const std::string &name, cv::Mat &frame);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);

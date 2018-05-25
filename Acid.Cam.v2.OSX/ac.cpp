@@ -139,6 +139,24 @@ void ac::fill_filter_map() {
     }
 }
 
+void ac::DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe) {
+    outframe = frame.clone();
+    ac::draw_func[filter_map[name]](outframe);
+}
+
+void ac::DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe) {
+    outframe = frame.clone();
+    ac::draw_func[index](outframe);
+}
+void ac::DrawFilter(unsigned int index, cv::Mat &frame) {
+    ac::draw_func[index](frame);
+    
+}
+void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
+    ac::draw_func[filter_map[name]](frame);
+}
+
+
 // swapColors inline function takes frame and x, y position
 inline void ac::swapColors(cv::Mat &frame, int y, int x) {
     if(in_custom == true) return;
