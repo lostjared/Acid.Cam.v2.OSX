@@ -371,6 +371,7 @@ namespace ac {
     void ChannelSortAlphaBlend(cv::Mat &frame);
     void XorChannelSort(cv::Mat &frame);
     void RandomGradientColors(cv::Mat &frame);
+    void RandomGradientColorsVertical(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
