@@ -126,11 +126,12 @@ namespace ac {
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    DrawFunction getRandomFilter(unsigned int &index);
-    void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
-    void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
-    void DrawFilter(unsigned int index, cv::Mat &frame);
-    void DrawFilter(const std::string &name, cv::Mat &frame);
+    inline DrawFunction getRandomFilter(unsigned int &index);
+    inline void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
+    inline void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
+    inline void DrawFilter(unsigned int index, cv::Mat &frame);
+    inline void DrawFilter(const std::string &name, cv::Mat &frame);
+    inline DrawFunction getFilter(std::string name);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -377,6 +378,7 @@ namespace ac {
     void XorChannelSort(cv::Mat &frame);
     void GradientColors(cv::Mat &frame);
     void GradientColorsVertical(cv::Mat &frame);
+    void Bitwise_XOR_Average(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
