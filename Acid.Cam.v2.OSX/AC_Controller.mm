@@ -371,7 +371,7 @@ void SearchForString(NSString *s) {
     const char **szPattern = convertToStringArray(svPattern);
     [self fillMenuWithString: it_arr[4] stringValues:szPattern];
     eraseArray(szPattern, svPattern.size());
-    std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines", "QuadCosSinMultiply", "GradientColors", "GradientColorsVertical"};
+    std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines", "QuadCosSinMultiply", "GradientColors", "GradientColorsVertical", "GradientXorSelfScale"};
     std::sort(svGradient.begin(), svGradient.end());
     const char **szGradient = convertToStringArray(svGradient);
     [self fillMenuWithString: it_arr[5] stringValues:szGradient];
@@ -391,7 +391,7 @@ void SearchForString(NSString *s) {
     const char **szBlur = convertToStringArray(svBlur);
     [self fillMenuWithString: it_arr[8] stringValues:szBlur];
     eraseArray(szBlur, svBlur.size());
-    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff"};
+    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "ImageShiftUpLeft"};
     std::sort(svImage.begin(), svImage.end());
     const char **szImage = convertToStringArray(svImage);
     [self fillMenuWithString: it_arr[9] stringValues:szImage];
@@ -512,6 +512,7 @@ void SearchForString(NSString *s) {
         strout << "Image filter select use Select image window to set image...\n";
         flushToLog(strout);
     }
+    ac::reset_filter = true;
 }
 
 - (IBAction) downloadNewestVersion: (id) sender {

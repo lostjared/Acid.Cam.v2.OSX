@@ -380,6 +380,8 @@ namespace ac {
     void GradientColorsVertical(cv::Mat &frame);
     void Bitwise_XOR_Average(cv::Mat &frame);
     void NotEqual(cv::Mat &frame);
+    void ImageShiftUpLeft(cv::Mat &frame);
+    void GradientXorSelfScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -410,6 +412,7 @@ namespace ac {
     extern DrawFunction *draw_func;
     extern int draw_max;
     extern bool snapShot;
+    extern bool reset_filter;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
     // Matrix Collection template
