@@ -379,6 +379,7 @@ namespace ac {
     void GradientColors(cv::Mat &frame);
     void GradientColorsVertical(cv::Mat &frame);
     void Bitwise_XOR_Average(cv::Mat &frame);
+    void NotEqual(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
