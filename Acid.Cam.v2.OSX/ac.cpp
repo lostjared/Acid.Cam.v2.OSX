@@ -7396,12 +7396,12 @@ void ac::Bitwise_XOR_Average(cv::Mat &frame) {
         cv::Scalar sval;
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < frame.channels(); ++j) {
+            for(unsigned int j = 0; j < 3; ++j) {
                 sval[j] += pixel[j];
             }
         }
         
-        for(unsigned int j = 0; j < frame.channels(); ++j)
+        for(unsigned int j = 0; j < 3; ++j)
             sval[j] /= frame.cols;
         
         for(int i = 0; i < frame.cols; ++i) {
