@@ -382,6 +382,7 @@ namespace ac {
     void NotEqual(cv::Mat &frame);
     void ImageShiftUpLeft(cv::Mat &frame);
     void GradientXorSelfScale(cv::Mat &frame);
+    void SmoothSourcePixel(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
