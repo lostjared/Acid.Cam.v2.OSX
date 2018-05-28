@@ -7575,6 +7575,8 @@ void ac::StrobeBlend(cv::Mat &frame) {
                     pixel[j] = pixel[j] ^ static_cast<unsigned char>(num/(alpha+1));
                 }
             }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
             //pixel[index1]= 255;
         }
         for(int i = frame.cols/2; i < frame.cols; ++i) {
@@ -7590,6 +7592,8 @@ void ac::StrobeBlend(cv::Mat &frame) {
                     pixel[j] = pixel[j] ^ static_cast<unsigned char>(num2/(alpha+1));
                 }
             }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
             //pixel[index2] = 0;
         }
     }
@@ -7604,11 +7608,15 @@ void ac::FrameBars(cv::Mat &frame) {
     unsigned int diff_z = (frame.rows/255)+1;
     unsigned char val[2] = {0,0};
     static double alpha = 1.0, alpha_max = 8.0;
+    static MatrixCollection<4> collection;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(unsigned int j = 0; j < 3; ++j)
-                pixel[j] += (val[0]*alpha) + (val[1]*alpha);
+                pixel[j] += static_cast<unsigned char>(val[0]*alpha) + static_cast<unsigned char>(val[1]*alpha);
+            
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
             
             if((i%diff_i) == 0) {
                 val[0]++;
@@ -7620,6 +7628,8 @@ void ac::FrameBars(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
 }
 
 // No Filter
