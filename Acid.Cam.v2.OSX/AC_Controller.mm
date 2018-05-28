@@ -268,10 +268,10 @@ void SearchForString(NSString *s) {
     [window1 setLevel: NSStatusWindowLevel];
     [window2 setLevel: NSStatusWindowLevel];
     [custom_window setLevel: NSStatusWindowLevel];
-    [alpha_window setLevel: NSStatusWindowLevel];
+    //[alpha_window setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
     [goto_frame setLevel: NSStatusWindowLevel];
-    [filter_search_window setLevel:NSStatusWindowLevel];
+    //[filter_search_window setLevel:NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
     [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
@@ -361,7 +361,7 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[2] stringValues:szBlend];
     eraseArray(szBlend, vzBlend.size());
     
-    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2"};
+    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars"};
     std::sort(svDistort.begin(), svDistort.end());
     const char **szDistort = convertToStringArray(svDistort);
     [self fillMenuWithString: it_arr[3] stringValues:szDistort];
