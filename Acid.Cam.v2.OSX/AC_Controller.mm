@@ -381,7 +381,7 @@ void SearchForString(NSString *s) {
     const char **szMirror = convertToStringArray(svMirror);
     [self fillMenuWithString: it_arr[6] stringValues:szMirror];
     eraseArray(szMirror, svMirror.size());
-    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", "StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe"};
+    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black", "StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe", "StrobeBlend"};
     std::sort(svStrobe.begin(), svStrobe.end());
     const char **szStrobe = convertToStringArray(svStrobe);
     [self fillMenuWithString: it_arr[7] stringValues:szStrobe];
@@ -1555,7 +1555,8 @@ void SearchForString(NSString *s) {
     NSInteger pos = [procMode indexOfSelectedItem];
     ac::setProcMode(static_cast<unsigned int >(pos));
     std::ostringstream log;
-    log << "Proccess Mode Set to: " << pos << "\n";
+    std::string str_val[] = {"Move Out Increase, Move in", "Move Out, Move in", "Move Out, Reset", ""};
+    log << "Proccess Mode Set to: " << str_val[pos] << "\n";
     if([cam_frame_rate_chk state] == NSOnState) {
         set_frame_rate = true;
         set_frame_rate_val = [cam_frame_rate floatValue];
@@ -1563,14 +1564,20 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Frame Rate invalid Try again", @"Change Rate", @"Ok", nil, nil);
             return;
         } else {
-        	std::cout << "Frame Rate set to: " << set_frame_rate_val << "\n";
+        	log << "Frame Rate set to: " << set_frame_rate_val << "\n";
         }
         
     } else {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
-    _NSRunAlertPanel(@"Frame Rate Forced", @"Frame Rate Set", @"Ok", nil, nil);
+    NSInteger num = [proc_change indexOfSelectedItem];
+    static double values[] = { 0, 0.03, 0.05, 0.3, 0.7, 0};
+    static std::string str_values[] = { "Default", "0.03", "0.05", "0.3", "0.7", ""};
+    ac::alpha_increase = values[num];
+    log << "Proccess Speed set to: " << str_values[num] << "\n";
+    NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
+    _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
 }
 

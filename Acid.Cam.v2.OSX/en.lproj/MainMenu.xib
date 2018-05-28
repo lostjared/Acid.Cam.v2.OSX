@@ -60,6 +60,7 @@
                 <outlet property="prefix_input" destination="615" id="638"/>
                 <outlet property="procMode" destination="3ED-56-zaU" id="qsa-XQ-8Zt"/>
                 <outlet property="procMode_Window" destination="duL-T4-rgT" id="xGp-d4-PuC"/>
+                <outlet property="proc_change" destination="xiJ-UD-Y7F" id="wzh-d8-eeV"/>
                 <outlet property="record_op" destination="701" id="706"/>
                 <outlet property="red_slider" destination="d9f-pM-wqS" id="d9g-A4-k9q"/>
                 <outlet property="resolution" destination="540" id="632"/>
@@ -1538,14 +1539,14 @@ Gw
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="283" y="305" width="285" height="148"/>
+            <rect key="contentRect" x="283" y="305" width="285" height="179"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ZQs-8e-2LN">
-                <rect key="frame" x="0.0" y="0.0" width="285" height="148"/>
+                <rect key="frame" x="0.0" y="0.0" width="285" height="179"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ED-56-zaU">
-                        <rect key="frame" x="21" y="85" width="247" height="26"/>
+                        <rect key="frame" x="21" y="116" width="247" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Move Out Increase, Move In" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="aBo-sm-air" id="gvh-Yf-P6V">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1560,7 +1561,7 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QDC-w8-Bcl">
-                        <rect key="frame" x="24" y="117" width="205" height="17"/>
+                        <rect key="frame" x="24" y="148" width="205" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Process Mode (For some Filters):" id="uzK-1J-jhL">
                             <font key="font" metaFont="system"/>
@@ -1568,6 +1569,23 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xiJ-UD-Y7F">
+                        <rect key="frame" x="21" y="85" width="247" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="IDe-4I-P3C" id="75T-Xh-raT">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="jdU-4k-2yW">
+                                <items>
+                                    <menuItem title="Default" state="on" id="IDe-4I-P3C"/>
+                                    <menuItem title="0.03" id="vqF-7n-S9Z"/>
+                                    <menuItem title="0.05" id="aEC-ww-oWP"/>
+                                    <menuItem title="0.3" id="8hy-D9-bTp"/>
+                                    <menuItem title="0.7" id="Vrt-dv-AQN"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XKS-xg-XeL">
                         <rect key="frame" x="18" y="51" width="171" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1599,7 +1617,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-666.5" y="-1121"/>
+            <point key="canvasLocation" x="-666.5" y="-1105.5"/>
         </window>
     </objects>
 </document>

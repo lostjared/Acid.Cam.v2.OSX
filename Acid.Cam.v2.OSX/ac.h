@@ -383,6 +383,7 @@ namespace ac {
     void ImageShiftUpLeft(cv::Mat &frame);
     void GradientXorSelfScale(cv::Mat &frame);
     void SmoothSourcePixel(cv::Mat &frame);
+    void StrobeBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -403,7 +404,7 @@ namespace ac {
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void swapColors_(cv::Mat &frame, int x, int y);
-    inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, const double iter = 0.05);
+    inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
@@ -414,6 +415,7 @@ namespace ac {
     extern int draw_max;
     extern bool snapShot;
     extern bool reset_filter;
+    extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
     void fill_filter_map();
     // Matrix Collection template
