@@ -386,7 +386,7 @@ namespace ac {
     void StrobeBlend(cv::Mat &frame);
     void FrameBars(cv::Mat &frame);
     void Sort_Vertical_Horizontal(cv::Mat &frame);
-    void Add(cv::Mat &frame);
+    void Sort_Vertical_Horizontal_Bitwise_XOR(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
