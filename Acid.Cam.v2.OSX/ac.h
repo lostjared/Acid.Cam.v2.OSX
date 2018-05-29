@@ -385,6 +385,7 @@ namespace ac {
     void SmoothSourcePixel(cv::Mat &frame);
     void StrobeBlend(cv::Mat &frame);
     void FrameBars(cv::Mat &frame);
+    void Sort_Vertical_Horizontal(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
