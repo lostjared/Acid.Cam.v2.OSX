@@ -7636,14 +7636,9 @@ void ac::Sort_Vertical_Horizontal(cv::Mat &frame) {
     cv::Mat value = frame.clone();
     VerticalChannelSort(value);
     ChannelSort(value);
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < 3; ++j)
-            	pixel[j] += value.at<cv::Vec3b>(z, i)[j];
-        }
-    }
+    Add(frame, value, false);
 }
+
 
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
@@ -7710,6 +7705,38 @@ void ac::Negate(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] = ~pixel[j];
+        }
+    }
+}
+
+void ac::Add(cv::Mat &src, cv::Mat &add, bool sat) {
+    if(src.size() != add.size())
+        return;
+    if(src.empty() || add.empty())
+        return;
+    
+    for(int z = 0; z < src.rows; ++z) {
+        for(int i = 0; i < src.cols; ++i) {
+            cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = add.at<cv::Vec3b>(z, i);
+            for(unsigned int j = 0; j < 3; ++j)
+                pixel[j] = (sat == true) ? cv::saturate_cast<unsigned char>(pixel[j]+pix[j]) : static_cast<unsigned char>(pixel[j]+pix[j]);
+        }
+    }
+}
+
+void ac::Sub(cv::Mat &src, cv::Mat &sub, bool sat) {
+    if(src.size() != sub.size())
+        return;
+    if(src.empty() || sub.empty())
+        return;
+    
+    for(int z = 0; z < src.rows; ++z) {
+        for(int i = 0; i < src.cols; ++i) {
+            cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = sub.at<cv::Vec3b>(z, i);
+            for(unsigned int j = 0; j < 3; ++j)
+                pixel[j] = (sat == true) ? cv::saturate_cast<unsigned char>(pixel[j]-pix[j]) : static_cast<unsigned char>(pixel[j]-pix[j]);
         }
     }
 }

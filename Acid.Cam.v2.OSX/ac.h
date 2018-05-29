@@ -386,6 +386,7 @@ namespace ac {
     void StrobeBlend(cv::Mat &frame);
     void FrameBars(cv::Mat &frame);
     void Sort_Vertical_Horizontal(cv::Mat &frame);
+    void Add(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -404,6 +405,8 @@ namespace ac {
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
+    void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
+    void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void swapColors_(cv::Mat &frame, int x, int y);
     inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
