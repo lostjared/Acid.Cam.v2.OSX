@@ -387,6 +387,8 @@ namespace ac {
     void FrameBars(cv::Mat &frame);
     void Sort_Vertical_Horizontal(cv::Mat &frame);
     void Sort_Vertical_Horizontal_Bitwise_XOR(cv::Mat &frame);
+    void Scalar_Average_Multiply(cv::Mat &frame);
+    void Scalar_Average(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -407,6 +409,9 @@ namespace ac {
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
+    template<typename Func>
+    void Transform(const cv::Mat &source, cv::Mat &output, Func func);
+    void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void swapColors_(cv::Mat &frame, int x, int y);
     inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
