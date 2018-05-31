@@ -389,6 +389,7 @@ namespace ac {
     void Sort_Vertical_Horizontal_Bitwise_XOR(cv::Mat &frame);
     void Scalar_Average_Multiply(cv::Mat &frame);
     void Scalar_Average(cv::Mat &frame);
+    void Total_Average(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -412,6 +413,7 @@ namespace ac {
     template<typename Func>
     void Transform(const cv::Mat &source, cv::Mat &output, Func func);
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
+    void TotalAverageOffset(cv::Mat &frame, unsigned long &value);
     inline void swapColors(cv::Mat &frame, int x, int y);
     inline void swapColors_(cv::Mat &frame, int x, int y);
     inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
