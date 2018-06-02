@@ -391,7 +391,7 @@ void SearchForString(NSString *s) {
     const char **szBlur = convertToStringArray(svBlur);
     [self fillMenuWithString: it_arr[8] stringValues:szBlur];
     eraseArray(szBlur, svBlur.size());
-    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "ImageShiftUpLeft"};
+    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "ImageShiftUpLeft", "AlphaBlendImageXor"};
     std::sort(svImage.begin(), svImage.end());
     const char **szImage = convertToStringArray(svImage);
     [self fillMenuWithString: it_arr[9] stringValues:szImage];
@@ -863,6 +863,7 @@ void SearchForString(NSString *s) {
             }
             setFrameLabel(ftext);
         });
+        
         if(ac::noRecord == false) {
             cv::Mat up;
             if(up4ki == NSOnState && frame.size() != cv::Size(3840, 2160)) {

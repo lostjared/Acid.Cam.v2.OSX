@@ -390,6 +390,7 @@ namespace ac {
     void Scalar_Average_Multiply(cv::Mat &frame);
     void Scalar_Average(cv::Mat &frame);
     void Total_Average(cv::Mat &frame);
+    void AlphaBlendImageXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
