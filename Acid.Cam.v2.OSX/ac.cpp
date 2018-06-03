@@ -781,70 +781,6 @@ void ac::AverageLines(cv::Mat &frame) {
     procPos(direction, alpha, alpha_max);
 }
 
-void ac::ImageFile(cv::Mat &frame) {
-    if(blend_set == true) {
-        const int w = frame.cols;
-        const int h = frame.rows;
-        for(int z = 0;  z < h; ++z) {
-            for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
-                pixel[0] += add_i[0];
-                pixel[1] += add_i[1];
-                pixel[1] += add_i[2];
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i); // invert pixel
-            }
-        }
-    }
-    
-}
-void ac::ImageXor(cv::Mat &frame) {
-    if(blend_set == true) {
-        const int w = frame.cols;
-        const int h = frame.rows;
-        static double alpha = 1.0, alpha_max = 4.0;
-        for(int z = 0;  z < h; ++z) {
-            for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
-                for(int j = 0; j < 3; ++j)
-                    pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^add_i[j])*alpha;
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i); // invert pixel
-            }
-        }
-        static int direction = 1;
-        procPos(direction, alpha, alpha_max);
-    }
-}
-
-void ac::ImageAlphaBlend(cv::Mat &frame) {
-    if(blend_set == true) {
-        const int w = frame.cols;
-        const int h = frame.rows;
-        static double alpha = 1.0, alpha_max = 2.0;
-        for(int z = 0;  z < h; ++z) {
-            for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
-                for(int j = 0; j < 3; ++j)
-                    pixel[j] = static_cast<unsigned char>((pixel[j]*alpha) + (add_i[j] * alpha));
-                
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i); // invert pixel
-            }
-        }
-        static int direction = 1;
-        procPos(direction, alpha, alpha_max);
-    }
-}
 
 
 void ac::ColorRange(cv::Mat &frame) {
@@ -879,34 +815,6 @@ void ac::ColorRange(cv::Mat &frame) {
     procPos(_direction, alpha, alpha_max);
 }
 
-void ac::ImageInter(cv::Mat &frame) {
-    if(blend_set == true) {
-        static int start = 0, restart = 0;
-        const int w = frame.cols;
-        const int h = frame.rows;
-        for(int z = 0;  z < h; ++z) {
-            for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
-                if(start == 0) {
-                    pixel = add_i;
-                }
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i); // invert pixel
-            }
-            start = (start == 0) ? 1 : 0;
-        }
-        if(restart == 0) {
-            start = 1;
-            restart = 1;
-        } else {
-            start = 0;
-            restart = 0;
-        }
-    }
-}
 
 void ac::TrailsInter(cv::Mat &frame) {
     static MatrixCollection<8> collection;
@@ -1404,31 +1312,6 @@ void ac::RandomFilteredSquare(cv::Mat &frame) {
         boxes.get()[i].drawBox(frame);
     }
 }
-// blend with image 
-void ac::ImageX(cv::Mat &frame) {
-    if(blend_set == true) {
-        static double alpha = 1.0, alpha_max = 8.0;
-        static cv::Mat frame_blend = blend_image.clone();
-        for(int i = 0; i < frame.cols-1; ++i) {
-            for(int z = 0; z < frame.rows-1; ++z) {
-                int cX = AC_GetFX(frame_blend.cols, i, frame.cols);
-                int cY = AC_GetFZ(frame_blend.rows, z, frame.rows);
-                
-                if(cX >= frame_blend.cols || cY >= frame_blend.rows)
-                    continue;
-                
-                cv::Vec3b &pixel = blend_image.at<cv::Vec3b>(cY, cX);
-                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY+1, cX+1);
-                pixel = pix;
-                cv::Vec3b &pix_value = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j)
-                    pix_value[j] = static_cast<unsigned char>(pixel[j]+(pix_value[j]*alpha));
-            }
-        }
-        static int direction = 1;
-        procPos(direction, alpha, alpha_max);
-    }
-}
 
 void ac::RandomQuads(cv::Mat &frame) {
     static MatrixCollection<8> collection;
@@ -1761,36 +1644,8 @@ void ac::MedianBlend(cv::Mat &frame) {
     procPos(direction, alpha, alpha_max);
 }
 
-void ac::SmoothRandomImageBlend(cv::Mat &frame) {
-    if(blend_set == true) {
-        static MatrixCollection<8> collection;
-        unsigned int index = 0;
-        DrawFunction rfunc = getRandomFilter(index);
-        cv::Mat temp_frame;
-        cv::resize(blend_image, temp_frame, frame.size());
-        rfunc(temp_frame);
-        collection.shiftFrames(temp_frame);
-        Smooth(frame, &collection);
-    }
-}
 
-void ac::SmoothImageAlphaBlend(cv::Mat &frame) {
-    if(blend_set == true) {
-        static double alpha = 1.0, alpha_max = 2.0;
-        static MatrixCollection<8> collection;
-        cv::Mat temp_frame;
-        cv::Mat temp_image;
-        cv::Mat blend_image_scaled;
-        cv::resize(blend_image, blend_image_scaled, frame.size());
-        temp_frame = frame.clone();
-        AlphaBlend(temp_frame,blend_image_scaled,frame,alpha);
-        collection.shiftFrames(frame);
-        Smooth(temp_frame, &collection);
-        frame = temp_frame;
-        static int direction = 1;
-        procPos(direction, alpha, alpha_max, 8, 0.05);
-    }
-}
+
 
 void ac::RandomAlphaBlend(cv::Mat &frame) {
     static MatrixCollection<8> collection;
@@ -2150,73 +2005,6 @@ void ac::SelfAlphaRGB(cv::Mat &frame) {
     if(index > 3) index = 0;
 }
 
-void ac::BlendImageOnOff(cv::Mat &frame) {
-    if(blend_set == true) {
-        static double alpha = 1.0, alpha_max = 4.0;
-        static int index = 0;
-        for(int z = 3; z < frame.rows-3; ++z) {
-            for(int i = 3; i < frame.cols-3; ++i) {
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b pix[4];
-                pix[0] = blend_image.at<cv::Vec3b>(cY, cX);
-                pix[1] = blend_image.at<cv::Vec3b>(cY+1, cX);
-                pix[2] = blend_image.at<cv::Vec3b>(cY, cX+1);
-                pix[3] = blend_image.at<cv::Vec3b>(cY+1, cX+1);
-                cv::Scalar value;
-                for(unsigned int j = 0; j < 4; ++j) {
-                    for(unsigned int q = 0; q < 3; ++q) {
-                        value[q] += pix[j][q];
-                    }
-                }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(unsigned int j = 0; j < 3; ++j) {
-                    value[j] /= 4;
-                    unsigned char val = static_cast<unsigned char>(value[j]);
-                    switch(index) {
-                        case 0:
-                            pixel[j] += static_cast<unsigned char>(val*alpha);
-                            break;
-                        case 1:
-                            pixel[j] -= static_cast<unsigned char>(val*alpha);
-                            break;
-                    }
-                }
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
-            }
-        }
-        ++index;
-        if(index > 1) index = 0;
-        
-        static int dir = 1;
-        procPos(dir, alpha, alpha_max);
-    }
-}
-
-void ac::XorSelfAlphaImage(cv::Mat &frame) {
-    if(blend_set == true) {
-        static double alpha = 1.0, alpha_max = 2.0;
-        static double alpha_r = 14.0;
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
-                for(unsigned int j = 0; j < 3; ++j) {
-                    //pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
-                    pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) + (pix[j] * alpha_r);
-                }
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
-            }
-        }
-        static int dir = 1, dir_r = 0;
-        procPos(dir, alpha, alpha_max);
-        procPos(dir_r, alpha_r, alpha_max);
-    }
-}
 
 void ac::BitwiseXorStrobe(cv::Mat &frame) {
     static int index = 0;
@@ -2682,16 +2470,6 @@ void ac::Total_Average(cv::Mat &frame) {
     
 }
 
-void ac::AlphaBlendImageXor(cv::Mat &frame) {
-    if(blend_set == true) {
-        static MatrixCollection<8> collection;
-    	SmoothImageAlphaBlend(frame);
-    	Bitwise_XOR(frame);
-        collection.shiftFrames(frame);
-        Smooth(frame, &collection);
-    }
-}
-
 void ac::FlashWhite(cv::Mat &frame) {
     static cv::Vec3b white(255,255,255);
     static bool state = false;
@@ -2722,30 +2500,6 @@ void ac::FlashBlackAndWhite(cv::Mat &frame) {
     }
     ++index;
     if(index > 3) index = 0;
-}
-
-template<int Size>
-void ac::Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
-    collection->shiftFrames(frame);
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Scalar test;
-            for(int q = 0; q < collection->size()-1; ++q) {
-                cv::Mat &framev = collection->frames[q];
-                cv::Vec3b pix = framev.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    test[j] += pix[j];
-                }
-            }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                test[j] /= (collection->size()-1);
-                pixel[j] = cv::saturate_cast<unsigned char>(test[j]);
-            }
-            ac::swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// if isNegative invert pixel
-        }
-    }
 }
 
 // No Filter

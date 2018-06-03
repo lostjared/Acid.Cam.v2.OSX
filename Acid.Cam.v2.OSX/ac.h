@@ -471,7 +471,28 @@ namespace ac {
     
     // Trails function
     template<int Size>
-    void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection);
+    void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
+        collection->shiftFrames(frame);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Scalar test;
+                for(int q = 0; q < collection->size()-1; ++q) {
+                    cv::Mat &framev = collection->frames[q];
+                    cv::Vec3b pix = framev.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        test[j] += pix[j];
+                    }
+                }
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    test[j] /= (collection->size()-1);
+                    pixel[j] = cv::saturate_cast<unsigned char>(test[j]);
+                }
+                ac::swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel
+            }
+        }
+    }
     
     // point class
     class Point {
