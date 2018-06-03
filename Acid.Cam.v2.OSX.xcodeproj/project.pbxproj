@@ -58,6 +58,12 @@
 		7FEE831920C39AAB0027A848 /* ac-square.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831820C39AAB0027A848 /* ac-square.cpp */; };
 		7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831A20C39B020027A848 /* ac-particle.cpp */; };
 		7FEE831D20C39B290027A848 /* ac-grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831C20C39B280027A848 /* ac-grid.cpp */; };
+		7FEE831F20C39DF40027A848 /* ac-basic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831E20C39DF40027A848 /* ac-basic.cpp */; };
+		7FEE832120C39E4E0027A848 /* ac-func2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832020C39E4E0027A848 /* ac-func2.cpp */; };
+		7FEE832320C39EE60027A848 /* ac-func3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832220C39EE60027A848 /* ac-func3.cpp */; };
+		7FEE832520C3DD140027A848 /* ac-image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832420C3DD130027A848 /* ac-image.cpp */; };
+		7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832620C3DFEA0027A848 /* ac-box.cpp */; };
+		7FEE832920C3E0310027A848 /* ac-func4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832820C3E0310027A848 /* ac-func4.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -129,6 +135,12 @@
 		7FEE831820C39AAB0027A848 /* ac-square.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-square.cpp"; path = "Acid.Cam.v2.OSX/ac-square.cpp"; sourceTree = "<group>"; };
 		7FEE831A20C39B020027A848 /* ac-particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-particle.cpp"; path = "Acid.Cam.v2.OSX/ac-particle.cpp"; sourceTree = "<group>"; };
 		7FEE831C20C39B280027A848 /* ac-grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-grid.cpp"; path = "Acid.Cam.v2.OSX/ac-grid.cpp"; sourceTree = "<group>"; };
+		7FEE831E20C39DF40027A848 /* ac-basic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-basic.cpp"; path = "Acid.Cam.v2.OSX/ac-basic.cpp"; sourceTree = "<group>"; };
+		7FEE832020C39E4E0027A848 /* ac-func2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-func2.cpp"; path = "Acid.Cam.v2.OSX/ac-func2.cpp"; sourceTree = "<group>"; };
+		7FEE832220C39EE60027A848 /* ac-func3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-func3.cpp"; path = "Acid.Cam.v2.OSX/ac-func3.cpp"; sourceTree = "<group>"; };
+		7FEE832420C3DD130027A848 /* ac-image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-image.cpp"; path = "Acid.Cam.v2.OSX/ac-image.cpp"; sourceTree = "<group>"; };
+		7FEE832620C3DFEA0027A848 /* ac-box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-box.cpp"; path = "Acid.Cam.v2.OSX/ac-box.cpp"; sourceTree = "<group>"; };
+		7FEE832820C3E0310027A848 /* ac-func4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-func4.cpp"; path = "Acid.Cam.v2.OSX/ac-func4.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,12 +194,18 @@
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
 				7FEE831020C394320027A848 /* ac-func.cpp */,
+				7FEE832020C39E4E0027A848 /* ac-func2.cpp */,
+				7FEE832220C39EE60027A848 /* ac-func3.cpp */,
+				7FEE832820C3E0310027A848 /* ac-func4.cpp */,
 				7FEE831620C399420027A848 /* ac-alpha.cpp */,
 				7FEE831220C394320027A848 /* ac-obj.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
 				7FEE831C20C39B280027A848 /* ac-grid.cpp */,
+				7FEE831E20C39DF40027A848 /* ac-basic.cpp */,
+				7FEE832420C3DD130027A848 /* ac-image.cpp */,
+				7FEE832620C3DFEA0027A848 /* ac-box.cpp */,
 				7F9D70B417DE4F7C009C54DA /* ac.cpp */,
 				7F9D70B517DE4F7C009C54DA /* ac.h */,
 				7F4A50A920800F84009998DA /* tokenize.hpp */,
@@ -377,14 +395,20 @@
 				7FEE831920C39AAB0027A848 /* ac-square.cpp in Sources */,
 				7FEE831720C399420027A848 /* ac-alpha.cpp in Sources */,
 				7F9D70A217DE4F35009C54DA /* main.m in Sources */,
+				7FEE832120C39E4E0027A848 /* ac-func2.cpp in Sources */,
 				7FEE831320C394320027A848 /* ac-func.cpp in Sources */,
 				7F9D70A917DE4F35009C54DA /* AppDelegate.m in Sources */,
 				7FEE831420C394320027A848 /* ac-util.cpp in Sources */,
+				7FEE832920C3E0310027A848 /* ac-func4.cpp in Sources */,
 				7F9D70ED17DE4F7C009C54DA /* AC_Controller.mm in Sources */,
 				7FEE831520C394320027A848 /* ac-obj.cpp in Sources */,
 				7F9D70EE17DE4F7C009C54DA /* ac.cpp in Sources */,
 				7FEE831D20C39B290027A848 /* ac-grid.cpp in Sources */,
+				7FEE831F20C39DF40027A848 /* ac-basic.cpp in Sources */,
+				7FEE832520C3DD140027A848 /* ac-image.cpp in Sources */,
+				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
+				7FEE832320C39EE60027A848 /* ac-func3.cpp in Sources */,
 				7F9D70F217DE4F7C009C54DA /* fractal.cpp in Sources */,
 				7F9D711E17DE4F7C009C54DA /* videoprogram.mm in Sources */,
 			);
