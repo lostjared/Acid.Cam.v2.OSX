@@ -420,10 +420,6 @@ namespace ac {
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
-    
-    template<typename Func>
-    void Transform(const cv::Mat &source, cv::Mat &output, Func func);
-    
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
     void TotalAverageOffset(cv::Mat &frame, unsigned long &value);
     extern void swapColors(cv::Mat &frame, int x, int y);
@@ -623,6 +619,36 @@ namespace ac {
     
     template<typename F>
     void transformMat(cv::Mat &src,const Rect &rc,F func);
+    
+    
+    template<typename Func>
+    void Transform(const cv::Mat &source, cv::Mat &output, Func func) {
+        if(output.empty() || output.size() != source.size())
+            output.create(source.size(), CV_8UC3);
+        
+        for(int z = 0; z < source.rows; ++z) {
+            for(int i = 0; i < source.cols; ++i) {
+                cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b value = source.at<cv::Vec3b>(z, i);
+                func(value, i, z);
+                pixel = value;
+                swapColors(output, z, i);
+                if(isNegative) invert(output, z, i);
+            }
+        }
+    }
+    
+    template<typename F>
+    void transformMat(cv::Mat &src, const ac::Rect &rc,F func) {
+        for(int z = rc.y; z < rc.y+rc.h && z < src.rows; ++z) {
+            for(int i = rc.x; i < rc.x+rc.w && i < src.cols; ++i) {
+                cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
+                func(pixel, i, z);
+            }
+        }
+    }
+
+    
 }
 
 extern ac::ParticleEmiter emiter;

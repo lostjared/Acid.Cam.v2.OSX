@@ -1102,24 +1102,6 @@ void ac::Sort_Vertical_Horizontal_Bitwise_XOR(cv::Mat &frame) {
 }
 
 
-template<typename Func>
-void ac::Transform(const cv::Mat &source, cv::Mat &output, Func func) {
-    
-    if(output.empty() || output.size() != source.size())
-        output.create(source.size(), CV_8UC3);
-    
-    for(int z = 0; z < source.rows; ++z) {
-        for(int i = 0; i < source.cols; ++i) {
-            cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
-            cv::Vec3b value = source.at<cv::Vec3b>(z, i);
-            func(value, i, z);
-            pixel = value;
-            ac::swapColors(output, z, i);
-            if(isNegative) ac::invert(output, z, i);
-        }
-    }
-}
-
 void ac::Scalar_Average_Multiply(cv::Mat &frame) {
     cv::Mat copy = frame.clone();
     VerticalChannelSort(frame);

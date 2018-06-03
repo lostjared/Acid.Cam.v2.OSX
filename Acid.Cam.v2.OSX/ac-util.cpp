@@ -220,21 +220,6 @@ void ac::fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel) {
         }
     }
 }
-/*
- ac::transformMat(frame, ac::Rect(0,0,frame.size()),  [](cv::Vec3b &pixel, unsigned int x, unsigned int y) {
- });
- */
-
-template<typename F>
-void ac::transformMat(cv::Mat &src, const ac::Rect &rc,F func) {
-    for(int z = rc.y; z < rc.y+rc.h && z < src.rows; ++z) {
-        for(int i = rc.x; i < rc.x+rc.w && i < src.cols; ++i) {
-            cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
-            func(pixel, i, z);
-        }
-    }
-}
-
 // set custom callback
 void ac::setCustom(DrawFunction f) {
     custom_callback = f;
