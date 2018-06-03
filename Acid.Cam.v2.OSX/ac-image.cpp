@@ -99,7 +99,7 @@ void ac::imageBlendThree(cv::Mat &frame) {
 // imageblend4
 void ac::imageBlendFour(cv::Mat &frame) {
     if(blend_set == true) {
-        static unsigned int state = 0;
+        static int state = 0;
         static double pos = 1.0;
         int w = frame.cols;// frame width
         int h = frame.rows;// frame height
@@ -189,7 +189,7 @@ void ac::ImageXor(cv::Mat &frame) {
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^add_i[j])*alpha;
+                    pixel[j] = cv::saturate_cast<unsigned char>((pixel[j]^add_i[j])*alpha);
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i); // invert pixel
             }
@@ -280,7 +280,7 @@ void ac::ImageX(cv::Mat &frame) {
 void ac::SmoothRandomImageBlend(cv::Mat &frame) {
     if(blend_set == true) {
         static MatrixCollection<8> collection;
-        unsigned int index = 0;
+        int index = 0;
         DrawFunction rfunc = getRandomFilter(index);
         cv::Mat temp_frame;
         cv::resize(blend_image, temp_frame, frame.size());
@@ -322,13 +322,13 @@ void ac::BlendImageOnOff(cv::Mat &frame) {
                 pix[2] = blend_image.at<cv::Vec3b>(cY, cX+1);
                 pix[3] = blend_image.at<cv::Vec3b>(cY+1, cX+1);
                 cv::Scalar value;
-                for(unsigned int j = 0; j < 4; ++j) {
-                    for(unsigned int q = 0; q < 3; ++q) {
+                for(int j = 0; j < 4; ++j) {
+                    for(int q = 0; q < 3; ++q) {
                         value[q] += pix[j][q];
                     }
                 }
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(unsigned int j = 0; j < 3; ++j) {
+                for(int j = 0; j < 3; ++j) {
                     value[j] /= 4;
                     unsigned char val = static_cast<unsigned char>(value[j]);
                     switch(index) {
@@ -362,9 +362,9 @@ void ac::XorSelfAlphaImage(cv::Mat &frame) {
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
-                for(unsigned int j = 0; j < 3; ++j) {
+                for(int j = 0; j < 3; ++j) {
                     //pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
-                    pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) + (pix[j] * alpha_r);
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pix[j] * alpha_r));
                 }
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel */

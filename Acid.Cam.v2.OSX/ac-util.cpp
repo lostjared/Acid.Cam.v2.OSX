@@ -71,7 +71,7 @@ void ac::Add(cv::Mat &src, cv::Mat &add, bool sat) {
         for(int i = 0; i < src.cols; ++i) {
             cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = add.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < 3; ++j)
+            for(int j = 0; j < 3; ++j)
                 pixel[j] = (sat == true) ? cv::saturate_cast<unsigned char>(pixel[j]+pix[j]) : static_cast<unsigned char>(pixel[j]+pix[j]);
         }
     }
@@ -87,7 +87,7 @@ void ac::Sub(cv::Mat &src, cv::Mat &sub, bool sat) {
         for(int i = 0; i < src.cols; ++i) {
             cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = sub.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < 3; ++j)
+            for(int j = 0; j < 3; ++j)
                 pixel[j] = (sat == true) ? cv::saturate_cast<unsigned char>(pixel[j]-pix[j]) : static_cast<unsigned char>(pixel[j]-pix[j]);
         }
     }
@@ -101,12 +101,12 @@ void ac::ScalarAverage(const cv::Mat &frame, cv::Scalar &s) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b col = frame.at<cv::Vec3b>(z, i);
-            for(unsigned int j = 0; j < 3; ++j)
+            for(int j = 0; j < 3; ++j)
                 s[j] += col[j];
         }
     }
     unsigned long total_pixels = frame.rows * frame.cols;
-    for(unsigned int j = 0; j < 3; ++j)
+    for(int j = 0; j < 3; ++j)
         s[j] /= total_pixels;
 }
 
@@ -190,7 +190,7 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
 }
 
 // Copy cv::Mat
-void ac::copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y ,cv::Mat &target, const ac::Rect &rc) {
+void ac::copyMat(const cv::Mat &src,int src_x, int src_y ,cv::Mat &target, const ac::Rect &rc) {
     for(int i = 0; i < rc.w; ++i) {
         for(int z = 0; z < rc.h; ++z) {
             //if(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols) {
@@ -207,7 +207,7 @@ void ac::copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::
     copyMat(src, p.x, p.y, target, rc);
 }
 
-void ac::copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh) {
+void ac::copyMat(const cv::Mat &src, int x, int y, cv::Mat &target, int rx, int ry, int rw, int rh) {
     copyMat(src, x,y,target,Rect(rx,ry,rw,rh));
 }
 
@@ -245,8 +245,8 @@ ac::DrawFunction ac::getFilter(std::string name) {
     return ac::draw_func[filter_map[name]];
 }
 
-ac::DrawFunction ac::getRandomFilter(unsigned int &index) {
-    unsigned int num;
+ac::DrawFunction ac::getRandomFilter(int &index) {
+    int num;
     do {
         num = rand()%(draw_max-6);
     } while(ac::draw_strings[num] == "Blend Fractal" || ac::draw_strings[num] == "Blend Fractal Mood");

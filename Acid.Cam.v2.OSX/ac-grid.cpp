@@ -34,7 +34,7 @@ void ac::Grid::cleanBoxes() {
     }
 }
 
-void ac::Grid::createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsigned int size) {
+void ac::Grid::createGrid(cv::Mat &frame, int w, int h, int size) {
     cleanBoxes();
     g_w = w;
     g_h = h;
@@ -79,8 +79,8 @@ void ac::Grid::fillGrid(cv::Mat &frame) {
     std::shuffle(points.begin(), points.end(), rng);
 }
 
-void ac::Grid::updateGrid(unsigned int max) {
-    unsigned int iter_max = current_offset+max;
+void ac::Grid::updateGrid(int max) {
+    int iter_max = current_offset+max;
     while(current_offset < points.size() && current_offset < iter_max) {
         const Point &p = points[current_offset];
         boxes[p.x][p.y].on = false;
@@ -96,7 +96,7 @@ void ac::GridFilter8x(cv::Mat &frame) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
         s = frame.size();
     }
-    unsigned int num = 0;
+    int num = 0;
     if(frame.rows >= 1080)
         num = 100;
     else if(frame.rows >= 720)
@@ -123,7 +123,7 @@ void ac::GridFilter16x(cv::Mat &frame) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
         s = frame.size();
     }
-    unsigned int num = 0;
+    int num = 0;
     if(frame.rows >= 1080)
         num = 50;
     else if(frame.rows >= 720)
@@ -151,7 +151,7 @@ void ac::GridFilter8xBlend(cv::Mat &frame) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
         s = frame.size();
     }
-    unsigned int num = 0;
+    int num = 0;
     if(frame.rows >= 1080)
         num = 100;
     else if(frame.rows >= 720)
@@ -187,7 +187,7 @@ void ac::GridRandom(cv::Mat &frame) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
         s = frame.size();
     }
-    unsigned int num = 0;
+    int num = 0;
     if(frame.rows >= 2000)
         num = 250;
     if(frame.rows >= 1080)
@@ -216,7 +216,7 @@ void ac::GridRandomPixel(cv::Mat &frame) {
         grid.createGrid(frame, frame.cols/box_size, frame.rows/box_size, box_size);
         s = frame.size();
     }
-    unsigned int num = 0;
+    int num = 0;
     if(frame.rows >= 2000)
         num = 400;
     if(frame.rows >= 1080)

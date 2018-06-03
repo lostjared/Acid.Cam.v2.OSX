@@ -122,7 +122,7 @@ void frac::FractalLogic() {
     // std::cout << paramA << ": " << paramB << " :" << " dir: " << dir << "\n";
 }
 
-void frac::DrawFractal(cv::Mat &frame, bool neg)
+void frac::DrawFractal(cv::Mat &frame, bool)
 {
     float x1=mod_x-1.0f*zoom_x;
     float x2=mod_x+1.0f*zoom_w;
@@ -147,9 +147,9 @@ void frac::DrawFractal(cv::Mat &frame, bool neg)
             if(i == max_iter) {
                 
             } else {
-                cf[2] += sin(i*red_color/100)*255;
-                cf[1] += sin(i*green_color/100)*255;
-                cf[0] += sin(i*blue_color/100)*255;
+                cf[2] += static_cast<unsigned char>(sin(i*red_color/100)*255);
+                cf[1] += static_cast<unsigned char>(sin(i*green_color/100)*255);
+                cf[0] += static_cast<unsigned char>(sin(i*blue_color/100)*255);
             }
         }
         if(x > frame.size().width) break;

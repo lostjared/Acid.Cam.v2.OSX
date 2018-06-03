@@ -1,7 +1,7 @@
 #include"ac.h"
 
-unsigned int ac::Box::frame_width = 0;
-unsigned int ac::Box::frame_height = 0;
+int ac::Box::frame_width = 0;
+int ac::Box::frame_height = 0;
 
 void ac::Box::initBox(int width, int height) {
     x = (rand()%width);
@@ -42,8 +42,8 @@ void ac::Box::sizeBox() {
         return;
     }
     ++index;
-    unsigned int r1 = rand()%10;
-    unsigned int r2 = rand()%10;
+    int r1 = rand()%10;
+    int r2 = rand()%10;
     if(w+r1 > frame_width) {
         initBox(frame_width, frame_height);
         return;

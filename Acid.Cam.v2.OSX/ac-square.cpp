@@ -34,7 +34,7 @@ void ac::Square::copyImageToTarget(int xx, int yy, cv::Mat &f) {
 void Square_Swap(ac::Square *squares, int num_w, int num_h, cv::Mat &frame, bool random = false) {
     const int w = frame.cols;// frame width
     const int h = frame.rows;// frame height
-    unsigned int square_w=(w/num_w), square_h=(h/num_h);
+    int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
     ac::Point *points = new ac::Point[num_w*num_h];
     std::vector<ac::Square *> square_vec;
@@ -69,7 +69,7 @@ void Square_Swap(ac::Square *squares, int num_w, int num_h, cv::Mat &frame, bool
 
 // SquareSwap
 void ac::SquareSwap(cv::Mat &frame) {
-    static unsigned int cnt = 0;
+    static int cnt = 0;
     switch(cnt) {
         case 0:
             SquareSwap4x2(frame);

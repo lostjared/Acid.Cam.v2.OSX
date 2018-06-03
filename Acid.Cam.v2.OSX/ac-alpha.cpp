@@ -86,7 +86,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             cola[0] = buffer[2];
             cola[1] = buffer[1];
             cola[2] = buffer[0];
-            unsigned int alpha = (int)pos;
+            int alpha = (int)pos;
             int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
             int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
             int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
@@ -116,7 +116,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             cola[0] = t[0];
             cola[1] = t[1];
             cola[2] = t[2];
-            unsigned int alpha = (int)pos;
+            int alpha = (int)pos;
             int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
             int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
             int blue_values[] = { colv[1]+cola[1], colv[0]+cola[2], colv[2]+cola[0], 0 };
@@ -204,7 +204,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             break;
         case 16:
         {
-            unsigned int r = 0;
+            int r = 0;
             r = (buffer[0]+buffer[1]+buffer[2])/3;
             buffer[0] += static_cast<unsigned char>(pos*r);
             buffer[1] += static_cast<unsigned char>(-(pos*r));
@@ -214,7 +214,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
         case 17:
         {
             unsigned long r = 0;;
-            r = (buffer[0]+buffer[1]+buffer[2])/(pos+1);
+            r = static_cast<unsigned char>((buffer[0]+buffer[1]+buffer[2])/(pos+1));
             buffer[0] += static_cast<unsigned char>(r*pos);
             r = (buffer[0]+buffer[1]+buffer[2])/3;
             buffer[1] += static_cast<unsigned char>(r*pos);
@@ -224,16 +224,16 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             break;
         case 18:
         {
-            buffer[0] += static_cast<unsigned char>(1+static_cast<unsigned int>((sinf(pos))*z));
-            buffer[1] += static_cast<unsigned char>(1+static_cast<unsigned int>((cosf(pos))*i));
-            buffer[2] += static_cast<unsigned char>((buffer[0]+buffer[1]+buffer[2])/3);
+            buffer[0] += static_cast<unsigned char>(1+(sin(pos))*z);
+            buffer[1] += static_cast<unsigned char>((1+cos(pos))*i);
+            buffer[2] += static_cast<unsigned char>(((buffer[0]+buffer[1]+buffer[2])/3));
         }
             break;
         case 19:
         {
-            buffer[0] += static_cast<unsigned char>((buffer[2]-i)*((((int)pos+1)%15)+2));
-            buffer[1] += static_cast<unsigned char>((buffer[1]-z)*((((int)pos+1)%15)+2));
-            buffer[2] += static_cast<unsigned char>(buffer[0]-(i+z)*((((int)pos+1)%15)+2));
+            buffer[0] += static_cast<unsigned char>(((buffer[2]-i)*((((int)pos+1)%15)+2)));
+            buffer[1] += static_cast<unsigned char>(((buffer[1]-z)*((((int)pos+1)%15)+2)));
+            buffer[2] += static_cast<unsigned char>((buffer[0]-(i+z)*((((int)pos+1)%15)+2)));
         }
             break;
         case 20:
@@ -368,9 +368,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
         {
             double rad = 100.0;
             double degree = 0.01*pos;
-            int x = static_cast<int>(rad*(cos(degree)));
-            int y = rad * static_cast<int>(sin(degree));
-            int z = rad * static_cast<int>(tanf(degree));
+            int x = static_cast<int>(rad * (cos(degree)));
+            int y = static_cast<int>(rad * sin(degree));
+            int z = static_cast<int>(rad * tan(degree));
             buffer[0] = static_cast<unsigned char>(buffer[0]+x);
             buffer[2] = static_cast<unsigned char>(buffer[1]+y);
             buffer[1] = static_cast<unsigned char>(buffer[1]+z);
@@ -386,7 +386,7 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             break;
         case 32:
         {
-            unsigned int value = 0;
+            int value = 0;
             value  = ~buffer[0] + ~buffer[1] + ~buffer[2];
             value /= 2;
             buffer[0] = static_cast<unsigned char>(buffer[0]+value*pos);
@@ -422,9 +422,9 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
             break;
         case 36:
         {
-            buffer[0] += static_cast<unsigned char>(sinf(3.14+pos)*pos);
-            buffer[1] += static_cast<unsigned char>(cosf(3.14+pos)*pos);
-            buffer[2] += static_cast<unsigned char>(tanf(3.14+pos)*pos);
+            buffer[0] += static_cast<unsigned char>(sin(3.14+pos)*pos);
+            buffer[1] += static_cast<unsigned char>(cos(3.14+pos)*pos);
+            buffer[2] += static_cast<unsigned char>(tan(3.14+pos)*pos);
         }
             break;
     }

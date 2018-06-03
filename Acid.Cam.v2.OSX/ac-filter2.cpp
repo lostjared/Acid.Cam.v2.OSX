@@ -6,14 +6,14 @@ void ac::glitchSort(cv::Mat &frame) {
     static double pos = 1.0f; // static pos set to 1.0
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<unsigned int> v;// static vector of unsigned int
+    static std::vector<int> v;// static vector of int
     v.reserve(w);// reserve at least w bytes
     for(int z = 0; z < h; ++z) {// top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             // grab current pixel value reference
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
-            // temporary unsigned int variable
-            unsigned int vv = 0;
+            // temporary int variable
+            int vv = 0;
             // pointer to unsigned char * of vv variable
             unsigned char *cv = (unsigned char*)&vv;
             // set RGB values
@@ -25,7 +25,7 @@ void ac::glitchSort(cv::Mat &frame) {
         }
         std::sort(v.begin(), v.end());// sort the row of pixels
         for(int i = 0; i < w; ++i) {// left to right
-            // pointer to unsigned integer stored at index i
+            // pointer to integer stored at index i
             unsigned char *value = (unsigned char*)&v[i];
             // grab current pixel reference as cv::Vec3b
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -49,14 +49,14 @@ void ac::glitchSort(cv::Mat &frame) {
 void ac::pixelSort(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<unsigned int> v;// static vector of unsigned int
+    static std::vector<int> v;// static vector of int
     v.reserve(w);// reserve w bytes
     for(int z = 0; z < h; ++z) { // top to bottom
         for(int i = 0; i < w; ++i) { // left to right
-            //unsigned int value = frame.at<unsigned int>(z, i);
+            //int value = frame.at<int>(z, i);
             // grab pixel reference
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
-            unsigned int vv = 0;
+            int vv = 0;
             // unsigned char * of vv
             unsigned char *cv = (unsigned char*)&vv;
             // set RGB values
@@ -184,7 +184,7 @@ void ac::MedianBlur(cv::Mat &frame) {
 // takes cv::Mat reference
 void ac::BlurDistortion(cv::Mat &frame) {
     cv::Mat out;// output
-    static unsigned int index = 1, direction = 1;
+    static int index = 1, direction = 1;
     cv::GaussianBlur(frame, out, cv::Size(index, index), 0, 0);// output
     if(direction == 1) {// if direction equals 1
         if(index >= 51) direction = 0;// if greater than 51 set to zero go
@@ -382,15 +382,15 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
 }
 // Sort the Fuzz
 void ac::SortFuzz(cv::Mat &frame) {
-    unsigned int r = rand()%255; // random number betwen 0-254
+    int r = rand()%255; // random number betwen 0-254
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<unsigned int> v;// vector for row of bytes info
+    static std::vector<int> v;// vector for row of bytes info
     v.reserve(w);// reserve at least width bytes
     for(int z = 0; z < h; ++z) { //  loop: top to bottom
         for(int i = 0; i < w; ++i) { // loop: left ro right
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i); // current pixel
-            unsigned int vv = 0; // unsigned integer
+            int vv = 0; // integer
             unsigned char *cv = (unsigned char*)&vv; // pointer to unsigned char*
             // set each byte
             cv[0] = value[0];

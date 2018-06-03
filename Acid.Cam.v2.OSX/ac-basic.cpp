@@ -76,7 +76,7 @@ void ac::SelfScale(cv::Mat &frame) {
 }
 // StrobeEffect - Change frame values by passIndex, incrememnt each frame
 void ac::StrobeEffect(cv::Mat &frame) {
-    static unsigned int passIndex = 0;// passIndex variable
+    static int passIndex = 0;// passIndex variable
     static double alpha = 1.0f;// alpha is 1.0
     for (int z = 0; z < frame.cols - 2; ++z) {
         for (int i = 0; i < frame.rows - 2; ++i) {
@@ -389,8 +389,8 @@ void ac::CDraw(cv::Mat &frame) {
     static double deg = 1.0f;// degrees
     for(z = 0; z < frame.cols; ++z) { // left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
-            int cX = static_cast<int>((rad * cosf(deg)));
-            int cY = static_cast<int>((rad * sinf(deg)));
+            int cX = static_cast<int>((rad * cos(deg)));
+            int cY = static_cast<int>((rad * sin(deg)));
             cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // grab pixel reference
             // set values
             color_value[0] = static_cast<unsigned char>(color_value[0]*(cX * alpha));
@@ -659,8 +659,8 @@ void ac::cossinMultiply(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z); // grab pixel
             // set pixel values
-            buffer[0] += static_cast<unsigned char>(1+static_cast<unsigned int>((sinf(alpha))*z));
-            buffer[1] += static_cast<unsigned char>(1+static_cast<unsigned int>((cosf(alpha))*i));
+            buffer[0] += static_cast<unsigned char>(1+static_cast<int>((sin(alpha))*z));
+            buffer[1] += static_cast<unsigned char>(1+static_cast<int>((cos(alpha))*i));
             buffer[2] += static_cast<unsigned char>((buffer[0]+buffer[1]+buffer[2])/3);
             swapColors(frame, i, z);// swap colors
             if(isNegative) invert(frame, i, z);// invert pixel
@@ -868,7 +868,7 @@ void ac::newBlend(cv::Mat &frame) {
             if(isNegative) invert(frame, i, z);// if(isNegative) invert pixel
         }
     }
-    static unsigned int dir = 1;// static direction equals 1
+    static int dir = 1;// static direction equals 1
     if(dir == 1) {// dir equals 1
         pos += 25;// pos plus equal 25
         if(pos > 1024) {// greater than 1024

@@ -20,7 +20,7 @@ void ac::ParticleEmiter::reset() {
 
 // set frame pixel values
 void ac::ParticleEmiter::set(cv::Mat &frame) {
-    if(static_cast<unsigned int>(frame.cols) != w || static_cast<unsigned int>(frame.rows) != h) {
+    if(static_cast<int>(frame.cols) != w || static_cast<int>(frame.rows) != h) {
         if(part != 0) {
             for(int i = 0; i < w; ++i)
                 delete [] part[i];

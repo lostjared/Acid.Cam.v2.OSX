@@ -111,7 +111,7 @@ namespace ac {
     extern bool images_Enabled,fps_force;
     extern int snapshot_Type;
     extern bool in_custom;
-    extern unsigned int swapColor_r, swapColor_g, swapColor_b;
+    extern int swapColor_r, swapColor_g, swapColor_b;
     extern cv::Size resolution;
     extern bool strobe_It;
     extern int set_color_map;
@@ -126,21 +126,21 @@ namespace ac {
     extern DrawFunction plugin_func;
     // ror/rol tempaltes
     template<typename T>
-    inline T ror(T x, unsigned int m){
+    inline T ror(T x, int m){
         return (x >> m) | (x << (sizeof(T)*8 - m));
     }
     template<typename T>
-    inline T rol(T x, unsigned int m) {
+    inline T rol(T x, int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
     
     // be sure to call this when the application starts
     void fill_filter_map();
     
-    DrawFunction getRandomFilter(unsigned int &index);
+    DrawFunction getRandomFilter(int &index);
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
-    void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
-    void DrawFilter(unsigned int index, cv::Mat &frame);
+    void DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe);
+    void DrawFilter(int index, cv::Mat &frame);
     void DrawFilter(const std::string &name, cv::Mat &frame);
     DrawFunction getFilter(std::string name);
     // Acid Cam Filter Function prototypes
@@ -413,7 +413,7 @@ namespace ac {
     // set Custom Filter callback function
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
-    void setProcMode(unsigned int value);
+    void setProcMode(int value);
     // color maps
     void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);
@@ -445,7 +445,7 @@ namespace ac {
     template<int Size>
     class MatrixCollection {
     public:
-        static constexpr unsigned int ArraySize = Size;
+        static constexpr int ArraySize = Size;
         MatrixCollection() : w(0), h(0) {}
         cv::Mat frames[Size+1];
         int w, h;
@@ -465,7 +465,7 @@ namespace ac {
             }
             frames[0] = frame.clone();
         }
-        unsigned int size() const { return ArraySize; }
+        int size() const { return ArraySize; }
     };
     
     // Trails function
@@ -498,9 +498,9 @@ namespace ac {
     public:
         Point();
         Point(const Point &p);
-        Point(unsigned int xx, unsigned int yy);
-        unsigned int x, y;
-        void setPoint(unsigned int xx, unsigned int yy);
+        Point(int xx, int yy);
+        int x, y;
+        void setPoint(int xx, int yy);
         Point &operator=(const Point &p);
     };
     // Rectangle class
@@ -508,14 +508,14 @@ namespace ac {
     public:
         Rect();
         Rect(const Rect &r);
-        Rect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
-        Rect(unsigned int xx, unsigned int yy);
-        Rect(unsigned int xx, unsigned int yy, cv::Size s);
-        Rect(Point pt, unsigned int ww, unsigned int hh);
+        Rect(int xx, int yy, int ww, int hh);
+        Rect(int xx, int yy);
+        Rect(int xx, int yy, cv::Size s);
+        Rect(Point pt, int ww, int hh);
         Rect(Point pt, cv::Size s);
-        void setRect(unsigned int xx, unsigned int yy, unsigned int ww, unsigned int hh);
+        void setRect(int xx, int yy, int ww, int hh);
         Rect &operator=(const Rect &r);
-        unsigned int x,y,w,h;
+        int x,y,w,h;
     };
     // classes to be used by the filter
     // Square class to hold broken up cv::Mat
@@ -549,8 +549,8 @@ namespace ac {
     public:
         Particle() : x(0), y(0), dir(0), m_count(0) {}
         cv::Vec3b pixel;// color
-        unsigned int x, y, dir; // position/direction
-        unsigned int m_count; // counter
+        int x, y, dir; // position/direction
+        int m_count; // counter
     };
     // class to process the pixel
     class ParticleEmiter {
@@ -569,7 +569,7 @@ namespace ac {
         void reset();
     private:
         Particle **part; // array of pointers for Particles
-        unsigned int w, h; // frame width/height
+        int w, h; // frame width/height
     };
     extern int colors[3];
     // class to use for random growing filtered rects.
@@ -579,8 +579,8 @@ namespace ac {
         void initBox(int w, int h);
         void drawBox(cv::Mat &frame);
         void sizeBox();
-        unsigned int x,y,w,h,steps,index,frame_index;
-        static unsigned int frame_width, frame_height; // current resolution
+        int x,y,w,h,steps,index,frame_index;
+        static int frame_width, frame_height; // current resolution
     };
     
     class GridBox {
@@ -600,24 +600,24 @@ namespace ac {
         GridBox **boxes;
         Grid();
         ~Grid();
-        void createGrid(cv::Mat &frame, unsigned int w, unsigned int h, unsigned int size);
-        void updateGrid(unsigned int max);
+        void createGrid(cv::Mat &frame, int w, int h, int size);
+        void updateGrid(int max);
         void Release();
         void cleanBoxes();
         void fillGrid(cv::Mat &frame);
-        unsigned int g_w, g_h, g_s;
+        int g_w, g_h, g_s;
         std::vector<Point> points;
         std::default_random_engine rng;
-        unsigned int current_offset;
+        int current_offset;
         bool g_random;
     };
     
     bool operator<(const Point &p1, const Point &p2);
     
     // slow
-    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, const Rect &rc);
+    void copyMat(const cv::Mat &src,int src_x, int src_y, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
-    void copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh);
+    void copyMat(const cv::Mat &src, int x, int y, cv::Mat &target, int rx, int ry, int rw, int rh);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
     template<typename F>

@@ -5,7 +5,7 @@
 namespace ac {
     const std::string version="2.4.3";
     // variables
-    unsigned int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
+    int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
     bool images_Enabled = false, fps_force = false,iRev = false;
     bool blur_Second = false;
@@ -39,7 +39,7 @@ namespace ac {
     DrawFunction custom_callback = 0;
     DrawFunction plugin_func = 0;
     int colors[3] = {rand()%255, rand()%255, rand()%255};
-    unsigned int proc_mode = 0;
+    int proc_mode = 0;
     bool reset_filter = false;
     double alpha_increase = 0;
 }
@@ -64,11 +64,11 @@ void ac::DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outf
     ac::draw_func[filter_map[name]](outframe);
 }
 
-void ac::DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe) {
+void ac::DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe) {
     outframe = frame.clone();
     ac::draw_func[index](outframe);
 }
-void ac::DrawFilter(unsigned int index, cv::Mat &frame) {
+void ac::DrawFilter(int index, cv::Mat &frame) {
     ac::draw_func[index](frame);
     
 }
@@ -173,6 +173,6 @@ void ac::procPos(int &direction, double &pos, double &pos_max, const double max_
 }
 
 
-void ac::setProcMode(unsigned int value) {
+void ac::setProcMode(int value) {
     proc_mode = value;
 }
