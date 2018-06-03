@@ -487,7 +487,7 @@ namespace ac {
                     test[j] /= (collection->size()-1);
                     pixel[j] = cv::saturate_cast<unsigned char>(test[j]);
                 }
-                ac::swapColors(frame, z, i);// swap colors
+                swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel
             }
         }
@@ -615,8 +615,8 @@ namespace ac {
     bool operator<(const Point &p1, const Point &p2);
     
     // slow
-    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, const ac::Rect &rc);
-    void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const ac::Rect &rc);
+    void copyMat(const cv::Mat &src,unsigned int src_x, unsigned int src_y, cv::Mat &target, const Rect &rc);
+    void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, unsigned int x, unsigned int y, cv::Mat &target, unsigned int rx, unsigned int ry, unsigned int rw, unsigned int rh);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
@@ -642,7 +642,7 @@ namespace ac {
     }
     
     template<typename F>
-    void transformMat(cv::Mat &src, const ac::Rect &rc,F func) {
+    void transformMat(cv::Mat &src, const Rect &rc,F func) {
         for(int z = rc.y; z < rc.y+rc.h && z < src.rows; ++z) {
             for(int i = rc.x; i < rc.x+rc.w && i < src.cols; ++i) {
                 cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
