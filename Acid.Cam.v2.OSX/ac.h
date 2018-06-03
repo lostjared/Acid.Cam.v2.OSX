@@ -91,8 +91,8 @@ extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, gre
 extern bool negate, blend_set, colorkey_set;
 extern cv::Mat blend_image,color_image;
 
-extern int AC_GetFX(int oldw,int x, int nw);
-extern int AC_GetFZ(int oldh, int y, int nh);
+int AC_GetFX(int oldw,int x, int nw);
+int AC_GetFZ(int oldh, int y, int nh);
 
 // acid cam namespace
 namespace ac {
@@ -133,12 +133,16 @@ namespace ac {
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    extern DrawFunction getRandomFilter(unsigned int &index);
+    
+    // be sure to call this when the application starts
+    void fill_filter_map();
+    
+    DrawFunction getRandomFilter(unsigned int &index);
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(unsigned int index, cv::Mat &frame);
     void DrawFilter(const std::string &name, cv::Mat &frame);
-    extern DrawFunction getFilter(std::string name);
+    DrawFunction getFilter(std::string name);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -437,7 +441,6 @@ namespace ac {
     extern bool reset_filter;
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
-    void fill_filter_map();
     // Matrix Collection template
     template<int Size>
     class MatrixCollection {
