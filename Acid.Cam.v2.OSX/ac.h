@@ -90,6 +90,10 @@
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
 extern bool negate, blend_set, colorkey_set;
 extern cv::Mat blend_image,color_image;
+
+extern int AC_GetFX(int oldw,int x, int nw);
+extern int AC_GetFZ(int oldh, int y, int nh);
+
 // acid cam namespace
 namespace ac {
     // version string
@@ -109,14 +113,17 @@ namespace ac {
     extern bool in_custom;
     extern unsigned int swapColor_r, swapColor_g, swapColor_b;
     extern cv::Size resolution;
+    extern bool strobe_It;
     extern int set_color_map;
-    inline int GetFX(cv::Mat &frame, int x, int nw);
-    inline int GetFY(cv::Mat &frame, int y, int nh);
-    inline void invert(cv::Mat &frame, int x, int y);
-    
+    extern bool color_map_set;
+    extern int GetFX(cv::Mat &frame, int x, int nw);
+    extern int GetFY(cv::Mat &frame, int y, int nh);
+    extern void invert(cv::Mat &frame, int x, int y);
     std::string getVersion();
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
+    extern DrawFunction custom_callback;
+    extern DrawFunction plugin_func;
     // ror/rol tempaltes
     template<typename T>
     inline T ror(T x, unsigned int m){
@@ -126,12 +133,12 @@ namespace ac {
     inline T rol(T x, unsigned int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    inline DrawFunction getRandomFilter(unsigned int &index);
-    inline void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
-    inline void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
-    inline void DrawFilter(unsigned int index, cv::Mat &frame);
-    inline void DrawFilter(const std::string &name, cv::Mat &frame);
-    inline DrawFunction getFilter(std::string name);
+    extern DrawFunction getRandomFilter(unsigned int &index);
+    extern void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
+    extern void DrawFilter(unsigned int index, const cv::Mat &frame, cv::Mat &outframe);
+    extern void DrawFilter(unsigned int index, cv::Mat &frame);
+    extern void DrawFilter(const std::string &name, cv::Mat &frame);
+    extern DrawFunction getFilter(std::string name);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);
@@ -413,13 +420,15 @@ namespace ac {
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
+    
     template<typename Func>
     void Transform(const cv::Mat &source, cv::Mat &output, Func func);
+    
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
     void TotalAverageOffset(cv::Mat &frame, unsigned long &value);
-    inline void swapColors(cv::Mat &frame, int x, int y);
-    inline void swapColors_(cv::Mat &frame, int x, int y);
-    inline void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
+    extern void swapColors(cv::Mat &frame, int x, int y);
+    extern void swapColors_(cv::Mat &frame, int x, int y);
+    extern void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
@@ -596,5 +605,6 @@ namespace ac {
 }
 
 extern ac::ParticleEmiter emiter;
+extern void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double pos, double *count);
 
 #endif
