@@ -1720,7 +1720,7 @@ void ac::HighWave(cv::Mat &frame) {
 void ac::VerticalSort(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<int> v;// static vector of int
+    static std::vector<unsigned int> v;// static vector of int
     v.reserve(w);// reserve w bytes
     for(int i = 0; i < w; ++i) { // top to bottom
         for(int z = 0; z < h; ++z) { // left to right
@@ -1731,7 +1731,7 @@ void ac::VerticalSort(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i); // if is negative
             
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
-            int vv = 0;
+            unsigned int vv = 0;
             // unsigned char * of vv
             unsigned char *cv = (unsigned char*)&vv;
             // set RGB values

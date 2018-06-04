@@ -6,14 +6,14 @@ void ac::glitchSort(cv::Mat &frame) {
     static double pos = 1.0f; // static pos set to 1.0
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<int> v;// static vector of int
+    static std::vector<unsigned int> v;// static vector of int
     v.reserve(w);// reserve at least w bytes
     for(int z = 0; z < h; ++z) {// top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             // grab current pixel value reference
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
             // temporary int variable
-            int vv = 0;
+            unsigned int vv = 0;
             // pointer to unsigned char * of vv variable
             unsigned char *cv = (unsigned char*)&vv;
             // set RGB values
@@ -49,14 +49,14 @@ void ac::glitchSort(cv::Mat &frame) {
 void ac::pixelSort(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<int> v;// static vector of int
+    static std::vector<unsigned int> v;// static vector of int
     v.reserve(w);// reserve w bytes
     for(int z = 0; z < h; ++z) { // top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             //int value = frame.at<int>(z, i);
             // grab pixel reference
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
-            int vv = 0;
+            unsigned int vv = 0;
             // unsigned char * of vv
             unsigned char *cv = (unsigned char*)&vv;
             // set RGB values
@@ -385,12 +385,12 @@ void ac::SortFuzz(cv::Mat &frame) {
     int r = rand()%255; // random number betwen 0-254
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
-    static std::vector<int> v;// vector for row of bytes info
+    static std::vector<unsigned int> v;// vector for row of bytes info
     v.reserve(w);// reserve at least width bytes
     for(int z = 0; z < h; ++z) { //  loop: top to bottom
         for(int i = 0; i < w; ++i) { // loop: left ro right
             cv::Vec3b &value = frame.at<cv::Vec3b>(z, i); // current pixel
-            int vv = 0; // integer
+            unsigned int vv = 0; // integer
             unsigned char *cv = (unsigned char*)&vv; // pointer to unsigned char*
             // set each byte
             cv[0] = value[0];
