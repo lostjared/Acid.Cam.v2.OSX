@@ -639,22 +639,19 @@ void SearchForString(NSString *s) {
     frame_proc = 0;
     NSInteger checkedState = [menuPaused state];
     isPaused = (checkedState == NSOnState) ? true : false;
-    static unsigned int counter = 0;
     std::ostringstream fname_stream;
     std::string filename;
     NSInteger popupType = [output_Type indexOfSelectedItem];
-    if(!r) {
-        ++counter;
-    }
     time_t t = time(0);
     struct tm *m;
     m = localtime(&t);
     std::ostringstream time_stream;
     time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
     if(popupType == 0)
-        fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".mov";
+        fname_stream << time_stream.str();
     else
-        fname_stream << time_stream.str() << "AC2.Output." << (counter) << ".avi";
+        fname_stream << time_stream.str();
+    
     filename = fname_stream.str();
     NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
     std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];

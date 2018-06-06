@@ -170,10 +170,21 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
                 ac::fps = fps_val;
             	sout << "Forced Frame Rate: " << fps_val << "\n";
             }
-            if(outputType == 0)
+            std::ostringstream fs;
+            static unsigned int counter = 0;
+            
+            if(!noRecord) ++counter;
+            
+            if(outputType == 0) {
+                fs << ac::fileName << s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".mov";
+                ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, s4k, true);
-            else
+            }
+            else {
+                fs << ac::fileName <<  s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".avi";
+                ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, s4k, true);
+            }
             // if writer is not opened exit
             if(writer->isOpened() == false || opened == false) {
                 sout << "Error video file could not be created.\n";
