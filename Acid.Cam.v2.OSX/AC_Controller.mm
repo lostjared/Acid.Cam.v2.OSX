@@ -1389,6 +1389,7 @@ void SearchForString(NSString *s) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
                 return;
             }
+            ac::reset_filter = true;
             blend_set = true;
             std::ostringstream stream;
             stream << "Blend Image set to: " << [current UTF8String] << "\n";

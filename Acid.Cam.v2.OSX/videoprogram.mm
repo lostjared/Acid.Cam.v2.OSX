@@ -188,7 +188,7 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
             // if writer is not opened exit
             if(writer->isOpened() == false || opened == false) {
                 sout << "Error video file could not be created.\n";
-                _NSRunAlertPanel(@"Error", @"Video file could not be created Output direcotry exisit?\n", @"Close", nil, nil);
+                _NSRunAlertPanel(@"Error", @"Video file could not be created Output directory exisit?\n", @"Close", nil, nil);
                 return -1;
             }
             cv::Mat outframe;
