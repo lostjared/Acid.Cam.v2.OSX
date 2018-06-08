@@ -433,3 +433,37 @@ void ac::AlphaBlendImageXor(cv::Mat &frame) {
         Smooth(frame, &collection);
     }
 }
+
+void ac::ImageShiftUpLeft(cv::Mat &frame) {
+    if(blend_set) {
+        static double alpha = 1.0, alpha_max = 3.0;
+        static cv::Mat image = blend_image.clone();
+        if(reset_filter == true) {
+            reset_filter = false;
+            image = blend_image.clone();
+        }
+        for(int i = 0; i < image.cols-1; ++i) {
+            for(int z = 0; z < image.rows-1; ++z) {
+                cv::Vec3b val = image.at<cv::Vec3b>(z+1, i+1);
+                cv::Vec3b &target = image.at<cv::Vec3b>(z, i);
+                target = val;
+            }
+        }
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int z = 0; z < frame.rows; ++z) {
+                int cX = AC_GetFX(image.cols, i, frame.cols);
+                int cY = AC_GetFZ(image.rows, z, frame.rows);
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b src_pixel = image.at<cv::Vec3b>(cY, cX);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j])) ^ src_pixel[j];
+                
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+            }
+        }
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max);
+    }
+}
+

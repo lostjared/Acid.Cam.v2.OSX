@@ -659,6 +659,7 @@ void SearchForString(NSString *s) {
     [startProg setEnabled: NO];
     [menuPaused setEnabled: YES];
     [up4k setEnabled: NO];
+    ac::reset_filter = true;
     
     if(camera_mode == 1) {
         renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval

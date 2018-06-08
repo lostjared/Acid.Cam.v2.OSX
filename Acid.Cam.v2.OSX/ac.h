@@ -452,11 +452,12 @@ namespace ac {
         void shiftFrames(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
-            if(w != wx || h != wh) {
+            if(w != wx || h != wh || reset_filter == true) {
                 for(int i = 0; i < Size; ++i)
                     frames[i] = frame.clone();
                 w = wx;
                 h = wh;
+                if(reset_filter == true) reset_filter = false;
                 return;
             }
             
