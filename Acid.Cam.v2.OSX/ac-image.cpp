@@ -297,18 +297,22 @@ void ac::ImageInter(cv::Mat &frame) {
 // blend with image
 void ac::ImageX(cv::Mat &frame) {
     if(blend_set == true) {
+        
+        if(blend_image.empty())
+            return;
+        
         static double alpha = 1.0, alpha_max = 8.0;
         static cv::Mat frame_blend = blend_image.clone();
-        for(int i = 0; i < frame.cols-1; ++i) {
-            for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 1; i < frame.cols-2; ++i) {
+            for(int z = 1; z < frame.rows-2; ++z) {
                 int cX = AC_GetFX(frame_blend.cols, i, frame.cols);
                 int cY = AC_GetFZ(frame_blend.rows, z, frame.rows);
                 
                 if(cX >= frame_blend.cols || cY >= frame_blend.rows)
                     continue;
                 
-                cv::Vec3b &pixel = blend_image.at<cv::Vec3b>(cY, cX);
-                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY+1, cX+1);
+                cv::Vec3b &pixel = frame_blend.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b pix = frame_blend.at<cv::Vec3b>(cY+1, cX+1);
                 pixel = pix;
                 cv::Vec3b &pix_value = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
