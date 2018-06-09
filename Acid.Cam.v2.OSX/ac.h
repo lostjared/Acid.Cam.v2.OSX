@@ -405,6 +405,7 @@ namespace ac {
     void FlashWhite(cv::Mat &frame);
     void FlashBlackAndWhite(cv::Mat &frame);
     void GaussianBlend(cv::Mat &frame);
+    void RandomXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
