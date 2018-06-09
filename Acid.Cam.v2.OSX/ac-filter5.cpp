@@ -1198,6 +1198,28 @@ void ac::FlashBlackAndWhite(cv::Mat &frame) {
     if(index > 3) index = 0;
 }
 
+void ac::GaussianBlend(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 3.0;
+    static MatrixCollection<8> collection;
+    unsigned int r = rand()%10;
+    for(unsigned int q = 0; q < r; ++q)
+        GaussianBlur(frame);
+    
+    collection.shiftFrames(frame);
+    int value[3] = { rand()%255, rand()%255, rand()%255 };
+    for(int z = 0;  z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((pixel[j] ^ value[j]) * alpha);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 15, 0.1);
+    Smooth(frame, &collection);
+    collection.shiftFrames(frame);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
