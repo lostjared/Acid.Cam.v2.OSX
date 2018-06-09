@@ -457,7 +457,7 @@ namespace ac {
                     frames[i] = frame.clone();
                 w = wx;
                 h = wh;
-                if(reset_filter == true) reset_filter = false;
+                reset_filter = false;
                 return;
             }
             
