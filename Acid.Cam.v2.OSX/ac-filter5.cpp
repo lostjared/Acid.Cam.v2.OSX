@@ -1159,6 +1159,10 @@ void ac::Total_Average(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] += static_cast<unsigned char>((alpha*total[j]));
+            
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir = 1;
@@ -1212,6 +1216,10 @@ void ac::GaussianBlend(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] = static_cast<unsigned char>((pixel[j] ^ value[j]) * alpha);
+            
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir = 1;
@@ -1229,6 +1237,10 @@ void ac::RandomXor(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] = static_cast<unsigned char>((pixel[j] ^ r_color[j]) * alpha);
+            
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir = 1;

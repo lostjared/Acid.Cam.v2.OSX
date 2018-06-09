@@ -406,6 +406,8 @@ namespace ac {
     void FlashBlackAndWhite(cv::Mat &frame);
     void GaussianBlend(cv::Mat &frame);
     void RandomXor(cv::Mat &frame);
+    void RandomXorFlash(cv::Mat &frame);
+    void RandomAmountMedianBlur(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

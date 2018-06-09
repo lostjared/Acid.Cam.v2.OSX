@@ -43,7 +43,44 @@
 
 #include"ac.h"
 
+void ac::RandomXorFlash(cv::Mat &frame) {
+    static int index = 0;
+    int col_p[3] = { rand()%255, rand()%255, rand()%255 };
+    int col_x[3] = { rand()%255, rand()%255, rand()%255 };
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                switch(index) {
+                    case 0:
+                		pixel[j] = static_cast<unsigned char>(pixel[j] ^ ((col_p[j] ^ col_x[j]) * static_cast<unsigned int>(alpha)));
+                        break;
+                    case 1:
+                        pixel[j] = static_cast<unsigned char>(pixel[j] ^ col_p[j]);
+                        break;
+                    case 2:
+                        pixel[j] = static_cast<unsigned char>(pixel[j] ^ (col_p[j]+col_x[j]));
+                        break;
+                }
+            }
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    
+    ++index;
+    if(index > 2) index = 0;
+}
 
+void ac::RandomAmountMedianBlur(cv::Mat &frame) {
+    int random = rand()%10;
+    for(int j = 0; j < random; ++j)
+        MedianBlur(frame);
+}
 
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
