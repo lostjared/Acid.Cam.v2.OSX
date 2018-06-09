@@ -139,7 +139,7 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
         if(u4k && aw != 3840 && ah != 2160)
             sout << "Resolution Upscaled to 3840x2160\n";
         else
-        	sout << "Resolution: " << aw << "x" << ah << "\n";
+            sout << "Resolution: " << aw << "x" << ah << "\n";
         
         ac::fps = capture->get(CV_CAP_PROP_FPS);
         if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(CV_CAP_PROP_FPS);
@@ -155,7 +155,7 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
             if(u4k)
                 sout << "Resolution upsacled to  3840x2160\n";
             else
-            sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
+                sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
         }
         setSliders(total_frames);
@@ -168,7 +168,7 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
             }
             if(camera_mode == 0 && fps_on == true) {
                 ac::fps = fps_val;
-            	sout << "Forced Frame Rate: " << fps_val << "\n";
+                sout << "Forced Frame Rate: " << fps_val << "\n";
             }
             std::ostringstream fs;
             static unsigned int counter = 0;

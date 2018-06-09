@@ -54,7 +54,7 @@ void ac::RandomXorFlash(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 switch(index) {
                     case 0:
-                		pixel[j] = static_cast<unsigned char>(pixel[j] ^ ((col_p[j] ^ col_x[j]) * static_cast<unsigned int>(alpha)));
+                        pixel[j] = static_cast<unsigned char>(pixel[j] ^ ((col_p[j] ^ col_x[j]) * static_cast<unsigned int>(alpha)));
                         break;
                     case 1:
                         pixel[j] = static_cast<unsigned char>(pixel[j] ^ col_p[j]);

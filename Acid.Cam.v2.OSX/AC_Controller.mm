@@ -349,7 +349,7 @@ void SearchForString(NSString *s) {
         all_sorted.push_back(ac::draw_strings[x]);
     
     std::sort(all_sorted.begin(), all_sorted.end());
-
+    
     const char **szAllSorted = convertToStringArray(all_sorted);
     [self fillMenuWithString: it_arr[1] stringValues:szAllSorted];
     eraseArray(szAllSorted, all_sorted.size());
@@ -525,7 +525,7 @@ void SearchForString(NSString *s) {
     [menu_freeze setEnabled: NO];
     
     if([videoFileInput integerValue] == 0) {
-    	[up4k setEnabled: NO];
+        [up4k setEnabled: NO];
     } else {
         [up4k setEnabled: YES];
     }
@@ -679,7 +679,7 @@ void SearchForString(NSString *s) {
     
     
     int ret_val = program_main(set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-
+    
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -1564,7 +1564,7 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Frame Rate invalid Try again", @"Change Rate", @"Ok", nil, nil);
             return;
         } else {
-        	log << "Frame Rate set to: " << set_frame_rate_val << "\n";
+            log << "Frame Rate set to: " << set_frame_rate_val << "\n";
         }
         
     } else {

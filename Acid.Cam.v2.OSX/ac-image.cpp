@@ -303,7 +303,7 @@ void ac::ImageX(cv::Mat &frame) {
         
         static double alpha = 1.0, alpha_max = 8.0;
         static cv::Mat frame_blend = blend_image.clone();
-
+        
         for(int i = 1; i < frame.cols-2; ++i) {
             for(int z = 1; z < frame.rows-2; ++z) {
                 int cX = AC_GetFX(frame_blend.cols, i, frame.cols);

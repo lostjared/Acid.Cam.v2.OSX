@@ -959,7 +959,7 @@ void ac::StrobeScan(cv::Mat &frame) {
     const int h = frame.rows;// frame height
     static double pos = 1.0, pos_max = 7.0;
     static int color_mode = 0;
-	int over = rand()%255;
+    int over = rand()%255;
     static  int cdirection = 1;
     
     for(int z = 0; z < h; ++z) {
