@@ -1216,8 +1216,24 @@ void ac::GaussianBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 15, 0.1);
-    Smooth(frame, &collection);
     collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    
+}
+
+void ac::RandomXor(cv::Mat &frame) {
+    int r_color[3] = { rand()%255, rand()%255, rand()%255 };
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((pixel[j] ^ r_color[j]) * alpha);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    
 }
 
 // No Filter
