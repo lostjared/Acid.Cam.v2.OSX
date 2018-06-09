@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7F18458B17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F18458A17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework */; };
 		7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F47CB331C6D0549008689B9 /* AudioToolbox.framework */; };
+		7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F5181C720CC7F4200CF342C /* ac-filter6.cpp */; };
 		7F5831E61E27F3CB00101A98 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F5831E41E27F3CB00101A98 /* AVFoundation.framework */; };
 		7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F5831E51E27F3CB00101A98 /* AVKit.framework */; };
 		7F9D709617DE4F35009C54DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9D709517DE4F35009C54DA /* Cocoa.framework */; };
@@ -72,6 +73,7 @@
 		7F47CB331C6D0549008689B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7F4A50A920800F84009998DA /* tokenize.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tokenize.hpp; path = Acid.Cam.v2.OSX/tokenize.hpp; sourceTree = "<group>"; };
 		7F50E2EE1CF3DFEB007843AE /* libdl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdl.tbd; path = usr/lib/libdl.tbd; sourceTree = SDKROOT; };
+		7F5181C720CC7F4200CF342C /* ac-filter6.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter6.cpp"; path = "Acid.Cam.v2.OSX/ac-filter6.cpp"; sourceTree = "<group>"; };
 		7F5831E41E27F3CB00101A98 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7F5831E51E27F3CB00101A98 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		7F5831E81E27F3DA00101A98 /* libopencv_world.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_world.a; path = cvlibs/libopencv_world.a; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				7FEE832C20C45B0D0027A848 /* ac-filter3.cpp */,
 				7FEE832B20C45B0D0027A848 /* ac-filter4.cpp */,
 				7FEE833220C45B560027A848 /* ac-filter5.cpp */,
+				7F5181C720CC7F4200CF342C /* ac-filter6.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -408,6 +411,7 @@
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
 				7F9D70F217DE4F7C009C54DA /* fractal.cpp in Sources */,
+				7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */,
 				7F9D711E17DE4F7C009C54DA /* videoprogram.mm in Sources */,
 				7FEE833020C45B0E0027A848 /* ac-filter3.cpp in Sources */,
 				7FEE833120C45B0E0027A848 /* ac-filter2.cpp in Sources */,

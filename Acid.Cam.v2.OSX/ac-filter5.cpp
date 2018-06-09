@@ -1236,12 +1236,3 @@ void ac::RandomXor(cv::Mat &frame) {
     
 }
 
-// No Filter
-void ac::NoFilter(cv::Mat &) {}
-
-// Alpha Blend with Original Frame
-void ac::BlendWithSource(cv::Mat &frame) {
-    ac::pass2_alpha = 0.50; // set to 50%
-    Pass2Blend(frame);// call Pass2 function
-}
-
