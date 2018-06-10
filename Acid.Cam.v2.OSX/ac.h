@@ -137,6 +137,7 @@ namespace ac {
     // be sure to call this when the application starts
     void fill_filter_map();
     
+    // draw functions
     DrawFunction getRandomFilter(int &index);
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe);
