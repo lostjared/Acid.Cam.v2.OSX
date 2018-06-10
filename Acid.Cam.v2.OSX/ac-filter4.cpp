@@ -1218,12 +1218,12 @@ void ac::HorizontalTrailsInter(cv::Mat &frame) {
     for(int i = 0; i < w; ++i) {
         for(int z = 0; z < h; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel = collection.frames[counter+1].at<cv::Vec3b>(z, i);
+            pixel = collection.frames[counter].at<cv::Vec3b>(z, i);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
         ++counter;
-        if(counter > 6) counter = 0;
+        if(counter >= 4) counter = 0;
     }
 }
 

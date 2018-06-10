@@ -81,3 +81,18 @@ void ac::Rect::setRect(int xx, int yy, int ww, int hh) {
     h = hh;
 }
 
+std::vector<void *> ac::all_objects;
+bool ac::frames_released = false;
+
+void ac::release_all_objects() {
+    for(int i = 0; i < all_objects.size(); ++i) {
+        cv::Mat *m = (cv::Mat *)all_objects[i];
+        if(m != 0 && !m->empty()) {
+            std::cout << "Released: " << i << "\n";
+            m->release();
+        }
+    }
+    frames_released = true;
+}
+
+

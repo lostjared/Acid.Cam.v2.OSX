@@ -462,8 +462,15 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) changeFilter: (id) sender {
+    static NSInteger prev_index = [current_filter indexOfSelectedItem];
     NSInteger current = [current_filter indexOfSelectedItem];
     NSInteger index = [categories indexOfSelectedItem];
+    
+    if(prev_index != current) {
+        ac::release_all_objects();
+        prev_index = current;
+        ac::reset_filter = true;
+    }
     
     NSMenuItem *item = [menu_items[index] itemAtIndex:current];
     NSString *title = [item title];
@@ -806,6 +813,7 @@ void SearchForString(NSString *s) {
                 if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
             }
         }
+        ac::frames_released = false;
         if(after == NSOnState)
             ac::ApplyColorMap(frame);
         
@@ -995,7 +1003,6 @@ void SearchForString(NSString *s) {
     if([fade_filter state] == NSOffState) {
         if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
     } else {
-        
         if(current_fade_alpha >= 0) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
@@ -1003,7 +1010,7 @@ void SearchForString(NSString *s) {
             if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
         }
     }
-    
+    ac::frames_released = false;
     NSInteger slide_value = [brightness integerValue];
     if(slide_value > 0)
         ac::setBrightness(frame, 1.0, (int)slide_value);

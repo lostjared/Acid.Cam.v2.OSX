@@ -450,18 +450,23 @@ namespace ac {
     extern bool reset_filter;
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
-    // Matrix Collection template
+    extern bool frames_released;
+    extern std::vector<void *> all_objects;
+    // Matrix Collection templat
     template<int Size>
     class MatrixCollection {
     public:
         static constexpr int ArraySize = Size;
-        MatrixCollection() : w(0), h(0) {}
+        MatrixCollection() : w(0), h(0) {
+            for(int i = 0; i < Size; ++i)
+            all_objects.push_back(&frames[i]);
+        }
         cv::Mat frames[Size+1];
         int w, h;
         void shiftFrames(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
-            if(w != wx || h != wh || reset_filter == true) {
+            if(w != wx || h != wh || reset_filter == true || frames_released == true) {
                 for(int i = 0; i < Size; ++i)
                     frames[i] = frame.clone();
                 w = wx;
@@ -475,8 +480,10 @@ namespace ac {
             }
             frames[0] = frame.clone();
         }
+        
         int size() const { return ArraySize; }
     };
+    extern void release_all_objects();
     
     // Trails function
     template<int Size>
