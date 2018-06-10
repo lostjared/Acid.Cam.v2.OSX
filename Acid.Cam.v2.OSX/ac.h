@@ -625,9 +625,6 @@ namespace ac {
     void copyMat(const cv::Mat &src, int x, int y, cv::Mat &target, int rx, int ry, int rw, int rh);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
-    template<typename F>
-    void transformMat(cv::Mat &src,const Rect &rc,F func);
-    
     
     template<typename Func>
     void Transform(const cv::Mat &source, cv::Mat &output, Func func) {
