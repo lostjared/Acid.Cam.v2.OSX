@@ -408,6 +408,8 @@ namespace ac {
     void RandomXor(cv::Mat &frame);
     void RandomXorFlash(cv::Mat &frame);
     void RandomAmountMedianBlur(cv::Mat &frame);
+    void SoftXor(cv::Mat &frame);
+    void SelfXorBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

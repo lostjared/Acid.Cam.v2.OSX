@@ -82,6 +82,59 @@ void ac::RandomAmountMedianBlur(cv::Mat &frame) {
         MedianBlur(frame);
 }
 
+void ac::SoftXor(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    RandomAmountMedianBlur(frame);
+    collection.shiftFrames(frame);
+    double alpha = 1.0, alpha_max = 3.0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Scalar s;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b val = collection.frames[q].at<cv::Vec3b>(z, i);
+                unsigned char v[3] = { static_cast<unsigned char>(s[0]), static_cast<unsigned char>(s[1]), static_cast<unsigned char>(s[2])};
+                s[0] = (v[0] + val[0]) ^ static_cast<unsigned char>(s[0]);
+                s[1] = (v[1] + val[1]) ^ static_cast<unsigned char>(s[1]);
+                s[2] = (v[2] + val[2]) ^ static_cast<unsigned char>(s[2]);
+            }
+            
+            s[0] /= collection.size();
+            s[1] /= collection.size();
+            s[2] /= collection.size();
+            
+            for(int j = 0; j < 3; ++j) {
+                unsigned char v = static_cast<unsigned char>(s[j]);
+                pixel[j] = static_cast<unsigned char>((pixel[j] ^ v) * static_cast<unsigned char>(alpha));
+            }
+            
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 8.0, 0.1);
+    
+}
+
+void ac::SelfXorBlend(cv::Mat &frame) {
+    static unsigned char index[3] = {static_cast<unsigned char>(rand()%255), static_cast<unsigned char>(rand()%255), static_cast<unsigned char>(rand()%255)};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ index[j];
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    for(int j = 0; j < 3; ++j)
+        ++index[j];
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
