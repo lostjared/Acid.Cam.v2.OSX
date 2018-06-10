@@ -135,6 +135,31 @@ void ac::SelfXorBlend(cv::Mat &frame) {
         ++index[j];
 }
 
+void ac::SelfXorDoubleFlash(cv::Mat &frame) {
+    static double alpha = 1.0;
+    int r[3] = {rand()%255,rand()%255,rand()%255};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j] ^ (static_cast<unsigned int>(alpha)+r[j]);
+            
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        alpha += alpha_increase;
+        if(alpha > 255)
+            dir = 0;
+    } else {
+        alpha -= alpha_increase;
+        if(alpha <= 0)
+            dir = 1;
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
