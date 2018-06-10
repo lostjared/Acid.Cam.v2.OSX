@@ -412,6 +412,7 @@ namespace ac {
     void SoftXor(cv::Mat &frame);
     void SelfXorBlend(cv::Mat &frame);
     void SelfXorDoubleFlash(cv::Mat &frame);
+    void SelfOrDoubleFlash(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
