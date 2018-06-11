@@ -202,6 +202,36 @@ void ac::BlendRowCurvedSqrt(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::CycleShiftRGB(cv::Mat &frame) {
+    static int offset[3] = {0,rand()%frame.cols,rand()%frame.cols};
+    cv::Mat frame_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int j = 0; j < 3; ++j) {
+            for(int i = 0; i < offset[j]; ++i) {
+                if(i >= 0 && i < frame.cols) {
+                    if(offset[j]-i >= 0) {
+                    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                    	cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
+                		pixel[j] = pix_copy[j];
+                    }
+                }
+            }
+            int index = 0;
+            for(int i = offset[j]; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, index);
+                pixel[j] = pix_copy[j];
+                ++index;
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+    	++offset[j] += 50;
+    	if(offset[j] > frame.cols)
+        	offset[j] = 0;
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 

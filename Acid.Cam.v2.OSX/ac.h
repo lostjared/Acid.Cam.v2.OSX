@@ -414,6 +414,7 @@ namespace ac {
     void SelfXorDoubleFlash(cv::Mat &frame);
     void SelfOrDoubleFlash(cv::Mat &frame);
     void BlendRowCurvedSqrt(cv::Mat &frame);
+    void CycleShiftRGB(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
