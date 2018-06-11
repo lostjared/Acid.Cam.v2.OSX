@@ -203,7 +203,13 @@ void ac::BlendRowCurvedSqrt(cv::Mat &frame) {
 }
 
 void ac::CycleShiftRGB(cv::Mat &frame) {
-    static int offset[3] = {0,rand()%frame.cols,rand()%frame.cols};
+    static int offset[3] = {0, ((frame.cols/2)/2), (frame.cols/2)};
+    if(reset_filter == true) {
+        offset[0] = 0;
+        offset[1] = ((frame.cols/2)/2);
+        offset[2] = (frame.cols/2);
+        reset_filter = false;
+    }
     cv::Mat frame_copy = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int j = 0; j < 3; ++j) {
