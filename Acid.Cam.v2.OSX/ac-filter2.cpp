@@ -806,8 +806,9 @@ void ac::Laplacian(cv::Mat &frame) {
 // XOR - takes cv::Mat reference
 void ac::Bitwise_XOR(cv::Mat &frame) {
     static cv::Mat initial;// set initial frame
-    if(initial.size() != frame.size()) {
+    if(reset_filter == true || frames_released == true || initial.empty() || (initial.size() != frame.size())) {
         initial = frame.clone(); // did frame resize? if so set the new frame value
+        reset_filter = false;
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
@@ -819,8 +820,9 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
 // And takes cv::Mat reference
 void ac::Bitwise_AND(cv::Mat &frame) {
     static cv::Mat initial;// set initial frame
-    if(initial.size() != frame.size()) {
+    if(reset_filter == true || frames_released == true || initial.empty() || (initial.size() != frame.size())) {
         initial = frame.clone(); // did frame resize? if so set the new frame value
+        reset_filter = false;
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
@@ -831,8 +833,9 @@ void ac::Bitwise_AND(cv::Mat &frame) {
 // takes cv::Mat reference
 void ac::Bitwise_OR(cv::Mat &frame) {
     static cv::Mat initial;// set initial frame
-    if(initial.size() != frame.size()) {
+    if(reset_filter == true || frames_released == true || initial.empty() || (initial.size() != frame.size())) {
         initial = frame.clone(); // did frame resize? if so set the new frame value
+        reset_filter = false;
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable

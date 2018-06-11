@@ -413,6 +413,7 @@ namespace ac {
     void SelfXorBlend(cv::Mat &frame);
     void SelfXorDoubleFlash(cv::Mat &frame);
     void SelfOrDoubleFlash(cv::Mat &frame);
+    void BlendRowCurvedSqrt(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -474,7 +475,6 @@ namespace ac {
                 reset_filter = false;
                 return;
             }
-            
             for(int i = Size-1; i > 0; --i) {
                 frames[i] = frames[i-1];
             }
@@ -484,7 +484,6 @@ namespace ac {
         int size() const { return ArraySize; }
     };
     extern void release_all_objects();
-    
     // Trails function
     template<int Size>
     void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
@@ -664,7 +663,6 @@ namespace ac {
             }
         }
     }
-    
     
 }
 

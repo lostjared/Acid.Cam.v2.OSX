@@ -185,6 +185,23 @@ void ac::SelfOrDoubleFlash(cv::Mat &frame) {
     }
 }
 
+void ac::BlendRowCurvedSqrt(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                double amount = sqrt(i*z);
+                pixel[j] = static_cast<unsigned char>((pixel[j]^static_cast<unsigned char>(amount))*alpha);
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
