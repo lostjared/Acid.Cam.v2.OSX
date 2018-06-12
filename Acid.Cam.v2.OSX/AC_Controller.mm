@@ -1596,6 +1596,11 @@ void SearchForString(NSString *s) {
     ac::frames_released = true;
 }
 - (IBAction) resetAllFilters: (id) sender {
+    if(ac::reset_alpha == false) {
+        std::ostringstream stream;
+        stream << "Animation alpha and direction reset to 1.\n";
+        flushToLog(stream);
+    }
     ac::reset_alpha = true;
 }
 
