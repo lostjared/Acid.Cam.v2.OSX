@@ -1600,8 +1600,8 @@ void SearchForString(NSString *s) {
         std::ostringstream stream;
         stream << "Animation alpha and direction reset to 1.\n";
         flushToLog(stream);
+        ac::reset_alpha = true;
     }
-    ac::reset_alpha = true;
 }
 
 @end
