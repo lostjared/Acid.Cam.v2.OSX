@@ -216,6 +216,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) reloadCameraInfo: (id) sender;
 - (IBAction) setPref: (id) sender;
 - (IBAction) showPrefs:(id) sender;
+- (IBAction) resetAllFrames:(id) sender;
 @end
 
 // global variables / functions

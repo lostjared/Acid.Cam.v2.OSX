@@ -1216,7 +1216,6 @@ void SearchForString(NSString *s) {
         int filter_value = ac::filter_map[[title UTF8String]];
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
         [table_view reloadData];
-        
     }
 }
 
@@ -1590,6 +1589,9 @@ void SearchForString(NSString *s) {
 
 - (IBAction) showPrefs:(id) sender {
     [procMode_Window orderFront:self];
+}
+- (IBAction) resetAllFrames:(id) sender {
+    ac::frames_released = true;
 }
 
 @end
