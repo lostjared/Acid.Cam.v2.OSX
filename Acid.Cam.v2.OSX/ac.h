@@ -415,6 +415,9 @@ namespace ac {
     void SelfOrDoubleFlash(cv::Mat &frame);
     void BlendRowCurvedSqrt(cv::Mat &frame);
     void CycleShiftRGB(cv::Mat &frame);
+    void CycleShiftRandomRGB(cv::Mat &frame);
+    void CycleShiftRandomRGB_XorBlend(cv::Mat &frame);
+    void CycleShiftRandomAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

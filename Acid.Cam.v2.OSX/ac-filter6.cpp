@@ -216,9 +216,11 @@ void ac::CycleShiftRGB(cv::Mat &frame) {
             for(int i = 0; i < offset[j]; ++i) {
                 if(i >= 0 && i < frame.cols) {
                     if(offset[j]-i >= 0) {
-                    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
-                    	cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
-                		pixel[j] = pix_copy[j];
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                        cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
+                        pixel[j] = pix_copy[j];
+                        swapColors(frame, z, i);// swap colors
+                        if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
                     }
                 }
             }
@@ -228,13 +230,192 @@ void ac::CycleShiftRGB(cv::Mat &frame) {
                 cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, index);
                 pixel[j] = pix_copy[j];
                 ++index;
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+            }
+            
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        ++offset[j] += 50;
+        if(offset[j] > frame.cols)
+            offset[j] = 0;
+    }
+}
+
+void ac::CycleShiftRandomRGB(cv::Mat &frame) {
+    static int offset[3] = {0, ((frame.cols/2)/2), (frame.cols/2)};
+    static bool lazy = false;
+    if(reset_filter == true || lazy == false) {
+        switch(rand()%2) {
+            case 0:
+                offset[0] = 0;
+                offset[1] = ((frame.cols/2)/2);
+                offset[2] = (frame.cols/2);
+                break;
+            case 1:
+                offset[2] = 0;
+                offset[0] = ((frame.cols/2)/2);
+                offset[1] = (frame.cols/2);
+                break;
+            default:
+                offset[1] = 0;
+                offset[2] = ((frame.cols/2)/2);
+                offset[0] = (frame.cols/2);
+                break;
+        }
+        lazy = true;
+        reset_filter = false;
+    }
+    cv::Mat frame_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int j = 0; j < 3; ++j) {
+            for(int i = 0; i < offset[j]; ++i) {
+                if(i >= 0 && i < frame.cols) {
+                    if(offset[j]-i >= 0) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                        cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
+                        pixel[j] = pix_copy[j];
+                    }
+                    swapColors(frame, z, i);// swap colors
+                    if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+                }
+            }
+            int index = 0;
+            for(int i = offset[j]; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, index);
+                pixel[j] = pix_copy[j];
+                ++index;
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
             }
         }
     }
     for(int j = 0; j < 3; ++j) {
-    	++offset[j] += 50;
-    	if(offset[j] > frame.cols)
-        	offset[j] = 0;
+        ++offset[j] += 50;
+        if(offset[j] > frame.cols)
+            offset[j] = 0;
+    }
+}
+
+void ac::CycleShiftRandomRGB_XorBlend(cv::Mat &frame) {
+    static int offset[3] = {0, ((frame.cols/2)/2), (frame.cols/2)};
+    static bool lazy = false;
+    if(reset_filter == true || lazy == false) {
+        switch(rand()%2) {
+            case 0:
+                offset[0] = 0;
+                offset[1] = ((frame.cols/2)/2);
+                offset[2] = (frame.cols/2);
+                break;
+            case 1:
+                offset[2] = 0;
+                offset[0] = ((frame.cols/2)/2);
+                offset[1] = (frame.cols/2);
+                break;
+            default:
+                offset[1] = 0;
+                offset[2] = ((frame.cols/2)/2);
+                offset[0] = (frame.cols/2);
+                break;
+        }
+        lazy = true;
+        reset_filter = false;
+    }
+    cv::Mat frame_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int j = 0; j < 3; ++j) {
+            for(int i = 0; i < offset[j]; ++i) {
+                if(i >= 0 && i < frame.cols) {
+                    if(offset[j]-i >= 0) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                        cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
+                        pixel[j] ^= pix_copy[j];
+                        swapColors(frame, z, i);// swap colors
+                        if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+                    }
+                }
+            }
+            int index = 0;
+            for(int i = offset[j]; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, index);
+                pixel[j] ^= pix_copy[j];
+                ++index;
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        ++offset[j] += 50;
+        if(offset[j] > frame.cols)
+            offset[j] = 0;
+    }
+}
+
+void ac::CycleShiftRandomAlphaBlend(cv::Mat &frame) {
+    static double alpha[3] = {1.0,4.0,2.5}, alpha_max = 3.0;
+    static int offset[3] = {0, ((frame.cols/2)/2), (frame.cols/2)};
+    static bool lazy = false;
+    if(reset_filter == true || lazy == false) {
+        switch(rand()%2) {
+            case 0:
+                offset[0] = 0;
+                offset[1] = ((frame.cols/2)/2);
+                offset[2] = (frame.cols/2);
+                break;
+            case 1:
+                offset[2] = 0;
+                offset[0] = ((frame.cols/2)/2);
+                offset[1] = (frame.cols/2);
+                break;
+            default:
+                offset[1] = 0;
+                offset[2] = ((frame.cols/2)/2);
+                offset[0] = (frame.cols/2);
+                break;
+        }
+        lazy = true;
+        reset_filter = false;
+        alpha[0] = 1.0;
+        alpha[1] = 4.0;
+        alpha[2] = 2.5;
+    }
+    cv::Mat frame_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int j = 0; j < 3; ++j) {
+            for(int i = 0; i < offset[j]; ++i) {
+                if(i >= 0 && i < frame.cols) {
+                    if(offset[j]-i >= 0) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                        cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
+                        pixel[j] = static_cast<unsigned char>((pixel[j] * alpha[j]) + (pix_copy[j] * alpha[j]));
+                        swapColors(frame, z, i);// swap colors
+                        if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+                    }
+                }
+            }
+            int index = 0;
+            for(int i = offset[j]; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, index);
+                pixel[j] = static_cast<unsigned char>((pixel[j] * alpha[j]) + (pix_copy[j] * alpha[j]));
+                ++index;
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+            }
+        }
+    }
+    
+    static int dir[3] = {1,0,1};
+    for(int j = 0; j < 3; ++j) {
+        ++offset[j] += 50;
+        if(offset[j] > frame.cols)
+            offset[j] = 0;
+        
+        procPos(dir[j], alpha[j], alpha_max, 6, 0.03);
     }
 }
 
