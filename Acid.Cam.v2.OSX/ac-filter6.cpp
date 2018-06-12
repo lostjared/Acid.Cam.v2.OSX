@@ -433,6 +433,31 @@ void ac::VerticalColorBars(cv::Mat &frame) {
         procPos(dir[j], alpha[j], alpha_max,10.0, 0.3);
 }
 
+void ac::GradientLeftRight(cv::Mat &frame) {
+    static double inc[3] = {1, 25, 50}, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        double amt[3] = {5, 16, 30};
+        for(int i = 0; i < frame.cols/2; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += static_cast<unsigned char>(amt[j]);
+                amt[j] += inc[j];
+            }
+        }
+        for(int i = frame.cols/2; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] -= static_cast<unsigned char>(amt[j]); //static_cast<unsigned char>(amt);
+                amt[j] -= inc[j];
+            }
+        }
+    }
+    static int dir[3] = {1, 1, 1};
+    for(int j = 0; j < 3; ++j) {
+        procPos(dir[j], inc[j], alpha_max, 10, 0.1);
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 

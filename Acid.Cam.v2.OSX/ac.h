@@ -420,6 +420,7 @@ namespace ac {
     void CycleShiftRandomRGB_XorBlend(cv::Mat &frame);
     void CycleShiftRandomAlphaBlend(cv::Mat &frame);
     void VerticalColorBars(cv::Mat &frame);
+    void GradientLeftRight(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
