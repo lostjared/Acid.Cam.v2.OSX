@@ -418,6 +418,7 @@ namespace ac {
     void CycleShiftRandomRGB(cv::Mat &frame);
     void CycleShiftRandomRGB_XorBlend(cv::Mat &frame);
     void CycleShiftRandomAlphaBlend(cv::Mat &frame);
+    void VerticalColorBars(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -457,7 +458,7 @@ namespace ac {
     extern std::unordered_map<std::string, int> filter_map;
     extern bool frames_released;
     extern std::vector<void *> all_objects;
-    // Matrix Collection templat
+    // Matrix Collection template
     template<int Size>
     class MatrixCollection {
     public:

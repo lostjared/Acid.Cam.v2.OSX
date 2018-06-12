@@ -419,6 +419,20 @@ void ac::CycleShiftRandomAlphaBlend(cv::Mat &frame) {
     }
 }
 
+void ac::VerticalColorBars(cv::Mat &frame) {
+    static double alpha[3] = { 1.0, 3.0, 7.0}, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>(pixel[j]^(i)*static_cast<unsigned char>(alpha[j]));
+        }
+    }
+    static int dir[3] = { 1,1,0 };
+    for(int j = 0; j < 3; ++j)
+        procPos(dir[j], alpha[j], alpha_max,10.0, 0.3);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
