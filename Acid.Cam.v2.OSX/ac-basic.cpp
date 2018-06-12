@@ -74,6 +74,7 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
         // if alpha <= 0.1f
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
+    resetAlpha(direction, alpha);
 }
 // Self Scale - Scale pixel values by double
 // Takes cv::Mat reference
@@ -116,6 +117,7 @@ void ac::SelfScale(cv::Mat &frame) {
             direction = 1;// set direction to 1
         }
     }
+    resetAlpha(direction, pos);
 }
 // StrobeEffect - Change frame values by passIndex, incrememnt each frame
 void ac::StrobeEffect(cv::Mat &frame) {
@@ -229,6 +231,8 @@ void ac::NegParadox(cv::Mat &frame) {
     else if (alpha > 15)
         trans_var = -translation_variable; // decrease
     alpha += trans_var; // add variable
+    
+    resetAlpha(alpha);
 }
 
 // Thought Mode
@@ -263,6 +267,7 @@ void ac::ThoughtMode(cv::Mat &frame) {
         if(max > 23) max = 4.0f;
     }
     alpha += trans_var; // add to alpha
+    resetAlpha(alpha);
 }
 // blend with original pixel
 void ac::Pass2Blend(cv::Mat &frame) {
@@ -328,6 +333,7 @@ void ac::RandTriBlend(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var;// add to alpha translation variable
+    resetAlpha(alpha);
 }
 
 // Blank
@@ -362,6 +368,7 @@ void ac::Blank(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var; // add to alpha trans_Var
+    resetAlpha(alpha);
 }
 // Tri
 // takes cv::Mat reference
@@ -394,6 +401,7 @@ void ac::Tri(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var;// add to alpha trans var
+    resetAlpha(alpha);
 }
 // Distort
 // takes cv::Mat reference
@@ -424,6 +432,7 @@ void ac::Distort(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var;// add translation to alpha
+    resetAlpha(alpha);
 }
 // takes cv::Mat reference
 void ac::CDraw(cv::Mat &frame) {
@@ -448,6 +457,7 @@ void ac::CDraw(cv::Mat &frame) {
     rad += 0.1f;// add to rad
     if(rad > 90) rad = 0;// greater than 90 reset
     if(alpha > 20) alpha = 0;// greater than 20 reset
+    resetAlpha(alpha);
 }
 // Light Strobe
 // first cycle through the image
@@ -516,6 +526,8 @@ void ac::NewOne(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var;// add translation variable
+    resetAlpha(alpha);
+
 }
 // draw a fractal
 void ac::blendFractal(cv::Mat &frame) {
@@ -661,6 +673,7 @@ void ac::imageStrobe(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var;
+    resetAlpha(alpha);
 }
 // Image distraction - unused
 void ac::imageDistraction(cv::Mat &frame) {
@@ -691,6 +704,7 @@ void ac::imageDistraction(cv::Mat &frame) {
             max = 4.0f;
     }
     alpha += trans_var;
+    resetAlpha(alpha);
 }
 
 // Cos Sin Mulitply draw gradients
@@ -713,6 +727,7 @@ void ac::cossinMultiply(cv::Mat &frame) {
     static double trans_var = 0.05f;
     if(alpha > 24) alpha = 1.0f;
     alpha += trans_var;
+    resetAlpha(alpha);
 }
 // Color Accumulate 1
 void ac::colorAccumulate1(cv::Mat &frame) {
@@ -733,6 +748,7 @@ void ac::colorAccumulate1(cv::Mat &frame) {
     static double trans_var = 0.05f;
     alpha += trans_var;
     if(alpha > 24) alpha = 1.0f;
+    resetAlpha(alpha);
 }
 // Color Accumulate 2
 void ac::colorAccumulate2(cv::Mat &frame) {
@@ -753,6 +769,7 @@ void ac::colorAccumulate2(cv::Mat &frame) {
     static double trans_var = 0.05f;// translation variable
     alpha += trans_var;// alpha plus equal translation variable
     if(alpha > 24) alpha = 1.0f;// if alpha greater than 24 reset to 1
+    resetAlpha(alpha);
 }
 // Color Accumulate #3
 // takes cv::Mat reference
@@ -773,6 +790,7 @@ void ac::colorAccumulate3(cv::Mat &frame) {
     static double trans_var = 0.05f;// 0.05 variable
     alpha += trans_var;// alpha plus equal translation variable
     if(alpha > 24) alpha = 1.0f;// alpha greater than 24 set to 1 (reset)
+    resetAlpha(alpha);
 }
 
 // takes cv::Mat reference
@@ -799,6 +817,7 @@ void ac::filter8(cv::Mat &frame) {
         alpha -= 0.05f;// alpha minus equal 0.05
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }//alpha greater than 3 set direction to 1
     }
+    resetAlpha(direction, alpha);
 }
 
 // takes cv::Mat reference
@@ -824,6 +843,7 @@ void ac::filter3(cv::Mat &frame) {
         alpha -= 0.05f;// alpha minus equal 0.1
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; } // if alpha lses than equal 0.1 set to 0.1 direction equals 1
     }
+    resetAlpha(direction, alpha);
 }
 
 // takes cv::Mat as reference
@@ -874,6 +894,7 @@ void ac::rainbowBlend(cv::Mat &frame) {
         // if alpha <= 0.1 change direction
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
+    resetAlpha(direction, alpha);
 }
 
 // random pixel value added to each pixel RGB value each frame
@@ -961,4 +982,6 @@ void ac::pixelScale(cv::Mat &frame) {
             direction = 1;// direction set back to 1
         }
     }
+    resetAlpha(direction, pos);
+
 }

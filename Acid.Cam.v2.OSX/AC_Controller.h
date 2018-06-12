@@ -217,6 +217,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) setPref: (id) sender;
 - (IBAction) showPrefs:(id) sender;
 - (IBAction) resetAllFrames:(id) sender;
+- (IBAction) resetAllFilters: (id) sender;
 @end
 
 // global variables / functions

@@ -212,6 +212,7 @@ void ac::procPos(int &direction, double &pos, double &pos_max, const double max_
         }
             break;
     }
+    resetAlpha(direction, pos);
 }
 
 

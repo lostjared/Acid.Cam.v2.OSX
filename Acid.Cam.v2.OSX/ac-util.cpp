@@ -208,6 +208,21 @@ void ac::AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output,doub
     }
 }
 
+bool ac::reset_alpha = false;
+
+void ac::resetAlpha(int &dir, double &alpha) {
+    if(reset_alpha == true) {
+    	alpha = 1.0;
+    	dir = 1;
+    }
+}
+
+void ac::resetAlpha(double &alpha) {
+    if(reset_alpha == true) {
+        alpha = 1.0;
+    }
+}
+
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
 // then Alpha Blend them together
 void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {

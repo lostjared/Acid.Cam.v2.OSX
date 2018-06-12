@@ -178,6 +178,11 @@
                                     <action selector="disableFilters:" target="630" id="Xcj-XT-vHD"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Reset Filters" keyEquivalent="r" id="cZf-J1-ZOb">
+                                <connections>
+                                    <action selector="resetAllFilters:" target="630" id="RQt-7r-0N8"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Go To Frame" id="mn3-fh-8CV">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
@@ -494,7 +499,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="209"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView ambiguous="YES" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="209"/>
@@ -512,7 +517,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="duY-MZ-OiB">
-                            <rect key="frame" x="1" y="1" width="15" height="0.0"/>
+                            <rect key="frame" x="691" y="1" width="15" height="209"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

@@ -118,6 +118,7 @@ namespace ac {
     extern bool color_map_set;
     extern int GetFX(cv::Mat &frame, int x, int nw);
     extern int GetFY(cv::Mat &frame, int y, int nh);
+    extern bool reset_alpha;
     void invert(cv::Mat &frame, int x, int y);
     std::string getVersion();
     /* filter typedef */
@@ -447,6 +448,8 @@ namespace ac {
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
+    void resetAlpha(int &dir, double &alpha);
+    void resetAlpha(double &alpha);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;

@@ -705,8 +705,6 @@ void ac::FuzzyLines(cv::Mat &frame) {
     
     static int direction = 1;
     procPos(direction, pos, pos_max);
-    
-    
 }
 
 void ac::GradientLines(cv::Mat &frame) {
@@ -1624,6 +1622,8 @@ void ac::PrevFrameBlend(cv::Mat &frame) {
         pos -= 0.1;
         if(pos <= 1.0) direction = 1;
     }
+    resetAlpha(direction, pos);
+
 }
 
 class WavePoints {

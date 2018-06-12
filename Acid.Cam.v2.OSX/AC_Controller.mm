@@ -814,6 +814,7 @@ void SearchForString(NSString *s) {
             }
         }
         ac::frames_released = false;
+        ac::reset_alpha = false;
         if(after == NSOnState)
             ac::ApplyColorMap(frame);
         
@@ -1011,6 +1012,7 @@ void SearchForString(NSString *s) {
         }
     }
     ac::frames_released = false;
+    ac::reset_alpha = false;
     NSInteger slide_value = [brightness integerValue];
     if(slide_value > 0)
         ac::setBrightness(frame, 1.0, (int)slide_value);
@@ -1592,6 +1594,9 @@ void SearchForString(NSString *s) {
 }
 - (IBAction) resetAllFrames:(id) sender {
     ac::frames_released = true;
+}
+- (IBAction) resetAllFilters: (id) sender {
+    ac::reset_alpha = true;
 }
 
 @end

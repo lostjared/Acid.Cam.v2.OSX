@@ -196,6 +196,7 @@ void ac::alphaFlame(cv::Mat &frame) {
             direction = 1;// direction set back to 1
         }
     }
+    resetAlpha(direction, pos);
 }
 
 // Resize X variable
@@ -304,21 +305,24 @@ void ac::MirrorBlend(cv::Mat &frame) {
     }
     // static direction variable
     static int direction = 1;
+    double inc_double = (alpha_increase != 0) ? alpha_increase : 0.1;
+    
     static double pos_max = 2.0f; // position maximum
     if(direction == 1) {// if direction is equal to 1
-        pos += 0.1;// pos plus equal 0.1
+        pos += inc_double;// pos plus equal 0.1
         if(pos > pos_max) {// pos greater than pos max
             pos = pos_max;// pos = pos max
             direction = 0;// direction equals 0
             pos_max += 1.0f;// pos max pluse qual 1.0
         }
     } else if(direction == 0) {// if direction equals zero
-        pos -= 0.1;// pos plus equal 0.1
+        pos -= inc_double;// pos plus equal 0.1
         if(pos <= 1.0) {// pos less than 1.0
             if(pos_max > 2.0f) pos_max = 1.0f;// pos max greater than 2, pos_max set to 1
             direction = 1;// direction set back to 1
         }
     }
+    resetAlpha(direction, pos);
 }
 
 // Pulse color in and out
@@ -358,6 +362,7 @@ void ac::Pulse(cv::Mat &frame) {
             direction = 1; // direction set to 1
         }
     }
+    resetAlpha(direction, pos);
 }
 
 // Sideways Mirror function
@@ -669,6 +674,7 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
             pos = 0.1;
         }
     }
+    resetAlpha(direction, pos);
 }
 // Reverse Frame
 // takes cv::Mat reference
