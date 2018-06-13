@@ -501,7 +501,7 @@ void ac::GradientLeftRightInOut(cv::Mat &frame) {
         for(int i = 0; i < frame.cols/2; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                if(dir[j] == 1) {
+                if(dir[j] == 0) {
                 	pixel[j] += static_cast<unsigned char>(amt[j]);
                 	amt[j] += inc[j];
                 } else {
@@ -515,12 +515,51 @@ void ac::GradientLeftRightInOut(cv::Mat &frame) {
         for(int i = frame.cols/2; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                if(dir[j] == 0) {
-                	pixel[j] -= static_cast<unsigned char>(amt[j]);
-                	amt[j] -= inc[j];
-                } else {
+                if(dir[j] == 1) {
                     pixel[j] += static_cast<unsigned char>(amt[j]);
                     amt[j] += inc[j];
+                } else {
+                    pixel[j] -= static_cast<unsigned char>(amt[j]);
+                    amt[j] -= inc[j];
+                }
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        procPos(dir[j], inc[j], alpha_max, 10, 0.1);
+    }
+}
+
+void ac::GradientUpDownInOut(cv::Mat &frame) {
+    static double inc[3] = {1, 25, 50}, alpha_max = 3.0;
+    static int dir[3] = {1, 0, 1};
+    for(int i = 0; i < frame.cols; ++i) {
+        double amt[3] = {5, 16, 30};
+        for(int z = 0; z < frame.rows/2; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                if(dir[j] == 0) {
+                    pixel[j] += static_cast<unsigned char>(amt[j]);
+                    amt[j] += inc[j];
+                } else {
+                    pixel[j] -= static_cast<unsigned char>(amt[j]);
+                    amt[j] -= inc[j];
+                }
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+        for(int z = frame.rows/2; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                if(dir[j] == 1) {
+                    pixel[j] += static_cast<unsigned char>(amt[j]);
+                    amt[j] += inc[j];
+                } else {
+                    pixel[j] -= static_cast<unsigned char>(amt[j]);
+                    amt[j] -= inc[j];
                 }
             }
             swapColors(frame, z, i);// swap colors

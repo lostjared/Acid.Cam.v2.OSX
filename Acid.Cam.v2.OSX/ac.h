@@ -423,6 +423,7 @@ namespace ac {
     void GradientLeftRight(cv::Mat &frame);
     void GraidentUpDown(cv::Mat &frame);
     void GradientLeftRightInOut(cv::Mat &frame);
+    void GradientUpDownInOut(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
