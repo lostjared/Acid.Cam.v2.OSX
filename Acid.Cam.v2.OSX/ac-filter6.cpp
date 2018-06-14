@@ -571,6 +571,28 @@ void ac::GradientUpDownInOut(cv::Mat &frame) {
     }
 }
 
+void ac::Lines(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        int r_start = (rand()%(frame.cols/2));
+        int r_stop = (frame.cols/2)+(rand()%(frame.cols/2));
+        int r_height = 1+rand()%3;
+        bool sw = true;
+        for(int q = z; q < frame.rows && q < z+r_height; ++q) {
+        	for(int i = r_start; i < frame.cols && i < r_stop; ++i) {
+            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(q, i);
+            	for(int j = 0; j < 3; ++j) {
+                    pixel[j] = (sw == true) ? 255 : 0;
+            	}
+        	}
+            sw = (sw == true) ? false : true;
+        }
+        z += r_height-1;
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
