@@ -580,10 +580,12 @@ void ac::Lines(cv::Mat &frame) {
         bool sw = true;
         for(int q = z; q < frame.rows && q < z+r_height; ++q) {
         	for(int i = r_start; i < frame.cols && i < r_stop; ++i) {
-            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(q, i);
-            	for(int j = 0; j < 3; ++j) {
-                    pixel[j] = (sw == true) ? 255 : 0;
-            	}
+                if(q >= 0 && q < frame.rows && i >= 0 && i < frame.cols) {
+        	    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(q, i);
+    	        	for(int j = 0; j < 3; ++j) {
+	                    pixel[j] = (sw == true) ? 255 : 0;
+            		}
+                }
         	}
             sw = (sw == true) ? false : true;
         }
