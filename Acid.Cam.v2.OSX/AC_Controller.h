@@ -129,6 +129,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSTextField *cam_frame_rate;
     IBOutlet NSButton *cam_frame_rate_chk;
     IBOutlet NSPopUpButton *proc_change;
+    IBOutlet NSPopUpButton *blend_source_amt;
     SearchController *search_controller;
     
     // variables

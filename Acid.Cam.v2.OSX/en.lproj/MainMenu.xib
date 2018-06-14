@@ -16,6 +16,7 @@
             <connections>
                 <outlet property="alpha_window" destination="tfb-J3-hzp" id="b3r-rz-K3E"/>
                 <outlet property="apply_after" destination="1Hm-k5-BOy" id="X1b-Tf-egL"/>
+                <outlet property="blend_source_amt" destination="01p-To-uoC" id="eTS-Lk-8mL"/>
                 <outlet property="blue_slider" destination="Bzt-gi-IJ0" id="u8A-JN-dIp"/>
                 <outlet property="brightness" destination="KYH-JN-Maq" id="Mgp-uf-MDe"/>
                 <outlet property="cam_frame_rate" destination="VMX-EF-o3r" id="dHg-jO-gQ8"/>
@@ -1555,14 +1556,14 @@ Gw
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="283" y="305" width="285" height="203"/>
+            <rect key="contentRect" x="283" y="305" width="285" height="229"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ZQs-8e-2LN">
-                <rect key="frame" x="0.0" y="0.0" width="285" height="203"/>
+                <rect key="frame" x="0.0" y="0.0" width="285" height="229"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ED-56-zaU">
-                        <rect key="frame" x="21" y="140" width="247" height="26"/>
+                        <rect key="frame" x="21" y="166" width="247" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Move Out Increase, Move In" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="aBo-sm-air" id="gvh-Yf-P6V">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1577,7 +1578,7 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QDC-w8-Bcl">
-                        <rect key="frame" x="24" y="172" width="206" height="17"/>
+                        <rect key="frame" x="24" y="198" width="206" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Process Mode (For Some Filters):" id="uzK-1J-jhL">
                             <font key="font" metaFont="system"/>
@@ -1586,7 +1587,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xiJ-UD-Y7F">
-                        <rect key="frame" x="21" y="86" width="247" height="26"/>
+                        <rect key="frame" x="21" y="112" width="247" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="IDe-4I-P3C" id="75T-Xh-raT">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1603,7 +1604,7 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XKS-xg-XeL">
-                        <rect key="frame" x="18" y="59" width="171" height="18"/>
+                        <rect key="frame" x="18" y="85" width="171" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Set Webcam Frame Rate" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mcB-XE-VJz">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1611,7 +1612,7 @@ Gw
                         </buttonCell>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VMX-EF-o3r">
-                        <rect key="frame" x="201" y="57" width="64" height="22"/>
+                        <rect key="frame" x="201" y="83" width="64" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="24" drawsBackground="YES" id="F3L-Ac-aHV">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="agQ-PB-RvX"/>
@@ -1621,7 +1622,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eDQ-ML-IVB">
-                        <rect key="frame" x="24" y="118" width="233" height="17"/>
+                        <rect key="frame" x="24" y="144" width="233" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Movement Speed (For Some Filters)" id="Sz8-Z9-TaK">
                             <font key="font" metaFont="system"/>
@@ -1640,9 +1641,39 @@ Gw
                             <action selector="setPref:" target="630" id="hfK-Oq-YzD"/>
                         </connections>
                     </button>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="01p-To-uoC">
+                        <rect key="frame" x="136" y="49" width="132" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="50%" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lFR-6Y-kwT" id="jL2-Js-L0o">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="3lt-kU-5Rv">
+                                <items>
+                                    <menuItem title="10%" id="loY-wB-udT"/>
+                                    <menuItem title="20%" id="Aa8-20-27Q"/>
+                                    <menuItem title="30%" id="5GZ-Ex-z48"/>
+                                    <menuItem title="40%" id="ao7-yM-1Dx"/>
+                                    <menuItem title="50%" state="on" id="lFR-6Y-kwT"/>
+                                    <menuItem title="60%" id="yjg-Co-Czj"/>
+                                    <menuItem title="70%" id="pNE-YH-sF9"/>
+                                    <menuItem title="80%" id="WDP-P8-Naj"/>
+                                    <menuItem title="90%" id="mYL-5F-XLG"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aeO-94-9Yy">
+                        <rect key="frame" x="18" y="54" width="114" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Blend with Source" id="Pna-uF-cKW">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-666.5" y="-1093.5"/>
+            <point key="canvasLocation" x="-664.5" y="-1072.5"/>
         </window>
     </objects>
 </document>

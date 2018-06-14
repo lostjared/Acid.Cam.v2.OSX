@@ -1579,11 +1579,15 @@ void SearchForString(NSString *s) {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
+    NSInteger num_index = [blend_source_amt indexOfSelectedItem];
+    double amount = 0.1 * (num_index+1);
+    ac::setBlendPercentage(amount);
     NSInteger num = [proc_change indexOfSelectedItem];
     static double values[] = { 0, 0.03, 0.05, 0.3, 0.7, 0};
     static std::string str_values[] = { "Default", "0.03", "0.05", "0.3", "0.7", ""};
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
+    log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";;
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

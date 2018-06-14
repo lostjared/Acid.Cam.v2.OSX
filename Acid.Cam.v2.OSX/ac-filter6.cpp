@@ -43,6 +43,8 @@
 
 #include"ac.h"
 
+double blend_percentage = 0.5;
+
 void ac::RandomXorFlash(cv::Mat &frame) {
     static int index = 0;
     int col_p[3] = { rand()%255, rand()%255, rand()%255 };
@@ -645,10 +647,13 @@ void ac::WhiteLines(cv::Mat &frame) {
 
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
-
 // Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {
-    ac::pass2_alpha = 0.50; // set to 50%
+    ac::pass2_alpha = blend_percentage; // set to 50%
     Pass2Blend(frame);// call Pass2 function
+}
+
+void ac::setBlendPercentage(const double &value) {
+    blend_percentage = value;
 }
 
