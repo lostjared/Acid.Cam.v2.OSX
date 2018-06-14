@@ -645,6 +645,37 @@ void ac::WhiteLines(cv::Mat &frame) {
     }
 }
 
+void ac::ThickWhiteLines(cv::Mat &frame) {
+    for(int j = 0; j < 5; ++j) {
+        int start_y = 0;
+        if(j > 0) start_y = rand()%frame.rows;
+        for(int z = start_y; z < frame.rows; z += rand()%30) {
+            int num  = rand()%50, skip = rand()%25;
+            int count = 0, skip_count = 0;
+            for(int i = 0; i < frame.cols; ++i) {
+                if(count < num) {
+                    if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    	pixel[0] = pixel[1] = pixel[2] = 255;
+	                    ++count;
+                    }
+                } else {
+                    if(skip_count >= skip) {
+                        skip_count = 0;
+                        count = 0;
+                        num = rand()%50;
+                        skip = rand()%20;
+                    } else {
+                        ++skip_count;
+                    }
+                }
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+            }
+        }
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame
