@@ -618,6 +618,31 @@ void ac::ColorLines(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 8.0, 0.01);
 }
 
+void ac::WhiteLines(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; z += rand()%20) {
+        int num  = rand()%25, skip = rand()%10;
+        int count = 0, skip_count = 0;
+        for(int i = 0; i < frame.cols; ++i) {
+            if(count < num) {
+            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            	pixel[0] = pixel[1] = pixel[2] = 255;
+                ++count;
+            } else {
+                if(skip_count >= skip) {
+                    skip_count = 0;
+                    count = 0;
+                    num = rand()%25;
+                    skip = rand()%10;
+                } else {
+                    ++skip_count;
+                }
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 
