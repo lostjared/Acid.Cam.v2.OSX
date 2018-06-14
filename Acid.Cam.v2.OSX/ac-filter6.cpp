@@ -585,6 +585,8 @@ void ac::Lines(cv::Mat &frame) {
     	        	for(int j = 0; j < 3; ++j) {
 	                    pixel[j] = (sw == true) ? 255 : 0;
             		}
+                    swapColors(frame, q, i);// swap colors
+                    if(isNegative) invert(frame, q, i);// if isNegative invert pixel */
                 }
         	}
             sw = (sw == true) ? false : true;
@@ -593,6 +595,27 @@ void ac::Lines(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+}
+
+void ac::ColorLines(cv::Mat &frame) {
+    int diff = frame.cols/255;
+    static double alpha = 1.0, alpha_max = 2.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        int total[3] = {rand()%16, rand()%32, rand()%64};
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]^total[j])*alpha;
+                if((i%diff)==0) {
+                    ++total[j];
+                }
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 8.0, 0.01);
 }
 
 // No Filter
