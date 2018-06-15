@@ -430,6 +430,7 @@ namespace ac {
     void ColorLines(cv::Mat &frame);
     void WhiteLines(cv::Mat &frame);
     void ThickWhiteLines(cv::Mat &frame);
+    void UseLineObject(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -645,6 +646,26 @@ namespace ac {
         std::default_random_engine rng;
         int current_offset;
         bool g_random;
+    };
+    
+    class LineObject {
+    public:
+        ac::Rect line_size;
+        cv::Vec3b color;
+    	bool on;
+        int dir;
+    };
+    
+    class HLine {
+    public:
+        HLine();
+        void drawLines(cv::Mat &frame);
+        void createLines(int size, int width, int height);
+        void clearLines();
+        bool empty() const { return lines.empty(); }
+    protected:
+        int w, h;
+        std::vector<LineObject> lines;
     };
     
     bool operator<(const Point &p1, const Point &p2);

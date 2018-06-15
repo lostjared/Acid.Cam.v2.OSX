@@ -94,4 +94,78 @@ void ac::release_all_objects() {
     frames_released = true;
 }
 
+ac::HLine::HLine() : w(0), h(0) {
+    
+}
+
+void ac::HLine::createLines(int size, int width, int height) {
+    w = width;
+    h = height;
+     for(int i = 0; i < size; ++i) {
+         int rand_y = ((rand()%height)/8);
+        LineObject l;
+        l.line_size = ac::Rect(0,rand_y,width,3);
+        l.on = true;
+        l.dir = ((rand()%2) == 1) ? 1 : 0;
+        lines.push_back(l);
+    }
+}
+
+void ac::HLine::drawLines(cv::Mat &frame) {
+    for(int l = 0; l < lines.size(); ++l) {
+        ac::Rect rc = lines[l].line_size;
+        int num = rand()%50, skip = rand()%20;
+        int count = 0, skip_count = 0;
+        for(int x = rc.x; x < rc.x+rc.w; ++x) {
+            if(count < num) {
+            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(rc.y, x);
+                pixel[0] = pixel[1] = pixel[2] = 255;
+                ++count;
+            } else {
+                if(skip_count >= skip) {
+                    skip_count = 0;
+                    count = 0;
+                    num = rand()%50;
+                    skip = rand()%20;
+                } else {
+                    ++skip_count;
+                }
+            }
+            if(lines[l].dir == 1) {
+                ++lines[l].line_size.y;
+                if(lines[l].line_size.y > frame.rows) {
+                    lines[l].line_size.y = rand()%frame.rows;
+                    lines[l].dir = ((rand()%2) == 1) ? 1 : 0;
+                }
+                
+            } else if(lines[l].dir == 0) {
+                --lines[l].line_size.y;
+                if(lines[l].line_size.y <= 0) {
+                    lines[l].line_size.y = rand()%frame.rows;
+                    lines[l].dir = ((rand()%2) == 1) ? 1 : 0;
+
+                }
+            }
+        }
+    }
+}
+
+void ac::HLine::clearLines() {
+    if(!lines.empty()) {
+        lines.erase(lines.begin(), lines.end());
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
