@@ -96,8 +96,11 @@ int AC_GetFZ(int oldh, int y, int nh);
 
 // acid cam namespace
 namespace ac {
+    // get version string
+    std::string getVersion();
     // version string
     extern const std::string version;
+    std::string getVersion();
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,iRev;
@@ -120,7 +123,6 @@ namespace ac {
     extern int GetFY(cv::Mat &frame, int y, int nh);
     extern bool reset_alpha;
     void invert(cv::Mat &frame, int x, int y);
-    std::string getVersion();
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
     extern DrawFunction custom_callback;

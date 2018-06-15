@@ -86,7 +86,7 @@ bool ac::frames_released = false;
 
 void ac::release_all_objects() {
     for(int i = 0; i < all_objects.size(); ++i) {
-        cv::Mat *m = (cv::Mat *)all_objects[i];
+        cv::Mat *m = reinterpret_cast<cv::Mat *>(all_objects[i]);
         if(m != 0 && !m->empty()) {
             m->release();
         }
