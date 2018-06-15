@@ -133,6 +133,7 @@ extern void SearchForString(NSString *s);
     SearchController *search_controller;
     
     // variables
+    bool reset_memory;
     bool pauseStepTrue;
     long frames_captured;
     NSMenu *menu_cat;
@@ -219,6 +220,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) showPrefs:(id) sender;
 - (IBAction) resetAllFrames:(id) sender;
 - (IBAction) resetAllFilters: (id) sender;
+- (IBAction) releaseFrames:(id)sender;
 @end
 
 // global variables / functions

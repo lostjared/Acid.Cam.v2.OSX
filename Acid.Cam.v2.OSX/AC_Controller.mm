@@ -302,6 +302,7 @@ void SearchForString(NSString *s) {
     [up4k setEnabled: YES];
     set_frame_rate = false;
     set_frame_rate_val = 24;
+    reset_memory = false;
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -776,6 +777,11 @@ void SearchForString(NSString *s) {
         __block NSInteger up4ki = 0;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+            if(reset_memory == true) {
+                ac::release_all_objects();
+                ac::reset_filter = true;
+                reset_memory = false;
+            }
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
                 if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
                 else ac::isNegative = true;
@@ -947,6 +953,12 @@ void SearchForString(NSString *s) {
     well_color[0] = values[0];
     well_color[1] = values[1];
     well_color[2] = values[2];
+    
+    if(reset_memory == true) {
+        ac::release_all_objects();
+        ac::reset_filter = true;
+        reset_memory = false;
+    }
     
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
@@ -1606,6 +1618,13 @@ void SearchForString(NSString *s) {
         flushToLog(stream);
         ac::reset_alpha = true;
     }
+}
+
+- (IBAction) releaseFrames:(id)sender {
+    reset_memory = true;
+    std::ostringstream stream;
+    stream << "Stored Frames Memory Released...\n";
+    flushToLog(stream);
 }
 
 @end
