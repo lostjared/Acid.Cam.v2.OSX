@@ -679,7 +679,7 @@ void ac::ThickWhiteLines(cv::Mat &frame) {
 void ac::UseLineObject(cv::Mat &frame) {
     static HLine obj_lines;
     if(obj_lines.empty()) {
-        obj_lines.createLines(50, frame.cols, frame.rows);
+        obj_lines.createLines(100, frame.cols, frame.rows);
     }
     obj_lines.drawLines(frame);
 }
