@@ -684,6 +684,23 @@ void ac::UseLineObject(cv::Mat &frame) {
     obj_lines.drawLines(frame);
 }
 
+void ac::TanAlphaGrid(cv::Mat &frame) {
+    static double alpha[3] = {1.0, 32.0, 64.0}, alpha_max = 7.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = static_cast<unsigned char>((tan(i)*alpha[0])+pixel[0]);
+            pixel[1] = static_cast<unsigned char>((tan(z)*alpha[1])+pixel[1]);
+            pixel[2] = static_cast<unsigned char>((tan(z-i)*alpha[2])+pixel[2]);
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    static int dir[3] = {1,1,1};
+    for(int j = 0; j < 3; ++j)
+    	procPos(dir[j], alpha[j], alpha_max);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame
