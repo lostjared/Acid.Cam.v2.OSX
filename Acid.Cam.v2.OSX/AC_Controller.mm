@@ -1595,8 +1595,8 @@ void SearchForString(NSString *s) {
     double amount = 0.1 * (num_index+1);
     ac::setBlendPercentage(amount);
     NSInteger num = [proc_change indexOfSelectedItem];
-    static double values[] = { 0, 0.03, 0.05, 0.3, 0.7, 0};
-    static std::string str_values[] = { "Default", "0.03", "0.05", "0.3", "0.7", ""};
+    static double values[] = { 0, 0.03, 0.05, 0.07, 0.08, 0.1, 0.3, 0.7, 1.0, 3};
+    static std::string str_values[] = { "Default", "0.03", "0.05", "0.07", "0.08","0.1", "0.3"," 0.7", "1.0", "3", ""};
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
     log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";;

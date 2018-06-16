@@ -1603,8 +1603,21 @@ Gw
                                     <menuItem title="Default" state="on" id="IDe-4I-P3C"/>
                                     <menuItem title="0.03" id="vqF-7n-S9Z"/>
                                     <menuItem title="0.05" id="aEC-ww-oWP"/>
-                                    <menuItem title="0.3" id="8hy-D9-bTp"/>
+                                    <menuItem title="0.07" id="8hy-D9-bTp"/>
+                                    <menuItem title="0.08" id="gQC-tB-B8w"/>
+                                    <menuItem title="0.1" id="hhl-ab-UQJ">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="0.3" id="7yN-NU-hJT">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                     <menuItem title="0.7" id="Vrt-dv-AQN"/>
+                                    <menuItem title="1.0" id="3Qr-Yc-pEM">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="3" keyEquivalent="1" id="E41-th-1e5">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
@@ -1681,5 +1694,7 @@ Gw
             </view>
             <point key="canvasLocation" x="-664.5" y="-1072.5"/>
         </window>
+        <menuItem title="0.03" id="qUl-bN-OY2"/>
+        <menuItem title="0.03" id="ud4-7j-6W7"/>
     </objects>
 </document>
