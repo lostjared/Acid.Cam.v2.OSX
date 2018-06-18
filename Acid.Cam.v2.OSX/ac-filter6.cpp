@@ -626,8 +626,10 @@ void ac::WhiteLines(cv::Mat &frame) {
         int count = 0, skip_count = 0;
         for(int i = 0; i < frame.cols; ++i) {
             if(count < num) {
-            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            	pixel[0] = pixel[1] = pixel[2] = 255;
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+            		cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            		pixel[0] = pixel[1] = pixel[2] = 255;
+                }
                 ++count;
             } else {
                 if(skip_count >= skip) {
@@ -657,8 +659,8 @@ void ac::ThickWhiteLines(cv::Mat &frame) {
                     if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
                     	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                     	pixel[0] = pixel[1] = pixel[2] = 255;
-	                    ++count;
                     }
+                    ++count;
                 } else {
                     if(skip_count >= skip) {
                         skip_count = 0;
