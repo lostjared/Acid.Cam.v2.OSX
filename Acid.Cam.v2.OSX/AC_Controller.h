@@ -70,7 +70,6 @@ extern bool resize_value;
 extern void SearchForString(NSString *s);
 
 @interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
-    
 }
 @end
 
@@ -131,7 +130,6 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *proc_change;
     IBOutlet NSPopUpButton *blend_source_amt;
     SearchController *search_controller;
-    
     // variables
     bool reset_memory;
     bool pauseStepTrue;

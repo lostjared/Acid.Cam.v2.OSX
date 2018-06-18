@@ -118,9 +118,11 @@ void ac::HLine::drawLines(cv::Mat &frame) {
         int count = 0, skip_count = 0;
         for(int x = rc.x; x < rc.x+rc.w; ++x) {
             if(count < num) {
-            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(rc.y, x);
-                pixel[0] = pixel[1] = pixel[2] = 255;
-                ++count;
+                if(rc.y >= 0 && rc.y < frame.rows && x >= 0 && x < frame.cols) {
+            		cv::Vec3b &pixel = frame.at<cv::Vec3b>(rc.y, x);
+                	pixel[0] = pixel[1] = pixel[2] = 255;
+                	++count;
+                }
             } else {
                 if(skip_count >= skip) {
                     skip_count = 0;
