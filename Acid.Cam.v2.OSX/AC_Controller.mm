@@ -382,7 +382,7 @@ void SearchForString(NSString *s) {
     const char **szMirror = convertToStringArray(svMirror);
     [self fillMenuWithString: it_arr[6] stringValues:szMirror];
     eraseArray(szMirror, svMirror.size());
-    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend"};
+    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend", "FibFlash"};
     std::sort(svStrobe.begin(), svStrobe.end());
     const char **szStrobe = convertToStringArray(svStrobe);
     [self fillMenuWithString: it_arr[7] stringValues:szStrobe];

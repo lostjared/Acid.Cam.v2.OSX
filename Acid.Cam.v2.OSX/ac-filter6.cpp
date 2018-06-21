@@ -734,6 +734,33 @@ void ac::MedianBlendAnimation(cv::Mat &frame) {
     procPos(direction, alpha, alpha_max, 10, 0.08);
 }
 
+void ac::FibFlash(cv::Mat &frame) {
+    static int values[13] = {1,2,3,5,8,13,21,34,55,89,144,233};
+    static int index = 0;
+    static double alpha = 1.0, alpha_max = 3.0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            int value = values[index];
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ (static_cast<unsigned int>(alpha)*value);
+            }
+
+        }
+    }
+    static int idir = 1;
+    if(idir == 1) {
+    	++index;
+        if(index > 12) idir = 0;
+    } else {
+        --index;
+        if(index <= 1) idir = 1;
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame
