@@ -761,6 +761,28 @@ void ac::FibFlash(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::ScaleFlash(cv::Mat &frame) {
+    static double pos = 1.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]*pos;
+        }
+    }
+    static int idir = 1;
+    if(idir == 1) {
+        pos += 0.5;
+        
+        if(pos > 12)
+            idir = 0;
+    } else if(idir == 0) {
+        pos -= 0.5;
+        if(pos <= 1)
+            idir = 1;
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame

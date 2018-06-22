@@ -434,6 +434,7 @@ namespace ac {
     void TanAlphaGrid(cv::Mat &frame);
     void MedianBlendAnimation(cv::Mat &frame);
     void FibFlash(cv::Mat &frame);
+    void ScaleFlash(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
