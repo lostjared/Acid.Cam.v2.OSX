@@ -811,6 +811,41 @@ void ac::LeftLines(cv::Mat &frame) {
     procPos(direction, alpha, alpha_max, 4.0, 0.05);
 }
 
+void ac::Curtain(cv::Mat &frame) {
+    static int start = 0;
+    static int direction = 1;
+    static double alpha = 1.0, alpha_max = 7.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        if(direction == 1) {
+        	for(int i = 0; i < start; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                }
+	        }
+        } else {
+
+            for(int i = frame.cols-1; i > start; --i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+            }
+        }
+    }
+    if(direction == 1) {
+        start += 50;
+        if(start > frame.cols-1) {
+            direction = 0;
+        }
+    } else {
+        start -= 50;
+        if(start <= 1) {
+            direction = 1;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
 
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
