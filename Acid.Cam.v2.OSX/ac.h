@@ -435,6 +435,7 @@ namespace ac {
     void MedianBlendAnimation(cv::Mat &frame);
     void FibFlash(cv::Mat &frame);
     void ScaleFlash(cv::Mat &frame);
+    void LeftLines(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
