@@ -977,15 +977,53 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
-void ac::inOrder(cv::Mat &frame) {
+void ac::inOrderBySecond(cv::Mat &frame) {
     static int index = 0;
-    if(ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "Random Filter")
-    	ac::draw_func[index](frame);
+    while(index < ac::draw_max-8) {
+        std::string fname = ac::draw_strings[index];
+        std::string::size_type pos = fname.find("Image");
+        if(ac::draw_strings[index] != "Blend Fractal" && ac::draw_strings[index] != "Blend Fractal Mood" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "Random Filter" && pos == std::string::npos)
+            break;
+        else ++index;
+    }
     
-    ++index;
     if(index > ac::draw_max-8) {
         index = 0;
-        frames_released = true;
+    }
+        
+    if(ac::draw_strings[index] != "Blend Fractal" && ac::draw_strings[index] != "Blend Fractal Mood" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "Random Filter")
+    	ac::draw_func[index](frame);
+    
+    static int frame_count = 0;
+    ++frame_count;
+    if(frame_count >= ac::fps) {
+        frame_count = 0;
+        ++index;
+        if(index > ac::draw_max-8) {
+            index = 0;
+        }
+    }
+}
+
+void ac::inOrder(cv::Mat &frame) {
+    static int index = 0;
+    while(index < ac::draw_max-8) {
+        std::string fname = ac::draw_strings[index];
+        std::string::size_type pos = fname.find("Image");
+        if(ac::draw_strings[index] != "Blend Fractal" && ac::draw_strings[index] != "Blend Fractal Mood" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "Random Filter" && pos == std::string::npos)
+            break;
+        else ++index;
+    }
+    
+    if(index > ac::draw_max-8)
+        index = 0;
+    
+    if(ac::draw_strings[index] != "Blend Fractal" && ac::draw_strings[index] != "Blend Fractal Mood" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "Random Filter") {
+        ac::draw_func[index](frame);
+        ++index;
+        if(index > ac::draw_max-8) {
+            index = 0;
+        }
     }
 }
 
