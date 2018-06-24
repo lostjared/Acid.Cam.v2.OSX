@@ -848,12 +848,10 @@ void ac::Curtain(cv::Mat &frame) {
 }
 
 void ac::RandomCurtain(cv::Mat &frame) {
-    
     static int start = 0;
     static int direction = 1;
     static double alpha = 1.0, alpha_max = 7.0;
     int i = 0;
-    
     static DrawFunction rf = getRandomFilter(i);
     cv::Mat frame_copy = frame.clone();
     rf(frame_copy);
@@ -897,6 +895,87 @@ void ac::RandomCurtain(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     
     
+}
+
+void ac::CurtainVertical(cv::Mat &frame) {
+    static int start = 0;
+    static int direction = 1;
+    static double alpha = 1.0, alpha_max = 7.0;
+    for(int z = 0; z < frame.cols; ++z) {
+        if(direction == 1) {
+            for(int i = 0; i < start; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                }
+            }
+        } else {
+            
+            for(int i = frame.rows-1; i > start; --i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+            }
+        }
+    }
+    if(direction == 1) {
+        start += 50;
+        if(start > frame.rows-1) {
+            direction = 0;
+        }
+    } else {
+        start -= 50;
+        if(start <= 1) {
+            direction = 1;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
+void ac::RandomCurtainVertical(cv::Mat &frame) {
+    static int start = 0;
+    static int direction = 1;
+    static double alpha = 1.0, alpha_max = 7.0;
+    int i = 0;
+    static DrawFunction rf = getRandomFilter(i);
+    cv::Mat frame_copy = frame.clone();
+    rf(frame_copy);
+    
+    for(int z = 0; z < frame.cols; ++z) {
+        if(direction == 1) {
+            for(int i = 0; i < start; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
+                cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(i, z);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+                }
+            }
+        } else {
+            
+            for(int i = frame.rows-1; i > start; --i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
+                cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(i, z);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+            }
+        }
+    }
+    if(direction == 1) {
+        start += 50;
+        if(start > frame.rows-1) {
+            direction = 0;
+            rf = getRandomFilter(i);
+        }
+    } else {
+        start -= 50;
+        if(start <= 1) {
+            direction = 1;
+            rf = getRandomFilter(i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
 
 // No Filter

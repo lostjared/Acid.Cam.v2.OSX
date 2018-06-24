@@ -438,6 +438,8 @@ namespace ac {
     void LeftLines(cv::Mat &frame);
     void Curtain(cv::Mat &frame);
     void RandomCurtain(cv::Mat &frame);
+    void CurtainVertical(cv::Mat &frame);
+    void RandomCurtainVertical(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
