@@ -493,7 +493,7 @@ namespace ac {
             for(int i = 0; i < Size; ++i)
             all_objects.push_back(&frames[i]);
         }
-        cv::Mat frames[Size+1];
+        cv::Mat frames[Size+4];
         int w, h;
         void shiftFrames(cv::Mat &frame) {
             int wx = frame.cols;

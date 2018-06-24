@@ -825,12 +825,12 @@ void ac::TrailsInter(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel = collection.frames[counter+1].at<cv::Vec3b>(z, i);
+            pixel = collection.frames[counter].at<cv::Vec3b>(z, i);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
         ++counter;
-        if(counter > 6) counter = 0;
+        if(counter >= 5) counter = 0;
     }
 }
 
@@ -845,12 +845,12 @@ void ac::TrailsBlend(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel = collection.frames[counter+1].at<cv::Vec3b>(z, i);
+            pixel = collection.frames[counter].at<cv::Vec3b>(z, i);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
         ++counter;
-        if(counter > 6) counter = 0;
+        if(counter >= 5) counter = 0;
     }
 }
 
@@ -871,12 +871,12 @@ void ac::TrailsNegate(cv::Mat &frame) {
     for(int z = 0; z < h-1; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            pixel = collection.frames[counter+1].at<cv::Vec3b>(z, i);
+            pixel = collection.frames[counter].at<cv::Vec3b>(z, i);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
         ++counter;
-        if(counter > 6) counter = 0;
+        if(counter >= 5) counter = 0;
     }
 }
 
@@ -1210,7 +1210,7 @@ void ac::RandomTwo(cv::Mat &frame) {
 }
 
 void ac::HorizontalTrailsInter(cv::Mat &frame) {
-    static MatrixCollection<8> collection;
+    static MatrixCollection<4> collection;
     collection.shiftFrames(frame);
     static int counter = 0;
     const int w = frame.cols;// frame width
@@ -1223,7 +1223,7 @@ void ac::HorizontalTrailsInter(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
         ++counter;
-        if(counter >= 4) counter = 0;
+        if(counter >= 3) counter = 0;
     }
 }
 
