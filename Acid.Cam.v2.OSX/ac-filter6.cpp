@@ -952,7 +952,6 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
                 }
             }
         } else {
-            
             for(int i = frame.rows-1; i > start; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(i, z);
@@ -976,6 +975,18 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+}
+
+void ac::inOrder(cv::Mat &frame) {
+    static int index = 0;
+    if(ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "Random Filter")
+    	ac::draw_func[index](frame);
+    
+    ++index;
+    if(index > ac::draw_max-8) {
+        index = 0;
+        frames_released = true;
+    }
 }
 
 // No Filter

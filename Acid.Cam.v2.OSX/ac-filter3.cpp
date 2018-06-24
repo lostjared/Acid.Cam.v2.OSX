@@ -1154,7 +1154,7 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
     const int h = frame.rows;// frame height
     static double pos = 1.0, pos_max = 7.0;
     static cv::Mat stored_frame;
-    if((frame.rows != stored_frame.rows) || (frame.cols != stored_frame.cols)) {
+    if(stored_frame.empty() || frame.size() != stored_frame.size()) {
         stored_frame = frame.clone();
     }
     cv::Mat start = frame.clone();
@@ -1192,6 +1192,28 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
     procPos(direction, pos, pos_max);
 }
 
+void ac::TrailsFilter(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    const int w = frame.cols;// frame width
+    const int h = frame.rows;// frame heigh
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Scalar s;
+            cv::Vec3b frame_pixels[4];
+            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
+            pixel[0] += (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0]);
+            pixel[1] += (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1]);
+            pixel[2] += (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2]);
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+}
+
 void ac::TrailsFilterIntense(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
@@ -1211,28 +1233,6 @@ void ac::TrailsFilterIntense(cv::Mat &frame) {
             pixel[0] += (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0] + frame_pixels[3][0] + frame_pixels[4][0] + frame_pixels[5][0]);
             pixel[1] += (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1] + frame_pixels[3][1] + frame_pixels[4][1] + frame_pixels[5][1]);
             pixel[2] += (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2] + frame_pixels[3][2] + frame_pixels[4][2] + frame_pixels[5][2]);
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
-        }
-    }
-}
-
-void ac::TrailsFilter(cv::Mat &frame) {
-    static MatrixCollection<4> collection;
-    collection.shiftFrames(frame);
-    const int w = frame.cols;// frame width
-    const int h = frame.rows;// frame heigh
-    for(int z = 0; z < h; ++z) {
-        for(int i = 0; i < w; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Scalar s;
-            cv::Vec3b frame_pixels[4];
-            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
-            pixel[0] += (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0]);
-            pixel[1] += (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1]);
-            pixel[2] += (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2]);
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
