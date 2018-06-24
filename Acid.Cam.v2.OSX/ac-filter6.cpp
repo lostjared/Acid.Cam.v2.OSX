@@ -847,6 +847,58 @@ void ac::Curtain(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::RandomCurtain(cv::Mat &frame) {
+    
+    static int start = 0;
+    static int direction = 1;
+    static double alpha = 1.0, alpha_max = 7.0;
+    int i = 0;
+    
+    static DrawFunction rf = getRandomFilter(i);
+    cv::Mat frame_copy = frame.clone();
+    rf(frame_copy);
+    
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        if(direction == 1) {
+            for(int i = 0; i < start; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+                }
+            }
+        } else {
+            
+            for(int i = frame.cols-1; i > start; --i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+            }
+        }
+    }
+    if(direction == 1) {
+        start += 50;
+        if(start > frame.cols-1) {
+            direction = 0;
+            int i = 0;
+            rf = getRandomFilter(i);
+        }
+    } else {
+        start -= 50;
+        if(start <= 1) {
+            direction = 1;
+            int i = 0;
+            rf = getRandomFilter(i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    
+    
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame
