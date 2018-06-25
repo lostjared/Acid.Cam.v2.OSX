@@ -442,6 +442,7 @@ namespace ac {
     void RandomCurtainVertical(cv::Mat &frame);
     void inOrder(cv::Mat &frame);
     void inOrderBySecond(cv::Mat &frame);
+    void DarkenFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
