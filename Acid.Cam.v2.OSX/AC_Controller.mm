@@ -468,7 +468,6 @@ void SearchForString(NSString *s) {
     NSInteger index = [categories indexOfSelectedItem];
     
     if(prev_index != current) {
-        ac::release_all_objects();
         prev_index = current;
         ac::reset_filter = true;
     }

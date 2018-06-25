@@ -94,7 +94,7 @@ void ac::SoftXor(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Scalar s;
-            for(int q = 0; q < collection.size()-1; ++q) {
+            for(int q = 0; q < collection.size(); ++q) {
                 cv::Vec3b val = collection.frames[q].at<cv::Vec3b>(z, i);
                 unsigned char v[3] = { static_cast<unsigned char>(s[0]), static_cast<unsigned char>(s[1]), static_cast<unsigned char>(s[2])};
                 s[0] = (v[0] + val[0]) ^ static_cast<unsigned char>(s[0]);
@@ -102,9 +102,9 @@ void ac::SoftXor(cv::Mat &frame) {
                 s[2] = (v[2] + val[2]) ^ static_cast<unsigned char>(s[2]);
             }
             
-            s[0] /= (collection.size()-1);
-            s[1] /= (collection.size()-1);
-            s[2] /= (collection.size()-1);
+            s[0] /= (collection.size());
+            s[1] /= (collection.size());
+            s[2] /= (collection.size());
             
             for(int j = 0; j < 3; ++j) {
                 unsigned char v = static_cast<unsigned char>(s[j]);
@@ -715,7 +715,7 @@ void ac::MedianBlendAnimation(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar value;
-            for(int j = 0; j < collection.size()-1; ++j) {
+            for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q = 0; q < 3; ++q) {
                     value[q] += pixel[q];
@@ -998,7 +998,7 @@ void ac::inOrderBySecond(cv::Mat &frame) {
 void ac::inOrder(cv::Mat &frame) {
     static int index = 0;
     if(index < ac::draw_max-8) {
-        frames_released = true;
+		frames_released = true;
 		if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder") ac::draw_func[index](frame);
         ++index;
     } else index = 0;

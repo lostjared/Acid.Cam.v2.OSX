@@ -1193,7 +1193,7 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
 }
 
 void ac::TrailsFilter(cv::Mat &frame) {
-    static MatrixCollection<6> collection;
+    static MatrixCollection<4> collection;
     collection.shiftFrames(frame);
     const int w = frame.cols;// frame width
     const int h = frame.rows;// frame heigh
@@ -1202,9 +1202,9 @@ void ac::TrailsFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Scalar s;
             cv::Vec3b frame_pixels[8];
-            frame_pixels[0] = collection.frames[0].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
             pixel[0] += (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0]);
             pixel[1] += (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1]);
             pixel[2] += (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2]);
@@ -1224,12 +1224,12 @@ void ac::TrailsFilterIntense(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Scalar s;
             cv::Vec3b frame_pixels[8];
-            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
-            frame_pixels[3] = collection.frames[4].at<cv::Vec3b>(z, i);
-            frame_pixels[4] = collection.frames[5].at<cv::Vec3b>(z, i);
-            frame_pixels[5] = collection.frames[6].at<cv::Vec3b>(z, i);
+            frame_pixels[0] = collection.frames[0].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[3] = collection.frames[3].at<cv::Vec3b>(z, i);
+            frame_pixels[4] = collection.frames[4].at<cv::Vec3b>(z, i);
+            frame_pixels[5] = collection.frames[5].at<cv::Vec3b>(z, i);
             pixel[0] += (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0] + frame_pixels[3][0] + frame_pixels[4][0] + frame_pixels[5][0]);
             pixel[1] += (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1] + frame_pixels[3][1] + frame_pixels[4][1] + frame_pixels[5][1]);
             pixel[2] += (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2] + frame_pixels[3][2] + frame_pixels[4][2] + frame_pixels[5][2]);
@@ -1250,12 +1250,12 @@ void ac::TrailsFilterSelfAlpha(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Scalar s;
             cv::Vec3b frame_pixels[8];
-            frame_pixels[0] = collection.frames[0].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[2].at<cv::Vec3b>(z, i);
-            frame_pixels[3] = collection.frames[3].at<cv::Vec3b>(z, i);
-            frame_pixels[4] = collection.frames[4].at<cv::Vec3b>(z, i);
-            frame_pixels[5] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
+            frame_pixels[3] = collection.frames[4].at<cv::Vec3b>(z, i);
+            frame_pixels[4] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[5] = collection.frames[6].at<cv::Vec3b>(z, i);
             pixel[0] += static_cast<unsigned char>((frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0] + frame_pixels[3][0] + frame_pixels[4][0] + frame_pixels[5][0])*pos);
             pixel[1] += static_cast<unsigned char>((frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1] + frame_pixels[3][1] + frame_pixels[4][1] + frame_pixels[5][1])*pos);
             pixel[2] += static_cast<unsigned char>((frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2] + frame_pixels[3][2] + frame_pixels[4][2] + frame_pixels[5][2])*pos);
@@ -1278,12 +1278,12 @@ void ac::TrailsFilterXor(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Scalar s;
             cv::Vec3b frame_pixels[12];
-            frame_pixels[0] = collection.frames[0].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[2].at<cv::Vec3b>(z, i);
-            frame_pixels[3] = collection.frames[3].at<cv::Vec3b>(z, i);
-            frame_pixels[4] = collection.frames[4].at<cv::Vec3b>(z, i);
-            frame_pixels[5] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
+            frame_pixels[3] = collection.frames[4].at<cv::Vec3b>(z, i);
+            frame_pixels[4] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[5] = collection.frames[6].at<cv::Vec3b>(z, i);
             pixel[0] ^= (frame_pixels[0][0] + frame_pixels[1][0] + frame_pixels[2][0] + frame_pixels[3][0] + frame_pixels[4][0] + frame_pixels[5][0]);
             pixel[1] ^= (frame_pixels[0][1] + frame_pixels[1][1] + frame_pixels[2][1] + frame_pixels[3][1] + frame_pixels[4][1] + frame_pixels[5][1]);
             pixel[2] ^= (frame_pixels[0][2] + frame_pixels[1][2] + frame_pixels[2][2] + frame_pixels[3][2] + frame_pixels[4][2] + frame_pixels[5][2]);
@@ -1296,7 +1296,7 @@ void ac::TrailsFilterXor(cv::Mat &frame) {
 }
 
 void ac::ColorTrails(cv::Mat &frame) {
-    static MatrixCollection<12> collection;
+    static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     const int w = frame.cols;// frame width
     const int h = frame.rows;// frame heigh
@@ -1305,12 +1305,12 @@ void ac::ColorTrails(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Scalar s;
             cv::Vec3b frame_pixels[8];
-            frame_pixels[0] = collection.frames[0].at<cv::Vec3b>(z, i);
-            frame_pixels[1] = collection.frames[1].at<cv::Vec3b>(z, i);
-            frame_pixels[2] = collection.frames[2].at<cv::Vec3b>(z, i);
-            frame_pixels[3] = collection.frames[3].at<cv::Vec3b>(z, i);
-            frame_pixels[4] = collection.frames[4].at<cv::Vec3b>(z, i);
-            frame_pixels[5] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            frame_pixels[1] = collection.frames[2].at<cv::Vec3b>(z, i);
+            frame_pixels[2] = collection.frames[3].at<cv::Vec3b>(z, i);
+            frame_pixels[3] = collection.frames[4].at<cv::Vec3b>(z, i);
+            frame_pixels[4] = collection.frames[5].at<cv::Vec3b>(z, i);
+            frame_pixels[5] = collection.frames[6].at<cv::Vec3b>(z, i);
             for(int q = 0; q < 6; ++q) {
                 if(frame_pixels[q][0] > pixel[0]) frame_pixels[q][0] = 0;
                 if(frame_pixels[q][1] < pixel[1]) frame_pixels[q][1] = 0;

@@ -372,7 +372,7 @@ void ac::MedianBlend(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar value;
-            for(int j = 0; j < collection.size()-1; ++j) {
+            for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q = 0; q < 3; ++q) {
                     value[q] += pixel[q];
@@ -628,7 +628,7 @@ void ac::XorTrails(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b value;
-            for(int j = 0; j < collection.size()-1; ++j) {
+            for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b frame_val = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q = 0; q < 3; ++q) {
                     value[q] ^= frame_val[q];
@@ -650,7 +650,7 @@ void ac::RainbowTrails(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b value;
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);;
-            for(int j = 1; j < collection.size()-1; ++j) {
+            for(int j = 1; j < collection.size(); ++j) {
                 cv::Vec3b frame_val = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q = 0; q < 3; ++q) {
                     value[q] += frame_val[q];
@@ -670,7 +670,7 @@ void ac::NegativeTrails(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b value;
-            for(int j = 0; j < collection.size()-1; ++j) {
+            for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b frame_val = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q = 0; q < 3; ++q) {
                     pixel[q] ^= pixel[q]+frame_val[q];
@@ -692,7 +692,7 @@ void ac::IntenseTrails(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b value = pixel;
-            for(int j = 0; j < collection.size()-1; ++j) {
+            for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b frame_val = collection.frames[j].at<cv::Vec3b>(z, i);
                 for(int q =0; q < 3; ++q) {
                     value[q] += static_cast<unsigned char>(frame_val[q]*alpha);
@@ -952,7 +952,7 @@ void ac::NotEqual(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             bool same_value =  true;
             cv::Vec3b value;
-            for(int j = 0; j < collection.size()-1; ++j) {
+            for(int j = 0; j < collection.size(); ++j) {
                 value = collection.frames[j].at<cv::Vec3b>(z, i);
                 if(value != pixel) {
                     same_value = false;
