@@ -1011,6 +1011,30 @@ void ac::DarkenFilter(cv::Mat &frame) {
     }
 }
 
+void ac::RandomFilterBySecond(cv::Mat &frame) {
+    static int frame_count = 0;
+    static int f = 0;
+    static DrawFunction func = getRandomFilter(f);
+    if(ac::draw_strings[f] == "RandomFilterBySecond") {
+        func = getRandomFilter(f);
+        return;
+    }
+    func(frame);
+    if(++frame_count >= ac::fps) {
+        frame_count = 0;
+        func = getRandomFilter(f);
+    }
+}
+
+void ac::ThreeRandom(cv::Mat &frame) {
+    for(int j = 0; j < 3; ++j) {
+        int f = 0;
+        ac::DrawFunction func = getRandomFilter(f);
+        if(ac::draw_strings[f] != "ThreeRandom")
+            func(frame);
+    }
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame
