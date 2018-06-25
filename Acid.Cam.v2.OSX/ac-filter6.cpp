@@ -981,7 +981,6 @@ void ac::inOrderBySecond(cv::Mat &frame) {
 	static int index = 0;
     if(index < ac::draw_max-8) {
         static int frame_count = 0;
-        frames_released = true;
         if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder") ac::draw_func[index](frame);
         ++frame_count;
         if(frame_count >= ac::fps) {
@@ -998,7 +997,6 @@ void ac::inOrderBySecond(cv::Mat &frame) {
 void ac::inOrder(cv::Mat &frame) {
     static int index = 0;
     if(index < ac::draw_max-8) {
-		frames_released = true;
 		if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder") ac::draw_func[index](frame);
         ++index;
     } else index = 0;
