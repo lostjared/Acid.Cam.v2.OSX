@@ -1035,6 +1035,28 @@ void ac::ThreeRandom(cv::Mat &frame) {
     }
 }
 
+void ac::InOrderAlpha(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 7.0;
+    cv::Mat copy[2];
+    copy[0] = frame.clone();
+    copy[1] = frame.clone();
+    inOrder(copy[0]);
+    inOrder(copy[1]);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b colors[3];
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            colors[0] = copy[0].at<cv::Vec3b>(z, i);
+            colors[1] = copy[1].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= (colors[0][j] * static_cast<unsigned char>(alpha)) + (colors[1][j] * static_cast<unsigned char>(alpha));
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
 // No Filter
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame

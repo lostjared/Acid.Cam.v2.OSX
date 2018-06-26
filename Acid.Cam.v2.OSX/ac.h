@@ -445,6 +445,7 @@ namespace ac {
     void DarkenFilter(cv::Mat &frame);
     void RandomFilterBySecond(cv::Mat &frame);
     void ThreeRandom(cv::Mat &frame);
+    void InOrderAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
