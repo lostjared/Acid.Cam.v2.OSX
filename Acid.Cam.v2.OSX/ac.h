@@ -446,6 +446,7 @@ namespace ac {
     void RandomFilterBySecond(cv::Mat &frame);
     void ThreeRandom(cv::Mat &frame);
     void InOrderAlpha(cv::Mat &frame);
+    void inOrderAlphaXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -465,6 +466,7 @@ namespace ac {
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
+    void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
