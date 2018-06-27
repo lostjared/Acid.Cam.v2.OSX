@@ -868,7 +868,7 @@ void ac::RandomCurtain(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         if(direction == 1) {
-            for(int i = 0; i < start-1; ++i) {
+            for(int i = 0; i < start; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
@@ -912,7 +912,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     for(int z = 0; z < frame.cols; ++z) {
         if(direction == 1) {
-            for(int i = 0; i < start-1; ++i) {
+            for(int i = 0; i < start; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
@@ -954,7 +954,7 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     
     for(int z = 0; z < frame.cols; ++z) {
         if(direction == 1) {
-            for(int i = 0; i < start-1; ++i) {
+            for(int i = 0; i < start; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j) {
