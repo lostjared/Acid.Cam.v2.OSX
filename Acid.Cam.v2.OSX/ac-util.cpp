@@ -245,6 +245,15 @@ void ac::resetAlpha(double &alpha) {
     }
 }
 
+void ac::AddInvert(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+}
+
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
 // then Alpha Blend them together
 void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {

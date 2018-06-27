@@ -802,6 +802,9 @@ void ac::LeftLines(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+            
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
         }
         line_width[z] += 50;
         if(line_width[z] > frame.cols)
@@ -822,23 +825,29 @@ void ac::Curtain(cv::Mat &frame) {
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
                 }
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
 	        }
+            
         } else {
 
             for(int i = frame.cols-1; i > start; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
             }
         }
     }
     if(direction == 1) {
-        start += 50;
+        start += 40;
         if(start > frame.cols-1) {
             direction = 0;
         }
     } else {
-        start -= 50;
+        start -= 40;
         if(start <= 1) {
             direction = 1;
         }
@@ -859,7 +868,7 @@ void ac::RandomCurtain(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         if(direction == 1) {
-            for(int i = 0; i < start; ++i) {
+            for(int i = 0; i < start-1; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
@@ -877,14 +886,14 @@ void ac::RandomCurtain(cv::Mat &frame) {
         }
     }
     if(direction == 1) {
-        start += 50;
+        start += 40;
         if(start > frame.cols-1) {
             direction = 0;
             int i = 0;
             rf = getRandomFilter(i);
         }
     } else {
-        start -= 50;
+        start -= 40;
         if(start <= 1) {
             direction = 1;
             int i = 0;
@@ -893,7 +902,7 @@ void ac::RandomCurtain(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
-    
+    AddInvert(frame);
     
 }
 
@@ -903,7 +912,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     for(int z = 0; z < frame.cols; ++z) {
         if(direction == 1) {
-            for(int i = 0; i < start; ++i) {
+            for(int i = 0; i < start-1; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
@@ -915,7 +924,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
-            }
+                }
         }
     }
     if(direction == 1) {
@@ -931,6 +940,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::RandomCurtainVertical(cv::Mat &frame) {
@@ -944,7 +954,7 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     
     for(int z = 0; z < frame.cols; ++z) {
         if(direction == 1) {
-            for(int i = 0; i < start; ++i) {
+            for(int i = 0; i < start-1; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j) {
@@ -957,6 +967,7 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
                 cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+                
             }
         }
     }
@@ -975,6 +986,7 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::inOrderBySecond(cv::Mat &frame) {
@@ -991,6 +1003,7 @@ void ac::inOrderBySecond(cv::Mat &frame) {
             }
         }
     } else index = 0;
+    AddInvert(frame);
 }
 
 void ac::inOrder(cv::Mat &frame) {
@@ -999,6 +1012,8 @@ void ac::inOrder(cv::Mat &frame) {
         if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "inOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") ac::draw_func[index](frame);
         ++index;
     } else index = 0;
+    
+    AddInvert(frame);
 }
 
 void ac::DarkenFilter(cv::Mat &frame) {
@@ -1024,6 +1039,7 @@ void ac::RandomFilterBySecond(cv::Mat &frame) {
         frame_count = 0;
         func = getRandomFilter(f);
     }
+    AddInvert(frame);
 }
 
 void ac::ThreeRandom(cv::Mat &frame) {
@@ -1033,6 +1049,7 @@ void ac::ThreeRandom(cv::Mat &frame) {
         if(ac::draw_strings[f] != "ThreeRandom")
             func(frame);
     }
+    AddInvert(frame);
 }
 
 void ac::inOrderAlpha(cv::Mat &frame) {
@@ -1055,6 +1072,7 @@ void ac::inOrderAlpha(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::inOrderAlphaXor(cv::Mat &frame) {
@@ -1066,6 +1084,7 @@ void ac::inOrderAlphaXor(cv::Mat &frame) {
     AlphaXorBlend(copy[0], copy[1], frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 10, 0.01);
+    AddInvert(frame);
 }
 
 void ac::SlideFilter(cv::Mat &frame) {
@@ -1084,6 +1103,7 @@ void ac::SlideFilter(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                
             }
     }
     if(direction_1 == 1) {
@@ -1115,6 +1135,7 @@ void ac::SlideFilter(cv::Mat &frame) {
     
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 9.0, 0.005);
+    AddInvert(frame);
 }
 
 void ac::RandomSlideFilter(cv::Mat &frame) {
@@ -1177,6 +1198,7 @@ void ac::RandomSlideFilter(cv::Mat &frame) {
     
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 // No Filter

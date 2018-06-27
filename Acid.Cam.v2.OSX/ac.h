@@ -462,6 +462,7 @@ namespace ac {
     // color maps
     void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);
+    void AddInvert(cv::Mat &frame);
     // color correction
     void setBlendPercentage(const double &value);
     void setBrightness(cv::Mat &frame, double alpha, int beta);
