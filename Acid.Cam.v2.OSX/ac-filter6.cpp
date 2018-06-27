@@ -1072,18 +1072,18 @@ void ac::SlideFilter(cv::Mat &frame) {
     static const int speed = 40;
     static int start_1 = 0, start_2 = frame.cols-1;
     static int direction_1 = 1, direction_2 = 0;
-    static double alpha = 1.0, alpha_max = 7.0;
+    static double alpha = 1.0, alpha_max = 3.0;
     for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < start_1; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
                 }
             }
             for(int i =(frame.cols-1); i > start_2; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
             }
     }
     if(direction_1 == 1) {
@@ -1114,7 +1114,7 @@ void ac::SlideFilter(cv::Mat &frame) {
     }
     
     static int dir = 1;
-    procPos(dir, alpha, alpha_max);
+    procPos(dir, alpha, alpha_max, 9.0, 0.005);
 }
 
 void ac::RandomSlideFilter(cv::Mat &frame) {
