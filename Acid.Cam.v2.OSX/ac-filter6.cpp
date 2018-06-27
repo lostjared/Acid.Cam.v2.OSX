@@ -981,7 +981,7 @@ void ac::inOrderBySecond(cv::Mat &frame) {
 	static int index = 0;
     if(index < ac::draw_max-8) {
         static int frame_count = 0;
-        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "InOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") ac::draw_func[index](frame);
+        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "inOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") ac::draw_func[index](frame);
         ++frame_count;
         if(frame_count >= ac::fps) {
             frame_count = 0;
@@ -994,12 +994,9 @@ void ac::inOrderBySecond(cv::Mat &frame) {
 }
 
 void ac::inOrder(cv::Mat &frame) {
-    
-    
-    
     static int index = 0;
     if(index < ac::draw_max-8) {
-        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "InOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") ac::draw_func[index](frame);
+        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "inOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") ac::draw_func[index](frame);
         ++index;
     } else index = 0;
 }
@@ -1038,7 +1035,7 @@ void ac::ThreeRandom(cv::Mat &frame) {
     }
 }
 
-void ac::InOrderAlpha(cv::Mat &frame) {
+void ac::inOrderAlpha(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     cv::Mat copy[2];
     copy[0] = frame.clone();

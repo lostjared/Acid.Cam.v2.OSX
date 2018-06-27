@@ -445,7 +445,7 @@ namespace ac {
     void DarkenFilter(cv::Mat &frame);
     void RandomFilterBySecond(cv::Mat &frame);
     void ThreeRandom(cv::Mat &frame);
-    void InOrderAlpha(cv::Mat &frame);
+    void inOrderAlpha(cv::Mat &frame);
     void inOrderAlphaXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
