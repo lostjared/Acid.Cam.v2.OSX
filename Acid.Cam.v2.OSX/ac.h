@@ -450,6 +450,7 @@ namespace ac {
     void SlideFilterXor(cv::Mat &frame);
     void SlideFilter(cv::Mat &frame);
     void RandomSlideFilter(cv::Mat &frame);
+    void SlideUpDown(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
