@@ -207,3 +207,120 @@ void ac::SlideUpDownRandom(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SlideSubFilter(cv::Mat &frame) {
+    static const int speed = 40;
+    static int start_1 = 0, start_2 = frame.cols-1;
+    static int direction_1 = 1, direction_2 = 0;
+    static double alpha = 1.0, alpha_max = 7.0;
+    if(ac::draw_strings[subfilter] == "SlideSubFilter") return;
+    cv::Mat frame_x;
+    frame_x = frame.clone();
+    if(ac::subfilter != -1) {
+        ac::draw_func[ac::subfilter](frame_x);
+    } else return;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < start_1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+            }
+        }
+        for(int i =(frame.cols-1); i > start_2; --i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+        }
+    }
+    if(direction_1 == 1) {
+        start_1 += speed;
+        if(start_1 > (frame.cols-1)) {
+            direction_1 = 0;
+            start_1 = (frame.cols-1);
+        }
+    } else {
+        start_1 -= speed;
+        if(start_1 <= 0) {
+            direction_1 = 1;
+            start_1 = 0;
+        }
+    }
+    if(direction_2 == 1) {
+        start_2 += speed;
+        if(start_2 >= (frame.cols-1)) {
+            direction_2 = 0;
+            start_2 = (frame.cols-1);
+        }
+    } else {
+        start_2 -= speed;
+        if(start_2 <= 0) {
+            direction_2 = 1;
+            start_2 = 0;
+        }
+    }
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
+}
+
+void ac::SlideSubUpDownFilter(cv::Mat &frame) {
+    static const int speed = 40;
+    static int start_1 = 0, start_2 = frame.rows-1;
+    static int direction_1 = 1, direction_2 = 0;
+    static double alpha = 1.0, alpha_max = 3.0;
+    if(ac::draw_strings[subfilter] == "SlideSubUpDownFilter") return;
+    cv::Mat frame_x;
+    frame_x = frame.clone();
+    if(ac::subfilter != -1) {
+        ac::draw_func[ac::subfilter](frame_x);
+    } else return;
+    
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < start_1; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+            }
+        }
+        for(int z =(frame.rows-1); z > start_2; --z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+            
+        }
+    }
+    if(direction_1 == 1) {
+        start_1 += speed;
+        if(start_1 > (frame.rows-1)) {
+            direction_1 = 0;
+            start_1 = (frame.rows-1);
+        }
+    } else {
+        start_1 -= speed;
+        if(start_1 <= 0) {
+            direction_1 = 1;
+            start_1 = 0;
+        }
+    }
+    if(direction_2 == 1) {
+        start_2 += speed;
+        if(start_2 >= (frame.rows-1)) {
+            direction_2 = 0;
+            start_2 = (frame.rows-1);
+        }
+    } else {
+        start_2 -= speed;
+        if(start_2 <= 0) {
+            direction_2 = 1;
+            start_2 = 0;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 9.0, 0.005);
+    AddInvert(frame);
+}
+

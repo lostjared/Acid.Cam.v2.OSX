@@ -342,3 +342,9 @@ ac::DrawFunction ac::getRandomFilter(int &index) {
     return draw_func[num];
 }
 
+int ac::subfilter = -1;
+
+void ac::setSubFilter(int value) {
+    subfilter = value;
+}
+

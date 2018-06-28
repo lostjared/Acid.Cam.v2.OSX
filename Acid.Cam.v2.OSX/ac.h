@@ -107,6 +107,7 @@ namespace ac {
     extern int color_order;
     extern double fps;
     extern int draw_offset;
+    extern int subfilter;
     extern std::string fileName;
     extern cv::Mat orig_frame;
     extern cv::Mat blendW_frame;
@@ -453,6 +454,8 @@ namespace ac {
     void SlideUpDown(cv::Mat &frame);
     void SlideUpDownXor(cv::Mat &frame);
     void SlideUpDownRandom(cv::Mat &frame);
+    void SlideSubFilter(cv::Mat &frame);
+    void SlideSubUpDownFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -463,6 +466,7 @@ namespace ac {
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
     void setProcMode(int value);
+    void setSubFilter(int value);
     // color maps
     void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);

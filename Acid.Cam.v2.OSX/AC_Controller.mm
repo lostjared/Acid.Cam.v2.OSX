@@ -405,7 +405,7 @@ void SearchForString(NSString *s) {
     std::sort(svOther_Custom.begin(), svOther_Custom.end());
     const char **szOther_Custom = convertToStringArray(svOther_Custom);
     
-    std::vector<std::string> svSquare {"SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8","SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse", "RandomFilteredSquare","RandomQuads","QuadRandomFilter", "RollRandom", "GridFilter8x", "GridFilter16x", "GridFilter8xBlend", "GridRandom", "GridRandomPixel", "PixelatedSquare", "SmoothSourcePixel", "ColorLines", "Curtain", "RandomCurtain", "RandomCurtainVertical", "CurtainVertical", "SlideFilter","SlideFilterXor", "RandomSlideFilter", "SlideUpDown", "SlideUpDownXor", "SlideUpDownRandom"};
+    std::vector<std::string> svSquare {"SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8","SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse", "RandomFilteredSquare","RandomQuads","QuadRandomFilter", "RollRandom", "GridFilter8x", "GridFilter16x", "GridFilter8xBlend", "GridRandom", "GridRandomPixel", "PixelatedSquare", "SmoothSourcePixel", "ColorLines", "Curtain", "RandomCurtain", "RandomCurtainVertical", "CurtainVertical", "SlideFilter","SlideFilterXor", "RandomSlideFilter", "SlideUpDown", "SlideUpDownXor", "SlideUpDownRandom", "SlideSubFilter", "SlideSubUpDownFilter"};
     
     std::sort(svSquare.begin(), svSquare.end());
     const char **szSquare = convertToStringArray(svSquare);
@@ -1627,6 +1627,19 @@ void SearchForString(NSString *s) {
     reset_memory = true;
     std::ostringstream stream;
     stream << "Stored Frames Memory Released...\n";
+    flushToLog(stream);
+}
+
+- (IBAction) setSubFilter:(id) sender {
+    NSInteger index = [current_filter_custom indexOfSelectedItem];
+    NSMenuItem *m = [current_filter_custom itemAtIndex:index];
+    NSString *s = [m title];
+    NSString *val = [NSString stringWithFormat: @"Filter: %s set as Sub Filter", ac::draw_strings[ac::filter_map[[s UTF8String]]].c_str(), nil];
+    int filter_pos = ac::filter_map[[s UTF8String]];
+    ac::setSubFilter(filter_pos);
+    _NSRunAlertPanel(@"Set As Sub Filter",val, @"Ok", nil, nil);
+    std::ostringstream stream;
+    stream << [val UTF8String] << "\n";
     flushToLog(stream);
 }
 
