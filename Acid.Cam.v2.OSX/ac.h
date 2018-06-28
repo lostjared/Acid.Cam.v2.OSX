@@ -447,6 +447,7 @@ namespace ac {
     void ThreeRandom(cv::Mat &frame);
     void inOrderAlpha(cv::Mat &frame);
     void inOrderAlphaXor(cv::Mat &frame);
+    void SlideFilterXor(cv::Mat &frame);
     void SlideFilter(cv::Mat &frame);
     void RandomSlideFilter(cv::Mat &frame);
     // No filter (do nothing)
