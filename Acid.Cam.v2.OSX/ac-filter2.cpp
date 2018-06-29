@@ -807,6 +807,7 @@ void ac::Laplacian(cv::Mat &frame) {
     cv::Mat out;
     cv::Laplacian(frame, out, CV_8U);
     frame = out;
+    AddInvert(frame);
 }
 
 // XOR - takes cv::Mat reference
@@ -821,6 +822,7 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
     cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
+    AddInvert(frame);
 }
 
 // And takes cv::Mat reference
@@ -835,6 +837,7 @@ void ac::Bitwise_AND(cv::Mat &frame) {
     cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
+    AddInvert(frame);
 }
 // takes cv::Mat reference
 void ac::Bitwise_OR(cv::Mat &frame) {
@@ -848,6 +851,7 @@ void ac::Bitwise_OR(cv::Mat &frame) {
     cv::bitwise_or(frame, initial, output); // OpenCV function bitwise_and
     initial = start;// set initial to start
     frame = output; // set frame to output
+    AddInvert(frame);
 }
 // takes cv::Mat reference
 // Equalize image
@@ -859,6 +863,7 @@ void ac::Equalize(cv::Mat &frame) {
     cv::equalizeHist(v[1], output[1]);
     cv::equalizeHist(v[2], output[2]);
     cv::merge(output,3,frame);// merge back to create final output
+    AddInvert(frame);
 }
 
 // Channel sort - takes cv::Mat reference

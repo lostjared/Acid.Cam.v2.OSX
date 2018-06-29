@@ -98,11 +98,12 @@ void ac::CombinePixels(cv::Mat &frame) {
 // Canny takes cv::Mat reference
 void ac::Canny(cv::Mat &frame) {
     cv::Mat out;
-    static double x = 50, y = 10;
+    static double x = 100, y = 100;
     cv::Canny(frame, out, x, y);
     cv::Mat converted;
     cv::cvtColor(out, converted, cv::COLOR_GRAY2BGR);
     frame = converted;
+    AddInvert(frame);
 }
 
 // Flip takes cv::Mat reference

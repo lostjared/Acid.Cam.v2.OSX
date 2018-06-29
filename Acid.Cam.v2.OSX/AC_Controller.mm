@@ -1637,9 +1637,16 @@ void SearchForString(NSString *s) {
     NSString *val = [NSString stringWithFormat: @"Filter: %s set as Sub Filter", ac::draw_strings[ac::filter_map[[s UTF8String]]].c_str(), nil];
     int filter_pos = ac::filter_map[[s UTF8String]];
     ac::setSubFilter(filter_pos);
-    _NSRunAlertPanel(@"Set As Sub Filter",val, @"Ok", nil, nil);
+    //_NSRunAlertPanel(@"Set As Sub Filter",val, @"Ok", nil, nil);
     std::ostringstream stream;
     stream << [val UTF8String] << "\n";
+    flushToLog(stream);
+}
+
+- (IBAction) clearSubFilter: (id) sender {
+    ac::setSubFilter(-1);
+    std::ostringstream stream;
+    stream << "Sub Filter cleared\n";
     flushToLog(stream);
 }
 
