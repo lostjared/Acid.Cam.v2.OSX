@@ -100,7 +100,6 @@ namespace ac {
     std::string getVersion();
     // version string
     extern const std::string version;
-    std::string getVersion();
     extern double translation_variable, pass2_alpha;
     extern double alpha, tr;
     extern bool isNegative, noRecord,iRev;
