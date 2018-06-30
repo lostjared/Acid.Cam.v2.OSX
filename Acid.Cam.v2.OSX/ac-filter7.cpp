@@ -212,7 +212,7 @@ void ac::SlideSubFilter(cv::Mat &frame) {
     static int start_1 = 0, start_2 = frame.cols-1;
     static int direction_1 = 1, direction_2 = 0;
     static double alpha = 1.0, alpha_max = 7.0;
-    if(subfilter != -1 && ac::draw_strings[subfilter] == "SlideSubFilter") return;
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SlideSubFilter") return;
     cv::Mat frame_x;
     frame_x = frame.clone();
     if(ac::subfilter != -1) {
@@ -270,7 +270,7 @@ void ac::SlideSubUpDownFilter(cv::Mat &frame) {
     static int start_1 = 0, start_2 = frame.rows-1;
     static int direction_1 = 1, direction_2 = 0;
     static double alpha = 1.0, alpha_max = 3.0;
-    if(subfilter != -1 && ac::draw_strings[subfilter] == "SlideSubUpDownFilter") return;
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SlideSubUpDownFilter") return;
     cv::Mat frame_x;
     frame_x = frame.clone();
     if(ac::subfilter != -1) {
