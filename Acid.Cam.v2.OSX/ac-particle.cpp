@@ -44,7 +44,7 @@
 #include"ac.h"
 
 // initalize to null
-ac::ParticleEmiter::ParticleEmiter() : part(0), w(0), h(0) {}
+ac::ParticleEmiter::ParticleEmiter() : part(0), w(0), h(0), speed(1){}
 
 // clean up after done
 ac::ParticleEmiter::~ParticleEmiter() {
@@ -90,6 +90,7 @@ void ac::ParticleEmiter::set(cv::Mat &frame) {
 }
 // draw pixel values to frame
 void ac::ParticleEmiter::draw(cv::Mat &frame) {
+    speed = 1;
     movePixels();//move values before drawing
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
@@ -102,6 +103,27 @@ void ac::ParticleEmiter::draw(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ParticleEmiter::draw_blend(cv::Mat &frame) {
+    speed = 5;
+    DarkenFilter(frame);
+    movePixels();//move values before drawing
+    static double alpha = 1.0, alpha_max = 5.0;
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            int x_pos = part[i][z].x;
+            int y_pos = part[i][z].y;
+            if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]+(part[i][z].pixel[j]^static_cast<unsigned char>(alpha));
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 10, 0.1);
+}
+
 // move pixel coordinates around
 void ac::ParticleEmiter::movePixels() {
     for(int i = 0; i < w; ++i) {
@@ -116,7 +138,7 @@ void ac::ParticleEmiter::movePixels() {
             switch(p.dir) {
                 case DIR_UP:
                     if(p.y > 0) {
-                        p.y--;
+                        p.y -= speed;
                     } else {
                         p.y = 1+rand()%(h-1);
                         p.dir = rand()%4;
@@ -124,7 +146,7 @@ void ac::ParticleEmiter::movePixels() {
                     break;
                 case DIR_DOWN:
                     if(p.y < h-1) {
-                        p.y++;
+                        p.y += speed;
                     } else {
                         p.dir = rand()%4;
                         p.y = 1+rand()%(h-1);
@@ -132,7 +154,7 @@ void ac::ParticleEmiter::movePixels() {
                     break;
                 case DIR_LEFT:
                     if(p.x > 0) {
-                        p.x--;
+                        p.x -= speed;
                     } else {
                         p.dir = rand()%4;
                         p.x = 1+rand()%(w-1);
@@ -140,7 +162,7 @@ void ac::ParticleEmiter::movePixels() {
                     break;
                 case DIR_RIGHT:
                     if(p.x < w-1) {
-                        p.x++;
+                        p.x += speed;
                     } else {
                         p.dir = rand()%4;
                         p.x = rand()%(w-1);
@@ -159,5 +181,10 @@ ac::ParticleEmiter emiter; // initialize
 void ac::ParticleRelease(cv::Mat &frame) {
     emiter.set(frame);// set values each frame
     emiter.draw(frame); // draw values each frame
+}
+
+void ac::ParticleBlend(cv::Mat &frame) {
+    emiter.set(frame);
+    emiter.draw_blend(frame);
 }
 

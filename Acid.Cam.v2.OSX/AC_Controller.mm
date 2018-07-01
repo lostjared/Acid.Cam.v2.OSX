@@ -362,7 +362,7 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[2] stringValues:szBlend];
     eraseArray(szBlend, vzBlend.size());
     
-    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines"};
+    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","ParticleBlend", "All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines"};
     std::sort(svDistort.begin(), svDistort.end());
     const char **szDistort = convertToStringArray(svDistort);
     [self fillMenuWithString: it_arr[3] stringValues:szDistort];
@@ -490,7 +490,7 @@ void SearchForString(NSString *s) {
         [custom_window orderFront:self];
         [filter_search_window orderFront: self];
     }
-    if(ac::draw_strings[ac::draw_offset] == "ParticleRelease") {
+    if(ac::draw_strings[ac::draw_offset] == "ParticleRelease" || ac::draw_strings[ac::draw_offset] == "ParticleBlend") {
         emiter.reset();
         strout.str("");
         strout << "ParticleRelease Variables Reset\n";
@@ -1513,7 +1513,7 @@ void SearchForString(NSString *s) {
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
     std::string file_str = [title UTF8String];
-    if(file_str == "ParticleRelease") {
+    if(file_str == "ParticleRelease" || file_str == "ParticleBlend") {
         emiter.reset();
         strout.str("");
         strout << "ParticleRelease Variables Reset\n";

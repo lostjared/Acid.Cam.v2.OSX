@@ -455,6 +455,7 @@ namespace ac {
     void SlideUpDownRandom(cv::Mat &frame);
     void SlideSubFilter(cv::Mat &frame);
     void SlideSubUpDownFilter(cv::Mat &frame);
+    void ParticleBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -626,6 +627,7 @@ namespace ac {
         void set(cv::Mat &frame);
         // draw pixel values to frame
         void draw(cv::Mat &frame);
+        void draw_blend(cv::Mat &frame);
         // move pixel coordinates around
         void movePixels();
         // reset
@@ -633,6 +635,7 @@ namespace ac {
     private:
         Particle **part; // array of pointers for Particles
         int w, h; // frame width/height
+        int speed;
     };
     extern int colors[3];
     // class to use for random growing filtered rects.
