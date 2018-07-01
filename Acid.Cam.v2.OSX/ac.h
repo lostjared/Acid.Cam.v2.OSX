@@ -456,6 +456,7 @@ namespace ac {
     void SlideSubFilter(cv::Mat &frame);
     void SlideSubUpDownFilter(cv::Mat &frame);
     void ParticleBlend(cv::Mat &frame);
+    void ParticleFlash(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -628,6 +629,7 @@ namespace ac {
         // draw pixel values to frame
         void draw(cv::Mat &frame);
         void draw_blend(cv::Mat &frame);
+        void draw_flash(cv::Mat &frame);
         // move pixel coordinates around
         void movePixels();
         // reset

@@ -124,6 +124,38 @@ void ac::ParticleEmiter::draw_blend(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 10, 0.1);
 }
 
+void ac::ParticleEmiter::draw_flash(cv::Mat &frame) {
+    speed = 10;
+    
+    static int flash_index = 0;
+    static cv::Vec3b black(0,0,0);
+    cv::Vec3b color(rand()%255, rand()%255, rand()%255);
+    movePixels();//move values before drawing
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            int x_pos = part[i][z].x;
+            int y_pos = part[i][z].y;
+            if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                switch(flash_index) {
+                    case 0:
+                        pixel = part[i][z].pixel;
+                        break;
+                    case 1:
+                 	   pixel = black;
+                        break;
+                    case 2:
+                        pixel = color;
+                        break;
+                }
+                ++flash_index;
+                if(flash_index > 2)
+                    flash_index = 0;
+            }
+        }
+    }
+}
+
 // move pixel coordinates around
 void ac::ParticleEmiter::movePixels() {
     for(int i = 0; i < w; ++i) {
@@ -188,3 +220,7 @@ void ac::ParticleBlend(cv::Mat &frame) {
     emiter.draw_blend(frame);
 }
 
+void ac::ParticleFlash(cv::Mat &frame) {
+    emiter.set(frame);
+    emiter.draw_flash(frame);
+}
