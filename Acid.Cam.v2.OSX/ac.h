@@ -457,6 +457,7 @@ namespace ac {
     void SlideSubUpDownFilter(cv::Mat &frame);
     void ParticleBlend(cv::Mat &frame);
     void ParticleFlash(cv::Mat &frame);
+    void ExactImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

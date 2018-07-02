@@ -324,3 +324,20 @@ void ac::SlideSubUpDownFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::ExactImage(cv::Mat &frame) {
+    if(blend_set == true) {
+        const int w = frame.cols;
+        const int h = frame.rows;
+        for(int z = 0;  z < h; ++z) {
+            for(int i = 0; i < w; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                pixel = add_i;
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i); // invert pixel
+            }
+        }
+    }
+}

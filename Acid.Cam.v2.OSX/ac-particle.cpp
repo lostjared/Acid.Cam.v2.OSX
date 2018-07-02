@@ -126,7 +126,6 @@ void ac::ParticleEmiter::draw_blend(cv::Mat &frame) {
 
 void ac::ParticleEmiter::draw_flash(cv::Mat &frame) {
     speed = 10;
-    
     static int flash_index = 0;
     static cv::Vec3b black(0,0,0);
     cv::Vec3b color(rand()%255, rand()%255, rand()%255);
