@@ -458,6 +458,7 @@ namespace ac {
     void ParticleBlend(cv::Mat &frame);
     void ParticleFlash(cv::Mat &frame);
     void ExactImage(cv::Mat &frame);
+    void ParticleAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -631,6 +632,7 @@ namespace ac {
         void draw(cv::Mat &frame);
         void draw_blend(cv::Mat &frame);
         void draw_flash(cv::Mat &frame);
+        void draw_alpha(cv::Mat &frame);
         // move pixel coordinates around
         void movePixels();
         // reset
