@@ -903,7 +903,6 @@ void ac::RandomCurtain(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
     AddInvert(frame);
-    
 }
 
 void ac::CurtainVertical(cv::Mat &frame) {
@@ -1096,13 +1095,13 @@ void ac::SlideFilter(cv::Mat &frame) {
             for(int i = 0; i < start_1; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] = pixel[j]*(1+static_cast<unsigned char>(alpha));
                 }
             }
             for(int i =(frame.cols-1); i > start_2; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] = pixel[j]*(1+static_cast<unsigned char>(alpha));
                 
             }
     }
@@ -1147,13 +1146,13 @@ void ac::SlideFilterXor(cv::Mat &frame) {
         for(int i = 0; i < start_1; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] ^= pixel[j]*static_cast<unsigned char>(1+alpha);
             }
         }
         for(int i =(frame.cols-1); i > start_2; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] ^= pixel[j]*static_cast<unsigned char>(1+alpha);
             
         }
     }
