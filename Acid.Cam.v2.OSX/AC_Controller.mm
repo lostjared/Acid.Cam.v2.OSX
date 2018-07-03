@@ -1612,6 +1612,7 @@ void SearchForString(NSString *s) {
     [procMode_Window orderFront:self];
 }
 - (IBAction) resetAllFrames:(id) sender {
+    emiter.reset();
     ac::frames_released = true;
 }
 - (IBAction) resetAllFilters: (id) sender {
@@ -1620,6 +1621,7 @@ void SearchForString(NSString *s) {
         stream << "Animation alpha and direction reset to 1.\n";
         flushToLog(stream);
         ac::reset_alpha = true;
+        emiter.reset();
     }
 }
 
