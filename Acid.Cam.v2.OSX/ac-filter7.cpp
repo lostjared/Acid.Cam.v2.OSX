@@ -323,3 +323,57 @@ void ac::SlideSubUpDownFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 9.0, 0.005);
     AddInvert(frame);
 }
+
+void ac::BlendInAndOut(cv::Mat &frame) {
+    static cv::Scalar color(rand()%255, rand()%255, rand()%255);
+    static int step[3] = {1,1,1};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= static_cast<unsigned char>(color[j]);
+            }
+            
+        }
+    }
+    
+    static int dir[3] = {1,1,1};
+    for(int j = 0; j < 3; ++j) {
+    	if(dir[j] == 1) {
+            color[j] += step[j];
+            if(color[j] >= 255) {
+                dir[j] = 0;
+            }
+            
+        } else if(dir[j] == 0) {
+            color[j] -= step[j];
+            if(color[j] <= 0) {
+                step[j] = 1+(rand()%10);
+                dir[j] = 1;
+                color[j] = rand()%255;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
