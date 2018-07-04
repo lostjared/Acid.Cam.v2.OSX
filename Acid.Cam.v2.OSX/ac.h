@@ -460,6 +460,7 @@ namespace ac {
     void ExactImage(cv::Mat &frame);
     void ParticleAlpha(cv::Mat &frame);
     void BlendInAndOut(cv::Mat &frame);
+    void BlendScaleInAndOut(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
