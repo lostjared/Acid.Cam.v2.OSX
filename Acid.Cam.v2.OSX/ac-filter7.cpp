@@ -333,7 +333,8 @@ void ac::BlendInAndOut(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(color[j]);
             }
-            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     
@@ -366,7 +367,8 @@ void ac::BlendScaleInAndOut(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(color[j]*alpha);
             }
-            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir[3] = {1,1,1};
@@ -376,7 +378,6 @@ void ac::BlendScaleInAndOut(cv::Mat &frame) {
             if(color[j] >= 255) {
                 dir[j] = 0;
             }
-            
         } else if(dir[j] == 0) {
             color[j] -= step[j];
             if(color[j] <= 0) {
