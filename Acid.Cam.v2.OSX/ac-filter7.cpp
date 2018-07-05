@@ -337,7 +337,6 @@ void ac::BlendInAndOut(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    
     static int dir[3] = {1,1,1};
     for(int j = 0; j < 3; ++j) {
     	if(dir[j] == 1) {
@@ -390,10 +389,42 @@ void ac::BlendScaleInAndOut(cv::Mat &frame) {
     static int alpha_direction = 1;
     procPos(alpha_direction, alpha, alpha_max, 10, 0.09);
 }
-
-
-
-
+void ac::AcidGlitch(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 6.0;
+    static int step[3] = {1,1,1};
+    static cv::Scalar color(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix_copy = pixel;
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += (((pix_copy[3-j-1] ^ static_cast<unsigned char>(color[j]))) * alpha);
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int dir[3] = {1,1,1};
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            color[j] += step[j];
+            if(color[j] >= 255) {
+                dir[j] = 0;
+            }
+        } else if(dir[j] == 0) {
+            color[j] -= step[j];
+            if(color[j] <= 0) {
+                step[j] = 1+(rand()%10);
+                dir[j] = 1;
+                color[j] = rand()%255;
+            }
+        }
+    }
+    static int alpha_direction = 1;
+    procPos(alpha_direction, alpha, alpha_max, 10, 0.09);
+    
+    
+}
 
 
 
