@@ -426,7 +426,30 @@ void ac::AcidGlitch(cv::Mat &frame) {
     
 }
 
-
+void ac::XorBackwards(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 6.0;
+    static cv::Mat frame_copy = frame.clone();
+    cv::Mat orig = frame.clone();
+    if(frame_copy.size()!=frame.size()) {
+        frame_copy = frame.clone();
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                double val = 0;
+                val = (pixel[j]^pix[3-j-1])*alpha;
+                pixel[j] += static_cast<unsigned char>(val);
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    frame_copy = orig;
+}
 
 
 
