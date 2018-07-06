@@ -475,6 +475,36 @@ void ac::LiquidFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::MatrixXorAnd(cv::Mat &frame) {
+    static MatrixCollection<3> collection;
+    static double alpha = 1.0, alpha_max = 7.0;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b frame_pix[3];
+            for(int j = 0; j < 3; ++j)
+                frame_pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
+            
+            for(int j = 0; j < 3; ++j) {
+                static bool dir = true;
+                double value = 0;
+                for(int q = 0; q < 3; ++q) {
+                    if(dir == true)
+                        value += frame_pix[j][q] * alpha;
+                    else
+                        value += frame_pix[3-j-1][q] * alpha;
+                    dir = (dir == true) ? false : true;
+                }
+                pixel[j] = (cv::saturate_cast<unsigned char>(pixel[j]&(static_cast<unsigned char>(value))))^static_cast<unsigned char>(alpha);
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 8.0, 0.1);
+}
 
 
 
