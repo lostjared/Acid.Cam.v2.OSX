@@ -450,7 +450,7 @@ void ac::XorBackwards(cv::Mat &frame) {
 }
 
 void ac::LiquidFilter(cv::Mat &frame) {
-    static double alpha = 1.0, alpha_max = 4.0;
+    static double alpha = 1.0, alpha_max = 7.0;
     static MatrixCollection<3> collection;
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
@@ -467,6 +467,8 @@ void ac::LiquidFilter(cv::Mat &frame) {
                 }
                 pixel[j] = pixel[j]^static_cast<unsigned char>(value);
             }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir = 1;
