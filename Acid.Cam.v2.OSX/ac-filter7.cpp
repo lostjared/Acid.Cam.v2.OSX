@@ -422,8 +422,6 @@ void ac::AcidGlitch(cv::Mat &frame) {
     }
     static int alpha_direction = 1;
     procPos(alpha_direction, alpha, alpha_max, 10, 0.09);
-    
-    
 }
 
 void ac::XorBackwards(cv::Mat &frame) {
@@ -450,6 +448,31 @@ void ac::XorBackwards(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     frame_copy = orig;
 }
+
+void ac::LiquidFilter(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    static MatrixCollection<3> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b frame_pix[3];
+            for(int j = 0; j < 3; ++j) {
+                frame_pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                double value = 0;
+                for(int q = 0; q < 3; ++q) {
+                    value += frame_pix[j][q] * alpha;
+                }
+                pixel[j] = pixel[j]^static_cast<unsigned char>(value);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
 
 
 
