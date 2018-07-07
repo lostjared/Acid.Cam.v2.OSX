@@ -465,6 +465,7 @@ namespace ac {
     void XorBackwards(cv::Mat &frame);
     void LiquidFilter(cv::Mat &frame);
     void MatrixXorAnd(cv::Mat &frame);
+    void XorAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
