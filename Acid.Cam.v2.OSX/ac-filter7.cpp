@@ -530,7 +530,10 @@ void ac::XorAlpha(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
-
+void ac::AlphaAcidTrails(cv::Mat &frame) {
+    XorAlpha(frame);
+    MedianBlend(frame);
+}
 
 
 
