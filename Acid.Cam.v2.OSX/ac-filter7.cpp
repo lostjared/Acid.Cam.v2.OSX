@@ -535,7 +535,27 @@ void ac::AlphaAcidTrails(cv::Mat &frame) {
     MedianBlend(frame);
 }
 
-
+void ac::SelfXorAverage(cv::Mat &frame) {
+    static MatrixCollection<3> collection;
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 7.0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[3];
+            for(int j = 0; j < 3; ++j) {
+                pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                double value = ((pix[0][j] ^ pix[1][j] ^ pix[2][j])/3) * alpha;
+                pixel[j] ^= static_cast<unsigned char>(value) ^ static_cast<unsigned char>(alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
 
 
 
