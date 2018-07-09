@@ -557,6 +557,17 @@ void ac::SelfXorAverage(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::RandomXorBlend(cv::Mat &frame) {
+    cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^pix[j]);
+            }
+        }
+    }
+}
 
 
 
