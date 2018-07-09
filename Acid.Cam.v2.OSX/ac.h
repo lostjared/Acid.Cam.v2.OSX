@@ -469,6 +469,7 @@ namespace ac {
     void AlphaAcidTrails(cv::Mat &frame);
     void SelfXorAverage(cv::Mat &frame);
     void RandomXorBlend(cv::Mat &frame);
+    void RGBVerticalXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
