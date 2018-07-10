@@ -602,7 +602,10 @@ void ac::RGBVerticalXor(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
-
+void ac::RGBVerticalXorScale(cv::Mat &frame) {
+    RGBVerticalXor(frame);
+    BlendScaleInAndOut(frame);
+}
 
 
 

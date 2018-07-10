@@ -470,6 +470,7 @@ namespace ac {
     void SelfXorAverage(cv::Mat &frame);
     void RandomXorBlend(cv::Mat &frame);
     void RGBVerticalXor(cv::Mat &frame);
+    void RGBVerticalXorScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
