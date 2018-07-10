@@ -607,7 +607,39 @@ void ac::RGBVerticalXorScale(cv::Mat &frame) {
     BlendScaleInAndOut(frame);
 }
 
+void ac::RGBHorizontalXor(cv::Mat &frame) {
+    static int pos[3] = {0, 0, 0};
+    static cv::Size old_size;
+    if(frame.size() != old_size) {
+        pos[0] = pos[1] = pos[2] = 0;
+        old_size = frame.size();
+    }
+    static int index = 0;
+    static double alpha = 1.0, alpha_max = 6.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < pos[index]; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[3-index-1] ^= static_cast<unsigned char>(pixel[index]*alpha);
+        }
+        for(int i = pos[index]; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] ^= static_cast<unsigned char>(pixel[index]*alpha);
+        }
+    }
+    pos[index] += 100;
+    if(pos[index] > frame.cols) {
+        pos[index] = 0;
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
 
-
-
+void ac::RGBHorizontalXorScale(cv::Mat &frame) {
+    RGBHorizontalXor(frame);
+    BlendScaleInAndOut(frame);
+}
 
