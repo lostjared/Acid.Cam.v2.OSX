@@ -643,3 +643,24 @@ void ac::RGBHorizontalXorScale(cv::Mat &frame) {
     BlendScaleInAndOut(frame);
 }
 
+void ac::FadeStrobe(cv::Mat &frame) {
+    static cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
+    if(frames_released == true) {
+        colorval = cv::Scalar(rand()%255, rand()%255, rand()%255);
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+            	pixel[j] = (pixel[j]^static_cast<unsigned char>(1+colorval[j]));
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+    	colorval[j] += 20;
+    	if(colorval[j] >= 255) {
+        	colorval[j] = 0;
+    	}
+    }
+}
+
