@@ -679,3 +679,24 @@ void ac::RGBMirror(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MirrorStrobe(cv::Mat &frame) {
+    cv::Mat copy_f = frame.clone();
+    static cv::Scalar value(rand()%255, rand()%255, rand()%255);
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_f.at<cv::Vec3b>(copy_f.rows-z-1, copy_f.cols-i-1);
+            pixel[index] = cv::saturate_cast<unsigned char>((pixel[index]^pix[index])+value[index]);
+        }
+    }
+    
+    value[index] += 50;
+    if(value[index] > 255)
+        value[index] = 0;
+    
+    ++index;
+    if(index > 2)
+        index = 0;
+}
