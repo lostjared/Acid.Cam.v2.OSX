@@ -664,3 +664,18 @@ void ac::FadeStrobe(cv::Mat &frame) {
     }
 }
 
+void ac::RGBMirror(cv::Mat &frame) {
+    cv::Mat f_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b f_pixel[4];
+            f_pixel[0] = f_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            f_pixel[1] = f_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            f_pixel[2] = f_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]^f_pixel[j][j]);
+            }
+        }
+    }
+}

@@ -377,7 +377,7 @@ void SearchForString(NSString *s) {
     const char **szGradient = convertToStringArray(svGradient);
     [self fillMenuWithString: it_arr[5] stringValues:szGradient];
     eraseArray(szGradient, svGradient.size());
-    std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaTrip", "InterReverse", "InterMirror", "InterFullMirror", "MirrorRGB", "LineByLineReverse", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend"};
+    std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaTrip", "InterReverse", "InterMirror", "InterFullMirror", "MirrorRGB", "LineByLineReverse", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBMirror"};
     std::sort(svMirror.begin(), svMirror.end());
     const char **szMirror = convertToStringArray(svMirror);
     [self fillMenuWithString: it_arr[6] stringValues:szMirror];
@@ -412,8 +412,8 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[10] stringValues:szSquare];
     eraseArray(szSquare, svSquare.size());
     
-    const char *szCustom[] = {"Negate","No Filter", "Blend with Source", "Plugin", "Custom",0};
-    const char *szCustom_Spec[] = {"Negate","No Filter", "Blend with Source", "Plugin",0};
+    const char *szCustom[] = {"Negate","No Filter", "Blend with Source", "DarkenFilter", "Plugin", "Custom",0};
+    const char *szCustom_Spec[] = {"Negate","No Filter", "Blend with Source", "DarkenFilter", "Plugin",0};
     
     if(cust == NO) {
         [self fillMenuWithString: it_arr[11] stringValues:szOther];
