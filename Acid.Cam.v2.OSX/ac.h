@@ -476,6 +476,7 @@ namespace ac {
     void FadeStrobe(cv::Mat &frame);
     void RGBMirror(cv::Mat &frame);
     void MirrorStrobe(cv::Mat &frame);
+    void AndStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

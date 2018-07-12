@@ -516,6 +516,9 @@ void ac::XorAlpha(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(color_value[j]*alpha);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     if(color_value[index] >= 255) {
@@ -551,6 +554,8 @@ void ac::SelfXorAverage(cv::Mat &frame) {
                 double value = ((pix[0][j] ^ pix[1][j] ^ pix[2][j])/3) * alpha;
                 pixel[j] ^= static_cast<unsigned char>(value) ^ static_cast<unsigned char>(alpha);
             }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir = 1;
@@ -565,6 +570,8 @@ void ac::RandomXorBlend(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^pix[j]);
             }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
 }
@@ -582,10 +589,16 @@ void ac::RGBVerticalXor(cv::Mat &frame) {
         for(int z = 0; z < pos[index]; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel[3-index-1] ^= static_cast<unsigned char>(pixel[index]*alpha);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
         for(int z = pos[index]; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel[index] ^= static_cast<unsigned char>(pixel[index]*alpha);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
    
@@ -620,10 +633,16 @@ void ac::RGBHorizontalXor(cv::Mat &frame) {
         for(int i = 0; i < pos[index]; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel[3-index-1] ^= static_cast<unsigned char>(pixel[index]*alpha);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
         for(int i = pos[index]; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel[index] ^= static_cast<unsigned char>(pixel[index]*alpha);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     pos[index] += 100;
@@ -654,6 +673,8 @@ void ac::FadeStrobe(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
             	pixel[j] = (pixel[j]^static_cast<unsigned char>(1+colorval[j]));
             }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     for(int j = 0; j < 3; ++j) {
@@ -676,6 +697,8 @@ void ac::RGBMirror(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = (pixel[j]^f_pixel[j][j]);
             }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
 }
@@ -689,6 +712,9 @@ void ac::MirrorStrobe(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy_f.at<cv::Vec3b>(copy_f.rows-z-1, copy_f.cols-i-1);
             pixel[index] = cv::saturate_cast<unsigned char>((pixel[index]^pix[index])+value[index]);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     
@@ -699,4 +725,18 @@ void ac::MirrorStrobe(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
+}
+
+void ac::AndStrobe(cv::Mat &frame) {
+    cv::Vec3b colorval(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]&colorval[j];
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
 }
