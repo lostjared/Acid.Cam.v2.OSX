@@ -757,3 +757,26 @@ void ac::AndStrobeScale(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, pos_max);
 }
+
+void ac::AndPixelStrobe(cv::Mat &frame) {
+    static cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] & static_cast<unsigned char>(colorval[j]);
+                pixel[j] = pixel[j] ^ static_cast<unsigned char>(colorval[j]);
+            }
+        }
+    }
+    colorval[index] += 50;
+    if(colorval[index] > 255) {
+        colorval[index] = rand()%255;
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+    
+    AddInvert(frame);
+}
