@@ -750,8 +750,6 @@ void ac::AndStrobeScale(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]&colorval[j])*alpha);
             }
-            swapColors(frame, z, i);
-            if(isNegative) invert(frame, z, i);
         }
     }
     static int dir = 1;
@@ -768,6 +766,8 @@ void ac::AndPixelStrobe(cv::Mat &frame) {
                 pixel[j] = pixel[j] & static_cast<unsigned char>(colorval[j]);
                 pixel[j] = pixel[j] ^ static_cast<unsigned char>(colorval[j]);
             }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     colorval[index] += 50;
@@ -777,6 +777,65 @@ void ac::AndPixelStrobe(cv::Mat &frame) {
         if(index > 2)
             index = 0;
     }
+}
+
+void ac::AndOrXorStrobe(cv::Mat &frame) {
+    static int index = 0;
+    cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                switch(index) {
+                    case 0:
+                        pixel[j] = pixel[j] & static_cast<unsigned char>(colorval[j]);
+                        break;
+                    case 1:
+                        pixel[j] = pixel[j] | static_cast<unsigned char>(colorval[j]);
+                        break;
+                    case 2:
+                        pixel[j] = pixel[j] ^ static_cast<unsigned char>(colorval[j]);
+                        break;
+                }
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
     
-    AddInvert(frame);
+}
+
+void ac::AndOrXorStrobeScale(cv::Mat &frame) {
+    static int index = 0;
+    static double alpha = 1.0, alpha_max = 7.0;
+    cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                switch(index) {
+                    case 0:
+                        pixel[j] = (pixel[j] & static_cast<unsigned char>(colorval[j]))*static_cast<unsigned char>(1+alpha);
+                        break;
+                    case 1:
+                        pixel[j] = (pixel[j] | static_cast<unsigned char>(colorval[j]))*static_cast<unsigned char>(1+alpha);
+                        break;
+                    case 2:
+                        pixel[j] = (pixel[j] ^ static_cast<unsigned char>(colorval[j]))*static_cast<unsigned char>(1+alpha);
+                        break;
+                }
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
