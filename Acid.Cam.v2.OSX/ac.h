@@ -477,6 +477,7 @@ namespace ac {
     void RGBMirror(cv::Mat &frame);
     void MirrorStrobe(cv::Mat &frame);
     void AndStrobe(cv::Mat &frame);
+    void AndStrobeScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
