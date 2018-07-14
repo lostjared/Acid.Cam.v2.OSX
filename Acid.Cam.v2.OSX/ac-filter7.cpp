@@ -844,7 +844,6 @@ void ac::FadeInAndOut(cv::Mat &frame) {
     static int speed[3] = {5+rand()%10, 5+rand()%10, 5+rand()%10};
     static cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
     static int dir[3] = {rand()%2, rand()%2, rand()%2};
-    
     if(frames_released == true || reset_alpha == true) {
         colorval = cv::Scalar(rand()%255, rand()%255, rand()%255);
         for(int j = 0; j < 3; ++j) {
@@ -852,7 +851,6 @@ void ac::FadeInAndOut(cv::Mat &frame) {
             speed[j] = 5+rand()%10;
         }
     }
-    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -863,7 +861,6 @@ void ac::FadeInAndOut(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    
     for(int j = 0; j < 3; ++j) {
         if(dir[j] == 1) {
             colorval[j] += speed[j];
@@ -878,6 +875,43 @@ void ac::FadeInAndOut(cv::Mat &frame) {
                 colorval[j] = 0;
                 dir[j] = 1;
                 speed[j] = 5+rand()%10;
+            }
+        }
+    }
+}
+
+void ac::BrightStrobe(cv::Mat &frame) {
+    static int speed[3] = {1,6,13};
+    static int dir[3] = {1,1,1};
+    cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= static_cast<unsigned char>((colorval[j]*speed[j]));
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            colorval[j] += speed[j];
+            if(colorval[j] > 255) {
+                dir[j] = 0;
+            }
+            
+            ++speed[j];
+            if(speed[j] > 25) {
+                speed[j] = 25;
+            }
+        } else {
+            colorval[j] -= speed[j];
+            if(colorval[j] <= 0) {
+                colorval[j] = speed[j]--;
+                dir[j] = 1;
+            }
+            --speed[j];
+            if(speed[j] <= 0) {
+                speed[j] = 1;
             }
         }
     }
