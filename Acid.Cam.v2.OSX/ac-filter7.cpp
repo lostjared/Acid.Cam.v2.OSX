@@ -664,7 +664,7 @@ void ac::RGBHorizontalXorScale(cv::Mat &frame) {
 
 void ac::FadeStrobe(cv::Mat &frame) {
     static cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
-    if(frames_released == true) {
+    if(frames_released == true || reset_alpha == true) {
         colorval = cv::Scalar(rand()%255, rand()%255, rand()%255);
     }
     for(int z = 0; z < frame.rows; ++z) {
@@ -838,4 +838,48 @@ void ac::AndOrXorStrobeScale(cv::Mat &frame) {
     
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+}
+
+void ac::FadeInAndOut(cv::Mat &frame) {
+    static int speed[3] = {5+rand()%10, 5+rand()%10, 5+rand()%10};
+    static cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
+    static int dir[3] = {rand()%2, rand()%2, rand()%2};
+    
+    if(frames_released == true || reset_alpha == true) {
+        colorval = cv::Scalar(rand()%255, rand()%255, rand()%255);
+        for(int j = 0; j < 3; ++j) {
+            dir[j] = rand()%2;
+            speed[j] = 5+rand()%10;
+        }
+    }
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] ^= cv::saturate_cast<unsigned char>(colorval[j]);
+            
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            colorval[j] += speed[j];
+            if(colorval[j] > 255) {
+                colorval[j] = 255;
+                dir[j] = 0;
+                speed[j] = 5+rand()%10;
+            }
+        } else if(dir[j] == 0) {
+            colorval[j] -= speed[j];
+            if(colorval[j] <= 0) {
+                colorval[j] = 0;
+                dir[j] = 1;
+                speed[j] = 5+rand()%10;
+            }
+        }
+    }
+    
 }
