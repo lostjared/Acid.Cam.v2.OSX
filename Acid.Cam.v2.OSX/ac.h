@@ -483,6 +483,7 @@ namespace ac {
     void AndOrXorStrobeScale(cv::Mat &frame);
     void FadeInAndOut(cv::Mat &frame);
     void BrightStrobe(cv::Mat &frame);
+    void DarkStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
