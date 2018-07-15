@@ -484,6 +484,7 @@ namespace ac {
     void FadeInAndOut(cv::Mat &frame);
     void BrightStrobe(cv::Mat &frame);
     void DarkStrobe(cv::Mat &frame);
+    void ParticleFast(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -658,6 +659,7 @@ namespace ac {
         void draw_blend(cv::Mat &frame);
         void draw_flash(cv::Mat &frame);
         void draw_alpha(cv::Mat &frame);
+        void draw_move(cv::Mat &frame);
         // move pixel coordinates around
         void movePixels();
         // reset

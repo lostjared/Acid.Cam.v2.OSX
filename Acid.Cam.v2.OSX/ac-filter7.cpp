@@ -935,3 +935,4 @@ void ac::DarkStrobe(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
 }
+

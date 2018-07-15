@@ -88,6 +88,7 @@ void ac::ParticleEmiter::set(cv::Mat &frame) {
         }
     }
 }
+
 // draw pixel values to frame
 void ac::ParticleEmiter::draw(cv::Mat &frame) {
     speed = 1;
@@ -141,7 +142,7 @@ void ac::ParticleEmiter::draw_flash(cv::Mat &frame) {
                         pixel = part[i][z].pixel;
                         break;
                     case 1:
-                 	   pixel = black;
+                        pixel = black;
                         break;
                     case 2:
                         pixel = color;
@@ -173,6 +174,25 @@ void ac::ParticleEmiter::draw_alpha(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 15, 0.01);
+}
+
+// draw movement fast
+void ac::ParticleEmiter::draw_move(cv::Mat &frame) {
+    speed = 50;
+    movePixels();//move values before drawing
+    static double alpha = 1.0, alpha_max = 6.0;
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            int x_pos = part[i][z].x;
+            int y_pos = part[i][z].y;
+            if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                pixel = part[i][z].pixel;
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
 
 // move pixel coordinates around
@@ -248,3 +268,15 @@ void ac::ParticleAlpha(cv::Mat &frame) {
     emiter.set(frame);
     emiter.draw_alpha(frame);
 }
+
+void ac::ParticleFast(cv::Mat &frame) {
+    static ParticleEmiter emiter;
+    if(frames_released == true || reset_alpha == true) {
+        emiter.reset();
+    }
+    emiter.set(frame);
+    emiter.draw_move(frame);
+}
+
+
+
