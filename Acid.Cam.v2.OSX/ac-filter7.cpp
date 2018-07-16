@@ -996,7 +996,7 @@ void ac::InitBlend(cv::Mat &frame) {
     static double value = 25.0, alpha = 1.0, alpha_max = 7.0;
     static int dir = 1, speed_dir = 1;
     static int speed = 2, speed_increase = 5;
-    if(reset_alpha == true || frames_released) {
+    if(reset_alpha == true || frames_released == true) {
         colorval = cv::Vec3b(rand()%255, rand()%255, rand()%255);
         value = 25.0;
         alpha = 1.0;
