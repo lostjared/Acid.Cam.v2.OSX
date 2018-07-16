@@ -950,3 +950,93 @@ void ac::RandomXorOpposite(cv::Mat &frame) {
         }
     }
 }
+
+void ac::StrobeTransform(cv::Mat &frame) {
+    cv::Vec3b colorval(rand()%255, rand()%255, rand()%255);
+    static double value = 25.0, alpha = 1.0, alpha_max = 7.0;
+    static int dir = 1, speed_dir = 1;
+    static int speed = 2, speed_increase = 5;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += ((pixel[j] + (static_cast<unsigned char>(value))) ^ static_cast<unsigned char>(alpha)) ^ colorval[j];
+            }
+        }
+    }
+    if(dir == 1)
+        value += speed;
+    else
+        value -= speed;
+    
+    if(dir == 1) {
+    	if(value > (255)) {
+            dir = 0;
+            if(speed_dir == 1) {
+            	speed += speed_increase;
+            	if(speed > 25)
+                	speed_dir = 0;
+            } else if(speed_dir == 0) {
+                speed -= speed_increase;
+                if(speed <= 1)
+                    speed_dir = 1;
+            }
+	    }
+    } else if(dir == 0) {
+        if(value <= 25) {
+            dir = 1;
+        }
+    }
+    static int cdir = 1;
+    procPos(cdir, alpha, alpha_max);
+}
+
+void ac::InitBlend(cv::Mat &frame) {
+    static cv::Vec3b colorval(rand()%255, rand()%255, rand()%255);
+    static double value = 25.0, alpha = 1.0, alpha_max = 7.0;
+    static int dir = 1, speed_dir = 1;
+    static int speed = 2, speed_increase = 5;
+    if(reset_alpha == true || frames_released) {
+        colorval = cv::Vec3b(rand()%255, rand()%255, rand()%255);
+        value = 25.0;
+        alpha = 1.0;
+        alpha_max = 7.0;
+        dir = 1;
+        speed_dir = 1;
+        speed = 2;
+        speed_increase = 5;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += ((pixel[j] + (static_cast<unsigned char>(value))) ^ static_cast<unsigned char>(alpha)) ^ colorval[j];
+            }
+        }
+    }
+    if(dir == 1)
+        value += speed;
+    else
+        value -= speed;
+    if(dir == 1) {
+        if(value > (255)) {
+            dir = 0;
+            if(speed_dir == 1) {
+                speed += speed_increase;
+                if(speed > 25)
+                    speed_dir = 0;
+            } else if(speed_dir == 0) {
+                speed -= speed_increase;
+                if(speed <= 1)
+                    speed_dir = 1;
+            }
+        }
+    } else if(dir == 0) {
+        if(value <= 25) {
+            dir = 1;
+        }
+    }
+    static int cdir = 1;
+    procPos(cdir, alpha, alpha_max);
+}
+

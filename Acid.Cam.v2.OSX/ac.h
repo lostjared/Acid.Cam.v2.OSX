@@ -486,7 +486,8 @@ namespace ac {
     void DarkStrobe(cv::Mat &frame);
     void ParticleFast(cv::Mat &frame);
     void RandomXorOpposite(cv::Mat &frame);
-    
+    void StrobeTransform(cv::Mat &frame);
+    void InitBlend(cv::Mat &frame);    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
