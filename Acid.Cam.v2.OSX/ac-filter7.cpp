@@ -936,3 +936,17 @@ void ac::DarkStrobe(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::RandomXorOpposite(cv::Mat &frame) {
+    cv::Vec3b colorval(rand()%255, rand()%255, rand()%255);
+    cv::Vec3b colorval2(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z){
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = ~pixel[j] ^ colorval[j] ^ ~colorval2[j];
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+}
