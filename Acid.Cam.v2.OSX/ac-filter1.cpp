@@ -45,7 +45,15 @@
 
 // Acid Cam namespace
 namespace ac {
-    const std::string version="2.4.7";
+#if defined(__APPLE__)
+    const std::string version="2.4.7 (macOS)";
+#elif defined(__linux__)
+    const std::string version="2.4.7 (Linux)";
+#elif defined(_WIN32)
+    const std::string version="2.4.7 (Windows)";
+#else
+    const std::string version="2.4.7 (Generic)";
+#endif
     // variables
     int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
     bool isNegative = false, noRecord = false, pass2_enabled = false, blendW = false, slide_Show = false, slide_Rand = false, strobe_It = false, switch_Back = false, blur_First = false;
