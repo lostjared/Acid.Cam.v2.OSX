@@ -101,8 +101,8 @@ ac::HLine::HLine() : w(0), h(0) {
 void ac::HLine::createLines(int size, int width, int height) {
     w = width;
     h = height;
-     for(int i = 0; i < size; ++i) {
-         int rand_y = ((rand()%height)/8);
+    for(int i = 0; i < size; ++i) {
+        int rand_y = ((rand()%height)/8);
         LineObject l;
         l.line_size = ac::Rect(0,rand_y,width,3);
         l.on = true;
@@ -119,9 +119,9 @@ void ac::HLine::drawLines(cv::Mat &frame) {
         for(int x = rc.x; x < rc.x+rc.w; ++x) {
             if(count < num) {
                 if(rc.y >= 0 && rc.y < frame.rows && x >= 0 && x < frame.cols) {
-            		cv::Vec3b &pixel = frame.at<cv::Vec3b>(rc.y, x);
-                	pixel[0] = pixel[1] = pixel[2] = 255;
-                	++count;
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(rc.y, x);
+                    pixel[0] = pixel[1] = pixel[2] = 255;
+                    ++count;
                 }
             } else {
                 if(skip_count >= skip) {
@@ -145,7 +145,7 @@ void ac::HLine::drawLines(cv::Mat &frame) {
                 if(lines[l].line_size.y <= 0) {
                     lines[l].line_size.y = rand()%frame.rows;
                     lines[l].dir = ((rand()%2) == 1) ? 1 : 0;
-
+                    
                 }
             }
         }

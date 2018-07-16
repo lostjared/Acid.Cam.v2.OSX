@@ -227,15 +227,15 @@ void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, 
             pixel[2] = static_cast<unsigned char>((pix[0][2] * static_cast<unsigned char>(alpha)) ^ (pix[1][2] * static_cast<unsigned char>(alpha)));
         }
     }
-
+    
 }
 
 bool ac::reset_alpha = false;
 
 void ac::resetAlpha(int &dir, double &alpha) {
     if(reset_alpha == true) {
-    	alpha = 1.0;
-    	dir = 1;
+        alpha = 1.0;
+        dir = 1;
     }
 }
 

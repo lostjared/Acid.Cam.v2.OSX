@@ -146,7 +146,7 @@ void ac::SlideUpDownXor(cv::Mat &frame) {
 
 void ac::SlideUpDownRandom(cv::Mat &frame) {
     DrawFunction f1, f2;
-	static int index[2];
+    static int index[2];
     f1 = getRandomFilter(index[0]);
     f2 = getRandomFilter(index[1]);
     if(ac::draw_strings[index[0]] == "SlideUpDownRandom") return;
@@ -339,7 +339,7 @@ void ac::BlendInAndOut(cv::Mat &frame) {
     }
     static int dir[3] = {1,1,1};
     for(int j = 0; j < 3; ++j) {
-    	if(dir[j] == 1) {
+        if(dir[j] == 1) {
             color[j] += step[j];
             if(color[j] >= 255) {
                 dir[j] = 0;
@@ -601,7 +601,7 @@ void ac::RGBVerticalXor(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-   
+    
     pos[index] += 100;
     
     if(pos[index] > frame.rows) {
@@ -671,17 +671,17 @@ void ac::FadeStrobe(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-            	pixel[j] = (pixel[j]^static_cast<unsigned char>(1+colorval[j]));
+                pixel[j] = (pixel[j]^static_cast<unsigned char>(1+colorval[j]));
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
     }
     for(int j = 0; j < 3; ++j) {
-    	colorval[j] += 20;
-    	if(colorval[j] >= 255) {
-        	colorval[j] = 0;
-    	}
+        colorval[j] += 20;
+        if(colorval[j] >= 255) {
+            colorval[j] = 0;
+        }
     }
 }
 

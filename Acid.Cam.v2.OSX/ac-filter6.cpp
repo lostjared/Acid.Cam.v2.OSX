@@ -504,8 +504,8 @@ void ac::GradientLeftRightInOut(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 if(dir[j] == 0) {
-                	pixel[j] += static_cast<unsigned char>(amt[j]);
-                	amt[j] += inc[j];
+                    pixel[j] += static_cast<unsigned char>(amt[j]);
+                    amt[j] += inc[j];
                 } else {
                     pixel[j] -= static_cast<unsigned char>(amt[j]);
                     amt[j] -= inc[j];
@@ -581,16 +581,16 @@ void ac::Lines(cv::Mat &frame) {
         int r_height = 1+rand()%3;
         bool sw = true;
         for(int q = z; q < frame.rows && q < z+r_height; ++q) {
-        	for(int i = r_start; i < frame.cols && i < r_stop; ++i) {
+            for(int i = r_start; i < frame.cols && i < r_stop; ++i) {
                 if(q >= 0 && q < frame.rows && i >= 0 && i < frame.cols) {
-        	    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(q, i);
-    	        	for(int j = 0; j < 3; ++j) {
-	                    pixel[j] = (sw == true) ? 255 : 0;
-            		}
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(q, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = (sw == true) ? 255 : 0;
+                    }
                     swapColors(frame, q, i);// swap colors
                     if(isNegative) invert(frame, q, i);// if isNegative invert pixel */
                 }
-        	}
+            }
             sw = (sw == true) ? false : true;
         }
         z += r_height-1;
@@ -627,8 +627,8 @@ void ac::WhiteLines(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             if(count < num) {
                 if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
-            		cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            		pixel[0] = pixel[1] = pixel[2] = 255;
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    pixel[0] = pixel[1] = pixel[2] = 255;
                 }
                 ++count;
             } else {
@@ -657,8 +657,8 @@ void ac::ThickWhiteLines(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(count < num) {
                     if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
-                    	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    	pixel[0] = pixel[1] = pixel[2] = 255;
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        pixel[0] = pixel[1] = pixel[2] = 255;
                     }
                     ++count;
                 } else {
@@ -700,7 +700,7 @@ void ac::TanAlphaGrid(cv::Mat &frame) {
     }
     static int dir[3] = {1,1,1};
     for(int j = 0; j < 3; ++j)
-    	procPos(dir[j], alpha[j], alpha_max);
+        procPos(dir[j], alpha[j], alpha_max);
 }
 
 void ac::MedianBlendAnimation(cv::Mat &frame) {
@@ -752,7 +752,7 @@ void ac::FibFlash(cv::Mat &frame) {
     }
     static int idir = 1;
     if(idir == 1) {
-    	++index;
+        ++index;
         if(index > 12) idir = 0;
     } else {
         --index;
@@ -820,17 +820,17 @@ void ac::Curtain(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     for(int z = 0; z < frame.rows; ++z) {
         if(direction == 1) {
-        	for(int i = 0; i < start; ++i) {
+            for(int i = 0; i < start; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
                 }
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
-	        }
+            }
             
         } else {
-
+            
             for(int i = frame.cols-1; i > start; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
@@ -923,7 +923,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
-                }
+            }
         }
     }
     if(direction == 1) {
@@ -989,7 +989,7 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
 }
 
 void ac::inOrderBySecond(cv::Mat &frame) {
-	static int index = 0;
+    static int index = 0;
     if(index < ac::draw_max-8) {
         static int frame_count = 0;
         if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "inOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") ac::draw_func[index](frame);
@@ -1092,18 +1092,18 @@ void ac::SlideFilter(cv::Mat &frame) {
     static int direction_1 = 1, direction_2 = 0;
     static double alpha = 1.0, alpha_max = 3.0;
     for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < start_1; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = pixel[j]*(1+static_cast<unsigned char>(alpha));
-                }
+        for(int i = 0; i < start_1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]*(1+static_cast<unsigned char>(alpha));
             }
-            for(int i =(frame.cols-1); i > start_2; --i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j)
-                    pixel[j] = pixel[j]*(1+static_cast<unsigned char>(alpha));
-                
-            }
+        }
+        for(int i =(frame.cols-1); i > start_2; --i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]*(1+static_cast<unsigned char>(alpha));
+            
+        }
     }
     if(direction_1 == 1) {
         start_1 += speed;

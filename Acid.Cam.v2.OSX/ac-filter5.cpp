@@ -410,21 +410,21 @@ void ac::RandomAlphaBlend(cv::Mat &frame) {
 
 void ac::RandomTwoFilterAlphaBlend(cv::Mat &frame) {
     /*
-    static double alpha = 1.0, alpha_max = 5.0;
-    static MatrixCollection<8> collection;
-    cv::Mat one, two, output;
-    one = frame.clone();
-    two = frame.clone();
-    int index = 0;
-    DrawFunction randFunc1 = getRandomFilter(index);
-    DrawFunction randFunc2 = getRandomFilter(index);
-    randFunc1(one);
-    randFunc2(two);
-    AlphaBlend(one, two, output, alpha);
-    collection.shiftFrames(output);
-    Smooth(frame, &collection);
-    static int direction = 1;
-    procPos(direction, alpha, alpha_max);
+     static double alpha = 1.0, alpha_max = 5.0;
+     static MatrixCollection<8> collection;
+     cv::Mat one, two, output;
+     one = frame.clone();
+     two = frame.clone();
+     int index = 0;
+     DrawFunction randFunc1 = getRandomFilter(index);
+     DrawFunction randFunc2 = getRandomFilter(index);
+     randFunc1(one);
+     randFunc2(two);
+     AlphaBlend(one, two, output, alpha);
+     collection.shiftFrames(output);
+     Smooth(frame, &collection);
+     static int direction = 1;
+     procPos(direction, alpha, alpha_max);
      */
 }
 

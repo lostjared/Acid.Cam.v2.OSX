@@ -527,7 +527,7 @@ void ac::NewOne(cv::Mat &frame) {
     }
     alpha += trans_var;// add translation variable
     resetAlpha(alpha);
-
+    
 }
 // draw a fractal
 void ac::blendFractal(cv::Mat &frame) {
@@ -983,5 +983,5 @@ void ac::pixelScale(cv::Mat &frame) {
         }
     }
     resetAlpha(direction, pos);
-
+    
 }

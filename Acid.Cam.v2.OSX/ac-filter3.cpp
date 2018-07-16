@@ -1624,7 +1624,7 @@ void ac::PrevFrameBlend(cv::Mat &frame) {
         if(pos <= 1.0) direction = 1;
     }
     resetAlpha(direction, pos);
-
+    
 }
 
 class WavePoints {
