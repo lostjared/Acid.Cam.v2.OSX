@@ -74,3 +74,25 @@ void ac::MoveUpLeft(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::RandomStrobe(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 7.0;
+    static std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend", "FibFlash", "ScaleFlash", "FadeStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "RandomXorOpposite", "StrobeTransform"};
+
+    cv::Mat old_frame = frame.clone();
+    DrawFilter(svStrobe[rand()%svStrobe.size()], old_frame);
+    cv::Mat copy = frame.clone();
+    AlphaBlend(old_frame, copy, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 15, 0.1);
+}
+
+void ac::RandomBlur(cv::Mat &frame) {
+    std::vector<std::string> svBlur { "GaussianBlur", "Median Blur", "Blur Distortion", "ColorTrails","TrailsFilter", "TrailsFilterIntense", "TrailsFilterSelfAlpha", "TrailsFilterXor","BlurSim", "TrailsInter", "TrailsBlend", "TrailsNegate", "AcidTrails", "HorizontalTrailsInter" ,"Trails", "BlendTrails", "SmoothTrails", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "XorTrails", "RainbowTrails", "NegativeTrails", "IntenseTrails", "GaussianBlend", "RandomAmountMedianBlur", "MedianBlendAnimation", "AlphaAcidTrails"};
+    static double alpha = 1.0, alpha_max = 7.0;
+    cv::Mat old_frame = frame.clone();
+    DrawFilter(svBlur[rand()%svBlur.size()], old_frame);
+    cv::Mat copy = frame.clone();
+    AlphaBlend(old_frame, copy, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 15, 0.1);
+}

@@ -489,6 +489,8 @@ namespace ac {
     void StrobeTransform(cv::Mat &frame);
     void InitBlend(cv::Mat &frame);
     void MoveUpLeft(cv::Mat &frame);
+    void RandomStrobe(cv::Mat &frame);
+    void RandomBlur(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
