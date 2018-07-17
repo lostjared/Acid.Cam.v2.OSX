@@ -43,7 +43,34 @@
 
 #include "ac.h"
 
-void ac::TestFilter10z(cv::Mat &frame) {
+void ac::MoveUpLeft(cv::Mat &frame) {
     
+    static double alpha = 1.0, alpha_max = 7.0;
+    
+    static cv::Mat old_frame = frame.clone();
+    static cv::Size old_size = old_frame.size();
+    
+    if(reset_alpha == true || frames_released == true || old_size != frame.size()) {
+        old_frame = frame.clone();
+        old_size = old_frame.size();
+    }
+    for(int z = 0; z < old_frame.rows-1; ++z) {
+        for(int i = 0; i < old_frame.cols-1; ++i) {
+            cv::Vec3b &pixel = old_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = old_frame.at<cv::Vec3b>(z+1, i+1);
+            pixel = pix;
+        }
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = old_frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((pixel[j]^pix[j])*alpha);
+        }
+    }
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
 
