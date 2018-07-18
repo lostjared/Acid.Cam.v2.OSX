@@ -139,3 +139,25 @@ void ac::OrStrobe(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     prev_frame = copy;
 }
+
+void ac::LagBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static cv::Size c_size = frame.size();
+    // lazy init
+    static bool init = false;
+    if(c_size != frame.size() || init == false) {
+        collection.shiftFrames(frame);
+        init = true;
+        c_size = frame.size();
+    }
+    static int frame_count = 0;
+    ++frame_count;
+    if(frame_count > (ac::fps/8)) {
+    	collection.shiftFrames(frame);
+        frame_count = 0;
+    }
+    for(int i = 0; i < collection.size(); ++i) {
+        DarkenFilter(frame);
+        Add(frame, collection.frames[i]);
+    }
+}
