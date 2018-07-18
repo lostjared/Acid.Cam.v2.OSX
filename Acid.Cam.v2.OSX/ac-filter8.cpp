@@ -131,7 +131,7 @@ void ac::OrStrobe(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = prev_frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = (pixel[j]|randval[j]|pix[j])*alpha;
+                pixel[j] = static_cast<unsigned char>((pixel[j]|randval[j]|pix[j])*alpha);
             }
         }
     }
