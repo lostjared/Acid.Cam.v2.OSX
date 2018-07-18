@@ -491,6 +491,9 @@ namespace ac {
     void MoveUpLeft(cv::Mat &frame);
     void RandomStrobe(cv::Mat &frame);
     void RandomBlur(cv::Mat &frame);
+    void Stuck(cv::Mat &frame);
+    void StuckStrobe(cv::Mat &frame);
+    void OrStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

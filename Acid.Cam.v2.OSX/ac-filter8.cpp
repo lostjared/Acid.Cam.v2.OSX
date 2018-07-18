@@ -96,3 +96,46 @@ void ac::RandomBlur(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 15, 0.1);
 }
+
+
+void ac::StuckStrobe(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 7.0;
+    static cv::Mat old_frame = frame.clone();
+    if(reset_alpha == true || frames_released == true || old_frame.size() != frame.size()) {
+        old_frame = frame.clone();
+    }
+    cv::Mat copy = frame.clone();
+    AlphaBlend(old_frame, copy, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 15, 0.1);
+}
+
+void ac::Stuck(cv::Mat &frame) {
+    static cv::Mat old_frame = frame.clone();
+    if(reset_alpha == true || frames_released == true || old_frame.size() != frame.size()) {
+        old_frame = frame.clone();
+    }
+    Add(frame, old_frame);
+}
+
+void ac::OrStrobe(cv::Mat &frame) {
+    cv::Mat copy = frame.clone();
+    static cv::Mat prev_frame = frame.clone();
+    if(prev_frame.size() != frame.size()) {
+        prev_frame = frame.clone();
+    }
+    cv::Vec3b randval(rand()%255, rand()%255, rand()%255);
+    static double alpha = 1.0, alpha_max = 7.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = prev_frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]|randval[j]|pix[j])*alpha;
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    prev_frame = copy;
+}
