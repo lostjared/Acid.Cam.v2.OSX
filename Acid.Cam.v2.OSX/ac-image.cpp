@@ -507,7 +507,40 @@ void ac::BlendImageXor(cv::Mat &frame) {
     }
 }
 
-
+void ac::BlendImageAround_Median(cv::Mat &frame) {
+    if(blend_set == true) {
+        static double alpha = 1.0, alpha_max = 7.0;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel_data[4];
+                pixel_data[0] = pixel;
+                pixel_data[1] = frame.at<cv::Vec3b>(frame.rows-z-1, i);
+                pixel_data[2] = frame.at<cv::Vec3b>(z, frame.cols-i-1);
+                pixel_data[3] = frame.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Scalar val;
+                for(int j = 0; j < 4; ++j) {
+                    for(int q = 0; q < 3; ++q)
+                        val[q] += pixel_data[j][q];
+                }
+                val[0] /= 4;
+                val[1] /= 4;
+                val[2] /= 4;
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j] ^ add_i[j] ^ static_cast<unsigned char>(val[j]);
+                }
+            }
+        }
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 8, 0.01);
+        DarkenFilter(frame);
+        DarkenFilter(frame);
+        MedianBlend(frame);
+    }
+}
 
 
 
