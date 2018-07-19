@@ -497,6 +497,7 @@ namespace ac {
     void LagBlend(cv::Mat &frame);
     void SubFilter(cv::Mat &frame);
     void AddFilter(cv::Mat &frame);
+    void BlendImageXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
