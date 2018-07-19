@@ -177,3 +177,12 @@ void ac::SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::AddFilter(cv::Mat &frame) {
+    static MatrixCollection<12> collection;
+    collection.shiftFrames(frame);
+    for(int j = 0; j < collection.size(); ++j) {
+        Add(frame, collection.frames[j]);
+    }
+    AddInvert(frame);
+}
