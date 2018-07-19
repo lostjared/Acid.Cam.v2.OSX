@@ -72,6 +72,7 @@ void ac::MoveUpLeft(cv::Mat &frame) {
     
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::RandomStrobe(cv::Mat &frame) {
@@ -84,6 +85,7 @@ void ac::RandomStrobe(cv::Mat &frame) {
     AlphaBlend(old_frame, copy, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 15, 0.1);
+    AddInvert(frame);
 }
 
 void ac::RandomBlur(cv::Mat &frame) {
@@ -95,6 +97,7 @@ void ac::RandomBlur(cv::Mat &frame) {
     AlphaBlend(old_frame, copy, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 15, 0.1);
+    AddInvert(frame);
 }
 
 
@@ -108,6 +111,7 @@ void ac::StuckStrobe(cv::Mat &frame) {
     AlphaBlend(old_frame, copy, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 15, 0.1);
+    AddInvert(frame);
 }
 
 void ac::Stuck(cv::Mat &frame) {
@@ -116,6 +120,7 @@ void ac::Stuck(cv::Mat &frame) {
         old_frame = frame.clone();
     }
     Add(frame, old_frame);
+    AddInvert(frame);
 }
 
 void ac::OrStrobe(cv::Mat &frame) {
@@ -138,6 +143,7 @@ void ac::OrStrobe(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
     prev_frame = copy;
+    AddInvert(frame);
 }
 
 void ac::LagBlend(cv::Mat &frame) {
@@ -160,4 +166,14 @@ void ac::LagBlend(cv::Mat &frame) {
         DarkenFilter(frame);
         Add(frame, collection.frames[i]);
     }
+    AddInvert(frame);
+}
+
+void ac::SubFilter(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int j = 0; j < collection.size(); ++j) {
+        Sub(frame, collection.frames[j]);
+    }
+    AddInvert(frame);
 }

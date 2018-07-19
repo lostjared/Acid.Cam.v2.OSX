@@ -495,6 +495,7 @@ namespace ac {
     void StuckStrobe(cv::Mat &frame);
     void OrStrobe(cv::Mat &frame);
     void LagBlend(cv::Mat &frame);
+    void SubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
