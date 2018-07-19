@@ -542,6 +542,55 @@ void ac::BlendImageAround_Median(cv::Mat &frame) {
     }
 }
 
+void ac::MedianGaussianImageBlend(cv::Mat &frame) {
+    
+    if(blend_set == true) {
+        static double alpha = 1.0, alpha_max = 4.0, speed = 0.1;
+        static MatrixCollection<8> collection;
+        collection.shiftFrames(frame);
+        
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b orig_pix = pixel;
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                for(int j = 0; j < collection.size(); ++j) {
+                    cv::Vec3b color_v = collection.frames[j].at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        pixel[q] ^= color_v[q];
+                    }
+                }
+                for(int q = 0; q < 3; ++q) {
+                    pixel[q] ^= static_cast<unsigned char>((orig_pix[q] * alpha) + (add_i[q] * alpha));
+                }
+            }
+        }
+        static int dir = 1;
+        if(dir == 1) {
+            alpha += speed;
+            if(alpha > alpha_max) {
+                dir = 0;
+                speed += 0.1;
+            }
+        } else {
+            alpha -= speed;
+            if(alpha <= 0.1) {
+                dir = 1;
+                speed += 0.1;
+            }
+        }
+        if(speed > 4) speed = 0.1;
+        
+        DarkenFilter(frame);
+        DarkenFilter(frame);
+        MedianBlend(frame);
+        GaussianBlur(frame);
+        GaussianBlur(frame);
+    }
+}
+
 
 
 
