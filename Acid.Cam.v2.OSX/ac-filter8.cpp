@@ -186,3 +186,25 @@ void ac::AddFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+// Use in a custom with Darken Filter twice
+void ac::RGBTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int offset = 0;
+            for(int j = 0; j < collection.size(); ++j) {
+                pixel[offset] = static_cast<unsigned char>(pixel[offset]+(collection.frames[j].at<cv::Vec3b>(z, i)[offset]));
+                ++offset;
+                if(offset > 2)
+                    offset = 0;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    
+    
+}
