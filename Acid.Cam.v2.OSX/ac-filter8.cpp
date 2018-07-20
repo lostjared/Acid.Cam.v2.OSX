@@ -196,7 +196,9 @@ void ac::RGBTrails(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             int offset = 0;
             for(int j = 0; j < collection.size(); ++j) {
-                pixel[offset] = static_cast<unsigned char>(pixel[offset]+(collection.frames[j].at<cv::Vec3b>(z, i)[offset]));
+                cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
+                pixel[offset] = static_cast<unsigned char>(pixel[offset]+(pix[offset]));
+                
                 ++offset;
                 if(offset > 2)
                     offset = 0;
@@ -205,6 +207,10 @@ void ac::RGBTrails(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    
-    
+}
+
+void ac::RGBTrailsDark(cv::Mat &frame) {
+    DarkenFilter(frame);
+    DarkenFilter(frame);
+    RGBTrails(frame);
 }
