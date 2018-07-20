@@ -542,7 +542,7 @@ void ac::BlendImageAround_Median(cv::Mat &frame) {
     }
 }
 
-void ac::MedianGaussianImageBlend(cv::Mat &frame) {
+void ac::ImageBlendTransform(cv::Mat &frame) {
     
     if(blend_set == true) {
         static double alpha = 1.0, alpha_max = 4.0, speed = 0.1;

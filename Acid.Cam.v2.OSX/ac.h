@@ -499,7 +499,7 @@ namespace ac {
     void AddFilter(cv::Mat &frame);
     void BlendImageXor(cv::Mat &frame);
     void BlendImageAround_Median(cv::Mat &frame);
-    void MedianGaussianImageBlend(cv::Mat &frame);
+    void ImageBlendTransform(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
