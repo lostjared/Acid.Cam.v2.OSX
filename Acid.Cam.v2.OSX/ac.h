@@ -504,7 +504,7 @@ namespace ac {
     void RGBTrailsDark(cv::Mat &frame);
     void RGBTrailsAlpha(cv::Mat &frame);
     void RGBTrailsNegativeAlpha(cv::Mat &frame);
-    void MovementRGB(cv::Mat &frame);
+    void MovementRGBTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -267,9 +267,7 @@ void ac::RGBTrailsNegativeAlpha(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.5, 0.01);
 }
 
-void ac::MovementRGB(cv::Mat &frame) {
-    static MatrixCollection<8> collection;
-    collection.shiftFrames(frame);
+void ac::MovementRGBTrails(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
     SmoothRGB(frame, &collection);
-    
 }
