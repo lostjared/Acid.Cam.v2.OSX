@@ -214,3 +214,55 @@ void ac::RGBTrailsDark(cv::Mat &frame) {
     DarkenFilter(frame);
     RGBTrails(frame);
 }
+
+void ac::RGBTrailsAlpha(cv::Mat &frame) {
+    DarkenFilter(frame);
+    DarkenFilter(frame);
+    static MatrixCollection<10> collection;
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int offset = 0;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
+                pixel[offset] = static_cast<unsigned char>((pixel[offset]+pix[offset])*alpha);
+                
+                ++offset;
+                if(offset > 2)
+                    offset = 0;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.5, 0.01);
+}
+
+void ac::RGBTrailsNegativeAlpha(cv::Mat &frame) {
+    DarkenFilter(frame);
+    DarkenFilter(frame);
+    static MatrixCollection<10> collection;
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int offset = 0;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
+                pixel[offset] = static_cast<unsigned char>((pixel[offset]+~pix[offset])*alpha);
+                
+                ++offset;
+                if(offset > 2)
+                    offset = 0;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.5, 0.01);
+}
