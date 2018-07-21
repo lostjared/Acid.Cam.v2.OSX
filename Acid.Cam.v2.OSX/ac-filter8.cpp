@@ -271,3 +271,8 @@ void ac::MovementRGBTrails(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     SmoothRGB(frame, &collection);
 }
+
+void ac::RGBTrailsXor(cv::Mat &frame) {
+    RGBTrails(frame);
+    RandomXorOpposite(frame);
+}

@@ -505,6 +505,7 @@ namespace ac {
     void RGBTrailsAlpha(cv::Mat &frame);
     void RGBTrailsNegativeAlpha(cv::Mat &frame);
     void MovementRGBTrails(cv::Mat &frame);
+    void RGBTrailsXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -633,7 +634,6 @@ namespace ac {
         if(index > 2)
             index = 0;
     }
-    
     // point class
     class Point {
     public:
