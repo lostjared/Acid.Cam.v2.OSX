@@ -348,3 +348,13 @@ void ac::setSubFilter(int value) {
     subfilter = value;
 }
 
+void ac::DarkenImage(cv::Mat &frame, unsigned int size) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] /= size;
+            }
+        }
+    }
+}

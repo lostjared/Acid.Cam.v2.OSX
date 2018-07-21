@@ -526,6 +526,7 @@ namespace ac {
     void setSaturation(cv::Mat &frame, int saturation);
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
+    void DarkenImage(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
