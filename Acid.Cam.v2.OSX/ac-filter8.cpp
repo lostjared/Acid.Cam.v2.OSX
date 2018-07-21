@@ -216,9 +216,9 @@ void ac::RGBTrailsDark(cv::Mat &frame) {
 }
 
 void ac::RGBTrailsAlpha(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
     DarkenFilter(frame);
     DarkenFilter(frame);
-    static MatrixCollection<10> collection;
     collection.shiftFrames(frame);
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
@@ -242,9 +242,9 @@ void ac::RGBTrailsAlpha(cv::Mat &frame) {
 }
 
 void ac::RGBTrailsNegativeAlpha(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
     DarkenFilter(frame);
     DarkenFilter(frame);
-    static MatrixCollection<10> collection;
     collection.shiftFrames(frame);
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
