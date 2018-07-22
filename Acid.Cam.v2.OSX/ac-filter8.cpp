@@ -276,3 +276,37 @@ void ac::RGBTrailsXor(cv::Mat &frame) {
     RGBTrails(frame);
     RandomXorOpposite(frame);
 }
+
+void ac::DifferenceStrobe(cv::Mat &frame) {
+    static cv::Mat frame_copy = frame.clone();
+    cv::Mat orig_frame = frame.clone();
+    if(frame_copy.size() != frame.size()) {
+        frame_copy = frame.clone();
+    }
+    static int offset = 0;
+    static double alpha = 1.0, alpha_max = 7.0;
+    int rand_value = rand()%255;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                }
+            } else {
+                pixel[offset] = rand_value;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    frame_copy = orig_frame.clone();
+}
