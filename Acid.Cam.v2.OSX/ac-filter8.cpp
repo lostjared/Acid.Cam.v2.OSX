@@ -78,7 +78,7 @@ void ac::MoveUpLeft(cv::Mat &frame) {
 void ac::RandomStrobe(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     static std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend", "FibFlash", "ScaleFlash", "FadeStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "RandomXorOpposite", "StrobeTransform"};
-
+    
     cv::Mat old_frame = frame.clone();
     DrawFilter(svStrobe[rand()%svStrobe.size()], old_frame);
     cv::Mat copy = frame.clone();
@@ -159,7 +159,7 @@ void ac::LagBlend(cv::Mat &frame) {
     static int frame_count = 0;
     ++frame_count;
     if(frame_count > (ac::fps/8)) {
-    	collection.shiftFrames(frame);
+        collection.shiftFrames(frame);
         frame_count = 0;
     }
     for(int i = 0; i < collection.size(); ++i) {
@@ -306,6 +306,43 @@ void ac::DifferenceStrobe(cv::Mat &frame) {
     if(offset > 2)
         offset = 0;
     
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    frame_copy = orig_frame.clone();
+}
+
+void ac::BlackAndWhiteDifferenceStrobe(cv::Mat &frame) {
+    static cv::Mat frame_copy = frame.clone();
+    cv::Mat orig_frame = frame.clone();
+    if(frame_copy.size() != frame.size()) {
+        frame_copy = frame.clone();
+    }
+    static int offset = 0;
+    static double alpha = 1.0, alpha_max = 7.0;
+    static int counter = 0;
+    static cv::Vec3b white(255, 255, 255), black(0, 0, 0);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                }
+            } else {
+                if(counter == 0)
+                    pixel = black;
+                else
+                    pixel = white;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    counter = (counter == 0) ? 1 : 0;
+    ++offset;
+    if(offset > 2)
+        offset = 0;
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
     frame_copy = orig_frame.clone();
