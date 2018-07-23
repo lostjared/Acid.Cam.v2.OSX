@@ -382,3 +382,38 @@ void ac::DifferenceXor(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     frame_copy = orig_frame.clone();
 }
+
+void ac::DifferenceRand(cv::Mat &frame) {
+    static cv::Mat frame_copy = frame.clone();
+    cv::Mat orig_frame = frame.clone();
+    if(frame_copy.size() != frame.size()) {
+        frame_copy = frame.clone();
+    }
+    static int offset = 0;
+    static double alpha = 1.0, alpha_max = 7.0;
+    cv::Vec3b pix_color(rand()%255, rand()%255, rand()%255);
+    static cv::Vec3b white(255, 255, 255), black(0, 0, 0);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pix_color[j];
+                }
+            } else {
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                }
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    frame_copy = orig_frame.clone();
+}
