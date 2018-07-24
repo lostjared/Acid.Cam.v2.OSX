@@ -511,6 +511,7 @@ namespace ac {
     void DifferenceXor(cv::Mat &frame);
     void DifferenceRand(cv::Mat &frame);
     void DifferenceBrightStrobe(cv::Mat &frame);
+    void PsycheTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

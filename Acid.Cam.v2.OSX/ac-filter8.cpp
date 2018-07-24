@@ -462,3 +462,26 @@ void ac::DifferenceBrightStrobe(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     frame_copy = orig_frame.clone();
 }
+
+void ac::PsycheTrails(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    DarkenImage(frame, 8);
+    collection.shiftFrames(frame);
+
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int offset = 0;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
+                pixel[offset] = static_cast<unsigned char>(pixel[offset]+(pix[offset]));
+                ++offset;
+                if(offset > 2)
+                    offset = 0;
+            }
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    DifferenceXor(frame);
+}
