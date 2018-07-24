@@ -417,7 +417,7 @@ void ac::DifferenceRand(cv::Mat &frame) {
     frame_copy = orig_frame.clone();
 }
 
-void ac::DifferenceDark(cv::Mat &frame) {
+void ac::DifferenceBrightStrobe(cv::Mat &frame) {
     static cv::Mat frame_copy = frame.clone();
     cv::Mat orig_frame = frame.clone();
     if(frame_copy.size() != frame.size()) {
@@ -425,18 +425,25 @@ void ac::DifferenceDark(cv::Mat &frame) {
     }
     static int offset = 0;
     static double alpha = 1.0, alpha_max = 7.0;
-    cv::Vec3b pix_color(rand()%255, rand()%255, rand()%255);
+    static int sw = 0;
+    cv::Vec3b rand_pix(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>((pix_color[j]+pixel[j]) * alpha);
+                    if(sw == 0)
+                        pixel[j] = ~pixel[j];
+                    else
+                        pixel[j] ^= static_cast<unsigned char>((pixel[j]^rand_pix[j])*alpha);
                 }
             } else {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= pix_color[j];
+                    if(sw == 1)
+                        pixel[j] = ~pixel[j];
+                    else
+                        pixel[j] ^= static_cast<unsigned char>((pixel[j]^rand_pix[j])*alpha);
                 }
             }
             swapColors(frame, z, i);
@@ -447,8 +454,11 @@ void ac::DifferenceDark(cv::Mat &frame) {
     if(offset > 2)
         offset = 0;
     static int dir = 1;
+
+    ++sw;
+    if(sw > 1)
+        sw = 0;
     
-    RGBTrailsDark(frame);
     procPos(dir, alpha, alpha_max);
     frame_copy = orig_frame.clone();
 }

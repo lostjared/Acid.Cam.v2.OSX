@@ -510,7 +510,7 @@ namespace ac {
     void BlackAndWhiteDifferenceStrobe(cv::Mat &frame);
     void DifferenceXor(cv::Mat &frame);
     void DifferenceRand(cv::Mat &frame);
-    void DifferenceDark(cv::Mat &frame);
+    void DifferenceBrightStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
