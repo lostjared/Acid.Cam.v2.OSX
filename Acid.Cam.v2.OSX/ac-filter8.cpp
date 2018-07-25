@@ -467,7 +467,6 @@ void ac::PsycheTrails(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     DarkenImage(frame, 8);
     collection.shiftFrames(frame);
-
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -520,4 +519,19 @@ void ac::EightSquare(cv::Mat &frame) {
         }
     }
     AddInvert(frame);
+}
+
+void ac::DiagonalSquare(cv::Mat &frame) {
+    int pos_x = 0, pos_y = 0;
+    int col_w = frame.cols/4;
+    int col_h = frame.rows/4;
+    cv::Mat copy_frame = frame.clone();
+    for(int i = 0; i < 4; ++i) {
+    	cv::Mat out_frame;
+        cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
+        if(pos_x >= 0 && pos_x <= frame.cols-col_w && pos_y >= 0 && pos_y <= frame.rows-col_h)
+        	copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
+        pos_x += col_w;
+        pos_y += col_h;
+    }
 }
