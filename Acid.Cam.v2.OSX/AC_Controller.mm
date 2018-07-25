@@ -1333,20 +1333,19 @@ void SearchForString(NSString *s) {
 
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
-    jumptoFrame(val);
-    std::ostringstream stream;
-    stream << "Jumped to frame: " << val << "\n";
-    flushToLog(stream);
+    if(val < [frame_slider maxValue]-1) {
+    	jumptoFrame(val);
+    	std::ostringstream stream;
+    	stream << "Jumped to frame: " << val << "\n";
+    	flushToLog(stream);
+    }
 }
 
 - (IBAction) setGoto: (id) sender {
     NSInteger time_val = [frame_slider integerValue];
     double seconds = time_val/ac::fps;
-    double minutes = seconds/60;
-    unsigned int min = (unsigned int)minutes;
-    unsigned int sec = (min%60);
-    if(seconds < 60) sec = seconds;
-    NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %d Minutes %d Seconds @ Frame #%d", min, sec, (int)time_val];
+    unsigned int sec = static_cast<unsigned int>(seconds);
+    NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %d Seconds @ Frame #%d", sec, (int)time_val];
     [goto_fr setStringValue: str_val];
 }
 
@@ -1676,7 +1675,7 @@ void custom_filter(cv::Mat &frame) {
 
 void setSliders(long frame_count) {
     [frame_slider setMinValue: 0];
-    [frame_slider setMaxValue: frame_count];
+    [frame_slider setMaxValue: frame_count-1];
 }
 
 void plugin_callback(cv::Mat &frame) {

@@ -787,13 +787,13 @@ namespace ac {
     
     bool operator<(const Point &p1, const Point &p2);
     
-    // slow
+    // slow copy functions
     void copyMat(const cv::Mat &src,int src_x, int src_y, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, int x, int y, cv::Mat &target, int rx, int ry, int rw, int rh);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
-    
+    // Transform Template
     template<typename Func>
     void Transform(const cv::Mat &source, cv::Mat &output, Func func) {
         if(output.empty() || output.size() != source.size())
