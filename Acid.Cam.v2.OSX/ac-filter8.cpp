@@ -485,3 +485,21 @@ void ac::PsycheTrails(cv::Mat &frame) {
     }
     DifferenceXor(frame);
 }
+
+void ac::FourSquare(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    int pos_x = 0;
+    int pos_y = 0;
+    for(int i = 0; i < collection.size(); ++i) {
+        cv::Mat out_frame;
+        cv::resize(collection.frames[i], out_frame, cv::Size(frame.cols/2,frame.rows/2));
+        copyMat(out_frame, 0,0, frame, pos_x, pos_y, frame.cols/2, frame.rows/2);
+        pos_x += frame.cols/2;
+        if(pos_x > frame.cols-(frame.cols/2)) {
+            pos_x = 0;
+            pos_y += frame.rows/2;
+        }
+    }
+    AddInvert(frame);
+}

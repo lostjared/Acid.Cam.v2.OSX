@@ -512,6 +512,7 @@ namespace ac {
     void DifferenceRand(cv::Mat &frame);
     void DifferenceBrightStrobe(cv::Mat &frame);
     void PsycheTrails(cv::Mat &frame);
+    void FourSquare(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
