@@ -217,8 +217,8 @@ void ac::CycleShiftRGB(cv::Mat &frame) {
         for(int j = 0; j < 3; ++j) {
             for(int i = 0; i < offset[j]; ++i) {
                 if(i >= 0 && i < frame.cols) {
-                    if(offset[j]-i >= 0) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                    if(offset[j]-i-1 >= 0 && offset[j]-i-1 < frame.cols) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i-1);
                         cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
                         pixel[j] = pix_copy[j];
                         swapColors(frame, z, i);// swap colors
@@ -274,8 +274,8 @@ void ac::CycleShiftRandomRGB(cv::Mat &frame) {
         for(int j = 0; j < 3; ++j) {
             for(int i = 0; i < offset[j]; ++i) {
                 if(i >= 0 && i < frame.cols) {
-                    if(offset[j]-i >= 0) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                    if(offset[j]-i-1 >= 0 && offset[j]-i-1 < frame.cols) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i-1);
                         cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
                         pixel[j] = pix_copy[j];
                     }
@@ -330,8 +330,8 @@ void ac::CycleShiftRandomRGB_XorBlend(cv::Mat &frame) {
         for(int j = 0; j < 3; ++j) {
             for(int i = 0; i < offset[j]; ++i) {
                 if(i >= 0 && i < frame.cols) {
-                    if(offset[j]-i >= 0) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                    if(offset[j]-i-1 >= 0 && offset[j]-i-1 < frame.cols) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i-1);
                         cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
                         pixel[j] ^= pix_copy[j];
                         swapColors(frame, z, i);// swap colors
@@ -390,8 +390,8 @@ void ac::CycleShiftRandomAlphaBlend(cv::Mat &frame) {
         for(int j = 0; j < 3; ++j) {
             for(int i = 0; i < offset[j]; ++i) {
                 if(i >= 0 && i < frame.cols) {
-                    if(offset[j]-i >= 0) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i);
+                    if(offset[j]-i-1 >= 0 && offset[j]-i-1 < frame.cols) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset[j]-i-1);
                         cv::Vec3b pix_copy = frame_copy.at<cv::Vec3b>(z, i);
                         pixel[j] = static_cast<unsigned char>((pixel[j] * alpha[j]) + (pix_copy[j] * alpha[j]));
                         swapColors(frame, z, i);// swap colors
