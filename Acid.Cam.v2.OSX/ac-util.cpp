@@ -281,12 +281,12 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
 void ac::copyMat(const cv::Mat &src,int src_x, int src_y ,cv::Mat &target, const ac::Rect &rc) {
     for(int i = 0; i < rc.w; ++i) {
         for(int z = 0; z < rc.h; ++z) {
-            //if(src_y+z < src.rows && src_x+i < src.cols && y+z < target.rows && x+i < target.cols) {
-            ASSERT(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols);
-            cv::Vec3b &pixel = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
-            cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
-            pixel = src_pixel;
-            //}
+            if(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols) {
+                ASSERT(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols);
+                cv::Vec3b &pixel = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
+                cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
+                pixel = src_pixel;
+            }
         }
     }
 }

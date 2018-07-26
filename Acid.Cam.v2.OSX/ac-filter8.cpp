@@ -523,10 +523,10 @@ void ac::EightSquare(cv::Mat &frame) {
 
 void ac::DiagonalSquare(cv::Mat &frame) {
     int pos_x = 0, pos_y = 0;
-    int col_w = frame.cols/4;
-    int col_h = frame.rows/4;
+    int col_w = (frame.cols/4)-1;
+    int col_h = (frame.rows/4)-1;
     cv::Mat copy_frame = frame.clone();
-    for(int i = 0; i < 4; ++i) {
+    for(int i = 0; i < 3; ++i) {
     	cv::Mat out_frame;
         cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
         if(pos_x >= 0 && pos_x <= frame.cols-col_w && pos_y >= 0 && pos_y <= frame.rows-col_h)
@@ -534,4 +534,26 @@ void ac::DiagonalSquare(cv::Mat &frame) {
         pos_x += col_w;
         pos_y += col_h;
     }
+    AddInvert(frame);
+}
+
+void ac::DiagonalSquareRandom(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    int pos_x = 0, pos_y = 0;
+    int col_w = (frame.cols/4)-1;
+    int col_h = (frame.rows/4)-1;
+    Negate(frame);
+    for(int i = 0; i < 4; ++i) {
+        cv::Mat &copy_frame = collection.frames[i];
+        cv::Mat out_frame;
+        cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
+        int index = 0;
+        DrawFunction func = getRandomFilter(index);
+        func(out_frame);
+        copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
+        pos_x += col_w;
+        pos_y += col_h;
+    }
+    AddInvert(frame);
 }
