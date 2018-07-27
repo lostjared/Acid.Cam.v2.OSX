@@ -620,3 +620,23 @@ void ac::DarkTrails(cv::Mat &frame) {
     RGBTrailsDark(frame);
     Bitwise_XOR(frame);
 }
+
+void ac::SoftFeedback(cv::Mat &frame) {
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    
+    int add_w = source.w/8;
+    int add_h = source.h/8;
+    
+    while(source.x < frame.cols-1 && source.w > 100) {
+        if(source.w > 100 && source.h > 100) {
+        	cv::Mat out_frame;
+        	cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+        	copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+        }
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+    }
+}
