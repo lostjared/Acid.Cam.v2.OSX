@@ -246,7 +246,7 @@ void ac::RGBTrailsNegativeAlpha(cv::Mat &frame) {
     DarkenFilter(frame);
     DarkenFilter(frame);
     collection.shiftFrames(frame);
-    static double alpha = 1.0, alpha_max = 4.0;
+    static double alpha = 1.0, alpha_max = 8.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -264,7 +264,7 @@ void ac::RGBTrailsNegativeAlpha(cv::Mat &frame) {
         }
     }
     static int dir = 1;
-    procPos(dir, alpha, alpha_max, 4.5, 0.01);
+    procPos(dir, alpha, alpha_max, 9.0, 0.005);
 }
 
 void ac::MovementRGBTrails(cv::Mat &frame) {
