@@ -557,3 +557,15 @@ void ac::DiagonalSquareRandom(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareStretchDown(cv::Mat &frame) {
+    cv::Mat copy_frame = frame.clone();
+    static int z = 10;
+    if(z > frame.rows-1) {
+        z = 10;
+    }
+    cv::Mat out_frame;
+    cv::resize(copy_frame, out_frame, cv::Size(frame.cols,z));
+    copyMat(out_frame, 0, 0, frame, 0, 0, frame.cols, z);
+    z += 50;
+}
