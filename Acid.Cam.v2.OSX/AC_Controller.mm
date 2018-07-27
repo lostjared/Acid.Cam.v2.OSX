@@ -412,8 +412,8 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[10] stringValues:szSquare];
     eraseArray(szSquare, svSquare.size());
     
-    const char *szCustom[] = {"Negate","DarkenFilter","No Filter", "Blend with Source", "Plugin", "Custom",0};
-    const char *szCustom_Spec[] = {"Negate","DarkenFilter","No Filter", "Blend with Source", "Plugin",0};
+    const char *szCustom[] = {"Negate","DarkenFilter","Reverse", "No Filter", "Blend with Source", "Plugin", "Custom",0};
+    const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse", "No Filter", "Blend with Source", "Plugin",0};
     
     if(cust == NO) {
         [self fillMenuWithString: it_arr[11] stringValues:szOther];
