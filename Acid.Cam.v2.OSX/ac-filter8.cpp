@@ -581,3 +581,18 @@ void ac::SquareStretchHorizontal(cv::Mat &frame) {
     copyMat(out_frame, 0, 0, frame, 0, 0, z,frame.rows);
     z += 50;
 }
+
+void ac::SquareStretchUp(cv::Mat &frame) {
+    cv::Mat copy_frame = frame.clone();
+    cv::Mat out_frame;
+    static int size = 1;
+    static int y = frame.rows-10;
+    if(y < 1) {
+        y = frame.rows-10;
+        size = 1;
+    }
+    cv::resize(copy_frame, out_frame, cv::Size(frame.cols, size));
+    copyMat(out_frame, 0, 0, frame, 0, y, frame.cols, size);
+    y -= 50;
+    size += 50;
+}

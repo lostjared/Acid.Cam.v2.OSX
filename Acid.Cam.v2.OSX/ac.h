@@ -518,6 +518,7 @@ namespace ac {
     void DiagonalSquareRandom(cv::Mat &frame);
     void SquareStretchDown(cv::Mat &frame);
     void SquareStretchHorizontal(cv::Mat &frame);
+    void SquareStretchUp(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
