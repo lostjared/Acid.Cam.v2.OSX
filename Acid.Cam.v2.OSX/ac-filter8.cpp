@@ -568,6 +568,7 @@ void ac::SquareStretchDown(cv::Mat &frame) {
     cv::resize(copy_frame, out_frame, cv::Size(frame.cols,z));
     copyMat(out_frame, 0, 0, frame, 0, 0, frame.cols, z);
     z += 50;
+    AddInvert(frame);
 }
 
 void ac::SquareStretchHorizontal(cv::Mat &frame) {
@@ -580,6 +581,7 @@ void ac::SquareStretchHorizontal(cv::Mat &frame) {
     cv::resize(copy_frame, out_frame, cv::Size(z,frame.rows));
     copyMat(out_frame, 0, 0, frame, 0, 0, z,frame.rows);
     z += 50;
+    AddInvert(frame);
 }
 
 void ac::SquareStretchUp(cv::Mat &frame) {
@@ -595,4 +597,5 @@ void ac::SquareStretchUp(cv::Mat &frame) {
     copyMat(out_frame, 0, 0, frame, 0, y, frame.cols, size);
     y -= 50;
     size += 50;
+    AddInvert(frame);
 }
