@@ -615,3 +615,8 @@ void ac::SquareStretchLeft(cv::Mat &frame) {
     size += 50;
     AddInvert(frame);
 }
+
+void ac::DarkTrails(cv::Mat &frame) {
+    RGBTrailsDark(frame);
+    Bitwise_XOR(frame);
+}
