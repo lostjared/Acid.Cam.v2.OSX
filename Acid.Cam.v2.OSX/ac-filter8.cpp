@@ -640,3 +640,28 @@ void ac::SoftFeedback(cv::Mat &frame) {
         source.h -= add_h*2;
     }
 }
+
+void ac::SoftFeedbackFrames(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    
+    int add_w = source.w/8;
+    int add_h = source.h/8;
+    
+    int offset = 0;
+
+    while(source.x < frame.cols-1 && source.w > 100) {
+        if(offset < collection.size() && source.w > 100 && source.h > 100) {
+            cv::Mat out_frame;
+            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+        }
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+    }
+}

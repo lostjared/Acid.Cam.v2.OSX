@@ -522,6 +522,7 @@ namespace ac {
     void SquareStretchLeft(cv::Mat &frame);
     void DarkTrails(cv::Mat &frame);
     void SoftFeedback(cv::Mat &frame);
+    void SoftFeedbackFrames(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
