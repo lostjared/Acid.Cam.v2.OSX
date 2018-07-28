@@ -639,6 +639,7 @@ void ac::SoftFeedback(cv::Mat &frame) {
         source.w -= add_w*2;
         source.h -= add_h*2;
     }
+    AddInvert(frame);
 }
 
 void ac::SoftFeedbackFrames(cv::Mat &frame) {
@@ -661,6 +662,7 @@ void ac::SoftFeedbackFrames(cv::Mat &frame) {
         source.h -= add_h*2;
         offset++;
     }
+    AddInvert(frame);
 }
 
 void ac::ResizeSoftFeedback(cv::Mat &frame) {
@@ -694,6 +696,7 @@ void ac::ResizeSoftFeedback(cv::Mat &frame) {
         if(num_squares <= 2)
             dir = 1;
     }
+    AddInvert(frame);
 }
 
 
@@ -715,6 +718,7 @@ void ac::SoftFeedback8(cv::Mat &frame) {
         source.w -= add_w*2;
         source.h -= add_h*2;
     }
+    AddInvert(frame);
 }
 void ac::SoftFeedbackFrames8(cv::Mat &frame) {
     static MatrixCollection<8> collection;
@@ -736,6 +740,7 @@ void ac::SoftFeedbackFrames8(cv::Mat &frame) {
         source.h -= add_h*2;
         offset++;
     }
+    AddInvert(frame);
 }
 void ac::ResizeSoftFeedback8(cv::Mat &frame) {
     static MatrixCollection<8> collection;
@@ -768,5 +773,42 @@ void ac::ResizeSoftFeedback8(cv::Mat &frame) {
         if(num_squares <= 2)
             dir = 1;
     }
+    AddInvert(frame);
 }
 
+void ac::ResizeSoftFeedbackSubFilter(cv::Mat &frame) {
+    if(subfilter != -1 && ac::draw_strings[subfilter] != "ResizeSoftFeedbackSubFilter") {
+        static MatrixCollection<16> collection;
+        collection.shiftFrames(frame);
+        Rect source(0, 0, frame.cols-1, frame.rows-1);
+        cv::Mat frame_copy = frame.clone();
+        static int num_squares = 2;
+        int add_w = source.w/num_squares;
+        int add_h = source.h/num_squares;
+        int offset = 0;
+        while(source.x < frame.cols-1 && source.w > 100) {
+            if(offset < collection.size() && source.w > 100 && source.h > 100) {
+                cv::Mat out_frame;
+                cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+                ac::draw_func[ac::subfilter](out_frame);
+                copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+            }
+            source.x += add_w;
+            source.y += add_h;
+            source.w -= add_w*2;
+            source.h -= add_h*2;
+            offset++;
+        }
+        static int dir = 1;
+        if(dir == 1) {
+            num_squares += 2;
+            if(num_squares >= 16)
+                dir = 0;
+        } else if(dir == 0) {
+            num_squares -= 2;
+            if(num_squares <= 2)
+                dir = 1;
+        }
+        AddInvert(frame);
+    }
+}
