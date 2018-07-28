@@ -663,5 +663,6 @@ void ac::SoftFeedbackFrames(cv::Mat &frame) {
         source.y += add_h;
         source.w -= add_w*2;
         source.h -= add_h*2;
+        offset++;
     }
 }
