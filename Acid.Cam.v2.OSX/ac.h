@@ -524,6 +524,9 @@ namespace ac {
     void SoftFeedback(cv::Mat &frame);
     void SoftFeedbackFrames(cv::Mat &frame);
     void ResizeSoftFeedback(cv::Mat &frame);
+    void SoftFeedback8(cv::Mat &frame);
+    void SoftFeedbackFrames8(cv::Mat &frame);
+    void ResizeSoftFeedback8(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
