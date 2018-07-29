@@ -628,8 +628,8 @@ void ac::SoftFeedback(cv::Mat &frame) {
     int add_w = source.w/16;
     int add_h = source.h/16;
     
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(source.w > 100 && source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(source.w > 100 && source.w > add_w && source.h >= add_h) {
         	cv::Mat out_frame;
         	cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
         	copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -650,8 +650,8 @@ void ac::SoftFeedbackFrames(cv::Mat &frame) {
     int add_w = source.w/16;
     int add_h = source.h/16;
     int offset = 0;
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -674,8 +674,8 @@ void ac::ResizeSoftFeedback(cv::Mat &frame) {
     int add_w = source.w/num_squares;
     int add_h = source.h/num_squares;
     int offset = 0;
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -707,8 +707,8 @@ void ac::SoftFeedback8(cv::Mat &frame) {
     int add_w = source.w/8;
     int add_h = source.h/8;
     
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -729,7 +729,7 @@ void ac::SoftFeedbackFrames8(cv::Mat &frame) {
     int add_h = source.h/8;
     int offset = 0;
     while(source.x < frame.cols-1 && source.w > add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -751,8 +751,8 @@ void ac::ResizeSoftFeedback8(cv::Mat &frame) {
     int add_w = source.w/num_squares;
     int add_h = source.h/num_squares;
     int offset = 0;
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -786,8 +786,8 @@ void ac::ResizeSoftFeedbackSubFilter(cv::Mat &frame) {
         int add_w = source.w/num_squares;
         int add_h = source.h/num_squares;
         int offset = 0;
-        while(source.x < frame.cols-1 && source.w >= add_w) {
-            if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+        while(source.x < frame.cols-1 && source.w > add_w) {
+            if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
                 cv::Mat out_frame;
                 cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
                 ac::draw_func[ac::subfilter](out_frame);
@@ -820,8 +820,8 @@ void ac::SoftFeedbackRandFilter(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     int add_w = source.w/16;
     int add_h = source.h/16;
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             func[rand()%10](out_frame);
@@ -835,37 +835,6 @@ void ac::SoftFeedbackRandFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::SoftFeedbackRandFilterX2(cv::Mat &frame) {
-    static MatrixCollection<16> collection;
-    collection.shiftFrames(frame);
-    Rect source(0, 0, frame.cols-1, frame.rows-1);
-    cv::Mat frame_copy = frame.clone();
-    int add_w = source.w/16;
-    int add_h = source.h/16;
-    int offset = 0;
-    int index = 0;
-    while(source.x < frame.cols-1 && source.w > add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
-            cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
-            DrawFunction draw_x = getRandomFilter(index);
-            if(ac::draw_strings[index] != "SoftFeedbackRandFIlterX2")
-            	draw_x(out_frame);
-            DrawFunction draw_y = getRandomFilter(index);
-            if(ac::draw_strings[index] != "SoftFeedbackRandFIlterX2")
-                draw_y(out_frame);
-            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
-        }
-        source.x += add_w;
-        source.y += add_h;
-        source.w -= add_w*2;
-        source.h -= add_h*2;
-        offset++;
-    }
-    AddInvert(frame);
-}
-
-
 void ac::SoftFeedback32(cv::Mat &frame) {
     Rect source(0, 0, frame.cols-1, frame.rows-1);
     cv::Mat frame_copy = frame.clone();
@@ -873,7 +842,7 @@ void ac::SoftFeedback32(cv::Mat &frame) {
     int add_w = source.w/32;
     int add_h = source.h/32;
     
-    while(source.x < frame.cols-1 && source.w >= add_w) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
         if(source.w > 100 && source.h > 100) {
             cv::Mat out_frame;
             cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
@@ -895,7 +864,7 @@ void ac::SoftFeedbackFrames32(cv::Mat &frame) {
     int add_h = source.h/32;
     int offset = 0;
     while(source.x < frame.cols-1 && source.w > add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -919,8 +888,8 @@ void ac::ResizeSoftFeedback32(cv::Mat &frame) {
     int add_h = source.h/num_squares;
     static const int MAX_SQUARES=32;
     int offset = 0;
-    while(source.x < frame.cols-1 && source.w >= add_w) {
-        if(offset < collection.size() && source.w >= add_w && source.h >= add_h) {
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -944,3 +913,24 @@ void ac::ResizeSoftFeedback32(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SoftFeedbackRandFilter32(cv::Mat &frame) {
+    static DrawFunction func[10] = {DifferenceXor, RandomXorOpposite, FadeInAndOut, FadeStrobe, AndPixelStrobe, AndStrobe, AndStrobeScale, AndPixelStrobe, AndOrXorStrobe, AndOrXorStrobeScale };
+    
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    int add_w = source.w/32;
+    int add_h = source.h/32;
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(source.w > add_w && source.h >= add_h) {
+            cv::Mat out_frame;
+            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            func[rand()%10](out_frame);
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+        }
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+    }
+    AddInvert(frame);
+}
