@@ -833,5 +833,35 @@ void ac::SoftFeedbackRandFilter(cv::Mat &frame) {
         source.h -= add_h*2;
     }
     AddInvert(frame);
-    
 }
+
+void ac::SoftFeedbackRandFilterX2(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    int add_w = source.w/16;
+    int add_h = source.h/16;
+    int offset = 0;
+    int index = 0;
+    while(source.x < frame.cols-1 && source.w > 100) {
+        if(offset < collection.size() && source.w > 100 && source.h > 100) {
+            cv::Mat out_frame;
+            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            DrawFunction draw_x = getRandomFilter(index);
+            if(ac::draw_strings[index] != "SoftFeedbackRandFIlterX2")
+            	draw_x(out_frame);
+            DrawFunction draw_y = getRandomFilter(index);
+            if(ac::draw_strings[index] != "SoftFeedbackRandFIlterX2")
+                draw_y(out_frame);
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+        }
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+        offset++;
+    }
+    AddInvert(frame);
+}
+
