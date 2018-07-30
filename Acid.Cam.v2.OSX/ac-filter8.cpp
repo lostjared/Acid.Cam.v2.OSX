@@ -566,7 +566,7 @@ void ac::SquareStretchDown(cv::Mat &frame) {
     }
     cv::Mat out_frame;
     cv::resize(copy_frame, out_frame, cv::Size(frame.cols,z));
-    if(subfilter != -1) {
+    if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchDown") {
         ac::draw_func[ac::subfilter](out_frame);
     }
     copyMat(out_frame, 0, 0, frame, 0, 0, frame.cols, z);
@@ -582,7 +582,7 @@ void ac::SquareStretchRight(cv::Mat &frame) {
     }
     cv::Mat out_frame;
     cv::resize(copy_frame, out_frame, cv::Size(z,frame.rows));
-    if(subfilter != -1) {
+    if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchRight") {
         ac::draw_func[ac::subfilter](out_frame);
     }
     copyMat(out_frame, 0, 0, frame, 0, 0, z,frame.rows);
@@ -600,7 +600,7 @@ void ac::SquareStretchUp(cv::Mat &frame) {
         size = 1;
     }
     cv::resize(copy_frame, out_frame, cv::Size(frame.cols, size));
-    if(subfilter != -1) {
+    if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchUp") {
         ac::draw_func[ac::subfilter](out_frame);
     }
     copyMat(out_frame, 0, 0, frame, 0, y, frame.cols, size);
@@ -619,7 +619,7 @@ void ac::SquareStretchLeft(cv::Mat &frame) {
         size = 1;
     }
     cv::resize(copy_frame, out_frame, cv::Size(size, frame.rows));
-    if(subfilter != -1) {
+    if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchLeft") {
         ac::draw_func[ac::subfilter](out_frame);
     }
     copyMat(out_frame, 0, 0, frame, y, 0, size, frame.rows);
