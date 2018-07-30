@@ -454,7 +454,7 @@ void ac::DifferenceBrightStrobe(cv::Mat &frame) {
     if(offset > 2)
         offset = 0;
     static int dir = 1;
-
+    
     ++sw;
     if(sw > 1)
         sw = 0;
@@ -527,10 +527,10 @@ void ac::DiagonalSquare(cv::Mat &frame) {
     int col_h = (frame.rows/4)-1;
     cv::Mat copy_frame = frame.clone();
     for(int i = 0; i < 3; ++i) {
-    	cv::Mat out_frame;
+        cv::Mat out_frame;
         cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
         if(pos_x >= 0 && pos_x <= frame.cols-col_w && pos_y >= 0 && pos_y <= frame.rows-col_h)
-        	copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
+            copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         pos_x += col_w;
         pos_y += col_h;
     }
@@ -630,9 +630,9 @@ void ac::SoftFeedback(cv::Mat &frame) {
     
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(source.w > 100 && source.w > add_w && source.h >= add_h) {
-        	cv::Mat out_frame;
-        	cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
-        	copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+            cv::Mat out_frame;
+            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
         source.y += add_h;
@@ -688,8 +688,8 @@ void ac::ResizeSoftFeedback(cv::Mat &frame) {
     }
     static int dir = 1;
     if(dir == 1) {
-    	num_squares += 2;
-    	if(num_squares >= 16)
+        num_squares += 2;
+        if(num_squares >= 16)
             dir = 0;
     } else if(dir == 0) {
         num_squares -= 2;
@@ -946,7 +946,7 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
             if(source.w > 100 && source.h > 100) {
                 cv::Mat out_frame;
                 cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
-                 ac::draw_func[ac::subfilter](out_frame);
+                ac::draw_func[ac::subfilter](out_frame);
                 copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
             }
             source.x += add_w;
@@ -958,40 +958,77 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
     }
 }
 void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
-    if(subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter") {
-        static MatrixCollection<32> collection;
-        collection.shiftFrames(frame);
-        Rect source(0, 0, frame.cols-1, frame.rows-1);
-        cv::Mat frame_copy = frame.clone();
-        static int num_squares = 2;
-        int add_w = source.w/num_squares;
-        int add_h = source.h/num_squares;
-        static const int MAX_SQUARES=32;
-        int offset = 0;
-        while(source.x < frame.cols-1 && source.w > add_w) {
-            if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
-                cv::Mat out_frame;
-                cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
-                 ac::draw_func[ac::subfilter](out_frame);
-                copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    static int num_squares = 2;
+    int add_w = source.w/num_squares;
+    int add_h = source.h/num_squares;
+    static const int MAX_SQUARES=32;
+    int offset = 0;
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
+            cv::Mat out_frame;
+            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            if(subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter") {
+                ac::draw_func[ac::subfilter](out_frame);
             }
-            source.x += add_w;
-            source.y += add_h;
-            source.w -= add_w*2;
-            source.h -= add_h*2;
-            offset++;
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
-        static int dir = 1;
-        if(dir == 1) {
-            num_squares += 2;
-            if(num_squares >= MAX_SQUARES)
-                dir = 0;
-        } else if(dir == 0) {
-            num_squares -= 2;
-            if(num_squares <= 2)
-                dir = 1;
-        }
-        AddInvert(frame);
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+        offset++;
     }
+    static int dir = 1;
+    if(dir == 1) {
+        num_squares += 2;
+        if(num_squares >= MAX_SQUARES)
+            dir = 0;
+    } else if(dir == 0) {
+        num_squares -= 2;
+        if(num_squares <= 2)
+            dir = 1;
+    }
+    AddInvert(frame);
 }
 
+void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    static int num_squares = 2;
+    int add_w = source.w/num_squares;
+    int add_h = source.h/num_squares;
+    static const int MAX_SQUARES=64;
+    int offset = 0;
+    while(source.x < frame.cols-1 && source.w > add_w) {
+        if(offset < collection.size() && source.w > add_w && source.h >= add_h) {
+            cv::Mat out_frame;
+            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            if(subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64") {
+                ac::draw_func[ac::subfilter](out_frame);
+            }
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+        }
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+        offset++;
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        num_squares += 2;
+        if(num_squares >= MAX_SQUARES)
+            dir = 0;
+    } else if(dir == 0) {
+        num_squares -= 2;
+        if(num_squares <= 2)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
