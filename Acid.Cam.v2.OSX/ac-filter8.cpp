@@ -566,6 +566,9 @@ void ac::SquareStretchDown(cv::Mat &frame) {
     }
     cv::Mat out_frame;
     cv::resize(copy_frame, out_frame, cv::Size(frame.cols,z));
+    if(subfilter != -1) {
+        ac::draw_func[ac::subfilter](out_frame);
+    }
     copyMat(out_frame, 0, 0, frame, 0, 0, frame.cols, z);
     z += 50;
     AddInvert(frame);
@@ -579,6 +582,9 @@ void ac::SquareStretchRight(cv::Mat &frame) {
     }
     cv::Mat out_frame;
     cv::resize(copy_frame, out_frame, cv::Size(z,frame.rows));
+    if(subfilter != -1) {
+        ac::draw_func[ac::subfilter](out_frame);
+    }
     copyMat(out_frame, 0, 0, frame, 0, 0, z,frame.rows);
     z += 50;
     AddInvert(frame);
@@ -594,6 +600,9 @@ void ac::SquareStretchUp(cv::Mat &frame) {
         size = 1;
     }
     cv::resize(copy_frame, out_frame, cv::Size(frame.cols, size));
+    if(subfilter != -1) {
+        ac::draw_func[ac::subfilter](out_frame);
+    }
     copyMat(out_frame, 0, 0, frame, 0, y, frame.cols, size);
     y -= 50;
     size += 50;
@@ -610,6 +619,9 @@ void ac::SquareStretchLeft(cv::Mat &frame) {
         size = 1;
     }
     cv::resize(copy_frame, out_frame, cv::Size(size, frame.rows));
+    if(subfilter != -1) {
+        ac::draw_func[ac::subfilter](out_frame);
+    }
     copyMat(out_frame, 0, 0, frame, y, 0, size, frame.rows);
     y -= 50;
     size += 50;
@@ -1001,7 +1013,7 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
     collection.shiftFrames(frame);
     Rect source(0, 0, frame.cols-1, frame.rows-1);
     cv::Mat frame_copy = frame.clone();
-    static int num_squares = su2;
+    static int num_squares = 2;
     int add_w = source.w/num_squares;
     int add_h = source.h/num_squares;
     static const int MAX_SQUARES=64;
