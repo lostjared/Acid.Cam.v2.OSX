@@ -537,6 +537,7 @@ namespace ac {
     void SoftFeedbackResizeSubFilter(cv::Mat &frame);
     void SoftFeedbackResizeSubFilter64(cv::Mat &frame);
     void SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame);
+    void SoftFeedbackReszieSubFilter64_Mirror(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
