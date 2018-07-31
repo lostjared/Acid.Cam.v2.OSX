@@ -44,3 +44,34 @@
 #include "ac.h"
 
 
+void ac::HalfNegateStrobe(cv::Mat &frame) {
+    int f_len = frame.cols/2;
+    auto neg = [](cv::Vec3b &pixel) {
+        for(int j = 0; j < 3; ++j)
+            pixel[j] = ~pixel[j];
+    };
+    static int off = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < f_len; ++i) {
+            if(off == 0) {
+            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                neg(pixel);
+            }
+            
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+        for(int i = f_len; i < frame.cols; ++i) {
+            if(off == 1) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                neg(pixel);
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    ++off;
+    if(off >= 2) {
+        off = 0;
+    }
+}
