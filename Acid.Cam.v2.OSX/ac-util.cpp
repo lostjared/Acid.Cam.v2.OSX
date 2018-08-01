@@ -333,6 +333,13 @@ ac::DrawFunction ac::getFilter(std::string name) {
     return ac::draw_func[filter_map[name]];
 }
 
+bool ac::testSize(cv::Mat &frame) {
+    if(frame.cols < 120 || frame.rows < 120)
+        return false;
+    
+    return true;
+}
+
 ac::DrawFunction ac::getRandomFilter(int &index) {
     int num;
     do {

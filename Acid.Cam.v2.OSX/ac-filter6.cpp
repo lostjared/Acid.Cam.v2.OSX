@@ -857,6 +857,10 @@ void ac::Curtain(cv::Mat &frame) {
 }
 
 void ac::RandomCurtain(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     static int start = 0;
     static int direction = 1;
     static double alpha = 1.0, alpha_max = 7.0;
@@ -943,6 +947,10 @@ void ac::CurtainVertical(cv::Mat &frame) {
 }
 
 void ac::RandomCurtainVertical(cv::Mat &frame) {
+    
+    if(frame.rows < 320 || frame.cols < 240)
+        return;
+    
     static int start = 0;
     static int direction = 1;
     static double alpha = 1.0, alpha_max = 7.0;
@@ -1026,6 +1034,9 @@ void ac::DarkenFilter(cv::Mat &frame) {
 }
 
 void ac::RandomFilterBySecond(cv::Mat &frame) {
+    if(testSize(frame) == false)
+        return;
+    
     static int frame_count = 0;
     static int f = 0;
     static DrawFunction func = getRandomFilter(f);
@@ -1042,6 +1053,10 @@ void ac::RandomFilterBySecond(cv::Mat &frame) {
 }
 
 void ac::ThreeRandom(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     for(int j = 0; j < 3; ++j) {
         int f = 0;
         ac::DrawFunction func = getRandomFilter(f);
@@ -1189,6 +1204,10 @@ void ac::SlideFilterXor(cv::Mat &frame) {
 }
 
 void ac::RandomSlideFilter(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     static const int speed = 40;
     static int start_1 = 0, start_2 = frame.cols-1;
     static int direction_1 = 1, direction_2 = 0;

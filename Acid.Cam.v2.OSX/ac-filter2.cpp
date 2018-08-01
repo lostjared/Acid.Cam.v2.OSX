@@ -128,6 +128,8 @@ void ac::pixelSort(cv::Mat &frame) {
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
+    if(testSize(frame) == false)
+        return;
     int num;
     do {
         num = rand()%(draw_max-6);

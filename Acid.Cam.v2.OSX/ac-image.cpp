@@ -327,6 +327,10 @@ void ac::ImageX(cv::Mat &frame) {
 
 void ac::SmoothRandomImageBlend(cv::Mat &frame) {
     if(blend_set == true) {
+        
+        if(testSize(frame) == false)
+            return;
+        
         static MatrixCollection<8> collection;
         int index = 0;
         DrawFunction rfunc = getRandomFilter(index);

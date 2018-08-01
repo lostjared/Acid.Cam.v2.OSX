@@ -145,6 +145,10 @@ void ac::SlideUpDownXor(cv::Mat &frame) {
 }
 
 void ac::SlideUpDownRandom(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     DrawFunction f1, f2;
     static int index[2];
     f1 = getRandomFilter(index[0]);

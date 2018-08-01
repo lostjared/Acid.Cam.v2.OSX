@@ -93,6 +93,10 @@ void ac::QuadCosSinMultiply(cv::Mat &frame) {
 }
 
 void ac::QuadRandomFilter(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     cv::Mat frame_copy = frame.clone();
     cv::Size quarter(frame.cols/2, frame.rows/2);
     int base_index = 0, index = 0;
@@ -110,6 +114,10 @@ void ac::QuadRandomFilter(cv::Mat &frame) {
 }
 
 void ac::RollRandom(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     SquareVertical_Roll(frame);
     int index = 0;
     DrawFunction rand_func = getRandomFilter(index);
@@ -140,6 +148,10 @@ void ac::AverageRandom(cv::Mat &frame) {
 }
 
 void ac::HorizontalStripes(cv::Mat &frame) {
+    
+    if(frame.empty() || frame.rows < 25 || frame.cols < 25)
+        return;
+    
     static cv::Scalar value(1.0, 1.0, 1.0);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -154,7 +166,7 @@ void ac::HorizontalStripes(cv::Mat &frame) {
         }
     }
     MedianBlur(frame);
-    BlendWithSource(frame);
+    //BlendWithSource(frame);
     Bitwise_XOR(frame);
 }
 
@@ -332,6 +344,10 @@ void ac::AverageVertical(cv::Mat &frame) {
 
 
 void ac::RandomCollectionAverage(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     static MatrixCollection<8> collection;
     int index = 0;
     DrawFunction randF = getRandomFilter(index);
@@ -340,6 +356,10 @@ void ac::RandomCollectionAverage(cv::Mat &frame) {
 }
 
 void ac::RandomCollectionAverageMax(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     static MatrixCollection<16> collection;
     int index = 0;
     DrawFunction randF = getRandomFilter(index);
@@ -398,6 +418,10 @@ void ac::RandomAlphaBlend(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     double alpha = 1.0, alpha_max = 6.0;
     int index = 0;
+    
+    if(testSize(frame) == false)
+        return;
+    
     DrawFunction randFunc = getRandomFilter(index);
     cv::Mat temp = frame.clone(), rand_frame = frame.clone();
     randFunc(rand_frame);
@@ -794,6 +818,10 @@ void ac::BitwiseXorStrobe(cv::Mat &frame) {
 
 
 void ac::AlphaBlendRandom(cv::Mat &frame) {
+    
+    if(testSize(frame) == false)
+        return;
+    
     static double val = 0.30;
     static int val_dir = 1;
     int index = 0;

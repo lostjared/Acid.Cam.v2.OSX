@@ -591,8 +591,8 @@ namespace ac {
     public:
         static constexpr int ArraySize = Size;
         MatrixCollection() : w(0), h(0) {
-            for(int i = 0; i < Size; ++i)
-                all_objects.push_back(&frames[i]);
+         //  for(int i = 0; i < Size; ++i)
+         //       all_objects.push_back(&frames[i]);
         }
         cv::Mat frames[Size+4];
         int w, h;
@@ -616,6 +616,7 @@ namespace ac {
         int size() const { return ArraySize; }
     };
     extern void release_all_objects();
+    extern bool testSize(cv::Mat &frame);
     // Trails function
     template<int Size>
     void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
