@@ -811,13 +811,13 @@ void SearchForString(NSString *s) {
         
         
         if(fade_state == NSOffState) {
-            if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+            if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         } else {
             if(current_fade_alpha >= 0) {
                 ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
                 current_fade_alpha -= 0.08;
             } else {
-                if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+                if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
             }
         }
         ac::frames_released = false;
@@ -1016,14 +1016,14 @@ void SearchForString(NSString *s) {
         ac::ApplyColorMap(frame);
     
     if([fade_filter state] == NSOffState) {
-        if(disableFilter == false)
+        if(disableFilter == false && ac::testSize(frame))
             ac::draw_func[ac::draw_offset](frame);
     } else {
         if(current_fade_alpha >= 0) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
         } else {
-            if(disableFilter == false) ac::draw_func[ac::draw_offset](frame);
+            if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         }
     }
     ac::frames_released = false;
@@ -1672,7 +1672,8 @@ void custom_filter(cv::Mat &frame) {
         @try {
             num = [custom_array objectAtIndex:i];
             NSInteger index = [num integerValue];
-            ac::draw_func[static_cast<int>(index)](frame);
+            if(ac::testSize(frame))
+            	ac::draw_func[static_cast<int>(index)](frame);
         } @catch(NSException *e) {
             NSLog(@"%@\n", [e reason]);
         }
