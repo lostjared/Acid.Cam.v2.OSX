@@ -591,8 +591,8 @@ namespace ac {
     public:
         static constexpr int ArraySize = Size;
         MatrixCollection() : w(0), h(0) {
-         //  for(int i = 0; i < Size; ++i)
-         //       all_objects.push_back(&frames[i]);
+            for(int i = 0; i < Size; ++i)
+                all_objects.push_back(&frames[i]);
         }
         cv::Mat frames[Size+4];
         int w, h;

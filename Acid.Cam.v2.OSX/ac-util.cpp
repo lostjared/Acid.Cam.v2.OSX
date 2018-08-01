@@ -334,7 +334,7 @@ ac::DrawFunction ac::getFilter(std::string name) {
 }
 
 bool ac::testSize(cv::Mat &frame) {
-    if(frame.cols < 120 || frame.rows < 120)
+    if(frame.cols < frame.cols/64 || frame.rows < frame.rows/64)
         return false;
     
     return true;
@@ -344,6 +344,10 @@ ac::DrawFunction ac::getRandomFilter(int &index) {
     int num;
     do {
         num = rand()%(draw_max-6);
+        size_t pos = 0;
+        pos = ac::draw_strings[num].find("Feedback");
+        if(pos != std::string::npos)
+            continue;
     } while(ac::draw_strings[num] == "Blend Fractal" || ac::draw_strings[num] == "Blend Fractal Mood");
     index = num;
     return draw_func[num];

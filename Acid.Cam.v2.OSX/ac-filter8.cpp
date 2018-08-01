@@ -973,6 +973,11 @@ void ac::SoftFeedbackRandFilter32(cv::Mat &frame) {
 
 
 void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
+    
+    
+    if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackSubFilter")
+        return;
+    
     Rect source(0, 0, frame.cols-1, frame.rows-1);
     cv::Mat frame_copy = frame.clone();
     int add_w = source.w/32;
@@ -997,6 +1002,10 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
     
 }
 void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
+    
+    if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackResizeSubFilter")
+        return;
+    
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
     Rect source(0, 0, frame.cols-1, frame.rows-1);
@@ -1038,6 +1047,9 @@ void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
 
 void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
     
+    if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackResizeSubFilter64")
+        return;
+    
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
     Rect source(0, 0, frame.cols-1, frame.rows-1);
@@ -1078,6 +1090,10 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
 }
 
 void ac::SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame) {
+    
+    if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackReszieSubFilter64_Negate")
+        return;
+    
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
     Rect source(0, 0, frame.cols-1, frame.rows-1);
@@ -1122,6 +1138,12 @@ void ac::SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame) {
 }
 
 void ac::SoftFeedbackReszieSubFilter64_Mirror(cv::Mat &frame) {
+    
+    
+    if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackReszieSubFilter64_Mirror")
+        return;
+    
+    
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
     Rect source(0, 0, frame.cols-1, frame.rows-1);
