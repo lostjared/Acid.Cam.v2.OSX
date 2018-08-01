@@ -131,7 +131,7 @@ void ac::randomFilter(cv::Mat &frame) {
     int num;
     do {
         num = rand()%(draw_max-6);
-    } while((ac::draw_strings[num] == "Random Filter") || (ac::draw_strings[num] == "RandomIntertwine") || (ac::draw_strings[num] == "RandomFour") || (ac::draw_strings[num] == "BlendThree") || (ac::draw_strings[num] == "RandomTwo"));
+    } while((ac::draw_strings[num] == "Random Filter") || (ac::draw_strings[num] == "RandomIntertwine") || (ac::draw_strings[num] == "RandomFour" || (ac::draw_strings[num] == "BlendThree") || (ac::draw_strings[num] == "RandomTwo") || ac::draw_strings[num] == "SoftFeedbackResizeSubFilter64" || ac::draw_strings[num] == "SoftFeedbackResizeSubFilter" || ac::draw_strings[num] == "SoftFeedbackSubFilter"));
     
     draw_func[num](frame);
 }
