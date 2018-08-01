@@ -1086,10 +1086,12 @@ void SearchForString(NSString *s) {
         dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
         cv::imshow("Acid Cam v2", dst);
     } else {
-        cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
-        cv::imshow("Acid Cam v2", frame);
+        
+        if(!frame.empty() && frame.cols > 0 && frame.rows > 0) {
+        	cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+        	cv::imshow("Acid Cam v2", frame);
+        }
     }
-    
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
     double elapsed = (frame_proc/ac::fps);

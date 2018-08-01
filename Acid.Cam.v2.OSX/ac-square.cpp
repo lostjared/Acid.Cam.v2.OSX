@@ -212,6 +212,10 @@ void ShiftSquares(std::vector<ac::Square *> &s, int pos, bool direction=true) {
 void SquareVertical(const int num_w, const int num_h, ac::Square *squares, cv::Mat &frame, bool direction=true) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
+    
+    if(w <= 25 || h <= 25)
+        return;
+    
     int square_w=(w/num_w), square_h=(h/num_h);
     int pos = 0;
     ac::Point *points = new ac::Point[num_w*num_h];

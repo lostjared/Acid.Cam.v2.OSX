@@ -600,7 +600,7 @@ void ac::Lines(cv::Mat &frame) {
 }
 
 void ac::ColorLines(cv::Mat &frame) {
-    int diff = frame.cols/255;
+    int diff = (frame.cols/255);
     static double alpha = 1.0, alpha_max = 2.0;
     for(int z = 0; z < frame.rows; ++z) {
         int total[3] = {rand()%16, rand()%32, rand()%64};
@@ -608,7 +608,7 @@ void ac::ColorLines(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = (pixel[j]^total[j])*alpha;
-                if((i%diff)==0) {
+                if((i%(diff+1))==0) {
                     ++total[j];
                 }
             }
