@@ -892,7 +892,7 @@ void ac::SoftFeedbackFrames32(cv::Mat &frame) {
     int add_h = source.h/32;
     int offset = 0;
     while(source.x < frame.cols-1 && source.w > add_w) {
-        if(offset < collection.size() && source.w > add_w+100 && source.h > add_h+100) {
+        if(offset < collection.size() && source.w > add_w+10 && source.h > add_h+10) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -916,7 +916,7 @@ void ac::ResizeSoftFeedback32(cv::Mat &frame) {
     int add_h = source.h/num_squares;
     static const int MAX_SQUARES=32;
     int offset = 0;
-    while(source.x < frame.cols-1 && source.w > add_w+100 && source.h > add_h+100) {
+    while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
@@ -948,7 +948,7 @@ void ac::SoftFeedbackRandFilter32(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     int add_w = source.w/32;
     int add_h = source.h/32;
-    while(source.x < frame.cols-1 && source.w > add_w+100 && source.h > add_h+100) {
+    while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
             cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
@@ -969,11 +969,12 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     int add_w = source.w/32;
     int add_h = source.h/32;
-    while(source.x < frame.cols-1 && source.w > add_w+100 && source.h > add_h+100) {
+    while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(source.w > 100 && source.h > 100) {
             cv::Mat out_frame;
             cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
-            if(subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
+            auto rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -996,11 +997,12 @@ void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
     int add_h = source.h/num_squares;
     static const int MAX_SQUARES=32;
     int offset = 0;
-    while(source.x < frame.cols-1 && source.w > add_w+100 && source.h > add_h+100) {
+    while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
-            if(subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
+            auto rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
@@ -1034,11 +1036,12 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
     int add_h = source.h/num_squares;
     static const int MAX_SQUARES=64;
     int offset = 0;
-    while(source.x >= 0 && source.x < frame.cols-1 && source.w > add_w+100 && source.h > add_h+100) {
+    while(source.x >= 0 && source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
-            if(subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64" && ac::draw_strings[subfilter] != "Random Filter") {
+            auto rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
