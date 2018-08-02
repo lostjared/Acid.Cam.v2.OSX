@@ -550,7 +550,7 @@ namespace ac {
     void RandomGradient(cv::Mat &frame);
     void RandomStrobeFlash(cv::Mat &frame);
     void RandomMirror(cv::Mat &frame);
-    
+    void RandomOther(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
