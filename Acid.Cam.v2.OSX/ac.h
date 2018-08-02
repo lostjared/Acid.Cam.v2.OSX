@@ -127,8 +127,6 @@ namespace ac {
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
     typedef std::pair<std::string,DrawFunction> FilterType;
-    FilterType filterByIndex(const int &num);
-    FilterType filterByString(const std::string &num);
     extern DrawFunction custom_callback;
     extern DrawFunction plugin_func;
     // ror/rol tempaltes
@@ -151,6 +149,10 @@ namespace ac {
     void DrawFilter(int index, cv::Mat &frame);
     void DrawFilter(const std::string &name, cv::Mat &frame);
     DrawFunction getFilter(std::string name);
+    FilterType filterByIndex(const int &num);
+    FilterType filterByString(const std::string &num);
+    bool CallFilter(int index, cv::Mat &frame);
+    bool CallFilter(const std::string &name, cv::Mat &frame);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);

@@ -108,11 +108,11 @@ cv::Mat blend_image, color_image;
 bool blend_set = false;
 bool colorkey_set = false;
 
-
+// return version info
 std::string ac::getVersion() {
     return version;
 }
-
+// be sure to call this on startup
 void ac::fill_filter_map() {
     for(int i = 0; i < ac::draw_max; ++i) {
         filter_map[draw_strings[i]] = i;
@@ -136,6 +136,22 @@ void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
     ac::draw_func[filter_map[name]](frame);
 }
 
+bool ac::CallFilter(int index, cv::Mat &frame) {
+    if(index >= 0 && index < ac::draw_max) {
+        filterByIndex(index).second(frame);
+        return true;
+    }
+    return false;
+}
+
+bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
+    int index = ac::filter_map[name];
+    if(index >= 0 && index < ac::draw_max) {
+        filterByString(name).second(frame);
+        return true;
+    }
+    return false;
+}
 
 void ac::swapColors(cv::Mat &frame, int y, int x) {
     if(in_custom == true) return;
