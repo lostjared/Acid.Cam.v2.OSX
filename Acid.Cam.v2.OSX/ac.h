@@ -62,6 +62,7 @@
 #include<unordered_map>
 #include<memory>
 #include<cassert>
+#include<utility>
 //#define ASSERT_CHECK
 // Macro for assert testing
 #ifdef ASSERT_CHECK
@@ -125,6 +126,9 @@ namespace ac {
     void invert(cv::Mat &frame, int x, int y);
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
+    typedef std::pair<std::string,DrawFunction> FilterType;
+    FilterType filterByIndex(const int &num);
+    FilterType filterByString(const std::string &num);
     extern DrawFunction custom_callback;
     extern DrawFunction plugin_func;
     // ror/rol tempaltes
@@ -578,6 +582,7 @@ namespace ac {
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;
     extern DrawFunction *draw_func;
+    extern FilterType *filter_array;
     extern int draw_max;
     extern bool snapShot;
     extern bool reset_filter;
