@@ -79,7 +79,7 @@ namespace ac {
     // draw functions
     DrawFunction *draw_func = draw_func_value;
     // number of filters
-    int draw_max = 395;
+    int draw_max = 396;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
