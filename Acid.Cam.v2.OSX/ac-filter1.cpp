@@ -97,10 +97,10 @@ namespace ac {
     
     FilterType *filter_array = filters;
     FilterType filterByIndex(const int &num) {
-        return filters[num];
+        return filter_array[num];
     }
     FilterType filterByString(const std::string &num) {
-        return filters[ac::filter_map[num]];
+        return filter_array[ac::filter_map[num]];
     }
 }
 
