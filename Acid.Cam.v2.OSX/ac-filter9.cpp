@@ -75,3 +75,20 @@ void ac::HalfNegateStrobe(cv::Mat &frame) {
         off = 0;
     }
 }
+
+void ac::MedianBlurXor(cv::Mat &frame) {
+    cv::Mat copy_f = frame.clone();
+    MedianBlend(frame);
+    Negate(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b v = copy_f.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ v[j];
+            }
+        }
+    }
+    Negate(frame);
+    BlendWithSource(frame);
+}

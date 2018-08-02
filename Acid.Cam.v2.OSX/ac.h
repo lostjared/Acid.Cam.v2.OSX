@@ -545,6 +545,7 @@ namespace ac {
     void SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame);
     void SoftFeedbackReszieSubFilter64_Mirror(cv::Mat &frame);
     void HalfNegateStrobe(cv::Mat &frame);
+    void MedianBlurXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
