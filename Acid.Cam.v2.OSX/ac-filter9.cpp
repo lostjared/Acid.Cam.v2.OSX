@@ -91,6 +91,7 @@ void ac::MedianBlurXor(cv::Mat &frame) {
     }
     Negate(frame);
     BlendWithSource(frame);
+    AddInvert(frame);
 }
 
 void ac::NegateTrails(cv::Mat &frame) {
@@ -99,31 +100,37 @@ void ac::NegateTrails(cv::Mat &frame) {
     RGBTrailsDark(frame);
     MedianBlur(frame);
     Negate(frame);
+    AddInvert(frame);
 }
 
 void ac::RandomGradient(cv::Mat &frame) {
 	static std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines", "QuadCosSinMultiply", "GradientColors", "GradientColorsVertical", "GradientXorSelfScale", "GradientLeftRight", "GraidentUpDown", "GradientLeftRightInOut", "GradientUpDownInOut"};
     CallFilter(svGradient[rand()%svGradient.size()], frame);
+    AddInvert(frame);
 }
 
 void ac::RandomStrobeFlash(cv::Mat &frame) {
     static std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","StrobeScan", "RGBFlash", "ReinterpretDouble", "BitwiseXorStrobe","StrobeBlend", "FibFlash", "ScaleFlash", "FadeStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "RandomXorOpposite", "StrobeTransform", "OrStrobe", "DifferenceStrobe", "DifferenceXor", "DifferenceRand"};
     CallFilter(svStrobe[rand()%svStrobe.size()], frame);
+    AddInvert(frame);
 }
 
 void ac::RandomMirror(cv::Mat &frame) {
     static std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaTrip", "InterReverse", "InterMirror", "InterFullMirror", "MirrorRGB", "LineByLineReverse", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBMirror", "MirrorStrobe"};
     CallFilter(svMirror[rand()%svMirror.size()], frame);
+    AddInvert(frame);
 }
 
 void ac::RandomOther(cv::Mat &frame) {
     static std::vector<std::string> svOther_Custom { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter","Circular","MoveRed","MoveRGB", "MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch", "ScanAlphaSwitch","XorAddMul", "RandomIntertwine","RandomFour","RandomTwo","Darken","AverageRandom","RandomCollectionAverage","RandomCollectionAverageMax","BitwiseXorScale","XorChannelSort","Bitwise_XOR_Average","NotEqual","Sort_Vertical_Horizontal","Sort_Vertical_Horizontal_Bitwise_XOR", "Scalar_Average_Multiply","Scalar_Average","Total_Average","VerticalColorBars","inOrder","inOrderBySecond","DarkenFilter","RandomFilterBySecond","ThreeRandom","inOrderAlpha","XorBackwards", "MoveUpLeft", "Stuck", "StuckStrobe", "SoftFeedback", "SoftFeedbackFrames", "ResizeSoftFeedback", "SoftFeedback8","SoftFeedbackFrames8","ResizeSoftFeedback8", "ResizeSoftFeedbackSubFilter", "SoftFeedbackRandFilter", "SoftFeedback32","SoftFeedbackFrames32","ResizeSoftFeedback32", "SoftFeedbackRandFilter32", "SoftFeedbackSubFilter","SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror"};
     CallFilter(svOther_Custom[rand()%svOther_Custom.size()], frame);
+    AddInvert(frame);
 }
 
 void ac::RandomXorFilter(cv::Mat &frame) {
     static std::vector<std::string> Xor {"XorMultiBlend", "XorSine", "TrailsFilterXor", "BlockXor", "XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale","XorTrails","XorChannelSort", "GradientXorSelfScale", "RandomXor", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash", "CycleShiftRandomRGB_XorBlend", "inOrderAlphaXor", "SlideFilterXor", "SlideUpDownXor", "XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage", "RandomXorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "AndOrXorStrobe", "AndOrXorStrobeScale", "RandomXorOpposite","RGBTrailsXor", "DifferenceXor","MedianBlurXor"};
     CallFilter(Xor[rand()%Xor.size()], frame);
+    AddInvert(frame);
 }
 
 void ac::RandomMirrorBlend(cv::Mat &frame) {
@@ -141,6 +148,7 @@ void ac::RandomMirrorBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 10.0, 0.005);
+    AddInvert(frame);
 }
 
 void ac::RandomMirrorAlphaBlend(cv::Mat &frame) {
@@ -159,6 +167,7 @@ void ac::RandomMirrorAlphaBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::Bitwise_XOR_AlphaSubFilter(cv::Mat &frame) {
@@ -182,6 +191,7 @@ void ac::Bitwise_XOR_AlphaSubFilter(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 10, 0.005);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendSubFilter(cv::Mat &frame) {
@@ -198,8 +208,26 @@ void ac::AlphaBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(frame_copy, output_copy, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 10, 0.005);
+    AddInvert(frame);
 }
 
-void ac::TestFilter10V(cv::Mat &frame) {
+void ac::GradientSubFilterXor(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
     
+    if(ac::draw_strings[subfilter] == "GradientSubFilterXor")
+        return;
+    
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]+z)^(pix[j]+i);
+            }
+        }
+    }
+    AddInvert(frame);
 }

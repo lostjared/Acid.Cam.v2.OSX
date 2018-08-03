@@ -557,7 +557,7 @@ namespace ac {
     void RandomMirrorAlphaBlend(cv::Mat &frame);
     void Bitwise_XOR_AlphaSubFilter(cv::Mat &frame);
     void AlphaBlendSubFilter(cv::Mat &frame);
-    void TestFilter10V(cv::Mat &frame);
+    void GradientSubFilterXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
