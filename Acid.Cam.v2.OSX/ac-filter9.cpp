@@ -139,6 +139,24 @@ void ac::RandomMirrorBlend(cv::Mat &frame) {
             }
         }
     }
-    int dir = 1;
+    static int dir = 1;
     procPos(dir, alpha, alpha_max, 10.0, 0.005);
+}
+
+void ac::RandomMirrorAlphaBlend(cv::Mat &frame) {
+    DarkenImage(frame, 4);
+    cv::Mat frame_copy = frame.clone();
+    RandomMirror(frame_copy);
+    static double alpha = 1.0, alpha_max = 7.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha)+(pix[j]*alpha));
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }

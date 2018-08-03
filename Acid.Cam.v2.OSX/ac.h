@@ -553,6 +553,7 @@ namespace ac {
     void RandomOther(cv::Mat &frame);
     void RandomXorFilter(cv::Mat &frame);
     void RandomMirrorBlend(cv::Mat &frame);
+    void RandomMirrorAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
