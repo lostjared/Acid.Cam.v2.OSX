@@ -540,6 +540,7 @@ namespace ac {
     void ResizeSoftFeedback32(cv::Mat &frame);
     void SoftFeedbackRandFilter32(cv::Mat &frame);
     void SoftFeedbackSubFilter(cv::Mat &frame);
+    void SoftFeedbackResize64(cv::Mat &frame);
     void SoftFeedbackResizeSubFilter(cv::Mat &frame);
     void SoftFeedbackResizeSubFilter64(cv::Mat &frame);
     void SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame);
@@ -556,6 +557,7 @@ namespace ac {
     void RandomMirrorAlphaBlend(cv::Mat &frame);
     void Bitwise_XOR_AlphaSubFilter(cv::Mat &frame);
     void AlphaBlendSubFilter(cv::Mat &frame);
+    void TestFilter10V(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

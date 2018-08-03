@@ -199,3 +199,7 @@ void ac::AlphaBlendSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 10, 0.005);
 }
+
+void ac::TestFilter10V(cv::Mat &frame) {
+    
+}

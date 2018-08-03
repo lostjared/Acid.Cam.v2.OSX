@@ -1089,6 +1089,42 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SoftFeedbackResize64(cv::Mat &frame) {
+    
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    Rect source(0, 0, frame.cols-1, frame.rows-1);
+    cv::Mat frame_copy = frame.clone();
+    static int num_squares = 2;
+    int add_w = source.w/num_squares;
+    int add_h = source.h/num_squares;
+    static const int MAX_SQUARES=64;
+    int offset = 0;
+    while(source.x >= 0 && source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
+        if(offset >= 0 && offset < collection.size() && source.w > add_w && source.h > add_h) {
+            cv::Mat out_frame;
+            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
+        }
+        source.x += add_w;
+        source.y += add_h;
+        source.w -= add_w*2;
+        source.h -= add_h*2;
+        offset++;
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        num_squares += 2;
+        if(num_squares >= MAX_SQUARES)
+            dir = 0;
+    } else if(dir == 0) {
+        num_squares -= 2;
+        if(num_squares <= 2)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
+
 void ac::SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame) {
     
     if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackReszieSubFilter64_Negate")
