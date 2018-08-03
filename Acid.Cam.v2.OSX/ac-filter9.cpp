@@ -160,3 +160,42 @@ void ac::RandomMirrorAlphaBlend(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
 }
+
+void ac::Bitwise_XOR_AlphaSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    
+    if(ac::draw_strings[subfilter] == "Bitwise_XOR_AlphaSubFilter")
+        return;
+    
+    cv::Mat frame_copy = frame.clone();
+    static double alpha = 1.0, alpha_max = 7.0;
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = ((pixel[j]^pix[j])*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 10, 0.005);
+}
+
+void ac::AlphaBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    
+    if(ac::draw_strings[subfilter] == "AlphaBlendSubFilter")
+        return;
+    
+    double alpha = 1.0, alpha_max = 7.0;
+    cv::Mat frame_copy = frame.clone();
+    cv::Mat output_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    AlphaBlend(frame_copy, output_copy, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 10, 0.005);
+}
