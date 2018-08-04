@@ -185,7 +185,7 @@ void ac::Bitwise_XOR_AlphaSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = ((pixel[j]^pix[j])*alpha);
+                pixel[j] = static_cast<unsigned char>((pixel[j]^pix[j])*alpha);
             }
         }
     }
@@ -231,3 +231,27 @@ void ac::GradientSubFilterXor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::XorBlend_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "XorBlend_SubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    static double alpha = 1.0, alpha_max = 7.0;
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                unsigned int alpha_val = static_cast<unsigned int>(1+alpha);
+                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha_val)^(pix[j]*alpha_val));
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 10, 0.005);
+    AddInvert(frame);
+}
+
