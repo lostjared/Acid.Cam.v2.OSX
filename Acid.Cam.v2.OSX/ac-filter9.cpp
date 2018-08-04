@@ -255,3 +255,22 @@ void ac::XorBlend_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SmoothSubFilterAlphaBlend(cv::Mat &frame) {
+    
+    if(subfilter == -1)
+        return;
+    
+    if(ac::draw_strings[subfilter] == "SmoothSubFilterAlphaBlend")
+        return;
+    
+    static MatrixCollection<8> collection;
+    cv::Mat frame_copy = frame.clone();
+    cv::Mat same_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame_copy, &collection);
+    static double alpha = 1.0, alpha_max = 3.0;
+    AlphaBlend(frame_copy, same_copy, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.0, 0.1);
+}

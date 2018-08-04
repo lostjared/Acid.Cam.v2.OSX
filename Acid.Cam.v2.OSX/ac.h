@@ -559,6 +559,7 @@ namespace ac {
     void AlphaBlendSubFilter(cv::Mat &frame);
     void GradientSubFilterXor(cv::Mat &frame);
     void XorBlend_SubFilter(cv::Mat &frame);
+    void SmoothSubFilterAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -689,6 +690,7 @@ namespace ac {
         if(index > 2)
             index = 0;
     }
+        
     // point class
     class Point {
     public:
