@@ -173,10 +173,8 @@ void ac::RandomMirrorAlphaBlend(cv::Mat &frame) {
 void ac::Bitwise_XOR_AlphaSubFilter(cv::Mat &frame) {
     if(subfilter == -1)
         return;
-    
     if(ac::draw_strings[subfilter] == "Bitwise_XOR_AlphaSubFilter")
         return;
-    
     cv::Mat frame_copy = frame.clone();
     static double alpha = 1.0, alpha_max = 7.0;
     CallFilter(subfilter, frame_copy);
@@ -197,10 +195,8 @@ void ac::Bitwise_XOR_AlphaSubFilter(cv::Mat &frame) {
 void ac::AlphaBlendSubFilter(cv::Mat &frame) {
     if(subfilter == -1)
         return;
-    
     if(ac::draw_strings[subfilter] == "AlphaBlendSubFilter")
         return;
-    
     double alpha = 1.0, alpha_max = 7.0;
     cv::Mat frame_copy = frame.clone();
     cv::Mat output_copy = frame.clone();
@@ -214,10 +210,8 @@ void ac::AlphaBlendSubFilter(cv::Mat &frame) {
 void ac::GradientSubFilterXor(cv::Mat &frame) {
     if(subfilter == -1)
         return;
-    
     if(ac::draw_strings[subfilter] == "GradientSubFilterXor")
         return;
-    
     cv::Mat frame_copy = frame.clone();
     CallFilter(subfilter, frame_copy);
     for(int z = 0; z < frame.rows; ++z) {
@@ -246,7 +240,7 @@ void ac::XorBlend_SubFilter(cv::Mat &frame) {
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 unsigned int alpha_val = static_cast<unsigned int>(1+alpha);
-                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha_val)^(pix[j]*alpha_val));
+                pixel[j] = (static_cast<unsigned char>((pixel[j]*alpha_val))) ^ (static_cast<unsigned char>((pix[j]*alpha_val)));
             }
         }
     }
@@ -256,13 +250,10 @@ void ac::XorBlend_SubFilter(cv::Mat &frame) {
 }
 
 void ac::SmoothSubFilterAlphaBlend(cv::Mat &frame) {
-    
     if(subfilter == -1)
         return;
-    
     if(ac::draw_strings[subfilter] == "SmoothSubFilterAlphaBlend")
         return;
-    
     static MatrixCollection<8> collection;
     cv::Mat frame_copy = frame.clone();
     cv::Mat same_copy = frame.clone();
@@ -273,4 +264,31 @@ void ac::SmoothSubFilterAlphaBlend(cv::Mat &frame) {
     AlphaBlend(frame_copy, same_copy, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::SmoothSubFilterXorBlend(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "SmoothSubFilterXorBlend")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat frame_copy = frame.clone();
+    cv::Mat same_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame_copy, &collection);
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (static_cast<unsigned char>(pixel[j]*alpha)) ^ (static_cast<unsigned char>(pix[j]*alpha));
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.0, 0.1);
+    AddInvert(frame);
 }
