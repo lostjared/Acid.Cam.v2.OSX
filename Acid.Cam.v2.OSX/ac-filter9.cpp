@@ -308,8 +308,8 @@ void ac::IntertwineSubFilter(cv::Mat &frame) {
             if(skip_val == true) {
                 pixel = pix;
             }
-            skip_val = (skip_val == true) ? false : true;
         }
+        skip_val = (skip_val == true) ? false : true;
     }
     AddInvert(frame);
 }
@@ -357,4 +357,11 @@ void ac::EveryOtherSubFilter(cv::Mat &frame) {
             on_off = (on_off == true) ? false : true;
         }
     }
+}
+
+void ac::SmoothRandomFilter(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    randomFilter(frame);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
 }
