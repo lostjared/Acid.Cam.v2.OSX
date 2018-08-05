@@ -318,6 +318,7 @@ void ac::RandBlend(cv::Mat &frame) {
     static std::vector<std::string> filter_names {"Self AlphaBlend", "Blend #3", "RandTriBlend", "Rainbow Blend", "Rand Blend","XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease","TrailsBlend", "BlendThree", "BlendTrails", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend","RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend","CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend","ParticleBlend", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend"};
     
     CallFilter(filter_names[rand()%filter_names.size()], frame);
+    AddInvert(frame);
 }
 
 void ac::EveryOther(cv::Mat &frame) {
@@ -336,6 +337,7 @@ void ac::EveryOther(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::EveryOtherSubFilter(cv::Mat &frame) {
@@ -357,6 +359,7 @@ void ac::EveryOtherSubFilter(cv::Mat &frame) {
             on_off = (on_off == true) ? false : true;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SmoothRandomFilter(cv::Mat &frame) {
@@ -364,6 +367,7 @@ void ac::SmoothRandomFilter(cv::Mat &frame) {
     randomFilter(frame);
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::RandomFilterRandomTimes(cv::Mat &frame) {
@@ -372,6 +376,7 @@ void ac::RandomFilterRandomTimes(cv::Mat &frame) {
     for(int i = 0; i < num; ++i) {
         randomFilter(frame);
     }
+    AddInvert(frame);
 }
 
 void ac::RandomSubFilterRandomTimes(cv::Mat &frame) {
@@ -384,4 +389,5 @@ void ac::RandomSubFilterRandomTimes(cv::Mat &frame) {
     for(int i = 0; i < num; ++i) {
         CallFilter(subfilter, frame);
     }
+    AddInvert(frame);
 }
