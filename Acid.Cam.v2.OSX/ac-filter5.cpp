@@ -166,7 +166,6 @@ void ac::HorizontalStripes(cv::Mat &frame) {
         }
     }
     MedianBlur(frame);
-    //BlendWithSource(frame);
     Bitwise_XOR(frame);
 }
 

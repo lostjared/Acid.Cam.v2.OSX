@@ -987,7 +987,7 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
             cv::Mat out_frame;
             cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
-            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Random");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
             }
@@ -1020,7 +1020,7 @@ void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
-            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Random");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
             }
@@ -1064,7 +1064,7 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
-            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Random");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64") {
                 ac::draw_func[ac::subfilter](out_frame);
             }
@@ -1144,7 +1144,7 @@ void ac::SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
-            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Random");
             
             if(testSize(out_frame) && rand_test != std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
@@ -1194,7 +1194,7 @@ void ac::SoftFeedbackReszieSubFilter64_Mirror(cv::Mat &frame) {
             cv::Mat out_frame;
             cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
-            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
+            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Random");
             
             if(testSize(out_frame) && rand_test != std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64" && ac::draw_strings[subfilter] != "Random Filter") {
                 ac::draw_func[ac::subfilter](out_frame);
