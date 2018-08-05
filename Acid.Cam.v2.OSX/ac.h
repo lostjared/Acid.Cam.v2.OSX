@@ -563,6 +563,8 @@ namespace ac {
     void SmoothSubFilterXorBlend(cv::Mat &frame);
     void IntertwineSubFilter(cv::Mat &frame);
     void RandBlend(cv::Mat &frame);
+    void EveryOther(cv::Mat &frame);
+    void EveryOtherSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

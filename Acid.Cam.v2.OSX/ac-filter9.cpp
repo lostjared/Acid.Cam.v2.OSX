@@ -319,3 +319,42 @@ void ac::RandBlend(cv::Mat &frame) {
     
     CallFilter(filter_names[rand()%filter_names.size()], frame);
 }
+
+void ac::EveryOther(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 6.0;
+    bool on_off = true;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on_off == true) {
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                }
+            }
+            on_off = (on_off == true) ? false : true;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
+
+void ac::EveryOtherSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "EveryOtherSubFilter")
+        return;
+    
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    bool on_off = true;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on_off == true) {
+                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+            on_off = (on_off == true) ? false : true;
+        }
+    }
+}
