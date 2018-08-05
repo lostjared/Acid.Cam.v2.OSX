@@ -316,14 +316,14 @@ void SearchForString(NSString *s) {
     }
     std::cout << "\n};\n";
     */
-    
+    /*
     for(unsigned int i = 0; i < ac::draw_max; ++i) {
         std::string s = ac::draw_strings[i];
         if(s.find("Blend") != std::string::npos) {
             std::cout << "\"" << s << "\", ";
         }
     }
-    
+    */
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
