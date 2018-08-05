@@ -373,3 +373,15 @@ void ac::RandomFilterRandomTimes(cv::Mat &frame) {
         randomFilter(frame);
     }
 }
+
+void ac::RandomSubFilterRandomTimes(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "RandomSubFilterRandomTimes")
+        return;
+    CallFilter(subfilter, frame);
+    int num = rand()%4;
+    for(int i = 0; i < num; ++i) {
+        CallFilter(subfilter, frame);
+    }
+}
