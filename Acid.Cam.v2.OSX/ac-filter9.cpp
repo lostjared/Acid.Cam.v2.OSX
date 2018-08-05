@@ -365,3 +365,11 @@ void ac::SmoothRandomFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
 }
+
+void ac::RandomFilterRandomTimes(cv::Mat &frame) {
+    randomFilter(frame);
+    int num = rand()%4;
+    for(int i = 0; i < num; ++i) {
+        randomFilter(frame);
+    }
+}

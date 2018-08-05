@@ -566,6 +566,7 @@ namespace ac {
     void EveryOther(cv::Mat &frame);
     void EveryOtherSubFilter(cv::Mat &frame);
     void SmoothRandomFilter(cv::Mat &frame);
+    void RandomFilterRandomTimes(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
