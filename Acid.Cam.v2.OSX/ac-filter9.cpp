@@ -314,3 +314,9 @@ void ac::IntertwineSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RandomBlend(cv::Mat &frame) {
+    static std::vector<std::string> filter_names {"Self AlphaBlend", "Blend #3", "RandTriBlend", "Rainbow Blend", "Rand Blend","XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease","TrailsBlend", "BlendThree", "BlendTrails", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend","RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend","CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend", "MedianBlendAnimation", "ParticleBlend", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend"};
+    
+    CallFilter(filter_names[rand()%filter_names.size()], frame);
+}
