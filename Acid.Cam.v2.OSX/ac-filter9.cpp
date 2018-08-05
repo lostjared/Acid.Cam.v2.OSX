@@ -292,3 +292,25 @@ void ac::SmoothSubFilterXorBlend(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::IntertwineSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "IntertwineSubFilter")
+        return;
+    
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    bool skip_val = true;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            if(skip_val == true) {
+                pixel = pix;
+            }
+            skip_val = (skip_val == true) ? false : true;
+        }
+    }
+    AddInvert(frame);
+}

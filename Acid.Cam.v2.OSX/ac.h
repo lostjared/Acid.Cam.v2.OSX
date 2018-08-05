@@ -561,6 +561,7 @@ namespace ac {
     void XorBlend_SubFilter(cv::Mat &frame);
     void SmoothSubFilterAlphaBlend(cv::Mat &frame);
     void SmoothSubFilterXorBlend(cv::Mat &frame);
+    void IntertwineSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
