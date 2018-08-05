@@ -798,7 +798,6 @@ void SearchForString(NSString *s) {
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(reset_memory == true) {
-                ac::release_all_objects();
                 ac::reset_filter = true;
                 reset_memory = false;
             }
@@ -977,7 +976,6 @@ void SearchForString(NSString *s) {
     well_color[2] = values[2];
     
     if(reset_memory == true) {
-        ac::release_all_objects();
         ac::reset_filter = true;
         reset_memory = false;
     }
