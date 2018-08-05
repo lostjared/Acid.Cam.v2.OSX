@@ -246,6 +246,7 @@ void ac::resetAlpha(double &alpha) {
 }
 
 void ac::AddInvert(cv::Mat &frame) {
+    if(in_custom == true) return;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             swapColors(frame, z, i);// swap colors
