@@ -391,3 +391,14 @@ void ac::RandomSubFilterRandomTimes(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::AddToFrameSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "AddToFrameSubFilter")
+        return;
+
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    Add(frame, frame_copy);
+}
