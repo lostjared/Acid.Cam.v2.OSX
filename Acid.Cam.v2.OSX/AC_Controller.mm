@@ -704,8 +704,7 @@ void SearchForString(NSString *s) {
         capture = capture_camera.get();
     
     bool u4k = ([up4k state] == NSOnState) ? true : false;;
-    
-    
+        
     int ret_val = program_main(set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     
     if(ret_val != 0) {
@@ -1624,8 +1623,8 @@ void SearchForString(NSString *s) {
     double amount = 0.1 * (num_index+1);
     ac::setBlendPercentage(amount);
     NSInteger num = [proc_change indexOfSelectedItem];
-    static double values[] = { 0, 0.03, 0.05, 0.07, 0.08, 0.1, 0.3, 0.7, 1.0, 3};
-    static std::string str_values[] = { "Default", "0.03", "0.05", "0.07", "0.08","0.1", "0.3"," 0.7", "1.0", "3", ""};
+    static double values[] = { 0, 0.001,0.009, 0.01, 0.03, 0.05, 0.07, 0.08, 0.1, 0.3, 0.7, 1.0, 3};
+    static std::string str_values[] = { "Default", "0.001","0.009","0.01","0.03", "0.05", "0.07", "0.08","0.1", "0.3"," 0.7", "1.0", "3", ""};
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
     log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";;

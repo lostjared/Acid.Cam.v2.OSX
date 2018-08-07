@@ -569,6 +569,7 @@ namespace ac {
     void RandomFilterRandomTimes(cv::Mat &frame);
     void RandomSubFilterRandomTimes(cv::Mat &frame);
     void AddToFrameSubFilter(cv::Mat &frame);
+    void MirrorXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

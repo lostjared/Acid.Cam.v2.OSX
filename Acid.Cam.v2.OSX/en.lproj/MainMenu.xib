@@ -1623,6 +1623,15 @@ Gw
                             <menu key="menu" id="jdU-4k-2yW">
                                 <items>
                                     <menuItem title="Default" state="on" id="IDe-4I-P3C"/>
+                                    <menuItem title="0.001" id="2d4-AO-nFO">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="0.009" id="vUN-Gk-Rhj">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="0.01" id="Kta-jB-Jae">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                     <menuItem title="0.03" id="vqF-7n-S9Z"/>
                                     <menuItem title="0.05" id="aEC-ww-oWP"/>
                                     <menuItem title="0.07" id="8hy-D9-bTp"/>
@@ -1714,7 +1723,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-664.5" y="-1072.5"/>
+            <point key="canvasLocation" x="-682" y="-1211"/>
         </window>
         <menuItem title="0.03" id="qUl-bN-OY2"/>
         <menuItem title="0.03" id="ud4-7j-6W7"/>
