@@ -491,3 +491,29 @@ void ac::EnergizeSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
 }
 
+void ac::SmoothSubFilter16(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "SmoothSubFilter16")
+        return;
+    static MatrixCollection<16> collection;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame, &collection);
+}
+
+void ac::EngergizeSubFilter16(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "EnergizeSubFilter16")
+        return;
+    static MatrixCollection<16> collection;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+}
+
+
