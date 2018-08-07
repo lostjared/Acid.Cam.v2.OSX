@@ -466,4 +466,15 @@ void ac::EnergyMirror(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SmoothSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "SmoothSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame, &collection);
+}
 
