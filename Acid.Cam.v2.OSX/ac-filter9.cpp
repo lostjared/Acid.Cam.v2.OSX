@@ -455,3 +455,15 @@ void ac::MirrorXorScale(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 5.0, 0.01);
     AddInvert(frame);
 }
+
+void ac::EnergyMirror(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat frame_copy = frame.clone();
+    MirrorXorAll(frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
+
+
