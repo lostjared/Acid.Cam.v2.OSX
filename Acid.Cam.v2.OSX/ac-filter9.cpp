@@ -435,3 +435,23 @@ void ac::MirrorXorAll(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::MirrorXorScale(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b values[3];
+            values[0] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[1] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j] ^ values[0][j] ^ values[1][j] ^ values[2][j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 5.0, 0.01);
+    AddInvert(frame);
+}
