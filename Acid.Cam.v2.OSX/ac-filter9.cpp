@@ -476,6 +476,7 @@ void ac::SmoothSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     collection.shiftFrames(frame_copy);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::EnergizeSubFilter(cv::Mat &frame) {
@@ -489,6 +490,7 @@ void ac::EnergizeSubFilter(cv::Mat &frame) {
     collection.shiftFrames(frame_copy);
     Smooth(frame, &collection);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::SmoothSubFilter16(cv::Mat &frame) {
@@ -501,6 +503,7 @@ void ac::SmoothSubFilter16(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     collection.shiftFrames(frame_copy);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::EngergizeSubFilter16(cv::Mat &frame) {
@@ -514,6 +517,7 @@ void ac::EngergizeSubFilter16(cv::Mat &frame) {
     collection.shiftFrames(frame_copy);
     Smooth(frame, &collection);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 
