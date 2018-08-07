@@ -401,6 +401,7 @@ void ac::AddToFrameSubFilter(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     CallFilter(subfilter, frame_copy);
     Add(frame, frame_copy);
+    AddInvert(frame);
 }
 
 void ac::MirrorXor(cv::Mat &frame) {
@@ -414,6 +415,7 @@ void ac::MirrorXor(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MirrorXorAll(cv::Mat &frame) {
@@ -430,5 +432,6 @@ void ac::MirrorXorAll(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
