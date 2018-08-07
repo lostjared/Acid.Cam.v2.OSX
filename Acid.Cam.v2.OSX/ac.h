@@ -574,6 +574,7 @@ namespace ac {
     void MirrorXorScale(cv::Mat &frame);
     void EnergyMirror(cv::Mat &frame);
     void SmoothSubFilter(cv::Mat &frame);
+    void EnergizeSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
