@@ -1663,6 +1663,13 @@ void SearchForString(NSString *s) {
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSMenuItem *m = [current_filter_custom itemAtIndex:index];
     NSString *s = [m title];
+    std::string sub_chk = [s UTF8String];
+    if(sub_chk.find("SubFilter") != std::string::npos) {
+        std::ostringstream stream;
+        stream << "Could not set Filter: " << sub_chk << " as a SubfFlter because the one you selected itself requires a SubFilter\n";
+        flushToLog(stream);
+        return;
+    }
     NSString *val = [NSString stringWithFormat: @"Filter: %s set as Sub Filter", ac::draw_strings[ac::filter_map[[s UTF8String]]].c_str(), nil];
     int filter_pos = ac::filter_map[[s UTF8String]];
     ac::setSubFilter(filter_pos);
