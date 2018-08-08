@@ -520,4 +520,18 @@ void ac::EngergizeSubFilter16(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::EnergizeSubFilter32(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "EnergizeSubFilter32")
+        return;
+
+    static MatrixCollection<32> collection;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
 
