@@ -576,7 +576,7 @@ namespace ac {
     void SmoothSubFilter(cv::Mat &frame);
     void SmoothSubFilter16(cv::Mat &frame);
     void EnergizeSubFilter(cv::Mat &frame);
-    void EngergizeSubFilter16(cv::Mat &frame);
+    void EnergizeSubFilter16(cv::Mat &frame);
     void EnergizeSubFilter32(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);

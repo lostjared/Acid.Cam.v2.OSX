@@ -506,7 +506,7 @@ void ac::SmoothSubFilter16(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::EngergizeSubFilter16(cv::Mat &frame) {
+void ac::EnergizeSubFilter16(cv::Mat &frame) {
     if(subfilter == -1)
         return;
     if(ac::draw_strings[subfilter] == "EnergizeSubFilter16")
