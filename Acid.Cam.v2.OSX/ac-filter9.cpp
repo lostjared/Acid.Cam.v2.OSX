@@ -548,3 +548,42 @@ void ac::SmoothSubFilter32(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::HalfAddSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "HalfAddSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] /= 4;
+                pixel[j] += pix[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
+void ac::HalfXorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "HalfXorSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] /= 4;
+                pixel[j] ^= pix[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
