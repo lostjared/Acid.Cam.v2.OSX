@@ -578,6 +578,7 @@ namespace ac {
     void EnergizeSubFilter(cv::Mat &frame);
     void EnergizeSubFilter16(cv::Mat &frame);
     void EnergizeSubFilter32(cv::Mat &frame);
+    void SmoothSubFilter32(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
