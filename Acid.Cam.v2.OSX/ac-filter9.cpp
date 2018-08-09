@@ -593,3 +593,12 @@ void ac::StaticXorBlend(cv::Mat &frame) {
     StaticXor(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::PsycheSort(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    ChannelSort(frame);
+    StaticXor(frame, &collection);
+    AddInvert(frame);
+
+}
