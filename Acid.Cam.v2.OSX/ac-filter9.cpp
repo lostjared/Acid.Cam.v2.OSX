@@ -604,3 +604,30 @@ void ac::PsycheSort(cv::Mat &frame) {
     StaticXor(frame, &collection,value);
     AddInvert(frame);
 }
+
+void ac::XorScale(cv::Mat &frame) {
+    static cv::Scalar scale(rand()%255, rand()%255, rand()%255);
+    static int speed = 2;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]^static_cast<unsigned char>(scale[j]);
+        }
+    }
+    static int dir[3] = {1,1,1};
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            scale[j] += speed;
+           
+            if(scale[j] >= 255)
+                dir[j] = 0;
+            
+        } else if(dir[j] == 0) {
+            scale[j] -= speed;
+            
+            if(scale[j] <= 0)
+                dir[j] = 1;
+        }
+    }
+}

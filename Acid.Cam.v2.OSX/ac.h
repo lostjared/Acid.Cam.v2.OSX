@@ -583,6 +583,7 @@ namespace ac {
     void HalfXorSubFilter(cv::Mat &frame);
     void StaticXorBlend(cv::Mat &frame);
     void PsycheSort(cv::Mat &frame);
+    void XorScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
