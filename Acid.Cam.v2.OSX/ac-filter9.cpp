@@ -587,3 +587,9 @@ void ac::HalfXorSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::StaticXorBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    StaticXor(frame, &collection);
+    AddInvert(frame);
+}
