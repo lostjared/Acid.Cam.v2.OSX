@@ -227,13 +227,13 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="Y0W-Ih-pBi"/>
-                            <menuItem title="Rotate Image Vertical" id="YyK-0a-mS5">
+                            <menuItem title="Flip Image Vertical" id="YyK-0a-mS5">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="setRotate_V:" target="630" id="Ez4-lA-8Oe"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Rotate Image Horizontal" id="Nug-i4-OlJ">
+                            <menuItem title="Flip Image Horizontal" id="Nug-i4-OlJ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="setRotate_H:" target="630" id="kY9-Jl-sEU"/>

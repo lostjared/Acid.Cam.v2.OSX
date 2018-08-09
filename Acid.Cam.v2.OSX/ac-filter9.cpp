@@ -607,7 +607,7 @@ void ac::PsycheSort(cv::Mat &frame) {
 
 void ac::XorScale(cv::Mat &frame) {
     static cv::Scalar scale(rand()%255, rand()%255, rand()%255);
-    static int speed = 2;
+    static int speed = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
