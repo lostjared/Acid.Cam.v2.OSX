@@ -588,17 +588,19 @@ void ac::HalfXorSubFilter(cv::Mat &frame) {
 }
 
 void ac::StaticXorBlend(cv::Mat &frame) {
+    static cv::Vec3b value(rand()%255, rand()%255, rand()%255);
     static MatrixCollection<8> collection;
+    ChannelSort(frame);
     collection.shiftFrames(frame);
-    StaticXor(frame, &collection);
+    StaticXor(frame, &collection, value);
     AddInvert(frame);
 }
 
 void ac::PsycheSort(cv::Mat &frame) {
+    cv::Vec3b value(rand()%255,rand()%255,rand()%255);
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     ChannelSort(frame);
-    StaticXor(frame, &collection);
+    StaticXor(frame, &collection,value);
     AddInvert(frame);
-
 }

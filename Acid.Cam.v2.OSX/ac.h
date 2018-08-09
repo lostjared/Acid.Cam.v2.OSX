@@ -688,8 +688,7 @@ namespace ac {
     }
     // Trails function
     template<int Size>
-    void StaticXor(cv::Mat &frame, MatrixCollection<Size> *collection) {
-        static cv::Vec3b r(rand()%255, rand()%255, rand()%255);
+    void StaticXor(cv::Mat &frame, MatrixCollection<Size> *collection, cv::Vec3b r = cv::Vec3b(0, 0, 0)) {
         collection->shiftFrames(frame);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
