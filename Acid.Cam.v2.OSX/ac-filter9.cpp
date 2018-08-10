@@ -630,6 +630,7 @@ void ac::XorScale(cv::Mat &frame) {
                 dir[j] = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::StaticXorSubFilter(cv::Mat &frame) {
@@ -642,6 +643,16 @@ void ac::StaticXorSubFilter(cv::Mat &frame) {
     ChannelSort(frame_copy);
     CallFilter(subfilter, frame_copy);
     collection.shiftFrames(frame_copy);
+    StaticXor(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::StaticXorStrobe(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    rainbowBlend(frame);
+    GaussianBlur(frame);
+    collection.shiftFrames(frame);
     StaticXor(frame, &collection);
     MedianBlend(frame);
     AddInvert(frame);
