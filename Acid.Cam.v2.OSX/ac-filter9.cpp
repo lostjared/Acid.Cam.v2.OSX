@@ -657,3 +657,8 @@ void ac::StaticXorStrobe(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::StrobeSort(cv::Mat &frame) {
+    ChannelSort(frame);
+    StaticXorStrobe(frame);
+}
