@@ -631,3 +631,18 @@ void ac::XorScale(cv::Mat &frame) {
         }
     }
 }
+
+void ac::StaticXorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    if(ac::draw_strings[subfilter] == "StaticXorSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone(), output;
+    static MatrixCollection<8> collection;
+    ChannelSort(frame_copy);
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    StaticXor(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
