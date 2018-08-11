@@ -633,32 +633,37 @@ void ac::XorScale(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::StaticXorSubFilter(cv::Mat &frame) {
+void ac::ChannelMedianSubFilter(cv::Mat &frame) {
     if(subfilter == -1)
         return;
-    if(ac::draw_strings[subfilter] == "StaticXorSubFilter")
+    if(ac::draw_strings[subfilter] == "ChannelMedianSubFilter")
         return;
     cv::Mat frame_copy = frame.clone(), output;
-    static MatrixCollection<8> collection;
     ChannelSort(frame_copy);
     CallFilter(subfilter, frame_copy);
-    collection.shiftFrames(frame_copy);
-    StaticXor(frame, &collection);
     MedianBlend(frame);
     AddInvert(frame);
 }
 
-void ac::StaticXorStrobe(cv::Mat &frame) {
-    static MatrixCollection<8> collection;
+void ac::GaussianStrobe(cv::Mat &frame) {
     rainbowBlend(frame);
     GaussianBlur(frame);
-    collection.shiftFrames(frame);
-    StaticXor(frame, &collection);
     MedianBlend(frame);
     AddInvert(frame);
 }
 
 void ac::StrobeSort(cv::Mat &frame) {
     ChannelSort(frame);
-    StaticXorStrobe(frame);
+    GaussianStrobe(frame);
+}
+
+void ac::GlitchSortStrobe(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static cv::Vec3b color_(rand()%255, rand()%255, rand()%255);
+    cv::Mat frame_copy = frame.clone();
+    glitchSort(frame_copy);
+    collection.shiftFrames(frame_copy);
+    StaticXor(frame, &collection, color_);
+    MedianBlend(frame);
+    AddInvert(frame);
 }

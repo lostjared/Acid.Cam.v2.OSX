@@ -584,9 +584,10 @@ namespace ac {
     void StaticXorBlend(cv::Mat &frame);
     void PsycheSort(cv::Mat &frame);
     void XorScale(cv::Mat &frame);
-    void StaticXorSubFilter(cv::Mat &frame);
-    void StaticXorStrobe(cv::Mat &frame);
+    void ChannelMedianSubFilter(cv::Mat &frame);
+    void GaussianStrobe(cv::Mat &frame);
     void StrobeSort(cv::Mat &frame);
+    void GlitchSortStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -692,7 +693,7 @@ namespace ac {
     }
     // Trails function
     template<int Size>
-    void StaticXor(cv::Mat &frame, MatrixCollection<Size> *collection, cv::Vec3b r = cv::Vec3b(0, 0, 0)) {
+    void StaticXor(cv::Mat &frame, MatrixCollection<Size> *collection, cv::Vec3b r) {
         collection->shiftFrames(frame);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
