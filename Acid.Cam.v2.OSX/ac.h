@@ -588,6 +588,8 @@ namespace ac {
     void GaussianStrobe(cv::Mat &frame);
     void StrobeSort(cv::Mat &frame);
     void GlitchSortStrobe(cv::Mat &frame);
+    void Bitwise_XOR_Blend(cv::Mat &frame);
+    void Bitwise_XOR_Sort(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
