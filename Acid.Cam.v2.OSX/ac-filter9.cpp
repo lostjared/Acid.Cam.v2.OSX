@@ -753,3 +753,33 @@ void ac::Bitwise_AND_Blend(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 6.0);
     AddInvert(frame);
 }
+
+void ac::BitwiseColorMatrix(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static double alpha[3] = {1.0,4.0,1.0}, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    GaussianBlur(frame_copy);
+    collection.shiftFrames(frame_copy);
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i =0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b inner = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    values[q] += (inner[q]*alpha[q]);
+                }
+            }
+            for(int q = 0; q < 3; ++q) {
+                values[q] /= collection.size();
+                pixel[q] ^= static_cast<unsigned char>(values[q]) & static_cast<unsigned char>(pixel[3-q-1]*alpha[q]);
+            }
+        }
+    }
+    static int dir[3] = {1, 0, 1};;
+    
+    for(int j = 0; j < 3; ++j)
+    	procPos(dir[j], alpha[j], alpha_max, 6.0, 0.1);
+    
+    AddInvert(frame);
+}
