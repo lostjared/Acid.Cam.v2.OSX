@@ -590,6 +590,8 @@ namespace ac {
     void GlitchSortStrobe(cv::Mat &frame);
     void Bitwise_XOR_Blend(cv::Mat &frame);
     void Bitwise_XOR_Sort(cv::Mat &frame);
+    void Bitwise_OR_Blend(cv::Mat &frame);
+    void Bitwise_AND_Blend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -699,3 +699,57 @@ void ac::Bitwise_XOR_Sort(cv::Mat &frame) {
     ChannelSort(frame);
     Bitwise_XOR_Blend(frame);
 }
+
+void ac::Bitwise_OR_Blend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    GaussianBlur(frame_copy);
+    collection.shiftFrames(frame_copy);
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i =0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b inner = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    values[q] += (inner[q]*alpha);
+                }
+            }
+            for(int q = 0; q < 3; ++q) {
+                values[q] /= collection.size();
+                pixel[q] = static_cast<unsigned char>(values[q]) | static_cast<unsigned char>(pixel[3-q-1]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 6.0);
+    AddInvert(frame);
+}
+
+void ac::Bitwise_AND_Blend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    GaussianBlur(frame_copy);
+    collection.shiftFrames(frame_copy);
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i =0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b inner = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    values[q] += (inner[q]*alpha);
+                }
+            }
+            for(int q = 0; q < 3; ++q) {
+                values[q] /= collection.size();
+                pixel[q] = static_cast<unsigned char>(values[q]) & static_cast<unsigned char>(pixel[3-q-1]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 6.0);
+    AddInvert(frame);
+}
