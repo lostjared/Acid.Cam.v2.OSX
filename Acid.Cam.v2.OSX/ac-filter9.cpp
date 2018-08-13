@@ -783,3 +783,20 @@ void ac::BitwiseColorMatrix(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::PixelReverseXor(cv::Mat &frame) {
+    static double alpha[3] = {1.0,4.0,1.0}, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = pixel;
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pix[3-j-1]*alpha[j])^pixel[j];
+            }
+        }
+    }
+    static int dir[3] = {1, 0, 1};;
+    for(int j = 0; j < 3; ++j)
+        procPos(dir[j], alpha[j], alpha_max, 6.0, 0.1);
+    AddInvert(frame);
+}
