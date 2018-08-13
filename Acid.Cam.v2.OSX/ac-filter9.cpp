@@ -800,3 +800,17 @@ void ac::PixelReverseXor(cv::Mat &frame) {
         procPos(dir[j], alpha[j], alpha_max, 6.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::PixelatedSubFilterSort(cv::Mat &frame) {
+    if(ac::draw_strings[subfilter] == "PixelatedSubFilterSort")
+        return;
+
+    static MatrixCollection<8> collection;
+    ChannelSort(frame);
+    collection.shiftFrames(frame);
+    SmoothRGB(frame, &collection);
+    Block(frame);
+
+    if(subfilter != -1)
+        CallFilter(subfilter, frame);
+}
