@@ -806,11 +806,10 @@ void ac::PixelatedSubFilterSort(cv::Mat &frame) {
         return;
 
     static MatrixCollection<8> collection;
+    Block(frame);
     ChannelSort(frame);
     collection.shiftFrames(frame);
     SmoothRGB(frame, &collection);
-    Block(frame);
-
     if(subfilter != -1)
         CallFilter(subfilter, frame);
 }
