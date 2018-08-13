@@ -813,3 +813,19 @@ void ac::PixelatedSubFilterSort(cv::Mat &frame) {
     if(subfilter != -1)
         CallFilter(subfilter, frame);
 }
+
+void ac::SilverBlend(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            double total = (pixel[0]+pixel[1]+pixel[2]) * alpha;
+            unsigned int value = static_cast<unsigned int>(total);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^value;
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.0, 0.1);
+}

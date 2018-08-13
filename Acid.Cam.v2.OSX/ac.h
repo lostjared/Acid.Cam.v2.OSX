@@ -595,6 +595,7 @@ namespace ac {
     void BitwiseColorMatrix(cv::Mat &frame);
     void PixelReverseXor(cv::Mat &frame);
     void PixelatedSubFilterSort(cv::Mat &frame);
+    void SilverBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
