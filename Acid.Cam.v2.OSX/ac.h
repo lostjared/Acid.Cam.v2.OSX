@@ -597,6 +597,7 @@ namespace ac {
     void PixelatedSubFilterSort(cv::Mat &frame);
     void SilverBlend(cv::Mat &frame);
     void RandomPixelOrderSort(cv::Mat &frame);
+    void ImageXorAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

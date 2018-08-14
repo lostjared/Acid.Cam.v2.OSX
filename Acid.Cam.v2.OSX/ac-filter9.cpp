@@ -846,3 +846,23 @@ void ac::RandomPixelOrderSort(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     AddInvert(frame);
 }
+
+void ac::ImageXorAlpha(cv::Mat &frame) {
+    if(blend_set == true) {
+    	static double alpha = 1.0, alpha_max = 3.0;
+    	for(int z = 0; z < frame.rows; ++z) {
+        	for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = (static_cast<unsigned char>((pixel[j]*alpha)) ^ static_cast<unsigned char>((pix[j]*alpha)));
+                }
+        	}
+    	}
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 4.0, 0.01);
+        AddInvert(frame);
+    }
+}
