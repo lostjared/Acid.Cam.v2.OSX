@@ -829,3 +829,20 @@ void ac::SilverBlend(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.0, 0.1);
 }
+
+void ac::RandomPixelOrderSort(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 5.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            SwapColors(pixel);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+            }
+        }
+    }
+    StrobeSort(frame);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
+}

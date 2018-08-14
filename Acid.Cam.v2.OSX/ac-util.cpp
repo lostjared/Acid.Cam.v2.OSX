@@ -370,3 +370,27 @@ void ac::DarkenImage(cv::Mat &frame, unsigned int size) {
         }
     }
 }
+
+void ac::SwapColors(cv::Vec3b &cur) {
+    cv::Vec3b temp = cur;
+    int color_order = rand()%5;
+    switch(color_order) {
+        case 1:            cur[0] = temp[2];
+            cur[1] = temp[1];
+            cur[2] = temp[0];
+            break;
+        case 2:
+            cur[0] = temp[1];
+            cur[1] = temp[0];
+            break;
+        case 3:
+            cur[1] = temp[2];
+            cur[2] = temp[1];
+            break;
+        case 4:
+            cur[0] = temp[1];
+            cur[1] = temp[2];
+            cur[2] = temp[0];
+            break;
+    }
+}

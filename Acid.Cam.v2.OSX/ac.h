@@ -596,6 +596,7 @@ namespace ac {
     void PixelReverseXor(cv::Mat &frame);
     void PixelatedSubFilterSort(cv::Mat &frame);
     void SilverBlend(cv::Mat &frame);
+    void RandomPixelOrderSort(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -631,6 +632,7 @@ namespace ac {
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
     void resetAlpha(int &dir, double &alpha);
     void resetAlpha(double &alpha);
+    void SwapColors(cv::Vec3b &v);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;
