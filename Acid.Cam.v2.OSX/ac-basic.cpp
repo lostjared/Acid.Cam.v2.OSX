@@ -70,7 +70,7 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
         // if alpha greater than 10
         if(alpha > 10) { alpha = 10; direction = 2; }
     } else {
-        alpha -= 0.05f; // minus equal 0.05
+        alpha -= alpha_inc; // minus equal 0.05
         // if alpha <= 0.1f
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }

@@ -268,10 +268,10 @@ void SearchForString(NSString *s) {
     [window1 setLevel: NSStatusWindowLevel];
     [window2 setLevel: NSStatusWindowLevel];
     [custom_window setLevel: NSStatusWindowLevel];
-    //[alpha_window setLevel: NSStatusWindowLevel];
+    [alpha_window setLevel: NSStatusWindowLevel];
     [plugin_window setLevel: NSStatusWindowLevel];
     [goto_frame setLevel: NSStatusWindowLevel];
-    //[filter_search_window setLevel:NSStatusWindowLevel];
+    [filter_search_window setLevel:NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
     [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
