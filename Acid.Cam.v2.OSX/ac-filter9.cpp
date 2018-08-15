@@ -894,5 +894,22 @@ void ac::ImageAverageXor(cv::Mat &frame) {
         }
         static int dir = 1;
         procPos(dir, alpha, alpha_max, 3.1, 0.1);
+        AddInvert(frame);
     }
+}
+
+void ac::PixelXorBlend(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 2.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = pixel;
+            for(int j = 0; j < 3; ++j) {
+                unsigned char v = static_cast<unsigned char>(pix[j]*alpha);
+                pixel[j] = (pix[0]^pix[1]^pix[2])^v;
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 5.0, 0.1);
 }
