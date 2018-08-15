@@ -866,3 +866,33 @@ void ac::ImageXorAlpha(cv::Mat &frame) {
         AddInvert(frame);
     }
 }
+
+void ac::ImageAverageXor(cv::Mat &frame) {
+    if(blend_set == true) {
+        static MatrixCollection<8> collection;
+        static double alpha = 1.0, alpha_max = 3.0;
+        cv::Mat frame_copy = frame.clone();
+        collection.shiftFrames(frame_copy);
+        DarkenFilter(frame);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Scalar values;
+                for(int q = 0; q < collection.size(); ++q) {
+                    cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j)
+                        values[j] += pix[j];
+                }
+                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
+                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
+                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] /= collection.size();
+                    pixel[j] = (pixel[j] ^ static_cast<unsigned char>((pix[j]*alpha)) ^ static_cast<unsigned char>((values[j]*alpha)));
+                }
+            }
+        }
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 3.1, 0.1);
+    }
+}
