@@ -636,6 +636,7 @@ namespace ac {
     void resetAlpha(int &dir, double &alpha);
     void resetAlpha(double &alpha);
     void SwapColors(cv::Vec3b &v);
+    void FillRow(cv::Mat &frame, unsigned int row, unsigned char value);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;

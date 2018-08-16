@@ -394,3 +394,12 @@ void ac::SwapColors(cv::Vec3b &cur) {
             break;
     }
 }
+
+void ac::FillRow(cv::Mat &frame, unsigned int row, unsigned char value) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[row] = value;
+        }
+    }
+}
