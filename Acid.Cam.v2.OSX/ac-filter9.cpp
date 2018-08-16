@@ -871,8 +871,7 @@ void ac::ImageAverageXor(cv::Mat &frame) {
     if(blend_set == true) {
         static MatrixCollection<8> collection;
         static double alpha = 1.0, alpha_max = 3.0;
-        cv::Mat frame_copy = frame.clone();
-        collection.shiftFrames(frame_copy);
+        collection.shiftFrames(frame);
         DarkenFilter(frame);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
@@ -888,7 +887,7 @@ void ac::ImageAverageXor(cv::Mat &frame) {
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j) {
                     values[j] /= collection.size();
-                    pixel[j] = (pixel[j] ^ static_cast<unsigned char>((pix[j]*alpha)) ^ static_cast<unsigned char>((values[j]*alpha)));
+                    pixel[j] = (static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>((pix[j]*alpha)) ^ static_cast<unsigned char>((values[j]*alpha)));
                 }
             }
         }
