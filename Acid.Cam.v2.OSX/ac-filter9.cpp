@@ -995,3 +995,14 @@ void ac::RainbowXorBlend(cv::Mat &frame) {
     resetAlpha(direction, alpha);
     AddInvert(frame);
 }
+
+void ac::FrameDifference(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Vec3b r(rand()%255, rand()%255, rand()%255);
+    ImageDifference(frame, &collection, [=](cv::Vec3b &val) {
+        for(int j = 0; j < 3; ++j) {
+            val[j] = val[j]^r[j];
+        }
+    });
+    AddInvert(frame);
+}
