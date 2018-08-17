@@ -933,4 +933,35 @@ void ac::SelfAlphaScale(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
+}
+
+void ac::SelfScaleAlpha(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    static int index[3] = {0,255/3,255/2};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha))^index[j];
+        }
+    }
+    static int direction[3] = {1,1,1};
+    for(int j = 0; j < 3; ++j) {
+        if(direction[j] == 1) {
+            if(index[j] >= 255)
+            	direction[j] = 0;
+            else
+            	++index[j];
+            
+        } else if(direction[j] == 0) {
+            if(index[j] <= 1)
+                direction[j] = 1;
+            else
+                --index[j];
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
