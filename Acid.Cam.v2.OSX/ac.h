@@ -600,6 +600,7 @@ namespace ac {
     void ImageXorAlpha(cv::Mat &frame);
     void ImageAverageXor(cv::Mat &frame);
     void PixelXorBlend(cv::Mat &frame);
+    void SelfAlphaScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

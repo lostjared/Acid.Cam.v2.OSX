@@ -911,4 +911,26 @@ void ac::PixelXorBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 5.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::SelfAlphaScale(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    static int index[3] = {0,255/3,255/2};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((pixel[j]^index[j])*alpha);
+        }
+    }
+    
+    for(int j = 0; j < 3; ++j) {
+        ++index[j];
+        if(index[j] >= 255) {
+            index[j] = 0;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
