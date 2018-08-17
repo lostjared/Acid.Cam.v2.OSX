@@ -965,3 +965,33 @@ void ac::SelfScaleAlpha(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     AddInvert(frame);
 }
+
+void ac::RainbowXorBlend(cv::Mat &frame) {
+    static double alpha = 1.0f, alpha_max = 6.0;
+    static int rb = 0, gb = 0, bb = 0;
+    if(rb == 0)
+        rb = rand()%255;
+    else ++rb;
+    if(gb == 0)
+        gb = rand()%255;
+    else ++gb;
+    if(bb == 0)
+        bb = rand()%255;
+    else ++bb;
+    static int i = 0, z = 0;
+    for(z = 0; z < frame.rows; ++z) {
+        for(i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = (pixel[0]^static_cast<unsigned char>(alpha*rb));
+            pixel[1] = (pixel[1]^static_cast<unsigned char>(alpha*gb));
+            pixel[2] = (pixel[2]^static_cast<unsigned char>(alpha*bb));
+        }
+    }
+    if(rb > 255) rb = 0;
+    if(gb > 255) gb = 0;
+    if(bb > 255) bb = 0;
+    static int direction = 1;
+    procPos(direction, alpha, alpha_max);
+    resetAlpha(direction, alpha);
+    AddInvert(frame);
+}
