@@ -1009,14 +1009,42 @@ void ac::FrameDifference(cv::Mat &frame) {
 
 void ac::SmallDiffference(cv::Mat &frame) {
     static MatrixCollection<8> collection;
-    static cv::Vec3b pix_value(1, 255/3, 255/2);
+    cv::Vec3b pix_value(rand()%255, rand()%255, rand()%255);
     ImageDifference(frame, &collection, [=](cv::Vec3b &val) {
         for(int j = 0; j < 3; ++j) {
             val[j] = val[j]^pix_value[j];
         }
     }, 5);
-    for(int j = 0; j < 3; ++j) {
-        ++pix_value[j];
-    }
     AddInvert(frame);
+}
+
+void ac::FadeBlend(cv::Mat &frame) {
+    static cv::Scalar fade(rand()%255, rand()%255, rand()%255);
+    static int dir[3] = { 1, 1, 1 };
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                unsigned char ch = static_cast<unsigned char>(fade[j]*alpha);
+                pixel[j] = pixel[j]^ch;
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            fade[j] += alpha_increase;
+            if(fade[j] >= 255) {
+                dir[j] = 0;
+            }
+        } else if(dir[j] == 0) {
+            fade[j] -= alpha_increase;
+            if(fade[j] <= 0) {
+                dir[j] = 1;
+                fade[j] = rand()%255;
+            }
+        }
+    }
+    static int direction = 1;
+    procPos(direction, alpha, alpha_max);
 }
