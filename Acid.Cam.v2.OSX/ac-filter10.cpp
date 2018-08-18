@@ -43,6 +43,70 @@
 
 #include"ac.h"
 
-void ac::ExpandSquare(cv::Mat &frame) {
+void ac::ExpandSquareSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ExpandSquareSubFilter")
+        return;
     
+    static int start_x = frame.cols/2;
+    static int stop_x = frame.cols/2;
+    static int speed = frame.cols/24;
+    cv::Mat frame_copy = frame.clone();
+    cv::Mat output;
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = start_x; i < stop_x; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel = frame_copy.at<cv::Vec3b>(z, i);
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        start_x -= speed;
+        stop_x += speed;
+        if(start_x <= 0  || stop_x > frame.cols-1) {
+            dir = 0;
+        }
+    } else {
+        start_x += speed;
+        stop_x -= speed;
+        if(start_x >= (frame.cols/2)-1  || stop_x <= (frame.cols/2)-1) {
+            dir = 1;
+        }
+    }
+}
+
+void ac::ExpandSquareBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ExpandSquareSubFilter")
+        return;
+    static int start_x = frame.cols/2;
+    static int stop_x = frame.cols/2;
+    static int speed = frame.cols/24;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    cv::Mat output;
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = start_x; i < stop_x; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(pix[j]*alpha);
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        start_x -= speed;
+        stop_x += speed;
+        if(start_x <= 0  || stop_x > frame.cols-1) {
+            dir = 0;
+        }
+    } else {
+        start_x += speed;
+        stop_x -= speed;
+        if(start_x >= (frame.cols/2)-1  || stop_x <= (frame.cols/2)-1) {
+            dir = 1;
+        }
+    }
+    static int direction = 1;
+    procPos(direction, alpha, alpha_max);
 }
