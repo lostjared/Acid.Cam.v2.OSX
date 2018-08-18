@@ -607,6 +607,7 @@ namespace ac {
     void SmallDiffference(cv::Mat &frame);
     void FadeBlend(cv::Mat &frame);
     void FilteredDifferenceSubFilter(cv::Mat &frame);
+    void ExpandSquare(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -796,7 +797,6 @@ namespace ac {
     void ImageCopyDifference(cv::Mat &frame,cv::Mat &filtered, MatrixCollection<Size> *collection, int range = 5) {
         if(frame.size() != filtered.size())
             return;
-        
         collection->shiftFrames(frame);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
