@@ -606,6 +606,7 @@ namespace ac {
     void FrameDifference(cv::Mat &frame);
     void SmallDiffference(cv::Mat &frame);
     void FadeBlend(cv::Mat &frame);
+    void FilteredDifferenceSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -787,6 +788,39 @@ namespace ac {
                 }
                 if(found == true) {
                     func_call(pixel);
+                }
+            }
+        }
+    }
+    template<int Size>
+    void ImageCopyDifference(cv::Mat &frame,cv::Mat &filtered, MatrixCollection<Size> *collection, int range = 5) {
+        if(frame.size() != filtered.size())
+            return;
+        
+        collection->shiftFrames(frame);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Scalar values;
+                for(int q = 0; q < collection->size(); ++q) {
+                    cv::Mat &pix_val = collection->frames[q];
+                    cv::Vec3b pix = pix_val.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        values[j] += pix[j];
+                    }
+                }
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b copypix = filtered.at<cv::Vec3b>(z, i);
+                bool found = false;
+                for(int j = 0; j < 3; ++j) {
+                    values[j] /= collection->size();
+                    unsigned char val = static_cast<unsigned char>(values[j]);
+                    if(pixel[j] > val+range || pixel[j] < val-range) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(found == true) {
+                    pixel = copypix;
                 }
             }
         }

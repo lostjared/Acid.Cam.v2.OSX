@@ -1048,3 +1048,12 @@ void ac::FadeBlend(cv::Mat &frame) {
     static int direction = 1;
     procPos(direction, alpha, alpha_max);
 }
+
+void ac::FilteredDifferenceSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FilteredDifferenceSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy_frame = frame.clone();
+    CallFilter(subfilter,copy_frame);
+    ImageCopyDifference(frame, copy_frame, &collection);
+}
