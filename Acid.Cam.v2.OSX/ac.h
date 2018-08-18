@@ -604,6 +604,7 @@ namespace ac {
     void SelfScaleAlpha(cv::Mat &frame);
     void RainbowXorBlend(cv::Mat &frame);
     void FrameDifference(cv::Mat &frame);
+    void SmallDiffference(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -761,7 +762,7 @@ namespace ac {
     }
     
     template<int Size, typename Func>
-    void ImageDifference(cv::Mat &frame, MatrixCollection<Size> *collection, Func func_call) {
+    void ImageDifference(cv::Mat &frame, MatrixCollection<Size> *collection, Func func_call, int range = 30) {
         collection->shiftFrames(frame);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
@@ -778,7 +779,7 @@ namespace ac {
                 for(int j = 0; j < 3; ++j) {
                     values[j] /= collection->size();
                     unsigned char val = static_cast<unsigned char>(values[j]);
-                    if(pixel[j] > val+30 || pixel[j] < val-30) {
+                    if(pixel[j] > val+range || pixel[j] < val-range) {
                         found = true;
                         break;
                     }

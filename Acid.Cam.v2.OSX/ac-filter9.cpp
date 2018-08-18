@@ -1006,3 +1006,17 @@ void ac::FrameDifference(cv::Mat &frame) {
     });
     AddInvert(frame);
 }
+
+void ac::SmallDiffference(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static cv::Vec3b pix_value(1, 255/3, 255/2);
+    ImageDifference(frame, &collection, [=](cv::Vec3b &val) {
+        for(int j = 0; j < 3; ++j) {
+            val[j] = val[j]^pix_value[j];
+        }
+    }, 5);
+    for(int j = 0; j < 3; ++j) {
+        ++pix_value[j];
+    }
+    AddInvert(frame);
+}
