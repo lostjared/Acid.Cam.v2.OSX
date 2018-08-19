@@ -110,3 +110,35 @@ void ac::ExpandSquareBlendSubFilter(cv::Mat &frame) {
     static int direction = 1;
     procPos(direction, alpha, alpha_max);
 }
+
+void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ExpandSquareVerticalSubFilter")
+        return;
+    
+    static int start_x = frame.rows/2;
+    static int stop_x = frame.rows/2;
+    static int speed = frame.rows/24;
+    cv::Mat frame_copy = frame.clone();
+    cv::Mat output;
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.cols; ++z) {
+        for(int i = start_x; i < stop_x; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
+            pixel = frame_copy.at<cv::Vec3b>(i, z);
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        start_x -= speed;
+        stop_x += speed;
+        if(start_x <= 0  || stop_x > frame.rows-1) {
+            dir = 0;
+        }
+    } else {
+        start_x += speed;
+        stop_x -= speed;
+        if(start_x >= (frame.rows/2)-1  || stop_x <= (frame.rows/2)-1) {
+            dir = 1;
+        }
+    }
+}

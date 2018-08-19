@@ -609,6 +609,7 @@ namespace ac {
     void FilteredDifferenceSubFilter(cv::Mat &frame);
     void ExpandSquareSubFilter(cv::Mat &frame);
     void ExpandSquareBlendSubFilter(cv::Mat &frame);
+    void ExpandSquareVerticalSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
