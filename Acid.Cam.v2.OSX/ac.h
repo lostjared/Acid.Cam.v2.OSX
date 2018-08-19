@@ -611,6 +611,8 @@ namespace ac {
     void ExpandSquareBlendSubFilter(cv::Mat &frame);
     void ExpandSquareVerticalSubFilter(cv::Mat &frame);
     void DarkImageMedianBlend(cv::Mat &frame);
+    void GammaDarken5(cv::Mat &frame);
+    void GammaDarken10(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -150,3 +150,14 @@ void ac::DarkImageMedianBlend(cv::Mat &frame) {
     	MedianBlend(frame);
     }
 }
+
+void ac::GammaDarken5(cv::Mat &frame) {
+    cv::Mat frame_copy = frame.clone();
+    setGamma(frame_copy, frame, 5);
+}
+
+void ac::GammaDarken10(cv::Mat &frame) {
+    cv::Mat frame_copy = frame.clone();
+    setGamma(frame_copy, frame, 10);
+}
+
