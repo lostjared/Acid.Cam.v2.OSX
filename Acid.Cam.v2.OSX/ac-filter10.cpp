@@ -114,7 +114,6 @@ void ac::ExpandSquareBlendSubFilter(cv::Mat &frame) {
 void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "ExpandSquareVerticalSubFilter")
         return;
-    
     static int start_x = frame.rows/2;
     static int stop_x = frame.rows/2;
     static int speed = frame.rows/24;
@@ -140,5 +139,14 @@ void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
         if(start_x >= (frame.rows/2)-1  || stop_x <= (frame.rows/2)-1) {
             dir = 1;
         }
+    }
+}
+
+void ac::DarkImageMedianBlend(cv::Mat &frame) {
+    if(blend_set == true) {
+    	SmoothImageAlphaBlend(frame);
+    	cv::Mat frame_copy = frame.clone();
+    	setGamma(frame_copy,frame,5);
+    	MedianBlend(frame);
     }
 }
