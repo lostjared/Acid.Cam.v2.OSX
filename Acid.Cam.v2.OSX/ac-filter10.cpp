@@ -195,3 +195,32 @@ void ac::FadeBars(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 5.0, 0.1);
 }
+
+void ac::MirrorXorAlpha(cv::Mat &frame) {
+    static double alpha[3] = {1.0, 3.0, 1.0}, alpha_max = 3.0;
+    static cv::Vec3b color_(rand()%255, rand()%255, rand()%255);
+    cv::Mat frame_copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b values[3];
+            values[0] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[1] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = cv::saturate_cast<unsigned char>(static_cast<unsigned char>((pixel[j]*alpha[j])) ^ static_cast<unsigned char>((values[0][j]*alpha[j])) ^ static_cast<unsigned char>((values[1][j]*alpha[j])) ^ static_cast<unsigned char>((values[2][j]*alpha[j])));
+                pixel[j] = pixel[j]^color_[j];
+            }
+        }
+    }
+    AddInvert(frame);
+    static int dir[3] = {1, 0, 1};
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            color_[j] += 5;
+        } else if(dir[j] == 0) {
+            color_[j] -= 5;
+        }
+    	procPos(dir[j], alpha[j], alpha_max, 4.0, 0.1);
+    }
+}
