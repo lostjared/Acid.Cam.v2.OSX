@@ -614,6 +614,7 @@ namespace ac {
     void GammaDarken5(cv::Mat &frame);
     void GammaDarken10(cv::Mat &frame);
     void SelfAlphaScaleBlend(cv::Mat &frame);
+    void TestFilter101c(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -221,6 +221,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) releaseFrames:(id)sender;
 - (IBAction) setSubFilter:(id) sender;
 - (IBAction) clearSubFilter: (id) sender;
+- (IBAction) setSubSearch: (id) sender;
 @end
 
 // global variables / functions

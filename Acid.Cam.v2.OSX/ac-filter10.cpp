@@ -179,3 +179,7 @@ void ac::SelfAlphaScaleBlend(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir,alpha,alpha_max);
 }
+
+void ac::TestFilter101c(cv::Mat &frame) {
+    
+}
