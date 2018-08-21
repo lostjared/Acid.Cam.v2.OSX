@@ -244,3 +244,24 @@ void ac::StrobeXor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::IntertwinedMirror(cv::Mat &frame) {
+    
+    cv::Mat frame_copy = frame.clone();
+    int lines = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b values[3];
+            values[0] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[1] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^values[lines][j];
+            }
+        }
+        ++lines;
+        if(lines > 2)
+            lines = 0;
+    }
+}
