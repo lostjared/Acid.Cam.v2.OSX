@@ -616,6 +616,8 @@ namespace ac {
     void SelfAlphaScaleBlend(cv::Mat &frame);
     void FadeBars(cv::Mat &frame);
     void MirrorXorAlpha(cv::Mat &frame);
+    void MirrorEnergizeSubFilter(cv::Mat &frame);
+    void StrobeXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

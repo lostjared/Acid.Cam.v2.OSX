@@ -224,3 +224,23 @@ void ac::MirrorXorAlpha(cv::Mat &frame) {
     	procPos(dir[j], alpha[j], alpha_max, 4.0, 0.1);
     }
 }
+
+void ac::MirrorEnergizeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MirrorEnergizeSubFilter")
+        return;
+    DarkenImage(frame, 6);
+    MirrorXorAlpha(frame);
+    EnergizeSubFilter(frame);
+}
+
+void ac::StrobeXor(cv::Mat &frame) {
+    cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]^pix[j];
+        }
+    }
+    AddInvert(frame);
+}
