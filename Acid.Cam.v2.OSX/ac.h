@@ -619,6 +619,7 @@ namespace ac {
     void MirrorEnergizeSubFilter(cv::Mat &frame);
     void StrobeXor(cv::Mat &frame);
     void IntertwinedMirror(cv::Mat &frame);
+    void BlurredMirror(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
