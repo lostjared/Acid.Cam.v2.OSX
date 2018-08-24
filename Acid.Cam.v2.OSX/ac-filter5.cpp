@@ -382,7 +382,7 @@ void ac::SmoothTrailsRainbowBlend(cv::Mat &frame) {
 
 void ac::MedianBlend(cv::Mat &frame) {
     static MatrixCollection<8> collection;
-    int r = rand()%10;
+    int r = 3+rand()%7;
     for(int i = 0; i < r; ++i)
         MedianBlur(frame);
     
