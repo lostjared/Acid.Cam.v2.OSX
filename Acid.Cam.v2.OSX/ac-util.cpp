@@ -1,5 +1,5 @@
-/* Acid Cam Functions for OpenCV
- * written by Jared Bruni https://github.com/lostjared
+/*
+ * Software written by Jared Bruni https://github.com/lostjared
  
  This software is dedicated to all the people that struggle with mental illness.
  
@@ -9,9 +9,9 @@
  Twitter: http://twitter.com/jaredbruni
  Facebook: http://facebook.com/LostSideDead0x
  
- You can use this program free of charge and redistrubute as long
- as you do not charge anything for this program. This program is 100%
- Free.
+ You can use this program free of charge and redistrubute it online as long
+ as you do not charge anything for this program. This program is meant to be
+ 100% free.
  
  BSD 2-Clause License
  
@@ -40,6 +40,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
+
 
 #include "ac.h"
 

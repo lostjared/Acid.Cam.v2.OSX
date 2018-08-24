@@ -127,16 +127,13 @@
 		7FE23DB51E28356900B14623 /* liblibpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibpng.a; path = cvlibs/liblibpng.a; sourceTree = "<group>"; };
 		7FE23DB61E28356900B14623 /* liblibtiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibtiff.a; path = cvlibs/liblibtiff.a; sourceTree = "<group>"; };
 		7FE23DB71E28356900B14623 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = cvlibs/libswscale.a; sourceTree = "<group>"; };
-		7FE23DB81E28356900B14623 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = cvlibs/libwebp.a; sourceTree = "<group>"; };
-		7FE23DB91E28356900B14623 /* libwebpdecoder.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpdecoder.a; path = cvlibs/libwebpdecoder.a; sourceTree = "<group>"; };
-		7FE23DBA1E28356900B14623 /* libwebpdemux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpdemux.a; path = cvlibs/libwebpdemux.a; sourceTree = "<group>"; };
-		7FE23DBB1E28356900B14623 /* libwebpmux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpmux.a; path = cvlibs/libwebpmux.a; sourceTree = "<group>"; };
 		7FE23DBC1E28356900B14623 /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = cvlibs/libzlib.a; sourceTree = "<group>"; };
 		7FE23DD01E28397900B14623 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		7FE23DD21E28398000B14623 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		7FE23DE81E28403000B14623 /* libf77lapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libf77lapack.tbd; path = usr/lib/libf77lapack.tbd; sourceTree = SDKROOT; };
 		7FE23DEA1E28403C00B14623 /* libclapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libclapack.tbd; path = usr/lib/libclapack.tbd; sourceTree = SDKROOT; };
 		7FE23DEB1E28403C00B14623 /* liblapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblapack.tbd; path = usr/lib/liblapack.tbd; sourceTree = SDKROOT; };
+		7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
 		7FEE831120C394320027A848 /* ac-util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-util.cpp"; path = "Acid.Cam.v2.OSX/ac-util.cpp"; sourceTree = "<group>"; };
 		7FEE831220C394320027A848 /* ac-obj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-obj.cpp"; path = "Acid.Cam.v2.OSX/ac-obj.cpp"; sourceTree = "<group>"; };
 		7FEE831620C399420027A848 /* ac-alpha.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-alpha.cpp"; path = "Acid.Cam.v2.OSX/ac-alpha.cpp"; sourceTree = "<group>"; };
@@ -246,6 +243,7 @@
 		7F9D709417DE4F35009C54DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */,
 				7F9E38AE204C7814002A1F4F /* libavresample.a */,
 				7F9E38A9204B3ED3002A1F4F /* libippiw.a */,
 				7F9E38A8204B3ED3002A1F4F /* libittnotify.a */,
@@ -267,10 +265,6 @@
 				7FE23DB51E28356900B14623 /* liblibpng.a */,
 				7FE23DB61E28356900B14623 /* liblibtiff.a */,
 				7FE23DB71E28356900B14623 /* libswscale.a */,
-				7FE23DB81E28356900B14623 /* libwebp.a */,
-				7FE23DB91E28356900B14623 /* libwebpdecoder.a */,
-				7FE23DBA1E28356900B14623 /* libwebpdemux.a */,
-				7FE23DBB1E28356900B14623 /* libwebpmux.a */,
 				7FE23DBC1E28356900B14623 /* libzlib.a */,
 				7FE23DA81E28355600B14623 /* libblas.tbd */,
 				7FE23DA91E28355600B14623 /* libcblas.tbd */,
