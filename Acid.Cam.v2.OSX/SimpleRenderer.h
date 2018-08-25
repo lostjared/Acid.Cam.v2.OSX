@@ -49,7 +49,6 @@
 @property (readonly) BOOL hasNewFrame;
 - (void)render:(NSSize)dimensions;
 - (void)updateTexture: (cv::Mat *)fval;
-
 @end
 
 extern SimpleRenderer *render_;
