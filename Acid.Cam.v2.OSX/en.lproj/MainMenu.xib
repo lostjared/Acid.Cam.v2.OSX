@@ -80,6 +80,8 @@
                 <outlet property="startProg" destination="624" id="fSI-qU-vVv"/>
                 <outlet property="stop_prog" destination="AhA-QM-fZT" id="tGq-Wi-bIT"/>
                 <outlet property="stretch_scr" destination="KDy-87-FEf" id="dpI-bj-Wy9"/>
+                <outlet property="syphon_enable" destination="bXM-2u-RbS" id="x8Z-yI-Bh1"/>
+                <outlet property="syphon_window" destination="ueZ-Gv-BFp" id="wee-Pc-moO"/>
                 <outlet property="t_blue" destination="RGD-8Y-jEt" id="678-Yx-cN5"/>
                 <outlet property="t_green" destination="hsX-nQ-Lfe" id="GnH-0a-llw"/>
                 <outlet property="t_red" destination="m3P-As-OgG" id="mXd-cA-huW"/>
@@ -240,10 +242,22 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="JMa-C6-w0P"/>
-                            <menuItem title="Freeze" id="J0h-Ug-VbD">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Freeze" keyEquivalent="f" id="J0h-Ug-VbD">
                                 <connections>
                                     <action selector="menuFreeze:" target="630" id="2Df-7a-7oL"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Syphon" id="SwO-RJ-hCA">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Syphon" id="72S-wv-BlG">
+                        <items>
+                            <menuItem title="Output as Syphon Server" id="bXM-2u-RbS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="enableSpyhon:" target="630" id="qaH-Fw-TXD"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -1743,8 +1757,8 @@ Gw
         </window>
         <menuItem title="0.03" id="qUl-bN-OY2"/>
         <menuItem title="0.03" id="ud4-7j-6W7"/>
-        <window title="Simple Server" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="ueZ-Gv-BFp">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+        <window title="Acid Cam - Syphon Server" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="ueZ-Gv-BFp">
+            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="132" y="209" width="640" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
@@ -1759,7 +1773,7 @@ Gw
                     </openGLView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="160" y="641"/>
+            <point key="canvasLocation" x="165" y="671"/>
         </window>
     </objects>
 </document>

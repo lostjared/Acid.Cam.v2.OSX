@@ -16,7 +16,6 @@
 		7F9D70A017DE4F35009C54DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D709E17DE4F35009C54DA /* InfoPlist.strings */; };
 		7F9D70A217DE4F35009C54DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A117DE4F35009C54DA /* main.m */; };
 		7F9D70A617DE4F35009C54DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70A417DE4F35009C54DA /* Credits.rtf */; };
-		7F9D70A917DE4F35009C54DA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A817DE4F35009C54DA /* AppDelegate.mm */; };
 		7F9D70AC17DE4F35009C54DA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70AA17DE4F35009C54DA /* MainMenu.xib */; };
 		7F9D70ED17DE4F7C009C54DA /* AC_Controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */; };
 		7F9D70F017DE4F7C009C54DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70B917DE4F7C009C54DA /* InfoPlist.strings */; };
@@ -113,8 +112,6 @@
 		7F9D70A117DE4F35009C54DA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7F9D70A317DE4F35009C54DA /* Acid.Cam.v2.OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Acid.Cam.v2.OSX-Prefix.pch"; sourceTree = "<group>"; };
 		7F9D70A517DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		7F9D70A717DE4F35009C54DA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7F9D70A817DE4F35009C54DA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		7F9D70AB17DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F9D70B217DE4F7C009C54DA /* AC_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AC_Controller.h; path = Acid.Cam.v2.OSX/AC_Controller.h; sourceTree = "<group>"; };
 		7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_Controller.mm; path = Acid.Cam.v2.OSX/AC_Controller.mm; sourceTree = "<group>"; };
@@ -239,8 +236,6 @@
 				7FEC38772130EB6800EE1A3E /* SimpleRenderer.h */,
 				7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */,
 				7F9D715A17DE5082009C54DA /* image.icns */,
-				7F9D70A717DE4F35009C54DA /* AppDelegate.h */,
-				7F9D70A817DE4F35009C54DA /* AppDelegate.mm */,
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
 				7F9D70EB17DE4F7C009C54DA /* videocapture.h */,
@@ -454,7 +449,6 @@
 				7F9D70A217DE4F35009C54DA /* main.m in Sources */,
 				7FD9985320FE1907003B76A3 /* ac-filter8.cpp in Sources */,
 				7FB150EE2110B00D00DAD5FC /* ac-filter9.cpp in Sources */,
-				7F9D70A917DE4F35009C54DA /* AppDelegate.mm in Sources */,
 				7FEE831420C394320027A848 /* ac-util.cpp in Sources */,
 				7FC2145C2128DB08001EBDA3 /* ac-filter10.cpp in Sources */,
 				7FEC38782130EB6800EE1A3E /* SimpleRenderer.mm in Sources */,

@@ -92,6 +92,8 @@ extern void SearchForString(NSString *s);
     IBOutlet NSTextView *t_view;
     IBOutlet NSMenuItem *menuPaused, *stop_prog, *disable_filters, *pause_step, *menu_freeze;
     IBOutlet NSMenuItem *rotate_v, *rotate_h;
+    IBOutlet NSMenuItem *syphon_enable;
+    IBOutlet NSWindow *syphon_window;
     IBOutlet NSButton *startProg;
     IBOutlet NSPopUpButton *current_filter, *corder, *output_Type, *categories, *current_filter_custom, *categories_custom;
     IBOutlet NSWindow   *custom_window, *goto_frame;
@@ -148,6 +150,7 @@ extern void SearchForString(NSString *s);
     bool upscale_video;
     bool set_frame_rate;
     double set_frame_rate_val;
+    BOOL syphon_enabled;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
@@ -223,6 +226,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) setSubFilter:(id) sender;
 - (IBAction) clearSubFilter: (id) sender;
 - (IBAction) setSubSearch: (id) sender;
+- (IBAction) enableSpyhon: (id) sender;
 @end
 
 // global variables / functions

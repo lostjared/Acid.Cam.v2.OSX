@@ -305,7 +305,7 @@ void SearchForString(NSString *s) {
     set_frame_rate = false;
     set_frame_rate_val = 24;
     reset_memory = false;
-    
+    syphon_enabled = NO;
      /*
     
     std::vector<std::string> valz;
@@ -911,7 +911,7 @@ void SearchForString(NSString *s) {
         }
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [render_ updateTexture: &frame];
+            if(syphon_enabled == YES) [render_ updateTexture: &frame];
         });
         
         if(ac::snapShot == true) {
@@ -1147,7 +1147,7 @@ void SearchForString(NSString *s) {
         file_size = buf.st_size;
     }
     
-    [render_ updateTexture:&frame];
+    if(syphon_enabled == YES) [render_ updateTexture:&frame];
     
     if(ac::snapShot == true) {
         static unsigned int index = 0;
@@ -1713,6 +1713,18 @@ void SearchForString(NSString *s) {
     std::ostringstream stream;
     stream << "Sub Filter cleared\n";
     flushToLog(stream);
+}
+
+- (IBAction) enableSpyhon: (id) sender {
+    if([syphon_enable state] == NSOnState) {
+        [syphon_enable setState: NSOffState];
+        [syphon_window orderOut:self];
+        syphon_enabled = NO;
+    } else {
+        [syphon_enable setState: NSOnState];
+        [syphon_window orderFront:self];
+        syphon_enabled = YES;
+    }
 }
 
 @end
