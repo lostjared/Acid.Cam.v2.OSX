@@ -328,12 +328,17 @@
             </items>
             <point key="canvasLocation" x="-637" y="-297"/>
         </menu>
-        <customObject id="494" customClass="AppDelegate"/>
+        <customObject id="494" customClass="Simple_ServerAppDelegate">
+            <connections>
+                <outlet property="glView" destination="xoh-dp-4jL" id="rl6-Jc-JA0"/>
+                <outlet property="window" destination="ueZ-Gv-BFp" id="So5-bd-v2W"/>
+            </connections>
+        </customObject>
         <customObject id="420" customClass="NSFontManager"/>
         <window title="Acid Cam v2 - Start New Session" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="538">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="124" y="717" width="320" height="219"/>
+            <rect key="contentRect" x="124" y="878" width="320" height="219"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="539">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
@@ -490,7 +495,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="191" y="352.5"/>
+            <point key="canvasLocation" x="-26" y="34"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
@@ -1738,5 +1743,23 @@ Gw
         </window>
         <menuItem title="0.03" id="qUl-bN-OY2"/>
         <menuItem title="0.03" id="ud4-7j-6W7"/>
+        <window title="Simple Server" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="ueZ-Gv-BFp">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="132" y="209" width="640" height="480"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="200" height="100"/>
+            <view key="contentView" id="mfr-r3-WuV">
+                <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <openGLView fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" depthSize="16bit" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xoh-dp-4jL" customClass="SimpleImageView">
+                        <rect key="frame" x="0.0" y="20" width="640" height="460"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </openGLView>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="160" y="641"/>
+        </window>
     </objects>
 </document>

@@ -89,6 +89,8 @@ void custom_filter(cv::Mat &frame);
 void plugin_callback(cv::Mat &frame);
 NSMutableArray *search_results;
 
+
+
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
@@ -304,8 +306,7 @@ void SearchForString(NSString *s) {
     set_frame_rate_val = 24;
     reset_memory = false;
     
-
-    /*
+     /*
     
     std::vector<std::string> valz;
     token::tokenize<std::string>(values, ",", valz);
@@ -723,6 +724,7 @@ void SearchForString(NSString *s) {
             [stretch_scr setState: NSOffState];
         }
         if(camera_mode == 0) {
+            
             isPaused = false;
             [menuPaused setState:NSOffState];
             frames_captured = 0;
@@ -762,7 +764,7 @@ void SearchForString(NSString *s) {
 }
 
 - (void) camThread: (id) sender {
-    cv::Mat frame;
+    __block cv::Mat frame;
     bool got_frame = true;
     while(camera_active && got_frame) {
         if(isPaused) continue;
@@ -907,6 +909,11 @@ void SearchForString(NSString *s) {
             stat(ac::fileName.c_str(), &buf);
             file_size = buf.st_size;
         }
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [render_ updateTexture: &frame];
+        });
+        
         if(ac::snapShot == true) {
             static unsigned int index = 0;
             stream.str("");
@@ -1139,6 +1146,9 @@ void SearchForString(NSString *s) {
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;
     }
+    
+    [render_ updateTexture:&frame];
+    
     if(ac::snapShot == true) {
         static unsigned int index = 0;
         stream.str("");

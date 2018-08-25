@@ -48,12 +48,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#import <Foundation/Foundation.h>
-#import <Cocoa/Cocoa.h>
+#import<Syphon/Syphon.h>
+#import<Foundation/Foundation.h>
+#import<Cocoa/Cocoa.h>
 #undef check
 #include"videocapture.h"
 #include<sstream>
-
+#include "SimpleRenderer.h"
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
@@ -235,3 +236,5 @@ extern AC_Controller *controller;
 extern cv::Mat old_frame;
 extern bool resize_frame;
 extern NSRect rc;
+extern cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor);
+

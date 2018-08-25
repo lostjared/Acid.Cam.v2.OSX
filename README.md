@@ -1,6 +1,10 @@
 # Acid.Cam.v2.OSX
 
 
+Download Newest release: http://lostsidedead.biz/osx/Acid.Cam.v2.4.4.OpenCV3.High.Sierra.dmg
+
+Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
+
 Acid Cam distorts video to create art. It is designed to bo used with other software or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
 
 This project was created in hopes of providing some entertainment, or for the Glitch artist  to give you a 
@@ -23,8 +27,6 @@ Newest version of the program now requires macOS High Sierra to run.
 You can find a some of the old releases on my website here: http://lostsidedead.biz/osx
 
 To compile first clone then open with Xcode and build.
-
-![AnimatedImage](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/jaredpeace.gif "screenshot")
 
 ![AI](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam.jared.gif?raw=true "animation")
 

@@ -1,12 +1,11 @@
 //
-//  AppDelegate.m
-//  AcidCam.v2
+//  AppDelegate.h
+//  Acid.Cam.2
 //
 //  Created by Jared Bruni on 6/3/13.
 //  Copyright (c) 2018 Jared Bruni. All rights reserved.
 /*
  
- This software is dedicated to all the people that struggle with mental illness.
  
  GitHub: http://github.com/lostjared
  Website: http://lostsidedead.com
@@ -46,19 +45,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AppDelegate.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation AppDelegate
+@interface AppDelegate : NSObject <NSApplicationDelegate>
 
-- (void)dealloc
-{
-    [super dealloc];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Insert code here to initialize your application
-     [[self window] setLevel:NSFloatingWindowLevel];
-}
+@property (assign) IBOutlet NSWindow *window;
 
 @end

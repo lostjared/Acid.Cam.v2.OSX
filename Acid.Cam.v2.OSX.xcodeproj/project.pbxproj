@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7F18458B17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F18458A17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework */; };
 		7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F47CB331C6D0549008689B9 /* AudioToolbox.framework */; };
 		7F4D4B9320E50293000248F9 /* ac-filter7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D4B9220E50292000248F9 /* ac-filter7.cpp */; };
 		7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F5181C720CC7F4200CF342C /* ac-filter6.cpp */; };
@@ -17,7 +16,7 @@
 		7F9D70A017DE4F35009C54DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D709E17DE4F35009C54DA /* InfoPlist.strings */; };
 		7F9D70A217DE4F35009C54DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A117DE4F35009C54DA /* main.m */; };
 		7F9D70A617DE4F35009C54DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70A417DE4F35009C54DA /* Credits.rtf */; };
-		7F9D70A917DE4F35009C54DA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A817DE4F35009C54DA /* AppDelegate.m */; };
+		7F9D70A917DE4F35009C54DA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A817DE4F35009C54DA /* AppDelegate.mm */; };
 		7F9D70AC17DE4F35009C54DA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70AA17DE4F35009C54DA /* MainMenu.xib */; };
 		7F9D70ED17DE4F7C009C54DA /* AC_Controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */; };
 		7F9D70F017DE4F7C009C54DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70B917DE4F7C009C54DA /* InfoPlist.strings */; };
@@ -46,6 +45,8 @@
 		7F9E38C9204C807C002A1F4F /* libippicv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB21E28356900B14623 /* libippicv.a */; };
 		7FB150EE2110B00D00DAD5FC /* ac-filter9.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FB150ED2110B00D00DAD5FC /* ac-filter9.cpp */; };
 		7FC2145C2128DB08001EBDA3 /* ac-filter10.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FC2145B2128DB08001EBDA3 /* ac-filter10.cpp */; };
+		7FC2B66A213185E700E54B6E /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC2B668213185D000E54B6E /* Syphon.framework */; };
+		7FC2B66B213185E700E54B6E /* Syphon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC2B668213185D000E54B6E /* Syphon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7FD9985320FE1907003B76A3 /* ac-filter8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FD9985220FE1906003B76A3 /* ac-filter8.cpp */; };
 		7FE23DA71E28350700B14623 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DA61E28350700B14623 /* OpenCL.framework */; };
 		7FE23DD11E28397900B14623 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DD01E28397900B14623 /* CoreMedia.framework */; };
@@ -55,6 +56,13 @@
 		7FE23DED1E28403C00B14623 /* liblapack.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DEB1E28403C00B14623 /* liblapack.tbd */; };
 		7FE23DEE1E28405E00B14623 /* libblas.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DA81E28355600B14623 /* libblas.tbd */; };
 		7FE23DEF1E28405E00B14623 /* libcblas.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DA91E28355600B14623 /* libcblas.tbd */; };
+		7FEC3863213092D200EE1A3E /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */; };
+		7FEC38692130937200EE1A3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38682130937200EE1A3E /* OpenGL.framework */; };
+		7FEC38722130E97B00EE1A3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38702130E97A00EE1A3E /* QuartzCore.framework */; };
+		7FEC38732130E97B00EE1A3E /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38712130E97B00EE1A3E /* Quartz.framework */; };
+		7FEC38782130EB6800EE1A3E /* SimpleRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */; };
+		7FEC38792130EB6800EE1A3E /* Simple_ServerAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC38762130EB6800EE1A3E /* Simple_ServerAppDelegate.mm */; };
+		7FEC387C2130EB9900EE1A3E /* SimpleImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC387A2130EB9800EE1A3E /* SimpleImageView.mm */; };
 		7FEE831420C394320027A848 /* ac-util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831120C394320027A848 /* ac-util.cpp */; };
 		7FEE831520C394320027A848 /* ac-obj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831220C394320027A848 /* ac-obj.cpp */; };
 		7FEE831720C399420027A848 /* ac-alpha.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831620C399420027A848 /* ac-alpha.cpp */; };
@@ -71,9 +79,22 @@
 		7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE833220C45B560027A848 /* ac-filter5.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7FEC38672130932800EE1A3E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7FC2B66B213185E700E54B6E /* Syphon.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7F122ED919C37026000DA576 /* Acid.Cam.v2.OSX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Acid.Cam.v2.OSX.entitlements; sourceTree = "<group>"; };
-		7F18458A17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
 		7F47CB331C6D0549008689B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7F4A50A920800F84009998DA /* tokenize.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tokenize.hpp; path = Acid.Cam.v2.OSX/tokenize.hpp; sourceTree = "<group>"; };
 		7F4D4B9220E50292000248F9 /* ac-filter7.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter7.cpp"; path = "Acid.Cam.v2.OSX/ac-filter7.cpp"; sourceTree = "<group>"; };
@@ -93,7 +114,7 @@
 		7F9D70A317DE4F35009C54DA /* Acid.Cam.v2.OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Acid.Cam.v2.OSX-Prefix.pch"; sourceTree = "<group>"; };
 		7F9D70A517DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		7F9D70A717DE4F35009C54DA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7F9D70A817DE4F35009C54DA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7F9D70A817DE4F35009C54DA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		7F9D70AB17DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F9D70B217DE4F7C009C54DA /* AC_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AC_Controller.h; path = Acid.Cam.v2.OSX/AC_Controller.h; sourceTree = "<group>"; };
 		7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_Controller.mm; path = Acid.Cam.v2.OSX/AC_Controller.mm; sourceTree = "<group>"; };
@@ -111,6 +132,8 @@
 		7F9E38AE204C7814002A1F4F /* libavresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavresample.a; path = cvlibs/libavresample.a; sourceTree = "<group>"; };
 		7FB150ED2110B00D00DAD5FC /* ac-filter9.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter9.cpp"; path = "Acid.Cam.v2.OSX/ac-filter9.cpp"; sourceTree = "<group>"; };
 		7FC2145B2128DB08001EBDA3 /* ac-filter10.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter10.cpp"; path = "Acid.Cam.v2.OSX/ac-filter10.cpp"; sourceTree = "<group>"; };
+		7FC2B666213185B800E54B6E /* Frameworks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Frameworks; sourceTree = "<group>"; };
+		7FC2B668213185D000E54B6E /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syphon.framework; path = Frameworks/Syphon.framework; sourceTree = "<group>"; };
 		7FD9985220FE1906003B76A3 /* ac-filter8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter8.cpp"; path = "Acid.Cam.v2.OSX/ac-filter8.cpp"; sourceTree = "<group>"; };
 		7FE23DA61E28350700B14623 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		7FE23DA81E28355600B14623 /* libblas.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libblas.tbd; path = usr/lib/libblas.tbd; sourceTree = SDKROOT; };
@@ -134,6 +157,15 @@
 		7FE23DEA1E28403C00B14623 /* libclapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libclapack.tbd; path = usr/lib/libclapack.tbd; sourceTree = SDKROOT; };
 		7FE23DEB1E28403C00B14623 /* liblapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblapack.tbd; path = usr/lib/liblapack.tbd; sourceTree = SDKROOT; };
 		7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
+		7FEC38682130937200EE1A3E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		7FEC38702130E97A00EE1A3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7FEC38712130E97B00EE1A3E /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleRenderer.mm; path = Acid.Cam.v2.OSX/SimpleRenderer.mm; sourceTree = "<group>"; };
+		7FEC38752130EB6700EE1A3E /* Simple_ServerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Simple_ServerAppDelegate.h; path = Acid.Cam.v2.OSX/Simple_ServerAppDelegate.h; sourceTree = "<group>"; };
+		7FEC38762130EB6800EE1A3E /* Simple_ServerAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Simple_ServerAppDelegate.mm; path = Acid.Cam.v2.OSX/Simple_ServerAppDelegate.mm; sourceTree = "<group>"; };
+		7FEC38772130EB6800EE1A3E /* SimpleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleRenderer.h; path = Acid.Cam.v2.OSX/SimpleRenderer.h; sourceTree = "<group>"; };
+		7FEC387A2130EB9800EE1A3E /* SimpleImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleImageView.mm; path = Acid.Cam.v2.OSX/SimpleImageView.mm; sourceTree = "<group>"; };
+		7FEC387B2130EB9800EE1A3E /* SimpleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleImageView.h; path = Acid.Cam.v2.OSX/SimpleImageView.h; sourceTree = "<group>"; };
 		7FEE831120C394320027A848 /* ac-util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-util.cpp"; path = "Acid.Cam.v2.OSX/ac-util.cpp"; sourceTree = "<group>"; };
 		7FEE831220C394320027A848 /* ac-obj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-obj.cpp"; path = "Acid.Cam.v2.OSX/ac-obj.cpp"; sourceTree = "<group>"; };
 		7FEE831620C399420027A848 /* ac-alpha.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-alpha.cpp"; path = "Acid.Cam.v2.OSX/ac-alpha.cpp"; sourceTree = "<group>"; };
@@ -155,6 +187,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FEC38722130E97B00EE1A3E /* QuartzCore.framework in Frameworks */,
+				7FEC38732130E97B00EE1A3E /* Quartz.framework in Frameworks */,
 				7F9E38B8204C807C002A1F4F /* libippiw.a in Frameworks */,
 				7F9E38B9204C807C002A1F4F /* libittnotify.a in Frameworks */,
 				7F9E38BA204C807C002A1F4F /* liblibjpeg.a in Frameworks */,
@@ -178,14 +212,16 @@
 				7FE23DEC1E28403C00B14623 /* libclapack.tbd in Frameworks */,
 				7FE23DED1E28403C00B14623 /* liblapack.tbd in Frameworks */,
 				7FE23DE91E28403000B14623 /* libf77lapack.tbd in Frameworks */,
+				7FC2B66A213185E700E54B6E /* Syphon.framework in Frameworks */,
+				7FEC38692130937200EE1A3E /* OpenGL.framework in Frameworks */,
 				7FE23DD31E28398000B14623 /* CoreVideo.framework in Frameworks */,
 				7FE23DD11E28397900B14623 /* CoreMedia.framework in Frameworks */,
 				7FE23DA71E28350700B14623 /* OpenCL.framework in Frameworks */,
 				7F5831E61E27F3CB00101A98 /* AVFoundation.framework in Frameworks */,
 				7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */,
 				7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */,
-				7F18458B17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework in Frameworks */,
 				7F9D712117DE4FA0009C54DA /* AppKit.framework in Frameworks */,
+				7FEC3863213092D200EE1A3E /* VideoDecodeAcceleration.framework in Frameworks */,
 				7F9D709617DE4F35009C54DA /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,8 +232,15 @@
 		7F9D708917DE4F35009C54DA = {
 			isa = PBXGroup;
 			children = (
-				7F18458A17DE5F6300EFB4BE /* VideoDecodeAcceleration.framework */,
+				7FEC387B2130EB9800EE1A3E /* SimpleImageView.h */,
+				7FEC387A2130EB9800EE1A3E /* SimpleImageView.mm */,
+				7FEC38752130EB6700EE1A3E /* Simple_ServerAppDelegate.h */,
+				7FEC38762130EB6800EE1A3E /* Simple_ServerAppDelegate.mm */,
+				7FEC38772130EB6800EE1A3E /* SimpleRenderer.h */,
+				7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */,
 				7F9D715A17DE5082009C54DA /* image.icns */,
+				7F9D70A717DE4F35009C54DA /* AppDelegate.h */,
+				7F9D70A817DE4F35009C54DA /* AppDelegate.mm */,
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
 				7F9D70EB17DE4F7C009C54DA /* videocapture.h */,
@@ -243,6 +286,11 @@
 		7F9D709417DE4F35009C54DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7FC2B668213185D000E54B6E /* Syphon.framework */,
+				7FC2B666213185B800E54B6E /* Frameworks */,
+				7FEC38712130E97B00EE1A3E /* Quartz.framework */,
+				7FEC38702130E97A00EE1A3E /* QuartzCore.framework */,
+				7FEC38682130937200EE1A3E /* OpenGL.framework */,
 				7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */,
 				7F9E38AE204C7814002A1F4F /* libavresample.a */,
 				7F9E38A9204B3ED3002A1F4F /* libippiw.a */,
@@ -294,8 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				7F122ED919C37026000DA576 /* Acid.Cam.v2.OSX.entitlements */,
-				7F9D70A717DE4F35009C54DA /* AppDelegate.h */,
-				7F9D70A817DE4F35009C54DA /* AppDelegate.m */,
 				7F9D70AA17DE4F35009C54DA /* MainMenu.xib */,
 				7F9D709C17DE4F35009C54DA /* Supporting Files */,
 			);
@@ -334,6 +380,7 @@
 				7F9D708E17DE4F35009C54DA /* Sources */,
 				7F9D708F17DE4F35009C54DA /* Frameworks */,
 				7F9D709017DE4F35009C54DA /* Resources */,
+				7FEC38672130932800EE1A3E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -407,16 +454,19 @@
 				7F9D70A217DE4F35009C54DA /* main.m in Sources */,
 				7FD9985320FE1907003B76A3 /* ac-filter8.cpp in Sources */,
 				7FB150EE2110B00D00DAD5FC /* ac-filter9.cpp in Sources */,
-				7F9D70A917DE4F35009C54DA /* AppDelegate.m in Sources */,
+				7F9D70A917DE4F35009C54DA /* AppDelegate.mm in Sources */,
 				7FEE831420C394320027A848 /* ac-util.cpp in Sources */,
 				7FC2145C2128DB08001EBDA3 /* ac-filter10.cpp in Sources */,
+				7FEC38782130EB6800EE1A3E /* SimpleRenderer.mm in Sources */,
 				7F9D70ED17DE4F7C009C54DA /* AC_Controller.mm in Sources */,
 				7FEE831520C394320027A848 /* ac-obj.cpp in Sources */,
 				7FEE832E20C45B0E0027A848 /* ac-filter1.cpp in Sources */,
 				7FEE831D20C39B290027A848 /* ac-grid.cpp in Sources */,
+				7FEC387C2130EB9900EE1A3E /* SimpleImageView.mm in Sources */,
 				7FEE831F20C39DF40027A848 /* ac-basic.cpp in Sources */,
 				7FEE832F20C45B0E0027A848 /* ac-filter4.cpp in Sources */,
 				7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */,
+				7FEC38792130EB6800EE1A3E /* Simple_ServerAppDelegate.mm in Sources */,
 				7FEE832520C3DD140027A848 /* ac-image.cpp in Sources */,
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
@@ -575,12 +625,17 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Prefix.pch";
 				GCC_VERSION = "";
 				"HEADER_SEARCH_PATHS[arch=*]" = ./include;
 				INFOPLIST_FILE = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/..\"",
@@ -608,13 +663,21 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Prefix.pch";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = ./include;
-				"HEADER_SEARCH_PATHS[arch=*]" = ./include;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					./include,
+					./Frameworks,
+				);
 				INFOPLIST_FILE = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/..\"",
