@@ -48,11 +48,13 @@ SimpleRenderer *render_;
 		_start = [NSDate timeIntervalSinceReferenceDate];
 	}
     render_ = self;
+    new_frame = NO;
 	return self;
 }
 
 - (void) updateTexture: (cv::Mat *)fval {
     cv::flip(*fval, frame, 0);
+    new_frame = YES;
 }
 
 - (void)destroyResources
@@ -90,11 +92,12 @@ SimpleRenderer *render_;
 	glLoadIdentity();
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    if(!frame.empty()) {
+    if(!frame.empty() && new_frame == YES) {
         cv::Mat outval;
         outval = resizeKeepAspectRatio(frame, cv::Size(dimensions.width, dimensions.height), cv::Scalar(0, 0, 0));
         frame = outval;
         glDrawPixels(frame.cols, frame.rows, GL_BGR, GL_UNSIGNED_BYTE, (unsigned char *)frame.ptr());
+        new_frame = NO;
     }
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();

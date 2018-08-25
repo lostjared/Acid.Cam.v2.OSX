@@ -43,6 +43,7 @@
     GLuint texture_1_id;
     BOOL initval;
     cv::Mat frame;
+    BOOL new_frame;
 }
 - (id)initWithComposition:(NSURL *)url context:(NSOpenGLContext *)context pixelFormat:(NSOpenGLPixelFormat *)format;
 @property (readonly) BOOL hasNewFrame;
