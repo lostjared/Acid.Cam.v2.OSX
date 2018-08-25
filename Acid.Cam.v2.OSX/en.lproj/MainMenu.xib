@@ -342,7 +342,7 @@
             </items>
             <point key="canvasLocation" x="-637" y="-297"/>
         </menu>
-        <customObject id="494" customClass="Simple_ServerAppDelegate">
+        <customObject id="494" customClass="AC_AppDelegate">
             <connections>
                 <outlet property="glView" destination="xoh-dp-4jL" id="rl6-Jc-JA0"/>
                 <outlet property="window" destination="ueZ-Gv-BFp" id="So5-bd-v2W"/>
@@ -1767,7 +1767,7 @@ Gw
                 <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <openGLView fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" depthSize="16bit" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xoh-dp-4jL" customClass="SimpleImageView">
+                    <openGLView fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" depthSize="16bit" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xoh-dp-4jL" customClass="AC_ImageView">
                         <rect key="frame" x="0.0" y="20" width="640" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </openGLView>

@@ -54,7 +54,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #undef check
 #include"videocapture.h"
 #include<sstream>
-#include "SimpleRenderer.h"
+#include "AC_Renderer.h"
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();

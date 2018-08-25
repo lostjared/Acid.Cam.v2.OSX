@@ -59,9 +59,9 @@
 		7FEC38692130937200EE1A3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38682130937200EE1A3E /* OpenGL.framework */; };
 		7FEC38722130E97B00EE1A3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38702130E97A00EE1A3E /* QuartzCore.framework */; };
 		7FEC38732130E97B00EE1A3E /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38712130E97B00EE1A3E /* Quartz.framework */; };
-		7FEC38782130EB6800EE1A3E /* SimpleRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */; };
-		7FEC38792130EB6800EE1A3E /* Simple_ServerAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC38762130EB6800EE1A3E /* Simple_ServerAppDelegate.mm */; };
-		7FEC387C2130EB9900EE1A3E /* SimpleImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC387A2130EB9800EE1A3E /* SimpleImageView.mm */; };
+		7FEC38782130EB6800EE1A3E /* AC_Renderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC38742130EB6600EE1A3E /* AC_Renderer.mm */; };
+		7FEC38792130EB6800EE1A3E /* AC_AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC38762130EB6800EE1A3E /* AC_AppDelegate.mm */; };
+		7FEC387C2130EB9900EE1A3E /* AC_ImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FEC387A2130EB9800EE1A3E /* AC_ImageView.mm */; };
 		7FEE831420C394320027A848 /* ac-util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831120C394320027A848 /* ac-util.cpp */; };
 		7FEE831520C394320027A848 /* ac-obj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831220C394320027A848 /* ac-obj.cpp */; };
 		7FEE831720C399420027A848 /* ac-alpha.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE831620C399420027A848 /* ac-alpha.cpp */; };
@@ -157,12 +157,12 @@
 		7FEC38682130937200EE1A3E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7FEC38702130E97A00EE1A3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7FEC38712130E97B00EE1A3E /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
-		7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleRenderer.mm; path = Acid.Cam.v2.OSX/SimpleRenderer.mm; sourceTree = "<group>"; };
-		7FEC38752130EB6700EE1A3E /* Simple_ServerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Simple_ServerAppDelegate.h; path = Acid.Cam.v2.OSX/Simple_ServerAppDelegate.h; sourceTree = "<group>"; };
-		7FEC38762130EB6800EE1A3E /* Simple_ServerAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Simple_ServerAppDelegate.mm; path = Acid.Cam.v2.OSX/Simple_ServerAppDelegate.mm; sourceTree = "<group>"; };
-		7FEC38772130EB6800EE1A3E /* SimpleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleRenderer.h; path = Acid.Cam.v2.OSX/SimpleRenderer.h; sourceTree = "<group>"; };
-		7FEC387A2130EB9800EE1A3E /* SimpleImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleImageView.mm; path = Acid.Cam.v2.OSX/SimpleImageView.mm; sourceTree = "<group>"; };
-		7FEC387B2130EB9800EE1A3E /* SimpleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleImageView.h; path = Acid.Cam.v2.OSX/SimpleImageView.h; sourceTree = "<group>"; };
+		7FEC38742130EB6600EE1A3E /* AC_Renderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_Renderer.mm; path = Acid.Cam.v2.OSX/AC_Renderer.mm; sourceTree = "<group>"; };
+		7FEC38752130EB6700EE1A3E /* AC_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AC_AppDelegate.h; path = Acid.Cam.v2.OSX/AC_AppDelegate.h; sourceTree = "<group>"; };
+		7FEC38762130EB6800EE1A3E /* AC_AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_AppDelegate.mm; path = Acid.Cam.v2.OSX/AC_AppDelegate.mm; sourceTree = "<group>"; };
+		7FEC38772130EB6800EE1A3E /* AC_Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AC_Renderer.h; path = Acid.Cam.v2.OSX/AC_Renderer.h; sourceTree = "<group>"; };
+		7FEC387A2130EB9800EE1A3E /* AC_ImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_ImageView.mm; path = Acid.Cam.v2.OSX/AC_ImageView.mm; sourceTree = "<group>"; };
+		7FEC387B2130EB9800EE1A3E /* AC_ImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AC_ImageView.h; path = Acid.Cam.v2.OSX/AC_ImageView.h; sourceTree = "<group>"; };
 		7FEE831120C394320027A848 /* ac-util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-util.cpp"; path = "Acid.Cam.v2.OSX/ac-util.cpp"; sourceTree = "<group>"; };
 		7FEE831220C394320027A848 /* ac-obj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-obj.cpp"; path = "Acid.Cam.v2.OSX/ac-obj.cpp"; sourceTree = "<group>"; };
 		7FEE831620C399420027A848 /* ac-alpha.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-alpha.cpp"; path = "Acid.Cam.v2.OSX/ac-alpha.cpp"; sourceTree = "<group>"; };
@@ -229,15 +229,14 @@
 		7F9D708917DE4F35009C54DA = {
 			isa = PBXGroup;
 			children = (
-				7FEC387B2130EB9800EE1A3E /* SimpleImageView.h */,
-				7FEC387A2130EB9800EE1A3E /* SimpleImageView.mm */,
-				7FEC38752130EB6700EE1A3E /* Simple_ServerAppDelegate.h */,
-				7FEC38762130EB6800EE1A3E /* Simple_ServerAppDelegate.mm */,
-				7FEC38772130EB6800EE1A3E /* SimpleRenderer.h */,
-				7FEC38742130EB6600EE1A3E /* SimpleRenderer.mm */,
-				7F9D715A17DE5082009C54DA /* image.icns */,
+				7FEC387B2130EB9800EE1A3E /* AC_ImageView.h */,
+				7FEC387A2130EB9800EE1A3E /* AC_ImageView.mm */,
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
+				7FEC38772130EB6800EE1A3E /* AC_Renderer.h */,
+				7FEC38742130EB6600EE1A3E /* AC_Renderer.mm */,
+				7FEC38752130EB6700EE1A3E /* AC_AppDelegate.h */,
+				7FEC38762130EB6800EE1A3E /* AC_AppDelegate.mm */,
 				7F9D70EB17DE4F7C009C54DA /* videocapture.h */,
 				7F9D70EC17DE4F7C009C54DA /* videoprogram.mm */,
 				7FEE831620C399420027A848 /* ac-alpha.cpp */,
@@ -263,6 +262,7 @@
 				7F4A50A920800F84009998DA /* tokenize.hpp */,
 				7F9D70BD17DE4F7C009C54DA /* fractal.cpp */,
 				7F9D70BE17DE4F7C009C54DA /* fractal.h */,
+				7F9D715A17DE5082009C54DA /* image.icns */,
 				7F9D70B617DE4F7C009C54DA /* en.lproj */,
 				7F9D709B17DE4F35009C54DA /* Acid.Cam.v2.OSX */,
 				7F9D709417DE4F35009C54DA /* Frameworks */,
@@ -451,16 +451,16 @@
 				7FB150EE2110B00D00DAD5FC /* ac-filter9.cpp in Sources */,
 				7FEE831420C394320027A848 /* ac-util.cpp in Sources */,
 				7FC2145C2128DB08001EBDA3 /* ac-filter10.cpp in Sources */,
-				7FEC38782130EB6800EE1A3E /* SimpleRenderer.mm in Sources */,
+				7FEC38782130EB6800EE1A3E /* AC_Renderer.mm in Sources */,
 				7F9D70ED17DE4F7C009C54DA /* AC_Controller.mm in Sources */,
 				7FEE831520C394320027A848 /* ac-obj.cpp in Sources */,
 				7FEE832E20C45B0E0027A848 /* ac-filter1.cpp in Sources */,
 				7FEE831D20C39B290027A848 /* ac-grid.cpp in Sources */,
-				7FEC387C2130EB9900EE1A3E /* SimpleImageView.mm in Sources */,
+				7FEC387C2130EB9900EE1A3E /* AC_ImageView.mm in Sources */,
 				7FEE831F20C39DF40027A848 /* ac-basic.cpp in Sources */,
 				7FEE832F20C45B0E0027A848 /* ac-filter4.cpp in Sources */,
 				7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */,
-				7FEC38792130EB6800EE1A3E /* Simple_ServerAppDelegate.mm in Sources */,
+				7FEC38792130EB6800EE1A3E /* AC_AppDelegate.mm in Sources */,
 				7FEE832520C3DD140027A848 /* ac-image.cpp in Sources */,
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
