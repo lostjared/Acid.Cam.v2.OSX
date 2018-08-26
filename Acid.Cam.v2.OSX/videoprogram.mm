@@ -224,12 +224,7 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
         flushToLog(sout);
         frame_cnt = 0;
         frame_proc = 0;
-        [[NSRunLoop currentRunLoop] addTimer:renderTimer
-                                     forMode:NSEventTrackingRunLoopMode];
-        
-        [[NSRunLoop currentRunLoop] addTimer:renderTimer
-                                     forMode:NSDefaultRunLoopMode];
-        return 0;
+     return 0;
     }
     // standard exceptions handled here
     catch(std::exception &e) {

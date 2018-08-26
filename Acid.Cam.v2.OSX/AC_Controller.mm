@@ -688,15 +688,6 @@ void SearchForString(NSString *s) {
     [up4k setEnabled: NO];
     ac::reset_filter = true;
     
-    if(camera_mode == 1) {
-        renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
-                                              target:self
-                                            selector:@selector(cvProc:)
-                                            userInfo:nil
-                                             repeats:YES];
-    } else {
-        renderTimer = [NSTimer timerWithTimeInterval: 0.001 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
-    }
     if(camera_mode == 1)
         capture = capture_video.get();
     else
@@ -705,6 +696,19 @@ void SearchForString(NSString *s) {
     bool u4k = ([up4k state] == NSOnState) ? true : false;;
         
     int ret_val = program_main(set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    
+    if(ret_val == 0) {
+        if(camera_mode == 1)
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+        else
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
+                                     forMode:NSEventTrackingRunLoopMode];
+        
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
+                                     forMode:NSDefaultRunLoopMode];
+    }
     
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
