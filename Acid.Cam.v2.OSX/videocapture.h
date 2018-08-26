@@ -56,7 +56,7 @@ extern bool isPaused;
 extern bool rec_Audio;
 extern std::string input_name;
 extern unsigned long total_frames;
-extern int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_count, float pass2_alpha, std::string file_path);
+extern int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_count, float pass2_alpha, std::string file_path);
 extern std::unique_ptr<cv::VideoWriter> writer;
 extern std::unique_ptr<cv::VideoCapture> capture_camera;
 extern std::unique_ptr<cv::VideoCapture> capture_video;
