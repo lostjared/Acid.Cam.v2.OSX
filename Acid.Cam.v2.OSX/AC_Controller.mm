@@ -142,7 +142,7 @@ NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NS
 }
 
 // extern program init in another file
-extern int program_main(std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
+extern int program_main(BOOL show, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
 
 // flush string stream to output
 void flushToLog(std::ostringstream &sout) {
@@ -695,7 +695,7 @@ void SearchForString(NSString *s) {
     
     bool u4k = ([up4k state] == NSOnState) ? true : false;;
         
-    int ret_val = program_main(set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     
     if(ret_val == 0) {
         if(camera_mode == 1)
@@ -1016,7 +1016,7 @@ void SearchForString(NSString *s) {
         setFrameLabel(ftext);
         if([chk_repeat integerValue] != 0) {
             video_total_frames += frame_cnt;
-            jumptoFrame(0);
+            jumptoFrame(syphon_enabled, 0);
             return;
         }
         stopCV();
@@ -1371,7 +1371,7 @@ void SearchForString(NSString *s) {
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
     if(val < [frame_slider maxValue]-1) {
-    	jumptoFrame(val);
+    	jumptoFrame(syphon_enabled, val);
     	std::ostringstream stream;
     	stream << "Jumped to frame: " << val << "\n";
     	flushToLog(stream);
@@ -1514,7 +1514,7 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) rewindToStart:(id) sender {
-    jumptoFrame(0);
+    jumptoFrame(syphon_enabled, 0);
     frame_count = 0;
     [frame_slider setIntegerValue:(NSInteger)frame_count];
 }
