@@ -710,6 +710,19 @@ void SearchForString(NSString *s) {
                                      forMode:NSDefaultRunLoopMode];
     }
     
+    if(ret_val == 0) {
+        if(camera_mode == 1)
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+        else
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
+                                     forMode:NSEventTrackingRunLoopMode];
+        
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
+                                     forMode:NSDefaultRunLoopMode];
+    }
+    
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
         std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -1016,7 +1029,7 @@ void SearchForString(NSString *s) {
         setFrameLabel(ftext);
         if([chk_repeat integerValue] != 0) {
             video_total_frames += frame_cnt;
-            jumptoFrame(0);
+            jumptoFrame(syphon_enabled, 0);
             return;
         }
         stopCV();
@@ -1371,7 +1384,7 @@ void SearchForString(NSString *s) {
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
     if(val < [frame_slider maxValue]-1) {
-    	jumptoFrame(val);
+    	jumptoFrame(syphon_enabled, val);
     	std::ostringstream stream;
     	stream << "Jumped to frame: " << val << "\n";
     	flushToLog(stream);
@@ -1514,7 +1527,7 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) rewindToStart:(id) sender {
-    jumptoFrame(0);
+    jumptoFrame(syphon_enabled, 0);
     frame_count = 0;
     [frame_slider setIntegerValue:(NSInteger)frame_count];
 }
