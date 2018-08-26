@@ -695,27 +695,7 @@ void SearchForString(NSString *s) {
     
     bool u4k = ([up4k state] == NSOnState) ? true : false;;
         
-<<<<<<< HEAD
-    int ret_val = program_main(set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-<<<<<<< HEAD
-    
-    if(ret_val == 0) {
-        if(camera_mode == 1)
-            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
-        else
-            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
-        
-        [[NSRunLoop currentRunLoop] addTimer:renderTimer
-                                     forMode:NSEventTrackingRunLoopMode];
-        
-        [[NSRunLoop currentRunLoop] addTimer:renderTimer
-                                     forMode:NSDefaultRunLoopMode];
-    }
-=======
->>>>>>> opencv3_4_1
-=======
     int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
->>>>>>> opencv3_4_1
     
     if(ret_val == 0) {
         if(camera_mode == 1)
