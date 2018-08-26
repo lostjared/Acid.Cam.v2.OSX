@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.5.4 (macOS)";
+    const std::string version="2.5.5 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.5.4 (Linux)";
+    const std::string version="2.5.5 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.5.4 (Windows)";
+    const std::string version="2.5.5 (Windows)";
 #else
-    const std::string version="2.5.4 (Generic)";
+    const std::string version="2.5.5 (Generic)";
 #endif
     // variables
     int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
