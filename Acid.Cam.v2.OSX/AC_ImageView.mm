@@ -53,6 +53,7 @@
 
 @synthesize needsReshape = _needsReshape, image = _image;
 
+
 - (void)awakeFromNib
 {
     const GLint on = 1;

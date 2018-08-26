@@ -54,3 +54,4 @@
  */
 @property (readonly) NSSize renderSize;
 @end
+

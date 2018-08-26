@@ -882,10 +882,12 @@ void SearchForString(NSString *s) {
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
                 dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-                cv::imshow("Acid Cam v2", dst);
+                if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
             } else {
-                cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
-                cv::imshow("Acid Cam v2", frame);
+                if(syphon_enabled == NO) {
+                	cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+                	cv::imshow("Acid Cam v2", frame);
+                }
             }
             ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
             if(camera_mode == 1) {
@@ -1107,12 +1109,14 @@ void SearchForString(NSString *s) {
     if([stretch_scr state] == NSOnState) {
         cv::Mat dst;
         dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-        cv::imshow("Acid Cam v2", dst);
+        if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
     } else {
         if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
             if(frame.ptr() != NULL) {
-        		cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
-        		cv::imshow("Acid Cam v2", frame);
+                if(syphon_enabled == NO) {
+        			cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+        			cv::imshow("Acid Cam v2", frame);
+                }
             }
         }
     }
@@ -1635,7 +1639,25 @@ void SearchForString(NSString *s) {
     static std::string str_values[] = { "Default", "0.001","0.009","0.01","0.03", "0.05", "0.07", "0.08","0.1", "0.3"," 0.7", "1.0", "3", ""};
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
-    log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";;
+    log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";
+    
+    NSInteger szPtr = [sy_size indexOfSelectedItem];
+    NSSize sz;
+    switch(szPtr) {
+        case 0:
+            sz.width = 640;
+            sz.height = 480;
+            break;
+        case 1:
+    		sz.width = 1280;
+    		sz.height = 720;
+            break;
+        case 2:
+            sz.width = 1920;
+            sz.height = 1080;
+            break;
+    }
+    [syphon_window setContentSize: sz];
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
@@ -1716,15 +1738,21 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) enableSpyhon: (id) sender {
+    std::ostringstream stream;
     if([syphon_enable state] == NSOnState) {
         [syphon_enable setState: NSOffState];
         [syphon_window orderOut:self];
         syphon_enabled = NO;
+        stream << "Disabled Syphon Output...\n";
+        if(programRunning == true) cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
     } else {
         [syphon_enable setState: NSOnState];
         [syphon_window orderFront:self];
         syphon_enabled = YES;
+        stream << "Enabled Syphon Output...\n";
+        cv::destroyWindow("Acid Cam v2");
     }
+    flushToLog(stream);
 }
 
 @end
