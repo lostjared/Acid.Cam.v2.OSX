@@ -235,7 +235,7 @@ extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *butt
 extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(long frame_count);
-extern void jumptoFrame(long frame);
+extern void jumptoFrame(BOOL showJump, long frame);
 extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
 extern cv::Mat old_frame;

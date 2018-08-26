@@ -688,15 +688,6 @@ void SearchForString(NSString *s) {
     [up4k setEnabled: NO];
     ac::reset_filter = true;
     
-    if(camera_mode == 1) {
-        renderTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
-                                              target:self
-                                            selector:@selector(cvProc:)
-                                            userInfo:nil
-                                             repeats:YES];
-    } else {
-        renderTimer = [NSTimer timerWithTimeInterval: 0.001 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
-    }
     if(camera_mode == 1)
         capture = capture_video.get();
     else
@@ -705,6 +696,19 @@ void SearchForString(NSString *s) {
     bool u4k = ([up4k state] == NSOnState) ? true : false;;
         
     int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    
+    if(ret_val == 0) {
+        if(camera_mode == 1)
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+        else
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
+                                     forMode:NSEventTrackingRunLoopMode];
+        
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer
+                                     forMode:NSDefaultRunLoopMode];
+    }
     
     if(ret_val != 0) {
         _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
@@ -1012,7 +1016,7 @@ void SearchForString(NSString *s) {
         setFrameLabel(ftext);
         if([chk_repeat integerValue] != 0) {
             video_total_frames += frame_cnt;
-            jumptoFrame(0);
+            jumptoFrame(syphon_enabled, 0);
             return;
         }
         stopCV();
@@ -1367,7 +1371,7 @@ void SearchForString(NSString *s) {
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
     if(val < [frame_slider maxValue]-1) {
-    	jumptoFrame(val);
+    	jumptoFrame(syphon_enabled, val);
     	std::ostringstream stream;
     	stream << "Jumped to frame: " << val << "\n";
     	flushToLog(stream);
@@ -1510,7 +1514,7 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) rewindToStart:(id) sender {
-    jumptoFrame(0);
+    jumptoFrame(syphon_enabled, 0);
     frame_count = 0;
     [frame_slider setIntegerValue:(NSInteger)frame_count];
 }

@@ -51,8 +51,7 @@
     AC_ImageView* glView;
     SyphonServer *syServer;
     AC_Renderer *renderer;
-    NSTimer* lameRenderingTimer;	//yea, should use display link but this is a demo.
-    
+    NSTimer* lameRenderingTimer;
     NSUInteger FPS;
     NSTimeInterval fpsStart;
     NSUInteger fpsCount;
