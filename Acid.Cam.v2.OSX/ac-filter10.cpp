@@ -316,3 +316,40 @@ void ac::ShadeRGB(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
 }
+
+void ac::InterRGB_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "InterRGB_SubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    int index = 0;
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    pixel[0] = static_cast<unsigned char>(pixel[0]*alpha);
+                    pixel[1] = pix[1];
+                    pixel[2] = pix[2];
+                    break;
+                case 1:
+                    pixel[0] = pix[0];
+                    pixel[1] = static_cast<unsigned char>(pixel[1]*alpha);
+                    pixel[2] = pix[2];
+                    break;
+                case 2:
+                    pixel[0] = pix[0];
+                    pixel[1] = pix[1];
+                    pixel[2] = static_cast<unsigned char>(pixel[2]*alpha);
+                    break;
+            }
+        }
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+    static int dir = 1.0;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}
