@@ -98,6 +98,7 @@ void stopCV() {
     }
 }
 
+
 // program function to start process
 int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
@@ -206,7 +207,7 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
         cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
         cv::imshow("Acid Cam v2", frame);
         // if video file go back to start
-        if(camera_mode == 0) jumptoFrame(show,0);
+        if(camera_mode == 0) jumptoFrame(0);
         // grab the screen info
         NSRect screen = [[NSScreen mainScreen] frame];
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
@@ -238,11 +239,11 @@ int program_main(bool fps_on, double fps_val, bool u4k, int outputType, std::str
 // string stream for output
 std::ostringstream strout;
 // jump to frame in video
-void jumptoFrame(BOOL showJump, long frame) {
+void jumptoFrame(long frame) {
     capture->set(CV_CAP_PROP_POS_FRAMES,frame);
     cv::Mat pos;
     capture->read(pos);
     capture->set(CV_CAP_PROP_POS_FRAMES,frame);
-    if(showJump == NO) cv::imshow("Acid Cam v2", pos);
+    cv::imshow("Acid Cam v2", pos);
     frame_cnt = frame;
 }
