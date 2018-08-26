@@ -290,3 +290,29 @@ void ac::BlurredMirror(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
 }
+
+void ac::ShadeRGB(cv::Mat &frame) {
+    cv::Mat frame_copy;
+    frame_copy = frame.clone();
+    DarkenImage(frame_copy, 2);
+    DarkenImage(frame, 2);
+    static double alpha = 1.0, alpha_max = 4.0;
+    int lines = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b values[3];
+            values[0] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[1] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            pixel[lines] += static_cast<unsigned char>((pixel[lines] * alpha)) ^ static_cast<unsigned char>((values[lines][lines]*alpha));
+        }
+        ++lines;
+        if(lines > 2)
+            lines = 0;
+        
+    }
+    MedianBlend(frame);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
