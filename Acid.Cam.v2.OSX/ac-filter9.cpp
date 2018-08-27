@@ -1047,6 +1047,7 @@ void ac::FadeBlend(cv::Mat &frame) {
     }
     static int direction = 1;
     procPos(direction, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::FilteredDifferenceSubFilter(cv::Mat &frame) {
@@ -1056,4 +1057,5 @@ void ac::FilteredDifferenceSubFilter(cv::Mat &frame) {
     cv::Mat copy_frame = frame.clone();
     CallFilter(subfilter,copy_frame);
     ImageCopyDifference(frame, copy_frame, &collection);
+    AddInvert(frame);
 }
