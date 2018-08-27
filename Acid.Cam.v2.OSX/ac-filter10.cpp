@@ -73,6 +73,7 @@ void ac::ExpandSquareSubFilter(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ExpandSquareBlendSubFilter(cv::Mat &frame) {
@@ -109,6 +110,7 @@ void ac::ExpandSquareBlendSubFilter(cv::Mat &frame) {
     }
     static int direction = 1;
     procPos(direction, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
@@ -140,6 +142,7 @@ void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::DarkImageMedianBlend(cv::Mat &frame) {
@@ -178,6 +181,7 @@ void ac::SelfAlphaScaleBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir,alpha,alpha_max);
+    AddInvert(frame);
 }
 
 void ac::FadeBars(cv::Mat &frame) {
@@ -194,6 +198,7 @@ void ac::FadeBars(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 5.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::MirrorXorAlpha(cv::Mat &frame) {
@@ -231,6 +236,7 @@ void ac::MirrorEnergizeSubFilter(cv::Mat &frame) {
     DarkenImage(frame, 6);
     MirrorXorAlpha(frame);
     EnergizeSubFilter(frame);
+    AddInvert(frame);
 }
 
 void ac::StrobeXor(cv::Mat &frame) {
@@ -263,6 +269,7 @@ void ac::IntertwinedMirror(cv::Mat &frame) {
         if(lines > 2)
             lines = 0;
     }
+    AddInvert(frame);
 }
 
 void ac::BlurredMirror(cv::Mat &frame) {
@@ -289,6 +296,7 @@ void ac::BlurredMirror(cv::Mat &frame) {
     MedianBlend(frame);
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::ShadeRGB(cv::Mat &frame) {
@@ -315,6 +323,7 @@ void ac::ShadeRGB(cv::Mat &frame) {
     MedianBlend(frame);
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::InterRGB_SubFilter(cv::Mat &frame) {
@@ -352,6 +361,7 @@ void ac::InterRGB_SubFilter(cv::Mat &frame) {
     }
     static int dir = 1.0;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::InterSmoothSubFilter(cv::Mat &frame) {
@@ -384,6 +394,7 @@ void ac::InterSmoothSubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::InterRGB_Bars_XY(cv::Mat &frame) {
@@ -403,6 +414,7 @@ void ac::InterRGB_Bars_XY(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::InterRGB_Bars_X(cv::Mat &frame) {
@@ -422,6 +434,7 @@ void ac::InterRGB_Bars_X(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::InterRGB_Bars_Y(cv::Mat &frame) {
@@ -441,4 +454,21 @@ void ac::InterRGB_Bars_Y(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
+}
+
+void ac::StoredFramesAlphaBlend_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "StoredFramesAlphaBlend_SubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    cv::Mat fcopy = frame.clone();
+    AlphaBlend(fcopy, frame_copy, frame, alpha);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
