@@ -472,3 +472,27 @@ void ac::StoredFramesAlphaBlend_SubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
     AddInvert(frame);
 }
+
+void ac::BlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+}
