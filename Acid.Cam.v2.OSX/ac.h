@@ -629,6 +629,7 @@ namespace ac {
     void InterRGB_Bars_Y(cv::Mat &frame);
     void StoredFramesAlphaBlend_SubFilter(cv::Mat &frame);
     void BlendSubFilter(cv::Mat &frame);
+    void BlendAlphaSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

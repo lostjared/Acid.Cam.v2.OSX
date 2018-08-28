@@ -496,3 +496,32 @@ void ac::BlendSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::BlendAlphaSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendAlphaSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    static double alpha = 1.0, alpha_max = 4.0;
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    for(int j = 0; j < 3; ++j)
+                        pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(pix[j]*alpha);
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}
