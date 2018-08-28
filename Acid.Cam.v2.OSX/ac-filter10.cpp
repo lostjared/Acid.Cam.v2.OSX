@@ -495,6 +495,7 @@ void ac::BlendSubFilter(cv::Mat &frame) {
                 index = 0;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::BlendAlphaSubFilter(cv::Mat &frame) {
@@ -524,6 +525,7 @@ void ac::BlendAlphaSubFilter(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::ReverseFrameBlend(cv::Mat &frame) {
@@ -546,5 +548,32 @@ void ac::ReverseFrameBlend(cv::Mat &frame) {
                 index = 0;
         }
     }
+    AddInvert(frame);
 }
 
+void ac::ReverseFrameBlendSwitch(cv::Mat &frame) {
+    cv::Mat frame_copy = frame.clone();
+    Reverse(frame_copy);
+    static bool onval = true;
+    int index = 0;
+    if(onval == false)
+        index = 1;
+    onval = (onval == true) ? false : true;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+    AddInvert(frame);
+}
