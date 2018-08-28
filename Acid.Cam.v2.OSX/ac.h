@@ -630,6 +630,7 @@ namespace ac {
     void StoredFramesAlphaBlend_SubFilter(cv::Mat &frame);
     void BlendSubFilter(cv::Mat &frame);
     void BlendAlphaSubFilter(cv::Mat &frame);
+    void ReverseFrameBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

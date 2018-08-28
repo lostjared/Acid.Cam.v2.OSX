@@ -525,3 +525,26 @@ void ac::BlendAlphaSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
+
+void ac::ReverseFrameBlend(cv::Mat &frame) {
+    cv::Mat frame_copy = frame.clone();
+    Reverse(frame_copy);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+}
+
