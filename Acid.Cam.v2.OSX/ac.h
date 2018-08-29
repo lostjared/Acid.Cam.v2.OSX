@@ -635,6 +635,7 @@ namespace ac {
     void DoubleRandomMirror(cv::Mat &frame);
     void Blend_AlphaSubFilter(cv::Mat &frame);
     void RandomBlendFilter(cv::Mat &frame);
+    void DoubleRandomBlendFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
