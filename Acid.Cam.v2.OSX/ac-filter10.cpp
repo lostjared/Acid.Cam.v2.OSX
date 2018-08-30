@@ -528,6 +528,7 @@ void ac::BlendAlphaSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+// duplicate for right now
 void ac::ReverseFrameBlend(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     Reverse(frame_copy);
@@ -655,6 +656,109 @@ void ac::DoubleRandomBlendFilter(cv::Mat &frame) {
             }
             ++index;
             if(index > 1)
+                index = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::FlipBlendWH(cv::Mat &frame) {
+    cv::Mat frame_copy1;
+    cv::flip(frame, frame_copy1, -1);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy1.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::FlipBlendH(cv::Mat &frame) {
+    cv::Mat frame_copy1;
+    cv::flip(frame, frame_copy1, 0);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy1.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::FlipBlendW(cv::Mat &frame) {
+    cv::Mat frame_copy1;
+    cv::flip(frame, frame_copy1, 1);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy1.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix;
+                    break;
+            }
+            ++index;
+            if(index > 1)
+                index = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::FlipBlendAll(cv::Mat &frame) {
+    cv::Mat frame_copy[3];
+    cv::flip(frame, frame_copy[0], 0);
+    cv::flip(frame, frame_copy[1], 1);
+    cv::flip(frame, frame_copy[2], -1);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[3];
+            pix[0] = frame_copy[0].at<cv::Vec3b>(z, i);
+            pix[1] = frame_copy[1].at<cv::Vec3b>(z, i);
+            pix[2] = frame_copy[2].at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = pix[0];
+                    break;
+                case 2:
+                    pixel = pix[1];
+                    break;
+                case 3:
+                    pixel = pix[2];
+                    break;
+            }
+            ++index;
+            if(index > 3)
                 index = 0;
         }
     }
