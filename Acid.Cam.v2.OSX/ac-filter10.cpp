@@ -791,5 +791,24 @@ void ac::FrameMedianBlendSubFilter(cv::Mat &frame) {
                 index = 0;
         }
     }
+    MedianBlur(frame);
+    RainbowXorBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::FrameBlurSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FrameBlurSubFilter")
+        return;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy1 = frame.clone();
+    cv::Mat frame_copy2 = frame.clone();
+    MedianBlur(frame_copy1);
+    CallFilter(subfilter, frame_copy1);
+    MedianBlur(frame_copy1);
+    MedianBlur(frame_copy2);
+    AlphaBlend(frame_copy1, frame_copy2, frame, alpha);
+    MedianBlur(frame);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
     AddInvert(frame);
 }
