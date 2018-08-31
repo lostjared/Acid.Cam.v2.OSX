@@ -532,6 +532,7 @@ void ac::BlendAlphaSubFilter(cv::Mat &frame) {
 void ac::ReverseFrameBlend(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     Reverse(frame_copy);
+    MedianBlend(frame_copy);
     int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -555,6 +556,7 @@ void ac::ReverseFrameBlend(cv::Mat &frame) {
 void ac::ReverseFrameBlendSwitch(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     Reverse(frame_copy);
+    MedianBlend(frame_copy);
     static bool onval = true;
     int index = 0;
     if(onval == false)
