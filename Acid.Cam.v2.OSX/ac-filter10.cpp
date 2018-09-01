@@ -812,3 +812,33 @@ void ac::FrameBlurSubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
     AddInvert(frame);
 }
+
+void ac::ImageBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendSubFilter")
+        return;
+
+    if(blend_set == true) {
+        cv::Mat frame_copy1 = frame.clone();
+        ExactImage(frame_copy1);
+        CallFilter(subfilter, frame_copy1);
+        
+        int index = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = frame_copy1.at<cv::Vec3b>(z, i);
+                switch(index) {
+                    case 0:
+                        break;
+                    case 1:
+                        pixel = pix1;
+                        break;
+                }
+                ++index;
+                if(index > 1)
+                    index = 0;
+            }
+        }
+    }
+
+}
