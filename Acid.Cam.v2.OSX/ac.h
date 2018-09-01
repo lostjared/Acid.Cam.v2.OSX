@@ -645,6 +645,7 @@ namespace ac {
     void ImageBlendSubFilter(cv::Mat &frame);
     void ImageBlendXorSubFilter(cv::Mat &frame);
     void ImageCollectionSubFilter(cv::Mat &frame);
+    void SelfScaleXorIncrease(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

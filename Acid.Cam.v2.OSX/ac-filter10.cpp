@@ -881,3 +881,39 @@ void ac::ImageCollectionSubFilter(cv::Mat &frame) {
     Smooth(frame, &collection);
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
+
+void ac::SelfScaleXorIncrease(cv::Mat &frame) {
+    static double alpha = 1.0, increase_val = 0.05, limit_start = 1.0, limit = limit_start,min_start = 4.0, min = min_start, max = 10.0, rev_max = 1.0;
+    if(alpha_increase != 0) increase_val = alpha_increase;
+    else
+        increase_val = 0.05;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+            	pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(alpha*15);
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        alpha += increase_val;
+        if(alpha >= limit) {
+            dir = 0;
+            limit += 1.0;
+            if(limit > max) {
+                limit = limit_start;
+            }
+        }
+    } else if(dir == 0) {
+        alpha -= increase_val;
+        if(alpha <= min) {
+            dir = 1;
+            min -= 1.0;
+            if(min < rev_max) {
+                min = min_start;
+            }
+        }
+    }
+    AddInvert(frame);
+}
