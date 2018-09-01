@@ -844,10 +844,7 @@ void ac::ImageBlendSubFilter(cv::Mat &frame) {
 }
 
 void ac::ImageBlendXorSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendXorSubFilter")
-        return;
-
-    if(blend_set == false)
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendXorSubFilter")
         return;
     static double alpha = 1.0, alpha_max = 4.0;
     cv::Mat frame_copy1 = frame.clone();
@@ -866,5 +863,21 @@ void ac::ImageBlendXorSubFilter(cv::Mat &frame) {
         }
     }
     static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}
+
+void ac::ImageCollectionSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendXorSubFilter")
+        return;
+    static double alpha = 1.0, alpha_max = 4.0;
+    static int dir = 1;
+    cv::Mat frame_copy1 = frame.clone();
+    cv::Mat frame_copy2 = frame.clone();
+    ExactImage(frame_copy1);
+    AlphaBlend(frame_copy1, frame_copy2, frame, alpha);
+    CallFilter(subfilter, frame);
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
