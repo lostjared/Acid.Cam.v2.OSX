@@ -147,10 +147,10 @@ void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
 
 void ac::DarkImageMedianBlend(cv::Mat &frame) {
     if(blend_set == true) {
-    	SmoothImageAlphaBlend(frame);
-    	cv::Mat frame_copy = frame.clone();
-    	setGamma(frame_copy,frame,5);
-    	MedianBlend(frame);
+        SmoothImageAlphaBlend(frame);
+        cv::Mat frame_copy = frame.clone();
+        setGamma(frame_copy,frame,5);
+        MedianBlend(frame);
     }
 }
 
@@ -226,7 +226,7 @@ void ac::MirrorXorAlpha(cv::Mat &frame) {
         } else if(dir[j] == 0) {
             color_[j] -= 5;
         }
-    	procPos(dir[j], alpha[j], alpha_max, 4.0, 0.1);
+        procPos(dir[j], alpha[j], alpha_max, 4.0, 0.1);
     }
 }
 
@@ -816,7 +816,7 @@ void ac::FrameBlurSubFilter(cv::Mat &frame) {
 void ac::ImageBlendSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendSubFilter")
         return;
-
+    
     if(blend_set == true) {
         cv::Mat frame_copy1 = frame.clone();
         ExactImage(frame_copy1);
@@ -840,7 +840,7 @@ void ac::ImageBlendSubFilter(cv::Mat &frame) {
             }
         }
     }
-
+    
 }
 
 void ac::ImageBlendXorSubFilter(cv::Mat &frame) {
@@ -884,7 +884,8 @@ void ac::ImageCollectionSubFilter(cv::Mat &frame) {
 
 void ac::SelfScaleXorIncrease(cv::Mat &frame) {
     static double alpha = 1.0, increase_val = 0.05, limit_start = 1.0, limit = limit_start,min_start = 4.0, min = min_start, max = 10.0, rev_max = 1.0;
-    if(alpha_increase != 0) increase_val = alpha_increase;
+    if(alpha_increase != 0)
+        increase_val = alpha_increase;
     else
         increase_val = 0.05;
     
@@ -892,7 +893,7 @@ void ac::SelfScaleXorIncrease(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-            	pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(alpha*15);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(alpha*15);
         }
     }
     static int dir = 1;
