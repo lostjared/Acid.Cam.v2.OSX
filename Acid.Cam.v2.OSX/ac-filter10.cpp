@@ -842,3 +842,29 @@ void ac::ImageBlendSubFilter(cv::Mat &frame) {
     }
 
 }
+
+void ac::ImageBlendXorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendXorSubFilter")
+        return;
+
+    if(blend_set == false)
+        return;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy1 = frame.clone();
+    cv::Mat frame_copy2 = frame.clone();
+    ExactImage(frame_copy1);
+    CallFilter(subfilter, frame_copy2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[3];
+            pix[0] = frame_copy1.at<cv::Vec3b>(z, i);
+            pix[1] = frame_copy2.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^static_cast<unsigned char>(pix[0][j]*alpha)^pix[1][j];
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}

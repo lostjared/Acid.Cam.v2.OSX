@@ -643,6 +643,7 @@ namespace ac {
     void FrameMedianBlendSubFilter(cv::Mat &frame);
     void FrameBlurSubFilter(cv::Mat &frame);
     void ImageBlendSubFilter(cv::Mat &frame);
+    void ImageBlendXorSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
