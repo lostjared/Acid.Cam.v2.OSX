@@ -880,6 +880,7 @@ void ac::ImageCollectionSubFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::SelfScaleXorIncrease(cv::Mat &frame) {
