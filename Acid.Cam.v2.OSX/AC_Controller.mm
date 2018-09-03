@@ -1122,6 +1122,9 @@ void SearchForString(NSString *s) {
             }
         }
     }
+
+    if([up4k state] == NSOnState)
+    	cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
