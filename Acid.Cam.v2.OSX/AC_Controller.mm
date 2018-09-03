@@ -1027,6 +1027,11 @@ void SearchForString(NSString *s) {
         frame = temp_frame;
     }
     
+    cv::Mat up;
+    if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
+        frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+    }
+    
     if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes")) {
         ac::orig_frame = frame.clone();
     }
@@ -1039,11 +1044,6 @@ void SearchForString(NSString *s) {
     if(after == NSOffState)
         ac::ApplyColorMap(frame);
     
-    cv::Mat up;
-    if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
-        frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
-        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
-    }
     if([fade_filter state] == NSOffState) {
         if(disableFilter == false && ac::testSize(frame))
             ac::draw_func[ac::draw_offset](frame);
