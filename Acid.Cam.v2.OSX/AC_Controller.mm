@@ -691,7 +691,7 @@ void SearchForString(NSString *s) {
     else
         capture = capture_camera.get();
     
-    bool u4k = ([up4k state] == NSOnState) ? true : false;;
+    bool u4k = ([up4k state] == NSOnState) ? true : false;
         
     int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     
@@ -1123,9 +1123,6 @@ void SearchForString(NSString *s) {
         }
     }
 
-    if([up4k state] == NSOnState)
-    	cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
-    
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
     double elapsed = (frame_proc/ac::fps);
