@@ -1039,6 +1039,11 @@ void SearchForString(NSString *s) {
     if(after == NSOffState)
         ac::ApplyColorMap(frame);
     
+    cv::Mat up;
+    if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
+        frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+    }
     if([fade_filter state] == NSOffState) {
         if(disableFilter == false && ac::testSize(frame))
             ac::draw_func[ac::draw_offset](frame);
@@ -1104,7 +1109,6 @@ void SearchForString(NSString *s) {
             rc = [main_w frame];
         }
     }
-    
     if([stretch_scr state] == NSOnState) {
         cv::Mat dst;
         dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
@@ -1113,12 +1117,12 @@ void SearchForString(NSString *s) {
         if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
             if(frame.ptr() != NULL) {
                 if(syphon_enabled == NO) {
-        			cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
         			cv::imshow("Acid Cam v2", frame);
                 }
             }
         }
     }
+    
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
     double elapsed = (frame_proc/ac::fps);
@@ -1138,13 +1142,15 @@ void SearchForString(NSString *s) {
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
+        /*
         cv::Mat up;
         if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
             up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
         } else {
             up = frame;
-        }
-        if(writer->isOpened() )writer->write(up);
+        }*/
+      
+        if(writer->isOpened() )writer->write(frame);
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;
