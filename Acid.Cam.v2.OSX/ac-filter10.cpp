@@ -957,7 +957,7 @@ void ac::XorBlend_RedGreenBlue(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = pixel[j]^static_cast<unsigned char>(values[j]);
+                pixel[j] = pixel[j]^static_cast<unsigned char>(0.5*values[j]);
             }
         }
     }
