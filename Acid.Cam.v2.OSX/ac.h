@@ -647,6 +647,8 @@ namespace ac {
     void ImageCollectionSubFilter(cv::Mat &frame);
     void SelfScaleXorIncrease(cv::Mat &frame);
     void Blend_RedGreenBlue(cv::Mat &frame);
+    void XorBlend_RedGreenBlue(cv::Mat &frame);
+    void BlendIncrease_RedGreenBlue(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

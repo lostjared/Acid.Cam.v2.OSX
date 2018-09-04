@@ -922,7 +922,7 @@ void ac::SelfScaleXorIncrease(cv::Mat &frame) {
 
 void ac::Blend_RedGreenBlue(cv::Mat &frame) {
     static cv::Scalar values(rand()%255, rand()%255, rand()%255);
-    static double speed_val = 5.0;
+    static double speed_val = 2.5;
     if(reset_alpha) {
         for(int j = 0; j < 3; ++j)
             values[j] = rand()%255;
@@ -931,7 +931,7 @@ void ac::Blend_RedGreenBlue(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += values[j];
+                pixel[j] += static_cast<unsigned char>(values[j]);
             }
         }
     }
@@ -945,3 +945,63 @@ void ac::Blend_RedGreenBlue(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::XorBlend_RedGreenBlue(cv::Mat &frame) {
+    static cv::Scalar values(rand()%255, rand()%255, rand()%255);
+    static double speed_val = 2.5;
+    if(reset_alpha) {
+        for(int j = 0; j < 3; ++j)
+            values[j] = rand()%255;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^static_cast<unsigned char>(values[j]);
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(values[j] > 255) {
+            values[j] = 0;
+            break;
+        } else {
+            values[j] += speed_val;
+        }
+    }
+    AddInvert(frame);
+    
+}
+void ac::BlendIncrease_RedGreenBlue(cv::Mat &frame) {
+    static bool values_dir[3];
+    static cv::Scalar values(rand()%255, rand()%255, rand()%255);
+    static double speed_val = 2.5;
+    if(reset_alpha) {
+        for(int j = 0; j < 3; ++j)
+            values[j] = rand()%255;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += static_cast<unsigned char>(values[j]);
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(values[j] > 255) {
+            if(values_dir[j] == true)
+                values_dir[j] = false;
+            else
+                values_dir[j] = true;
+            break;
+        } else {
+            if(values_dir[j] == true)
+            	values[j] += speed_val;
+            else
+                values[j] -= speed_val;
+        }
+    }
+    AddInvert(frame);
+}
+
