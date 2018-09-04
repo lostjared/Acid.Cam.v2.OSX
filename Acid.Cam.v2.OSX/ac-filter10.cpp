@@ -919,3 +919,29 @@ void ac::SelfScaleXorIncrease(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::Blend_RedGreenBlue(cv::Mat &frame) {
+    static cv::Scalar values(rand()%255, rand()%255, rand()%255);
+    static double speed_val = 5.0;
+    if(reset_alpha) {
+        for(int j = 0; j < 3; ++j)
+            values[j] = rand()%255;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += values[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(values[j] > 255) {
+            values[j] = 0;
+            break;
+        } else {
+            values[j] += speed_val;
+        }
+    }
+    AddInvert(frame);
+}
