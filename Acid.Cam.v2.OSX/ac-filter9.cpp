@@ -54,7 +54,7 @@ void ac::HalfNegateStrobe(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < f_len; ++i) {
             if(off == 0) {
-            	cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 neg(pixel);
             }
             
@@ -103,7 +103,7 @@ void ac::NegateTrails(cv::Mat &frame) {
 }
 
 void ac::RandomGradient(cv::Mat &frame) {
-	static std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines", "QuadCosSinMultiply", "GradientColors", "GradientColorsVertical", "GradientXorSelfScale", "GradientLeftRight", "GraidentUpDown", "GradientLeftRightInOut", "GradientUpDownInOut"};
+    static std::vector<std::string> svGradient { "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines", "QuadCosSinMultiply", "GradientColors", "GradientColorsVertical", "GradientXorSelfScale", "GradientLeftRight", "GraidentUpDown", "GradientLeftRightInOut", "GradientUpDownInOut"};
     CallFilter(svGradient[rand()%svGradient.size()], frame);
     AddInvert(frame);
 }
@@ -397,7 +397,7 @@ void ac::AddToFrameSubFilter(cv::Mat &frame) {
         return;
     if(ac::draw_strings[subfilter] == "AddToFrameSubFilter")
         return;
-
+    
     cv::Mat frame_copy = frame.clone();
     CallFilter(subfilter, frame_copy);
     Add(frame, frame_copy);
@@ -419,7 +419,7 @@ void ac::MirrorXor(cv::Mat &frame) {
 }
 
 void ac::MirrorXorAll(cv::Mat &frame) {
-	cv::Mat frame_copy = frame.clone();
+    cv::Mat frame_copy = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -525,7 +525,7 @@ void ac::EnergizeSubFilter32(cv::Mat &frame) {
         return;
     if(ac::draw_strings[subfilter] == "EnergizeSubFilter32")
         return;
-
+    
     static MatrixCollection<32> collection;
     cv::Mat frame_copy = frame.clone();
     CallFilter(subfilter, frame_copy);
@@ -619,7 +619,7 @@ void ac::XorScale(cv::Mat &frame) {
     for(int j = 0; j < 3; ++j) {
         if(dir[j] == 1) {
             scale[j] += speed;
-           
+            
             if(scale[j] >= 255)
                 dir[j] = 0;
             
@@ -779,7 +779,7 @@ void ac::BitwiseColorMatrix(cv::Mat &frame) {
     static int dir[3] = {1, 0, 1};;
     
     for(int j = 0; j < 3; ++j)
-    	procPos(dir[j], alpha[j], alpha_max, 6.0, 0.1);
+        procPos(dir[j], alpha[j], alpha_max, 6.0, 0.1);
     
     AddInvert(frame);
 }
@@ -804,7 +804,7 @@ void ac::PixelReverseXor(cv::Mat &frame) {
 void ac::PixelatedSubFilterSort(cv::Mat &frame) {
     if(ac::draw_strings[subfilter] == "PixelatedSubFilterSort")
         return;
-
+    
     static MatrixCollection<8> collection;
     Block(frame);
     ChannelSort(frame);
@@ -849,9 +849,9 @@ void ac::RandomPixelOrderSort(cv::Mat &frame) {
 
 void ac::ImageXorAlpha(cv::Mat &frame) {
     if(blend_set == true) {
-    	static double alpha = 1.0, alpha_max = 3.0;
-    	for(int z = 0; z < frame.rows; ++z) {
-        	for(int i = 0; i < frame.cols; ++i) {
+        static double alpha = 1.0, alpha_max = 3.0;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
@@ -859,8 +859,8 @@ void ac::ImageXorAlpha(cv::Mat &frame) {
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = (static_cast<unsigned char>((pixel[j]*alpha)) ^ static_cast<unsigned char>((pix[j]*alpha)));
                 }
-        	}
-    	}
+            }
+        }
         static int dir = 1;
         procPos(dir, alpha, alpha_max, 4.0, 0.01);
         AddInvert(frame);
@@ -950,9 +950,9 @@ void ac::SelfScaleAlpha(cv::Mat &frame) {
     for(int j = 0; j < 3; ++j) {
         if(direction[j] == 1) {
             if(index[j] >= 255)
-            	direction[j] = 0;
+                direction[j] = 0;
             else
-            	++index[j];
+                ++index[j];
             
         } else if(direction[j] == 0) {
             if(index[j] <= 1)

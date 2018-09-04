@@ -972,10 +972,11 @@ void ac::XorBlend_RedGreenBlue(cv::Mat &frame) {
     AddInvert(frame);
     
 }
+
 void ac::BlendIncrease_RedGreenBlue(cv::Mat &frame) {
     static bool values_dir[3];
     static cv::Scalar values(rand()%255, rand()%255, rand()%255);
-    static double speed_val = 2.5;
+    static double speed_val = 1.5;
     if(reset_alpha) {
         for(int j = 0; j < 3; ++j)
             values[j] = rand()%255;
