@@ -985,7 +985,7 @@ void ac::BlendIncrease_RedGreenBlue(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += static_cast<unsigned char>(values[j]);
+                pixel[j] += static_cast<unsigned char>(0.5 * values[j]);
             }
         }
     }
@@ -1001,6 +1001,34 @@ void ac::BlendIncrease_RedGreenBlue(cv::Mat &frame) {
                 values[j] += speed_val;
             else
                 values[j] -= speed_val;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::Blend_RedReenBlue_Dark(cv::Mat &frame) {
+    static cv::Scalar values(rand()%255, rand()%255, rand()%255);
+    static double speed_val = 5.0;
+    if(reset_alpha) {
+        for(int j = 0; j < 3; ++j)
+            values[j] = rand()%255;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                unsigned int val = static_cast<unsigned int>(values[j]);
+                if(pixel[j] == 0) pixel[j] = 1;
+                pixel[j] = val%pixel[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(values[j] > 255) {
+            values[j] = 0;
+            break;
+        } else {
+            values[j] += speed_val;
         }
     }
     AddInvert(frame);
