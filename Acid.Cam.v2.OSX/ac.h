@@ -650,6 +650,7 @@ namespace ac {
     void XorBlend_RedGreenBlue(cv::Mat &frame);
     void BlendIncrease_RedGreenBlue(cv::Mat &frame);
     void Blend_RedReenBlue_Dark(cv::Mat &frame);
+    void DarkModBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
