@@ -1069,7 +1069,7 @@ void ac::DarkModBlend(cv::Mat &frame) {
 void ac::PictureBuzz(cv::Mat &frame) {
     static cv::Scalar values(rand()%255, rand()%255, rand()%255);
     cv::Vec3b l_values;
-    static double speed_val = 0.5;
+    static double speed_val = 0.01;
     if(reset_alpha) {
         for(int j = 0; j < 3; ++j)
             values[j] = rand()%255;
@@ -1094,4 +1094,51 @@ void ac::PictureBuzz(cv::Mat &frame) {
         }
     }
     AddInvert(frame);
+}
+
+void ac::IncDifference(cv::Mat &frame) {
+    static cv::Mat fcopy = frame.clone();
+    static cv::Size size_var;
+    if(fcopy.size() != frame.size()) {
+        fcopy = frame.clone();
+    }
+    for(unsigned int z = 0; z < frame.rows; ++z) {
+        for(unsigned int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b back = pixel;
+            cv::Vec3b &pix_cp = fcopy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += pix_cp[j];
+                pix_cp[j] = 255-back[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::IncDifferenceAlpha(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    static cv::Mat fcopy = frame.clone();
+    static cv::Size size_var;
+    int index = rand()%3;
+    if(fcopy.size() != frame.size()) {
+        fcopy = frame.clone();
+    }
+    for(unsigned int z = 0; z < frame.rows; ++z) {
+        for(unsigned int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b back = pixel;
+            cv::Vec3b &pix_cp = fcopy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += pix_cp[j];
+            }
+            pix_cp[index] = back[index]*alpha;
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
