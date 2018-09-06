@@ -1065,3 +1065,33 @@ void ac::DarkModBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PictureBuzz(cv::Mat &frame) {
+    static cv::Scalar values(rand()%255, rand()%255, rand()%255);
+    cv::Vec3b l_values;
+    static double speed_val = 0.5;
+    if(reset_alpha) {
+        for(int j = 0; j < 3; ++j)
+            values[j] = rand()%255;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                l_values[j] += pixel[j];
+                unsigned int val = static_cast<unsigned int>(values[j]);
+                if(l_values[j] == 0) l_values[j] = 1;
+                pixel[j] += val%l_values[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(values[j] > 1024) {
+            values[j] = 0;
+            break;
+        } else {
+            values[j] += speed_val;
+        }
+    }
+    AddInvert(frame);
+}
