@@ -1130,9 +1130,9 @@ void ac::IncDifferenceAlpha(cv::Mat &frame) {
             cv::Vec3b back = pixel;
             cv::Vec3b &pix_cp = fcopy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += pix_cp[j];
+                pixel[j] = pix_cp[j]%(1+(pixel[j]));
             }
-            pix_cp[index] = back[index]*alpha;
+            pix_cp[index] = 255-(back[index]*alpha);
         }
     }
     ++index;
