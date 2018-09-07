@@ -1771,6 +1771,7 @@ void SearchForString(NSString *s) {
         	std::ostringstream stream;
         	stream << "Sub Filter " << ac::draw_strings[filter_val] << " cleared\n";
     		flushToLog(stream);
+            [table_view reloadData];
         }
     } else {
     	std::ostringstream stream;
