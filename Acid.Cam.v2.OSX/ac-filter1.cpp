@@ -259,12 +259,22 @@ void ac::setProcMode(int value) {
 
 std::unordered_map<int, int> ac::subfilter_map;
 
-void ac::set_SubFilter(const int &name, const int &subfilter) {
-    subfilter_map[name] = subfilter;
+void ac::set_SubFilter(const int &name, const int &subf) {
+    if(subf != -1)
+        std::cout << ac::draw_strings[name] << " = " << ac::draw_strings[subf] << "\n";
+    subfilter_map[name] = subf;
 }
 
 int ac::get_SubFilter(const int &name) {
     return subfilter_map[name];
+}
+
+void ac::printSubFilters() {
+    for(auto i = subfilter_map.begin(); i != subfilter_map.end(); ++i) {
+        if(i->first != -1 && i->second != -1) {
+            std::cout << ac::draw_strings[i->first] << ":" << i->second << "\n";
+        }
+    }
 }
 
 

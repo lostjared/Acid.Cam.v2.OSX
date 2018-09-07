@@ -202,10 +202,11 @@ void SearchForString(NSString *s) {
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
         return s;
     }
-    else {
-        NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
-        return s;
+    else if([str isEqualTo:@"Index"]) {
+            NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
+            return s;
     }
+    return @"";
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
@@ -1254,15 +1255,25 @@ void SearchForString(NSString *s) {
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     NSString *str =  [[aTableColumn headerCell] stringValue];
     NSNumber *number = [custom_array objectAtIndex:rowIndex];
+    int value = (int)[number integerValue];
     if( [str isEqualTo:@"Filter"] ) {
-        int value = (int)[number integerValue];
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
         return s;
     }
-    else {
-        NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
+    else if([str isEqualTo:@"Sub Filter"]) {
+        if(ac::draw_strings[value].find("SubFilter") == std::string::npos)
+             return @"Not Supported";
+        
+        int rt_val = ac::subfilter_map[value];
+        if(rt_val == -1) return @"No SubFilter Set";
+    
+        std::string sval;
+        sval = ac::draw_strings[rt_val];
+        NSString *s = [NSString stringWithUTF8String: sval.c_str()];
         return s;
     }
+    NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
+    return s;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
@@ -1722,10 +1733,10 @@ void SearchForString(NSString *s) {
         stream << "Filter " << ac::draw_strings[ac::filter_map[[s UTF8String]]] << " set as SubFilter for " << ac::draw_strings[val] << "\n";
         if(val != -1) {
             int filter_pos = ac::filter_map[[s UTF8String]];
-            ac::set_SubFilter(static_cast<int>(val),filter_pos);
-            std::cout << "Filter set: " << ac::get_SubFilter(filter_pos);
+            ac::subfilter_map[val] = filter_pos;
             flushToLog(stream);
         }
+        [table_view reloadData];
 	}
 }
 
