@@ -118,6 +118,7 @@ std::string ac::getVersion() {
 void ac::fill_filter_map() {
     for(int i = 0; i < ac::draw_max; ++i) {
         filter_map[draw_strings[i]] = i;
+        subfilter_map[i] = -1;
     }
 }
 
@@ -255,3 +256,15 @@ void ac::procPos(int &direction, double &pos, double &pos_max, const double max_
 void ac::setProcMode(int value) {
     proc_mode = value;
 }
+
+std::unordered_map<int, int> ac::subfilter_map;
+
+void ac::set_SubFilter(const int &name, const int &subfilter) {
+    subfilter_map[name] = subfilter;
+}
+
+int ac::get_SubFilter(const int &name) {
+    return subfilter_map[name];
+}
+
+

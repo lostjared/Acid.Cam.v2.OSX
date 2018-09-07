@@ -302,24 +302,24 @@ void SearchForString(NSString *s) {
     set_frame_rate_val = 24;
     reset_memory = false;
     syphon_enabled = NO;
-     /*
-    
-    std::vector<std::string> valz;
-    token::tokenize<std::string>(values, ",", valz);
-    
-    std::cout << "std::pair<std::string,DrawFunction> filters[] = {\n";
-    for(int i = 0; i < ac::draw_max; ++i) {
-        std::cout << "{\"" << ac::draw_strings[i] << "\"," << valz[i] << "}, ";
-    }
-    std::cout << "\n};\n";
-
-    for(unsigned int i = 0; i < ac::draw_max; ++i) {
-        std::string s = ac::draw_strings[i];
-        if(s.find("Blend") != std::string::npos) {
-            std::cout << "\"" << s << "\", ";
-        }
-    }
-    */
+    /*
+     
+     std::vector<std::string> valz;
+     token::tokenize<std::string>(values, ",", valz);
+     
+     std::cout << "std::pair<std::string,DrawFunction> filters[] = {\n";
+     for(int i = 0; i < ac::draw_max; ++i) {
+     std::cout << "{\"" << ac::draw_strings[i] << "\"," << valz[i] << "}, ";
+     }
+     std::cout << "\n};\n";
+     
+     for(unsigned int i = 0; i < ac::draw_max; ++i) {
+     std::string s = ac::draw_strings[i];
+     if(s.find("Blend") != std::string::npos) {
+     std::cout << "\"" << s << "\", ";
+     }
+     }
+     */
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -690,7 +690,7 @@ void SearchForString(NSString *s) {
         capture = capture_camera.get();
     
     bool u4k = ([up4k state] == NSOnState) ? true : false;
-        
+    
     int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
     
     if(ret_val == 0) {
@@ -827,12 +827,14 @@ void SearchForString(NSString *s) {
         
         
         if(fade_state == NSOffState) {
+            ac::subfilter = ac::get_SubFilter(ac::draw_offset);
             if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         } else {
             if(current_fade_alpha >= 0) {
                 ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
                 current_fade_alpha -= 0.08;
             } else {
+                ac::subfilter = ac::get_SubFilter(ac::draw_offset);
                 if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
             }
         }
@@ -882,8 +884,8 @@ void SearchForString(NSString *s) {
                 if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
             } else {
                 if(syphon_enabled == NO) {
-                	cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
-                	cv::imshow("Acid Cam v2", frame);
+                    cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+                    cv::imshow("Acid Cam v2", frame);
                 }
             }
             ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
@@ -984,8 +986,8 @@ void SearchForString(NSString *s) {
     }
     
     if([up4k state] == NSOnState || frame.size() == cv::Size(3840, 2160)) {
-    	[stretch_scr setState: NSOnState];
-    	cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        [stretch_scr setState: NSOnState];
+        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
     
     if(capture->isOpened() && frame_read == false) {
@@ -1048,6 +1050,7 @@ void SearchForString(NSString *s) {
         ac::ApplyColorMap(frame);
     
     if([fade_filter state] == NSOffState) {
+        ac::subfilter = ac::get_SubFilter(ac::draw_offset);
         if(disableFilter == false && ac::testSize(frame))
             ac::draw_func[ac::draw_offset](frame);
     } else {
@@ -1055,6 +1058,7 @@ void SearchForString(NSString *s) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
         } else {
+            ac::subfilter = ac::get_SubFilter(ac::draw_offset);
             if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         }
     }
@@ -1120,12 +1124,12 @@ void SearchForString(NSString *s) {
         if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
             if(frame.ptr() != NULL) {
                 if(syphon_enabled == NO) {
-        			cv::imshow("Acid Cam v2", frame);
+                    cv::imshow("Acid Cam v2", frame);
                 }
             }
         }
     }
-
+    
     double seconds = ((total_frames)/ac::fps);
     double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
     double elapsed = (frame_proc/ac::fps);
@@ -1146,13 +1150,13 @@ void SearchForString(NSString *s) {
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
         /*
-        cv::Mat up;
-        if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
-            up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
-        } else {
-            up = frame;
-        }*/
-      
+         cv::Mat up;
+         if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
+         up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+         } else {
+         up = frame;
+         }*/
+        
         if(writer->isOpened() )writer->write(frame);
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
@@ -1375,10 +1379,10 @@ void SearchForString(NSString *s) {
 - (IBAction) goto_Frame: (id) sender {
     int val = (int)[frame_slider integerValue];
     if(val < [frame_slider maxValue]-1) {
-    	jumptoFrame(syphon_enabled, val);
-    	std::ostringstream stream;
-    	stream << "Jumped to frame: " << val << "\n";
-    	flushToLog(stream);
+        jumptoFrame(syphon_enabled, val);
+        std::ostringstream stream;
+        stream << "Jumped to frame: " << val << "\n";
+        flushToLog(stream);
     }
 }
 
@@ -1657,8 +1661,8 @@ void SearchForString(NSString *s) {
             sz.height = 480;
             break;
         case 1:
-    		sz.width = 1280;
-    		sz.height = 720;
+            sz.width = 1280;
+            sz.height = 720;
             break;
         case 2:
             sz.width = 1920;
@@ -1703,18 +1707,26 @@ void SearchForString(NSString *s) {
     NSMenuItem *m = [current_filter_custom itemAtIndex:index];
     NSString *s = [m title];
     std::string sub_chk = [s UTF8String];
+    NSInteger rowIndex = [table_view selectedRow];
     if(sub_chk.find("SubFilter") != std::string::npos) {
         std::ostringstream stream;
-        stream << "Could not set Filter: " << sub_chk << " as a SubfFlter because the one you selected itself requires a SubFilter\n";
+        stream << "Could not set Filter: " << sub_chk << " as a SubfFlter for " << " because the one you selected itself requires a SubFilter\n";
         flushToLog(stream);
         return;
     }
-    NSString *val = [NSString stringWithFormat: @"Filter: %s set as Sub Filter", ac::draw_strings[ac::filter_map[[s UTF8String]]].c_str(), nil];
-    int filter_pos = ac::filter_map[[s UTF8String]];
-    ac::setSubFilter(filter_pos);
-    std::ostringstream stream;
-    stream << [val UTF8String] << "\n";
-    flushToLog(stream);
+    
+    if(rowIndex != -1) {
+    	NSNumber *num = [custom_array objectAtIndex:rowIndex];
+        int val = static_cast<int>([num integerValue]);
+        std::ostringstream stream;
+        stream << "Filter " << ac::draw_strings[ac::filter_map[[s UTF8String]]] << " set as SubFilter for " << ac::draw_strings[val] << "\n";
+        if(val != -1) {
+            int filter_pos = ac::filter_map[[s UTF8String]];
+            ac::set_SubFilter(static_cast<int>(val),filter_pos);
+            std::cout << "Filter set: " << ac::get_SubFilter(filter_pos);
+            flushToLog(stream);
+        }
+	}
 }
 
 - (IBAction) setSubSearch: (id) sender {
@@ -1739,10 +1751,21 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) clearSubFilter: (id) sender {
-    ac::setSubFilter(-1);
-    std::ostringstream stream;
-    stream << "Sub Filter cleared\n";
-    flushToLog(stream);
+    NSInteger row = [table_view selectedRow];
+    if(row != -1) {
+        NSNumber *num = [custom_array objectAtIndex:row];
+        NSInteger filter_val = [num integerValue];
+        if(filter_val != -1) {
+        	ac::set_SubFilter(static_cast<int>(filter_val), -1);
+        	std::ostringstream stream;
+        	stream << "Sub Filter " << ac::draw_strings[filter_val] << " cleared\n";
+    		flushToLog(stream);
+        }
+    } else {
+    	std::ostringstream stream;
+        stream << "You must select a filter to clear...\n";
+        flushToLog(stream);
+    }
 }
 
 - (IBAction) enableSpyhon: (id) sender {
@@ -1774,8 +1797,10 @@ void custom_filter(cv::Mat &frame) {
         @try {
             num = [custom_array objectAtIndex:i];
             NSInteger index = [num integerValue];
-            if(ac::testSize(frame))
-            	ac::draw_func[static_cast<int>(index)](frame);
+            if(ac::testSize(frame)) {
+                ac::subfilter = ac::get_SubFilter(static_cast<int>(index));
+                ac::draw_func[static_cast<int>(index)](frame);
+            }
         } @catch(NSException *e) {
             NSLog(@"%@\n", [e reason]);
         }

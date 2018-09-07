@@ -139,10 +139,11 @@ namespace ac {
     inline T rol(T x, int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    
     // be sure to call this when the application starts
     void fill_filter_map();
-    
+    extern std::unordered_map<int, int> subfilter_map;
+    void set_SubFilter(const int &name, const int &subfilter);
+    int get_SubFilter(const int &name);
     // draw functions
     DrawFunction getRandomFilter(int &index);
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
