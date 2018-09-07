@@ -1719,17 +1719,22 @@ void SearchForString(NSString *s) {
     NSString *s = [m title];
     std::string sub_chk = [s UTF8String];
     NSInteger rowIndex = [table_view selectedRow];
-    if(sub_chk.find("SubFilter") != std::string::npos) {
-        std::ostringstream stream;
-        stream << "Could not set Filter: " << sub_chk << " as a SubfFlter for " << " because the one you selected itself requires a SubFilter\n";
-        flushToLog(stream);
-        return;
-    }
     
     if(rowIndex != -1) {
     	NSNumber *num = [custom_array objectAtIndex:rowIndex];
         int val = static_cast<int>([num integerValue]);
         std::ostringstream stream;
+        std::string sub_chk1= ac::draw_strings[val];
+        if(sub_chk.find("SubFilter") != std::string::npos) {
+            std::ostringstream stream;
+            stream << "Filter: " << sub_chk << " cannot be set to another function that requires SubFilter\n";
+            flushToLog(stream);
+            return;
+        } else if(sub_chk1.find("SubFilter") == std::string::npos) {
+            stream << "Filter: " << sub_chk1 << " must be a SubFilter to set one.\n";
+            flushToLog(stream);
+            return;
+        }
         stream << "Filter " << ac::draw_strings[ac::filter_map[[s UTF8String]]] << " set as SubFilter for " << ac::draw_strings[val] << "\n";
         if(val != -1) {
             int filter_pos = ac::filter_map[[s UTF8String]];
@@ -1737,7 +1742,11 @@ void SearchForString(NSString *s) {
             flushToLog(stream);
         }
         [table_view reloadData];
-	}
+    } else {
+        std::ostringstream stream;
+        stream << "Please select row in Table that supports SubFilter to set the SubFilter\n";
+        flushToLog(stream);
+    }
 }
 
 - (IBAction) setSubSearch: (id) sender {
