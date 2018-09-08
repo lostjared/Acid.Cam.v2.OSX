@@ -663,6 +663,7 @@ namespace ac {
     void setPlugin(DrawFunction f);
     void setProcMode(int value);
     void setSubFilter(int value);
+    void clearSubFilter();
     // color maps
     void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);

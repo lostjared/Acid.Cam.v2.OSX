@@ -1831,7 +1831,7 @@ void custom_filter(cv::Mat &frame) {
             fval_ = [custom_subfilters objectAtIndex: i];
             NSInteger index = [num integerValue];
             if(ac::testSize(frame)) {
-                ac::subfilter = static_cast<int>([fval_ integerValue]);
+                ac::setSubFilter(static_cast<int>([fval_ integerValue]));
                 ac::draw_func[static_cast<int>(index)](frame);
             }
         } @catch(NSException *e) {
@@ -1839,6 +1839,7 @@ void custom_filter(cv::Mat &frame) {
         }
     }
     ac::in_custom = false;
+    ac::clearSubFilter();
 }
 
 void setSliders(long frame_count) {
