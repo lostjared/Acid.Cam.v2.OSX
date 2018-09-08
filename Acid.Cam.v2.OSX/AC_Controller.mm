@@ -62,6 +62,7 @@
 NSTextView *logView;
 NSTextField *frame_count;
 NSMutableArray *custom_array;
+NSMutableArray *custom_subfilters;
 bool isPaused = false;
 NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
@@ -203,8 +204,8 @@ void SearchForString(NSString *s) {
         return s;
     }
     else if([str isEqualTo:@"Index"]) {
-            NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
-            return s;
+        NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
+        return s;
     }
     return @"";
 }
@@ -238,6 +239,7 @@ void SearchForString(NSString *s) {
 }
 
 - (void) dealloc {
+    [custom_subfilters release];
     [custom_array release];
     [self closePlugin];
     [menu_cat release];
@@ -280,6 +282,7 @@ void SearchForString(NSString *s) {
     [current_filter setMenu: menu_items[0]];
     [current_filter_custom setMenu: menu_items_custom[0]];
     custom_array = [[NSMutableArray alloc] init];
+    custom_subfilters = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
     [table_view setDataSource:self];
     [find_table setDelegate:search_controller];
@@ -828,14 +831,12 @@ void SearchForString(NSString *s) {
         
         
         if(fade_state == NSOffState) {
-            ac::subfilter = ac::get_SubFilter(ac::draw_offset);
-            if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
+             if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         } else {
             if(current_fade_alpha >= 0) {
                 ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
                 current_fade_alpha -= 0.08;
             } else {
-                ac::subfilter = ac::get_SubFilter(ac::draw_offset);
                 if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
             }
         }
@@ -1051,7 +1052,6 @@ void SearchForString(NSString *s) {
         ac::ApplyColorMap(frame);
     
     if([fade_filter state] == NSOffState) {
-        ac::subfilter = ac::get_SubFilter(ac::draw_offset);
         if(disableFilter == false && ac::testSize(frame))
             ac::draw_func[ac::draw_offset](frame);
     } else {
@@ -1059,7 +1059,6 @@ void SearchForString(NSString *s) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
         } else {
-            ac::subfilter = ac::get_SubFilter(ac::draw_offset);
             if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         }
     }
@@ -1255,18 +1254,20 @@ void SearchForString(NSString *s) {
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     NSString *str =  [[aTableColumn headerCell] stringValue];
     NSNumber *number = [custom_array objectAtIndex:rowIndex];
+    NSNumber *filter_num = [custom_subfilters objectAtIndex: rowIndex];
     int value = (int)[number integerValue];
+    int filter_val = (int)[filter_num integerValue];
     if( [str isEqualTo:@"Filter"] ) {
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
         return s;
     }
     else if([str isEqualTo:@"Sub Filter"]) {
         if(ac::draw_strings[value].find("SubFilter") == std::string::npos)
-             return @"Not Supported";
+            return @"Not Supported";
         
-        int rt_val = ac::subfilter_map[value];
+        int rt_val = filter_val; //ac::subfilter_map[value];
         if(rt_val == -1) return @"No SubFilter Set";
-    
+        
         std::string sval;
         sval = ac::draw_strings[rt_val];
         NSString *s = [NSString stringWithUTF8String: sval.c_str()];
@@ -1288,6 +1289,7 @@ void SearchForString(NSString *s) {
     if(index >= 0 && cate >= 0) {
         int filter_value = ac::filter_map[[title UTF8String]];
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
+        [custom_subfilters addObject: [NSNumber numberWithInt: -1]];
         [table_view reloadData];
     }
 }
@@ -1296,6 +1298,7 @@ void SearchForString(NSString *s) {
     NSInteger index = [table_view selectedRow];
     if(index >= 0) {
         [custom_array removeObjectAtIndex:index];
+        [custom_subfilters removeObjectAtIndex: index];
         [table_view reloadData];
     }
 }
@@ -1308,6 +1311,10 @@ void SearchForString(NSString *s) {
         id mv = [custom_array objectAtIndex:index];
         [custom_array setObject:obj atIndexedSubscript:index];
         [custom_array setObject:mv atIndexedSubscript: pos];
+        id mv_c = [custom_subfilters objectAtIndex:index];
+        id obj_c = [custom_array objectAtIndex:pos];
+        [custom_subfilters setObject:obj_c atIndexedSubscript:index];
+        [custom_subfilters setObject:mv_c atIndexedSubscript: pos];
         [table_view deselectAll:self];
         [table_view reloadData];
     }
@@ -1320,6 +1327,10 @@ void SearchForString(NSString *s) {
         id mv = [custom_array objectAtIndex:index];
         [custom_array setObject:obj atIndexedSubscript:index];
         [custom_array setObject:mv atIndexedSubscript: pos];
+        id mv_c = [custom_subfilters objectAtIndex:index];
+        id obj_c = [custom_array objectAtIndex:pos];
+        [custom_subfilters setObject:obj_c atIndexedSubscript:index];
+        [custom_subfilters setObject:mv_c atIndexedSubscript: pos];
         [table_view deselectAll:self];
         [table_view reloadData];
     }
@@ -1719,9 +1730,8 @@ void SearchForString(NSString *s) {
     NSString *s = [m title];
     std::string sub_chk = [s UTF8String];
     NSInteger rowIndex = [table_view selectedRow];
-    
     if(rowIndex != -1) {
-    	NSNumber *num = [custom_array objectAtIndex:rowIndex];
+        NSNumber *num = [custom_array objectAtIndex:rowIndex];
         int val = static_cast<int>([num integerValue]);
         std::ostringstream stream;
         std::string sub_chk1= ac::draw_strings[val];
@@ -1738,6 +1748,8 @@ void SearchForString(NSString *s) {
         stream << "Filter " << ac::draw_strings[ac::filter_map[[s UTF8String]]] << " set as SubFilter for " << ac::draw_strings[val] << "\n";
         if(val != -1) {
             int filter_pos = ac::filter_map[[s UTF8String]];
+            NSNumber *fval = [NSNumber numberWithInt:filter_pos];
+            [custom_subfilters setObject:fval atIndexedSubscript: rowIndex];
             ac::subfilter_map[val] = filter_pos;
             flushToLog(stream);
         }
@@ -1776,14 +1788,14 @@ void SearchForString(NSString *s) {
         NSNumber *num = [custom_array objectAtIndex:row];
         NSInteger filter_val = [num integerValue];
         if(filter_val != -1) {
-        	ac::set_SubFilter(static_cast<int>(filter_val), -1);
-        	std::ostringstream stream;
-        	stream << "Sub Filter " << ac::draw_strings[filter_val] << " cleared\n";
-    		flushToLog(stream);
+            [custom_subfilters setObject:[NSNumber numberWithInt:-1] atIndexedSubscript:row];
+            std::ostringstream stream;
+            stream << "Sub Filter " << ac::draw_strings[filter_val] << " cleared\n";
+            flushToLog(stream);
             [table_view reloadData];
         }
     } else {
-    	std::ostringstream stream;
+        std::ostringstream stream;
         stream << "You must select a filter to clear...\n";
         flushToLog(stream);
     }
@@ -1814,12 +1826,13 @@ void custom_filter(cv::Mat &frame) {
     for(NSInteger i = 0; i < [custom_array count]; ++i) {
         if(i == [custom_array count]-1)
             ac::in_custom = false;
-        NSNumber *num;
+        NSNumber *num, *fval_;
         @try {
             num = [custom_array objectAtIndex:i];
+            fval_ = [custom_subfilters objectAtIndex: i];
             NSInteger index = [num integerValue];
             if(ac::testSize(frame)) {
-                ac::subfilter = ac::get_SubFilter(static_cast<int>(index));
+                ac::subfilter = static_cast<int>([fval_ integerValue]);
                 ac::draw_func[static_cast<int>(index)](frame);
             }
         } @catch(NSException *e) {
