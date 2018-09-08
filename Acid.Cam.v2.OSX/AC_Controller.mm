@@ -538,6 +538,11 @@ void SearchForString(NSString *s) {
         strout.str("");
         strout << "Image filter select use Select image window to set image...\n";
         flushToLog(strout);
+    } else if(filter_value.find("SubFilter") != std::string::npos) {
+        strout.str("");
+        strout << "Filters that require SubFilter should be used in the Custom Filter Mode.\n";
+        [custom_window orderFront:self];
+        flushToLog(strout);
     }
     ac::reset_filter = true;
 }
@@ -1616,7 +1621,9 @@ void SearchForString(NSString *s) {
     NSInteger index = [find_table selectedRow];
     if(index >= 0 && index < [search_results count]) {
         NSNumber *num = [search_results objectAtIndex:index];
+        NSNumber *subf = [NSNumber numberWithInt: -1];
         [custom_array addObject:num];
+        [custom_subfilters addObject: subf];
         [table_view reloadData];
     }
 }
@@ -1760,7 +1767,9 @@ void SearchForString(NSString *s) {
     }
 }
 
+
 - (IBAction) setSubSearch: (id) sender {
+    /*
     NSInteger index = [find_table selectedRow];
     if(index >= 0 && index < [search_results count]) {
         //NSString *val = [find_table ]
@@ -1779,6 +1788,7 @@ void SearchForString(NSString *s) {
         stream << [val UTF8String] << "\n";
         flushToLog(stream);
     }
+     */
 }
 
 - (IBAction) clearSubFilter: (id) sender {
