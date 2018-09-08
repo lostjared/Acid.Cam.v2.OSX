@@ -124,7 +124,6 @@ namespace ac {
     extern int GetFX(cv::Mat &frame, int x, int nw);
     extern int GetFY(cv::Mat &frame, int y, int nh);
     extern bool reset_alpha;
-    extern std::unordered_map<int, int> subfilter_map;
     void invert(cv::Mat &frame, int x, int y);
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
@@ -142,9 +141,6 @@ namespace ac {
     }
     // be sure to call this when the application starts
     void fill_filter_map();
-    void set_SubFilter(const int &name, const int &subfilter);
-    int get_SubFilter(const int &name);
-    void printSubFilters();
     // draw functions
     DrawFunction getRandomFilter(int &index);
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);

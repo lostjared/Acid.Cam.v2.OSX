@@ -1750,7 +1750,6 @@ void SearchForString(NSString *s) {
             int filter_pos = ac::filter_map[[s UTF8String]];
             NSNumber *fval = [NSNumber numberWithInt:filter_pos];
             [custom_subfilters setObject:fval atIndexedSubscript: rowIndex];
-            ac::subfilter_map[val] = filter_pos;
             flushToLog(stream);
         }
         [table_view reloadData];
