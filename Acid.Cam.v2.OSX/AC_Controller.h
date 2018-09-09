@@ -225,7 +225,6 @@ extern void SearchForString(NSString *s);
 - (IBAction) releaseFrames:(id)sender;
 - (IBAction) setSubFilter:(id) sender;
 - (IBAction) clearSubFilter: (id) sender;
-- (IBAction) setSubSearch: (id) sender;
 - (IBAction) enableSpyhon: (id) sender;
 @end
 

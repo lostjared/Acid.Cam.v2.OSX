@@ -1767,30 +1767,6 @@ void SearchForString(NSString *s) {
     }
 }
 
-
-- (IBAction) setSubSearch: (id) sender {
-    /*
-    NSInteger index = [find_table selectedRow];
-    if(index >= 0 && index < [search_results count]) {
-        //NSString *val = [find_table ]
-        NSNumber *num = [search_results objectAtIndex:index];
-        std::string sub_chk = ac::draw_strings[[num integerValue]];
-        if(sub_chk.find("SubFilter") != std::string::npos) {
-            std::ostringstream stream;
-            stream << "Could not set Filter: " << sub_chk << " as a SubfFlter because the one you selected itself requires a SubFilter\n";
-            flushToLog(stream);
-            return;
-        }
-        NSString *val = [NSString stringWithFormat: @"Filter: %s set as Sub Filter", ac::draw_strings[[num integerValue]].c_str(), nil];
-        int filter_pos = static_cast<int>([num integerValue]);
-        ac::setSubFilter(filter_pos);
-        std::ostringstream stream;
-        stream << [val UTF8String] << "\n";
-        flushToLog(stream);
-    }
-     */
-}
-
 - (IBAction) clearSubFilter: (id) sender {
     NSInteger row = [table_view selectedRow];
     if(row != -1) {
