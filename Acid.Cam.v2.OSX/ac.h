@@ -99,7 +99,7 @@ int AC_GetFZ(int oldh, int y, int nh);
 // acid cam namespace
 namespace ac {
     // get version string
-    std::string getVersion();
+    extern std::string getVersion();
     // version string
     extern const std::string version;
     extern double translation_variable, pass2_alpha;
@@ -652,6 +652,7 @@ namespace ac {
     void PictureBuzz(cv::Mat &frame);
     void IncDifference(cv::Mat &frame);
     void IncDifferenceAlpha(cv::Mat &frame);
+    void TestFilter1(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
