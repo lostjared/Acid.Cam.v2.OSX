@@ -83,3 +83,26 @@ void ac::SubFilterMedianBlend(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::DarkenBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static int dark = 2;
+    cv::Mat copyf = frame.clone();
+    cv::Mat copyo = frame.clone();
+    DarkenImage(copyf, dark);
+    ++dark;
+    if(dark > 8)
+        dark = 2;
+    
+    collection.shiftFrames(copyf);
+    Smooth(copyo, &collection);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b cpypix = copyo.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = ((pixel[j]^cpypix[j])/2);
+            }
+        }
+    }
+}
