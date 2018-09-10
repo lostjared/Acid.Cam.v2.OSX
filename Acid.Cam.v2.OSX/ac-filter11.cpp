@@ -62,3 +62,24 @@ void ac::MirrorMedianBlend(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::SubFilterMedianBlend(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SubFilterMedianBlend")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat mirror = frame.clone();
+    CallFilter(subfilter, mirror);
+    collection.shiftFrames(mirror);
+    Smooth(frame, &collection);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = collection.frames[7].at<cv::Vec3b>(z, i);
+            cv::Vec3b fpixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]^fpixel[j])/2;
+            }
+        }
+    }
+    MedianBlend(frame);
+    AddInvert(frame);
+}
