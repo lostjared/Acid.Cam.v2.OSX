@@ -60,4 +60,5 @@ void ac::MirrorMedianBlend(cv::Mat &frame) {
         }
     }
     MedianBlend(frame);
+    AddInvert(frame);
 }
