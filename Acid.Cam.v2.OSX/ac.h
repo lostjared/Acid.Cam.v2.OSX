@@ -652,7 +652,7 @@ namespace ac {
     void PictureBuzz(cv::Mat &frame);
     void IncDifference(cv::Mat &frame);
     void IncDifferenceAlpha(cv::Mat &frame);
-    void TestFilter1(cv::Mat &frame);
+    void MirrorMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
