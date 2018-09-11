@@ -106,3 +106,30 @@ void ac::DarkenBlend(cv::Mat &frame) {
         }
     }
 }
+
+void ac::DarkCollectionSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "DarkCollectionSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    DarkenFilter(copyf);
+    collection.shiftFrames(copyf);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar s;
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int q = 1; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pix[j];
+                    s[j] += pixel[j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                s[j] = s[j]/collection.size();
+                pixel[j] = static_cast<unsigned char>(s[j]);
+            }
+        }
+    }
+}
