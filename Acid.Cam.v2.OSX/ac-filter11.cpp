@@ -133,3 +133,26 @@ void ac::DarkCollectionSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+
+void ac::ChannelSort_NoBlend_Descending(cv::Mat &frame) {
+    std::vector<cv::Mat> v;
+    cv::split(frame, v);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::sort(v[0], channels[0],cv::SORT_DESCENDING);
+    cv::sort(v[1], channels[1],cv::SORT_DESCENDING);
+    cv::sort(v[2], channels[2],cv::SORT_DESCENDING);
+    cv::merge(channels, 3, frame);
+}
+
+void ac::ChannelSort_NoBlend_Ascending(cv::Mat &frame) {
+    std::vector<cv::Mat> v;
+    cv::split(frame, v);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::sort(v[0], channels[0],cv::SORT_ASCENDING);
+    cv::sort(v[1], channels[1],cv::SORT_ASCENDING);
+    cv::sort(v[2], channels[2],cv::SORT_ASCENDING);
+    cv::merge(channels, 3, frame);
+}
