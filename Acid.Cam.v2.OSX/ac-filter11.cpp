@@ -105,6 +105,7 @@ void ac::DarkenBlend(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::DarkCollectionSubFilter(cv::Mat &frame) {
@@ -132,6 +133,7 @@ void ac::DarkCollectionSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 
@@ -144,6 +146,7 @@ void ac::ChannelSort_NoBlend_Descending(cv::Mat &frame) {
     cv::sort(v[1], channels[1],cv::SORT_DESCENDING);
     cv::sort(v[2], channels[2],cv::SORT_DESCENDING);
     cv::merge(channels, 3, frame);
+    AddInvert(frame);
 }
 
 void ac::ChannelSort_NoBlend_Ascending(cv::Mat &frame) {
@@ -155,4 +158,5 @@ void ac::ChannelSort_NoBlend_Ascending(cv::Mat &frame) {
     cv::sort(v[1], channels[1],cv::SORT_ASCENDING);
     cv::sort(v[2], channels[2],cv::SORT_ASCENDING);
     cv::merge(channels, 3, frame);
+    AddInvert(frame);
 }
