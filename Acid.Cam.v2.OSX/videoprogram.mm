@@ -87,6 +87,8 @@ void stopCV() {
         }
         sout << frame_proc << " Total frames\n";
         sout << (frame_proc/ac::fps) << " Seconds\n";
+        ac::release_all_objects();
+        sout << "All stored frames released\n";
         // flush to log
         flushToLog(sout);
         setEnabledProg();
