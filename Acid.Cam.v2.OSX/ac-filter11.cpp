@@ -160,3 +160,20 @@ void ac::ChannelSort_NoBlend_Ascending(cv::Mat &frame) {
     cv::merge(channels, 3, frame);
     AddInvert(frame);
 }
+
+void ac::Headrush(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    static int index = 0;
+    cv::Mat copyf = frame.clone();
+    if(index == 0) {
+        ChannelSort_NoBlend_Descending(copyf);
+        index = 1;
+    } else {
+        ChannelSort_NoBlend_Ascending(copyf);
+        index = 0;
+    }
+    collection.shiftFrames(copyf);
+    cv::Mat total = frame.clone();
+    Smooth(frame, &collection);
+   	AddInvert(frame);
+}

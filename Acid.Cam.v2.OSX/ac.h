@@ -658,6 +658,7 @@ namespace ac {
     void DarkCollectionSubFilter(cv::Mat &frame);
     void ChannelSort_NoBlend_Descending(cv::Mat &frame);
     void ChannelSort_NoBlend_Ascending(cv::Mat &frame);
+    void Headrush(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
