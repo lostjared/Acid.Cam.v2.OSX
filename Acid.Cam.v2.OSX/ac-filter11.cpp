@@ -177,3 +177,21 @@ void ac::Headrush(cv::Mat &frame) {
     Smooth(frame, &collection);
    	AddInvert(frame);
 }
+
+void ac::DarkSmooth_Filter(cv::Mat &frame) {
+    static int dark = 2;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int dir = 1;
+    if(dir == 1) {
+    	++dark;
+        if(dark > 12)
+            dir = 0;
+    } else if(dir == 0) {
+        --dark;
+        if(dark <= 2)
+            dir = 1;
+    }
+    
+    DarkSmooth(frame, &collection, dark);
+}
