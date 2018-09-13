@@ -195,3 +195,19 @@ void ac::DarkSmooth_Filter(cv::Mat &frame) {
     
     DarkSmooth(frame, &collection, dark);
 }
+
+void ac::DarkSelfAlpha(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone();
+    double alpha = 1.0, alpha_max = 4.0;
+    DarkenImage(copyf, 2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b darkpixel = copyf.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(darkpixel[j]*alpha);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}
