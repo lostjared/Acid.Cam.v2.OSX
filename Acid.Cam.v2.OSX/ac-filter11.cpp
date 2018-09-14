@@ -194,6 +194,7 @@ void ac::DarkSmooth_Filter(cv::Mat &frame) {
     }
     
     DarkSmooth(frame, &collection, dark);
+    AddInvert(frame);
 }
 
 void ac::DarkSelfAlpha(cv::Mat &frame) {
@@ -210,4 +211,31 @@ void ac::DarkSelfAlpha(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
+}
+
+void ac::FlipMedian(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    static int index = 0;
+    switch(index) {
+        case 0:
+    	FlipBlendAll(copyf);
+            break;
+        case 1:
+            FlipBlendW(copyf);
+            break;
+        case 2:
+            FlipBlendH(copyf);
+            break;
+        case 3:
+            FlipBlendWH(copyf);
+            break;
+    }
+    ++index;
+    if(index > 3) index = 0;
+    collection.shiftFrames(copyf);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
 }

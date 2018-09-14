@@ -661,6 +661,7 @@ namespace ac {
     void Headrush(cv::Mat &frame);
     void DarkSmooth_Filter(cv::Mat &frame);
     void DarkSelfAlpha(cv::Mat &frame);
+    void FlipMedian(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
