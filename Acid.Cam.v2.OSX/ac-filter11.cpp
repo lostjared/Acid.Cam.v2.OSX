@@ -175,7 +175,7 @@ void ac::Headrush(cv::Mat &frame) {
     collection.shiftFrames(copyf);
     cv::Mat total = frame.clone();
     Smooth(frame, &collection);
-   	AddInvert(frame);
+    AddInvert(frame);
 }
 
 void ac::DarkSmooth_Filter(cv::Mat &frame) {
@@ -184,7 +184,7 @@ void ac::DarkSmooth_Filter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     static int dir = 1;
     if(dir == 1) {
-    	++dark;
+        ++dark;
         if(dark > 12)
             dir = 0;
     } else if(dir == 0) {
@@ -220,7 +220,7 @@ void ac::FlipMedian(cv::Mat &frame) {
     static int index = 0;
     switch(index) {
         case 0:
-    	FlipBlendAll(copyf);
+            FlipBlendAll(copyf);
             break;
         case 1:
             FlipBlendW(copyf);
@@ -234,6 +234,19 @@ void ac::FlipMedian(cv::Mat &frame) {
     }
     ++index;
     if(index > 3) index = 0;
+    collection.shiftFrames(copyf);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::FlipMedianSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FlipMedianSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    FlipBlendAll(copyf);
     collection.shiftFrames(copyf);
     Smooth(frame, &collection);
     MedianBlend(frame);
