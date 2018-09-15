@@ -272,3 +272,17 @@ void ac::FlipMirrorAverage(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::FlipMirrorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FlipMirrorSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    DarkenFilter(copyf);
+    CallFilter(subfilter, copyf);
+    collection.shiftFrames(copyf);
+    Smooth(frame, &collection);
+    FlipBlendAll(frame);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
