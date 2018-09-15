@@ -252,3 +252,11 @@ void ac::FlipMedianSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::FlipMirror(cv::Mat &frame) {
+    DarkenFilter(frame);
+    MirrorXorAll(frame);
+    FlipBlendAll(frame);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
