@@ -226,6 +226,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) setSubFilter:(id) sender;
 - (IBAction) clearSubFilter: (id) sender;
 - (IBAction) enableSpyhon: (id) sender;
+- (IBAction) setCustomSubFromSearch: (id) sender;
 @end
 
 // global variables / functions

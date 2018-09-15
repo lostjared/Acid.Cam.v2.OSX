@@ -1429,7 +1429,7 @@ Gw
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efF-9E-1nR">
-                        <rect key="frame" x="20" y="19" width="395" height="22"/>
+                        <rect key="frame" x="20" y="19" width="307" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="T7d-2L-rTq">
                             <font key="font" metaFont="system"/>
@@ -1517,6 +1517,17 @@ Gw
                         </buttonCell>
                         <connections>
                             <action selector="searchForItem:" target="630" id="KeK-m2-ZtM"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qce-TW-4zS">
+                        <rect key="frame" x="329" y="13" width="95" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="SubFilter" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l64-ZK-QtX">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setCustomSubFromSearch:" target="630" id="OF7-3j-h4A"/>
                         </connections>
                     </button>
                 </subviews>

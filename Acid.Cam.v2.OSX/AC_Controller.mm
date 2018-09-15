@@ -1764,6 +1764,7 @@ void SearchForString(NSString *s) {
         std::ostringstream stream;
         stream << "Please select row in Table that supports SubFilter to set the SubFilter\n";
         flushToLog(stream);
+        _NSRunAlertPanel(@"Select Item", @"Please select a filter in the list to assign SubFilter.", @"Ok", nil, nil);
     }
 }
 
@@ -1783,6 +1784,37 @@ void SearchForString(NSString *s) {
         std::ostringstream stream;
         stream << "You must select a filter to clear...\n";
         flushToLog(stream);
+    }
+}
+
+- (IBAction) setCustomSubFromSearch: (id) sender {
+    NSInteger index = [find_table selectedRow];
+    NSInteger pos = [table_view selectedRow];
+    NSNumber *filter_name = [custom_array objectAtIndex:pos];
+    int filter_name_value = static_cast<int>([filter_name integerValue]);
+    
+    if(index >= 0 && index < [search_results count]) {
+        NSNumber *num = [search_results objectAtIndex:index];
+        int val = static_cast<int>([num integerValue]);
+        std::ostringstream stream;
+        std::string sub_chk1= ac::draw_strings[val];
+        std::string subval = ac::draw_strings[filter_name_value];
+        if(subval.find("SubFilter") == std::string::npos) {
+            stream << "Error you must select a fitler that accepts SubFilter\n";
+            flushToLog(stream);
+            return;
+        }
+        
+        if(val != -1) {
+            int filter_pos = ac::filter_map[sub_chk1];
+            NSNumber *fval = [NSNumber numberWithInt:filter_pos];
+            [custom_subfilters setObject:fval atIndexedSubscript: pos];
+            stream << "Filter " << sub_chk1 << " set as SubFilter for " << ac::draw_strings[filter_name_value] << "\n";
+            flushToLog(stream);
+        }
+        [table_view reloadData];
+    } else {
+        _NSRunAlertPanel(@"You need to select a filter", @"Select in Search and Filter that supports it in Custom", @"Ok", nil, nil);
     }
 }
 
