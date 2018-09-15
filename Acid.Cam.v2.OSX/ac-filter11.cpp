@@ -260,3 +260,15 @@ void ac::FlipMirror(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::FlipMirrorAverage(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    DarkenFilter(copyf);
+    MirrorXorAll(copyf);
+    collection.shiftFrames(copyf);
+    Smooth(frame, &collection);
+    FlipBlendAll(frame);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
