@@ -666,6 +666,7 @@ namespace ac {
     void FlipMirror(cv::Mat &frame);
     void FlipMirrorAverage(cv::Mat &frame);
     void FlipMirrorSubFilter(cv::Mat &frame);
+    void ShuffleBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

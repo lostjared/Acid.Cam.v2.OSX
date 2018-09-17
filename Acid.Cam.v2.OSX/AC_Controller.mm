@@ -324,6 +324,12 @@ void SearchForString(NSString *s) {
      }
      }
      */
+    
+    for(int i = 0; i < ac::draw_max; ++i) {
+        std::string val = ac::draw_strings[i];
+        if(val.find("Blend") != std::string::npos && val.find("Image") == std::string::npos)
+            std::cout << "\"" << val << "\", ";
+    }
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -1790,6 +1796,7 @@ void SearchForString(NSString *s) {
 - (IBAction) setCustomSubFromSearch: (id) sender {
     NSInteger index = [find_table selectedRow];
     NSInteger pos = [table_view selectedRow];
+    if(pos < 0 || index < 0) return;
     NSNumber *filter_name = [custom_array objectAtIndex:pos];
     int filter_name_value = static_cast<int>([filter_name integerValue]);
     
