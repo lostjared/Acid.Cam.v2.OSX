@@ -325,13 +325,13 @@ void SearchForString(NSString *s) {
      }
      }
      */
-    
+    /*
     for(int i = 0; i < ac::draw_max; ++i) {
         std::string s;
         s = ac::draw_strings[i];
         if(s.find("SubFilter") == std::string::npos && s.find("Median") != std::string::npos)
             std::cout << "\"" << s << "\", ";
-    }
+    }*/
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
