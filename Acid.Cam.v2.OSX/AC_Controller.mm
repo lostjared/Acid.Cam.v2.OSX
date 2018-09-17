@@ -323,12 +323,14 @@ void SearchForString(NSString *s) {
      std::cout << "\"" << s << "\", ";
      }
      }
+     }
      */
     
     for(int i = 0; i < ac::draw_max; ++i) {
-        std::string val = ac::draw_strings[i];
-        if(val.find("Blend") != std::string::npos && val.find("Image") == std::string::npos)
-            std::cout << "\"" << val << "\", ";
+        std::string s;
+        s = ac::draw_strings[i];
+        if(s.find("SubFilter") == std::string::npos && s.find("Median") != std::string::npos)
+            std::cout << "\"" << s << "\", ";
     }
 }
 
