@@ -287,22 +287,8 @@ void ac::FlipMirrorSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ShuffleBlend(cv::Mat &frame) {
-    static std::vector<std::string> blendf {"Self AlphaBlend", "Blend #3", "RandTriBlend", "Rainbow Blend", "Rand Blend","MirrorBlend", "Mirror No Blend","XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "TrailsBlend", "BlendThree", "BlendTrails", "GridFilter8xBlend", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend", "BlendRowCurvedSqrt", "CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend", "MedianBlendAnimation", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend", "LagBlend", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "AlphaBlendSubFilter", "XorBlend_SubFilter", "SmoothSubFilterAlphaBlend", "SmoothSubFilterXorBlend", "RandBlend", "StaticXorBlend", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "SilverBlend", "PixelXorBlend", "RainbowXorBlend", "FadeBlend", "ExpandSquareBlendSubFilter", "SelfAlphaScaleBlend", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "Blend_AlphaSubFilter", "RandomBlendFilter", "DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendWH", "FlipBlendH", "FlipBlendAll", "FrameMedianBlendSubFilter", "Blend_RedGreenBlue", "XorBlend_RedGreenBlue", "BlendIncrease_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "MirrorMedianBlend", "SubFilterMedianBlend", "DarkenBlend", "ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending"};
-    static auto rng = std::default_random_engine {};
-    static int index = 0;
-    if(index == 0) {
-    	std::shuffle(blendf.begin(), blendf.end(),rng);
-    }
-    CallFilter(blendf[index], frame);
-    ++index;
-    if(index >= blendf.size())
-        index = 0;
-}
-
 void ac::ShuffleMedian(cv::Mat &frame) {
     static std::vector<std::string> med{"MedianBlend","MedianBlurXor", "MirrorMedianBlend", "FlipMedian"};
-    
     static int index = 0;
     static auto rng = std::default_random_engine{};
     if(index == 0) {
@@ -311,7 +297,21 @@ void ac::ShuffleMedian(cv::Mat &frame) {
     DarkenFilter(frame);
     CallFilter(med[index], frame);
     ++index;
-    if(index >= med.size())
+    if(index > med.size()-1)
+        index = 0;
+    
+}
+
+void ac::ShuffleRGB(cv::Mat &frame) {
+    std::vector<std::string> rgbval { "RGB Shift", "RGB Sep", "SlideRGB", "GradientRGB", "FrameBlendRGB", "MoveRGB", "LineRGB", "PixelRGB", "RGBFlash", "MirrorRGB", "RGBStatic1", "RGBStatic2", "SelfAlphaRGB", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "RGBMirror", "RGBTrails", "RGBTrailsDark", "RGBTrailsAlpha", "RGBTrailsNegativeAlpha", "MovementRGBTrails", "RGBTrailsXor", "ShadeRGB"};
+    static int index = 0;
+    static auto rng = std::default_random_engine{};
+    if(index == 0) {
+        std::shuffle(rgbval.begin(), rgbval.end(),rng);
+    }
+    CallFilter(rgbval[index], frame);
+    ++index;
+    if(index > rgbval.size()-1)
         index = 0;
     
 }
