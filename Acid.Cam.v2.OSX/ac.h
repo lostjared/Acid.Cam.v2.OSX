@@ -668,6 +668,7 @@ namespace ac {
     void FlipMirrorSubFilter(cv::Mat &frame);
     void ShuffleMedian(cv::Mat &frame);
     void ShuffleRGB(cv::Mat &frame);
+    void ParticleSnow(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -962,7 +963,7 @@ namespace ac {
         cv::Mat image;
     };
     // Particle movement directions
-    enum { DIR_UP=0, DIR_DOWN, DIR_LEFT, DIR_RIGHT };
+    enum { DIR_UP=0, DIR_UP_LEFT, DIR_UP_RIGHT, DIR_DOWN, DIR_DOWN_LEFT, DIR_DOWN_RIGHT, DIR_LEFT, DIR_RIGHT };
     // contains info for each pixel
     class Particle {
     public:
@@ -986,6 +987,8 @@ namespace ac {
         void draw_flash(cv::Mat &frame);
         void draw_alpha(cv::Mat &frame);
         void draw_move(cv::Mat &frame);
+        void draw_op(cv::Mat &frame);
+    
         // move pixel coordinates around
         void movePixels();
         // reset

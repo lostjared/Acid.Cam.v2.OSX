@@ -77,7 +77,7 @@ void ac::ParticleEmiter::set(cv::Mat &frame) {
             for(int z = 0; z < h; ++z) {
                 part[i][z].x = i;
                 part[i][z].y = z;
-                part[i][z].dir = rand()%4;
+                part[i][z].dir = rand()%8;
             }
         }
     }
@@ -195,6 +195,23 @@ void ac::ParticleEmiter::draw_move(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
 }
 
+void ac::ParticleEmiter::draw_op(cv::Mat &frame) {
+    speed = 1;
+    movePixels();
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            int x_pos = part[i][z].x;
+            int y_pos = part[i][z].y;
+            if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                for(int j = 0; j < 3; ++j)
+                	pixel[j] = part[i][z].pixel[j]^pixel[j];
+            }
+        }
+    }
+}
+
+
 // move pixel coordinates around
 void ac::ParticleEmiter::movePixels() {
     for(int i = 0; i < w; ++i) {
@@ -211,36 +228,69 @@ void ac::ParticleEmiter::movePixels() {
                     if(p.y > 0) {
                         p.y -= speed;
                     } else {
-                        p.y = 1+rand()%(h-1);
-                        p.dir = rand()%4;
+                        p.dir = rand()%8;
+                    }
+                    break;
+                case DIR_UP_LEFT:
+                    
+                    if(p.y > 0 && p.x > 0) {
+                        p.y -= speed;
+                        p.x -= speed;
+                    } else {
+                        p.dir = rand()%8;
+                    }
+                    
+                    break;
+                case DIR_UP_RIGHT:
+                    
+                    if(p.y > 0 && p.x < w-1) {
+                        p.y -= speed;
+                        p.x += speed;
+                    } else {
+                        p.dir = rand()%8;
+                    }
+                    
+                    break;
+                case DIR_DOWN_LEFT:
+                    
+                    if(p.y < h-1 && p.x > 0) {
+                        p.y += speed;
+                        p.x -= speed;
+                    } else {
+                        p.dir = rand()%8;
+                    }
+                    break;
+                case DIR_DOWN_RIGHT:
+                    if(p.y < h-1 && p.x < w-1) {
+                        p.y += speed;
+                        p.x += speed;
+                    } else {
+                        p.dir = rand()*8;
                     }
                     break;
                 case DIR_DOWN:
                     if(p.y < h-1) {
                         p.y += speed;
                     } else {
-                        p.dir = rand()%4;
-                        p.y = 1+rand()%(h-1);
-                    }
+                        p.dir = rand()%8;
+                   }
                     break;
                 case DIR_LEFT:
                     if(p.x > 0) {
                         p.x -= speed;
                     } else {
-                        p.dir = rand()%4;
-                        p.x = 1+rand()%(w-1);
+                        p.dir = rand()%8;
                     }
                     break;
                 case DIR_RIGHT:
                     if(p.x < w-1) {
                         p.x += speed;
                     } else {
-                        p.dir = rand()%4;
-                        p.x = rand()%(w-1);
+                        p.dir = rand()%8;
                     }
                     break;
                 default:
-                    p.dir = rand()%4;
+                    p.dir = rand()%8;
             }
         }
     }
@@ -278,5 +328,9 @@ void ac::ParticleFast(cv::Mat &frame) {
     emiter.draw_move(frame);
 }
 
+void ac::ParticleSnow(cv::Mat &frame) {
+	emiter.set(frame);
+	emiter.draw_op(frame);
+}
 
 

@@ -391,7 +391,7 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[2] stringValues:szBlend];
     eraseArray(szBlend, vzBlend.size());
     
-    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","ParticleBlend","ParticleFlash","ParticleAlpha", "All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines", "ParticleFast", "PictureBuzz"};
+    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","ParticleBlend","ParticleFlash","ParticleAlpha", "All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines", "ParticleFast", "PictureBuzz", "ParticleSnow"};
     std::sort(svDistort.begin(), svDistort.end());
     const char **szDistort = convertToStringArray(svDistort);
     [self fillMenuWithString: it_arr[3] stringValues:szDistort];
