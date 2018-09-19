@@ -391,7 +391,7 @@ void SearchForString(NSString *s) {
     [self fillMenuWithString: it_arr[2] stringValues:szBlend];
     eraseArray(szBlend, vzBlend.size());
     
-    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","ParticleBlend","ParticleFlash","ParticleAlpha", "All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines", "ParticleFast", "PictureBuzz", "ParticleSnow"};
+    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","ParticleBlend","ParticleFlash","ParticleAlpha", "All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines", "ParticleFast", "PictureBuzz", "ParticleSnow", "RandomPixels"};
     std::sort(svDistort.begin(), svDistort.end());
     const char **szDistort = convertToStringArray(svDistort);
     [self fillMenuWithString: it_arr[3] stringValues:szDistort];
@@ -1333,10 +1333,10 @@ void SearchForString(NSString *s) {
         NSInteger pos = index-1;
         id obj = [custom_array objectAtIndex:pos];
         id mv = [custom_array objectAtIndex:index];
+        id mv_c = [custom_subfilters objectAtIndex:index];
+        id obj_c = [custom_subfilters objectAtIndex:pos];
         [custom_array setObject:obj atIndexedSubscript:index];
         [custom_array setObject:mv atIndexedSubscript: pos];
-        id mv_c = [custom_subfilters objectAtIndex:index];
-        id obj_c = [custom_array objectAtIndex:pos];
         [custom_subfilters setObject:obj_c atIndexedSubscript:index];
         [custom_subfilters setObject:mv_c atIndexedSubscript: pos];
         [table_view deselectAll:self];
@@ -1349,10 +1349,10 @@ void SearchForString(NSString *s) {
         NSInteger pos = index+1;
         id obj = [custom_array objectAtIndex:pos];
         id mv = [custom_array objectAtIndex:index];
+        id mv_c = [custom_subfilters objectAtIndex:index];
+        id obj_c = [custom_subfilters objectAtIndex:pos];
         [custom_array setObject:obj atIndexedSubscript:index];
         [custom_array setObject:mv atIndexedSubscript: pos];
-        id mv_c = [custom_subfilters objectAtIndex:index];
-        id obj_c = [custom_array objectAtIndex:pos];
         [custom_subfilters setObject:obj_c atIndexedSubscript:index];
         [custom_subfilters setObject:mv_c atIndexedSubscript: pos];
         [table_view deselectAll:self];

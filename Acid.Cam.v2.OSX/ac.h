@@ -669,6 +669,7 @@ namespace ac {
     void ShuffleMedian(cv::Mat &frame);
     void ShuffleRGB(cv::Mat &frame);
     void ParticleSnow(cv::Mat &frame);
+    void RandomPixels(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
