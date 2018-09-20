@@ -338,3 +338,20 @@ void ac::DarkRandomPixels(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MedianBlurSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MedianBlurSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static int counter = 1;
+    cv::Mat copyf = frame.clone();
+    for(int i = 0; i < counter; ++i) {
+        MedianBlur(copyf);
+    }
+    CallFilter(subfilter, copyf);
+    collection.shiftFrames(copyf);
+    ++counter;
+    if(counter > 3)
+        counter = 1;
+    Smooth(frame, &collection);
+}

@@ -229,7 +229,7 @@ void ac::GaussianBlur(cv::Mat &frame) {
 void ac::MedianBlur(cv::Mat &frame) {
     cv::Mat out;
     cv::medianBlur(frame, out, 5);
-    frame = out;
+    frame = out.clone();
 }
 // Increase / Decrease GaussianBlur
 // takes cv::Mat reference
