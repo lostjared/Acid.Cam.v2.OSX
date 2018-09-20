@@ -354,7 +354,7 @@ void ac::SmoothImageAlphaBlend(cv::Mat &frame) {
         AlphaBlend(temp_frame,blend_image_scaled,frame,alpha);
         collection.shiftFrames(frame);
         Smooth(temp_frame, &collection);
-        frame = temp_frame;
+        frame = temp_frame.clone();
         static int direction = 1;
         procPos(direction, alpha, alpha_max, 8, 0.05);
     }

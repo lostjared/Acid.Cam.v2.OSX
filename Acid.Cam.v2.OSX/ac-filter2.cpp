@@ -223,7 +223,7 @@ int AC_GetFZ(int oldh, int y, int nh) {
 void ac::GaussianBlur(cv::Mat &frame) {
     cv::Mat out;
     cv::GaussianBlur(frame, out, cv::Size(5, 5), 0, 0);
-    frame = out;
+    frame = out.clone();
 }
 // preform MedianBlur
 void ac::MedianBlur(cv::Mat &frame) {
@@ -245,7 +245,7 @@ void ac::BlurDistortion(cv::Mat &frame) {
         if(index <= 1) direction = 1;// go opposite direction
         else index -= 2;// decrease
     }
-    frame = out;// frame equals out
+    frame = out.clone();// frame equals out
 }
 
 // Draw gradient diamonds that grow and shrink and blend with source image
@@ -689,7 +689,7 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
 void ac::Reverse(cv::Mat &frame) {
     cv::Mat output;//output matrix
     cv::flip(frame, output, 1); // flip image
-    frame = output; // set frame to output
+    frame = output.clone(); // set frame to output
 }
 // Scanlines - Draws scanlines like a CRT.
 void ac::Scanlines(cv::Mat &frame) {
@@ -814,7 +814,7 @@ void ac::Mean(cv::Mat &frame) {
 void ac::Laplacian(cv::Mat &frame) {
     cv::Mat out;
     cv::Laplacian(frame, out, CV_8U);
-    frame = out;
+    frame = out.clone();
     AddInvert(frame);
 }
 

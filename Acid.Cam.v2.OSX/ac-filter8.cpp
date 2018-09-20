@@ -143,7 +143,7 @@ void ac::OrStrobe(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
-    prev_frame = copy;
+    prev_frame = copy.clone();
     AddInvert(frame);
 }
 

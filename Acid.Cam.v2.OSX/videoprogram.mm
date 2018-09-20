@@ -193,7 +193,7 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             }
             cv::Mat outframe;
             cv::resize(frame, outframe, frameSize);
-            frame = outframe;
+            frame = outframe.clone();
             if(blend_image.empty())
                 blend_image = frame.clone();
         }

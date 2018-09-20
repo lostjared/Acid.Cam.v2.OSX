@@ -803,11 +803,11 @@ void SearchForString(NSString *s) {
         }
         if([rotate_v state] == NSOnState) {
             cv::flip(frame, temp_frame, 1);
-            frame = temp_frame;
+            frame = temp_frame.clone();
         }
         if([rotate_h state] == NSOnState) {
             cv::flip(frame, temp_frame, 0);
-            frame = temp_frame;
+            frame = temp_frame.clone();
         }
         ++frame_cnt;
         ++frame_proc;
@@ -1051,11 +1051,11 @@ void SearchForString(NSString *s) {
     cv::Mat temp_frame;
     if([rotate_v state] == NSOnState) {
         cv::flip(frame, temp_frame, 1);
-        frame = temp_frame;
+        frame = temp_frame.clone();
     }
     if([rotate_h state] == NSOnState) {
         cv::flip(frame, temp_frame, 0);
-        frame = temp_frame;
+        frame = temp_frame.clone();
     }
     
     cv::Mat up;

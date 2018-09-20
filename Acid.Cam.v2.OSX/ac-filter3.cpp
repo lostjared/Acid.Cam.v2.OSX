@@ -103,7 +103,7 @@ void ac::Canny(cv::Mat &frame) {
     cv::Canny(frame, out, x, y);
     cv::Mat converted;
     cv::cvtColor(out, converted, cv::COLOR_GRAY2BGR);
-    frame = converted;
+    frame = converted.clone();
     AddInvert(frame);
 }
 
@@ -115,7 +115,7 @@ void ac::FlipTrip(cv::Mat &frame) {
     switch(_flip){
         case 0:
             cv::flip(frame, output, 1); // flip matrix
-            frame = output;// frame equals output
+            frame = output.clone();// frame equals output
             _flip++;// increase index
             break;
         case 1:
@@ -1146,7 +1146,7 @@ void ac::FrameBlend(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);
         }
     }
-    stored_frame = start;
+    stored_frame = start.clone();
     static int direction = 1;
     procPos(direction, pos, pos_max);
 }
@@ -1189,7 +1189,7 @@ void ac::FrameBlendRGB(cv::Mat &frame) {
     }
     ++swap;
     if(swap > 2) swap = 0;
-    stored_frame = start;
+    stored_frame = start.clone();
     static int direction = 1;
     procPos(direction, pos, pos_max);
 }
