@@ -1275,8 +1275,10 @@ void ac::RandomSlideFilter(cv::Mat &frame) {
 void ac::NoFilter(cv::Mat &) {}
 // Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone();
     ac::pass2_alpha = blend_percentage; // set to 50%
-    Pass2Blend(frame);// call Pass2 function
+    Pass2Blend(copyf);// call Pass2 function
+    frame = copyf.clone();
 }
 
 void ac::setBlendPercentage(const double &value) {
