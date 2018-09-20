@@ -355,3 +355,20 @@ void ac::MedianBlurSubFilter(cv::Mat &frame) {
         counter = 1;
     Smooth(frame, &collection);
 }
+
+void ac::Bars(cv::Mat &frame) {
+    static int start = rand()%3;
+    for(int z = 0; z < frame.rows; ++z) {
+        int index = start;
+        for(int i = 0; i < frame.cols; i += 3) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] = 255;
+            ++index;
+            if(index > 2)
+                index = 0;
+        }
+    }
+    ++start;
+    if(start > 2)
+        start = rand()%3;
+}
