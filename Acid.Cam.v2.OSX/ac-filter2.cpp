@@ -828,8 +828,8 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
     cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
-    initial = start;// set initial to start
-    frame = output; // set frame to output
+    initial = start.clone();// set initial to start
+    frame = output.clone(); // set frame to output
     AddInvert(frame);
 }
 
@@ -843,8 +843,8 @@ void ac::Bitwise_AND(cv::Mat &frame) {
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
     cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
-    initial = start;// set initial to start
-    frame = output; // set frame to output
+    initial = start.clone();// set initial to start
+    frame = output.clone(); // set frame to output
     AddInvert(frame);
 }
 // takes cv::Mat reference
@@ -857,8 +857,8 @@ void ac::Bitwise_OR(cv::Mat &frame) {
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
     cv::bitwise_or(frame, initial, output); // OpenCV function bitwise_and
-    initial = start;// set initial to start
-    frame = output; // set frame to output
+    initial = start.clone();// set initial to start
+    frame = output.clone(); // set frame to output
     AddInvert(frame);
 }
 // takes cv::Mat reference
