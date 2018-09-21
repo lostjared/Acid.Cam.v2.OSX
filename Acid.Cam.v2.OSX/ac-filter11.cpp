@@ -288,32 +288,29 @@ void ac::FlipMirrorSubFilter(cv::Mat &frame) {
 }
 
 void ac::ShuffleMedian(cv::Mat &frame) {
-    static std::vector<std::string> med{"MedianBlend","MedianBlurXor", "MirrorMedianBlend", "FlipMedian"};
+    static std::vector<std::string> filter_array{"MedianBlend","MedianBlurXor", "MirrorMedianBlend", "FlipMedian"};
     static int index = 0;
     static auto rng = std::default_random_engine{};
-    if(index == 0) {
-        std::shuffle(med.begin(), med.end(),rng);
-    }
-    DarkenFilter(frame);
-    CallFilter(med[index], frame);
+    CallFilter(filter_array[index], frame);
     ++index;
-    if(index >= med.size()-1)
+    if(index > filter_array.size()-1) {
         index = 0;
-    
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+
 }
 
 void ac::ShuffleRGB(cv::Mat &frame) {
-    std::vector<std::string> rgbval { "RGB Shift", "RGB Sep", "SlideRGB", "GradientRGB", "FrameBlendRGB", "MoveRGB", "LineRGB", "PixelRGB", "RGBFlash", "MirrorRGB", "RGBStatic1", "RGBStatic2", "SelfAlphaRGB", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "RGBMirror", "RGBTrails", "RGBTrailsDark", "RGBTrailsAlpha", "RGBTrailsNegativeAlpha", "MovementRGBTrails", "RGBTrailsXor", "ShadeRGB"};
+    std::vector<std::string> filter_array { "RGB Shift", "RGB Sep", "SlideRGB", "GradientRGB", "FrameBlendRGB", "MoveRGB", "LineRGB", "PixelRGB", "RGBFlash", "MirrorRGB", "RGBStatic1", "RGBStatic2", "SelfAlphaRGB", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "RGBMirror", "RGBTrails", "RGBTrailsDark", "RGBTrailsAlpha", "RGBTrailsNegativeAlpha", "MovementRGBTrails", "RGBTrailsXor", "ShadeRGB"};
     static int index = 0;
     static auto rng = std::default_random_engine{};
-    if(index == 0) {
-        std::shuffle(rgbval.begin(), rgbval.end(),rng);
-    }
-    CallFilter(rgbval[index], frame);
+    CallFilter(filter_array[index], frame);
     ++index;
-    if(index >= rgbval.size()-1)
+    if(index > filter_array.size()-1) {
         index = 0;
-    
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+
 }
 
 void ac::RandomPixels(cv::Mat &frame) {
@@ -374,17 +371,15 @@ void ac::Bars(cv::Mat &frame) {
 }
 
 void ac::ShuffleAlpha(cv::Mat &frame) {
-    static std::vector<std::string> filter_array {"Self AlphaBlend","TrailsFilterSelfAlpha", "ScanAlphaSwitch", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur", "SmoothTrailsSelfAlphaBlend","BlendAlphaXor", "SelfAlphaRGB","inOrderAlphaXor","XorAlpha", "AlphaAcidTrails", "RGBTrailsAlpha","SelfAlphaScale", "SelfScaleAlpha", "SelfAlphaScaleBlend","IncDifferenceAlpha", "DarkSelfAlpha"};
+    static std::vector<std::string> filter_array {"Self AlphaBlend","ScanAlphaSwitch", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur", "SmoothTrailsSelfAlphaBlend","BlendAlphaXor", "SelfAlphaRGB","inOrderAlphaXor","XorAlpha", "AlphaAcidTrails", "RGBTrailsAlpha","SelfAlphaScale", "SelfScaleAlpha", "SelfAlphaScaleBlend","IncDifferenceAlpha", "DarkSelfAlpha"};
     static int index = 0;
     static auto rng = std::default_random_engine{};
-    if(index == 0) {
-        std::shuffle(filter_array.begin(), filter_array.end(),rng);
-    }
-    DarkenFilter(frame);
     CallFilter(filter_array[index], frame);
     ++index;
-    if(index >= filter_array.size()-1)
+    if(index > filter_array.size()-1) {
         index = 0;
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
 }
 
 void ac::AlphaMorph(cv::Mat &frame) {
