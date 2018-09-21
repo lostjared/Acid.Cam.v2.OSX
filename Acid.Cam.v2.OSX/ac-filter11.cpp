@@ -387,11 +387,12 @@ void ac::AlphaMorph(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     cv::Mat copyf = frame.clone();
     ShuffleAlpha(copyf);
+    DarkenFilter(copyf);
     collection.shiftFrames(copyf);
     cv::Mat copyr = frame.clone();
     Smooth(copyf, &collection);
     static double alpha = 1.0, alpha_max = 4.0;
     static int dir = 1;
     AlphaBlend(copyf, copyr, frame, alpha);
-    procPos(dir, alpha, alpha_max);
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }

@@ -759,8 +759,9 @@ namespace ac {
     extern bool testSize(cv::Mat &frame);
     // Trails function
     template<int Size>
-    void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection) {
-        collection->shiftFrames(frame);
+    void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection, bool addframe = true) {
+        if(addframe == true)
+            collection->shiftFrames(frame);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Scalar test;
