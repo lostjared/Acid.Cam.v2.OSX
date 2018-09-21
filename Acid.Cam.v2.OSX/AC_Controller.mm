@@ -323,14 +323,14 @@ void SearchForString(NSString *s) {
      std::cout << "\"" << s << "\", ";
      }
      }
-     }
+     } */
      
      for(int i = 0; i < ac::draw_max; ++i) {
      std::string s;
      s = ac::draw_strings[i];
-     if(s.find("RGB") != std::string::npos && s.find("SubFilter") == std::string::npos)
+     if(s.find("Alpha") != std::string::npos && s.find("SubFilter") == std::string::npos)
      std::cout << "\"" << s << "\", ";
-     } */
+     }
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -410,7 +410,7 @@ void SearchForString(NSString *s) {
     const char **szMirror = convertToStringArray(svMirror);
     [self fillMenuWithString: it_arr[6] stringValues:szMirror];
     eraseArray(szMirror, svMirror.size());
-    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend", "FibFlash", "ScaleFlash", "FadeStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "RandomXorOpposite", "StrobeTransform", "RandomStrobe", "OrStrobe", "DifferenceStrobe", "BlackAndWhiteDifferenceStrobe", "DifferenceXor", "DifferenceRand", "HalfNegateStrobe", "RandomStrobeFlash", "GaussianStrobe", "StrobeSort", "GlitchSortStrobe", "StrobeXor"};
+    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend", "FibFlash", "ScaleFlash", "FadeStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "RandomXorOpposite", "StrobeTransform", "RandomStrobe", "OrStrobe", "DifferenceStrobe", "BlackAndWhiteDifferenceStrobe", "DifferenceXor", "DifferenceRand", "HalfNegateStrobe", "RandomStrobeFlash", "GaussianStrobe", "StrobeSort", "GlitchSortStrobe", "StrobeXor", "AlphaMorph"};
     std::sort(svStrobe.begin(), svStrobe.end());
     const char **szStrobe = convertToStringArray(svStrobe);
     [self fillMenuWithString: it_arr[7] stringValues:szStrobe];
@@ -425,7 +425,7 @@ void SearchForString(NSString *s) {
     const char **szImage = convertToStringArray(svImage);
     [self fillMenuWithString: it_arr[9] stringValues:szImage];
     eraseArray(szImage, svImage.size());
-    std::vector<std::string> svOther { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Circular","MoveRed","MoveRGB","MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch","ScanAlphaSwitch", "XorAddMul","RandomIntertwine","RandomFour","RandomTwo","Darken", "AverageRandom","RandomCollectionAverage","RandomCollectionAverageMax","BitwiseXorScale","XorChannelSort","Bitwise_XOR_Average","NotEqual","Sort_Vertical_Horizontal","Sort_Vertical_Horizontal_Bitwise_XOR","Scalar_Average_Multiply","Scalar_Average","Total_Average","VerticalColorBars","inOrder","inOrderBySecond","DarkenFilter","RandomFilterBySecond","ThreeRandom",  "Blend with Source", "Plugin", "Custom", "inOrderAlpha", "XorBackwards", "MoveUpLeft", "Stuck", "StuckStrobe", "SoftFeedback", "SoftFeedbackFrames", "ResizeSoftFeedback","SoftFeedback8","SoftFeedbackFrames8","ResizeSoftFeedback8", "ResizeSoftFeedbackSubFilter", "SoftFeedbackRandFilter","SoftFeedback32","SoftFeedbackFrames32","ResizeSoftFeedback32", "SoftFeedbackRandFilter32", "SoftFeedbackSubFilter","SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "RandomOther", "RandomXorFilter", "Bitwise_XOR_AlphaSubFilter", "XorBlend_SubFilter", "RandomFilterRandomTimes", "RandomSubFilterRandomTimes", "PsycheSort", "Bitwise_XOR_Sort", "BitwiseColorMatrix", "PixelatedSubFilterSort", "RandomPixelOrderSort", "FrameDifference", "SmallDiffference","FilteredDifferenceSubFilter", "GammaDarken5", "GammaDarken10","ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "ShuffleRGB"};
+    std::vector<std::string> svOther { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Circular","MoveRed","MoveRGB","MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch","ScanAlphaSwitch", "XorAddMul","RandomIntertwine","RandomFour","RandomTwo","Darken", "AverageRandom","RandomCollectionAverage","RandomCollectionAverageMax","BitwiseXorScale","XorChannelSort","Bitwise_XOR_Average","NotEqual","Sort_Vertical_Horizontal","Sort_Vertical_Horizontal_Bitwise_XOR","Scalar_Average_Multiply","Scalar_Average","Total_Average","VerticalColorBars","inOrder","inOrderBySecond","DarkenFilter","RandomFilterBySecond","ThreeRandom",  "Blend with Source", "Plugin", "Custom", "inOrderAlpha", "XorBackwards", "MoveUpLeft", "Stuck", "StuckStrobe", "SoftFeedback", "SoftFeedbackFrames", "ResizeSoftFeedback","SoftFeedback8","SoftFeedbackFrames8","ResizeSoftFeedback8", "ResizeSoftFeedbackSubFilter", "SoftFeedbackRandFilter","SoftFeedback32","SoftFeedbackFrames32","ResizeSoftFeedback32", "SoftFeedbackRandFilter32", "SoftFeedbackSubFilter","SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "RandomOther", "RandomXorFilter", "Bitwise_XOR_AlphaSubFilter", "XorBlend_SubFilter", "RandomFilterRandomTimes", "RandomSubFilterRandomTimes", "PsycheSort", "Bitwise_XOR_Sort", "BitwiseColorMatrix", "PixelatedSubFilterSort", "RandomPixelOrderSort", "FrameDifference", "SmallDiffference","FilteredDifferenceSubFilter", "GammaDarken5", "GammaDarken10","ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "ShuffleRGB", "ShuffleAlpha"};
     std::sort(svOther.begin(), svOther.end());
     
     

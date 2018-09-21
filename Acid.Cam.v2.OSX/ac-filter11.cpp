@@ -297,7 +297,7 @@ void ac::ShuffleMedian(cv::Mat &frame) {
     DarkenFilter(frame);
     CallFilter(med[index], frame);
     ++index;
-    if(index > med.size()-1)
+    if(index >= med.size()-1)
         index = 0;
     
 }
@@ -311,7 +311,7 @@ void ac::ShuffleRGB(cv::Mat &frame) {
     }
     CallFilter(rgbval[index], frame);
     ++index;
-    if(index > rgbval.size()-1)
+    if(index >= rgbval.size()-1)
         index = 0;
     
 }
@@ -371,4 +371,31 @@ void ac::Bars(cv::Mat &frame) {
     ++start;
     if(start > 2)
         start = rand()%3;
+}
+
+void ac::ShuffleAlpha(cv::Mat &frame) {
+    static std::vector<std::string> filter_array {"Self AlphaBlend","TrailsFilterSelfAlpha", "ScanAlphaSwitch", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur", "SmoothTrailsSelfAlphaBlend","BlendAlphaXor", "SelfAlphaRGB","inOrderAlphaXor","XorAlpha", "AlphaAcidTrails", "RGBTrailsAlpha","SelfAlphaScale", "SelfScaleAlpha", "SelfAlphaScaleBlend","IncDifferenceAlpha", "DarkSelfAlpha"};
+    static int index = 0;
+    static auto rng = std::default_random_engine{};
+    if(index == 0) {
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+    DarkenFilter(frame);
+    CallFilter(filter_array[index], frame);
+    ++index;
+    if(index >= filter_array.size()-1)
+        index = 0;
+}
+
+void ac::AlphaMorph(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    ShuffleAlpha(copyf);
+    collection.shiftFrames(copyf);
+    cv::Mat copyr = frame.clone();
+    Smooth(copyf, &collection);
+    static double alpha = 1.0, alpha_max = 4.0;
+    static int dir = 1;
+    AlphaBlend(copyf, copyr, frame, alpha);
+    procPos(dir, alpha, alpha_max);
 }

@@ -673,6 +673,8 @@ namespace ac {
     void DarkRandomPixels(cv::Mat &frame);
     void MedianBlurSubFilter(cv::Mat &frame);
     void Bars(cv::Mat &frame);
+    void ShuffleAlpha(cv::Mat &frame);
+    void AlphaMorph(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
