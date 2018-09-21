@@ -371,9 +371,10 @@ void ac::Bars(cv::Mat &frame) {
 }
 
 void ac::ShuffleAlpha(cv::Mat &frame) {
-    static std::vector<std::string> filter_array {"Self AlphaBlend","ScanAlphaSwitch", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur", "SmoothTrailsSelfAlphaBlend","BlendAlphaXor", "SelfAlphaRGB","inOrderAlphaXor","XorAlpha", "AlphaAcidTrails", "RGBTrailsAlpha","SelfAlphaScale", "SelfScaleAlpha", "SelfAlphaScaleBlend","IncDifferenceAlpha", "DarkSelfAlpha"};
+    static std::vector<std::string> filter_array {"Self AlphaBlend","ScanAlphaSwitch", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur","BlendAlphaXor","SelfAlphaRGB","XorAlpha","SelfAlphaScale", "SelfScaleAlpha","DarkSelfAlpha"};
     static int index = 0;
     static auto rng = std::default_random_engine{};
+    DarkenFilter(frame);
     CallFilter(filter_array[index], frame);
     ++index;
     if(index > filter_array.size()-1) {
