@@ -741,6 +741,7 @@ namespace ac {
         void shiftFrames(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
+            // check if any frames were released.
             bool check_released = false;
             for(int i = 0; i < Size; ++i) {
                 if(frames[i].empty()) {
@@ -1004,7 +1005,7 @@ namespace ac {
         void draw_alpha(cv::Mat &frame);
         void draw_move(cv::Mat &frame);
         void draw_op(cv::Mat &frame);
-    
+        
         // move pixel coordinates around
         void movePixels();
         // reset
