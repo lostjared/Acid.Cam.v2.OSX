@@ -544,7 +544,7 @@ void ac::AlphaAcidTrails(cv::Mat &frame) {
 }
 
 void ac::SelfXorAverage(cv::Mat &frame) {
-    static MatrixCollection<3> collection;
+    static MatrixCollection<4> collection;
     collection.shiftFrames(frame);
     static double alpha = 1.0, alpha_max = 7.0;
     

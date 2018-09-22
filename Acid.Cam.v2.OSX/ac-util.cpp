@@ -408,3 +408,13 @@ void ac::FillRow(cv::Mat &frame, unsigned int row, unsigned char value) {
         }
     }
 }
+
+void ac::Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_array) {
+    static auto rng = std::default_random_engine{};
+    CallFilter(filter_array[index], frame);
+    ++index;
+    if(index > filter_array.size()-1) {
+        index = 0;
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+}

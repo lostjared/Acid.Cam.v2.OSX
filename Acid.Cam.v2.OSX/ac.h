@@ -675,6 +675,7 @@ namespace ac {
     void Bars(cv::Mat &frame);
     void ShuffleAlpha(cv::Mat &frame);
     void AlphaMorph(cv::Mat &frame);
+    void ShuffleSelf(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -713,6 +714,7 @@ namespace ac {
     void resetAlpha(double &alpha);
     void SwapColors(cv::Vec3b &v);
     void FillRow(cv::Mat &frame, unsigned int row, unsigned char value);
+    void Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_array);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;
@@ -739,7 +741,14 @@ namespace ac {
         void shiftFrames(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
-            if(w != wx || h != wh || reset_filter == true || frames_released == true) {
+            bool check_released = false;
+            for(int i = 0; i < Size; ++i) {
+                if(frames[i].empty()) {
+                    check_released = true;
+                    break;
+                }
+            }
+            if(check_released == true || (w != wx || h != wh) || reset_filter == true || frames_released == true) {
                 for(int i = 0; i < Size; ++i)
                     frames[i] = frame.clone();
                 w = wx;
