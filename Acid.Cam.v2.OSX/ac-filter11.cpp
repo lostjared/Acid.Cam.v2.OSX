@@ -392,13 +392,14 @@ void ac::ShuffleSelf(cv::Mat &frame) {
 }
 
 void ac::PixelatedLines(cv::Mat &frame) {
+    cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
     static double alpha = 1.0, alpha_max = 4.0;
     for(int c = 0; c < frame.cols; ++c) {
         int start = rand()%frame.rows;
         for(int q = start; q < frame.rows; ++q) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(q,c);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = pixel[j]^rand()%255;
+                pixel[j] = static_cast<unsigned char>((pixel[j]^pix[j])*alpha);
             }
         }
     }
