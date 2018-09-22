@@ -676,6 +676,7 @@ namespace ac {
     void ShuffleAlpha(cv::Mat &frame);
     void AlphaMorph(cv::Mat &frame);
     void ShuffleSelf(cv::Mat &frame);
+    void PixelatedLines(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -762,7 +763,6 @@ namespace ac {
             }
             frames[0] = frame.clone();
         }
-        
         int size() const { return ArraySize; }
     };
     extern void release_all_objects();

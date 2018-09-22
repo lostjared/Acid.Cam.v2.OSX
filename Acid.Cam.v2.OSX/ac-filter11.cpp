@@ -291,13 +291,14 @@ void ac::ShuffleMedian(cv::Mat &frame) {
     static std::vector<std::string> filter_array{"MedianBlend","MedianBlurXor", "MirrorMedianBlend", "FlipMedian"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
-
+    AddInvert(frame);
 }
 
 void ac::ShuffleRGB(cv::Mat &frame) {
     std::vector<std::string> filter_array { "RGB Shift", "RGB Sep", "SlideRGB", "GradientRGB", "FrameBlendRGB", "MoveRGB", "LineRGB", "PixelRGB", "RGBFlash", "MirrorRGB", "RGBStatic1", "RGBStatic2", "SelfAlphaRGB", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "RGBMirror", "RGBTrails", "RGBTrailsDark", "RGBTrailsAlpha", "RGBTrailsNegativeAlpha", "MovementRGBTrails", "RGBTrailsXor", "ShadeRGB"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
+    AddInvert(frame);
 }
 
 void ac::RandomPixels(cv::Mat &frame) {
@@ -308,6 +309,7 @@ void ac::RandomPixels(cv::Mat &frame) {
                 pixel[j] += rand()%255;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::DarkRandomPixels(cv::Mat &frame) {
@@ -321,6 +323,7 @@ void ac::DarkRandomPixels(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MedianBlurSubFilter(cv::Mat &frame) {
@@ -338,6 +341,7 @@ void ac::MedianBlurSubFilter(cv::Mat &frame) {
     if(counter > 3)
         counter = 1;
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::Bars(cv::Mat &frame) {
@@ -355,12 +359,14 @@ void ac::Bars(cv::Mat &frame) {
     ++start;
     if(start > 2)
         start = rand()%3;
+    AddInvert(frame);
 }
 
 void ac::ShuffleAlpha(cv::Mat &frame) {
     static std::vector<std::string> filter_array {"Self AlphaBlend","ScanAlphaSwitch", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur","BlendAlphaXor","SmoothTrailsSelfAlphaBlend","SelfAlphaRGB","XorAlpha","SelfAlphaScale", "SelfScaleAlpha","DarkSelfAlpha"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
+    AddInvert(frame);
 }
 
 void ac::AlphaMorph(cv::Mat &frame) {
@@ -375,10 +381,29 @@ void ac::AlphaMorph(cv::Mat &frame) {
     static int dir = 1;
     AlphaBlend(copyf, copyr, frame, alpha);
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::ShuffleSelf(cv::Mat &frame) {
     static std::vector<std::string> filter_array {"Self AlphaBlend", "Self Scale", "ReinterpSelfScale", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur","SelfXorScale", "SelfAlphaRGB", "GradientXorSelfScale", "SelfXorBlend", "SelfXorDoubleFlash", "SelfOrDoubleFlash", "SelfXorAverage", "SelfAlphaScale", "SelfScaleAlpha", "SelfAlphaScaleBlend", "SelfScaleXorIncrease", "DarkSelfAlpha"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
+    AddInvert(frame);
+}
+
+void ac::PixelatedLines(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int c = 0; c < frame.cols; ++c) {
+        int start = rand()%frame.rows;
+        for(int q = start; q < frame.rows; ++q) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(q,c);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^rand()%255;
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    MedianBlend(frame);
+    AddInvert(frame);
 }
