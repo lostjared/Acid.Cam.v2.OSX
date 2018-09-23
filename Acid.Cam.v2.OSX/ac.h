@@ -742,6 +742,15 @@ namespace ac {
         cv::Mat frames[Size+4];
         int w, h;
         void shiftFrames(cv::Mat &frame) {
+            if(resetFrame(frame)) {
+    	        for(int i = Size-1; i > 0; --i) {
+	                frames[i] = frames[i-1];
+            	}
+            	frames[0] = frame.clone();
+            }
+        }
+        
+        bool resetFrame(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
             // check if any frames were released.
@@ -758,13 +767,11 @@ namespace ac {
                 w = wx;
                 h = wh;
                 reset_filter = false;
-                return;
+                return false;
             }
-            for(int i = Size-1; i > 0; --i) {
-                frames[i] = frames[i-1];
-            }
-            frames[0] = frame.clone();
+            return true;
         }
+        
         int size() const { return ArraySize; }
     };
     extern void release_all_objects();
