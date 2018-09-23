@@ -391,7 +391,25 @@ void ac::ShuffleSelf(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::PixelatedLines(cv::Mat &frame) {
+void ac::PixelatedHorizontalLines(cv::Mat &frame) {
+    cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int c = 0; c < frame.rows; ++c) {
+        int start = rand()%frame.cols;
+        for(int q = start; q < frame.cols; ++q) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(c, q);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((pixel[j]^pix[j])*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::PixelatedVerticalLines(cv::Mat &frame) {
     cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
     static double alpha = 1.0, alpha_max = 4.0;
     for(int c = 0; c < frame.cols; ++c) {

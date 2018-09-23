@@ -676,7 +676,8 @@ namespace ac {
     void ShuffleAlpha(cv::Mat &frame);
     void AlphaMorph(cv::Mat &frame);
     void ShuffleSelf(cv::Mat &frame);
-    void PixelatedLines(cv::Mat &frame);
+    void PixelatedHorizontalLines(cv::Mat &frame);
+    void PixelatedVerticalLines(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
