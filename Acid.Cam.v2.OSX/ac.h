@@ -718,6 +718,7 @@ namespace ac {
     void SwapColors(cv::Vec3b &v);
     void FillRow(cv::Mat &frame, unsigned int row, unsigned char value);
     void Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_array);
+    void AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;

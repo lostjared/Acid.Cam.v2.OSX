@@ -418,3 +418,8 @@ void ac::Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_ar
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
 }
+
+void ac::AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v) {
+    for(int i = 0; i < v.size(); ++i)
+        Add(frame, v[i]);
+}

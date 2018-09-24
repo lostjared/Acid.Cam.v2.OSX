@@ -707,7 +707,6 @@ void SearchForString(NSString *s) {
     filename = fname_stream.str();
     NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
     std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
-    std::cout << add_path << "\n";
     [startProg setEnabled: NO];
     [menuPaused setEnabled: YES];
     [up4k setEnabled: NO];

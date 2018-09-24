@@ -428,7 +428,7 @@ void ac::PixelatedVerticalLines(cv::Mat &frame) {
 }
 
 void ac::StrobeShuffle(cv::Mat &frame) {
-    static std::vector<std::string> filter_array {"StrobeEffect", "Strobe Red Then Green Then Blue", "StrobeScan", "BlockStrobe", "NegativeStrobe", "DiamondStrobe", "BitwiseXorStrobe", "StrobeBlend", "FadeStrobe", "MirrorStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "StrobeTransform", "RandomStrobe", "StuckStrobe", "OrStrobe", "DifferenceStrobe", "BlackAndWhiteDifferenceStrobe", "DifferenceBrightStrobe", "HalfNegateStrobe", "RandomStrobeFlash", "GaussianStrobe", "StrobeSort", "GlitchSortStrobe", "StrobeXor"};
+    static std::vector<std::string> filter_array {"StrobeEffect", "StrobeScan", "BlockStrobe", "NegativeStrobe", "BitwiseXorStrobe", "StrobeBlend", "FadeStrobe", "MirrorStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "StrobeTransform", "RandomStrobe", "StuckStrobe", "OrStrobe", "DifferenceStrobe","RandomStrobeFlash", "GaussianStrobe", "StrobeSort", "GlitchSortStrobe", "StrobeXor"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
     AddInvert(frame);
