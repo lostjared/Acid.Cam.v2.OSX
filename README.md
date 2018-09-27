@@ -1,5 +1,6 @@
 # Acid.Cam.v2.OSX
 
+![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
 To watch all the creations I have created with this project checkout my YouTube playlist:
 https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
