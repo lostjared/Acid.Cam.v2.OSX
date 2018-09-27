@@ -1,5 +1,9 @@
 # Acid.Cam.v2.OSX
 
+
+To watch all the creations I have created with this project checkout my YouTube playlist:
+https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
+
 Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
 
 Acid Cam distorts video to create art. It is designed to bo used with other software or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
@@ -14,8 +18,6 @@ Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code th
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
 View this YouTube playlist for videos created with this software
-
-https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
 
 OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  version switch to oldmacosx branch
 or for OpenCV 3 go to OpenCV3.
