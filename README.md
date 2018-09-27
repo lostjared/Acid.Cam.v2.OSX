@@ -14,7 +14,7 @@ starting image/video to use with other tools.
 
 I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
 
-Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting results. The project currently has over 450 filters to mix and match. 
+Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting results. The project currently has over 500 filters to mix and match. 
 
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
