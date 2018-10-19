@@ -132,6 +132,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *proc_change;
     IBOutlet NSPopUpButton *blend_source_amt;
     IBOutlet NSPopUpButton *sy_size;
+    IBOutlet NSTextField *selectedFilename;
     SearchController *search_controller;
     // variables
     bool reset_memory;

@@ -14,10 +14,8 @@
 		7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F5831E51E27F3CB00101A98 /* AVKit.framework */; };
 		7F7346832145AD4700F1A327 /* ac-filter11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F7346822145AD4700F1A327 /* ac-filter11.cpp */; };
 		7F9D709617DE4F35009C54DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9D709517DE4F35009C54DA /* Cocoa.framework */; };
-		7F9D70A017DE4F35009C54DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D709E17DE4F35009C54DA /* InfoPlist.strings */; };
 		7F9D70A217DE4F35009C54DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A117DE4F35009C54DA /* main.m */; };
 		7F9D70A617DE4F35009C54DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70A417DE4F35009C54DA /* Credits.rtf */; };
-		7F9D70AC17DE4F35009C54DA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70AA17DE4F35009C54DA /* MainMenu.xib */; };
 		7F9D70ED17DE4F7C009C54DA /* AC_Controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */; };
 		7F9D70F017DE4F7C009C54DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70B917DE4F7C009C54DA /* InfoPlist.strings */; };
 		7F9D70F117DE4F7C009C54DA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70BB17DE4F7C009C54DA /* MainMenu.xib */; };
@@ -110,11 +108,9 @@
 		7F9D709917DE4F35009C54DA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7F9D709A17DE4F35009C54DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7F9D709D17DE4F35009C54DA /* Acid.Cam.v2.OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Acid.Cam.v2.OSX-Info.plist"; sourceTree = "<group>"; };
-		7F9D709F17DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7F9D70A117DE4F35009C54DA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7F9D70A317DE4F35009C54DA /* Acid.Cam.v2.OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Acid.Cam.v2.OSX-Prefix.pch"; sourceTree = "<group>"; };
 		7F9D70A517DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		7F9D70AB17DE4F35009C54DA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F9D70B217DE4F7C009C54DA /* AC_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AC_Controller.h; path = Acid.Cam.v2.OSX/AC_Controller.h; sourceTree = "<group>"; };
 		7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_Controller.mm; path = Acid.Cam.v2.OSX/AC_Controller.mm; sourceTree = "<group>"; };
 		7F9D70B517DE4F7C009C54DA /* ac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ac.h; path = Acid.Cam.v2.OSX/ac.h; sourceTree = "<group>"; };
@@ -340,7 +336,6 @@
 			isa = PBXGroup;
 			children = (
 				7F122ED919C37026000DA576 /* Acid.Cam.v2.OSX.entitlements */,
-				7F9D70AA17DE4F35009C54DA /* MainMenu.xib */,
 				7F9D709C17DE4F35009C54DA /* Supporting Files */,
 			);
 			path = Acid.Cam.v2.OSX;
@@ -350,7 +345,6 @@
 			isa = PBXGroup;
 			children = (
 				7F9D709D17DE4F35009C54DA /* Acid.Cam.v2.OSX-Info.plist */,
-				7F9D709E17DE4F35009C54DA /* InfoPlist.strings */,
 				7F9D70A117DE4F35009C54DA /* main.m */,
 				7F9D70A317DE4F35009C54DA /* Acid.Cam.v2.OSX-Prefix.pch */,
 				7F9D70A417DE4F35009C54DA /* Credits.rtf */,
@@ -430,9 +424,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F9D70A017DE4F35009C54DA /* InfoPlist.strings in Resources */,
 				7F9D70A617DE4F35009C54DA /* Credits.rtf in Resources */,
-				7F9D70AC17DE4F35009C54DA /* MainMenu.xib in Resources */,
 				7F9D70F017DE4F7C009C54DA /* InfoPlist.strings in Resources */,
 				7F9D70F117DE4F7C009C54DA /* MainMenu.xib in Resources */,
 				7F9D715B17DE5082009C54DA /* image.icns in Resources */,
@@ -479,28 +471,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7F9D709E17DE4F35009C54DA /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7F9D709F17DE4F35009C54DA /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		7F9D70A417DE4F35009C54DA /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
 				7F9D70A517DE4F35009C54DA /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		7F9D70AA17DE4F35009C54DA /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7F9D70AB17DE4F35009C54DA /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		7F9D70B917DE4F7C009C54DA /* InfoPlist.strings */ = {
@@ -648,6 +624,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SYSTEM_HEADER_SEARCH_PATHS = "";
+				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -691,6 +669,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SYSTEM_HEADER_SEARCH_PATHS = "";
+				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

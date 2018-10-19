@@ -2,7 +2,7 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
-To watch all the creations I have created with this project checkout my YouTube playlist:
+To watch all the videos I have created with this project checkout my YouTube playlist:
 https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
 
 Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
@@ -14,7 +14,7 @@ starting image/video to use with other tools.
 
 I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
 
-Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting results. The project currently has over 500 filters to mix and match. 
+Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting results. The project currently has over 450 filters to mix and match. 
 
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
@@ -28,7 +28,7 @@ You can find a some of the old releases on my website here: http://lostsidedead.
 
 To compile first clone then open with Xcode and build.
 
-![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acscreen.jpg?raw=true "screenshot")
+![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam2_ScreenShot.png?raw=true "screenshot")
 
 The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower the bitrate by exporting it as H.264. Another program you could use would be Handbrake. The following image is of MediaInfo on a 4K video created with Acid Cam. The overall bitrate is very high.
 

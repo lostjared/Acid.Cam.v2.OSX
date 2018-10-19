@@ -852,8 +852,6 @@ void SearchForString(NSString *s) {
         if(after == NSOffState)
             ac::ApplyColorMap(frame);
         
-        
-        
         if(fade_state == NSOffState) {
             if(disableFilter == false && ac::testSize(frame)) ac::draw_func[ac::draw_offset](frame);
         } else {
@@ -1507,6 +1505,7 @@ void SearchForString(NSString *s) {
             blend_set = true;
             std::ostringstream stream;
             stream << "Blend Image set to: " << [current UTF8String] << "\n";
+            [selectedFilename setStringValue:current];;
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
             _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
             flushToLog(stream);
