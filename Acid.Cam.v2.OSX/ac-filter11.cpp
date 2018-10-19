@@ -475,3 +475,9 @@ void ac::BlendCombinedValues(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RGBColorTrails(cv::Mat &frame) {
+    RGBTrails(frame);
+    BlendCombinedValues(frame);
+}
+
