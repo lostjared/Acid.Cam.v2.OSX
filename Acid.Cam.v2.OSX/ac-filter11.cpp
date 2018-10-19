@@ -493,7 +493,7 @@ void ac::BlendCombinedValueSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b val = copyf.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                values[j] += val[j];;
+                values[j] += val[j];
                 values[j] /= 3;
                 pixel[j] = pixel[j]^static_cast<unsigned char>(values[j]);
             }
