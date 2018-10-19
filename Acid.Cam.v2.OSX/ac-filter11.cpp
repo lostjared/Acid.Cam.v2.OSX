@@ -479,5 +479,25 @@ void ac::BlendCombinedValues(cv::Mat &frame) {
 void ac::RGBColorTrails(cv::Mat &frame) {
     RGBTrails(frame);
     BlendCombinedValues(frame);
+    AddInvert(frame);
 }
 
+void ac::BlendCombinedValueSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendCombinedValueSubFilter")
+        return;
+    static cv::Scalar values;
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b val = copyf.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += val[j];;
+                values[j] /= 3;
+                pixel[j] = pixel[j]^static_cast<unsigned char>(values[j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
