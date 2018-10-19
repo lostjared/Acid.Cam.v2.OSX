@@ -501,3 +501,30 @@ void ac::BlendCombinedValueSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::BlendSubFilterAlpha(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendSubFilterAlpha")
+        return;
+    
+    static double alpha = 1.0, alpha_max = 2.0;
+    
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    
+    for(int z =  0; z < frame.rows; ++z) {
+        cv::Scalar values;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j];
+                values[j] = values[j]/1.77;
+                pixel[j] = pixel[j] ^ (static_cast<unsigned char>(values[j]*3.14));
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 1.5, 0.001);
+    cv::Mat copy_frame = frame.clone();
+    AlphaBlend(copy_frame, copyf, frame, alpha);
+    AddInvert(frame);
+}

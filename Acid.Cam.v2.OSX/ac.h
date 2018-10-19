@@ -683,6 +683,7 @@ namespace ac {
     void BlendCombinedValues(cv::Mat &frame);
     void RGBColorTrails(cv::Mat &frame);
     void BlendCombinedValueSubFilter(cv::Mat &frame);
+    void BlendSubFilterAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
