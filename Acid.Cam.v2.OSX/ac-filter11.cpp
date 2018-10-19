@@ -443,9 +443,9 @@ void ac::BlendBurred(cv::Mat &frame) {
     DarkenFilter(blur_copy);
     MedianBlur(blur_copy);
     collection.shiftFrames(blur_copy);
+    cv::Scalar value;
     for(int q = 1; q < collection.size(); ++q) {
         cv::Mat &frame_ref = collection.frames[q];
-        cv::Scalar value;
         for(int z = 0; z < frame_ref.rows; ++z) {
             for(int i = 0; i < frame_ref.cols; ++i) {
                 cv::Vec3b color = frame_ref.at<cv::Vec3b>(z, i);
@@ -458,4 +458,20 @@ void ac::BlendBurred(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
+}
+
+void ac::BlendCombinedValues(cv::Mat &frame) {
+    static cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j];
+                values[j] /= 3;
+                pixel[j] = pixel[j]^static_cast<unsigned char>(values[j]);
+            }
+        }
+    }
+    AddInvert(frame);
 }
