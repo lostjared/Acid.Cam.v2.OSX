@@ -433,3 +433,29 @@ void ac::StrobeShuffle(cv::Mat &frame) {
     Shuffle(index, frame, filter_array);
     AddInvert(frame);
 }
+
+void ac::BlendBurred(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    cv::Mat blur_copy = frame.clone();
+    MedianBlur(blur_copy);
+    DarkenFilter(frame);
+    MedianBlur(blur_copy);
+    DarkenFilter(blur_copy);
+    MedianBlur(blur_copy);
+    collection.shiftFrames(blur_copy);
+    for(int q = 1; q < collection.size(); ++q) {
+        cv::Mat &frame_ref = collection.frames[q];
+        cv::Scalar value;
+        for(int z = 0; z < frame_ref.rows; ++z) {
+            for(int i = 0; i < frame_ref.cols; ++i) {
+                cv::Vec3b color = frame_ref.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    value[j] += color[j];
+                    value[j] /= 3;
+                    pixel[j] = pixel[j]^static_cast<unsigned char>(value[j]);
+                }
+            }
+        }
+    }
+}
