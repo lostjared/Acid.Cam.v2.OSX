@@ -528,3 +528,18 @@ void ac::BlendSubFilterAlpha(cv::Mat &frame) {
     AlphaBlend(copy_frame, copyf, frame, alpha);
     AddInvert(frame);
 }
+
+void ac::GradientXorPixels(cv::Mat &frame) {
+    static cv::Scalar values(rand()%255, rand()%255, rand()%255);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j]+i;
+                values[j] /= 6.14;
+                pixel[j] = pixel[j]^static_cast<unsigned char>(values[j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
