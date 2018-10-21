@@ -582,6 +582,7 @@ void SearchForString(NSString *s) {
         [up4k setEnabled: YES];
     }
     stopCV();
+    [startProg setTitle:@"Start Session"];
 }
 
 - (IBAction) selectPlugin: (id) sender {
