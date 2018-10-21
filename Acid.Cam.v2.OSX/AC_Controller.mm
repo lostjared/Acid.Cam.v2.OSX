@@ -670,94 +670,100 @@ void SearchForString(NSString *s) {
 }
 
 -(IBAction) startProgram: (id) sender {
-    std::string input_file;
-    if([videoFileInput state] == NSOnState) {
-        input_file = [[video_file stringValue] UTF8String];
-        if(input_file.length() == 0) {
-            _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
-            return;
-        }
-        camera_mode = 1;
-    } else camera_mode = 0;
-    NSInteger res = [resolution indexOfSelectedItem];
-    int res_x[3] = { 640, 1280, 1920 };
-    int res_y[3] = { 480, 720, 1080 };
-    bool r;
-    if([record_op integerValue] == 1)
-        r = false;
-    else
-        r = true;
-    freeze_count = 0;
-    frame_proc = 0;
-    NSInteger checkedState = [menuPaused state];
-    isPaused = (checkedState == NSOnState) ? true : false;
-    std::ostringstream fname_stream;
-    std::string filename;
-    NSInteger popupType = [output_Type indexOfSelectedItem];
-    time_t t = time(0);
-    struct tm *m;
-    m = localtime(&t);
-    std::ostringstream time_stream;
-    time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
-    if(popupType == 0)
-        fname_stream << time_stream.str();
-    else
-        fname_stream << time_stream.str();
     
-    filename = fname_stream.str();
-    NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
-    std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
-    [startProg setEnabled: NO];
-    [menuPaused setEnabled: YES];
-    [up4k setEnabled: NO];
-    ac::reset_filter = true;
-    
-    if(camera_mode == 1)
-        capture = capture_video.get();
-    else
-        capture = capture_camera.get();
-    
-    bool u4k = ([up4k state] == NSOnState) ? true : false;
-    
-    int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-    
-    if(ret_val == 0) {
-        if(camera_mode == 1)
-            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+    if([[startProg title] isEqualToString: @"Start Session"]) {
+        std::string input_file;
+        if([videoFileInput state] == NSOnState) {
+            input_file = [[video_file stringValue] UTF8String];
+            if(input_file.length() == 0) {
+                _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
+                return;
+            }
+            camera_mode = 1;
+        } else camera_mode = 0;
+        NSInteger res = [resolution indexOfSelectedItem];
+        int res_x[3] = { 640, 1280, 1920 };
+        int res_y[3] = { 480, 720, 1080 };
+        bool r;
+        if([record_op integerValue] == 1)
+            r = false;
         else
-            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
+            r = true;
+        freeze_count = 0;
+        frame_proc = 0;
+        NSInteger checkedState = [menuPaused state];
+        isPaused = (checkedState == NSOnState) ? true : false;
+        std::ostringstream fname_stream;
+        std::string filename;
+        NSInteger popupType = [output_Type indexOfSelectedItem];
+        time_t t = time(0);
+        struct tm *m;
+        m = localtime(&t);
+        std::ostringstream time_stream;
+        time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
+        if(popupType == 0)
+            fname_stream << time_stream.str();
+        else
+            fname_stream << time_stream.str();
         
-        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
-        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
-    }
-    
-    if(ret_val != 0) {
-        _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
-        std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
-        programRunning = false;
-        [startProg setEnabled: YES];
-        [window1 orderOut:self];
-    } else {
-        if([menu_freeze state] == NSOnState) {
-            capture->read(old_frame);
-            ++frame_cnt;
-            ++frame_proc;
-        }
-        if(resize_value == true) {
-            [stretch_scr setState: NSOnState];
-        } else {
-            [stretch_scr setState: NSOffState];
-        }
-        if(camera_mode == 0) {
+        filename = fname_stream.str();
+        NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
+        std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
+        [menuPaused setEnabled: YES];
+        [up4k setEnabled: NO];
+        ac::reset_filter = true;
+        
+        if(camera_mode == 1)
+            capture = capture_video.get();
+        else
+            capture = capture_camera.get();
+        
+        bool u4k = ([up4k state] == NSOnState) ? true : false;
+        
+        int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+        
+        if(ret_val == 0) {
+            if(camera_mode == 1)
+                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+            else
+                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
             
-            isPaused = false;
-            [menuPaused setState:NSOffState];
-            frames_captured = 0;
-            background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
-            [background start];
-            camera_active = true;
+            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
-        [window1 orderFront:self];
+        
+        if(ret_val != 0) {
+            _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
+            std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
+            programRunning = false;
+            [startProg setTitle:@"Start Session"];
+            [window1 orderOut:self];
+        } else {
+            if([menu_freeze state] == NSOnState) {
+                capture->read(old_frame);
+                ++frame_cnt;
+                ++frame_proc;
+            }
+            if(resize_value == true) {
+                [stretch_scr setState: NSOnState];
+            } else {
+                [stretch_scr setState: NSOffState];
+            }
+            if(camera_mode == 0) {
+                
+                isPaused = false;
+                [menuPaused setState:NSOffState];
+                frames_captured = 0;
+                background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
+                [background start];
+                camera_active = true;
+            }
+            [window1 orderFront:self];
+            [startProg setTitle:@"Stop"];
+        }
+    } else {
+        [self stopProgram:self];
+        [startProg setTitle:@"Start Session"];
     }
 }
 
