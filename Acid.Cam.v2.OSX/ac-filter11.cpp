@@ -560,7 +560,6 @@ void ac::PurpleRain(cv::Mat &frame) {
 }
 
 void ac::PixelByPixelXor(cv::Mat &frame) {
-    
     cv::Vec3b pix;
     static int counter = 2;
     for(int i = 0; i < frame.cols; ++i) {
@@ -578,6 +577,33 @@ void ac::PixelByPixelXor(cv::Mat &frame) {
         counter = 2;
 }
 
+void ac::CopyXorAlpha(cv::Mat &frame) {
+    static cv::Mat frame_copy;
+    if(frame_copy.empty() || frame_copy.size() != frame.size())
+        frame_copy = frame.clone();
+
+    cv::Mat backup = frame.clone();
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows-2; ++z) {
+        for(int i = 0; i < frame.cols-2; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            pix[0] = frame_copy.at<cv::Vec3b>(z, i+1);
+            pix[1] = frame_copy.at<cv::Vec3b>(z+1, i);
+            pix[2] = frame_copy.at<cv::Vec3b>(z+1, i+1);
+            
+            cv::Vec3b color;
+            for(int j = 0; j < 3; ++j) {
+                color[j] += pix[0][j] + pix[1][j] + pix[2][j];
+                color[j] /= 6.0;
+                pixel[j] = static_cast<unsigned char>(color[j] * alpha) ^ static_cast<unsigned char>(pixel[j]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.1);
+    frame_copy = backup.clone();
+}
 
 
 
