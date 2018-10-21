@@ -147,6 +147,7 @@ namespace ac {
     void DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(int index, cv::Mat &frame);
     void DrawFilter(const std::string &name, cv::Mat &frame);
+    void DrawFilterUnordered(const std::string &name, cv::Mat &frame);
     DrawFunction getFilter(std::string name);
     FilterType filterByIndex(const int &num);
     FilterType filterByString(const std::string &num);
@@ -736,6 +737,8 @@ namespace ac {
     extern bool reset_filter;
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
+    extern std::unordered_map<std::string, FilterType> filter_map_str;
+
     extern bool frames_released;
     extern std::vector<void *> all_objects;
     // Matrix Collection template

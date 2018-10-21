@@ -110,6 +110,8 @@ namespace ac {
     FilterType filterByString(const std::string &num) {
         return filter_array[ac::filter_map[num]];
     }
+    
+    std::unordered_map<std::string, FilterType> filter_map_str;
 }
 
 cv::Mat blend_image, color_image;
@@ -124,6 +126,8 @@ std::string ac::getVersion() {
 void ac::fill_filter_map() {
     for(int i = 0; i < ac::draw_max; ++i)
         filter_map[draw_strings[i]] = i;
+    for(int i = 0; i < ac::draw_max-4; ++i)
+        filter_map_str[filters[i].first] = filters[i];
 }
 
 void ac::DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe) {
@@ -159,6 +163,11 @@ bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     }
     return false;
 }
+
+void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
+    filter_map_str[name].second(frame);
+}
+
 
 void ac::swapColors(cv::Mat &frame, int y, int x) {
     if(in_custom == true) return;
