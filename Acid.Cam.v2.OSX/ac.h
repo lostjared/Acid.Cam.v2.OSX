@@ -685,6 +685,7 @@ namespace ac {
     void BlendCombinedValueSubFilter(cv::Mat &frame);
     void BlendSubFilterAlpha(cv::Mat &frame);
     void GradientXorPixels(cv::Mat &frame);
+    void PurpleRain(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

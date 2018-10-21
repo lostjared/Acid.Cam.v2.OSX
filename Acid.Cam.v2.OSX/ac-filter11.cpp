@@ -543,3 +543,24 @@ void ac::GradientXorPixels(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PurpleRain(cv::Mat &frame) {
+    cv::Scalar values;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z  = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j];
+                values[j] /= (j+1);
+                pixel[j] = pixel[j] ^ static_cast<unsigned char>(values[j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+
+
+
+
+
