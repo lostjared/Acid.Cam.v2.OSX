@@ -575,6 +575,8 @@ void ac::PixelByPixelXor(cv::Mat &frame) {
     ++counter;
     if(counter > 8)
         counter = 2;
+    
+    AddInvert(frame);
 }
 
 void ac::CopyXorAlpha(cv::Mat &frame) {
@@ -603,6 +605,7 @@ void ac::CopyXorAlpha(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.1);
     frame_copy = backup.clone();
+    AddInvert(frame);
 }
 
 void ac::AveragePixelsXor(cv::Mat &frame) {
@@ -626,6 +629,33 @@ void ac::AveragePixelsXor(cv::Mat &frame) {
                 pixel[j] = pixel[j]^pix[j];
         }
     }
+    AddInvert(frame);
 }
 
+void ac::AveragePixelAlpha(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b color = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                values[j] += color[j];
+        }
+    }
+    cv::Vec3b pix;
+    for(int j = 0; j < 3; ++j) {
+        values[j] /= (frame.cols * frame.rows);
+        pix[j] = static_cast<unsigned char>(values[j]);
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(pix[j]*alpha);
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
+}
 

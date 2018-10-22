@@ -690,6 +690,7 @@ namespace ac {
     void PixelByPixelXor(cv::Mat &frame);
     void CopyXorAlpha(cv::Mat &frame);
     void AveragePixelsXor(cv::Mat &frame);
+    void AveragePixelAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
