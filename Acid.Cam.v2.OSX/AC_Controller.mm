@@ -1666,6 +1666,7 @@ void SearchForString(NSString *s) {
         case 0:
             blend_set = false;
             blend_image.release();
+            [selectedFilename setStringValue:@""];
             _NSRunAlertPanel(@"Blend image released", @"Released Image", @"Ok", nil, nil);
             break;
         case 1:
