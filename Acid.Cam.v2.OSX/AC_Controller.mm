@@ -981,6 +981,7 @@ void SearchForString(NSString *s) {
         [startProg setEnabled: YES];
         [background release];
         camera_active = false;
+        [startProg setTitle:@"Start Session"];
     });
 }
 
@@ -1051,6 +1052,7 @@ void SearchForString(NSString *s) {
             return;
         }
         stopCV();
+        [startProg setTitle:@"Start Session"];
         return;
     }
     cv::Mat temp_frame;
