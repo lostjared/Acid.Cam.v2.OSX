@@ -605,5 +605,27 @@ void ac::CopyXorAlpha(cv::Mat &frame) {
     frame_copy = backup.clone();
 }
 
+void ac::AveragePixelsXor(cv::Mat &frame) {
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b color = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                values[j] += color[j];
+        }
+    }
+    cv::Vec3b pix;
+    for(int j = 0; j < 3; ++j) {
+        values[j] /= (frame.cols * frame.rows);
+        pix[j] = static_cast<unsigned char>(values[j]);
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]^pix[j];
+        }
+    }
+}
 
 
