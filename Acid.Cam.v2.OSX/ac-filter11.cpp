@@ -671,5 +671,36 @@ void ac::NegativeByRow(cv::Mat &frame) {
         }
         neg = (neg == true) ? false : true;
     }
+    AddInvert(frame);
 }
 
+void ac::AveragePixelCollection(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    MedianBlur(frame);
+    MedianBlur(frame);
+    collection.shiftFrames(frame);
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int q = 0; q < collection.size(); ++q) {
+            	cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+            	for(int j = 0; j < 3; ++j)
+                	values[j] += pix[j];
+            }
+        }
+    }
+    cv::Vec3b fpix;
+    for(int j = 0; j < 3; ++j) {
+        values[j] = values[j] / ((frame.rows * frame.cols) * 3.14);
+        fpix[j] = static_cast<unsigned char>(values[j]);
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^fpix[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}

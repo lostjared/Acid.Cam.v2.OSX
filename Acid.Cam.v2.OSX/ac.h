@@ -692,6 +692,7 @@ namespace ac {
     void AveragePixelsXor(cv::Mat &frame);
     void AveragePixelAlpha(cv::Mat &frame);
     void NegativeByRow(cv::Mat &frame);
+    void AveragePixelCollection(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
