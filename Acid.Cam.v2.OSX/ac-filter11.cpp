@@ -725,3 +725,35 @@ void ac::IncorrectLine(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::XorShift(cv::Mat &frame) {
+    int sw = 0;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            values[sw] += pixel[sw];
+            ++sw;
+            if(sw > 2)
+                sw = 0;
+        }
+    }
+    
+    cv::Vec3b pix;
+    for(int j = 0; j < 3; ++j) {
+        values[j] = values[j] / (frame.rows * frame.cols);
+        pix[j] = static_cast<unsigned char>(values[j] * alpha);
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ pix[j];
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
+}

@@ -694,6 +694,7 @@ namespace ac {
     void NegativeByRow(cv::Mat &frame);
     void AveragePixelCollection(cv::Mat &frame);
     void IncorrectLine(cv::Mat &frame);
+    void XorShift(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
