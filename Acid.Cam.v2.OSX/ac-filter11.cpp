@@ -704,3 +704,24 @@ void ac::AveragePixelCollection(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::IncorrectLine(cv::Mat &frame) {
+    cv::Vec3b xval;
+    xval[0] = rand()%255;
+    xval[1] = rand()%255;
+    xval[2] = rand()%255;
+    for(int z = 0; z < frame.rows; ++z) {
+        cv::Scalar values;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j];
+                pixel[j] = pixel[j] ^ xval[j];
+            }
+        }
+        for(int j = 0; j < 3; ++j) {
+            xval[j] = static_cast<unsigned char>(values[j]/frame.cols/3.14);
+        }
+    }
+    AddInvert(frame);
+}

@@ -134,6 +134,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *sy_size;
     IBOutlet NSTextField *selectedFilename;
     SearchController *search_controller;
+    NSThread *proc_cv;
     // variables
     bool reset_memory;
     bool pauseStepTrue;
