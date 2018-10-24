@@ -700,6 +700,7 @@ namespace ac {
     void AlphaBlendWithSource(cv::Mat &frame);
     void RGBSep1x(cv::Mat &frame);
     void RGBMedianBlend(cv::Mat &frame);
+    void RGBMirror1(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

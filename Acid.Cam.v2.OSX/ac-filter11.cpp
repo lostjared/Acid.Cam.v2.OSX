@@ -830,10 +830,28 @@ void ac::RGBSep1x(cv::Mat &frame) {
     ++offset;
     if(offset > frame.cols)
         offset = 2;
+    AddInvert(frame);
 }
 
 void ac::RGBMedianBlend(cv::Mat &frame) {
     RGBSep1x(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
+void ac::RGBMirror1(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pixels[4];
+            pixels[0] = frame.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            pixels[1] = frame.at<cv::Vec3b>(frame.rows-z-1, i);
+            pixels[2] = frame.at<cv::Vec3b>(z, frame.cols-i-1);
+            pixel[0] += pixels[0][0];
+            pixel[1] += pixels[1][1];
+            pixel[2] += pixels[2][2];
+        }
+    }
+    
+    AddInvert(frame);
+}
