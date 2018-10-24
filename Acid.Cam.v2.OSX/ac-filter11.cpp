@@ -809,3 +809,31 @@ void ac::AlphaBlendWithSource(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
+
+void ac::RGBSep1x(cv::Mat &frame) {
+    cv::Mat copy_f = frame.clone();
+    static int offset = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = offset, start_i = 0, x = offset/2; x < frame.cols && start_i < frame.cols && i < frame.cols; ++i, ++start_i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b copy_pix = copy_f.at<cv::Vec3b>(z, start_i);
+            cv::Vec3b copy_pix2 = copy_f.at<cv::Vec3b>(z, x);
+            pixel[2] += copy_pix[2];
+            pixel[0] += copy_pix2[0];
+        }
+        for(int i = 0; i < offset; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b off_x = copy_f.at<cv::Vec3b>(z, frame.cols-i-1);
+            pixel[1] += off_x[1];
+        }
+    }
+    ++offset;
+    if(offset > frame.cols)
+        offset = 2;
+}
+
+void ac::RGBMedianBlend(cv::Mat &frame) {
+    RGBSep1x(frame);
+    MedianBlend(frame);
+}
+

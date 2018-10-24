@@ -698,6 +698,8 @@ namespace ac {
     void StrobeXorAndOr(cv::Mat &frame);
     void XorWithSource(cv::Mat &frame);
     void AlphaBlendWithSource(cv::Mat &frame);
+    void RGBSep1x(cv::Mat &frame);
+    void RGBMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
