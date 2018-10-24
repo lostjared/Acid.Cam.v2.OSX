@@ -743,7 +743,7 @@ void ac::XorShift(cv::Mat &frame) {
     cv::Vec3b pix;
     for(int j = 0; j < 3; ++j) {
         values[j] = values[j] / (frame.rows * frame.cols);
-        pix[j] = static_cast<unsigned char>(values[j] * alpha);
+        pix[j] = static_cast<unsigned char>((values[j] * alpha)/3.14);
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -756,4 +756,29 @@ void ac::XorShift(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
     AddInvert(frame);
+}
+
+void ac::StrobeXorAndOr(cv::Mat &frame) {
+    cv::Vec3b rnd(rand()%255, rand()%255, rand()%255);
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                switch(index) {
+                    case 0:
+                        pixel[j] = pixel[j] ^ rnd[j];
+                        break;
+                    case 1:
+                        pixel[j] = pixel[j] & rnd[j];
+                        break;
+                    case 2:
+                        pixel[j] = pixel[j] | rnd[j];
+                        break;
+                }
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
 }

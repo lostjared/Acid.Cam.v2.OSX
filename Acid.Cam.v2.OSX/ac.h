@@ -695,6 +695,7 @@ namespace ac {
     void AveragePixelCollection(cv::Mat &frame);
     void IncorrectLine(cv::Mat &frame);
     void XorShift(cv::Mat &frame);
+    void StrobeXorAndOr(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
