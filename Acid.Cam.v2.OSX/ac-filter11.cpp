@@ -782,3 +782,19 @@ void ac::StrobeXorAndOr(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::XorWithSource(cv::Mat &frame) {
+    
+    if(orig_frame.empty()) return;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b orig = orig_frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^orig[j];
+            }
+            
+        }
+    }
+}
