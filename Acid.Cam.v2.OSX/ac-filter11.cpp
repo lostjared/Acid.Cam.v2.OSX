@@ -781,12 +781,12 @@ void ac::StrobeXorAndOr(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
+    AddInvert(frame);
 }
 
 void ac::XorWithSource(cv::Mat &frame) {
-    
-    if(orig_frame.empty()) return;
-    
+    if(orig_frame.empty())
+        return;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -797,4 +797,15 @@ void ac::XorWithSource(cv::Mat &frame) {
             
         }
     }
+}
+
+void ac::AlphaBlendWithSource(cv::Mat &frame) {
+    if(orig_frame.empty())
+        return;
+    
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copy_f = frame.clone();
+    AlphaBlend(copy_f, orig_frame, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }

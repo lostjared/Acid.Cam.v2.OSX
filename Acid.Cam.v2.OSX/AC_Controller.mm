@@ -449,8 +449,8 @@ void SearchForString(NSString *s) {
     std::sort(vSub.begin(), vSub.end());
     const char **zSub = convertToStringArray(vSub);
     
-    const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","XorWithSource", "Plugin", "Custom",0};
-    const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "XorWithSource", "Plugin",0};
+    const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","XorWithSource","AlphaBlendWithSource", "Plugin", "Custom",0};
+    const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "XorWithSource", "AlphaBlendWithSource", "Plugin",0};
     
     if(cust == NO) {
         [self fillMenuWithString: it_arr[12] stringValues:zSub];
@@ -1071,7 +1071,7 @@ void SearchForString(NSString *s) {
         frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
     }
     
-    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes")) {
+    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes")) {
         ac::orig_frame = frame.clone();
     }
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
