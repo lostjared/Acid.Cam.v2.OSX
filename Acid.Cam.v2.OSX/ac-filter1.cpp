@@ -114,10 +114,10 @@ namespace ac {
     std::unordered_map<std::string, FilterType> filter_map_str;
 }
 
-cv::Mat blend_image, color_image;
+cv::Mat blend_image, color_image, color_bg_image;
 bool blend_set = false;
 bool colorkey_set = false;
-
+bool colorkey_bg = false;
 // return version info
 std::string ac::getVersion() {
     return version;

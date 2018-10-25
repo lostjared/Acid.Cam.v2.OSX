@@ -167,7 +167,7 @@ void ac::TotalAverageOffset(cv::Mat &frame, unsigned long &value) {
 
 // filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
-    if(colorkey_set == false || color_image.empty()) return;
+    if((colorkey_set == false && colorkey_bg == false) || (color_image.empty() && color_bg_image.empty())) return;
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
@@ -175,13 +175,25 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
     output = orig.clone();
     for(int z = 0; z < orig.rows; ++z) {
         for(int i = 0; i < orig.cols; ++i) {
-            int cX = AC_GetFX(color_image.cols, i, orig.cols);
-            int cY = AC_GetFZ(color_image.rows, z, orig.rows);
-            cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
-            if(add_i == color) {
-                cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
+            if(colorkey_set == true) {
+                int cX = AC_GetFX(color_image.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_image.rows, z, orig.rows);
+                cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
+            	if(add_i == color) {
+	                cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
+	                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+	                dst = pixel;
+            	}
+            } else if(colorkey_bg == true) {
+                int cX = AC_GetFX(color_bg_image.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_bg_image.rows, z, orig.rows);
+                cv::Vec3b add_i = color_bg_image.at<cv::Vec3b>(cY, cX);
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
-                dst = pixel;
+                cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
+                if(add_i == color)
+                    dst = pixel;
+                else
+                    dst = add_i;
             }
         }
     }

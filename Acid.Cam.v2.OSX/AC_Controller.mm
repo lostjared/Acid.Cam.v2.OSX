@@ -296,6 +296,7 @@ void SearchForString(NSString *s) {
     pauseStepTrue = false;
     camera_mode = 0;
     colorkey_set = false;
+    colorkey_bg = false;
     frame_proc = 0;
     ac::setCustom(custom_filter);
     ac::setPlugin(plugin_callback);
@@ -885,7 +886,10 @@ void SearchForString(NSString *s) {
             ac::setSaturation(frame, (int)slide_value3);
         }
         
-        if(color_key_set == NSOnState && colorkey_set == true && !color_image.empty()) {
+        if(color_key_set == NSOnState && (colorkey_set == true && !color_image.empty())) {
+            cv::Mat cframe = frame.clone();
+            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+        } else if(color_key_set == NSOnState && colorkey_bg == true) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
@@ -1117,8 +1121,10 @@ void SearchForString(NSString *s) {
     if([color_chk state] == NSOnState && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+    } else if([color_chk state] == NSOnState && colorkey_bg == true) {
+        cv::Mat cframe = frame.clone();
+        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
-    
     if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
         ++frame_proc;
@@ -1520,7 +1526,7 @@ void SearchForString(NSString *s) {
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
             _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
             flushToLog(stream);
-        } else {
+        } else if(index == 1) {
             color_image = cv::imread([current UTF8String]);
             if(color_image.empty()) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
@@ -1532,6 +1538,18 @@ void SearchForString(NSString *s) {
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
             _NSRunAlertPanel(@"Image Set", s, @"Ok", nil, nil);
             flushToLog(stream);
+        } else if(index == 2) {
+            color_bg_image = cv::imread([current UTF8String]);
+            if(color_bg_image.empty()) {
+                colorkey_bg = false;
+                _NSRunAlertPanel(@"Error could not open file...", @"Could not open file", @"Ok",nil,nil);
+                return;
+            }
+            colorkey_bg = true;
+            std::ostringstream stream;
+            stream << "ColorKey Background image set to: " << [current UTF8String] << "\n";
+            flushToLog(stream);
+            _NSRunAlertPanel(@"Set ColorKey Background", @"Color Key Image Set", @"Ok", nil, nil);
         }
     }
 }
@@ -1678,8 +1696,12 @@ void SearchForString(NSString *s) {
             color_image.release();
             _NSRunAlertPanel(@"Color Key image released", @"Released Image", @"Ok", nil, nil);
             break;
+        case 2:
+            colorkey_bg = false;
+            color_bg_image.release();
+            _NSRunAlertPanel(@"Released ColorKey background", @"Released Image", @"Ok", nil, nil);
+            break;
     }
-    
 }
 
 - (IBAction) setPref: (id) sender {
