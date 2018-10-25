@@ -892,6 +892,9 @@ void SearchForString(NSString *s) {
         } else if(color_key_set == NSOnState && colorkey_bg == true) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+        } else if(color_key_set == NSOnState && colorkey_replace == true) {
+            cv::Mat cframe = frame.clone();
+            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
@@ -1122,6 +1125,9 @@ void SearchForString(NSString *s) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     } else if([color_chk state] == NSOnState && colorkey_bg == true) {
+        cv::Mat cframe = frame.clone();
+        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+    } else if([color_chk state] == NSOnState && colorkey_replace == true) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
@@ -1550,6 +1556,18 @@ void SearchForString(NSString *s) {
             stream << "ColorKey Background image set to: " << [current UTF8String] << "\n";
             flushToLog(stream);
             _NSRunAlertPanel(@"Set ColorKey Background", @"Color Key Image Set", @"Ok", nil, nil);
+        } else if(index == 3) {
+            color_replace_image = cv::imread([current UTF8String]);
+            if(color_replace_image.empty()) {
+                colorkey_replace = false;
+                _NSRunAlertPanel(@"Error could not open file...", @"Could not open file", @"Ok",nil,nil);
+                return;
+            }
+            colorkey_replace = true;
+            std::ostringstream stream;
+            stream << "ColorKey Replace Background image set to: " << [current UTF8String] << "\n";
+            flushToLog(stream);
+            _NSRunAlertPanel(@"Set ColorKey Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
         }
     }
 }
@@ -1700,6 +1718,11 @@ void SearchForString(NSString *s) {
             colorkey_bg = false;
             color_bg_image.release();
             _NSRunAlertPanel(@"Released ColorKey background", @"Released Image", @"Ok", nil, nil);
+            break;
+        case 3:
+            colorkey_replace = false;
+            color_replace_image.release();
+            _NSRunAlertPanel(@"Color Key Replace Image Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
             break;
     }
 }

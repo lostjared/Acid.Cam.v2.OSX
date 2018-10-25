@@ -1619,6 +1619,7 @@ Gw
                                     <menuItem title="Blend Image" state="on" id="r7U-WM-Amd"/>
                                     <menuItem title="Color Key Image" id="FYX-o2-qSL"/>
                                     <menuItem title="Color Key Background" id="G6c-Z7-WMY"/>
+                                    <menuItem title="Color Key Replace" id="yOR-sQ-kyT"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>

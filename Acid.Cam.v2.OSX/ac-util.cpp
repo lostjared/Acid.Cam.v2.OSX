@@ -167,7 +167,7 @@ void ac::TotalAverageOffset(cv::Mat &frame, unsigned long &value) {
 
 // filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
-    if((colorkey_set == false && colorkey_bg == false) || (color_image.empty() && color_bg_image.empty())) return;
+    if((colorkey_set == false && colorkey_bg == false && colorkey_replace == false) || (color_image.empty() && color_bg_image.empty() && color_replace_image.empty())) return;
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
@@ -175,7 +175,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
     output = orig.clone();
     for(int z = 0; z < orig.rows; ++z) {
         for(int i = 0; i < orig.cols; ++i) {
-            if(colorkey_set == true) {
+            if(colorkey_set == true && !color_image.empty()) {
                 int cX = AC_GetFX(color_image.cols, i, orig.cols);
                 int cY = AC_GetFZ(color_image.rows, z, orig.rows);
                 cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
@@ -184,7 +184,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
 	                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
 	                dst = pixel;
             	}
-            } else if(colorkey_bg == true) {
+            } else if(colorkey_bg == true && !color_bg_image.empty()) {
                 int cX = AC_GetFX(color_bg_image.cols, i, orig.cols);
                 int cY = AC_GetFZ(color_bg_image.rows, z, orig.rows);
                 cv::Vec3b add_i = color_bg_image.at<cv::Vec3b>(cY, cX);
@@ -194,9 +194,24 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                     dst = pixel;
                 else
                     dst = add_i;
+            } else if(colorkey_replace == true && !color_replace_image.empty()) {
+                int cX = AC_GetFX(color_replace_image.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_replace_image.rows, z, orig.rows);
+                cv::Vec3b add_i = color_replace_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
+                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
+                static int offset = 70; // 219,212,195
+                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
+                	dst = add_i;
+                }
+                else {
+                    dst = fcolor;
+                }
             }
         }
     }
+    
 }
 
 // Alpha Blend function
