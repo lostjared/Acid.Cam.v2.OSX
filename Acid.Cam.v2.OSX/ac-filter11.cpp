@@ -847,6 +847,7 @@ void ac::RGBMirror1(cv::Mat &frame) {
             pixels[0] = frame.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
             pixels[1] = frame.at<cv::Vec3b>(frame.rows-z-1, i);
             pixels[2] = frame.at<cv::Vec3b>(z, frame.cols-i-1);
+            pixels[3] = pixel;
             pixel[0] += pixels[0][0];
             pixel[1] += pixels[1][1];
             pixel[2] += pixels[2][2];
