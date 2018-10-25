@@ -856,3 +856,8 @@ void ac::RGBMirror1(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::RGBMirror1Median(cv::Mat &frame) {
+    RGBMirror1(frame);
+    MedianBlend(frame);
+}
