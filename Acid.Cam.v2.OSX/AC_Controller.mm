@@ -1749,8 +1749,10 @@ void SearchForString(NSString *s) {
     }
 
     NSInteger index = [image_to_set indexOfSelectedItem];
-    if(index >= 0)
+    if(index >= 0) {
         set_filenames[index] = "None";
+        [self updateLabelText:self];
+    }
 }
 
 - (IBAction) setPref: (id) sender {
