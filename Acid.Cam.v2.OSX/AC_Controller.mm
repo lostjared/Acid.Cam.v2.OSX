@@ -1932,6 +1932,13 @@ void SearchForString(NSString *s) {
     flushToLog(stream);
 }
 
+- (IBAction) setCheckReplace: (id) sender {
+    if([chk_replace state] == NSOnState)
+        colorkey_filter = true;
+    else
+        colorkey_filter = false;
+}
+
 @end
 
 void custom_filter(cv::Mat &frame) {

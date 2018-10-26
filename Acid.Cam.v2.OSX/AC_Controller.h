@@ -132,6 +132,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *proc_change;
     IBOutlet NSPopUpButton *blend_source_amt;
     IBOutlet NSPopUpButton *sy_size;
+    IBOutlet NSButton *chk_replace;
     IBOutlet NSTextField *selectedFilename;
     SearchController *search_controller;
     NSThread *proc_cv;
@@ -229,6 +230,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) clearSubFilter: (id) sender;
 - (IBAction) enableSpyhon: (id) sender;
 - (IBAction) setCustomSubFromSearch: (id) sender;
+- (IBAction) setCheckReplace: (id) sender;
 @end
 
 // global variables / functions
