@@ -231,6 +231,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) enableSpyhon: (id) sender;
 - (IBAction) setCustomSubFromSearch: (id) sender;
 - (IBAction) setCheckReplace: (id) sender;
+- (IBAction) updateLabelText: (id) sender;
 @end
 
 // global variables / functions

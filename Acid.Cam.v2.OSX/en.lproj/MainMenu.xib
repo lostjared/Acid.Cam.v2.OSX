@@ -1616,6 +1616,9 @@ Gw
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <action selector="updateLabelText:" target="630" id="9hC-zO-wHc"/>
+                        </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hvA-W9-Xi5">
                         <rect key="frame" x="265" y="24" width="49" height="17"/>

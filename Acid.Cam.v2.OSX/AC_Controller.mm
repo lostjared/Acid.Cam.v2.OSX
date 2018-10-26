@@ -87,6 +87,7 @@ bool resize_value = false;
 void custom_filter(cv::Mat &frame);
 void plugin_callback(cv::Mat &frame);
 NSMutableArray *search_results;
+std::string set_filenames[4] = {"None", "None", "None", "None"};
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -1522,6 +1523,13 @@ void SearchForString(NSString *s) {
         }
     }
 }
+
+- (IBAction) updateLabelText: (id) sender {
+    NSInteger index = [image_to_set indexOfSelectedItem];
+    NSString *s = [NSString stringWithUTF8String: set_filenames[index].c_str()];
+    [selectedFilename setStringValue: s];
+}
+
 - (IBAction) setAsImage: (id) sender {
 
     if([image_combo indexOfSelectedItem] >= 0) {
@@ -1540,6 +1548,7 @@ void SearchForString(NSString *s) {
             stream << "Blend Image set to: " << [current UTF8String] << "\n";
             [selectedFilename setStringValue:current];;
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
+            set_filenames[0] = [current UTF8String];
             _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
             flushToLog(stream);
         } else if(index == 1) {
@@ -1551,6 +1560,7 @@ void SearchForString(NSString *s) {
             colorkey_set = true;
             std::ostringstream stream;
             stream << "ColorKey Image set to: " << [current UTF8String] << "\n";
+            set_filenames[1] = [current UTF8String];
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
             _NSRunAlertPanel(@"Image Set", s, @"Ok", nil, nil);
             flushToLog(stream);
@@ -1561,6 +1571,7 @@ void SearchForString(NSString *s) {
                 _NSRunAlertPanel(@"Error could not open file...", @"Could not open file", @"Ok",nil,nil);
                 return;
             }
+            set_filenames[2] = [current UTF8String];
             colorkey_bg = true;
             std::ostringstream stream;
             stream << "ColorKey Background image set to: " << [current UTF8String] << "\n";
@@ -1573,17 +1584,12 @@ void SearchForString(NSString *s) {
                 _NSRunAlertPanel(@"Error could not open file...", @"Could not open file", @"Ok",nil,nil);
                 return;
             }
+            set_filenames[3] = [current UTF8String];
             colorkey_replace = true;
             std::ostringstream stream;
             stream << "ColorKey Replace Background image set to: " << [current UTF8String] << "\n";
             flushToLog(stream);
             _NSRunAlertPanel(@"Set ColorKey Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
-        } else if(index == 4) {
-            colorkey_filter = true;
-            std::ostringstream stream;
-            stream << "ColorKey Replace Filter Background image set to: " << [current UTF8String] << "\n";
-            flushToLog(stream);
-            _NSRunAlertPanel(@"Set ColorKey Filter Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
         }
     }
 }
@@ -1741,6 +1747,10 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Color Key Replace Image Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
             break;
     }
+
+    NSInteger index = [image_to_set indexOfSelectedItem];
+    if(index >= 0)
+        set_filenames[index] = "None";
 }
 
 - (IBAction) setPref: (id) sender {
