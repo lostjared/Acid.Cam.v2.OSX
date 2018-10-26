@@ -1620,6 +1620,7 @@ Gw
                                     <menuItem title="Color Key Image" id="FYX-o2-qSL"/>
                                     <menuItem title="Color Key Background" id="G6c-Z7-WMY"/>
                                     <menuItem title="Color Key Replace" id="yOR-sQ-kyT"/>
+                                    <menuItem title="Color Key Replace with Filter" id="8UX-Ov-O98"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>

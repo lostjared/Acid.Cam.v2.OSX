@@ -297,6 +297,8 @@ void SearchForString(NSString *s) {
     camera_mode = 0;
     colorkey_set = false;
     colorkey_bg = false;
+    colorkey_filter = false;
+    colorkey_replace = false;
     frame_proc = 0;
     ac::setCustom(custom_filter);
     ac::setPlugin(plugin_callback);
@@ -895,6 +897,9 @@ void SearchForString(NSString *s) {
         } else if(color_key_set == NSOnState && colorkey_replace == true) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+        } else if(color_key_set == NSOnState && colorkey_filter == true) {
+            cv::Mat cframe = frame.clone();
+            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([corder indexOfSelectedItem] == 5) {
@@ -1128,6 +1133,9 @@ void SearchForString(NSString *s) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     } else if([color_chk state] == NSOnState && colorkey_replace == true) {
+        cv::Mat cframe = frame.clone();
+        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
+    } else if([color_chk state] == NSOnState && colorkey_filter == true) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
@@ -1515,9 +1523,11 @@ void SearchForString(NSString *s) {
     }
 }
 - (IBAction) setAsImage: (id) sender {
+
     if([image_combo indexOfSelectedItem] >= 0) {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
         NSInteger index = [image_to_set indexOfSelectedItem];
+        
         if(index == 0) {
             blend_image = cv::imread([current UTF8String]);
             if(blend_image.empty()) {
@@ -1568,6 +1578,12 @@ void SearchForString(NSString *s) {
             stream << "ColorKey Replace Background image set to: " << [current UTF8String] << "\n";
             flushToLog(stream);
             _NSRunAlertPanel(@"Set ColorKey Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
+        } else if(index == 4) {
+            colorkey_filter = true;
+            std::ostringstream stream;
+            stream << "ColorKey Replace Filter Background image set to: " << [current UTF8String] << "\n";
+            flushToLog(stream);
+            _NSRunAlertPanel(@"Set ColorKey Filter Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
         }
     }
 }
@@ -1723,6 +1739,10 @@ void SearchForString(NSString *s) {
             colorkey_replace = false;
             color_replace_image.release();
             _NSRunAlertPanel(@"Color Key Replace Image Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
+            break;
+        case 4:
+            colorkey_filter = false;
+            _NSRunAlertPanel(@"Color Key Replace Background Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
             break;
     }
 }

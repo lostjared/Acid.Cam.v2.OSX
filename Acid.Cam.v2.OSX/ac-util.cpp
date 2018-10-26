@@ -167,7 +167,6 @@ void ac::TotalAverageOffset(cv::Mat &frame, unsigned long &value) {
 
 // filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
-    if((colorkey_set == false && colorkey_bg == false && colorkey_replace == false) || (color_image.empty() && color_bg_image.empty() && color_replace_image.empty())) return;
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
@@ -201,12 +200,23 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                static int offset = 70; // 219,212,195
+                static int offset = 40; // 219,212,195
                 if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
                 	dst = add_i;
                 }
                 else {
                     dst = fcolor;
+                }
+            } else if(colorkey_filter == true) {
+      			cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
+                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
+                static int offset = 40; // 219,212,195
+                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
+                    dst = fcolor;
+                }
+                else {
+                    dst = pixel;
                 }
             }
         }
