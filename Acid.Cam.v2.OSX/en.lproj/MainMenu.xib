@@ -1656,7 +1656,7 @@ Gw
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="296.5" y="297.5"/>
+            <point key="canvasLocation" x="174" y="-8"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -1844,7 +1844,7 @@ Gw
                     </openGLView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="163" y="756"/>
+            <point key="canvasLocation" x="156" y="378"/>
         </window>
     </objects>
 </document>

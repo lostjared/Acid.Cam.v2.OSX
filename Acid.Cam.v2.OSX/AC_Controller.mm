@@ -1740,10 +1740,6 @@ void SearchForString(NSString *s) {
             color_replace_image.release();
             _NSRunAlertPanel(@"Color Key Replace Image Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
             break;
-        case 4:
-            colorkey_filter = false;
-            _NSRunAlertPanel(@"Color Key Replace Background Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
-            break;
     }
 }
 

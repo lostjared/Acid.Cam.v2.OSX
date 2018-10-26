@@ -174,7 +174,18 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
     output = orig.clone();
     for(int z = 0; z < orig.rows; ++z) {
         for(int i = 0; i < orig.cols; ++i) {
-            if(colorkey_set == true && !color_image.empty()) {
+            if(colorkey_filter == true) {
+                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
+                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
+                static int offset = 40; // 219,212,195
+                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
+                    dst = fcolor;
+                }
+                else {
+                    dst = pixel;
+                }
+            } else if(colorkey_set == true && !color_image.empty()) {
                 int cX = AC_GetFX(color_image.cols, i, orig.cols);
                 int cY = AC_GetFZ(color_image.rows, z, orig.rows);
                 cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
@@ -206,17 +217,6 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 }
                 else {
                     dst = fcolor;
-                }
-            } else if(colorkey_filter == true) {
-      			cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
-                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
-                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                static int offset = 40; // 219,212,195
-                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
-                    dst = fcolor;
-                }
-                else {
-                    dst = pixel;
                 }
             }
         }
