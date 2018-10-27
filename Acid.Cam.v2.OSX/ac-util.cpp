@@ -44,6 +44,8 @@
 
 #include "ac.h"
 
+int colorkey_range = 40;
+
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
@@ -165,6 +167,10 @@ void ac::TotalAverageOffset(cv::Mat &frame, unsigned long &value) {
     value /= (frame.rows * frame.cols);
 }
 
+void ac::setColorKeyRange(int range) {
+    colorkey_range = range;
+}
+
 // filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
     if(orig.size()!=filtered.size()) {
@@ -178,7 +184,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                static int offset = 40; // 219,212,195
+                int offset = colorkey_range; // 219,212,195
                 if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
                     dst = fcolor;
                 }
@@ -211,7 +217,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                static int offset = 40; // 219,212,195
+                int offset = colorkey_range; // 219,212,195
                 if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
                 	dst = add_i;
                 }

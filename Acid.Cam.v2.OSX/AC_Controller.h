@@ -133,7 +133,8 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *blend_source_amt;
     IBOutlet NSPopUpButton *sy_size;
     IBOutlet NSButton *chk_replace;
-    IBOutlet NSTextField *selectedFilename;
+    IBOutlet NSTextField *selectedFilename, *colorkey_range;
+    
     SearchController *search_controller;
     NSThread *proc_cv;
     // variables

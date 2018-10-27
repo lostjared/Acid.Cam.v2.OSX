@@ -733,6 +733,7 @@ namespace ac {
     void swapColors(cv::Mat &frame, int x, int y);
     void swapColors_(cv::Mat &frame, int x, int y);
     void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
+    void setColorKeyRange(int range);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);

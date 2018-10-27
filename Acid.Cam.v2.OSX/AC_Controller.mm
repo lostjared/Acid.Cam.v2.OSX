@@ -1789,6 +1789,13 @@ void SearchForString(NSString *s) {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
+    
+    NSInteger range = [colorkey_range integerValue];
+    if(range < 0 || range > 255) {
+        _NSRunAlertPanel(@"Incorrect Range Value", @"Must be between 0-255", @"Ok", nil, nil);
+        return;
+    }
+    ac::setColorKeyRange(static_cast<int>(range));
     NSInteger num_index = [blend_source_amt indexOfSelectedItem];
     double amount = 0.1 * (num_index+1);
     ac::setBlendPercentage(amount);
@@ -1798,6 +1805,7 @@ void SearchForString(NSString *s) {
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
     log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";
+    log << "ColorKey Range: " << range << "\n";
     
     NSInteger szPtr = [sy_size indexOfSelectedItem];
     NSSize sz;
