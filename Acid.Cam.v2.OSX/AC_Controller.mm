@@ -1531,7 +1531,6 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) setAsImage: (id) sender {
-
     if([image_combo indexOfSelectedItem] >= 0) {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
         NSInteger index = [image_to_set indexOfSelectedItem];
@@ -1552,6 +1551,10 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
             flushToLog(stream);
         } else if(index == 1) {
+            if(colorkey_bg == true || colorkey_replace == true) {
+                _NSRunAlertPanel(@"You can only set one Color Key setting at a time clear the other ones", @"Only one at a time", @"Ok", nil, nil);
+                return;
+            }
             color_image = cv::imread([current UTF8String]);
             if(color_image.empty()) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
@@ -1565,6 +1568,10 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Image Set", s, @"Ok", nil, nil);
             flushToLog(stream);
         } else if(index == 2) {
+            if(colorkey_set == true || colorkey_replace == true) {
+                _NSRunAlertPanel(@"You can only set one Color Key setting at a time clear the other ones", @"Only one at a time", @"Ok", nil, nil);
+                return;
+            }
             color_bg_image = cv::imread([current UTF8String]);
             if(color_bg_image.empty()) {
                 colorkey_bg = false;
@@ -1578,6 +1585,12 @@ void SearchForString(NSString *s) {
             flushToLog(stream);
             _NSRunAlertPanel(@"Set ColorKey Background", @"Color Key Image Set", @"Ok", nil, nil);
         } else if(index == 3) {
+            
+            if(colorkey_set == true || colorkey_bg == true) {
+                _NSRunAlertPanel(@"You can only set one Color Key setting at a time clear the other ones", @"Only one at a time", @"Ok", nil, nil);
+                return;
+            }
+            
             color_replace_image = cv::imread([current UTF8String]);
             if(color_replace_image.empty()) {
                 colorkey_replace = false;
@@ -1592,6 +1605,7 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Set ColorKey Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
         }
     }
+    [self updateLabelText:self];
 }
 
 - (IBAction) showCustom: (id) sender {
