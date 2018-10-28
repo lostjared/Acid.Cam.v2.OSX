@@ -863,9 +863,7 @@ void ac::RGBMirror1Median(cv::Mat &frame) {
 }
 
 void ac::FlashMirror(cv::Mat &frame) {
-    
     static int index = 0;
-    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             
@@ -884,6 +882,5 @@ void ac::FlashMirror(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
-    
     MedianBlend(frame);
 }

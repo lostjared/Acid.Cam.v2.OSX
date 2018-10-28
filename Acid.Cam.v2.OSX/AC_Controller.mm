@@ -1823,6 +1823,7 @@ void SearchForString(NSString *s) {
             sz.height = 1080;
             break;
     }
+    log << "Syphon Output Set To: " << sz.width << "x" << sz.height << "\n";
     [syphon_window setContentSize: sz];
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
