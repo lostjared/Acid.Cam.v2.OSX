@@ -185,12 +185,11 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
                 int offset = colorkey_range; // 219,212,195
-                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
+                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset)
                     dst = fcolor;
-                }
-                else {
+                else
                     dst = pixel;
-                }
+            
             } else if(colorkey_set == true && !color_image.empty()) {
                 int cX = AC_GetFX(color_image.cols, i, orig.cols);
                 int cY = AC_GetFZ(color_image.rows, z, orig.rows);
@@ -218,12 +217,12 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
                 int offset = colorkey_range; // 219,212,195
-                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset) {
+                
+                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset)
                 	dst = add_i;
-                }
-                else {
+                else
                     dst = fcolor;
-                }
+                
             }
         }
     }

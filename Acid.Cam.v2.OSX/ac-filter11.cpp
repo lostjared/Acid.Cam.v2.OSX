@@ -861,3 +861,29 @@ void ac::RGBMirror1Median(cv::Mat &frame) {
     RGBMirror1(frame);
     MedianBlend(frame);
 }
+
+void ac::FlashMirror(cv::Mat &frame) {
+    
+    static int index = 0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            pix[0] = frame.at<cv::Vec3b>(z, frame.cols-i-1);
+            pix[1] = frame.at<cv::Vec3b>(frame.rows-z-1, i);
+            pix[2] = frame.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            pix[3] = pixel;
+            
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ pix[index][j];
+            }
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    
+    MedianBlend(frame);
+}
