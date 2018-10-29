@@ -44,8 +44,7 @@
 
 #include "ac.h"
 
-int colorkey_range = 40;
-
+cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
@@ -167,8 +166,9 @@ void ac::TotalAverageOffset(cv::Mat &frame, unsigned long &value) {
     value /= (frame.rows * frame.cols);
 }
 
-void ac::setColorKeyRange(int range) {
-    colorkey_range = range;
+void ac::setColorKeyRange(cv::Vec3b low, cv::Vec3b high) {
+    range_low = low;
+    range_high = high;
 }
 
 // filter color keyed image
@@ -184,8 +184,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                int offset = colorkey_range; // 219,212,195
-                if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+offset) && color[0] >= cv::saturate_cast<unsigned char>(pixel[0]-offset) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+offset) && color[1] >= cv::saturate_cast<unsigned char>(pixel[1]-offset) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+offset) && color[2] >= cv::saturate_cast<unsigned char>(pixel[2]-offset))
+                if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+range_high[0]) && color[0] >= cv::saturate_cast<unsigned char>(pixel[0]-range_low[0]) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+range_high[1]) && color[1] >= cv::saturate_cast<unsigned char>(pixel[1]-range_low[1]) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+range_high[2]) && color[2] >= cv::saturate_cast<unsigned char>(pixel[2]-range_low[2]))
                     dst = fcolor;
                 else
                     dst = pixel;
@@ -215,8 +214,9 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                int offset = colorkey_range; // 219,212,195
-                if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+offset) && color[0] >= cv::saturate_cast<unsigned char>(pixel[0]-offset) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+offset) && color[1] >= cv::saturate_cast<unsigned char>(pixel[1]-offset) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+offset) && color[2] >= cv::saturate_cast<unsigned char>(pixel[2]-offset))
+                int offset = 40; // 219,212,195
+                if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+range_high[0]) && color[0] >= cv::saturate_cast<unsigned char>(pixel[0]-range_low[0]) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+range_high[1]) && color[1] >= cv::saturate_cast<unsigned char>(pixel[1]-range_low[1]) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+range_high[2]) && color[2] >= cv::saturate_cast<unsigned char>(pixel[2]-range_low[2]))
+                    
                 	dst = add_i;
                 else
                     dst = fcolor;

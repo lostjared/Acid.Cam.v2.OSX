@@ -1789,13 +1789,23 @@ void SearchForString(NSString *s) {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
+   
+    NSInteger rgb_low[3] = {[colorkey_r_low integerValue], [colorkey_g_low integerValue], [colorkey_b_low integerValue]};
+    NSInteger rgb_high[3] = {[colorkey_r_low integerValue], [colorkey_g_low integerValue], [colorkey_b_low integerValue]};
     
-    NSInteger range = [colorkey_range integerValue];
-    if(range < 0 || range > 255) {
-        _NSRunAlertPanel(@"Incorrect Range Value", @"Must be between 0-255", @"Ok", nil, nil);
-        return;
+    for(int i = 0; i < 3; ++i) {
+        if(rgb_low[i] < 0 || rgb_low[i] > 255) {
+            _NSRunAlertPanel(@"Incorrect Range Value", @"Must be between 0-255", @"Ok", nil, nil);
+            return;
+        }
+        if(rgb_high[i] < 0 || rgb_high[i] > 255) {
+            _NSRunAlertPanel(@"Incorrect Range Value", @"Must be between 0-255", @"Ok", nil, nil);
+            return;
+        }
     }
-    ac::setColorKeyRange(static_cast<int>(range));
+    cv::Vec3b color_low(rgb_low[0], rgb_low[1], rgb_low[2]);
+    cv::Vec3b color_high(rgb_high[0], rgb_high[1], rgb_high[2]);
+    ac::setColorKeyRange(color_low, color_high);
     NSInteger num_index = [blend_source_amt indexOfSelectedItem];
     double amount = 0.1 * (num_index+1);
     ac::setBlendPercentage(amount);
@@ -1805,7 +1815,11 @@ void SearchForString(NSString *s) {
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
     log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";
-    log << "ColorKey Range: " << range << "\n";
+    int values_low[] = { color_low[0], color_low[1], color_low[2] };
+    int values_high[] = { color_high[0], color_high[1], color_high[2] };
+    log << "ColorKey Low Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
+    log << "ColorKey High Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
+
     
     NSInteger szPtr = [sy_size indexOfSelectedItem];
     NSSize sz;
