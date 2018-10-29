@@ -737,6 +737,7 @@ namespace ac {
     void setColorKeyRange(cv::Vec3b low, cv::Vec3b high);
     void setBlockedColorKeys(std::vector<cv::Vec3b> &blocked);
     bool colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high);
+    bool searchColors(const cv::Vec3b &color);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);

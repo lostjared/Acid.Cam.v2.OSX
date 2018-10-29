@@ -184,6 +184,15 @@ bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::V
     return false;
 }
 
+bool ac::searchColors(const cv::Vec3b &color) {
+    for(int i = 0; i < blocked_colors.size(); ++i) {
+        if(blocked_colors[i] == color) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 // filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
@@ -198,8 +207,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                // if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+range_high[0]) && color[0] >= cv::saturate_cast<unsigned char>(pixel[0]-range_low[0]) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+range_high[1]) && color[1] >= cv::saturate_cast<unsigned char>(pixel[1]-range_low[1]) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+range_high[2]) && color[2] >= cv::saturate_cast<unsigned char>(pixel[2]-range_low[2]))
-                if(colorBounds(color, pixel, range_low, range_high))
+                if(colorBounds(color, pixel, range_low, range_high) || searchColors(pixel))
                     dst = fcolor;
                 else
                     dst = pixel;
@@ -229,7 +237,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                if(colorBounds(color, pixel, range_low, range_high))
+                if(colorBounds(color, pixel, range_low, range_high) || searchColors(pixel))
                 	dst = add_i;
                 else
                     dst = fcolor;
