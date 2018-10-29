@@ -1791,8 +1791,8 @@ void SearchForString(NSString *s) {
         set_frame_rate_val = 24;
     }
    
-    NSInteger rgb_low[3] = {[colorkey_r_low integerValue], [colorkey_g_low integerValue], [colorkey_b_low integerValue]};
-    NSInteger rgb_high[3] = {[colorkey_r_low integerValue], [colorkey_g_low integerValue], [colorkey_b_low integerValue]};
+    NSInteger rgb_low[3] = {[colorkey_b_low integerValue],[colorkey_g_low integerValue],[colorkey_r_low integerValue]};
+    NSInteger rgb_high[3] = {[colorkey_b_high integerValue], [colorkey_g_high integerValue],[colorkey_r_high integerValue]};
     
     for(int i = 0; i < 3; ++i) {
         if(rgb_low[i] < 0 || rgb_low[i] > 255) {
@@ -1818,8 +1818,8 @@ void SearchForString(NSString *s) {
     log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";
     int values_low[] = { color_low[0], color_low[1], color_low[2] };
     int values_high[] = { color_high[0], color_high[1], color_high[2] };
-    log << "ColorKey Low Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
-    log << "ColorKey High Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
+    log << "ColorKey Low BGR Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
+    log << "ColorKey High BGR Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
 
     
     NSInteger szPtr = [sy_size indexOfSelectedItem];
@@ -1986,6 +1986,20 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) addToBlocked: (id) sender {
+    NSColor *color_value = [blocked_color_well color];
+    double rf = 0, gf = 0, bf = 0;
+    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+    unsigned int values[3];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    cv::Vec3b well_color;
+    well_color[0] = values[0];
+    well_color[1] = values[1];
+    well_color[2] = values[2];
+    green_blocked.push_back(well_color);
+    NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d,%d,%d", well_color[0], well_color[1], well_color[2]];
+    [blocked_colors addItemWithObjectValue:s_color];
     
 }
 - (IBAction) removedFromBlocked: (id) sender {

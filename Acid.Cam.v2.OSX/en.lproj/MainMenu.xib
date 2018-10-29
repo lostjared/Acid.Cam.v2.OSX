@@ -32,12 +32,12 @@
                 <outlet property="color_chk" destination="tEK-oU-BBG" id="ilc-BJ-nLn"/>
                 <outlet property="color_map" destination="xbk-h6-XyP" id="jF9-ga-AcP"/>
                 <outlet property="color_well" destination="yl0-is-M5l" id="fgh-Ot-gls"/>
-                <outlet property="colorkey_b_high" destination="vSC-6V-39r" id="JEz-nk-pXB"/>
-                <outlet property="colorkey_b_low" destination="jgn-a5-gut" id="EEi-K5-5hE"/>
-                <outlet property="colorkey_g_high" destination="Vgx-sf-Dng" id="qQa-vD-Lkr"/>
-                <outlet property="colorkey_g_low" destination="LUP-VR-umd" id="D4U-7E-vPV"/>
-                <outlet property="colorkey_r_high" destination="7tE-7L-GEx" id="sGU-0f-bOl"/>
-                <outlet property="colorkey_r_low" destination="mOd-QT-fii" id="8mN-j0-0Zp"/>
+                <outlet property="colorkey_b_high" destination="7tE-7L-GEx" id="1Od-xb-qnq"/>
+                <outlet property="colorkey_b_low" destination="mOd-QT-fii" id="dFd-bw-C1r"/>
+                <outlet property="colorkey_g_high" destination="Vgx-sf-Dng" id="Xq6-2k-h3B"/>
+                <outlet property="colorkey_g_low" destination="LUP-VR-umd" id="8sN-UY-j1G"/>
+                <outlet property="colorkey_r_high" destination="vSC-6V-39r" id="SPx-KD-gvC"/>
+                <outlet property="colorkey_r_low" destination="jgn-a5-gut" id="tia-4T-EWU"/>
                 <outlet property="corder" destination="le2-WX-IhK" id="fFe-DS-KBm"/>
                 <outlet property="current_filter" destination="fPc-yC-WAQ" id="QUm-mH-CSS"/>
                 <outlet property="current_filter_custom" destination="W5Y-Jr-pAq" id="3kr-nF-4l5"/>
@@ -1887,7 +1887,7 @@ Gw
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ofQ-ct-ZwX">
                         <rect key="frame" x="20" y="150" width="103" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RGB Low:" id="yCD-ug-jks">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="BGR Low:" id="yCD-ug-jks">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1896,7 +1896,7 @@ Gw
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wSD-L4-aQA">
                         <rect key="frame" x="20" y="117" width="103" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RGB High" id="as8-md-ZNC">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="BGR High" id="as8-md-ZNC">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
