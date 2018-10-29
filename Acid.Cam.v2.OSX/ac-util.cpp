@@ -45,6 +45,7 @@
 #include "ac.h"
 
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
+std::vector<cv::Vec3b> blocked_colors;
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
@@ -170,6 +171,11 @@ void ac::setColorKeyRange(cv::Vec3b low, cv::Vec3b high) {
     range_low = low;
     range_high = high;
 }
+
+void ac::setBlockedColorKeys(std::vector<cv::Vec3b> &blocked) {
+    blocked_colors = blocked;
+}
+
 
 // filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {

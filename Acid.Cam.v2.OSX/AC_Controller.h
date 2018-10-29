@@ -238,6 +238,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) addToBlocked: (id) sender;
 - (IBAction) removedFromBlocked: (id) sender;
 - (IBAction) openBlockedColors: (id) sender;
+- (IBAction) setColorsEnabled: (id) sender;
 @end
 
 // global variables / functions

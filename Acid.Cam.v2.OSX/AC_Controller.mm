@@ -88,6 +88,7 @@ void custom_filter(cv::Mat &frame);
 void plugin_callback(cv::Mat &frame);
 NSMutableArray *search_results;
 std::string set_filenames[4] = {"None", "None", "None", "None"};
+std::vector<cv::Vec3b> green_blocked;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -1993,6 +1994,11 @@ void SearchForString(NSString *s) {
 
 - (IBAction) openBlockedColors: (id) sender {
     [block_colors_window orderFront:self];
+}
+
+- (IBAction) setColorsEnabled: (id) sender {
+    ac::setBlockedColorKeys(green_blocked);
+    _NSRunAlertPanel(@"Set Blocked Colors", @"Blocked Color List Set", @"Ok", nil,nil);
 }
 
 @end
