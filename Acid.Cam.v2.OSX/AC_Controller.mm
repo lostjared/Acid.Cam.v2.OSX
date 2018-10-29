@@ -2000,10 +2000,17 @@ void SearchForString(NSString *s) {
     green_blocked.push_back(well_color);
     NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d,%d,%d", well_color[0], well_color[1], well_color[2]];
     [blocked_colors addItemWithObjectValue:s_color];
+    [blocked_colors setStringValue:s_color];
     
 }
 - (IBAction) removedFromBlocked: (id) sender {
-    
+    NSInteger row = [blocked_colors indexOfSelectedItem];
+    if(row >= 0) {
+        [blocked_colors removeItemAtIndex:row];
+        auto it = green_blocked.begin()+row;
+        green_blocked.erase(it);
+        [blocked_colors setStringValue: @""];
+    }
 }
 
 - (IBAction) openBlockedColors: (id) sender {
