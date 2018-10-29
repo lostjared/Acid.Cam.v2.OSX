@@ -134,7 +134,9 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *sy_size;
     IBOutlet NSButton *chk_replace;
     IBOutlet NSTextField *selectedFilename, *colorkey_range, *colorkey_r_low, *colorkey_r_high, *colorkey_g_low, *colorkey_g_high, *colorkey_b_low, *colorkey_b_high;
-    
+    IBOutlet NSComboBox *blocked_colors;
+    IBOutlet NSColorWell *blocked_color_well;
+    IBOutlet NSWindow *block_colors_window;
     SearchController *search_controller;
     NSThread *proc_cv;
     // variables
@@ -233,6 +235,9 @@ extern void SearchForString(NSString *s);
 - (IBAction) setCustomSubFromSearch: (id) sender;
 - (IBAction) setCheckReplace: (id) sender;
 - (IBAction) updateLabelText: (id) sender;
+- (IBAction) addToBlocked: (id) sender;
+- (IBAction) removedFromBlocked: (id) sender;
+- (IBAction) openBlockedColors: (id) sender;
 @end
 
 // global variables / functions

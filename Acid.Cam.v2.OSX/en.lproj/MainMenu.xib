@@ -17,6 +17,9 @@
                 <outlet property="alpha_window" destination="tfb-J3-hzp" id="b3r-rz-K3E"/>
                 <outlet property="apply_after" destination="1Hm-k5-BOy" id="X1b-Tf-egL"/>
                 <outlet property="blend_source_amt" destination="01p-To-uoC" id="eTS-Lk-8mL"/>
+                <outlet property="block_colors_window" destination="Zk1-Q2-DQZ" id="ZRZ-7S-igJ"/>
+                <outlet property="blocked_color_well" destination="Bqt-fh-v2p" id="EHY-EX-Fo7"/>
+                <outlet property="blocked_colors" destination="52J-nv-Fhu" id="fv1-XH-7nW"/>
                 <outlet property="blue_slider" destination="Bzt-gi-IJ0" id="u8A-JN-dIp"/>
                 <outlet property="brightness" destination="KYH-JN-Maq" id="Mgp-uf-MDe"/>
                 <outlet property="cam_frame_rate" destination="VMX-EF-o3r" id="dHg-jO-gQ8"/>
@@ -349,7 +352,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-201" y="-727"/>
+            <point key="canvasLocation" x="-179" y="-1278"/>
         </menu>
         <customObject id="494" customClass="AC_AppDelegate">
             <connections>
@@ -1608,7 +1611,7 @@ Gw
                         <color key="color" red="1" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </colorWell>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hvA-W9-Xi5">
-                        <rect key="frame" x="275" y="24" width="49" height="17"/>
+                        <rect key="frame" x="336" y="24" width="49" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Image:" id="RXq-SZ-Tuq">
                             <font key="font" metaFont="systemBold"/>
@@ -1627,15 +1630,6 @@ Gw
                             <action selector="setCheckReplace:" target="630" id="ZSK-fj-Opa"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jsK-GJ-Pei">
-                        <rect key="frame" x="327" y="23" width="406" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="None" id="OKC-Y9-Q1W">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tEK-oU-BBG">
                         <rect key="frame" x="100" y="24" width="108" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1663,9 +1657,29 @@ Gw
                             <action selector="updateLabelText:" target="630" id="9hC-zO-wHc"/>
                         </connections>
                     </popUpButton>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bF2-pD-QrE">
+                        <rect key="frame" x="265" y="14" width="71" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="More" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dn0-Ub-AYk">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openBlockedColors:" target="630" id="GiC-Mn-7PZ"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jsK-GJ-Pei">
+                        <rect key="frame" x="389" y="24" width="334" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="None" id="OKC-Y9-Q1W">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="173.5" y="-7.5"/>
+            <point key="canvasLocation" x="-35" y="-1390"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -1920,7 +1934,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-682.5" y="-1130.5"/>
+            <point key="canvasLocation" x="-643" y="-1437"/>
         </window>
         <menuItem title="0.03" id="qUl-bN-OY2"/>
         <menuItem title="0.03" id="ud4-7j-6W7"/>
@@ -1941,6 +1955,55 @@ Gw
                 </subviews>
             </view>
             <point key="canvasLocation" x="-35" y="464"/>
+        </window>
+        <window title="Blocked Colors" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Zk1-Q2-DQZ">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="1036" y="1201" width="480" height="96"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" id="ZwQ-Y0-Sxw">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="96"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bqt-fh-v2p">
+                        <rect key="frame" x="20" y="54" width="44" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </colorWell>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Z1-g5-wG8">
+                        <rect key="frame" x="14" y="13" width="90" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7DL-NX-Jmt">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addToBlocked:" target="630" id="z7N-rI-b6D"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="54B-hi-6zm">
+                        <rect key="frame" x="95" y="13" width="90" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lvh-Pw-M3c">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="removedFromBlocked:" target="630" id="GpA-Fh-8Y7"/>
+                        </connections>
+                    </button>
+                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="52J-nv-Fhu">
+                        <rect key="frame" x="72" y="52" width="391" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="10" id="ZvG-5G-oKz">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="-165" y="-1585"/>
         </window>
     </objects>
 </document>

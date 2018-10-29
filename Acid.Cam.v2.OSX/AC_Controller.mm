@@ -1984,6 +1984,17 @@ void SearchForString(NSString *s) {
         colorkey_filter = false;
 }
 
+- (IBAction) addToBlocked: (id) sender {
+    
+}
+- (IBAction) removedFromBlocked: (id) sender {
+    
+}
+
+- (IBAction) openBlockedColors: (id) sender {
+    [block_colors_window orderFront:self];
+}
+
 @end
 
 void custom_filter(cv::Mat &frame) {
