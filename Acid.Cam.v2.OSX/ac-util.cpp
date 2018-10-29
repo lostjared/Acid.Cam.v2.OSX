@@ -185,7 +185,8 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
                 int offset = colorkey_range; // 219,212,195
-                 if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+offset) && color[0] > cv::saturate_cast<unsigned char>(pixel[0]-offset) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+offset) && color[1] > cv::saturate_cast<unsigned char>(pixel[1]-offset) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+offset) && color[2] > cv::saturate_cast<unsigned char>(pixel[2]-offset))
+                 if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset)
+                // if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+offset) && color[0] > cv::saturate_cast<unsigned char>(pixel[0]-offset) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+offset) && color[1] > cv::saturate_cast<unsigned char>(pixel[1]-offset) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+offset) && color[2] > cv::saturate_cast<unsigned char>(pixel[2]-offset))
                     dst = fcolor;
                 else
                     dst = pixel;
@@ -216,7 +217,8 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
                 int offset = colorkey_range; // 219,212,195
-                if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+offset) && color[0] > cv::saturate_cast<unsigned char>(pixel[0]-offset) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+offset) && color[1] > cv::saturate_cast<unsigned char>(pixel[1]-offset) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+offset) && color[2] > cv::saturate_cast<unsigned char>(pixel[2]-offset))
+         //       if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+offset) && color[0] > cv::saturate_cast<unsigned char>(pixel[0]-offset) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+offset) && color[1] > cv::saturate_cast<unsigned char>(pixel[1]-offset) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+offset) && color[2] > cv::saturate_cast<unsigned char>(pixel[2]-offset))
+                if(color[0] <= pixel[0]+offset && color[0] > pixel[0]-offset && color[1] <= pixel[1]+offset && color[1] > pixel[1]-offset && color[2] <= pixel[2]+offset && color[2] > pixel[2]-offset)
                 	dst = add_i;
                 else
                     dst = fcolor;
