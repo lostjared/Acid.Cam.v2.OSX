@@ -215,7 +215,7 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                if(colorBounds(color, pixel, range_low, range_high) || searchColors(pixel))
+                if(colorBounds(color,pixel,range_low, range_high) || searchColors(pixel))
                     dst = fcolor;
                 else
                     dst = pixel;
