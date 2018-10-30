@@ -190,7 +190,7 @@ bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::V
 
 
 bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec3b &high) {
-    if(color[0] <= low[0] && color[0] >= high[0] && color[1] <= low[1] && color[1] >= high[1] && color[2] <= low[2] && color[2] >= high[2])
+    if(color[0] >= low[0] && color[0] <= high[0] && color[1] >= low[1] && color[1] <= high[1] && color[2] >= low[2] && color[2] <= high[2])
         return true;
     return false;
 }
