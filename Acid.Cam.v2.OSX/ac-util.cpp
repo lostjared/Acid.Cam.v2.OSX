@@ -178,10 +178,14 @@ void ac::setBlockedColorKeys(std::vector<cv::Vec3b> &blocked) {
 
 
 bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high) {
-    if(color[0] <= cv::saturate_cast<unsigned char>(pixel[0]+range_high[0]) && color[0] >= cv::saturate_cast<unsigned char>(pixel[0]-range_low[0]) && color[1] <= cv::saturate_cast<unsigned char>(pixel[1]+range_high[1]) && color[1] >= cv::saturate_cast<unsigned char>(pixel[1]-range_low[1]) && color[2] <= cv::saturate_cast<unsigned char>(pixel[2]+range_high[2]) && color[2] >= cv::saturate_cast<unsigned char>(pixel[2]-range_low[2]))
-        return true;
-    
-    return false;
+    bool result = true;
+    for(int i = 0; i < 3; ++i) {
+        if(!(color[i] <= cv::saturate_cast<unsigned char>(pixel[i]+range_high[i]) && color[i] >= cv::saturate_cast<unsigned char>(pixel[i]-range_low[i]))) {
+            result = false;
+            break;
+        }
+    }
+    return result;
 }
 
 bool ac::searchColors(const cv::Vec3b &color) {
@@ -194,7 +198,6 @@ bool ac::searchColors(const cv::Vec3b &color) {
 }
 
 
-// filter color keyed image
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
