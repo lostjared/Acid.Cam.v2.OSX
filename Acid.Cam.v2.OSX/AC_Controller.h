@@ -135,7 +135,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSButton *chk_replace;
     IBOutlet NSTextField *selectedFilename, *colorkey_range, *colorkey_r_low, *colorkey_r_high, *colorkey_g_low, *colorkey_g_high, *colorkey_b_low, *colorkey_b_high;
     IBOutlet NSComboBox *blocked_colors;
-    IBOutlet NSColorWell *blocked_color_well;
+    IBOutlet NSColorWell *blocked_color_well, *blocked_color_well_high;
     IBOutlet NSWindow *block_colors_window;
     IBOutlet NSTextField *val_colorkey_r_low, *val_colorkey_r_high, *val_colorkey_g_low, *val_colorkey_g_high, *val_colorkey_b_low, *val_colorkey_b_high;
     SearchController *search_controller;
@@ -240,6 +240,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) removedFromBlocked: (id) sender;
 - (IBAction) openBlockedColors: (id) sender;
 - (IBAction) setColorsEnabled: (id) sender;
+- (IBAction) setColorValuesRange: (id) sender;
 @end
 
 // global variables / functions

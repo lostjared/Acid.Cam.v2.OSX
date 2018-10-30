@@ -45,7 +45,7 @@
 #include "ac.h"
 
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
-std::vector<cv::Vec3b> blocked_colors;
+std::vector<ac::Keys> blocked_colors;
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
@@ -172,7 +172,7 @@ void ac::setColorKeyRange(cv::Vec3b low, cv::Vec3b high) {
     range_high = high;
 }
 
-void ac::setBlockedColorKeys(std::vector<cv::Vec3b> &blocked) {
+void ac::setBlockedColorKeys(std::vector<ac::Keys> &blocked) {
     blocked_colors = blocked;
 }
 
@@ -188,15 +188,20 @@ bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::V
     return result;
 }
 
-bool ac::searchColors(const cv::Vec3b &color) {
-    for(int i = 0; i < blocked_colors.size(); ++i) {
-        if(blocked_colors[i] == color) {
-            return true;
-        }
-    }
+
+bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec3b &high) {
+    if(color[0] <= low[0] && color[0] >= high[0] && color[1] <= low[1] && color[1] >= high[1] && color[2] <= low[2] && color[2] >= high[2])
+        return true;
     return false;
 }
 
+bool ac::searchColors(const cv::Vec3b &color) {
+    for(int i = 0; i < blocked_colors.size(); ++i) {
+        if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true)
+            return true;
+    }
+    return false;
+}
 
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
     if(orig.size()!=filtered.size()) {

@@ -88,7 +88,7 @@ void custom_filter(cv::Mat &frame);
 void plugin_callback(cv::Mat &frame);
 NSMutableArray *search_results;
 std::string set_filenames[4] = {"None", "None", "None", "None"};
-std::vector<cv::Vec3b> green_blocked;
+std::vector<ac::Keys> green_blocked;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -1986,22 +1986,15 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) addToBlocked: (id) sender {
-    NSColor *color_value = [blocked_color_well color];
-    double rf = 0, gf = 0, bf = 0;
-    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
-    unsigned int values[3];
-    values[2] = rf*255.99999f;
-    values[1] = gf*255.99999f;
-    values[0] = bf*255.99999f;
-    cv::Vec3b well_color;
-    well_color[0] = values[0];
-    well_color[1] = values[1];
-    well_color[2] = values[2];
-    green_blocked.push_back(well_color);
-    NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d,%d,%d", well_color[0], well_color[1], well_color[2]];
+    cv::Vec3b well_color_low([val_colorkey_b_low integerValue], [val_colorkey_g_low integerValue], [val_colorkey_r_low integerValue]);
+    cv::Vec3b well_color_high([val_colorkey_b_high integerValue], [val_colorkey_g_high integerValue], [val_colorkey_r_high integerValue]);
+    ac::Keys keys;
+    keys.low = well_color_low;
+    keys.high = well_color_high;
+    green_blocked.push_back(keys);
+    NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d, %d, %d - %d, %d, %d", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
     [blocked_colors addItemWithObjectValue:s_color];
     [blocked_colors setStringValue:s_color];
-    
 }
 - (IBAction) removedFromBlocked: (id) sender {
     NSInteger row = [blocked_colors indexOfSelectedItem];
@@ -2020,6 +2013,35 @@ void SearchForString(NSString *s) {
 - (IBAction) setColorsEnabled: (id) sender {
     ac::setBlockedColorKeys(green_blocked);
     _NSRunAlertPanel(@"Set Blocked Colors", @"Blocked Color List Set", @"Ok", nil,nil);
+}
+
+- (IBAction) setColorValuesRange: (id) sender {
+    NSColor *color_value = [blocked_color_well color];
+    double rf = 0, gf = 0, bf = 0;
+    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+    unsigned int values[3];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    cv::Vec3b well_color_low;
+    well_color_low[0] = values[0];
+    well_color_low[1] = values[1];
+    well_color_low[2] = values[2];
+    [val_colorkey_b_low setIntegerValue: well_color_low[0]];
+    [val_colorkey_g_low setIntegerValue: well_color_low[1]];
+    [val_colorkey_r_low setIntegerValue: well_color_low[2]];
+    NSColor *color_value2 = [blocked_color_well_high color];
+    [color_value2 getRed:&rf green:&gf blue:&bf alpha:nil];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    cv::Vec3b well_color_high;
+    well_color_high[0] = values[0];
+    well_color_high[1] = values[1];
+    well_color_high[2] = values[2];
+    [val_colorkey_b_high setIntegerValue: well_color_high[0]];
+    [val_colorkey_g_high setIntegerValue: well_color_high[1]];
+    [val_colorkey_r_high setIntegerValue: well_color_high[2]];
 }
 
 @end

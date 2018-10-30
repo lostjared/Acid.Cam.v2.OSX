@@ -139,6 +139,10 @@ namespace ac {
     inline T rol(T x, int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
+    class Keys {
+    public:
+        cv::Vec3b low, high;
+    };
     // be sure to call this when the application starts
     void fill_filter_map();
     // draw functions
@@ -735,9 +739,10 @@ namespace ac {
     void swapColors_(cv::Mat &frame, int x, int y);
     void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
     void setColorKeyRange(cv::Vec3b low, cv::Vec3b high);
-    void setBlockedColorKeys(std::vector<cv::Vec3b> &blocked);
+    void setBlockedColorKeys(std::vector<Keys> &blocked);
     bool colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high);
     bool searchColors(const cv::Vec3b &color);
+    bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
