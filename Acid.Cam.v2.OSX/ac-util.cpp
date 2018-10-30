@@ -177,10 +177,10 @@ void ac::setBlockedColorKeys(std::vector<cv::Vec3b> &blocked) {
 }
 
 
-bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high) {
+bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_passed_low, const cv::Vec3b &range_passed_high) {
     bool result = true;
     for(int i = 0; i < 3; ++i) {
-        if(!(color[i] <= cv::saturate_cast<unsigned char>(pixel[i]+range_high[i]) && color[i] >= cv::saturate_cast<unsigned char>(pixel[i]-range_low[i]))) {
+        if(!(color[i] <= cv::saturate_cast<unsigned char>(pixel[i]+range_passed_low[i]) && color[i] >= cv::saturate_cast<unsigned char>(pixel[i]-range_passed_high[i]))) {
             result = false;
             break;
         }
