@@ -1991,6 +1991,20 @@ void SearchForString(NSString *s) {
     ac::Keys keys;
     keys.low = well_color_low;
     keys.high = well_color_high;
+    for(int i = 0; i < 3; ++i) {
+        if(!(well_color_low[i] >= 0 && well_color_low[i] <= 255)) {
+            _NSRunAlertPanel(@"Low color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
+            return;
+        }
+        if(!(well_color_high[i] >= 0 && well_color_high[i] <= 255)){
+            _NSRunAlertPanel(@"High color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
+            return;
+        }
+    }
+    if(!(well_color_low[0] <= well_color_high[0] && well_color_low[1] <= well_color_high[1] && well_color_low[2] <= well_color_high[2])) {
+        _NSRunAlertPanel(@"Values must be a valid range", @"Color values must be a valid range between high >= low and low <= high", @"Ok", nil, nil);
+        return;
+    }
     green_blocked.push_back(keys);
     NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d, %d, %d - %d, %d, %d", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
     NSInteger count = [blocked_colors numberOfItems];
