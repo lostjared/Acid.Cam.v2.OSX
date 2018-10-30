@@ -1993,16 +1993,24 @@ void SearchForString(NSString *s) {
     keys.high = well_color_high;
     green_blocked.push_back(keys);
     NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d, %d, %d - %d, %d, %d", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
+    NSInteger count = [blocked_colors numberOfItems];
     [blocked_colors addItemWithObjectValue:s_color];
-    [blocked_colors setStringValue:s_color];
+    [blocked_colors selectItemAtIndex:count];
 }
 - (IBAction) removedFromBlocked: (id) sender {
     NSInteger row = [blocked_colors indexOfSelectedItem];
     if(row >= 0) {
         [blocked_colors removeItemAtIndex:row];
+        [blocked_colors reloadData];
         auto it = green_blocked.begin()+row;
         green_blocked.erase(it);
-        [blocked_colors setStringValue: @""];
+        if([blocked_colors numberOfItems] == 0)
+            [blocked_colors setStringValue:@""];
+        else if(row-1 >= 0 && row-11 <= [blocked_colors numberOfItems]){
+            [blocked_colors selectItemAtIndex:row-1];
+        }
+    } else {
+        _NSRunAlertPanel(@"Please Select Item Color to Remove\n", @"Select Index to Remove", @"Ok", nil, nil);
     }
 }
 
