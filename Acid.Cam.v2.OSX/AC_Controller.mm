@@ -2073,9 +2073,6 @@ unsigned char size_cast(long val) {
             return;
         }
     }
-    
-    NSLog(@"%ld %ld %ld\n", color_low[0], color_low[1], color_low[2]);
-    
     cv::Vec3b low_val, high_val;
     low_val[0] = size_cast(well_color_low[0]-color_low[0]);
     low_val[1] = size_cast(well_color_low[1]-color_low[1]);
@@ -2154,6 +2151,7 @@ unsigned char size_cast(long val) {
         [val_colorkey_r_low setEditable:NO];
         [val_colorkey_g_low setEditable:NO];
         [val_colorkey_b_low setEditable:NO];
+        [self setColorValuesRange:self];
     } else {
         [val_colorkey_b_high setSelectable:YES];
         [val_colorkey_g_high setSelectable:YES];
@@ -2167,6 +2165,14 @@ unsigned char size_cast(long val) {
         [val_colorkey_r_low setEditable:YES];
         [val_colorkey_g_low setEditable:YES];
         [val_colorkey_b_low setEditable:YES];
+        [val_colorkey_r_high setStringValue:@"0"];
+        [val_colorkey_g_high setStringValue:@"0"];
+        [val_colorkey_b_high setStringValue:@"0"];
+        [val_colorkey_r_low setStringValue:@"0"];
+        [val_colorkey_g_low setStringValue:@"0"];
+        [val_colorkey_b_low setStringValue:@"0"];
+        
+        
     }
 }
 
