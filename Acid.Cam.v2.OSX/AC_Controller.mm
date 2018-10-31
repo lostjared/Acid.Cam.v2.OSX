@@ -2044,7 +2044,7 @@ unsigned char size_cast(long val) {
         return;
     }
     green_blocked.push_back(keys);
-    NSString *s_color = [NSString stringWithFormat:@"Color BGR: %d, %d, %d - %d, %d, %d", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
+    NSString *s_color = [NSString stringWithFormat:@"Color BGR Range: (%d, %d, %d) - (%d, %d, %d)", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
     NSInteger count = [blocked_colors numberOfItems];
     [blocked_colors addItemWithObjectValue:s_color];
     [blocked_colors selectItemAtIndex:count];
@@ -2061,7 +2061,6 @@ unsigned char size_cast(long val) {
     well_color_low[0] = values[0];
     well_color_low[1] = values[1];
     well_color_low[2] = values[2];
-    
     NSInteger color_low[] = {[val_colorkey_b_low integerValue], [val_colorkey_g_low integerValue], [val_colorkey_r_low integerValue]};
     NSInteger color_high[] =  {[val_colorkey_b_high integerValue], [val_colorkey_g_high integerValue], [val_colorkey_r_high integerValue]};
     for(int i = 0; i < 3; ++i) {
@@ -2085,13 +2084,12 @@ unsigned char size_cast(long val) {
     keys.low = low_val;
     keys.high = high_val;
     keys.key_type = ac::KeyValueType::KEY_TOLERANCE;
-    
     if(!(low_val[0] <= high_val[0] && low_val[1] <= high_val[1] && low_val[2] <= high_val[2])) {
         _NSRunAlertPanel(@"Values must be a valid range", @"Color values must be a valid range between high >= low and low <= high", @"Ok", nil, nil);
         return;
     }
     green_blocked.push_back(keys);
-    NSString *s_color = [NSString stringWithFormat:@"Color Tolerance Range: %d, %d, %d - %d, %d, %d", low_val[0],low_val[1],low_val[2], high_val[0], high_val[1], high_val[2]];
+    NSString *s_color = [NSString stringWithFormat:@"Color BGR Tolerance: (%d, %d, %d) - (%d, %d, %d)", low_val[0],low_val[1],low_val[2], high_val[0], high_val[1], high_val[2]];
     NSInteger count = [blocked_colors numberOfItems];
     [blocked_colors addItemWithObjectValue:s_color];
     [blocked_colors selectItemAtIndex:count];
