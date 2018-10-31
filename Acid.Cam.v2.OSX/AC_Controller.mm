@@ -1986,10 +1986,33 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) addToBlocked: (id) sender {
-    
+    if([key_range state] == NSOnState) {
+        [self addToRange:self];
+        return;
+    } else {
+        [self addToTolerance:self];
+    }
+}
+- (IBAction) removedFromBlocked: (id) sender {
+    NSInteger row = [blocked_colors indexOfSelectedItem];
+    if(row >= 0) {
+        [blocked_colors removeItemAtIndex:row];
+        [blocked_colors reloadData];
+        auto it = green_blocked.begin()+row;
+        green_blocked.erase(it);
+        if([blocked_colors numberOfItems] == 0)
+            [blocked_colors setStringValue:@""];
+        else if(row-1 >= 0 && row-1 <= [blocked_colors numberOfItems]){
+            [blocked_colors selectItemAtIndex:row-1];
+        }
+    } else {
+        _NSRunAlertPanel(@"Please Select Item Color to Remove\n", @"Select Index to Remove", @"Ok", nil, nil);
+    }
+}
+
+- (IBAction) addToRange: (id) sender {
     NSInteger color_low[] = {[val_colorkey_b_low integerValue], [val_colorkey_g_low integerValue], [val_colorkey_r_low integerValue]};
     NSInteger color_high[] =  {[val_colorkey_b_high integerValue], [val_colorkey_g_high integerValue], [val_colorkey_r_high integerValue]};
-    
     // make sure valid range 0-255
     for(int i = 0; i < 3; ++i) {
         if(!(color_low[i] >= 0 && color_low[i] <= 255)) {
@@ -2019,21 +2042,8 @@ void SearchForString(NSString *s) {
     [blocked_colors addItemWithObjectValue:s_color];
     [blocked_colors selectItemAtIndex:count];
 }
-- (IBAction) removedFromBlocked: (id) sender {
-    NSInteger row = [blocked_colors indexOfSelectedItem];
-    if(row >= 0) {
-        [blocked_colors removeItemAtIndex:row];
-        [blocked_colors reloadData];
-        auto it = green_blocked.begin()+row;
-        green_blocked.erase(it);
-        if([blocked_colors numberOfItems] == 0)
-            [blocked_colors setStringValue:@""];
-        else if(row-1 >= 0 && row-1 <= [blocked_colors numberOfItems]){
-            [blocked_colors selectItemAtIndex:row-1];
-        }
-    } else {
-        _NSRunAlertPanel(@"Please Select Item Color to Remove\n", @"Select Index to Remove", @"Ok", nil, nil);
-    }
+- (IBAction) addToTolerance: (id) sender {
+    
 }
 
 - (IBAction) openBlockedColors: (id) sender {
@@ -2079,9 +2089,33 @@ void SearchForString(NSString *s) {
     if(key_state == NSOnState) {
         [blocked_color_well setHidden:NO];
         [blocked_color_well_high setHidden:NO];
+        [val_colorkey_b_high setSelectable:NO];
+        [val_colorkey_g_high setSelectable:NO];
+        [val_colorkey_r_high setSelectable:NO];
+        [val_colorkey_r_low setSelectable:NO];
+        [val_colorkey_g_low setSelectable:NO];
+        [val_colorkey_b_low setSelectable:NO];
+        [val_colorkey_r_high setEditable:NO];
+        [val_colorkey_g_high setEditable:NO];
+        [val_colorkey_b_high setEditable:NO];
+        [val_colorkey_r_low setEditable:NO];
+        [val_colorkey_g_low setEditable:NO];
+        [val_colorkey_b_low setEditable:NO];
     } else {
         [blocked_color_well setHidden:YES];
         [blocked_color_well_high setHidden:YES];
+        [val_colorkey_b_high setSelectable:YES];
+        [val_colorkey_g_high setSelectable:YES];
+        [val_colorkey_r_high setSelectable:YES];
+        [val_colorkey_r_low setSelectable:YES];
+        [val_colorkey_g_low setSelectable:YES];
+        [val_colorkey_b_low setSelectable:YES];
+        [val_colorkey_r_high setEditable:YES];
+        [val_colorkey_g_high setEditable:YES];
+        [val_colorkey_b_high setEditable:YES];
+        [val_colorkey_r_low setEditable:YES];
+        [val_colorkey_g_low setEditable:YES];
+        [val_colorkey_b_low setEditable:YES];
     }
 }
 

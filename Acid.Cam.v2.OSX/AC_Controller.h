@@ -243,6 +243,8 @@ extern void SearchForString(NSString *s);
 - (IBAction) setColorsEnabled: (id) sender;
 - (IBAction) setColorValuesRange: (id) sender;
 - (IBAction) setRangeTolerance:(id) sender;
+- (IBAction) addToRange: (id) sender;
+- (IBAction) addToTolerance: (id) sender;
 @end
 
 // global variables / functions
