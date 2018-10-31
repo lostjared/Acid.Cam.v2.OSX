@@ -2027,7 +2027,7 @@ void SearchForString(NSString *s) {
         green_blocked.erase(it);
         if([blocked_colors numberOfItems] == 0)
             [blocked_colors setStringValue:@""];
-        else if(row-1 >= 0 && row-11 <= [blocked_colors numberOfItems]){
+        else if(row-1 >= 0 && row-1 <= [blocked_colors numberOfItems]){
             [blocked_colors selectItemAtIndex:row-1];
         }
     } else {
