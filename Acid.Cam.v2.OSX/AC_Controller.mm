@@ -317,6 +317,7 @@ unsigned char size_cast(long val) {
     set_frame_rate_val = 24;
     reset_memory = false;
     syphon_enabled = NO;
+    [self setColorValuesRange:self];
     /*
      
      std::vector<std::string> valz;
@@ -2171,8 +2172,6 @@ unsigned char size_cast(long val) {
         [val_colorkey_r_low setStringValue:@"0"];
         [val_colorkey_g_low setStringValue:@"0"];
         [val_colorkey_b_low setStringValue:@"0"];
-        
-        
     }
 }
 

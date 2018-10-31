@@ -2043,7 +2043,7 @@ Gw
                     <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bqt-fh-v2p">
                         <rect key="frame" x="271" y="55" width="44" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="color" red="0.20437257086412072" green="0.61635469543147203" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
                             <action selector="setColorValuesRange:" target="630" id="UZP-Dk-01o"/>
                         </connections>
@@ -2129,7 +2129,7 @@ Gw
                     <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XPu-ts-qko">
                         <rect key="frame" x="271" y="20" width="44" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="color" red="0.25474880582337045" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
                             <action selector="setColorValuesRange:" target="630" id="4LA-iK-x4H"/>
                         </connections>
