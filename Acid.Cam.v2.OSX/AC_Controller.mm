@@ -2007,6 +2007,7 @@ void SearchForString(NSString *s) {
     ac::Keys keys;
     keys.low = well_color_low;
     keys.high = well_color_high;
+    keys.key_type = ac::KeyValueType::KEY_RANGE;// work on tolerance tomorrow
     
     if(!(well_color_low[0] <= well_color_high[0] && well_color_low[1] <= well_color_high[1] && well_color_low[2] <= well_color_high[2])) {
         _NSRunAlertPanel(@"Values must be a valid range", @"Color values must be a valid range between high >= low and low <= high", @"Ok", nil, nil);
@@ -2073,6 +2074,16 @@ void SearchForString(NSString *s) {
     [val_colorkey_r_high setIntegerValue: well_color_high[2]];
 }
 
+- (IBAction) setRangeTolerance:(id) sender {
+    NSInteger key_state = [key_range state];
+    if(key_state == NSOnState) {
+        [blocked_color_well setHidden:NO];
+        [blocked_color_well_high setHidden:NO];
+    } else {
+        [blocked_color_well setHidden:YES];
+        [blocked_color_well_high setHidden:YES];
+    }
+}
 
 @end
 

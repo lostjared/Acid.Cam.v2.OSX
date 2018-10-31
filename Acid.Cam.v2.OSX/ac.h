@@ -139,9 +139,11 @@ namespace ac {
     inline T rol(T x, int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
+    enum class KeyValueType { KEY_RANGE, KEY_TOLERANCE };
     class Keys {
     public:
         cv::Vec3b low, high;
+        KeyValueType key_type;
     };
     // be sure to call this when the application starts
     void fill_filter_map();
