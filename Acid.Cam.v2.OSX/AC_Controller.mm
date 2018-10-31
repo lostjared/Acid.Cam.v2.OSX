@@ -2140,6 +2140,7 @@ unsigned char size_cast(long val) {
 - (IBAction) setRangeTolerance:(id) sender {
     NSInteger key_state = [key_range state];
     if(key_state == NSOnState) {
+        [blocked_color_well_high setHidden:NO];
         [val_colorkey_b_high setSelectable:NO];
         [val_colorkey_g_high setSelectable:NO];
         [val_colorkey_r_high setSelectable:NO];
@@ -2154,6 +2155,7 @@ unsigned char size_cast(long val) {
         [val_colorkey_b_low setEditable:NO];
         [self setColorValuesRange:self];
     } else {
+        [blocked_color_well_high setHidden:YES];
         [val_colorkey_b_high setSelectable:YES];
         [val_colorkey_g_high setSelectable:YES];
         [val_colorkey_r_high setSelectable:YES];
