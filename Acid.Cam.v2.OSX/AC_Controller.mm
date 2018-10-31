@@ -194,6 +194,12 @@ void SearchForString(NSString *s) {
     [controller reloadTable];
 }
 
+unsigned char size_cast(long val) {
+    if(val >= 255) return 255;
+    if(val < 0) return 0;
+    return val;
+}
+
 // search Delegate
 @implementation SearchController
 
@@ -2043,7 +2049,54 @@ void SearchForString(NSString *s) {
     [blocked_colors selectItemAtIndex:count];
 }
 - (IBAction) addToTolerance: (id) sender {
+    NSColor *color_value = [blocked_color_well color];
+    double rf = 0, gf = 0, bf = 0;
+    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+    unsigned int values[3];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    cv::Vec3b well_color_low;
+    well_color_low[0] = values[0];
+    well_color_low[1] = values[1];
+    well_color_low[2] = values[2];
     
+    NSInteger color_low[] = {[val_colorkey_b_low integerValue], [val_colorkey_g_low integerValue], [val_colorkey_r_low integerValue]};
+    NSInteger color_high[] =  {[val_colorkey_b_high integerValue], [val_colorkey_g_high integerValue], [val_colorkey_r_high integerValue]};
+    for(int i = 0; i < 3; ++i) {
+        if(!(color_low[i] >= 0 && color_low[i] <= 255)) {
+            _NSRunAlertPanel(@"Low color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
+            return;
+        }
+        if(!(color_high[i] >= 0 && color_high[i] <= 255)){
+            _NSRunAlertPanel(@"High color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
+            return;
+        }
+    }
+    
+    NSLog(@"%ld %ld %ld\n", color_low[0], color_low[1], color_low[2]);
+    
+    cv::Vec3b low_val, high_val;
+    low_val[0] = size_cast(well_color_low[0]-color_low[0]);
+    low_val[1] = size_cast(well_color_low[1]-color_low[1]);
+    low_val[2] = size_cast(well_color_low[2]-color_low[2]);
+    high_val[0] = size_cast(well_color_low[0]+color_high[0]);
+    high_val[1] = size_cast(well_color_low[1]+color_high[1]);
+    high_val[2] = size_cast(well_color_low[2]+color_high[2]);
+    ac::Keys keys;
+    keys.low = low_val;
+    keys.high = high_val;
+    keys.key_type = ac::KeyValueType::KEY_TOLERANCE;
+    
+    if(!(low_val[0] <= high_val[0] && low_val[1] <= high_val[1] && low_val[2] <= high_val[2])) {
+        _NSRunAlertPanel(@"Values must be a valid range", @"Color values must be a valid range between high >= low and low <= high", @"Ok", nil, nil);
+        return;
+    }
+    green_blocked.push_back(keys);
+    NSString *s_color = [NSString stringWithFormat:@"Color Tolerance Range: %d, %d, %d - %d, %d, %d", low_val[0],low_val[1],low_val[2], high_val[0], high_val[1], high_val[2]];
+    NSInteger count = [blocked_colors numberOfItems];
+    [blocked_colors addItemWithObjectValue:s_color];
+    [blocked_colors selectItemAtIndex:count];
 }
 
 - (IBAction) openBlockedColors: (id) sender {
@@ -2056,39 +2109,39 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) setColorValuesRange: (id) sender {
-    NSColor *color_value = [blocked_color_well color];
-    double rf = 0, gf = 0, bf = 0;
-    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
-    unsigned int values[3];
-    values[2] = rf*255.99999f;
-    values[1] = gf*255.99999f;
-    values[0] = bf*255.99999f;
-    cv::Vec3b well_color_low;
-    well_color_low[0] = values[0];
-    well_color_low[1] = values[1];
-    well_color_low[2] = values[2];
-    [val_colorkey_b_low setIntegerValue: well_color_low[0]];
-    [val_colorkey_g_low setIntegerValue: well_color_low[1]];
-    [val_colorkey_r_low setIntegerValue: well_color_low[2]];
-    NSColor *color_value2 = [blocked_color_well_high color];
-    [color_value2 getRed:&rf green:&gf blue:&bf alpha:nil];
-    values[2] = rf*255.99999f;
-    values[1] = gf*255.99999f;
-    values[0] = bf*255.99999f;
-    cv::Vec3b well_color_high;
-    well_color_high[0] = values[0];
-    well_color_high[1] = values[1];
-    well_color_high[2] = values[2];
-    [val_colorkey_b_high setIntegerValue: well_color_high[0]];
-    [val_colorkey_g_high setIntegerValue: well_color_high[1]];
-    [val_colorkey_r_high setIntegerValue: well_color_high[2]];
+    if([key_range state] == NSOnState) {
+        NSColor *color_value = [blocked_color_well color];
+        double rf = 0, gf = 0, bf = 0;
+        [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+        unsigned int values[3];
+        values[2] = rf*255.99999f;
+        values[1] = gf*255.99999f;
+        values[0] = bf*255.99999f;
+        cv::Vec3b well_color_low;
+        well_color_low[0] = values[0];
+        well_color_low[1] = values[1];
+        well_color_low[2] = values[2];
+        [val_colorkey_b_low setIntegerValue: well_color_low[0]];
+        [val_colorkey_g_low setIntegerValue: well_color_low[1]];
+        [val_colorkey_r_low setIntegerValue: well_color_low[2]];
+        NSColor *color_value2 = [blocked_color_well_high color];
+        [color_value2 getRed:&rf green:&gf blue:&bf alpha:nil];
+        values[2] = rf*255.99999f;
+        values[1] = gf*255.99999f;
+        values[0] = bf*255.99999f;
+        cv::Vec3b well_color_high;
+        well_color_high[0] = values[0];
+        well_color_high[1] = values[1];
+        well_color_high[2] = values[2];
+        [val_colorkey_b_high setIntegerValue: well_color_high[0]];
+        [val_colorkey_g_high setIntegerValue: well_color_high[1]];
+        [val_colorkey_r_high setIntegerValue: well_color_high[2]];
+    }
 }
 
 - (IBAction) setRangeTolerance:(id) sender {
     NSInteger key_state = [key_range state];
     if(key_state == NSOnState) {
-        [blocked_color_well setHidden:NO];
-        [blocked_color_well_high setHidden:NO];
         [val_colorkey_b_high setSelectable:NO];
         [val_colorkey_g_high setSelectable:NO];
         [val_colorkey_r_high setSelectable:NO];
@@ -2102,8 +2155,6 @@ void SearchForString(NSString *s) {
         [val_colorkey_g_low setEditable:NO];
         [val_colorkey_b_low setEditable:NO];
     } else {
-        [blocked_color_well setHidden:YES];
-        [blocked_color_well_high setHidden:YES];
         [val_colorkey_b_high setSelectable:YES];
         [val_colorkey_g_high setSelectable:YES];
         [val_colorkey_r_high setSelectable:YES];
