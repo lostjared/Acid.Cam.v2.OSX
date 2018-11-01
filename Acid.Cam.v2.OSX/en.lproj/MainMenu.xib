@@ -375,7 +375,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-179" y="-1278"/>
+            <point key="canvasLocation" x="-594" y="-1613"/>
         </menu>
         <customObject id="494" customClass="AC_AppDelegate">
             <connections>
