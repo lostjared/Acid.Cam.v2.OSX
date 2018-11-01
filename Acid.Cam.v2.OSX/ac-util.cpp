@@ -490,3 +490,9 @@ void ac::AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v) {
     for(int i = 0; i < v.size(); ++i)
         Add(frame, v[i]);
 }
+
+unsigned char ac::size_cast(long val) {
+    if(val >= 255) return 255;
+    if(val < 0) return 0;
+    return val;
+}

@@ -194,12 +194,6 @@ void SearchForString(NSString *s) {
     [controller reloadTable];
 }
 
-unsigned char size_cast(long val) {
-    if(val >= 255) return 255;
-    if(val < 0) return 0;
-    return val;
-}
-
 // search Delegate
 @implementation SearchController
 
@@ -2074,12 +2068,12 @@ unsigned char size_cast(long val) {
         }
     }
     cv::Vec3b low_val, high_val;
-    low_val[0] = size_cast(well_color_low[0]-color_low[0]);
-    low_val[1] = size_cast(well_color_low[1]-color_low[1]);
-    low_val[2] = size_cast(well_color_low[2]-color_low[2]);
-    high_val[0] = size_cast(well_color_low[0]+color_high[0]);
-    high_val[1] = size_cast(well_color_low[1]+color_high[1]);
-    high_val[2] = size_cast(well_color_low[2]+color_high[2]);
+    low_val[0] = ac::size_cast(well_color_low[0]-color_low[0]);
+    low_val[1] = ac::size_cast(well_color_low[1]-color_low[1]);
+    low_val[2] = ac::size_cast(well_color_low[2]-color_low[2]);
+    high_val[0] = ac::size_cast(well_color_low[0]+color_high[0]);
+    high_val[1] = ac::size_cast(well_color_low[1]+color_high[1]);
+    high_val[2] = ac::size_cast(well_color_low[2]+color_high[2]);
     ac::Keys keys;
     keys.low = low_val;
     keys.high = high_val;

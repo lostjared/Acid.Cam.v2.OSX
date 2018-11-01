@@ -745,6 +745,7 @@ namespace ac {
     bool colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high);
     bool searchColors(const cv::Vec3b &color);
     bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
+    unsigned char size_cast(long val);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
@@ -976,6 +977,13 @@ namespace ac {
                 }
             }
         }
+    }
+    // bound long values to size of a byte
+    template<typename T>
+    T size_type_cast(const long &val) {
+        if(val >= 255) return 255;
+        if(val <= 0) return 0;
+        return val;
     }
     // point class
     class Point {
