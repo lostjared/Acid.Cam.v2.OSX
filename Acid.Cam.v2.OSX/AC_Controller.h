@@ -138,7 +138,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSColorWell *blocked_color_well, *blocked_color_well_high;
     IBOutlet NSWindow *block_colors_window;
     IBOutlet NSTextField *val_colorkey_r_low, *val_colorkey_r_high, *val_colorkey_g_low, *val_colorkey_g_high, *val_colorkey_b_low, *val_colorkey_b_high;
-    IBOutlet NSButton *key_tolerance, *key_range;
+    IBOutlet NSButton *key_tolerance, *key_range, *chk_blocked_replace, *chk_blocked_key;
     SearchController *search_controller;
     NSThread *proc_cv;
     // variables
@@ -235,7 +235,6 @@ extern void SearchForString(NSString *s);
 - (IBAction) clearSubFilter: (id) sender;
 - (IBAction) enableSpyhon: (id) sender;
 - (IBAction) setCustomSubFromSearch: (id) sender;
-- (IBAction) setCheckReplace: (id) sender;
 - (IBAction) updateLabelText: (id) sender;
 - (IBAction) addToBlocked: (id) sender;
 - (IBAction) removedFromBlocked: (id) sender;
@@ -245,6 +244,8 @@ extern void SearchForString(NSString *s);
 - (IBAction) setRangeTolerance:(id) sender;
 - (IBAction) addToRange: (id) sender;
 - (IBAction) addToTolerance: (id) sender;
+- (IBAction) setCheckBoxBlocked: (id) sender;
+- (IBAction) setCheckBoxImage: (id) sender;
 @end
 
 // global variables / functions

@@ -1979,13 +1979,6 @@ void SearchForString(NSString *s) {
     flushToLog(stream);
 }
 
-- (IBAction) setCheckReplace: (id) sender {
-    if([chk_replace state] == NSOnState)
-        colorkey_filter = true;
-    else
-        colorkey_filter = false;
-}
-
 - (IBAction) addToBlocked: (id) sender {
     if([key_range state] == NSOnState) {
         [self addToRange:self];
@@ -2068,12 +2061,12 @@ void SearchForString(NSString *s) {
         }
     }
     cv::Vec3b low_val, high_val;
-    low_val[0] = ac::size_cast(well_color_low[0]-color_low[0]);
-    low_val[1] = ac::size_cast(well_color_low[1]-color_low[1]);
-    low_val[2] = ac::size_cast(well_color_low[2]-color_low[2]);
-    high_val[0] = ac::size_cast(well_color_low[0]+color_high[0]);
-    high_val[1] = ac::size_cast(well_color_low[1]+color_high[1]);
-    high_val[2] = ac::size_cast(well_color_low[2]+color_high[2]);
+    low_val[0] = ac::size_type_cast<unsigned char>(well_color_low[0]-color_low[0]);
+    low_val[1] = ac::size_type_cast<unsigned char>(well_color_low[1]-color_low[1]);
+    low_val[2] = ac::size_type_cast<unsigned char>(well_color_low[2]-color_low[2]);
+    high_val[0] = ac::size_type_cast<unsigned char>(well_color_low[0]+color_high[0]);
+    high_val[1] = ac::size_type_cast<unsigned char>(well_color_low[1]+color_high[1]);
+    high_val[2] = ac::size_type_cast<unsigned char>(well_color_low[2]+color_high[2]);
     ac::Keys keys;
     keys.low = low_val;
     keys.high = high_val;
@@ -2167,6 +2160,33 @@ void SearchForString(NSString *s) {
         [val_colorkey_g_low setStringValue:@"0"];
         [val_colorkey_b_low setStringValue:@"0"];
     }
+}
+
+- (IBAction) setCheckBoxBlocked: (id) sender {
+    NSInteger state1,state2;
+    state1 = [chk_blocked_replace state];
+    state2 = [chk_blocked_key state];
+    [color_chk setState: state2];
+    [chk_replace setState: state1];
+    
+    if([chk_replace state] == NSOnState)
+        colorkey_filter = true;
+    else
+        colorkey_filter = false;
+}
+
+- (IBAction) setCheckBoxImage: (id) sender {
+    NSInteger state1, state2;
+    state1 = [color_chk state];
+    state2 = [chk_replace state];
+    [chk_blocked_replace setState: state2];
+    [chk_blocked_key setState: state1];
+    
+    if([chk_replace state] == NSOnState)
+        colorkey_filter = true;
+    else
+        colorkey_filter = false;
+    
 }
 
 @end

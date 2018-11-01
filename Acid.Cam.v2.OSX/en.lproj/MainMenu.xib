@@ -28,6 +28,8 @@
                 <outlet property="categories" destination="duQ-Gy-aeM" id="zBJ-Q2-JO2"/>
                 <outlet property="categories_custom" destination="pJA-QY-H3x" id="SoH-b2-a5i"/>
                 <outlet property="check_box" destination="0fN-gU-vpb" id="acF-X9-ngV"/>
+                <outlet property="chk_blocked_key" destination="eDN-3Q-DVn" id="Umv-DR-qEJ"/>
+                <outlet property="chk_blocked_replace" destination="MVv-NP-tao" id="If8-ZI-hbI"/>
                 <outlet property="chk_repeat" destination="70r-gC-kLy" id="Sx6-el-yi4"/>
                 <outlet property="chk_replace" destination="tKw-I8-MIh" id="oNL-Sg-fHs"/>
                 <outlet property="color_chk" destination="tEK-oU-BBG" id="ilc-BJ-nLn"/>
@@ -117,10 +119,10 @@
         </customObject>
         <menu title="AMainMenu" systemMenu="main" id="29">
             <items>
-                <menuItem title="AcidCam.v2" id="56">
-                    <menu key="submenu" title="AcidCam.v2" systemMenu="apple" id="57">
+                <menuItem title="Acid Cam" id="56">
+                    <menu key="submenu" title="Acid Cam" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="About AcidCam.v2" id="58">
+                            <menuItem title="About Acid Cam" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
@@ -149,7 +151,7 @@
                             <menuItem isSeparatorItem="YES" id="144">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Hide AcidCam.v2" keyEquivalent="h" id="134">
+                            <menuItem title="Hide Acid Cam" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-1" id="367"/>
                                 </connections>
@@ -168,7 +170,7 @@
                             <menuItem isSeparatorItem="YES" id="149">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Quit AcidCam.v2" keyEquivalent="q" id="136">
+                            <menuItem title="Quit Acid Cam" keyEquivalent="q" id="136">
                                 <connections>
                                     <action selector="quitProgram:" target="630" id="736"/>
                                 </connections>
@@ -249,7 +251,7 @@
                                     <action selector="showSelectImage:" target="630" id="Kv3-Tv-cWH"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Set Blocked Colors" id="H6F-OF-iRL">
+                            <menuItem title="Set Chroma Key Colors" id="H6F-OF-iRL">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="openBlockedColors:" target="630" id="mvT-lA-b7u"/>
@@ -306,10 +308,16 @@
                                     <action selector="viewSearchWindow:" target="630" id="hBj-HH-Pyw"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="View Select Image/Color Key" id="c0U-Q2-K7o">
+                            <menuItem title="View Select Image/Chroma Key" id="c0U-Q2-K7o">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showSelectImage:" target="630" id="17c-9w-Uvo"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Set Chroma Keys" id="xqA-GN-ypj">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="openBlockedColors:" target="630" id="2UZ-Ex-krq"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="View Custom" id="LkK-ce-iEk">
@@ -1471,7 +1479,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="t1A-tL-tG7">
                             <rect key="frame" x="1" y="0.0" width="544" height="365"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
                                     <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>
@@ -1642,7 +1650,7 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="setCheckReplace:" target="630" id="ZSK-fj-Opa"/>
+                            <action selector="setCheckBoxImage:" target="630" id="HYU-gY-Hqp"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tEK-oU-BBG">
@@ -1652,6 +1660,9 @@ Gw
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="setCheckBoxImage:" target="630" id="t7P-mN-OrU"/>
+                        </connections>
                     </button>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h31-Wk-Aq4">
                         <rect key="frame" x="607" y="88" width="117" height="26"/>
@@ -2165,6 +2176,28 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MVv-NP-tao">
+                        <rect key="frame" x="339" y="49" width="78" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Replace" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2hc-oU-xVJ">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setCheckBoxBlocked:" target="630" id="yTE-xz-jl7"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eDN-3Q-DVn">
+                        <rect key="frame" x="339" y="29" width="108" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Use Color Key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iQU-gJ-n5X">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setCheckBoxBlocked:" target="630" id="xpT-X5-DvE"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1046" y="-2353"/>
