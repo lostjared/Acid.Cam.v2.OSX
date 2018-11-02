@@ -794,7 +794,6 @@ void ac::XorWithSource(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^orig[j];
             }
-            
         }
     }
 }
@@ -883,4 +882,18 @@ void ac::FlashMirror(cv::Mat &frame) {
     if(index > 2)
         index = 0;
     MedianBlend(frame);
+}
+
+void ac::CollectionXorSourceSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "CollectionXorSourceSubFilter")
+        return;
+    static MatrixCollection<6> collection;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    collection.shiftFrames(frame_copy);
+    Smooth(frame_copy, &collection, false);
+    AlphaXorBlend(frame_copy, orig_frame, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }

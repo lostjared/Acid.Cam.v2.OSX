@@ -709,6 +709,7 @@ namespace ac {
     void RGBMirror1(cv::Mat &frame);
     void RGBMirror1Median(cv::Mat &frame);
     void FlashMirror(cv::Mat &frame);
+    void CollectionXorSourceSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

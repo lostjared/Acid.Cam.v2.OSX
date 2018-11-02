@@ -281,6 +281,9 @@ void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, 
         return;
     }
     
+    if(alpha <= 1)
+        alpha = 1;
+    
     if(output.empty() || output.size() != one.size())
         output.create(one.size(), CV_8UC3);
     
