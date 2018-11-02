@@ -32,6 +32,7 @@
                 <outlet property="chk_blocked_replace" destination="MVv-NP-tao" id="If8-ZI-hbI"/>
                 <outlet property="chk_repeat" destination="70r-gC-kLy" id="Sx6-el-yi4"/>
                 <outlet property="chk_replace" destination="tKw-I8-MIh" id="oNL-Sg-fHs"/>
+                <outlet property="chk_spill" destination="6e5-Kf-a0w" id="Lfv-Cq-HDk"/>
                 <outlet property="color_chk" destination="tEK-oU-BBG" id="ilc-BJ-nLn"/>
                 <outlet property="color_map" destination="xbk-h6-XyP" id="jF9-ga-AcP"/>
                 <outlet property="color_well" destination="yl0-is-M5l" id="fgh-Ot-gls"/>
@@ -2003,10 +2004,10 @@ Gw
         <window title="Blocked Colors" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Zk1-Q2-DQZ">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1036" y="1201" width="480" height="200"/>
+            <rect key="contentRect" x="1036" y="1201" width="518" height="200"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ZwQ-Y0-Sxw">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="200"/>
+                <rect key="frame" x="0.0" y="0.0" width="518" height="200"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Z1-g5-wG8">
@@ -2032,7 +2033,7 @@ Gw
                         </connections>
                     </button>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="52J-nv-Fhu">
-                        <rect key="frame" x="20" y="156" width="443" height="26"/>
+                        <rect key="frame" x="20" y="156" width="481" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="10" id="ZvG-5G-oKz">
                             <font key="font" metaFont="system"/>
@@ -2041,7 +2042,7 @@ Gw
                         </comboBoxCell>
                     </comboBox>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4c-Im-r6h">
-                        <rect key="frame" x="363" y="117" width="103" height="32"/>
+                        <rect key="frame" x="400" y="117" width="103" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set Colors" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="alG-U2-abI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2146,7 +2147,7 @@ Gw
                         </connections>
                     </colorWell>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnz-ND-Ko7">
-                        <rect key="frame" x="281" y="126" width="76" height="18"/>
+                        <rect key="frame" x="270" y="126" width="76" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="radio" title="Range" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="BMN-V8-NaZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2157,7 +2158,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K8V-2K-bHz">
-                        <rect key="frame" x="186" y="126" width="90" height="18"/>
+                        <rect key="frame" x="186" y="126" width="82" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="radio" title="Tolerance" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eSD-WP-PSi">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2176,19 +2177,8 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MVv-NP-tao">
-                        <rect key="frame" x="339" y="49" width="78" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Replace" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2hc-oU-xVJ">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="setCheckBoxBlocked:" target="630" id="yTE-xz-jl7"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eDN-3Q-DVn">
-                        <rect key="frame" x="339" y="29" width="108" height="18"/>
+                        <rect key="frame" x="381" y="29" width="108" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Color Key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iQU-gJ-n5X">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2198,9 +2188,28 @@ Gw
                             <action selector="setCheckBoxBlocked:" target="630" id="xpT-X5-DvE"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6e5-Kf-a0w">
+                        <rect key="frame" x="339" y="125" width="48" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Spill" bezelStyle="regularSquare" imagePosition="left" inset="2" id="aFg-X1-YrU">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MVv-NP-tao">
+                        <rect key="frame" x="381" y="49" width="78" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Replace" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2hc-oU-xVJ">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setCheckBoxBlocked:" target="630" id="yTE-xz-jl7"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-1046" y="-2353"/>
+            <point key="canvasLocation" x="-1027" y="-2353"/>
         </window>
     </objects>
 </document>

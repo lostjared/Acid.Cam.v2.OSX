@@ -44,8 +44,11 @@
 
 #include "ac.h"
 
+
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
+cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_colors;
+
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
@@ -195,12 +198,22 @@ bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec
     return false;
 }
 
-bool ac::searchColors(const cv::Vec3b &color) {
+int ac::searchColors(const cv::Vec3b &color) {
     for(int i = 0; i < blocked_colors.size(); ++i) {
-        if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true)
-            return true;
+        if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true) {
+            if(blocked_colors[i].spill == true) {
+                return 2;
+            }
+            else {
+                return 1;
+            }
+        }
     }
-    return false;
+    return 0;
+}
+
+void ac::setGrayColor(const cv::Vec3b &color) {
+    gray_color = color;
 }
 
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
@@ -215,10 +228,16 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                if(colorBounds(color,pixel,range_low, range_high) || searchColors(pixel))
+                int srch = searchColors(pixel);
+                if(colorBounds(color,pixel,range_low, range_high) || srch == 1) {
                     dst = fcolor;
-                else
+                }
+                else if(srch == 2) {
+                    dst = gray_color;
+                }
+                else {
                     dst = pixel;
+                }
             } else if(colorkey_set == true && !color_image.empty()) {
                 int cX = AC_GetFX(color_image.cols, i, orig.cols);
                 int cY = AC_GetFZ(color_image.rows, z, orig.rows);
@@ -245,10 +264,15 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                if(colorBounds(color, pixel, range_low, range_high) || searchColors(pixel))
+                int srch = searchColors(pixel);
+                if(colorBounds(color, pixel, range_low, range_high) || srch == 1) {
                 	dst = add_i;
-                else
+                }
+                else if(srch == 2) {
+                    dst = gray_color;
+                } else {
                     dst = fcolor;
+                }
             }
         }
     }
@@ -280,6 +304,9 @@ void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, 
     if(one.size() != two.size()) {
         return;
     }
+    
+    if(alpha <= 1)
+        alpha = 1;
     
     if(output.empty() || output.size() != one.size())
         output.create(one.size(), CV_8UC3);

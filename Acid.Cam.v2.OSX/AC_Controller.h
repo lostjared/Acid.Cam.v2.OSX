@@ -138,7 +138,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSColorWell *blocked_color_well, *blocked_color_well_high;
     IBOutlet NSWindow *block_colors_window;
     IBOutlet NSTextField *val_colorkey_r_low, *val_colorkey_r_high, *val_colorkey_g_low, *val_colorkey_g_high, *val_colorkey_b_low, *val_colorkey_b_high;
-    IBOutlet NSButton *key_tolerance, *key_range, *chk_blocked_replace, *chk_blocked_key;
+    IBOutlet NSButton *key_tolerance, *key_range, *chk_blocked_replace, *chk_blocked_key, *chk_spill;
     SearchController *search_controller;
     NSThread *proc_cv;
     // variables

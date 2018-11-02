@@ -144,6 +144,8 @@ namespace ac {
     public:
         cv::Vec3b low, high;
         KeyValueType key_type;
+        bool spill;
+        Keys() : key_type(KeyValueType::KEY_RANGE), spill(false) {}
     };
     // be sure to call this when the application starts
     void fill_filter_map();
@@ -709,6 +711,7 @@ namespace ac {
     void RGBMirror1(cv::Mat &frame);
     void RGBMirror1Median(cv::Mat &frame);
     void FlashMirror(cv::Mat &frame);
+    void CollectionXorSourceSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -743,8 +746,9 @@ namespace ac {
     void setColorKeyRange(cv::Vec3b low, cv::Vec3b high);
     void setBlockedColorKeys(std::vector<Keys> &blocked);
     bool colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high);
-    bool searchColors(const cv::Vec3b &color);
+    int searchColors(const cv::Vec3b &color);
     bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
+    void setGrayColor(const cv::Vec3b &color);
     unsigned char size_cast(long val);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);

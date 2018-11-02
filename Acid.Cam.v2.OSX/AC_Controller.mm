@@ -450,7 +450,7 @@ void SearchForString(NSString *s) {
     eraseArray(szSquare, svSquare.size());
     
     
-    std::vector<std::string> vSub { "SlideSubFilter", "SubFilter", "ResizeSoftFeedbackSubFilter", "SoftFeedbackSubFilter", "SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter", "SmoothSubFilterAlphaBlend", "SmoothSubFilterXorBlend", "IntertwineSubFilter", "EveryOtherSubFilter", "RandomSubFilterRandomTimes", "AddToFrameSubFilter", "SmoothSubFilter", "EnergizeSubFilter", "SmoothSubFilter16", "EnergizeSubFilter16", "EnergizeSubFilter32", "SmoothSubFilter32", "HalfAddSubFilter", "HalfXorSubFilter", "ChannelMedianSubFilter", "PixelatedSubFilterSort", "FilteredDifferenceSubFilter", "ExpandSquareSubFilter", "ExpandSquareBlendSubFilter", "ExpandSquareVerticalSubFilter", "MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter", "ImageBlendSubFilter", "ImageBlendXorSubFilter", "ImageCollectionSubFilter", "SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter", "BlendSubFilterAlpha"};
+    std::vector<std::string> vSub { "SlideSubFilter", "SubFilter", "ResizeSoftFeedbackSubFilter", "SoftFeedbackSubFilter", "SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter", "SmoothSubFilterAlphaBlend", "SmoothSubFilterXorBlend", "IntertwineSubFilter", "EveryOtherSubFilter", "RandomSubFilterRandomTimes", "AddToFrameSubFilter", "SmoothSubFilter", "EnergizeSubFilter", "SmoothSubFilter16", "EnergizeSubFilter16", "EnergizeSubFilter32", "SmoothSubFilter32", "HalfAddSubFilter", "HalfXorSubFilter", "ChannelMedianSubFilter", "PixelatedSubFilterSort", "FilteredDifferenceSubFilter", "ExpandSquareSubFilter", "ExpandSquareBlendSubFilter", "ExpandSquareVerticalSubFilter", "MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter", "ImageBlendSubFilter", "ImageBlendXorSubFilter", "ImageCollectionSubFilter", "SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter", "BlendSubFilterAlpha", "CollectionXorSourceSubFilter"};
     
     std::sort(vSub.begin(), vSub.end());
     const char **zSub = convertToStringArray(vSub);
@@ -822,6 +822,7 @@ void SearchForString(NSString *s) {
             cv::flip(frame, temp_frame, 0);
             frame = temp_frame.clone();
         }
+        ac::orig_frame = frame.clone();
         ++frame_cnt;
         ++frame_proc;
         __block NSInteger after = 0;
@@ -1086,7 +1087,7 @@ void SearchForString(NSString *s) {
         frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
     }
     
-    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes")) {
+    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes") || (ac::draw_strings[ac::draw_offset] == "CollectionXorSourceSubFilter")) {
         ac::orig_frame = frame.clone();
     }
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
@@ -2022,6 +2023,10 @@ void SearchForString(NSString *s) {
     cv::Vec3b well_color_low(color_low[0], color_low[1], color_low[2]);
     cv::Vec3b well_color_high(color_high[0], color_high[1], color_high[2]);
     ac::Keys keys;
+    if([chk_spill state] == NSOnState)
+        keys.spill = true;
+    else
+        keys.spill = false;
     keys.low = well_color_low;
     keys.high = well_color_high;
     keys.key_type = ac::KeyValueType::KEY_RANGE;// work on tolerance tomorrow
@@ -2068,6 +2073,10 @@ void SearchForString(NSString *s) {
     high_val[1] = ac::size_type_cast<unsigned char>(well_color_low[1]+color_high[1]);
     high_val[2] = ac::size_type_cast<unsigned char>(well_color_low[2]+color_high[2]);
     ac::Keys keys;
+    if([chk_spill state] == NSOnState)
+        keys.spill = true;
+    else
+        keys.spill = false;
     keys.low = low_val;
     keys.high = high_val;
     keys.key_type = ac::KeyValueType::KEY_TOLERANCE;
