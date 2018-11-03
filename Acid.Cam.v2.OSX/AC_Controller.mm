@@ -312,6 +312,8 @@ void SearchForString(NSString *s) {
     reset_memory = false;
     syphon_enabled = NO;
     [self setColorValuesRange:self];
+    const GLubyte *ver = glGetString(GL_VERSION);
+    std::cout << "GL Version: " << ver << "\n";
     /*
      
      std::vector<std::string> valz;
