@@ -198,18 +198,19 @@ bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec
     return false;
 }
 
-int ac::searchColors(const cv::Vec3b &color) {
+
+ac::SearchType ac::searchColors(const cv::Vec3b &color) {
     for(int i = 0; i < blocked_colors.size(); ++i) {
         if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true) {
             if(blocked_colors[i].spill == true) {
-                return 2;
+                return SEARCH_GRAY;
             }
             else {
-                return 1;
+                return SEARCH_PIXEL;
             }
         }
     }
-    return 0;
+    return SEARCH_NOTFOUND;
 }
 
 void ac::setGrayColor(const cv::Vec3b &color) {
@@ -228,11 +229,11 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                int srch = searchColors(pixel);
-                if(colorBounds(color,pixel,range_low, range_high) || srch == 1) {
+                SearchType srch = searchColors(pixel);
+                if(colorBounds(color,pixel,range_low, range_high) || srch == SEARCH_PIXEL) {
                     dst = fcolor;
                 }
-                else if(srch == 2) {
+                else if(srch == SEARCH_GRAY) {
                     dst = gray_color;
                 }
                 else {
@@ -264,11 +265,11 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
-                int srch = searchColors(pixel);
-                if(colorBounds(color, pixel, range_low, range_high) || srch == 1) {
+                SearchType srch = searchColors(pixel);
+                if(colorBounds(color, pixel, range_low, range_high) || srch == SEARCH_PIXEL) {
                 	dst = add_i;
                 }
-                else if(srch == 2) {
+                else if(srch == SEARCH_GRAY) {
                     dst = gray_color;
                 } else {
                     dst = fcolor;
@@ -277,7 +278,6 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
         }
     }
 }
-
 // Alpha Blend function
 void ac::AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output,double alpha) {
     if(one.size() != two.size()) {

@@ -147,6 +147,8 @@ namespace ac {
         bool spill;
         Keys() : key_type(KeyValueType::KEY_RANGE), spill(false) {}
     };
+    
+    enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
     // be sure to call this when the application starts
     void fill_filter_map();
     // draw functions
@@ -746,7 +748,7 @@ namespace ac {
     void setColorKeyRange(cv::Vec3b low, cv::Vec3b high);
     void setBlockedColorKeys(std::vector<Keys> &blocked);
     bool colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high);
-    int searchColors(const cv::Vec3b &color);
+    SearchType searchColors(const cv::Vec3b &color);
     bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
     void setGrayColor(const cv::Vec3b &color);
     unsigned char size_cast(long val);
