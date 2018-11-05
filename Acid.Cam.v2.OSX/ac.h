@@ -716,7 +716,8 @@ namespace ac {
     void CollectionXorSourceSubFilter(cv::Mat &frame);
     void ReverseMirrorX(cv::Mat &frame);
     void MirrorXorAll_Reverse(cv::Mat &frame);
-    void MirrorReverse(cv::Mat &frame);
+    void MirrorRGBReverse(cv::Mat &frame);
+    void MirrorRGBReverseBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
