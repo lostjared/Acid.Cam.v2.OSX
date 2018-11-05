@@ -932,3 +932,42 @@ void ac::MirrorXorAll_Reverse(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MirrorReverse(cv::Mat &frame) {
+    cv::Mat copyf[3];
+    cv::flip(frame, copyf[0], 0);
+    cv::flip(frame, copyf[1], 1);
+    cv::flip(frame, copyf[2], -1);
+    static int index = 0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[3];
+            pix[0] = copyf[0].at<cv::Vec3b>(z, i);
+            pix[1] = copyf[1].at<cv::Vec3b>(z, i);
+            pix[2] = copyf[2].at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    pixel[0] = pix[0][0];
+                    pixel[1] = pix[1][1];
+                    pixel[2] = pix[2][2];
+                    break;
+                case 1:
+                    pixel[0] = pix[2][0];
+                    pixel[1] = pix[0][1];
+                    pixel[2] = pix[1][2];
+                    break;
+                case 2:
+                    pixel[0] = pix[1][0];
+                    pixel[1] = pix[2][1];
+                    pixel[2] = pix[0][2];
+                    break;
+            }
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+}
