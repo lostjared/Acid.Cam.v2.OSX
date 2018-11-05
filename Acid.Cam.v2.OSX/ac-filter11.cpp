@@ -882,6 +882,7 @@ void ac::FlashMirror(cv::Mat &frame) {
     if(index > 2)
         index = 0;
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::CollectionXorSourceSubFilter(cv::Mat &frame) {
@@ -896,6 +897,7 @@ void ac::CollectionXorSourceSubFilter(cv::Mat &frame) {
     AlphaXorBlend(frame_copy, orig_frame, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::ReverseMirrorX(cv::Mat &frame) {
@@ -910,4 +912,23 @@ void ac::ReverseMirrorX(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
+}
+
+void ac::MirrorXorAll_Reverse(cv::Mat &frame) {
+    cv::Mat frame_copy = frame.clone();
+    Reverse(frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b values[3];
+            values[0] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[1] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= (pixel[j] ^ values[0][j] ^ values[1][j] ^ values[2][j]);
+            }
+        }
+    }
+    AddInvert(frame);
 }
