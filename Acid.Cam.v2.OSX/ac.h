@@ -718,6 +718,7 @@ namespace ac {
     void MirrorXorAll_Reverse(cv::Mat &frame);
     void MirrorRGBReverse(cv::Mat &frame);
     void MirrorRGBReverseBlend(cv::Mat &frame);
+    void BlendReverseSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

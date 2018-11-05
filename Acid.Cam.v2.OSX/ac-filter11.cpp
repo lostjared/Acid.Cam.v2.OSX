@@ -1010,3 +1010,56 @@ void ac::MirrorRGBReverseBlend(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::BlendReverseSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendReverseSubFitler")
+        return;
+    cv::Mat copyf = frame.clone();
+    Reverse(copyf);
+    CallFilter(subfilter, copyf);
+    static double alpha = 1.0, alpha_max = 7.0;
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copyf.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    pixel[0] = pixel[0]^pix[0];
+                    pixel[1] = pixel[1]^pix[1];
+                    pixel[2] = pixel[2]^pix[2];
+                    break;
+                case 1:
+                    pixel[0] = pixel[2]^pix[0];
+                    pixel[1] = pixel[0]^pix[1];
+                    pixel[2] = pixel[1]^pix[2];
+                    break;
+                case 2:
+                    pixel[0] = pixel[1]^pix[0];
+                    pixel[1] = pixel[2]^pix[1];
+                    pixel[2] = pixel[0]^pix[2];
+                    break;
+                case 3:
+                    pixel[0] = pixel[0]^pix[2];
+                    pixel[1] = pixel[1]^pix[0];
+                    pixel[2] = pixel[2]^pix[1];
+                    break;
+                case 4:
+                    pixel[0] = pixel[0]^pix[0];
+                    pixel[1] = pixel[1]^pix[2];
+                    pixel[2] = pixel[2]^pix[1];
+                    break;
+                case 5:
+                    pixel[0] = pixel[0]^pix[1];
+                    pixel[1] = pixel[1]^pix[2];
+                    pixel[2] = pixel[2]^pix[0];
+                    break;
+            }
+        }
+    }
+    ++index;
+    if(index > 5)
+        index = 0;
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 7.1, 0.005);
+}
