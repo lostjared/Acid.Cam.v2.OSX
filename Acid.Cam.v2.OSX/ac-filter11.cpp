@@ -1065,24 +1065,21 @@ void ac::BlendReverseSubFilter(cv::Mat &frame) {
 }
 
 void ac::MirrorBitwiseXor(cv::Mat &frame) {
-    static cv::Mat prev, temp;
-    if(prev.empty() || frame.size() != prev.size())
-        prev = frame.clone();
     static double alpha = 1.0, alpha_max = 4.0;
-    temp = frame.clone();
+    cv::Mat temp = frame.clone();
+    FlipBlendAll(temp);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = prev.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = temp.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(pix[j]*alpha);
             }
         }
     }
-    Reverse(frame);
     MirrorXorAll(frame);
-    Reverse(frame);
-    prev = temp.clone();
     static int dir = 1;
-    procPos(dir, alpha, alpha_max, 4.1, 0.005);
+    procPos(dir, alpha, alpha_max, 4.1, 0.001);
+    DarkenFilter(frame);
+    MedianBlend(frame);
 }
