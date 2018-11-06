@@ -1064,7 +1064,7 @@ void ac::BlendReverseSubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 7.1, 0.005);
 }
 
-void ac::TestFilter109(cv::Mat &frame) {
+void ac::MirrorBitwiseXor(cv::Mat &frame) {
     static cv::Mat prev, temp;
     if(prev.empty() || frame.size() != prev.size())
         prev = frame.clone();
