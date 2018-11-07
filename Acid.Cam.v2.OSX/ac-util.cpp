@@ -543,3 +543,8 @@ unsigned char ac::size_cast(long val) {
     if(val < 0) return 0;
     return val;
 }
+
+unsigned char ac::size_reset(long val) {
+    if(val >= 255 || val <= 0) return rand()%255;
+    return val;
+}

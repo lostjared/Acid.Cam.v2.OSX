@@ -721,6 +721,7 @@ namespace ac {
     void BlendReverseSubFilter(cv::Mat &frame);
     void MirrorBitwiseXor(cv::Mat &frame);
     void SmoothBlendReverseSubFilter(cv::Mat &frame);
+    void RandomIncrease(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -760,6 +761,7 @@ namespace ac {
     bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
     void setGrayColor(const cv::Vec3b &color);
     unsigned char size_cast(long val);
+    unsigned char size_reset(long val);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);

@@ -1098,3 +1098,19 @@ void ac::SmoothBlendReverseSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
+
+
+void ac::RandomIncrease(cv::Mat &frame) {
+    static cv::Vec3b values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += values[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        values[j] = size_reset(values[j]+rand()%25);
+    }
+}
