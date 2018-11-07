@@ -1083,3 +1083,18 @@ void ac::MirrorBitwiseXor(cv::Mat &frame) {
     DarkenFilter(frame);
     MedianBlend(frame);
 }
+
+void ac::SmoothBlendReverseSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothBlendReverseSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static double alpha = 1.0, alpha_max = 4.1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    BlendReverseSubFilter(copy2);
+    collection.shiftFrames(copy1);
+    collection.shiftFrames(copy2);
+    Smooth(frame, &collection,false);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
