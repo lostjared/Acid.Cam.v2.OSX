@@ -1114,3 +1114,33 @@ void ac::RandomIncrease(cv::Mat &frame) {
         values[j] = size_reset(values[j]+rand()%25);
     }
 }
+
+void ac::MedianBlend32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    int r = 3+rand()%7;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar value;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    value[q] += pixel[q];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = 1+static_cast<int>(value[j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    static int direction = 1;
+    procPos(direction, alpha, alpha_max);
+}
