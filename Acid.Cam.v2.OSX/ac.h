@@ -723,6 +723,7 @@ namespace ac {
     void SmoothBlendReverseSubFilter(cv::Mat &frame);
     void RandomIncrease(cv::Mat &frame);
     void MedianBlend16(cv::Mat &frame);
+    void MedianBlendBufferSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

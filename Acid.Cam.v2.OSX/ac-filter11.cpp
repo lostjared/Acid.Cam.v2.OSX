@@ -1062,6 +1062,7 @@ void ac::BlendReverseSubFilter(cv::Mat &frame) {
         index = 0;
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 7.1, 0.005);
+    AddInvert(frame);
 }
 
 void ac::MirrorBitwiseXor(cv::Mat &frame) {
@@ -1082,6 +1083,7 @@ void ac::MirrorBitwiseXor(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.001);
     DarkenFilter(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::SmoothBlendReverseSubFilter(cv::Mat &frame) {
@@ -1097,6 +1099,7 @@ void ac::SmoothBlendReverseSubFilter(cv::Mat &frame) {
     Smooth(frame, &collection,false);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 
@@ -1113,6 +1116,7 @@ void ac::RandomIncrease(cv::Mat &frame) {
     for(int j = 0; j < 3; ++j) {
         values[j] = size_reset(values[j]+rand()%25);
     }
+    AddInvert(frame);
 }
 
 void ac::MedianBlend16(cv::Mat &frame) {
@@ -1136,6 +1140,46 @@ void ac::MedianBlend16(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 int val = 1+static_cast<int>(value[j]);
                 pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    static int direction = 1;
+    procPos(direction, alpha, alpha_max);
+}
+
+void ac::MedianBlendBufferSubFilter(cv::Mat &frame) {
+    
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MedianBlendBufferSubFilter")
+        return;
+    
+    static MatrixCollection<12> collection;
+    
+    cv::Mat copy_f = frame.clone();
+    CallFilter(subfilter, copy_f);
+    
+    for(int i = 0; i < 3; ++i) {
+        MedianBlur(frame);
+        MedianBlur(copy_f);
+    }
+    
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar value;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    value[q] += pixel[q];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_f.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = 1+static_cast<int>(value[j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j] ^ val ^ pix[j]);
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
