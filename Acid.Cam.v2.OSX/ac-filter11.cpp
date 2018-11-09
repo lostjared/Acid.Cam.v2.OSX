@@ -1115,8 +1115,8 @@ void ac::RandomIncrease(cv::Mat &frame) {
     }
 }
 
-void ac::MedianBlend32(cv::Mat &frame) {
-    static MatrixCollection<32> collection;
+void ac::MedianBlend16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
     int r = 3+rand()%7;
     for(int i = 0; i < r; ++i)
         MedianBlur(frame);
