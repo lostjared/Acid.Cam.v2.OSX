@@ -1239,3 +1239,38 @@ void ac::RGBBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RGBBlendSubFilter(cv::Mat &frame) {
+    
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "RGBBlendSubFilter")
+        return;
+    
+    
+    for(int j = 0; j < 3; ++j)
+        MedianBlur(frame);
+    
+    cv::Mat copy_f = frame.clone();
+    CallFilter(subfilter, copy_f);
+    
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar values;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += pixel[q];
+                    values[j] /= 1.5;
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_f.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = static_cast<int>(values[j]);
+                pixel[j] = pixel[j] ^ val ^ pix[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}

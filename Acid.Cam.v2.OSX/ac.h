@@ -726,6 +726,7 @@ namespace ac {
     void MedianBlendBufferSubFilter(cv::Mat &frame);
     void BGRBlend(cv::Mat &frame);
     void RGBBlend(cv::Mat &frame);
+    void RGBBlendSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
