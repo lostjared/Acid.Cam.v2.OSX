@@ -327,3 +327,28 @@ void ac::DivideAndInc(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DivideAndIncW(cv::Mat &frame) {
+    unsigned int x = 0, y = 0;
+    unsigned int counter_x = 0, counter_y = 0;
+    unsigned int row_x = frame.cols/255;
+    unsigned int row_y = frame.rows/255;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.cols; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] += x;
+            pixel[1] += y;
+            ++counter_x;
+            if(counter_x >= row_x) {
+                counter_x = 0;
+                ++x;
+            }
+        }
+        ++counter_y;
+        if(counter_y >= row_y) {
+            counter_y = 0;
+            ++y;
+        }
+    }
+    AddInvert(frame);
+}
