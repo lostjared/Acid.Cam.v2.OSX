@@ -303,7 +303,7 @@ void ac::RGBBlendSubFilter(cv::Mat &frame) {
 }
 
 
-void ac::DivideAndInc(cv::Mat &frame) {
+void ac::DivideAndIncH(cv::Mat &frame) {
     unsigned int x = 0, y = 0;
     unsigned int counter_x = 0, counter_y = 0;
     unsigned int row_x = frame.cols/255;

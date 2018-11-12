@@ -727,7 +727,7 @@ namespace ac {
     void BGRBlend(cv::Mat &frame);
     void RGBBlend(cv::Mat &frame);
     void RGBBlendSubFilter(cv::Mat &frame);
-    void DivideAndInc(cv::Mat &frame);
+    void DivideAndIncH(cv::Mat &frame);
     void DivideAndIncW(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
