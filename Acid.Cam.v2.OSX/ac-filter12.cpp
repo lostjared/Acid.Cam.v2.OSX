@@ -352,3 +352,23 @@ void ac::DivideAndIncW(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::XorOppositeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "XorOppositeSubFilter")
+        return;
+    
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b rpix = copyf.at<cv::Vec3b>(frame.rows-z-1, i);
+            cv::Vec3b rpix1 = copyf.at<cv::Vec3b>(z, frame.cols-i-1);
+            cv::Vec3b rpix2 = copyf.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pixel[j]^rpix[j])^(rpix1[j]^rpix2[j]);
+            }
+        }
+    }
+}
