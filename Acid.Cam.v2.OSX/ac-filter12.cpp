@@ -396,3 +396,16 @@ void ac::BlurSmoothMedian(cv::Mat &frame) {
     BlurSmooth(frame);
     MedianBlend(frame);
 }
+
+void ac::BlurSmoothSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurSmoothSubFilter")
+        return;
+    
+    static MatrixCollection<16> collection;
+    CallFilter(subfilter, frame);
+    for(int i = 0; i < 5; ++i)
+        MedianBlur(frame);
+
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+}

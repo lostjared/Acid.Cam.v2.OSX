@@ -733,6 +733,7 @@ namespace ac {
     void BlendSmoothSubFilter(cv::Mat &frame);
     void BlurSmooth(cv::Mat &frame);
     void BlurSmoothMedian(cv::Mat &frame);
+    void BlurSmoothSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
