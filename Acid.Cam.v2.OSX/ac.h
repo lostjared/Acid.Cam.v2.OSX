@@ -730,6 +730,8 @@ namespace ac {
     void DivideAndIncH(cv::Mat &frame);
     void DivideAndIncW(cv::Mat &frame);
     void XorOppositeSubFilter(cv::Mat &frame);
+    void BlendSmoothSubFilter(cv::Mat &frame);
+    void BlurSmooth(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

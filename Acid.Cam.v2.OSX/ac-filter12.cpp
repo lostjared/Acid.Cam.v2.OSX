@@ -372,3 +372,22 @@ void ac::XorOppositeSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::BlendSmoothSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendSmoothSubFilter")
+        return;
+    static MatrixCollection<12> collection;
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    collection.shiftFrames(copyf);
+    Smooth(frame, &collection);
+}
+
+void ac::BlurSmooth(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    for(int i = 0; i < 5; ++i)
+    	MedianBlur(frame);
+    
+}
