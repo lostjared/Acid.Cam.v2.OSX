@@ -391,3 +391,8 @@ void ac::BlurSmooth(cv::Mat &frame) {
     	MedianBlur(frame);
     
 }
+
+void ac::BlurSmoothMedian(cv::Mat &frame) {
+    BlurSmooth(frame);
+    MedianBlend(frame);
+}
