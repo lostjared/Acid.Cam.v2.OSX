@@ -422,3 +422,25 @@ void ac::BlurFlip(cv::Mat &frame) {
     cv::Mat copy = frame.clone();
     setGamma(copy, frame, 5);
 }
+
+void ac::BlurFlipSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurFlipSubFilter")
+        return;
+    cv::Mat copyf = frame.clone();
+    cv::Mat copyi = frame.clone();
+    CallFilter(subfilter, copyf);
+    for(int j = 0; j < 3; ++j)
+        MedianBlur(copyi);
+    FlipBlendAll(copyi);
+    int amt = rand()%3;
+    for(int j = 0; j < amt+3; ++j)
+        MedianBlur(copyi);
+    MedianBlend(copyi);
+    XorAlpha(copyi);
+    cv::Mat cpi = copyi.clone();
+    setGamma(cpi, copyi, 5);
+    static double alpha = 1.0, alpha_max = 7.0;
+    AlphaBlend(copyf, copyi, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+}
