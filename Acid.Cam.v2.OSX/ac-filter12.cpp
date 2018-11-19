@@ -466,3 +466,36 @@ void ac::BlurMirrorGamma(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.1);
 }
+
+void ac::MedianBlendDark(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    int r = 3+rand()%7;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Scalar value;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    value[q] -= pixel[q];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = 1+static_cast<int>(value[j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    cv::Mat copyf = frame.clone();
+    setGamma(copyf, frame, 4);
+    static int direction = 1;
+    procPos(direction, alpha, alpha_max);
+}
+

@@ -737,6 +737,7 @@ namespace ac {
     void BlurFlip(cv::Mat &frame);
     void BlurFlipSubFilter(cv::Mat &frame);
     void BlurMirrorGamma(cv::Mat &frame);
+    void MedianBlendDark(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
