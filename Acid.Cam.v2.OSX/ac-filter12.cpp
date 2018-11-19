@@ -409,3 +409,16 @@ void ac::BlurSmoothSubFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
 }
+
+void ac::BlurFlip(cv::Mat &frame) {
+    for(int j = 0; j < 3; ++j)
+        MedianBlur(frame);
+    
+    FlipBlendAll(frame);
+    
+    for(int j = 0; j < 3; ++j)
+        MedianBlur(frame);
+    
+    MedianBlend(frame);
+    RainbowXorBlend(frame);
+}
