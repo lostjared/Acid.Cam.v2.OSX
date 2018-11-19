@@ -413,12 +413,12 @@ void ac::BlurSmoothSubFilter(cv::Mat &frame) {
 void ac::BlurFlip(cv::Mat &frame) {
     for(int j = 0; j < 3; ++j)
         MedianBlur(frame);
-    
     FlipBlendAll(frame);
-    
-    for(int j = 0; j < 3; ++j)
+    int amt = rand()%3;
+    for(int j = 0; j < amt+3; ++j)
         MedianBlur(frame);
-    
     MedianBlend(frame);
-    RainbowXorBlend(frame);
+    XorAlpha(frame);
+    cv::Mat copy = frame.clone();
+    setGamma(copy, frame, 5);
 }
