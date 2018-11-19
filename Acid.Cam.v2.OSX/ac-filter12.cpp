@@ -444,3 +444,25 @@ void ac::BlurFlipSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
 }
+
+void ac::BlurMirrorGamma(cv::Mat &frame) {
+    MirrorXorAll(frame);
+    cv::Mat copyf = frame.clone();
+    cv::Mat copyi = frame.clone();
+    cv::Mat copyo = frame.clone();
+    setGamma(copyf, copyo, 2);
+    setGamma(copyi, copyf, 5);
+    int r = rand()%3;
+    for(int i = 0; i < 3+r; ++i) {
+        MedianBlur(copyo);
+        MedianBlur(copyf);
+    }
+    FlipBlendWH(copyf);
+    static double alpha = 1.0, alpha_max = 4.0;
+    AlphaBlend(copyo,copyf,frame,alpha);
+    MedianBlend(frame);
+    cv::Mat copyt = frame.clone();
+    setGamma(copyt, frame, 2);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.1);
+}
