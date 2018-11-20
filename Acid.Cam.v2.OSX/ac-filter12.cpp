@@ -505,6 +505,7 @@ void ac::MedianBlendDark(cv::Mat &frame) {
     setGamma(copyf, frame, 4);
     static int direction = 1;
     procPos(direction, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendSubFilterEx(cv::Mat &frame) {
@@ -540,4 +541,12 @@ void ac::MedianBlendSubFilterEx(cv::Mat &frame) {
     }
     cv::Mat output = frame.clone();
     AlphaBlend(copysub, output, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::EnergyMirrorDark(cv::Mat &frame) {
+    MirrorXorAll(frame);
+    BlendWithSource(frame);
+    MedianBlendDark(frame);
+    AddInvert(frame);
 }
