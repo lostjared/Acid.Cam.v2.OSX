@@ -532,7 +532,7 @@ void ac::MedianBlendSubFilterEx(cv::Mat &frame) {
         }
     }
     cv::Mat output = frame.clone();
-    AlphaBlend(copysub, output, frame, alpha);
+    AlphaXorBlend(copysub, output, frame, alpha);
     static int direction = 1;
-    procPos(direction, alpha, alpha_max);
+    procPos(direction, alpha, alpha_max, 4.0, 0.1);
 }
