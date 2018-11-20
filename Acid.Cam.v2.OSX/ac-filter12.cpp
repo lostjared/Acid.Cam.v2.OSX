@@ -371,6 +371,7 @@ void ac::XorOppositeSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::BlendSmoothSubFilter(cv::Mat &frame) {
@@ -381,6 +382,7 @@ void ac::BlendSmoothSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copyf);
     collection.shiftFrames(copyf);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::BlurSmooth(cv::Mat &frame) {
@@ -390,11 +392,13 @@ void ac::BlurSmooth(cv::Mat &frame) {
     for(int i = 0; i < 5; ++i)
     	MedianBlur(frame);
     
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothMedian(cv::Mat &frame) {
     BlurSmooth(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothSubFilter(cv::Mat &frame) {
@@ -408,6 +412,7 @@ void ac::BlurSmoothSubFilter(cv::Mat &frame) {
 
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::BlurFlip(cv::Mat &frame) {
@@ -421,6 +426,7 @@ void ac::BlurFlip(cv::Mat &frame) {
     XorAlpha(frame);
     cv::Mat copy = frame.clone();
     setGamma(copy, frame, 5);
+    AddInvert(frame);
 }
 
 void ac::BlurFlipSubFilter(cv::Mat &frame) {
@@ -443,6 +449,7 @@ void ac::BlurFlipSubFilter(cv::Mat &frame) {
     AlphaBlend(copyf, copyi, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::BlurMirrorGamma(cv::Mat &frame) {
@@ -465,6 +472,7 @@ void ac::BlurMirrorGamma(cv::Mat &frame) {
     setGamma(copyt, frame, 2);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.1);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendDark(cv::Mat &frame) {
