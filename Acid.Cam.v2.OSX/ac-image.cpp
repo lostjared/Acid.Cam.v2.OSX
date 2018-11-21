@@ -595,7 +595,7 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
     }
 }
 
-void ac::MirrorImage(cv::Mat &frame) {
+void ac::MirrorAlphaBlendedImage(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat resized, frame_copy, new_copy;
         cv::resize(blend_image, resized, frame.size());
