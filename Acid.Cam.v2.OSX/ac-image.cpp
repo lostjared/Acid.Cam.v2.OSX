@@ -595,6 +595,19 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
     }
 }
 
+void ac::MirrorImage(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat resized, frame_copy, new_copy;
+        cv::resize(blend_image, resized, frame.size());
+        frame_copy = frame.clone();
+        static double alpha = 1.0, alpha_max = 2.0;
+        AlphaXorBlend(resized, frame_copy, new_copy, alpha);
+        AlphaBlend(new_copy, frame_copy, frame, alpha);
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 2.1, 0.05);
+    }
+}
+
 
 
 

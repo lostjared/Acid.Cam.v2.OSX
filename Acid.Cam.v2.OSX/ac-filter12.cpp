@@ -563,3 +563,4 @@ void ac::AlphaBlendMirror(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 2.1, 0.01);
 }
+
