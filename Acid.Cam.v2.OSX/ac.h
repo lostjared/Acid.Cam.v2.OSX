@@ -740,6 +740,7 @@ namespace ac {
     void MedianBlendDark(cv::Mat &frame);
     void MedianBlendSubFilterEx(cv::Mat &frame);
     void EnergyMirrorDark(cv::Mat &frame);
+    void AlphaBlendMirror(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

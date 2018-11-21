@@ -550,3 +550,16 @@ void ac::EnergyMirrorDark(cv::Mat &frame) {
     MedianBlendDark(frame);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendMirror(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone();
+    cv::Mat ucopy;
+    cv::flip(frame, ucopy, -1);
+    static double alpha = 1.0, alpha_max = 2.0;
+    AlphaBlend(copyf, ucopy, frame, alpha);
+    cv::flip(frame, ucopy, 1);
+    cv::Mat ecopy = frame.clone();
+    AlphaBlend(ecopy, ucopy, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 2.1, 0.01);
+}
