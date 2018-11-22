@@ -564,3 +564,28 @@ void ac::AlphaBlendMirror(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 2.1, 0.01);
 }
 
+
+void ac::AlphaBlendXorImage(cv::Mat &frame) {
+    if(blend_set == true) {
+    	static double alpha = 1.0, alpha_max = 3.0;
+        
+        cv::Mat copyf,outval;
+        cv::resize(blend_image, copyf, frame.size());
+        AlphaBlend(frame, copyf, outval, alpha);
+        MedianBlur(outval);
+        MedianBlur(outval);
+        MedianBlur(outval);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copyf.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixval = outval.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = (pixel[j]^pix[j]^pixval[j]);
+                }
+            }
+        }
+        static int dir = 1;
+    	procPos(dir, alpha, alpha_max, 3.1, 0.05);
+    }
+}

@@ -742,6 +742,7 @@ namespace ac {
     void EnergyMirrorDark(cv::Mat &frame);
     void AlphaBlendMirror(cv::Mat &frame);
     void MirrorAlphaBlendedImage(cv::Mat &frame);
+    void AlphaBlendXorImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
