@@ -598,3 +598,22 @@ void ac::ShiftFrameSmoothSubFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     Smooth(frame, &collection, false);
 }
+
+
+void ac::ShiftFrameStaticXorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ShiftFrameStaticXorSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    CallFilter(subfilter, frame);
+    cv::Scalar scalar;
+    ScalarAverage(frame, scalar);
+    cv::Vec3b val;
+    static double alpha = 1.0, alpha_max = 3.0;
+    for(int j = 0; j < 3; ++j)
+        val[j] = static_cast<unsigned char>(scalar[j] * alpha);
+    StaticXor(frame, &collection, val);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 3.1, 0.01);
+}
+
+
