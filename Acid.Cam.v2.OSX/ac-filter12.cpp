@@ -589,3 +589,12 @@ void ac::AlphaBlendXorImage(cv::Mat &frame) {
     	procPos(dir, alpha, alpha_max, 3.1, 0.05);
     }
 }
+
+void ac::ShiftFrameSmoothSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ShiftFrameSmoothSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    CallFilter(subfilter, frame);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection, false);
+}

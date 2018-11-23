@@ -743,6 +743,7 @@ namespace ac {
     void AlphaBlendMirror(cv::Mat &frame);
     void MirrorAlphaBlendedImage(cv::Mat &frame);
     void AlphaBlendXorImage(cv::Mat &frame);
+    void ShiftFrameSmoothSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
