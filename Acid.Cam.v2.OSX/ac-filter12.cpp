@@ -630,7 +630,31 @@ void ac::IncreaseDecreaseGamma(cv::Mat &frame) {
         --light;
         if(light <= min)
             dir = 1;
-            
+        
     }
 }
 
+void ac::GammaIncDecIncrease(cv::Mat &frame) {
+    static int dir = 1;
+    static int light = 1;
+    static int min = 1, max = 3, total_max = 12;
+    cv::Mat copyf = frame.clone();
+    setGamma(copyf, frame, light);
+    if(dir == 1) {
+        ++light;
+        if(light > max) {
+            ++max;
+            if(max > total_max) {
+                max = 1;
+            }
+            dir = 0;
+        }
+    } else if(dir == 0) {
+        --light;
+        if(light <= min) {
+            dir = 1;
+        }
+    } else if(dir == 2) {
+        
+    }
+}
