@@ -654,7 +654,20 @@ void ac::GammaIncDecIncrease(cv::Mat &frame) {
         if(light <= min) {
             dir = 1;
         }
-    } else if(dir == 2) {
-        
+    }
+}
+
+void ac::RandomSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ShuffleSub")
+        return;
+    static int index = 0;
+    static std::vector<std::string> vSub { "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter", "SmoothSubFilterAlphaBlend", "SmoothSubFilterXorBlend", "IntertwineSubFilter", "AddToFrameSubFilter", "SmoothSubFilter", "EnergizeSubFilter", "SmoothSubFilter16", "EnergizeSubFilter16", "EnergizeSubFilter32", "SmoothSubFilter32", "HalfAddSubFilter", "HalfXorSubFilter", "ChannelMedianSubFilter", "PixelatedSubFilterSort", "FilteredDifferenceSubFilter", "ExpandSquareSubFilter", "ExpandSquareBlendSubFilter", "ExpandSquareVerticalSubFilter", "MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter","SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter", "BlendSubFilterAlpha", "CollectionXorSourceSubFilter", "BlendReverseSubFilter", "SmoothBlendReverseSubFilter", "MedianBlendBufferSubFilter", "RGBBlendSubFilter", "XorOppositeSubFilter", "BlendSmoothSubFilter", "BlurSmoothSubFilter", "BlurFlipSubFilter", "MedianBlendSubFilterEx", "ShiftFrameSmoothSubFilter", "ShiftFrameStaticXorSubFilter"};
+    
+    static auto rng = std::default_random_engine{};
+    CallFilter(vSub[index], frame);
+    ++index;
+    if(index > vSub.size()-1) {
+        index = 0;
+        std::shuffle(vSub.begin(), vSub.end(),rng);
     }
 }
