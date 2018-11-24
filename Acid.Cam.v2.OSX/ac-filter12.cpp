@@ -616,4 +616,21 @@ void ac::ShiftFrameStaticXorSubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 3.1, 0.01);
 }
 
+void ac::IncreaseDecreaseGamma(cv::Mat &frame) {
+    static int dir = 1;
+    static int light = 1;
+    static int min = 1, max = 10;
+    cv::Mat copyf = frame.clone();
+    setGamma(copyf, frame, light);
+    if(dir == 1) {
+        ++light;
+        if(light > max)
+            dir = 0;
+    } else {
+        --light;
+        if(light <= min)
+            dir = 1;
+            
+    }
+}
 

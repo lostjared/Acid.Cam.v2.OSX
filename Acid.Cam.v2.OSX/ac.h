@@ -745,6 +745,7 @@ namespace ac {
     void AlphaBlendXorImage(cv::Mat &frame);
     void ShiftFrameSmoothSubFilter(cv::Mat &frame);
     void ShiftFrameStaticXorSubFilter(cv::Mat &frame);
+    void IncreaseDecreaseGamma(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
