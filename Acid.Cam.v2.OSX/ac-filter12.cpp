@@ -731,3 +731,11 @@ void ac::TwistedMirror(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::SelfScaleSortBlend(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    StrobeSort(copyf);
+    SelfScale(copyi);
+    AlphaBlend(copyi, copyf, frame, 0.5);
+    AddInvert(frame);
+}

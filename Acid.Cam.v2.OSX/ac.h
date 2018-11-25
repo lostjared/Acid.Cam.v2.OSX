@@ -750,6 +750,7 @@ namespace ac {
     void RandomSubFilter(cv::Mat &frame);
     void TwistedVision(cv::Mat &frame);
     void TwistedMirror(cv::Mat &frame);
+    void SelfScaleSortBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
