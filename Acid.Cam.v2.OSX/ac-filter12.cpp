@@ -562,6 +562,7 @@ void ac::AlphaBlendMirror(cv::Mat &frame) {
     AlphaXorBlend(ecopy, ucopy, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 2.1, 0.01);
+    AddInvert(frame);
 }
 
 
@@ -588,6 +589,7 @@ void ac::AlphaBlendXorImage(cv::Mat &frame) {
         static int dir = 1;
     	procPos(dir, alpha, alpha_max, 3.1, 0.05);
     }
+    AddInvert(frame);
 }
 
 void ac::ShiftFrameSmoothSubFilter(cv::Mat &frame) {
@@ -597,6 +599,7 @@ void ac::ShiftFrameSmoothSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame);
     collection.shiftFrames(frame);
     Smooth(frame, &collection, false);
+    AddInvert(frame);
 }
 
 
@@ -614,6 +617,7 @@ void ac::ShiftFrameStaticXorSubFilter(cv::Mat &frame) {
     StaticXor(frame, &collection, val);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 3.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::IncreaseDecreaseGamma(cv::Mat &frame) {
@@ -632,6 +636,7 @@ void ac::IncreaseDecreaseGamma(cv::Mat &frame) {
             dir = 1;
         
     }
+    AddInvert(frame);
 }
 
 void ac::GammaIncDecIncrease(cv::Mat &frame) {
@@ -655,6 +660,7 @@ void ac::GammaIncDecIncrease(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::RandomSubFilter(cv::Mat &frame) {
@@ -670,6 +676,7 @@ void ac::RandomSubFilter(cv::Mat &frame) {
         index = 0;
         std::shuffle(vSub.begin(), vSub.end(),rng);
     }
+    AddInvert(frame);
 }
 
 void ac::TwistedVision(cv::Mat &frame) {
@@ -711,6 +718,8 @@ void ac::TwistedVision(cv::Mat &frame) {
     --pos[1];
     if(pos[1] <= frame.cols/2)
         pos[1] = frame.cols-1;
+    
+    AddInvert(frame);
 }
 
 void ac::TwistedMirror(cv::Mat &frame) {
@@ -720,4 +729,5 @@ void ac::TwistedMirror(cv::Mat &frame) {
     MirrorXorAll(copyi);
     AlphaBlend(copyf,copyi,frame, 0.7);
     MedianBlend(frame);
+    AddInvert(frame);
 }
