@@ -671,3 +671,44 @@ void ac::RandomSubFilter(cv::Mat &frame) {
         std::shuffle(vSub.begin(), vSub.end(),rng);
     }
 }
+
+void ac::TwistedVision(cv::Mat &frame) {
+    static int pos[3] = {2,frame.cols-1,2};
+    static int sized_w = frame.size().width;
+    if(sized_w != frame.size().width) {
+        pos[1] = frame.cols-1;
+        sized_w = frame.size().width;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cx = i+pos[0];
+            if(cx >= 0 && cx < frame.cols) {
+                cv::Vec3b pix = frame.at<cv::Vec3b>(z, cx);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pix[j]^pixel[j];
+                }
+            } else {
+                for(int j = 0; j < 3; ++j)
+                	pixel[j] = pixel[j]^pos[0];
+            }
+            int cx_x = i+pos[1];
+            if(cx_x >= 0 && cx_x < frame.cols) {
+                cv::Vec3b pix=frame.at<cv::Vec3b>(z, cx_x);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pix[j];
+                }
+            } else {
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]^pos[1];
+            }
+        }
+    }
+    ++pos[0];
+    if(pos[0] > frame.cols/2) {
+        pos[0] = 2;
+    }
+    --pos[1];
+    if(pos[1] <= frame.cols/2)
+        pos[1] = frame.cols-1;
+}
