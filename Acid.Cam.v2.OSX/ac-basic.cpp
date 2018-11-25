@@ -277,7 +277,8 @@ void ac::Pass2Blend(cv::Mat &frame) {
                 cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
                 cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
                 for(int q = 0; q < 3; ++q)
-                    color1[q] = static_cast<unsigned char>(color2[q]+(color1[q]*ac::pass2_alpha));// multiply
+                    color1[q] = static_cast<unsigned char>(color2[q] * ac::pass2_alpha) + static_cast<unsigned char>(color1[q] * ac::pass2_alpha);
+                    //color1[q] = static_cast<unsigned char>(color2[q]+(color1[q]*ac::pass2_alpha));// multiply
             }
         }
     }
