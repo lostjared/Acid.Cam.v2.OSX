@@ -712,3 +712,12 @@ void ac::TwistedVision(cv::Mat &frame) {
     if(pos[1] <= frame.cols/2)
         pos[1] = frame.cols-1;
 }
+
+void ac::TwistedMirror(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    FlipBlendAll(copyf);
+    TwistedVision(copyi);
+    MirrorXorAll(copyi);
+    AlphaBlend(copyf,copyi,frame, 0.7);
+    MedianBlend(frame);
+}
