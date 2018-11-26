@@ -739,3 +739,18 @@ void ac::SelfScaleSortBlend(cv::Mat &frame) {
     AlphaBlend(copyi, copyf, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::FlashMedianBlend(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    cv::Vec3b color(rand()%255,rand()%255,rand()%255);
+    for(int z = 0; z < copyf.rows; ++z) {
+        for(int i = 0; i < copyf.cols; ++i) {
+            cv::Vec3b &pixel = copyf.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^color[j];
+            }
+        }
+    }
+    MedianBlend(copyf);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}

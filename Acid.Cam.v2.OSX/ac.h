@@ -751,6 +751,7 @@ namespace ac {
     void TwistedVision(cv::Mat &frame);
     void TwistedMirror(cv::Mat &frame);
     void SelfScaleSortBlend(cv::Mat &frame);
+    void FlashMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
