@@ -754,3 +754,11 @@ void ac::FlashMedianBlend(cv::Mat &frame) {
     MedianBlend(copyf);
     AlphaBlend(copyf, copyi, frame, 0.5);
 }
+
+void ac::BlendWithFrameSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendWithFrameSubFilter")
+        return;
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    CallFilter(subfilter, copyf);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}
