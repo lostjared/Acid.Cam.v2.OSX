@@ -774,3 +774,15 @@ void ac::AlphaBlendWithFrameSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
+
+void ac::AlphaXorBlendWithFrameSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "AlphaXorBlendWithFrameSubFilter")
+        return;
+    
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    CallFilter(subfilter, copyf);
+    AlphaXorBlend(copyf, copyi, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}

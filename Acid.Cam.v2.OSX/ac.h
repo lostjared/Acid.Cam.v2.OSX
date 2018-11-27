@@ -754,6 +754,7 @@ namespace ac {
     void FlashMedianBlend(cv::Mat &frame);
     void BlendWithFrameSubFilter(cv::Mat &frame);
     void AlphaBlendWithFrameSubFilter(cv::Mat &frame);
+    void AlphaXorBlendWithFrameSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
