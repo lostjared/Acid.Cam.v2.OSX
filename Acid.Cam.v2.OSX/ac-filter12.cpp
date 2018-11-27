@@ -763,8 +763,8 @@ void ac::BlendWithFrameSubFilter(cv::Mat &frame) {
     AlphaBlend(copyf, copyi, frame, 0.5);
 }
 
-void ac::SelfAlphaBlendWithFrameSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "SelfAlphaBlendWithFrameSubFilter")
+void ac::AlphaBlendWithFrameSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendWithFrameSubFilter")
         return;
 
     static double alpha = 1.0, alpha_max = 4.0;
