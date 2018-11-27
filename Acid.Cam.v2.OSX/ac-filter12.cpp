@@ -762,3 +762,15 @@ void ac::BlendWithFrameSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copyf);
     AlphaBlend(copyf, copyi, frame, 0.5);
 }
+
+void ac::SelfAlphaBlendWithFrameSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SelfAlphaBlendWithFrameSubFilter")
+        return;
+
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    CallFilter(subfilter, copyf);
+    AlphaBlend(copyf, copyi, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
