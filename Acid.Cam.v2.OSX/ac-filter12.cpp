@@ -795,3 +795,19 @@ void ac::XorBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copyf);
     Xor(frame, copyf);
 }
+
+void ac::FlipAlphaBlend(cv::Mat &frame) {
+    static int flip_ = -1;
+    static bool strobe = true;
+    cv::Mat copyi = frame.clone(), copyout;
+    if(strobe == true) {
+        cv::flip(copyi, copyout, flip_);
+        strobe = false;
+        AlphaBlend(copyi, copyout, frame, 0.5);
+        if(++flip_ > 1)
+            flip_ = -1;
+
+    } else
+        strobe = true;
+    
+}
