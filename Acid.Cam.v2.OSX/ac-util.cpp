@@ -345,6 +345,18 @@ void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, 
     
 }
 
+void ac::Xor(cv::Mat &dst, const cv::Mat &add) {
+    if(dst.size() != add.size()) return;
+    for(int z = 0; z < dst.rows; ++z) {
+        for(int i = 0; i < dst.cols; ++i) {
+            cv::Vec3b &pixel = dst.at<cv::Vec3b>(z, i);
+            cv::Vec3b other = add.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]^other[j];
+        }
+    }
+}
+
 bool ac::reset_alpha = false;
 
 void ac::resetAlpha(int &dir, double &alpha) {
