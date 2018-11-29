@@ -819,3 +819,28 @@ void ac::RandomFlipFilter(cv::Mat &frame) {
     cv::Mat copyf = frame.clone();
     flip(copyf, frame, value);
 }
+
+void ac::MirrorMedian(cv::Mat &frame) {
+    static bool on_off = true;
+    if(on_off == true) {
+        cv::Mat copyf = frame.clone();
+        cv::flip(copyf,frame,0);
+        on_off = false;
+    } else
+        on_off = true;
+
+    cv::Mat copyf = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[5];
+            pix[0] = pixel;
+            pix[1] = copyf.at<cv::Vec3b>(frame.rows-z-1, i);
+            pix[2] = copyf.at<cv::Vec3b>(z, frame.cols-i-1);
+            pix[3] = copyf.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j];
+        }
+    }
+    MedianBlend(frame);
+}
