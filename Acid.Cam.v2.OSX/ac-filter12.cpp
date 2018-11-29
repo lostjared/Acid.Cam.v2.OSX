@@ -811,3 +811,11 @@ void ac::FlipAlphaBlend(cv::Mat &frame) {
         strobe = true;
     
 }
+
+void ac::RandomFlipFilter(cv::Mat &frame) {
+    int value = -1;
+    int rnd = rand()%3;
+    value += rnd;
+    cv::Mat copyf = frame.clone();
+    flip(copyf, frame, value);
+}
