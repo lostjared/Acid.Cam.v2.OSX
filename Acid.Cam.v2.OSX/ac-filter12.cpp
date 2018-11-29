@@ -753,6 +753,7 @@ void ac::FlashMedianBlend(cv::Mat &frame) {
     }
     MedianBlend(copyf);
     AlphaBlend(copyf, copyi, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlendWithFrameSubFilter(cv::Mat &frame) {
@@ -761,6 +762,7 @@ void ac::BlendWithFrameSubFilter(cv::Mat &frame) {
     cv::Mat copyf = frame.clone(), copyi = frame.clone();
     CallFilter(subfilter, copyf);
     AlphaBlend(copyf, copyi, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendWithFrameSubFilter(cv::Mat &frame) {
@@ -773,6 +775,7 @@ void ac::AlphaBlendWithFrameSubFilter(cv::Mat &frame) {
     AlphaBlend(copyf, copyi, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::AlphaXorBlendWithFrameSubFilter(cv::Mat &frame) {
@@ -785,6 +788,7 @@ void ac::AlphaXorBlendWithFrameSubFilter(cv::Mat &frame) {
     AlphaXorBlend(copyf, copyi, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::XorBlendSubFilter(cv::Mat &frame) {
@@ -794,6 +798,7 @@ void ac::XorBlendSubFilter(cv::Mat &frame) {
     cv::Mat copyf = frame.clone();
     CallFilter(subfilter, copyf);
     Xor(frame, copyf);
+    AddInvert(frame);
 }
 
 void ac::FlipAlphaBlend(cv::Mat &frame) {
@@ -810,6 +815,7 @@ void ac::FlipAlphaBlend(cv::Mat &frame) {
     } else
         strobe = true;
     
+    AddInvert(frame);
 }
 
 void ac::RandomFlipFilter(cv::Mat &frame) {
@@ -818,6 +824,7 @@ void ac::RandomFlipFilter(cv::Mat &frame) {
     value += rnd;
     cv::Mat copyf = frame.clone();
     flip(copyf, frame, value);
+    AddInvert(frame);
 }
 
 void ac::MirrorMedian(cv::Mat &frame) {
@@ -843,4 +850,5 @@ void ac::MirrorMedian(cv::Mat &frame) {
         }
     }
     MedianBlend(frame);
+    AddInvert(frame);
 }
