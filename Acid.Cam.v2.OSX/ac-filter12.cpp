@@ -852,3 +852,16 @@ void ac::MirrorMedian(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::FlipMatrixCollection(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copyf[3], copyi = frame.clone();
+    cv::flip(frame, copyf[0], -1);
+    cv::flip(frame, copyf[1],0);
+    cv::flip(frame, copyf[2], 1);
+    collection.shiftFrames(copyf[0]);
+    collection.shiftFrames(copyf[1]);
+    Smooth(copyf[2], &collection);
+    AlphaBlend(copyf[2], copyi, frame, 0.5);
+    MedianBlend(frame);
+}
