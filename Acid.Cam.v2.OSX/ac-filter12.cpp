@@ -864,6 +864,7 @@ void ac::FlipMatrixCollection(cv::Mat &frame) {
     Smooth(copyf[2], &collection);
     AlphaBlend(copyf[2], copyi, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::MirrorMatrixCollection(cv::Mat &frame) {
@@ -890,13 +891,12 @@ void ac::MirrorMatrixCollection(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MirrorMatrixSource(cv::Mat &frame) {
+    BlurFlip(frame);
+    BlendWithSource(frame);
     MirrorMatrixCollection(frame);
-    BlendWithSource(frame);
-    MirrorXorAll(frame);
-    BlendWithSource(frame);
     MedianBlend(frame);
-    BlendWithSource(frame);
 }
