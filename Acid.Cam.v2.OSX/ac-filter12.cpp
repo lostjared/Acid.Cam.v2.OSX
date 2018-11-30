@@ -899,4 +899,22 @@ void ac::MirrorMatrixSource(cv::Mat &frame) {
     BlendWithSource(frame);
     MirrorMatrixCollection(frame);
     MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::SelfScaleByFrame(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone();
+    static MatrixCollection<8> collection;
+    SelfAlphaScale(copyf);
+    collection.shiftFrames(copyf);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i  = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[7].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ pix[j];
+            }
+        }
+    }
+    AddInvert(frame);
 }

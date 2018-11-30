@@ -762,6 +762,7 @@ namespace ac {
     void FlipMatrixCollection(cv::Mat &frame);
     void MirrorMatrixCollection(cv::Mat &frame);
     void MirrorMatrixSource(cv::Mat &frame);
+    void SelfScaleByFrame(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
