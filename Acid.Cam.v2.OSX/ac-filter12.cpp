@@ -891,3 +891,12 @@ void ac::MirrorMatrixCollection(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MirrorMatrixSource(cv::Mat &frame) {
+    MirrorMatrixCollection(frame);
+    BlendWithSource(frame);
+    MirrorXorAll(frame);
+    BlendWithSource(frame);
+    MedianBlend(frame);
+    BlendWithSource(frame);
+}
