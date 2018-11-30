@@ -760,6 +760,7 @@ namespace ac {
     void RandomFlipFilter(cv::Mat &frame);
     void MirrorMedian(cv::Mat &frame);
     void FlipMatrixCollection(cv::Mat &frame);
+    void MirrorMatrixCollection(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
