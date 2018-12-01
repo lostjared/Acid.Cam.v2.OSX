@@ -932,6 +932,7 @@ void ac::SmoothMedianRotateSubFilter(cv::Mat &frame) {
     collection.shiftFrames(outf);
     Smooth(frame, &collection, false);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::SmoothCollectionAlphaBlend(cv::Mat &frame) {
@@ -943,6 +944,7 @@ void ac::SmoothCollectionAlphaBlend(cv::Mat &frame) {
     MedianBlur(frame);
     MedianBlur(frame);
     Xor(frame, copyf);
+    AddInvert(frame);
 }
 
 void ac::XorSubFilter(cv::Mat &frame) {
@@ -951,4 +953,5 @@ void ac::XorSubFilter(cv::Mat &frame) {
     cv::Mat copyf = frame.clone();
     CallFilter(subfilter, copyf);
     Xor(frame, copyf);
+    AddInvert(frame);
 }
