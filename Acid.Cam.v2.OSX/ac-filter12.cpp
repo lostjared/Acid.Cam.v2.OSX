@@ -918,3 +918,18 @@ void ac::SelfScaleByFrame(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SmoothMedianRotateSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothMedianRotateSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    cv::Mat copyf = frame.clone(), outf;
+    CallFilter(subfilter, copyf);
+    int off = -1;
+    int random_ = rand()%3;
+    off += random_;
+    cv::flip(copyf, outf, off);
+    collection.shiftFrames(outf);
+    Smooth(frame, &collection, false);
+    MedianBlend(frame);
+}
