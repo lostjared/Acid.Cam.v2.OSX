@@ -765,6 +765,7 @@ namespace ac {
     void SelfScaleByFrame(cv::Mat &frame);
     void SmoothMedianRotateSubFilter(cv::Mat &frame);
     void SmoothCollectionAlphaBlend(cv::Mat &frame);
+    void XorSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

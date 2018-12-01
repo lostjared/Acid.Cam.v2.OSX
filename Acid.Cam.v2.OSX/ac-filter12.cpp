@@ -944,3 +944,11 @@ void ac::SmoothCollectionAlphaBlend(cv::Mat &frame) {
     MedianBlur(frame);
     Xor(frame, copyf);
 }
+
+void ac::XorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "XorSubFilter")
+        return;
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    Xor(frame, copyf);
+}
