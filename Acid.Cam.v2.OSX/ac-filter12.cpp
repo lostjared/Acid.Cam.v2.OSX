@@ -933,3 +933,14 @@ void ac::SmoothMedianRotateSubFilter(cv::Mat &frame) {
     Smooth(frame, &collection, false);
     MedianBlend(frame);
 }
+
+void ac::SmoothCollectionAlphaBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copyf = frame.clone();
+    rainbowBlend(copyf);
+    Smooth(copyf, &collection);
+    BlendWithSource(copyf);
+    MedianBlur(frame);
+    MedianBlur(frame);
+    Xor(frame, copyf);
+}
