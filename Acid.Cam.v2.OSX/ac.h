@@ -766,6 +766,7 @@ namespace ac {
     void SmoothMedianRotateSubFilter(cv::Mat &frame);
     void SmoothCollectionAlphaBlend(cv::Mat &frame);
     void XorSubFilter(cv::Mat &frame);
+    void XorAlphaSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
