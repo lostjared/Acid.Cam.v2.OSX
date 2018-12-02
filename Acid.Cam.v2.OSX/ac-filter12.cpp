@@ -973,3 +973,21 @@ void ac::XorAlphaSubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
     AddInvert(frame);
 }
+
+
+void ac::BlurXorAlphaSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurXorAlphaSubFilter")
+        return;
+
+    cv::Mat copyf = frame.clone();
+    cv::Mat copyi = frame.clone();
+    MedianBlur(copyf);
+    MedianBlur(copyf);
+    CallFilter(subfilter, copyf);
+    MedianBlur(copyf);
+    MedianBlur(copyf);
+    Xor(copyi,copyf);
+    cv::Mat copye = frame.clone();
+    AlphaBlend(copyi, copye, frame, 0.5);
+    AddInvert(frame);
+}
