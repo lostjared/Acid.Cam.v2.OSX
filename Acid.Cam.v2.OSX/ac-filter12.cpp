@@ -971,4 +971,5 @@ void ac::XorAlphaSubFilter(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
