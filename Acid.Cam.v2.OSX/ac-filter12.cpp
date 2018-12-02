@@ -991,3 +991,13 @@ void ac::BlurXorAlphaSubFilter(cv::Mat &frame) {
     AlphaBlend(copyi, copye, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageXorFrame(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat copye = frame.clone();
+        cv::Mat copyf = frame.clone(), copyi;
+        cv::resize(blend_image, copyi, frame.size());
+        Xor(copyf, copyi);
+        AlphaBlend(copyf, copye, frame, 0.8);
+    }
+}
