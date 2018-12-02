@@ -769,6 +769,7 @@ namespace ac {
     void XorAlphaSubFilter(cv::Mat &frame);
     void BlurXorAlphaSubFilter(cv::Mat &frame);
     void ImageXorFrame(cv::Mat &frame);
+    void ImageXorFunction(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -1001,3 +1001,12 @@ void ac::ImageXorFrame(cv::Mat &frame) {
         AlphaBlend(copyf, copye, frame, 0.8);
     }
 }
+
+void ac::ImageXorFunction(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat image_resized;
+        cv::resize(blend_image, image_resized, frame.size());
+        Xor(frame, image_resized);
+    }
+}
+
