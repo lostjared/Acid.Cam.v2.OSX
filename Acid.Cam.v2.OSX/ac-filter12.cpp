@@ -999,6 +999,7 @@ void ac::ImageXorFrame(cv::Mat &frame) {
         cv::resize(blend_image, copyi, frame.size());
         Xor(copyf, copyi);
         AlphaBlend(copyf, copye, frame, 0.8);
+        AddInvert(frame);
     }
 }
 
@@ -1007,6 +1008,21 @@ void ac::ImageXorFunction(cv::Mat &frame) {
         cv::Mat image_resized;
         cv::resize(blend_image, image_resized, frame.size());
         Xor(frame, image_resized);
+        AddInvert(frame);
     }
 }
 
+void ac::ImageXorAlphaBlend(cv::Mat &frame) {
+    if(blend_set == true) {
+    	cv::Mat copyf = frame.clone();
+    	cv::Mat image_resized;
+    	cv::resize(blend_image, image_resized, frame.size());
+        Xor(copyf, image_resized);
+        static double alpha = 1.0, alpha_max = 4.0;
+        cv::Mat copyi = frame.clone();
+        AlphaBlend(copyf, copyi, frame, alpha);
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 4.1, 0.05);
+        AddInvert(frame);
+    }
+}
