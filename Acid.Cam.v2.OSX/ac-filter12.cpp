@@ -1042,18 +1042,15 @@ void ac::ImageAlphaXorMedianSubFilter(cv::Mat &frame) {
     }
 }
 
-void ac::ImageSmoothSubFilter(cv::Mat &frame) {
-    if(blend_set == true && subfilter != -1 && ac::draw_strings[subfilter] != "ImageSmoothSubFilter") {
-        static double alpha = 1.0, alpha_max = 3.0;
+void ac::ImageSmoothAlphaXorSubFilter(cv::Mat &frame) {
+    if(blend_set == true && subfilter != -1 && ac::draw_strings[subfilter] != "ImageSmoothAlphaXorSubFilter") {
         cv::Mat copyf = frame.clone(), copyi;
         cv::Mat copye = frame.clone();
         static MatrixCollection<8> collection;
+        CallFilter(subfilter, copyf);
         Smooth(copyf, &collection);
         cv::resize(blend_image, copyi, frame.size());
-        CallFilter(subfilter, copyf);
-        AlphaBlend(copyf,copyi, frame, alpha);
-        static int dir = 1;
+        AlphaBlend(copyf,copyi,frame,0.5);
         Xor(frame, copye);
-        procPos(dir, alpha, alpha_max, 3.1, 0.1);
     }
 }
