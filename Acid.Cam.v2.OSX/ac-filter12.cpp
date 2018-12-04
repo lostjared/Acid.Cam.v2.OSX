@@ -1026,3 +1026,18 @@ void ac::ImageXorAlphaBlend(cv::Mat &frame) {
         AddInvert(frame);
     }
 }
+
+void ac::ImageAlphaXorMedianSubFilter(cv::Mat &frame) {
+    if(blend_set == true && subfilter != -1 && ac::draw_strings[subfilter] != "ImageAlphaXorMedianSubFilter") {
+        static double alpha = 1.0, alpha_max = 4.0;
+        cv::Mat copyf = frame.clone(), copyi = frame.clone();
+        cv::Mat resized;
+        cv::resize(blend_image, resized, frame.size());
+        AlphaBlend(copyf, resized, frame, alpha);
+        CallFilter(subfilter, frame);
+        Xor(frame, copyi);
+        MedianBlend(frame);
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    }
+}
