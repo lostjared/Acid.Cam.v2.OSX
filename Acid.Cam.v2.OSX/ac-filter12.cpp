@@ -1054,3 +1054,28 @@ void ac::ImageSmoothAlphaXorSubFilter(cv::Mat &frame) {
         Xor(frame, copye);
     }
 }
+
+void ac::ImageXorMirrorFilter(cv::Mat &frame) {
+    if(blend_set == true) {
+    	cv::Mat copyf = frame.clone();
+        cv::Mat imgf;
+        cv::resize(blend_image, imgf, frame.size());
+    	for(int z = 0; z < frame.rows; ++z) {
+        	for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b frame_values[5], image_values[5];
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                frame_values[0] = pixel;
+                frame_values[1] = copyf.at<cv::Vec3b>(copyf.rows-z-1, copyf.cols-i-1);
+                frame_values[2] = copyf.at<cv::Vec3b>(z, copyf.cols-i-1);
+                frame_values[3] = copyf.at<cv::Vec3b>(copyf.rows-z-1, i);
+                image_values[0] = imgf.at<cv::Vec3b>(z, i);
+                image_values[1] = imgf.at<cv::Vec3b>(imgf.rows-z-1, imgf.cols-i-1);
+                image_values[2] = imgf.at<cv::Vec3b>(z, imgf.cols-i-1);
+                image_values[3] = imgf.at<cv::Vec3b>(imgf.rows-z-1, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = frame_values[0][j]^image_values[0][j] ^ frame_values[1][j]^image_values[1][j] ^ frame_values[2][j]^image_values[2][j] ^ frame_values[3][j]^image_values[3][j]^pixel[j];
+                }
+        	}
+    	}
+    }
+}
