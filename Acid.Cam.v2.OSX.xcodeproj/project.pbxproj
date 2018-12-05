@@ -14,6 +14,7 @@
 		7F5831E61E27F3CB00101A98 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F5831E41E27F3CB00101A98 /* AVFoundation.framework */; };
 		7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F5831E51E27F3CB00101A98 /* AVKit.framework */; };
 		7F7346832145AD4700F1A327 /* ac-filter11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F7346822145AD4700F1A327 /* ac-filter11.cpp */; };
+		7F98DA6E21B85C41003876C7 /* ac-filter13.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F98DA6D21B85C41003876C7 /* ac-filter13.cpp */; };
 		7F9D709617DE4F35009C54DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9D709517DE4F35009C54DA /* Cocoa.framework */; };
 		7F9D70A217DE4F35009C54DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70A117DE4F35009C54DA /* main.m */; };
 		7F9D70A617DE4F35009C54DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D70A417DE4F35009C54DA /* Credits.rtf */; };
@@ -104,6 +105,7 @@
 		7F5831E51E27F3CB00101A98 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		7F5831E81E27F3DA00101A98 /* libopencv_world.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_world.a; path = cvlibs/libopencv_world.a; sourceTree = "<group>"; };
 		7F7346822145AD4700F1A327 /* ac-filter11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter11.cpp"; path = "Acid.Cam.v2.OSX/ac-filter11.cpp"; sourceTree = "<group>"; };
+		7F98DA6D21B85C41003876C7 /* ac-filter13.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter13.cpp"; path = "Acid.Cam.v2.OSX/ac-filter13.cpp"; sourceTree = "<group>"; };
 		7F9D709217DE4F35009C54DA /* Acid.Cam.v2.OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Acid.Cam.v2.OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9D709517DE4F35009C54DA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7F9D709817DE4F35009C54DA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -254,6 +256,7 @@
 				7FC2145B2128DB08001EBDA3 /* ac-filter10.cpp */,
 				7F7346822145AD4700F1A327 /* ac-filter11.cpp */,
 				7F52A4A92197358B0032CCF3 /* ac-filter12.cpp */,
+				7F98DA6D21B85C41003876C7 /* ac-filter13.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -466,6 +469,7 @@
 				7F9D70F217DE4F7C009C54DA /* fractal.cpp in Sources */,
 				7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */,
 				7F9D711E17DE4F7C009C54DA /* videoprogram.mm in Sources */,
+				7F98DA6E21B85C41003876C7 /* ac-filter13.cpp in Sources */,
 				7FEE833020C45B0E0027A848 /* ac-filter3.cpp in Sources */,
 				7FEE833120C45B0E0027A848 /* ac-filter2.cpp in Sources */,
 				7F7346832145AD4700F1A327 /* ac-filter11.cpp in Sources */,
