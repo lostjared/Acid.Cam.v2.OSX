@@ -1039,6 +1039,7 @@ void ac::ImageAlphaXorMedianSubFilter(cv::Mat &frame) {
         MedianBlend(frame);
         static int dir = 1;
         procPos(dir, alpha, alpha_max, 4.1, 0.05);
+        AddInvert(frame);
     }
 }
 
@@ -1052,6 +1053,7 @@ void ac::ImageSmoothAlphaXorSubFilter(cv::Mat &frame) {
         cv::resize(blend_image, copyi, frame.size());
         AlphaBlend(copyf,copyi,frame,0.5);
         Xor(frame, copye);
+        AddInvert(frame);
     }
 }
 
@@ -1077,5 +1079,6 @@ void ac::ImageXorMirrorFilter(cv::Mat &frame) {
                 }
         	}
     	}
+        AddInvert(frame);
     }
 }
