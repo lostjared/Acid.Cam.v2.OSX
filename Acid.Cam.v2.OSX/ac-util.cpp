@@ -320,6 +320,13 @@ void ac::AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &outpu
     }
 }
 
+void ac::RealAlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha) {
+    if(one.size() != two.size()) {
+        return;
+    }
+    AlphaBlendDouble(one, two, output, alpha, 1-alpha);
+}
+
 void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha) {
     if(one.size() != two.size()) {
         return;
