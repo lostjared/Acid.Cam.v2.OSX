@@ -774,6 +774,7 @@ namespace ac {
     void ImageAlphaXorMedianSubFilter(cv::Mat &frame);
     void ImageSmoothAlphaXorSubFilter(cv::Mat &frame);
     void ImageXorMirrorFilter(cv::Mat &frame);
+    void ImageXorSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

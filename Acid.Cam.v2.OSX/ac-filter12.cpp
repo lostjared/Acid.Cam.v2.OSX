@@ -1082,3 +1082,33 @@ void ac::ImageXorMirrorFilter(cv::Mat &frame) {
         AddInvert(frame);
     }
 }
+
+void ac::ImageXorSubFilter(cv::Mat &frame) {
+    if(blend_set == true && subfilter != -1 && ac::draw_strings[subfilter] != "ImageXorSubFilter") {
+        cv::Mat copyf = frame.clone();
+        CallFilter(subfilter, copyf);
+        cv::Mat resized_blend;
+        cv::resize(blend_image, resized_blend, frame.size());
+        static double scale = 0.5;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = copyf.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix2 = resized_blend.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*scale) ^ static_cast<unsigned char>(pix1[j]*scale) ^ static_cast<unsigned char>(pix2[j]*scale);
+                }
+            }
+        }
+        static int dir = 1;
+        if(dir == 1) {
+            scale += 0.01;
+            if(scale >= 1.0)
+                dir = 0;
+        } else {
+            scale -= 0.01;
+            if(scale <= 0.5)
+                dir = 1;
+        }
+    }
+}
