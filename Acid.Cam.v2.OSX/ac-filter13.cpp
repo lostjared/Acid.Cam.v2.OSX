@@ -62,6 +62,7 @@ void ac::ImageAlphaXorSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SmoothTrailsBlend(cv::Mat &frame) {
@@ -70,6 +71,7 @@ void ac::SmoothTrailsBlend(cv::Mat &frame) {
     cv::Mat copyi = frame.clone();
     Smooth(copyf, &collection);
     AlphaBlend(copyf, copyi, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionRGBXor(cv::Mat &frame) {
@@ -93,4 +95,11 @@ void ac::MatrixCollectionRGBXor(cv::Mat &frame) {
         }
     }
     BlendWithSource(frame);
+    AddInvert(frame);
+}
+
+void ac::RainbowGlitch(cv::Mat &frame) {
+    SmoothTrailsBlend(frame);
+    MovementRGBTrails(frame);
+    AddInvert(frame);
 }
