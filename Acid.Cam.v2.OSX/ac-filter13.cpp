@@ -63,3 +63,11 @@ void ac::ImageAlphaXorSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::SmoothTrailsBlend(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    cv::Mat copyf = frame.clone();
+    cv::Mat copyi = frame.clone();
+    Smooth(copyf, &collection);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}
