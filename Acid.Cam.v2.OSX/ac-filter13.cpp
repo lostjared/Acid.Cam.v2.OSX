@@ -71,3 +71,26 @@ void ac::SmoothTrailsBlend(cv::Mat &frame) {
     Smooth(copyf, &collection);
     AlphaBlend(copyf, copyi, frame, 0.5);
 }
+
+void ac::MatrixCollectionRGBXor(cv::Mat &frame) {
+    static MatrixCollection<12> collection;
+    cv::Mat copyf = frame.clone();
+    MovementRGBTrails(copyf);
+    collection.shiftFrames(copyf);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Scalar sc;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    sc[j] += pix[j];
+            }
+            for(int j = 0; j < 3; ++j) {
+            	int val = static_cast<int>(sc[j]);
+                pixel[j] = pixel[j]^val;
+            }
+        }
+    }
+    BlendWithSource(frame);
+}
