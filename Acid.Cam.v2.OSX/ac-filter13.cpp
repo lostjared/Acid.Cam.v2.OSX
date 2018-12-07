@@ -89,7 +89,7 @@ void ac::MatrixCollectionRGBXor(cv::Mat &frame) {
                     sc[j] += pix[j];
             }
             for(int j = 0; j < 3; ++j) {
-            	int val = static_cast<int>(sc[j]);
+                int val = static_cast<int>(sc[j]);
                 pixel[j] = pixel[j]^val;
             }
         }
@@ -106,7 +106,7 @@ void ac::RainbowGlitch(cv::Mat &frame) {
 
 void ac::RainbowGlichStrobe(cv::Mat &frame) {
     SmoothTrailsBlend(frame);
-     MovementRGBTrails(frame);
+    MovementRGBTrails(frame);
     static bool negate = true;
     if(negate == true) {
         Negate(frame);
@@ -114,5 +114,16 @@ void ac::RainbowGlichStrobe(cv::Mat &frame) {
     } else {
         negate = true;
     }
+    AddInvert(frame);
+}
+
+void ac::NegateSwitchStrobe(cv::Mat &frame) {
+    static bool strobe_value = true;
+    if(strobe_value == true) {
+        Negate(frame);
+        strobe_value = false;
+    } else
+        strobe_value = true;
+    
     AddInvert(frame);
 }
