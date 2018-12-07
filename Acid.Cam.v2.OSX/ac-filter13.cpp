@@ -103,3 +103,16 @@ void ac::RainbowGlitch(cv::Mat &frame) {
     MovementRGBTrails(frame);
     AddInvert(frame);
 }
+
+void ac::RainbowGlichStrobe(cv::Mat &frame) {
+    SmoothTrailsBlend(frame);
+     MovementRGBTrails(frame);
+    static bool negate = true;
+    if(negate == true) {
+        Negate(frame);
+        negate = false;
+    } else {
+        negate = true;
+    }
+    AddInvert(frame);
+}
