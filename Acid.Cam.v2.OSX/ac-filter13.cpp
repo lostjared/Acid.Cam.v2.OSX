@@ -139,4 +139,13 @@ void ac::StrobeAlphaShuffle(cv::Mat &frame) {
         neg_ = true;
     }
     AlphaBlend(copyf, copyi, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::ShuffleAlphaWithRGB(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ShuffleAlpha(copy1);
+    ShuffleRGB(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
