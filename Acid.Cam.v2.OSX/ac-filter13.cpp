@@ -127,3 +127,16 @@ void ac::NegateSwitchStrobe(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::StrobeAlphaShuffle(cv::Mat &frame) {
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    ShuffleAlpha(copyf);
+    static bool neg_ = true;
+    if(neg_ == true) {
+        Negate(copyf);
+        neg_ = false;
+    } else {
+        neg_ = true;
+    }
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}

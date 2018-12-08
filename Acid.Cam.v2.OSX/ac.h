@@ -781,6 +781,7 @@ namespace ac {
     void RainbowGlitch(cv::Mat &frame);
     void RainbowGlichStrobe(cv::Mat &frame);
     void NegateSwitchStrobe(cv::Mat &frame);
+    void StrobeAlphaShuffle(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
