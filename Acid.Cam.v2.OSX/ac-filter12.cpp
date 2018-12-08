@@ -910,7 +910,7 @@ void ac::SelfScaleByFrame(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i  = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = collection.frames[1].at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[3].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j] ^ pix[j];
             }
