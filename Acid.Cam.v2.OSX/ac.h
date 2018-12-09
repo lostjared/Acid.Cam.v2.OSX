@@ -783,6 +783,7 @@ namespace ac {
     void NegateSwitchStrobe(cv::Mat &frame);
     void StrobeAlphaShuffle(cv::Mat &frame);
     void ShuffleAlphaWithRGB(cv::Mat &frame);
+    void ShuffleAlphaSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
