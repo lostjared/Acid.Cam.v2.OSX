@@ -67,6 +67,11 @@ void ac::ApplyColorMap(cv::Mat &frame) {
     }
 }
 
+void ac::setColorMap(int map, cv::Mat &frame) {
+    cv::Mat output_f1 = frame.clone();
+    cv::applyColorMap(output_f1, frame, (int)map);
+}
+
 // set cv::Mat brightness
 void ac::setBrightness(cv::Mat &frame, double alpha, int beta) {
     cv::Mat c = frame.clone();

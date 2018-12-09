@@ -158,3 +158,15 @@ void ac::ShuffleAlphaSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copyi);
     AlphaBlend(copyf, copyi, frame, 0.5);
 }
+
+void ac::ShuffleColorMap(cv::Mat &frame) {
+    static int index = 0;
+    static std::vector<int> v{0,1,2,3,4,5,6,7,8,9,10,11};
+    static auto rng = std::default_random_engine{};
+    ac::setColorMap(v[index], frame);
+    ++index;
+    if(index > v.size()-1) {
+        index = 0;
+        std::shuffle(v.begin(), v.end(),rng);
+    }
+}
