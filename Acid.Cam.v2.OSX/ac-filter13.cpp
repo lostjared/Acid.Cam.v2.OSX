@@ -157,6 +157,7 @@ void ac::ShuffleAlphaSubFilter(cv::Mat &frame) {
     ShuffleAlpha(copyf);
     CallFilter(subfilter, copyi);
     AlphaBlend(copyf, copyi, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::ShuffleColorMap(cv::Mat &frame) {
@@ -169,4 +170,5 @@ void ac::ShuffleColorMap(cv::Mat &frame) {
         index = 0;
         std::shuffle(v.begin(), v.end(),rng);
     }
+    AddInvert(frame);
 }
