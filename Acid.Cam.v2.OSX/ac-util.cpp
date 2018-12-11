@@ -572,3 +572,10 @@ unsigned char ac::size_reset(long val) {
     if(val >= 255 || val <= 0) return rand()%255;
     return val;
 }
+
+void ac::blendFilterWithColorMap(int filter, int map, cv::Mat &frame) {
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    setColorMap(map, copyf);
+    CallFilter(filter, copyf);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}

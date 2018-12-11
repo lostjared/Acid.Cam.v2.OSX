@@ -786,6 +786,7 @@ namespace ac {
     void ShuffleAlphaSubFilter(cv::Mat &frame);
     void ShuffleColorMap(cv::Mat &frame);
     void BlendWithRainbowSubFilter(cv::Mat &frame);
+    void BlendWithJetSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -838,6 +839,7 @@ namespace ac {
     void Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_array);
     void AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v);
     void setColorMap(int map, cv::Mat &frame);
+    void blendFilterWithColorMap(int filter, int map, cv::Mat &frame);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;

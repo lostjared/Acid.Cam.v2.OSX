@@ -176,8 +176,11 @@ void ac::ShuffleColorMap(cv::Mat &frame) {
 void ac::BlendWithRainbowSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendWithRainbowSubFilter")
         return;
-    cv::Mat copyf = frame.clone(), copyi = frame.clone();
-    setColorMap(4, copyf);
-    CallFilter(subfilter, copyf);
-    AlphaBlend(copyf, copyi, frame, 0.5);
+    blendFilterWithColorMap(subfilter, 4, frame);
+}
+
+void ac::BlendWithJetSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendWithJetSubFilter")
+        return;
+    blendFilterWithColorMap(subfilter, 2, frame);
 }
