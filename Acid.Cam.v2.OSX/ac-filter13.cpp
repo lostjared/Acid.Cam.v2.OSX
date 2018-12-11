@@ -177,10 +177,12 @@ void ac::BlendWithRainbowSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendWithRainbowSubFilter")
         return;
     blendFilterWithColorMap(subfilter, 4, frame);
+    AddInvert(frame);
 }
 
 void ac::BlendWithJetSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendWithJetSubFilter")
         return;
     blendFilterWithColorMap(subfilter, 2, frame);
+    AddInvert(frame);
 }
