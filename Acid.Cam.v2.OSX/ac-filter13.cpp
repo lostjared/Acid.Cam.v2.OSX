@@ -172,3 +172,12 @@ void ac::ShuffleColorMap(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::BlendWithRainbowSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendWithRainbowSubFilter")
+        return;
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    setColorMap(4, copyf);
+    CallFilter(subfilter, copyf);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}

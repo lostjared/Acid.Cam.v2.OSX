@@ -785,6 +785,7 @@ namespace ac {
     void ShuffleAlphaWithRGB(cv::Mat &frame);
     void ShuffleAlphaSubFilter(cv::Mat &frame);
     void ShuffleColorMap(cv::Mat &frame);
+    void BlendWithRainbowSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
