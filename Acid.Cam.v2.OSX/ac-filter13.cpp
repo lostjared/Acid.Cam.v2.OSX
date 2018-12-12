@@ -186,3 +186,15 @@ void ac::BlendWithJetSubFilter(cv::Mat &frame) {
     blendFilterWithColorMap(subfilter, 2, frame);
     AddInvert(frame);
 }
+
+void ac::ColormapBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ColormapBlendSubFilter")
+        return;
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    setColorMap(rand()%6, copyf);
+    setColorMap(rand()%6, copyi);
+    RGBColorTrails(copyi);
+    CallFilter(subfilter, copyf);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+    AddInvert(frame);
+}
