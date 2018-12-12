@@ -191,8 +191,8 @@ void ac::ColormapBlendSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "ColormapBlendSubFilter")
         return;
     cv::Mat copyf = frame.clone(), copyi = frame.clone();
-    setColorMap(rand()%6, copyf);
-    setColorMap(rand()%6, copyi);
+    setColorMap(rand()%11, copyf);
+    setColorMap(rand()%11, copyi);
     RGBColorTrails(copyi);
     CallFilter(subfilter, copyf);
     AlphaBlend(copyf, copyi, frame, 0.5);
