@@ -203,3 +203,13 @@ void ac::RandomColorMap(cv::Mat &frame) {
     setColorMap(rand()%11, frame);
     
 }
+
+void ac::SmoothMirrorBlurFlip(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    SmoothTrailsBlend(copy1);
+    MirrorBitwiseXor(copy1);
+    SmoothTrailsBlend(copy2);
+    BlurFlip(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+}
