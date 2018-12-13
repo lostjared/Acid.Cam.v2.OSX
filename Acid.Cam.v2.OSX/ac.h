@@ -788,6 +788,7 @@ namespace ac {
     void BlendWithRainbowSubFilter(cv::Mat &frame);
     void BlendWithJetSubFilter(cv::Mat &frame);
     void ColormapBlendSubFilter(cv::Mat &frame);
+    void RandomColorMap(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

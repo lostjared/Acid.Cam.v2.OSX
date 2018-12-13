@@ -198,3 +198,7 @@ void ac::ColormapBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(copyf, copyi, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::RandomColorMap(cv::Mat &frame) {
+    setColorMap(rand()%11, frame);
+}
