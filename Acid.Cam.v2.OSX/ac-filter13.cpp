@@ -201,4 +201,5 @@ void ac::ColormapBlendSubFilter(cv::Mat &frame) {
 
 void ac::RandomColorMap(cv::Mat &frame) {
     setColorMap(rand()%11, frame);
+    
 }

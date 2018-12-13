@@ -307,6 +307,7 @@ void SearchForString(NSString *s) {
     [self reloadCameraInfo: self];
     upscale_video = false;
     [up4k setEnabled: YES];
+    [record_op setEnabled: YES];
     set_frame_rate = false;
     set_frame_rate_val = 24;
     reset_memory = false;
@@ -582,6 +583,8 @@ void SearchForString(NSString *s) {
     [menuPaused setEnabled: NO];
     [menu_freeze setEnabled: NO];
     
+    [record_op setEnabled: YES];
+    
     if([videoFileInput integerValue] == 0) {
         [up4k setEnabled: NO];
     } else {
@@ -718,6 +721,7 @@ void SearchForString(NSString *s) {
         std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
         [menuPaused setEnabled: YES];
         [up4k setEnabled: NO];
+        [record_op setEnabled: NO];
         ac::reset_filter = true;
         
         if(camera_mode == 1)
