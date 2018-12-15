@@ -293,4 +293,7 @@ void ac::MirrorOrderSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     MirrorOrder(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    SmoothTrailsBlend(frame);
+    DarkenImage(frame, 4);
+    MedianBlend(frame);
 }
