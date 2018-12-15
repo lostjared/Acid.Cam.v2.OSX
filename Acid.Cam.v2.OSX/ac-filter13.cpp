@@ -241,27 +241,7 @@ void ac::RandomOrder(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &cur = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b temp = cur;
-            switch(color_order) {
-                case 1: // RGB
-                    cur[0] = temp[2];
-                    cur[1] = temp[1];
-                    cur[2] = temp[0];
-                    break;
-                case 2:// GBR
-                    cur[0] = temp[1];
-                    cur[1] = temp[0];
-                    break;
-                case 3:// BRG
-                    cur[1] = temp[2];
-                    cur[2] = temp[1];
-                    break;
-                case 4: // GRB
-                    cur[0] = temp[1];
-                    cur[1] = temp[2];
-                    cur[2] = temp[0];
-                    break;
-            }
+            SwitchOrder(cur, color_order);
         }
     }
     AddInvert(frame);
@@ -282,7 +262,6 @@ void ac::RandomOrderMedianBlendSubFilter(cv::Mat &frame) {
 void ac::MirrorOrder(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     static int index = 0;
-    Negate(frame);
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
