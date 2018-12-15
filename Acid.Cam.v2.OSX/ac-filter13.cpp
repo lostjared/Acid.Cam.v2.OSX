@@ -201,7 +201,7 @@ void ac::ColormapBlendSubFilter(cv::Mat &frame) {
 
 void ac::RandomColorMap(cv::Mat &frame) {
     setColorMap(rand()%11, frame);
-    
+    AddInvert(frame);
 }
 
 void ac::SmoothMirrorBlurFlip(cv::Mat &frame) {
@@ -212,6 +212,7 @@ void ac::SmoothMirrorBlurFlip(cv::Mat &frame) {
     BlurFlip(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::RandomColorMapAlphaBlendSubFilter(cv::Mat &frame) {
@@ -224,6 +225,7 @@ void ac::RandomColorMapAlphaBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.005);
+    AddInvert(frame);
 }
 
 void ac::RandomOrder(cv::Mat &frame) {
@@ -262,4 +264,16 @@ void ac::RandomOrder(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
+}
+
+void ac::RandomOrderMedianBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomOrderMedianBlendSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    RandomOrder(frame);
+    AddInvert(frame);
 }
