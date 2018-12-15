@@ -214,11 +214,14 @@ void ac::SmoothMirrorBlurFlip(cv::Mat &frame) {
     MedianBlend(frame);
 }
 
-void ac::RandomColorMapSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomColorMapSubFilter")
+void ac::RandomColorMapAlphaBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomColorMapAlphaBlendSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     RandomColorMap(copy1);
     CallFilter(subfilter, copy1);
-    AlphaBlend(copy1, copy2, frame, 0.5);
+    static double alpha = 1.0, alpha_max = 4.0;
+    AlphaBlend(copy1, copy2, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.005);
 }
