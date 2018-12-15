@@ -271,7 +271,6 @@ void ac::MirrorOrder(cv::Mat &frame) {
             pix[2] = copy1.at<cv::Vec3b>(copy1.rows-z-1, copy1.cols-i-1);
             pix[3] = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
             pix[4] = copy1.at<cv::Vec3b>(z+1, i+1);
-            
             for(int j = 0; j < 3; ++j)
                 SwitchOrder(pix[j], index);
             
@@ -285,4 +284,13 @@ void ac::MirrorOrder(cv::Mat &frame) {
         index = 1;
     
     AddInvert(frame);
+}
+
+void ac::MirrorOrderSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MirrorOrderSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    MirrorOrder(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
 }

@@ -794,6 +794,7 @@ namespace ac {
     void RandomOrder(cv::Mat &frame);
     void RandomOrderMedianBlendSubFilter(cv::Mat &frame);
     void MirrorOrder(cv::Mat &frame);
+    void MirrorOrderSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
