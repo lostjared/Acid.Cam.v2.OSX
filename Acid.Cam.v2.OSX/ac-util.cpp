@@ -579,3 +579,27 @@ void ac::blendFilterWithColorMap(int filter, int map, cv::Mat &frame) {
     CallFilter(filter, copyf);
     AlphaBlend(copyf, copyi, frame, 0.5);
 }
+
+void ac::SwitchOrder(cv::Vec3b &cur, int color_order) {
+    cv::Vec3b temp = cur;
+    switch(color_order) {
+        case 1: // RGB
+            cur[0] = temp[2];
+            cur[1] = temp[1];
+            cur[2] = temp[0];
+            break;
+        case 2:// GBR
+            cur[0] = temp[1];
+            cur[1] = temp[0];
+            break;
+        case 3:// BRG
+            cur[1] = temp[2];
+            cur[2] = temp[1];
+            break;
+        case 4: // GRB
+            cur[0] = temp[1];
+            cur[1] = temp[2];
+            cur[2] = temp[0];
+            break;
+    }
+}

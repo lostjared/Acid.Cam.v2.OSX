@@ -793,6 +793,7 @@ namespace ac {
     void RandomColorMapAlphaBlendSubFilter(cv::Mat &frame);
     void RandomOrder(cv::Mat &frame);
     void RandomOrderMedianBlendSubFilter(cv::Mat &frame);
+    void MirrorOrder(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -846,6 +847,7 @@ namespace ac {
     void AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v);
     void setColorMap(int map, cv::Mat &frame);
     void blendFilterWithColorMap(int filter, int map, cv::Mat &frame);
+    void SwitchOrder(cv::Vec3b &frame, int order);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;

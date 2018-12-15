@@ -277,3 +277,33 @@ void ac::RandomOrderMedianBlendSubFilter(cv::Mat &frame) {
     RandomOrder(frame);
     AddInvert(frame);
 }
+
+
+void ac::MirrorOrder(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int index = 0;
+    Negate(frame);
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[6];
+            pix[0] = copy1.at<cv::Vec3b>(z, i);
+            pix[1] = copy1.at<cv::Vec3b>(copy1.rows-z-1, i);
+            pix[2] = copy1.at<cv::Vec3b>(copy1.rows-z-1, copy1.cols-i-1);
+            pix[3] = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
+            pix[4] = copy1.at<cv::Vec3b>(z+1, i+1);
+            
+            for(int j = 0; j < 3; ++j)
+                SwitchOrder(pix[j], index);
+            
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j] ^ pix[4][j] ^ pixel[j];
+            }
+        }
+    }
+    ++index;
+    if(index > 4)
+        index = 1;
+    
+    AddInvert(frame);
+}
