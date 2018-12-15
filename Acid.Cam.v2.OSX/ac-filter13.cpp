@@ -225,3 +225,41 @@ void ac::RandomColorMapAlphaBlendSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.005);
 }
+
+void ac::RandomOrder(cv::Mat &frame) {
+    int color_order = 0;
+    static std::vector<int> colors { 1,2,3,4 };
+    static auto rng = std::default_random_engine{};
+    static int index = static_cast<int>(colors.size()+1);
+    if(index > colors.size()) {
+        std::shuffle(colors.begin(), colors.end(),rng);
+        index = 0;
+    }
+    color_order = colors[index++];
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &cur = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b temp = cur;
+            switch(color_order) {
+                case 1: // RGB
+                    cur[0] = temp[2];
+                    cur[1] = temp[1];
+                    cur[2] = temp[0];
+                    break;
+                case 2:// GBR
+                    cur[0] = temp[1];
+                    cur[1] = temp[0];
+                    break;
+                case 3:// BRG
+                    cur[1] = temp[2];
+                    cur[2] = temp[1];
+                    break;
+                case 4: // GRB
+                    cur[0] = temp[1];
+                    cur[1] = temp[2];
+                    cur[2] = temp[0];
+                    break;
+            }
+        }
+    }
+}

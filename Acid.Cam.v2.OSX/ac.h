@@ -791,6 +791,7 @@ namespace ac {
     void RandomColorMap(cv::Mat &frame);
     void SmoothMirrorBlurFlip(cv::Mat &frame);
     void RandomColorMapAlphaBlendSubFilter(cv::Mat &frame);
+    void RandomOrder(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
