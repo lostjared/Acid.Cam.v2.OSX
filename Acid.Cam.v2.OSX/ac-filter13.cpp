@@ -331,3 +331,34 @@ void ac::BlurMirrorOrder(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::AveragePixelMirror(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    static int index = 0;
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[6];
+            pix[0] = copy1.at<cv::Vec3b>(z, i);
+            pix[1] = copy1.at<cv::Vec3b>(copy1.rows-z-1, i);
+            pix[2] = copy1.at<cv::Vec3b>(copy1.rows-z-1, copy1.cols-i-1);
+            pix[3] = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
+            cv::Scalar s;
+            for(int i = 0; i < 5; ++i) {
+                for(int j = 0; j < 3; ++j) {
+                    s[j] += pix[i][j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                s[j] /= 4;
+                unsigned int value = static_cast<unsigned int>(s[j]);
+                pixel[j] = pixel[j]^value;
+            }
+        }
+    }
+    ++index;
+    if(index > 4)
+        index = 1;
+}

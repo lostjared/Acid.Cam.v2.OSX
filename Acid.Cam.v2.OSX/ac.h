@@ -796,6 +796,7 @@ namespace ac {
     void MirrorOrder(cv::Mat &frame);
     void MirrorOrderSubFilter(cv::Mat &frame);
     void BlurMirrorOrder(cv::Mat &frame);
+    void AveragePixelMirror(cv::Mat &frames);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
