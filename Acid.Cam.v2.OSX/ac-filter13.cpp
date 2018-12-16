@@ -296,4 +296,38 @@ void ac::MirrorOrderSubFilter(cv::Mat &frame) {
     SmoothTrailsBlend(frame);
     DarkenImage(frame, 4);
     MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::BlurMirrorOrder(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    static double alpha = 1.0, alpha_max = 4.0;
+    static int index = 0;
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[6];
+            pix[0] = copy1.at<cv::Vec3b>(z, i);
+            pix[1] = copy1.at<cv::Vec3b>(copy1.rows-z-1, i);
+            pix[2] = copy1.at<cv::Vec3b>(copy1.rows-z-1, copy1.cols-i-1);
+            pix[3] = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
+            pix[4] = copy1.at<cv::Vec3b>(z+1, i+1);
+            for(int j = 0; j < 3; ++j)
+                SwitchOrder(pix[j], index);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(((pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j] ^ pix[4][j] ^ pixel[j])/8) * alpha);
+            }
+        }
+    }
+    ++index;
+    if(index > 4)
+        index = 1;
+    
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    MedianBlend(frame);
+    AddInvert(frame);
 }
