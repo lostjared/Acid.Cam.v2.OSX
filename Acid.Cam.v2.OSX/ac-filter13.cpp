@@ -385,3 +385,17 @@ void ac::MirrorOrderStrobe(cv::Mat &frame) {
         flash = true;
     }
 }
+
+void ac::FilterStrobeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FilterStrobeSubFilter")
+        return;
+    static bool flash = true;
+    if(flash == true) {
+        CallFilter(subfilter, frame);
+        Negate(frame);
+        flash = false;
+    } else {
+        flash = true;
+        CallFilter(subfilter, frame);
+    }
+}
