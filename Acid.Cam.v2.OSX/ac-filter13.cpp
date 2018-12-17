@@ -362,4 +362,14 @@ void ac::AveragePixelMirror(cv::Mat &frame) {
     ++index;
     if(index > 4)
         index = 1;
+    AddInvert(frame);
+}
+
+void ac::ShuffleAlphaMedianBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ShuffleAlpha(copy1);
+    ShuffleAlpha(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
 }
