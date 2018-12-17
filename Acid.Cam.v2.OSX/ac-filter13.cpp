@@ -373,3 +373,15 @@ void ac::ShuffleAlphaMedianBlend(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::MirrorOrderStrobe(cv::Mat &frame) {
+    static bool flash = true;
+    if(flash == true) {
+        MirrorOrder(frame);
+        Negate(frame);
+        flash = false;
+    } else {
+        MirrorOrder(frame);
+        flash = true;
+    }
+}
