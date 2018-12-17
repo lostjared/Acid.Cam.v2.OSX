@@ -374,16 +374,12 @@ void ac::ShuffleAlphaMedianBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::MirrorOrderStrobe(cv::Mat &frame) {
-    static bool flash = true;
-    if(flash == true) {
-        MirrorOrder(frame);
-        Negate(frame);
-        flash = false;
-    } else {
-        MirrorOrder(frame);
-        flash = true;
-    }
+void ac::MirrorOrderAlpha(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorOrder(copy1);
+    MirrorXorAll(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
 }
 
 void ac::FilterStrobeSubFilter(cv::Mat &frame) {
@@ -398,4 +394,5 @@ void ac::FilterStrobeSubFilter(cv::Mat &frame) {
         flash = true;
         CallFilter(subfilter, frame);
     }
+    AddInvert(frame);
 }
