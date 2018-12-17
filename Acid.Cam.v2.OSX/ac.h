@@ -800,6 +800,7 @@ namespace ac {
     void ShuffleAlphaMedianBlend(cv::Mat &frame);
     void MirrorOrderAlpha(cv::Mat &frame);
     void FilterStrobeSubFilter(cv::Mat &frame);
+    void ImageSubtractMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

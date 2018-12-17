@@ -396,3 +396,21 @@ void ac::FilterStrobeSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageSubtractMedianBlend(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat image1;
+        cv::resize(blend_image, image1, frame.size());
+        for(int z  = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = image1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] -= (pixel[j] ^ pix[j])/6;
+                }
+            }
+        }
+        MedianBlend(frame);
+    }
+    AddInvert(frame);
+}
