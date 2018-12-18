@@ -313,6 +313,7 @@ void SearchForString(NSString *s) {
     reset_memory = false;
     syphon_enabled = NO;
     [self setColorValuesRange:self];
+    user_menu = [[NSMenu alloc] init];
     /*
      
      std::vector<std::string> valz;
@@ -507,7 +508,11 @@ void SearchForString(NSString *s) {
 
 - (IBAction) customMenuSelected:(id) sender {
     NSInteger index = [categories_custom indexOfSelectedItem];
-    [current_filter_custom setMenu: menu_items_custom[index]];
+    if(index == 14) {
+        [current_filter_custom setMenu: user_menu];
+    } else {
+    	[current_filter_custom setMenu: menu_items_custom[index]];
+    }
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -2224,6 +2229,17 @@ void SearchForString(NSString *s) {
     user_filter[fname].list = [[NSMutableArray alloc] initWithArray: custom_array copyItems:YES];
     user_filter[fname].sublist = [[NSMutableArray alloc] initWithArray: custom_subfilters copyItems:YES];
     
+    if(user_menu != nil)
+        [user_menu release];
+    
+    user_menu = [[NSMenu alloc] init];
+    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+         [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
+    }
+    NSInteger index = [categories_custom indexOfSelectedItem];
+    if(index == 14) {
+	     [current_filter_custom setMenu: user_menu];
+    }
 }
 - (IBAction) user_Save: (id) sender {
     

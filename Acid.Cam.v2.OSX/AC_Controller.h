@@ -144,6 +144,7 @@ extern void SearchForString(NSString *s);
     IBOutlet NSComboBox *user_filter_name;
     IBOutlet NSButton *user_filter_add, *user_filter_remove,*user_filter_set, *user_filter_save;
     SearchController *search_controller;
+    NSMenu *user_menu;
     NSThread *proc_cv;
     // variables
     bool reset_memory;
