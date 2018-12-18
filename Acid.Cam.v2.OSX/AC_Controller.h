@@ -254,7 +254,8 @@ extern void SearchForString(NSString *s);
 - (IBAction) user_Set: (id) sender;
 - (IBAction) user_Save: (id) sender;
 - (IBAction) user_Load: (id) sender;
-- (IBAction) user_Remove: (id) sender;
+- (IBAction) user_Clear: (id) sender;
+- (void) loadMenuList;
 @end
 
 class UserFilter {

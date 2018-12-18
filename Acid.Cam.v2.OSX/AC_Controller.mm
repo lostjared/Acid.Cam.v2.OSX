@@ -510,7 +510,9 @@ void SearchForString(NSString *s) {
 - (IBAction) customMenuSelected:(id) sender {
     NSInteger index = [categories_custom indexOfSelectedItem];
     if(index == 14) {
-        [current_filter_custom setMenu: user_menu];
+        if([user_menu numberOfItems] > 0)
+        	[current_filter_custom setMenu: user_menu];
+        
     } else {
     	[current_filter_custom setMenu: menu_items_custom[index]];
     }
@@ -2264,18 +2266,7 @@ void SearchForString(NSString *s) {
     user_filter[fval_name].other_name = fname;
     user_filter[fname].index = ac::filter_map[fval_name];
     ac::filter_map[fname] = ac::filter_map[fval_name];
-    if(user_menu != nil)
-        [user_menu release];
-    
-    user_menu = [[NSMenu alloc] init];
-    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-        if(i->second.index != 1)
-         	[user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
-    }
-    NSInteger index_value = [categories_custom indexOfSelectedItem];
-    if(index_value == 14) {
-	     [current_filter_custom setMenu: user_menu];
-    }
+    [self loadMenuList];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     [user_filter_name addItemWithObjectValue:sval];
     [user_filter_name setStringValue:@""];
@@ -2301,34 +2292,31 @@ void SearchForString(NSString *s) {
         file.close();
     }
 }
+
+- (IBAction) user_Clear: (id) sender {
+    if(!user_filter.empty()) {
+        user_filter.erase(user_filter.begin(), user_filter.end());
+        [user_filter_name removeAllItems];
+        [self loadMenuList];
+    }
+}
+
 - (IBAction) user_Load: (id) sender {
     
 }
-- (IBAction) user_Remove: (id) sender {
-    NSString *fval = [user_filter_name stringValue];
-    std::string fname = [fval UTF8String];
-    auto pos = user_filter.find(fname);
-    NSInteger user_index = [user_filter_name indexOfSelectedItem];
-    if(pos != user_filter.end()) {
-        user_filter.erase(pos);
-        [user_filter_name setStringValue:@""];
-        if(user_menu != nil)
-            [user_menu release];
-        NSInteger index_value = [categories_custom indexOfSelectedItem];
-        user_menu = [[NSMenu alloc] init];
-        for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-            if(i->second.index != 1)
-                [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
-        }
-        if(index_value == 14) {
-            [current_filter_custom setMenu: user_menu];
-        }
-        [user_filter_name removeItemAtIndex:user_index];
-    } else {
-        _NSRunAlertPanel(@"Filter alias not found use a valid name", @"Set the alias name", @"Ok", nil, nil);
-        return;
+
+- (void) loadMenuList {
+    if(user_menu != nil)
+        [user_menu release];
+    NSInteger index_value = [categories_custom indexOfSelectedItem];
+    user_menu = [[NSMenu alloc] init];
+    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+        if(i->second.index != 1)
+            [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
     }
-    [table_view reloadData];
+    if(index_value == 14 && [user_menu numberOfItems] > 0) {
+        [current_filter_custom setMenu: user_menu];
+    }
 }
 
 @end
