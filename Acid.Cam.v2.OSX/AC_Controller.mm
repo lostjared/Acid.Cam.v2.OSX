@@ -378,6 +378,7 @@ void SearchForString(NSString *s) {
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"SubFilter" action: nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"User" action:nil keyEquivalent:@""];
     
     for(int i = 1; i < 14; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
@@ -2202,17 +2203,48 @@ void SearchForString(NSString *s) {
     
 }
 
+- (IBAction) user_Set: (id) sender {
+    NSString *s = [user_filter_name stringValue];
+    if([s length] == 0) {
+        _NSRunAlertPanel(@"User defined requires a valid name", @"Error forgot to set name", @"Ok", nil, nil);
+        return;
+    }
+    std::string fname = [s UTF8String];
+    
+    if(ac::filter_map.find(fname) != ac::filter_map.end()) {
+        _NSRunAlertPanel(@"Please Select a User filter name", @"That is not one of the built in filters", @"Ok", nil, nil);
+        return;
+    }
+    
+    if(user_filter[fname].list != nil)
+        [user_filter[fname].list release];
+    if(user_filter[fname].sublist != nil)
+        [user_filter[fname].sublist release];
+    
+    user_filter[fname].list = [[NSMutableArray alloc] initWithArray: custom_array copyItems:YES];
+    user_filter[fname].sublist = [[NSMutableArray alloc] initWithArray: custom_subfilters copyItems:YES];
+    
+}
+- (IBAction) user_Save: (id) sender {
+    
+}
+- (IBAction) user_Remove: (id) sender {
+    
+}
+
 @end
 
-void custom_filter(cv::Mat &frame) {
+std::unordered_map<std::string, UserFilter> user_filter;
+
+void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist) {
     ac::in_custom = true;
-    for(NSInteger i = 0; i < [custom_array count]; ++i) {
-        if(i == [custom_array count]-1)
+    for(NSInteger i = 0; i < [listval count]; ++i) {
+        if(i == [listval count]-1)
             ac::in_custom = false;
         NSNumber *num, *fval_;
         @try {
-            num = [custom_array objectAtIndex:i];
-            fval_ = [custom_subfilters objectAtIndex: i];
+            num = [listval objectAtIndex:i];
+            fval_ = [sublist objectAtIndex: i];
             NSInteger index = [num integerValue];
             if(ac::testSize(frame)) {
                 ac::setSubFilter(static_cast<int>([fval_ integerValue]));
@@ -2224,6 +2256,12 @@ void custom_filter(cv::Mat &frame) {
     }
     ac::in_custom = false;
     ac::clearSubFilter();
+}
+
+
+
+void custom_filter(cv::Mat &frame) {
+    CustomFilter(frame, custom_array, custom_subfilters);
 }
 
 void setSliders(long frame_count) {

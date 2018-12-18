@@ -53,6 +53,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #undef check
 #include"videocapture.h"
 #include<sstream>
+#include<string>
+#include<unordered_map>
 #include "AC_Renderer.h"
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
@@ -139,6 +141,8 @@ extern void SearchForString(NSString *s);
     IBOutlet NSWindow *block_colors_window;
     IBOutlet NSTextField *val_colorkey_r_low, *val_colorkey_r_high, *val_colorkey_g_low, *val_colorkey_g_high, *val_colorkey_b_low, *val_colorkey_b_high;
     IBOutlet NSButton *key_tolerance, *key_range, *chk_blocked_replace, *chk_blocked_key, *chk_spill;
+    IBOutlet NSComboBox *user_filter_name;
+    IBOutlet NSButton *user_filter_add, *user_filter_remove,*user_filter_set, *user_filter_save;
     SearchController *search_controller;
     NSThread *proc_cv;
     // variables
@@ -246,7 +250,19 @@ extern void SearchForString(NSString *s);
 - (IBAction) addToTolerance: (id) sender;
 - (IBAction) setCheckBoxBlocked: (id) sender;
 - (IBAction) setCheckBoxImage: (id) sender;
+- (IBAction) user_Set: (id) sender;
+- (IBAction) user_Save: (id) sender;
+- (IBAction) user_Remove: (id) sender;
 @end
+
+class UserFilter {
+public:
+    NSMutableArray *list, *sublist;
+    UserFilter() : list(nil), sublist(nil) {}
+};
+
+extern std::unordered_map<std::string, UserFilter> user_filter;
+void CustomFilter(cv::Mat &frame, NSMutableArray *list, NSMutableArray *sublist);
 
 // global variables / functions
 extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);
