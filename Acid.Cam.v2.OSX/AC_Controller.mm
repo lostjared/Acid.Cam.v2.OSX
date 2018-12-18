@@ -2248,10 +2248,10 @@ void SearchForString(NSString *s) {
         return;
     }
     if(fval_name.find("SubFilter") != std::string::npos) {
-        fname += "SubFilter";
+        fname += "_SubFilter";
     }
     if(fval_name.find("Image") != std::string::npos) {
-        fname += "Image";
+        fname += "_Image";
     }
     user_filter[fval_name].index = 1;
     user_filter[fval_name].name = fval_name;
