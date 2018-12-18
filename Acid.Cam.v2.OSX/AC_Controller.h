@@ -253,6 +253,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) setCheckBoxImage: (id) sender;
 - (IBAction) user_Set: (id) sender;
 - (IBAction) user_Save: (id) sender;
+- (IBAction) user_Load: (id) sender;
 - (IBAction) user_Remove: (id) sender;
 @end
 

@@ -2271,13 +2271,41 @@ void SearchForString(NSString *s) {
     if(index_value == 14) {
 	     [current_filter_custom setMenu: user_menu];
     }
+    NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
+    [user_filter_name addItemWithObjectValue:sval];
+    [user_filter_name setStringValue:sval];
     [table_view reloadData];
 }
 - (IBAction) user_Save: (id) sender {
+}
+- (IBAction) user_Load: (id) sender {
     
 }
 - (IBAction) user_Remove: (id) sender {
-    
+    NSString *fval = [user_filter_name stringValue];
+    std::string fname = [fval UTF8String];
+    auto pos = user_filter.find(fname);
+    NSInteger user_index = [user_filter_name indexOfSelectedItem];
+    if(pos != user_filter.end()) {
+        user_filter.erase(pos);
+        [user_filter_name setStringValue:@""];
+        if(user_menu != nil)
+            [user_menu release];
+        NSInteger index_value = [categories_custom indexOfSelectedItem];
+        user_menu = [[NSMenu alloc] init];
+        for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+            if(i->second.index != 1)
+                [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
+        }
+        if(index_value == 14) {
+            [current_filter_custom setMenu: user_menu];
+        }
+        [user_filter_name removeItemAtIndex:user_index];
+    } else {
+        _NSRunAlertPanel(@"Filter alias not found use a valid name", @"Set the alias name", @"Ok", nil, nil);
+        return;
+    }
+    [table_view reloadData];
 }
 
 @end
