@@ -1336,14 +1336,15 @@ void SearchForString(NSString *s) {
     else if([str isEqualTo:@"Sub Filter"]) {
         if(ac::draw_strings[value].find("SubFilter") == std::string::npos)
             return @"Not Supported";
-        
         int rt_val = filter_val; //ac::subfilter_map[value];
         if(rt_val == -1) return @"No SubFilter Set";
         
         std::string sval;
         sval = ac::draw_strings[rt_val];
-        NSString *s = [NSString stringWithUTF8String: sval.c_str()];
-        return s;
+        if(user_filter.find(sval) != user_filter.end())
+            return [NSString stringWithUTF8String: user_filter[sval].other_name.c_str()];
+        else
+            return [NSString stringWithUTF8String: sval.c_str()];
     }
     NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
     return s;
