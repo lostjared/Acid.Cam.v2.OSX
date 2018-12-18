@@ -57,6 +57,7 @@
 #include"tokenize.hpp"
 #include<sys/stat.h>
 #include<AVKit/AVKit.h>
+#include<fstream>
 
 // Global varaibles
 NSTextView *logView;
@@ -2234,20 +2235,24 @@ void SearchForString(NSString *s) {
     }
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     if(index < 0) return;
+    
+    std::string ftext = [s UTF8String];
+    auto fp = user_filter.find(ftext);
+    if(ftext.find("User_") != std::string::npos && fp != user_filter.end()) {
+        _NSRunAlertPanel(@"You already set this value", @"You use this value already", @"Ok", nil, nil);
+        return;
+    }
+    
+    NSMenuItem *item = [current_filter_custom itemAtIndex: index];
+    std::string fval_name = [[item title] UTF8String];
+    if(fval_name.find("User_") != std::string::npos) {
+        _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
+        return;
+    }
     std::string fname;
     fname = "User_";
     fname += [s UTF8String];
     
-    if(ac::filter_map.find(fname) != ac::filter_map.end()) {
-        _NSRunAlertPanel(@"Please Select a User filter name", @"That is not one of the built in filters", @"Ok", nil, nil);
-        return;
-    }
-    NSMenuItem *item = [current_filter_custom itemAtIndex: index];
-    std::string fval_name = [[item title] UTF8String];
-    if(fval_name.find("User") != std::string::npos) {
-        _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
-        return;
-    }
     if(fval_name.find("SubFilter") != std::string::npos) {
         fname += "_SubFilter";
     }
@@ -2273,10 +2278,28 @@ void SearchForString(NSString *s) {
     }
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     [user_filter_name addItemWithObjectValue:sval];
-    [user_filter_name setStringValue:sval];
+    [user_filter_name setStringValue:@""];
     [table_view reloadData];
 }
 - (IBAction) user_Save: (id) sender {
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setCanCreateDirectories:YES];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"acl", nil]];
+    if([panel runModal]) {
+        NSString *fname = [[panel URL] path];
+        std::string textname = [fname UTF8String];
+        std::fstream file;
+        file.open(textname, std::ios::out);
+        if(!file.is_open()) {
+            _NSRunAlertPanel(@"Error could not save file. Do you have access rights?", @"Cannot save file", @"Ok", nil, nil);
+            return;
+        }
+        for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+            if(i->second.index != 1)
+            	file << i->first << ":" << i->second.index << ":" << i->second.other_name << "\n";
+        }
+        file.close();
+    }
 }
 - (IBAction) user_Load: (id) sender {
     
