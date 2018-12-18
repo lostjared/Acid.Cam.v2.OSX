@@ -258,8 +258,9 @@ extern void SearchForString(NSString *s);
 
 class UserFilter {
 public:
-    NSMutableArray *list, *sublist;
-    UserFilter() : list(nil), sublist(nil) {}
+    int index, subfilter;
+    std::string name, other_name;
+    UserFilter(): index(0), subfilter(-1) {}
 };
 
 extern std::unordered_map<std::string, UserFilter> user_filter;

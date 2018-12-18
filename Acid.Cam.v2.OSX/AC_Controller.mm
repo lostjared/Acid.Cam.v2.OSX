@@ -1325,7 +1325,12 @@ void SearchForString(NSString *s) {
     int value = (int)[number integerValue];
     int filter_val = (int)[filter_num integerValue];
     if( [str isEqualTo:@"Filter"] ) {
+        std::string name = ac::draw_strings[value];
+        if(user_filter.find(name) != user_filter.end())
+            return [NSString stringWithUTF8String: user_filter[name].other_name.c_str()];
+        
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
+        
         return s;
     }
     else if([str isEqualTo:@"Sub Filter"]) {
@@ -1351,6 +1356,18 @@ void SearchForString(NSString *s) {
 - (IBAction) addCustomItem: (id) sender {
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSInteger cate = [categories_custom indexOfSelectedItem];
+    if(cate == 14 && index >= 0) {
+        std::string user;
+        NSMenuItem *item = [user_menu itemAtIndex:index];
+        NSString *item_text = [item title];
+        std::string s = [item_text UTF8String];
+        int index_value = ac::filter_map[s];
+        int subf = -1;
+        [custom_array addObject: [NSNumber numberWithInt:index_value]];
+        [custom_subfilters addObject: [NSNumber numberWithInt: subf]];
+        [table_view reloadData];
+        return;
+    }
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
     if(index >= 0 && cate >= 0) {
@@ -2214,32 +2231,46 @@ void SearchForString(NSString *s) {
         _NSRunAlertPanel(@"User defined requires a valid name", @"Error forgot to set name", @"Ok", nil, nil);
         return;
     }
-    std::string fname = [s UTF8String];
+    NSInteger index = [current_filter_custom indexOfSelectedItem];
+    if(index < 0) return;
+    std::string fname;
+    fname = "User_";
+    fname += [s UTF8String];
     
     if(ac::filter_map.find(fname) != ac::filter_map.end()) {
         _NSRunAlertPanel(@"Please Select a User filter name", @"That is not one of the built in filters", @"Ok", nil, nil);
         return;
     }
-    
-    if(user_filter[fname].list != nil)
-        [user_filter[fname].list release];
-    if(user_filter[fname].sublist != nil)
-        [user_filter[fname].sublist release];
-    
-    user_filter[fname].list = [[NSMutableArray alloc] initWithArray: custom_array copyItems:YES];
-    user_filter[fname].sublist = [[NSMutableArray alloc] initWithArray: custom_subfilters copyItems:YES];
-    
+    NSMenuItem *item = [current_filter_custom itemAtIndex: index];
+    std::string fval_name = [[item title] UTF8String];
+    if(fval_name.find("User") != std::string::npos) {
+        _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
+        return;
+    }
+    if(fval_name.find("SubFilter") != std::string::npos) {
+        fname += "SubFilter";
+    }
+    if(fval_name.find("Image") != std::string::npos) {
+        fname += "Image";
+    }
+    user_filter[fval_name].index = 1;
+    user_filter[fval_name].name = fval_name;
+    user_filter[fval_name].other_name = fname;
+    user_filter[fname].index = ac::filter_map[fval_name];
+    ac::filter_map[fname] = ac::filter_map[fval_name];
     if(user_menu != nil)
         [user_menu release];
     
     user_menu = [[NSMenu alloc] init];
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-         [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
+        if(i->second.index != 1)
+         	[user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
     }
-    NSInteger index = [categories_custom indexOfSelectedItem];
-    if(index == 14) {
+    NSInteger index_value = [categories_custom indexOfSelectedItem];
+    if(index_value == 14) {
 	     [current_filter_custom setMenu: user_menu];
     }
+    [table_view reloadData];
 }
 - (IBAction) user_Save: (id) sender {
     
