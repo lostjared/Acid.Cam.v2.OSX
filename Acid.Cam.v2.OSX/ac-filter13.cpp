@@ -432,3 +432,34 @@ void ac::ImageDarkBlend(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ImageAverageDark(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat reimage,frame_copy = frame.clone();
+        cv::resize(blend_image,reimage, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[5];
+                pix[0] = frame_copy.at<cv::Vec3b>(z, i);
+                pix[1] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+                pix[2] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+                pix[3] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+                cv::Scalar values;
+                for(int j = 0; j < 4; ++j) {
+                    for(int q = 0; q < 3; ++q) {
+                        values[j] += pix[j][q];
+                    }
+                }
+                cv::Vec3b color = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] /= (frame.rows * frame.cols);
+                    unsigned int value = static_cast<unsigned int>(values[j]);
+                    color[j] /= 3;
+                    pixel[j] += 50;
+                    pixel[j] = color[j] ^ value ^ pixel[j];
+                }
+            }
+        }
+    }
+}
