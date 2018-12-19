@@ -257,7 +257,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) user_Save: (id) sender;
 - (IBAction) user_Load: (id) sender;
 - (IBAction) user_Clear: (id) sender;
-- (void) loadFileData: (std::string *)path;
+- (void) loadFileData: (const char *)path;
 - (void) loadMenuList;
 @end
 

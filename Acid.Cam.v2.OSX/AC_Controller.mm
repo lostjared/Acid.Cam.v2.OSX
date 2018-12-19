@@ -2286,8 +2286,10 @@ void SearchForString(NSString *s) {
             return;
         }
         for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-            if(i->second.index != 1)
-            	file << i->first << ":" << i->second.index << ":" << i->second.other_name << "\n";
+            std::string other = "UserDefined";
+            if(i->second.other_name.length() > 0)
+                other = i->second.other_name;
+            file << i->first << ":" << i->second.index << ":" << other << "\n";
         }
         file.close();
     }
@@ -2301,19 +2303,28 @@ void SearchForString(NSString *s) {
     }
 }
 
-- (void) loadFileData: (std::string *)path {
+- (void) loadFileData: (const char *)path {
     std::vector<std::string> comp;
-    token::tokenize(*path, std::string(":"), comp);
+    token::tokenize(std::string(path), std::string(":"), comp);
     if(comp.size()==0) return;
-    user_filter[comp[0]].name = comp[0];
-    user_filter[comp[0]].index = atoi(comp[1].c_str());
-    user_filter[comp[0]].other_name = comp[2];
-    NSString *sval = [NSString stringWithUTF8String: comp[0].c_str()];
-    [user_filter_name addItemWithObjectValue:sval];
+    std::string filter_name = comp[0];
+    int index_value = atoi(comp[1].c_str());
+    user_filter[filter_name].name = filter_name;
+    user_filter[filter_name].index = index_value;
+    user_filter[filter_name].other_name = comp[2];
+    
+    if(index_value == -1) {
+        ac::filter_map[comp[2]] = ac::filter_map[comp[0]];
+    }
+    
+    if(user_filter[filter_name].index != -1) {
+    	NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
+        [user_filter_name addItemWithObjectValue:sval];
+    }
+    
 }
 
 - (IBAction) user_Load: (id) sender {
-    std::cout << "HERE!!!!\n";
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
@@ -2331,9 +2342,10 @@ void SearchForString(NSString *s) {
             std::string file_data;
             std::getline(file, file_data);
             if(file) {
-                [self loadFileData: &file_data];
+                [self loadFileData: file_data.c_str()];
             }
         }
+        [self loadMenuList];
         [table_view reloadData];
     }
 }
