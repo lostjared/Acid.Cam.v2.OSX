@@ -1487,6 +1487,7 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) goto_Frame: (id) sender {
+    if(programRunning == false) return;
     int val = (int)[frame_slider integerValue];
     if(val < [frame_slider maxValue]-1) {
         jumptoFrame(syphon_enabled, val);
@@ -1497,6 +1498,7 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) setGoto: (id) sender {
+    if(programRunning == false) return;
     NSInteger time_val = [frame_slider integerValue];
     double seconds = time_val/ac::fps;
     unsigned int sec = static_cast<unsigned int>(seconds);
