@@ -55,6 +55,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<sstream>
 #include<string>
 #include<unordered_map>
+#include<cstdlib>
+#include<cstdio>
 #include "AC_Renderer.h"
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
@@ -255,6 +257,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) user_Save: (id) sender;
 - (IBAction) user_Load: (id) sender;
 - (IBAction) user_Clear: (id) sender;
+- (void) loadFileData: (std::string *)path;
 - (void) loadMenuList;
 @end
 

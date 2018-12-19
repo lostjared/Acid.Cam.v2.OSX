@@ -2261,15 +2261,15 @@ void SearchForString(NSString *s) {
     if(fval_name.find("Image") != std::string::npos) {
         fname += "_Image";
     }
-    user_filter[fval_name].index = 1;
+    user_filter[fval_name].index = -1;
     user_filter[fval_name].name = fval_name;
     user_filter[fval_name].other_name = fname;
     user_filter[fname].index = ac::filter_map[fval_name];
     ac::filter_map[fname] = ac::filter_map[fval_name];
-    [self loadMenuList];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     [user_filter_name addItemWithObjectValue:sval];
     [user_filter_name setStringValue:@""];
+    [self loadMenuList];
     [table_view reloadData];
 }
 - (IBAction) user_Save: (id) sender {
@@ -2301,8 +2301,41 @@ void SearchForString(NSString *s) {
     }
 }
 
+- (void) loadFileData: (std::string *)path {
+    std::vector<std::string> comp;
+    token::tokenize(*path, std::string(":"), comp);
+    if(comp.size()==0) return;
+    user_filter[comp[0]].name = comp[0];
+    user_filter[comp[0]].index = atoi(comp[1].c_str());
+    user_filter[comp[0]].other_name = comp[2];
+    NSString *sval = [NSString stringWithUTF8String: comp[0].c_str()];
+    [user_filter_name addItemWithObjectValue:sval];
+}
+
 - (IBAction) user_Load: (id) sender {
-    
+    std::cout << "HERE!!!!\n";
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setAllowedFileTypes:[NSArray arrayWithObjects:@"acl", nil]];
+    if([panel runModal]) {
+        std::string fname = [[[panel URL] path] UTF8String];
+        std::fstream file;
+        file.open(fname, std::ios::in);
+        if(!file.is_open()) {
+            _NSRunAlertPanel(@"Could not open file..", [NSString stringWithFormat:@"Could not locate file: %s", fname.c_str()], @"Ok", nil, nil);
+            return;
+        }
+        [self user_Clear:nil];
+        while(!file.eof()) {
+            std::string file_data;
+            std::getline(file, file_data);
+            if(file) {
+                [self loadFileData: &file_data];
+            }
+        }
+        [table_view reloadData];
+    }
 }
 
 - (void) loadMenuList {
@@ -2311,7 +2344,7 @@ void SearchForString(NSString *s) {
     NSInteger index_value = [categories_custom indexOfSelectedItem];
     user_menu = [[NSMenu alloc] init];
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-        if(i->second.index != 1)
+    	if(i->second.index != -1)
             [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
     }
     if(index_value == 14 && [user_menu numberOfItems] > 0) {
