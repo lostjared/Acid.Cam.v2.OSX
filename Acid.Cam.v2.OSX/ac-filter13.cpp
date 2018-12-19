@@ -463,3 +463,24 @@ void ac::ImageAverageDark(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ImageRemainderPixel(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat reimage;
+        cv::resize(blend_image, reimage, frame.size());
+        static double alpha = 1.0, alpha_max = 4.0;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    unsigned int val = static_cast<unsigned int>(pixel[j] * alpha)%(1+pix[j]);
+                    pixel[j] = pixel[j] ^ val;
+                }
+                
+            }
+        }
+        static int dir = 1;
+        procPos(dir,alpha,alpha_max,4.1, 0.05);
+    }
+}
