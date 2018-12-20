@@ -232,7 +232,6 @@
                                     <action selector="stopProgram:" target="630" id="kg6-5x-BTv"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1or-4q-4qG"/>
                             <menuItem isSeparatorItem="YES" id="zbR-BR-Pc6"/>
                             <menuItem title="Take Snapshot JPG" keyEquivalent="s" id="649">
                                 <connections>
@@ -242,6 +241,19 @@
                             <menuItem title="Take Snapshot PNG" keyEquivalent="a" id="Fy3-Ag-Dft">
                                 <connections>
                                     <action selector="takeSnapshotPNG:" target="630" id="yHO-Xt-6iN"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="hWb-fv-rMN"/>
+                            <menuItem title="Open User List" id="kN6-Ns-zRB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="user_Load:" target="630" id="BWp-jl-MWO"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Save User List" id="Q0q-PY-ANV">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="user_Save:" target="630" id="oe2-cy-TJw"/>
                                 </connections>
                             </menuItem>
                         </items>

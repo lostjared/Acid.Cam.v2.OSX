@@ -477,7 +477,6 @@ void ac::ImageRemainderPixel(cv::Mat &frame) {
                     unsigned int val = static_cast<unsigned int>(pixel[j] * alpha)%(1+pix[j]);
                     pixel[j] = pixel[j] ^ val;
                 }
-                
             }
         }
         static int dir = 1;
