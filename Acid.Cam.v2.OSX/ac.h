@@ -805,6 +805,7 @@ namespace ac {
     void ImageAverageDark(cv::Mat &frame);
     void ImageRemainderPixel(cv::Mat &frame);
     void AverageLinesBlend(cv::Mat &frame);
+    void SoftFeedbackMirror(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

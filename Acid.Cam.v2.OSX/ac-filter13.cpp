@@ -507,3 +507,8 @@ void ac::AverageLinesBlend(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
+
+void ac::SoftFeedbackMirror(cv::Mat &frame) {
+    SoftFeedbackResize64(frame);
+    MirrorBitwiseXor(frame);
+}
