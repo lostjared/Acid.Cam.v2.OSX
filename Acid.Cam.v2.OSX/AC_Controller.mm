@@ -2302,6 +2302,7 @@ void SearchForString(NSString *s) {
         user_filter.erase(user_filter.begin(), user_filter.end());
         [user_filter_name removeAllItems];
         [self loadMenuList];
+        [table_view reloadData];
     }
 }
 
