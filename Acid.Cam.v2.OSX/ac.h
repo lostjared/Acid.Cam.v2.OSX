@@ -808,6 +808,7 @@ namespace ac {
     void SoftFeedbackMirror(cv::Mat &frame);
     void AverageVerticalLinesBlend(cv::Mat &frame);
     void LinesMedianBlend(cv::Mat &frame);
+    void XorSquare(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
