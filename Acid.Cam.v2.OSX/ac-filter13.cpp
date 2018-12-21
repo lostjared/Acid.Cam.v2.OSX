@@ -553,3 +553,33 @@ void ac::XorSquare(cv::Mat &frame) {
         }
     }
 }
+
+void ac::PixelValuesPlusOne(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int i = 0; i < frame.cols-1; ++i) {
+        for(int z = 0; z < frame.rows-1; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            pix[0] = pixel;
+            pix[1] = copy1.at<cv::Vec3b>(z+1, i+1);
+            pix[2] = copy1.at<cv::Vec3b>(z+1, i);
+            pix[3] = copy1.at<cv::Vec3b>(z, i+1);
+            cv::Scalar values;
+            for(int q = 0; q < 4; ++q) {
+            	for(int j = 0; j < 3; ++j) {
+                    values[j] += pix[q][j];
+            	}
+            }
+            for(int j = 0; j < 3; ++j) {
+                unsigned int v = static_cast<unsigned int>(values[j] * alpha);
+                pixel[j] = pixel[j] ^ v;
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}

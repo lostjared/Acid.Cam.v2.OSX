@@ -809,6 +809,7 @@ namespace ac {
     void AverageVerticalLinesBlend(cv::Mat &frame);
     void LinesMedianBlend(cv::Mat &frame);
     void XorSquare(cv::Mat &frame);
+    void PixelValuesPlusOne(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
