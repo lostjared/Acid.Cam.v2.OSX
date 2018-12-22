@@ -584,7 +584,7 @@ void ac::PixelValuesPlusOne(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
 
-void ac::AverageHorizontal(cv::Mat &frame) {
+void ac::AverageHorizontalFilter(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
         unsigned int values[3] = {0,0,0};
@@ -598,6 +598,30 @@ void ac::AverageHorizontal(cv::Mat &frame) {
             values[j] /= frame.cols;
         }
         for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(values[j] * alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}
+
+void ac::AverageVerticalFilter(cv::Mat &frame) {
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int i = 0; i < frame.cols; ++i) {
+        unsigned int values[3] = {0,0,0};
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j];
+            }
+        }
+        for(int j = 0; j < 3; ++j) {
+            values[j] /= frame.rows;
+        }
+        for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(values[j] * alpha);
