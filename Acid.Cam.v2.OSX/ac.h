@@ -812,7 +812,8 @@ namespace ac {
     void PixelValuesPlusOne(cv::Mat &frame);
     void AverageHorizontalFilter(cv::Mat &frame);
     void AverageVerticalFilter(cv::Mat &frame);
-    void GradientAlphaXor(cv::Mat &frame);
+    void GradientAlphaXorHorizontal(cv::Mat &frame);
+    void GradientAlphaXorVertical(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

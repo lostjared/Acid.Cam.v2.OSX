@@ -632,12 +632,33 @@ void ac::AverageVerticalFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
 }
 
-void ac::GradientAlphaXor(cv::Mat &frame) {
+void ac::GradientAlphaXorHorizontal(cv::Mat &frame) {
     int iteration = frame.cols/255;
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
         int index = 0, index_value = 0;
         for(int i = 0; i < frame.cols; ++i) {
+            index ++;
+            if((index%iteration)==0) {
+                index = 0;
+                index_value ++;
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for (int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(index_value*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
+
+void ac::GradientAlphaXorVertical(cv::Mat &frame) {
+    int iteration = frame.rows/255;
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int i = 0; i < frame.cols; ++i) {
+        int index = 0, index_value = 0;
+        for(int z = 0; z < frame.rows; ++z) {
             index ++;
             if((index%iteration)==0) {
                 index = 0;
