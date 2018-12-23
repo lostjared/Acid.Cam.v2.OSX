@@ -388,7 +388,6 @@ void ac::MedianBlend(cv::Mat &frame) {
         MedianBlur(frame);
     
     collection.shiftFrames(frame);
-    static double alpha = 1.0, alpha_max = 3.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar value;
@@ -407,8 +406,6 @@ void ac::MedianBlend(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
         }
     }
-    static int direction = 1;
-    procPos(direction, alpha, alpha_max);
 }
 
 

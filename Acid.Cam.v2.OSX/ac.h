@@ -816,6 +816,7 @@ namespace ac {
     void GradientAlphaXorVertical(cv::Mat &frame);
     void BlendImageWithSubFilter(cv::Mat &frame);
     void BlendImageWithSubFilterAlpha(cv::Mat &frame);
+    void MedianBlendSoft(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
