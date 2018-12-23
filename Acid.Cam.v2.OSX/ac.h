@@ -817,7 +817,7 @@ namespace ac {
     void BlendImageWithSubFilter(cv::Mat &frame);
     void BlendImageWithSubFilterAlpha(cv::Mat &frame);
     void MedianBlendSoft(cv::Mat &frame);
-    void RemainderXorImageSubFilter(cv::Mat &frame);
+    void AndImageSubFilterXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

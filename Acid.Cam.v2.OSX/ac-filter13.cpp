@@ -761,8 +761,8 @@ void ac::MedianBlendSoft(cv::Mat &frame) {
     }
 }
 
-void ac::RemainderXorImageSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "RemainderXorImageSubFilter")
+void ac::AndImageSubFilterXor(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "AndImageSubFilterXor")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(blend_image, reimage, frame.size());
@@ -776,7 +776,7 @@ void ac::RemainderXorImageSubFilter(cv::Mat &frame) {
             pix[1] = copy1.at<cv::Vec3b>(z, i);
             unsigned int value = 0;
             for(int j = 0; j < 3; ++j) {
-                value = static_cast<unsigned int>(pix[0][j] * alpha) % static_cast<unsigned int>(1+pix[1][j] * alpha);
+                value = pix[0][j] & pix[1][j];
                 pixel[j] = pixel[j] ^ value;
             }
             
