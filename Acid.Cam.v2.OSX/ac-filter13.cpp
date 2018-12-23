@@ -425,7 +425,8 @@ void ac::ImageDarkBlend(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    unsigned char val = pixel[j]%(1+pix[j]);
+                    if(pix[j] == 0) pix[j] = 1;
+                    unsigned int val = pixel[j]%(1+pix[j]);
                     pixel[j] = pixel[j]^val;
                 }
             }
@@ -500,6 +501,7 @@ void ac::AverageLinesBlend(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i ){
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
+                if(values[j] == 0 || values[j] == 255) values[j] = 1;
                 pixel[j] += static_cast<unsigned char>((pixel[j]%1+values[j])*alpha);
             }
         }
@@ -529,6 +531,7 @@ void ac::AverageVerticalLinesBlend(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
+                if(values[j] == 0 || values[j] == 255) values[j] = 1;
                 pixel[j] += static_cast<unsigned char>((pixel[j]%1+values[j])*alpha);
             }
         }
@@ -756,4 +759,29 @@ void ac::MedianBlendSoft(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
         }
     }
+}
+
+void ac::RemainderXorImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "RemainderXorImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[2];
+            pix[0] = reimage.at<cv::Vec3b>(z, i);
+            pix[1] = copy1.at<cv::Vec3b>(z, i);
+            unsigned int value = 0;
+            for(int j = 0; j < 3; ++j) {
+                value = static_cast<unsigned int>(pix[0][j] * alpha) % static_cast<unsigned int>(1+pix[1][j] * alpha);
+                pixel[j] = pixel[j] ^ value;
+            }
+            
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
