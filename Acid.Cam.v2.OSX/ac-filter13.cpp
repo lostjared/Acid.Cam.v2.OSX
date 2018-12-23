@@ -678,7 +678,6 @@ void ac::BlendImageWithSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "BlendImageWithSubFilter")
         return;
     cv::Mat copy1 = frame.clone();
-    cv::Mat copy2 = frame.clone();
     cv::Mat reimage;
     cv::resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
@@ -701,4 +700,35 @@ void ac::BlendImageWithSubFilter(cv::Mat &frame) {
             }
         }
     }
+}
+
+void ac::BlendImageWithSubFilterAlpha(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "BlendImageWithSubFilter")
+        return;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[3];
+            pix[0] = pixel;
+            pix[1] = copy1.at<cv::Vec3b>(z, i);
+            pix[2] = reimage.at<cv::Vec3b>(z, i);
+            unsigned int values[3] = {0,0,0};
+            for(int q = 0; q < 3; ++q) {
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += pix[q][j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= 3;
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(values[j]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
