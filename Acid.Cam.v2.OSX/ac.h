@@ -848,6 +848,7 @@ namespace ac {
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
     void Xor(cv::Mat &dst, const cv::Mat &add);
+    void Xor(const cv::Mat &input, const cv::Mat &add, cv::Mat &out);
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
     void TotalAverageOffset(cv::Mat &frame, unsigned long &value);
     void swapColors(cv::Mat &frame, int x, int y);

@@ -791,7 +791,6 @@ void ac::AlphaBlendImageSubFilterXor(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     cv::Mat copy1 = frame.clone(), copy2;
-    
     cv::resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, reimage, copy2, 0.5);

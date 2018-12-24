@@ -369,6 +369,25 @@ void ac::Xor(cv::Mat &dst, const cv::Mat &add) {
     }
 }
 
+void ac::Xor(const cv::Mat &input, const cv::Mat &add, cv::Mat &output) {
+   if(input.size() != add.size())
+        return;
+    
+    if(output.empty() || output.size() != input.size())
+        output.create(input.size(), CV_8UC3);
+
+    for(int z = 0; z < output.rows; ++z) {
+        for(int i = 0; i < output.cols; ++i) {
+            cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
+            cv::Vec3b src = input.at<cv::Vec3b>(z, i);
+            cv::Vec3b other = add.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = src[j]^other[j];
+        }
+    }
+}
+
+
 bool ac::reset_alpha = false;
 
 void ac::resetAlpha(int &dir, double &alpha) {
