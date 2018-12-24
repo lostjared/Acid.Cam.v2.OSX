@@ -431,6 +431,7 @@ void ac::ImageDarkBlend(cv::Mat &frame) {
                 }
             }
         }
+        AddInvert(frame);
     }
 }
 
@@ -462,6 +463,7 @@ void ac::ImageAverageDark(cv::Mat &frame) {
                 }
             }
         }
+        AddInvert(frame);
     }
 }
 
@@ -482,6 +484,7 @@ void ac::ImageRemainderPixel(cv::Mat &frame) {
         }
         static int dir = 1;
         procPos(dir,alpha,alpha_max,4.1, 0.05);
+        AddInvert(frame);
     }
 }
 
@@ -508,11 +511,13 @@ void ac::AverageLinesBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::SoftFeedbackMirror(cv::Mat &frame) {
     SoftFeedbackResize64(frame);
     MirrorBitwiseXor(frame);
+    AddInvert(frame);
 }
 
 void ac::AverageVerticalLinesBlend(cv::Mat &frame) {
@@ -538,12 +543,14 @@ void ac::AverageVerticalLinesBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::LinesMedianBlend(cv::Mat &frame) {
     AverageLinesBlend(frame);
     AverageVerticalLinesBlend(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::XorSquare(cv::Mat &frame) {
@@ -555,6 +562,7 @@ void ac::XorSquare(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::PixelValuesPlusOne(cv::Mat &frame) {
@@ -585,6 +593,7 @@ void ac::PixelValuesPlusOne(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::AverageHorizontalFilter(cv::Mat &frame) {
@@ -609,6 +618,7 @@ void ac::AverageHorizontalFilter(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::AverageVerticalFilter(cv::Mat &frame) {
@@ -633,6 +643,7 @@ void ac::AverageVerticalFilter(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
 }
 
 void ac::GradientAlphaXorHorizontal(cv::Mat &frame) {
@@ -654,6 +665,7 @@ void ac::GradientAlphaXorHorizontal(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::GradientAlphaXorVertical(cv::Mat &frame) {
@@ -675,6 +687,7 @@ void ac::GradientAlphaXorVertical(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::BlendImageWithSubFilter(cv::Mat &frame) {
@@ -703,6 +716,7 @@ void ac::BlendImageWithSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::BlendImageWithSubFilterAlpha(cv::Mat &frame) {
@@ -734,6 +748,7 @@ void ac::BlendImageWithSubFilterAlpha(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 
@@ -784,6 +799,7 @@ void ac::AndImageSubFilterXor(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendImageSubFilterXor(cv::Mat &frame) {
@@ -795,4 +811,16 @@ void ac::AlphaBlendImageSubFilterXor(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, reimage, copy2, 0.5);
     Xor(frame, copy2);
+    AddInvert(frame);
+}
+
+void ac::AlphaBlendImageSubFilterXorRev(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendImageSubFilterXorRev")
+        return;
+    cv::Mat reimage, copy1;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    AlphaBlend(frame, reimage, copy1, 0.5);
+    Xor(frame, copy1);
+    AddInvert(frame);
 }
