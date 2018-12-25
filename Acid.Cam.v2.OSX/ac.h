@@ -820,6 +820,7 @@ namespace ac {
     void AndImageSubFilterXor(cv::Mat &frame);
     void AlphaBlendImageSubFilterXor(cv::Mat &frame);
     void AlphaBlendImageSubFilterXorRev(cv::Mat &frame);
+    void ParticleReleaseXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1103,7 +1104,7 @@ namespace ac {
     T size_type_cast(const long &val) {
         if(val >= 255) return 255;
         if(val <= 0) return 0;
-        return val;
+        return static_cast<T>(val);
     }
     // point class
     class Point {

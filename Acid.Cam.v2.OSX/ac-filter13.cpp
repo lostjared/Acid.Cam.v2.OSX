@@ -824,3 +824,20 @@ void ac::AlphaBlendImageSubFilterXorRev(cv::Mat &frame) {
     Xor(frame, copy1);
     AddInvert(frame);
 }
+
+void ac::ParticleReleaseXor(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    ParticleRelease(copy1);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(pix[j] * alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.05);
+}
