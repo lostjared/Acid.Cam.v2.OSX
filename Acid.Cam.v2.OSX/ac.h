@@ -825,6 +825,7 @@ namespace ac {
     void ParticleReleaseAlphaBlend(cv::Mat &frame);
     void ParticleReleaseWithImage(cv::Mat &frame);
     void ParticleReleaseSubFilter(cv::Mat &frame);
+    void ParticleReleaseImageSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

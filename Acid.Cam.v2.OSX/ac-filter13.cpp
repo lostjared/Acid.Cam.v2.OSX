@@ -894,3 +894,14 @@ void ac::ParticleReleaseSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     ParticleRelease(frame);
 }
+
+void ac::ParticleReleaseImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ParticleReleaseImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    ParticleRelease(frame);
+    MedianBlend(frame);
+}
