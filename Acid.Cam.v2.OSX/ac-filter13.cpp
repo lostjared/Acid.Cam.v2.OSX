@@ -873,3 +873,14 @@ void ac::ParticleReleaseAlphaBlend(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
+
+void ac::ParticleReleaseWithImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1;
+    cv::Mat copy2 = frame.clone();
+    cv::resize(blend_image, copy1, frame.size());
+    ParticleRelease(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+}
