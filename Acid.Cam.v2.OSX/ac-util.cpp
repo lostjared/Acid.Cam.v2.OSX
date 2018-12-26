@@ -622,3 +622,18 @@ void ac::SwitchOrder(cv::Vec3b &cur, int color_order) {
             break;
     }
 }
+
+std::vector<int> subfilters;
+
+void ac::pushSubFilter(int newsub) {
+    subfilters.push_back(subfilter);
+    subfilter = newsub;
+}
+
+void ac::popSubFilter() {
+    auto subsize = subfilters.size();
+    if(subsize > 0) {
+        subfilter = subfilters[subsize-1];
+        subfilters.pop_back();
+    }
+}

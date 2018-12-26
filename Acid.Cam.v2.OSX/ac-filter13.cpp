@@ -909,9 +909,8 @@ void ac::ParticleReleaseImageSubFilter(cv::Mat &frame) {
 void ac::ImageEnergy(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    int temp_subfilter = subfilter;
-    subfilter = filter_map["ExactImage"];
+    pushSubFilter(filter_map["ExactImage"]);
     SmoothSubFilter32(frame);
-    subfilter = temp_subfilter;
     MedianBlend(frame);
+    popSubFilter();
 }

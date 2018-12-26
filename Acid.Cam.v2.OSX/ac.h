@@ -882,6 +882,8 @@ namespace ac {
     void setColorMap(int map, cv::Mat &frame);
     void blendFilterWithColorMap(int filter, int map, cv::Mat &frame);
     void SwitchOrder(cv::Vec3b &frame, int order);
+    void pushSubFilter(int newsub);
+    void popSubFilter();
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;
