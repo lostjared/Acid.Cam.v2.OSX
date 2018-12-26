@@ -884,3 +884,13 @@ void ac::ParticleReleaseWithImage(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
 }
+
+void ac::ParticleReleaseSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ParticleReleaseSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    ParticleRelease(frame);
+}
