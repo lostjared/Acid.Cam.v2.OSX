@@ -821,6 +821,8 @@ namespace ac {
     void AlphaBlendImageSubFilterXor(cv::Mat &frame);
     void AlphaBlendImageSubFilterXorRev(cv::Mat &frame);
     void ParticleReleaseXor(cv::Mat &frame);
+    void ParticleReleaseXorVec(cv::Mat &frame);
+    void ParticleReleaseAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
