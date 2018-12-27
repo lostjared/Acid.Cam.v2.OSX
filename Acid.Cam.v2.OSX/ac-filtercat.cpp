@@ -1,9 +1,43 @@
-#include"ac-filtercat.h"
+#include"ac.h"
 
 namespace ac {
     
+   	std::unordered_map<std::string, FilterItem> filter_menu_map;
+    std::vector<std::string> svAll;
+    std::vector<std::string> svAllSorted;
+
+    void add_filter(std::vector<std::string> *menu_list, std::string menu_name) {
+        filter_menu_map[menu_name].menu_name = menu_name;
+        filter_menu_map[menu_name].menu_list = menu_list;
+    }
+    
+    void init_filter_menu_map() {
+        for(int i = 0; i < draw_max-4; ++i) {
+            svAll.push_back(ac::draw_strings[i]);
+            svAllSorted.push_back(ac::draw_strings[i]);
+        }
+        std::sort(svAllSorted.begin(), svAllSorted.end());
+        add_filter(&svAll, "All Filters");
+        add_filter(&svAllSorted, "All Filters Sorted");
+        add_filter(&vzBlend, "Blend");
+        add_filter(&svDistort, "Distort");
+        add_filter(&svPattern, "Pattern");
+        add_filter(&svGradient, "Gradient");
+        add_filter(&svMirror, "Mirror");
+        add_filter(&svStrobe, "Strobe");
+        add_filter(&svBlur, "Blur");
+        add_filter(&svImage, "Image");
+        add_filter(&svSquare, "Square");
+        add_filter(&svOther_Custom, "Other");
+        add_filter(&vSub, "SubFilter");
+        add_filter(&svCustom_Spec, "Special");
+    }
+    
     const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","XorWithSource","AlphaBlendWithSource", "Plugin", "Custom",0};
     const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "XorWithSource", "AlphaBlendWithSource", "Plugin",0};
+    
+    std::vector<std::string> svCustom_Spec {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "XorWithSource", "AlphaBlendWithSource"};
+    
     
     std::vector<std::string> vzBlend { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "Filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", "UpDown","LeftRight", "BlendedScanLines","XorSine", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "DiagonalLines", "HorizontalLines", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "ColorRange", "VectorIncrease", "BlendThree", "HorizontalStripes", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur", "SurroundPixelXor", "WeakBlend", "AverageVertical", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "SelfXorScale", "SelfAlphaRGB", "XorSelfAlphaImage", "AlphaBlendRandom", "ChannelSortAlphaBlend", "RandomXor", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash", "SelfOrDoubleFlash", "BlendRowCurvedSqrt", "CycleShiftRandomAlphaBlend", "TanAlphaGrid", "BlendInAndOut", "BlendScaleInAndOut", "AcidGlitch", "LiquidFilter", "MatrixXorAnd", "XorAlpha", "SelfXorAverage", "RandomXorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "FadeInAndOut", "InitBlend", "LagBlend", "SubFilter", "AddFilter", "AlphaBlendSubFilter", "SmoothSubFilterAlphaBlend", "IntertwineSubFilter", "RandBlend", "EveryOther", "EveryOtherSubFilter", "SmoothSubFilter", "EnergizeSubFilter", "SmoothSubFilter16", "EnergizeSubFilter16", "EnergizeSubFilter32", "SmoothSubFilter32", "HalfAddSubFilter", "HalfXorSubFilter", "StaticXorBlend", "XorScale", "ChannelMedianSubFilter", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "PixelReverseXor", "SilverBlend", "PixelXorBlend", "SelfAlphaScale", "SelfScaleAlpha", "RainbowXorBlend", "FadeBlend", "SelfAlphaScaleBlend", "FadeBars", "ShadeRGB", "InterRGB_SubFilter", "InterSmoothSubFilter", "InterRGB_Bars_XY", "InterRGB_Bars_X", "InterRGB_Bars_Y", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "Blend_AlphaSubFilter","RandomBlendFilter","DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendH", "FlipBlendWH", "FlipBlendAll", "FrameMedianBlendSubFilter", "SelfScaleXorIncrease", "Blend_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "IncDifference", "IncDifferenceAlpha", "MirrorMedianBlend", "SubFilterMedianBlend", "DarkenBlend", "DarkCollectionSubFilter", "DarkSmooth_Filter", "DarkSelfAlpha", "FlipMedian", "FlipMedianSubFilter", "Bars", "BlendBurred", "BlendCombinedValues", "BlendCombinedValueSubFilter", "BlendSubFilterAlpha", "PurpleRain", "CopyXorAlpha", "AveragePixelsXor", "AveragePixelAlpha", "NegativeByRow", "AveragePixelCollection", "IncorrectLine", "XorShift", "RGBSep1x", "RandomIncrease", "BGRBlend", "RGBBlend", "IncreaseDecreaseGamma", "GammaIncDecIncrease", "SelfScaleSortBlend", "FlipAlphaBlend", "RandomFlipFilter", "FlipMatrixCollection", "SelfScaleByFrame", "SmoothCollectionAlphaBlend", "ShuffleAlphaWithRGB", "ShuffleAlphaMedianBlend", "AverageLinesBlend", "AverageVerticalLinesBlend", "PixelValuesPlusOne", "AverageHorizontalFilter", "AverageVerticalFilter"};
     
@@ -45,5 +79,4 @@ namespace ac {
         std::sort(svSquare.begin(), svSquare.end());
         std::sort(vSub.begin(), vSub.end());
     }
-    
 }

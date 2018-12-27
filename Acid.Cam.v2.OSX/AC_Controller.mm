@@ -315,6 +315,7 @@ void SearchForString(NSString *s) {
     syphon_enabled = NO;
     [self setColorValuesRange:self];
     user_menu = [[NSMenu alloc] init];
+    ac::init_filter_menu_map();
     /*
      
      std::vector<std::string> valz;
