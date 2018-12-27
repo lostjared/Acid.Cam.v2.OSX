@@ -914,3 +914,11 @@ void ac::ImageEnergy(cv::Mat &frame) {
     MedianBlend(frame);
     popSubFilter();
 }
+
+
+void ac::ImageEnergySubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageEnergySubFilter")
+        return;
+    SmoothSubFilter32(frame);
+    MedianBlend(frame);
+}
