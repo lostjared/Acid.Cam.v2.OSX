@@ -21,5 +21,7 @@ extern std::vector<std::string> vSub;
 extern const char *szCustom[];
 extern const char *szCustom_Spec[];
 
+extern void SortFilters();
+
 #endif
 
