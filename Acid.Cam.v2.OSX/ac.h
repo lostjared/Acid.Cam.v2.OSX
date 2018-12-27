@@ -63,6 +63,7 @@
 #include<memory>
 #include<cassert>
 #include<utility>
+#include"ac-filtercat.h"
 //#define ASSERT_CHECK
 // Macro for assert testing
 #ifdef ASSERT_CHECK

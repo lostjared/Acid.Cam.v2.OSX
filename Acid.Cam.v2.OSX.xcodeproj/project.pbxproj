@@ -43,6 +43,7 @@
 		7F9E38C7204C807C002A1F4F /* libIlmImf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB11E28356900B14623 /* libIlmImf.a */; };
 		7F9E38C8204C807C002A1F4F /* liblibwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9E38A7204B3ED3002A1F4F /* liblibwebp.a */; };
 		7F9E38C9204C807C002A1F4F /* libippicv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB21E28356900B14623 /* libippicv.a */; };
+		7FA4F5D121D553E600E6D442 /* ac-filtercat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FA4F5CF21D553E600E6D442 /* ac-filtercat.cpp */; };
 		7FB150EE2110B00D00DAD5FC /* ac-filter9.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FB150ED2110B00D00DAD5FC /* ac-filter9.cpp */; };
 		7FC2145C2128DB08001EBDA3 /* ac-filter10.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FC2145B2128DB08001EBDA3 /* ac-filter10.cpp */; };
 		7FC2B66A213185E700E54B6E /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC2B668213185D000E54B6E /* Syphon.framework */; };
@@ -129,6 +130,8 @@
 		7F9E38A8204B3ED3002A1F4F /* libittnotify.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libittnotify.a; path = cvlibs/libittnotify.a; sourceTree = "<group>"; };
 		7F9E38A9204B3ED3002A1F4F /* libippiw.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libippiw.a; path = cvlibs/libippiw.a; sourceTree = "<group>"; };
 		7F9E38AE204C7814002A1F4F /* libavresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavresample.a; path = cvlibs/libavresample.a; sourceTree = "<group>"; };
+		7FA4F5CF21D553E600E6D442 /* ac-filtercat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filtercat.cpp"; path = "Acid.Cam.v2.OSX/ac-filtercat.cpp"; sourceTree = "<group>"; };
+		7FA4F5D021D553E600E6D442 /* ac-filtercat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ac-filtercat.h"; path = "Acid.Cam.v2.OSX/ac-filtercat.h"; sourceTree = "<group>"; };
 		7FB150ED2110B00D00DAD5FC /* ac-filter9.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter9.cpp"; path = "Acid.Cam.v2.OSX/ac-filter9.cpp"; sourceTree = "<group>"; };
 		7FC2145B2128DB08001EBDA3 /* ac-filter10.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter10.cpp"; path = "Acid.Cam.v2.OSX/ac-filter10.cpp"; sourceTree = "<group>"; };
 		7FC2B666213185B800E54B6E /* Frameworks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Frameworks; sourceTree = "<group>"; };
@@ -244,6 +247,8 @@
 				7FEE831620C399420027A848 /* ac-alpha.cpp */,
 				7FEE831220C394320027A848 /* ac-obj.cpp */,
 				7F9D70B517DE4F7C009C54DA /* ac.h */,
+				7FA4F5CF21D553E600E6D442 /* ac-filtercat.cpp */,
+				7FA4F5D021D553E600E6D442 /* ac-filtercat.h */,
 				7FEE832A20C45B0D0027A848 /* ac-filter1.cpp */,
 				7FEE832D20C45B0D0027A848 /* ac-filter2.cpp */,
 				7FEE832C20C45B0D0027A848 /* ac-filter3.cpp */,
@@ -460,6 +465,7 @@
 				7FEE831D20C39B290027A848 /* ac-grid.cpp in Sources */,
 				7FEC387C2130EB9900EE1A3E /* AC_ImageView.mm in Sources */,
 				7FEE831F20C39DF40027A848 /* ac-basic.cpp in Sources */,
+				7FA4F5D121D553E600E6D442 /* ac-filtercat.cpp in Sources */,
 				7FEE832F20C45B0E0027A848 /* ac-filter4.cpp in Sources */,
 				7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */,
 				7FEC38792130EB6800EE1A3E /* AC_AppDelegate.mm in Sources */,
