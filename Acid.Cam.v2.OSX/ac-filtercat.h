@@ -35,6 +35,7 @@ namespace ac {
     extern std::vector<std::string> svCustom_Spec;
     extern std::vector<std::string> svAll;
     extern std::vector<std::string> svAllSorted;
+    extern std::vector<std::string> svUser;
     extern const char *szCustom[];
     extern const char *szCustom_Spec[];
     extern std::unordered_map<std::string, FilterItem> filter_menu_map;

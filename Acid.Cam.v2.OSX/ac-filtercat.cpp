@@ -5,6 +5,7 @@ namespace ac {
    	std::unordered_map<std::string, FilterItem> filter_menu_map;
     std::vector<std::string> svAll;
     std::vector<std::string> svAllSorted;
+    std::vector<std::string> svUser;
 
     void add_filter(std::vector<std::string> *menu_list, std::string menu_name) {
         filter_menu_map[menu_name].menu_name = menu_name;
@@ -31,6 +32,7 @@ namespace ac {
         add_filter(&svOther_Custom, "Other");
         add_filter(&vSub, "SubFilter");
         add_filter(&svCustom_Spec, "Special");
+        add_filter(&svUser, "User");
     }
     
     const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","XorWithSource","AlphaBlendWithSource", "Plugin", "Custom",0};
