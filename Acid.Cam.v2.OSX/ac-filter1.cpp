@@ -129,6 +129,7 @@ void ac::fill_filter_map() {
         filter_map[draw_strings[i]] = i;
     for(int i = 0; i < ac::draw_max-4; ++i)
         filter_map_str[filters[i].first] = filters[i];
+    ac::init_filter_menu_map();
 }
 
 void ac::DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe) {
