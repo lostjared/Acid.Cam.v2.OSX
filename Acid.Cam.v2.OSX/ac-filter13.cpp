@@ -923,3 +923,17 @@ void ac::ImageEnergySubFilter(cv::Mat &frame) {
     SmoothImageAlphaBlend(frame);
     MedianBlend(frame);
 }
+
+void ac::ImageDistortion(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::resize(blend_image, copy2, frame.size());
+    pushSubFilter(ac::filter_map["SmoothImageAlphaBlend"]);
+    EnergizeSubFilter(copy1);
+    popSubFilter();
+    pushSubFilter(ac::filter_map["ExactImage"]);
+    SmoothSubFilter(copy2);
+    popSubFilter();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
