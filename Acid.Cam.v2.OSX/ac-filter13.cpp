@@ -937,3 +937,16 @@ void ac::ImageDistortion(cv::Mat &frame) {
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::ImageDistortionSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageDistortionSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2;
+    cv::resize(blend_image,copy2,frame.size());
+    CallFilter(subfilter, copy1);
+    pushSubFilter(filter_map["ExactImage"]);
+    SmoothImageAlphaBlend(copy2);
+    popSubFilter();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}

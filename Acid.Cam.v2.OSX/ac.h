@@ -830,6 +830,7 @@ namespace ac {
     void ImageEnergy(cv::Mat &frame);
     void ImageEnergySubFilter(cv::Mat &frame);
     void ImageDistortion(cv::Mat &frame);
+    void ImageDistortionSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
