@@ -1012,3 +1012,18 @@ void ac::ImageDarkenSmoothMedian(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+
+void ac::XorReverseImageSmoothSubFilter(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Xor(copy1, reimage);
+    Reverse(reimage);
+    Xor(copy2, reimage);
+    pushSubFilter(filter_map["ExactImage"]);
+    SmoothSubFilter32(copy1);
+    popSubFilter();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+}

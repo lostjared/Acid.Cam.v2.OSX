@@ -835,6 +835,7 @@ namespace ac {
     void FeedbackColormap(cv::Mat &frame);
     void SmoothImageAlphaBlendMedian(cv::Mat &frame);
     void ImageDarkenSmoothMedian(cv::Mat &frame);
+    void XorReverseImageSmoothSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
