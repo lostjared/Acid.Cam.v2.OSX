@@ -950,3 +950,16 @@ void ac::ImageDistortionSubFilter(cv::Mat &frame) {
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::SmoothExactImageXorAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    pushSubFilter(filter_map["ExactImage"]);
+    SmoothSubFilter16(copy1);
+    popSubFilter();
+    pushSubFilter(filter_map["XorAlpha"]);
+    SmoothSubFilter16(copy2);
+    popSubFilter();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
