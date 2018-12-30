@@ -832,6 +832,7 @@ namespace ac {
     void ImageDistortion(cv::Mat &frame);
     void ImageDistortionSubFilter(cv::Mat &frame);
     void SmoothExactImageXorAlpha(cv::Mat &frame);
+    void FeedbackColormap(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

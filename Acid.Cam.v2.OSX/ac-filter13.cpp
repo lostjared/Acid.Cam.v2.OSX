@@ -963,3 +963,16 @@ void ac::SmoothExactImageXorAlpha(cv::Mat &frame) {
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::FeedbackColormap(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    pushSubFilter(-1);
+    SoftFeedbackResizeSubFilter64(copy1);
+    popSubFilter();
+    pushSubFilter(filter_map["StrobeSort"]);
+    ColormapBlendSubFilter(copy2);
+    popSubFilter();
+    MedianBlend(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    
+}
