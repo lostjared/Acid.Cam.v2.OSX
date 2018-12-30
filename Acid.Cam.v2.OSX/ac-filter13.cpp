@@ -1013,7 +1013,7 @@ void ac::ImageDarkenSmoothMedian(cv::Mat &frame) {
 }
 
 
-void ac::XorReverseImageSmoothSubFilter(cv::Mat &frame) {
+void ac::XorReverseImageSmooth(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
