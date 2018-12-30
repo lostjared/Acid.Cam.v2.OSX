@@ -840,6 +840,8 @@ void ac::ParticleReleaseXor(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
+    AddInvert(frame);
+
 }
 
 void ac::ParticleReleaseXorVec(cv::Mat &frame) {
@@ -854,7 +856,7 @@ void ac::ParticleReleaseXorVec(cv::Mat &frame) {
             }
         }
     }
-    
+    AddInvert(frame);
 }
 
 void ac::ParticleReleaseAlphaBlend(cv::Mat &frame) {
@@ -872,6 +874,7 @@ void ac::ParticleReleaseAlphaBlend(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::ParticleReleaseWithImage(cv::Mat &frame) {
@@ -883,6 +886,7 @@ void ac::ParticleReleaseWithImage(cv::Mat &frame) {
     ParticleRelease(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ParticleReleaseSubFilter(cv::Mat &frame) {
@@ -893,6 +897,7 @@ void ac::ParticleReleaseSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
     ParticleRelease(frame);
+    AddInvert(frame);
 }
 
 void ac::ParticleReleaseImageSubFilter(cv::Mat &frame) {
@@ -904,6 +909,7 @@ void ac::ParticleReleaseImageSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     ParticleRelease(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ImageEnergy(cv::Mat &frame) {
@@ -913,6 +919,7 @@ void ac::ImageEnergy(cv::Mat &frame) {
     SmoothSubFilter32(frame);
     MedianBlend(frame);
     popSubFilter();
+    AddInvert(frame);
 }
 
 
@@ -922,6 +929,7 @@ void ac::ImageEnergySubFilter(cv::Mat &frame) {
     SmoothSubFilter32(frame);
     SmoothImageAlphaBlend(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ImageDistortion(cv::Mat &frame) {
@@ -936,6 +944,7 @@ void ac::ImageDistortion(cv::Mat &frame) {
     SmoothSubFilter(copy2);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::ImageDistortionSubFilter(cv::Mat &frame) {
@@ -949,6 +958,7 @@ void ac::ImageDistortionSubFilter(cv::Mat &frame) {
     SmoothImageAlphaBlend(copy2);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::SmoothExactImageXorAlpha(cv::Mat &frame) {
@@ -962,6 +972,7 @@ void ac::SmoothExactImageXorAlpha(cv::Mat &frame) {
     SmoothSubFilter16(copy2);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::FeedbackColormap(cv::Mat &frame) {
@@ -974,5 +985,30 @@ void ac::FeedbackColormap(cv::Mat &frame) {
     popSubFilter();
     MedianBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
-    
+    AddInvert(frame);
 }
+
+void ac::SmoothImageAlphaBlendMedian(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    SmoothImageAlphaBlend(reimage);
+    MedianBlend(copy1);
+    MedianBlend(reimage);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::ImageDarkenSmoothMedian(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    DarkenFilter(frame);
+    SmoothImageAlphaBlendMedian(frame);
+    pushSubFilter(filter_map["RGBColorTrails"]);
+    SmoothSubFilter32(frame);
+    popSubFilter();
+    MedianBlend(frame);
+    AddInvert(frame);
+}
+
