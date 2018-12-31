@@ -1037,3 +1037,15 @@ void ac::ReverseSubFilterBlend(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::ReverseSubFilterXor(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ReverseSubFilterXor")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Reverse(copy1);
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    Xor(copy1, frame);
+    Xor(copy2, frame);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
