@@ -1027,3 +1027,13 @@ void ac::XorReverseImageSmooth(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
 }
+
+void ac::ReverseSubFilterBlend(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ReverseSubFilterBlend")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Reverse(copy2);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
