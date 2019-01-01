@@ -1049,3 +1049,35 @@ void ac::ReverseSubFilterXor(cv::Mat &frame) {
     Xor(copy2, frame);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::ImageReverseSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageReverseSubFilter")
+        return;
+    
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Mat all_frames[3];
+    cv::flip(frame, all_frames[0], -1);
+    cv::flip(frame, all_frames[1], 0);
+    cv::flip(frame, all_frames[2], 1);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i){
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            for(int j = 0; j < 3; ++j) {
+                pix[j] = all_frames[j].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pixel[j];
+            }
+        }
+    }
+    static MatrixCollection<8> collection;
+    Smooth(copy1, &collection);
+    CallFilter(subfilter, reimage);
+    Xor(reimage, copy1);
+    AlphaBlend(reimage, copy2, frame, 0.5);
+    DarkenFilter(frame);
+    MedianBlend(frame);
+}
