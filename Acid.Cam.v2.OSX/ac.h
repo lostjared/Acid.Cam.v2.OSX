@@ -840,6 +840,7 @@ namespace ac {
     void ReverseSubFilterXor(cv::Mat &frame);
     void ImageReverseSubFilter(cv::Mat &frame);
     void SmoothRainbowMedian(cv::Mat &frame);
+    void MirrorAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

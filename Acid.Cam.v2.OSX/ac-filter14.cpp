@@ -44,3 +44,13 @@
 #include "ac.h"
 
 
+void ac::MirrorAlphaBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone(), copy4;
+    MirrorBitwiseXor(copy1);
+    MirrorXorAll(copy2);
+    AlphaBlend(copy1, copy2, copy4, 0.5);
+    AlphaBlend(copy3, copy4, frame, 0.5);
+    BlendWithSource(frame);
+    DarkenFilter(frame);
+    MirrorBitwiseXor(frame);
+}
