@@ -54,3 +54,15 @@ void ac::MirrorAlphaBlend(cv::Mat &frame) {
     DarkenFilter(frame);
     MirrorBitwiseXor(frame);
 }
+
+void ac::ImageSmoothMedianBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    
+    rainbowBlend(frame);
+    pushSubFilter(filter_map["ExactImage"]);
+    SmoothSubFilter32(frame);
+    popSubFilter();
+    DarkenFilter(frame);
+    MedianBlend(frame);
+}
