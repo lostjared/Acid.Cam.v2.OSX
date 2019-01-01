@@ -1081,3 +1081,14 @@ void ac::ImageReverseSubFilter(cv::Mat &frame) {
     DarkenFilter(frame);
     MedianBlend(frame);
 }
+
+void ac::SmoothRainbowMedian(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    pushSubFilter(filter_map["RainbowXorBlend"]); // push new filter to stop of stack
+    SmoothSubFilter32(frame);// Call function with SubFilter
+    popSubFilter();// pop subfilter off of stack
+    DarkenFilter(frame);
+    MedianBlend(frame);// median blend
+    cv::Mat copy2 = frame.clone();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
