@@ -2,7 +2,7 @@
  * This source file was modified from sample Syphon Examples
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that struggle with mental illness.
+ This software is dedicated to all the people that have experienced mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
