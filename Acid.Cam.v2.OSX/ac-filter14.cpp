@@ -66,3 +66,17 @@ void ac::ImageSmoothMedianBlend(cv::Mat &frame) {
     DarkenFilter(frame);
     MedianBlend(frame);
 }
+
+void ac::ImageSmoothMedianSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageSmoothMedianSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    rainbowBlend(copy1);
+    pushSubFilter(filter_map["ExactImage"]);
+    SmoothSubFilter32(copy1);
+    popSubFilter();
+    DarkenFilter(copy1);
+    MedianBlend(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    CallFilter(subfilter, frame);
+}

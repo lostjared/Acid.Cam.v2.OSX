@@ -842,6 +842,7 @@ namespace ac {
     void SmoothRainbowMedian(cv::Mat &frame);
     void MirrorAlphaBlend(cv::Mat &frame);
     void ImageSmoothMedianBlend(cv::Mat &frame);
+    void ImageSmoothMedianSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
