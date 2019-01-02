@@ -278,8 +278,8 @@ void SearchForString(NSString *s) {
     [filter_search_window setLevel:NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
-    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
-    [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES];
+    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO adduser:NO];
+    [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES adduser:YES];
     [categories setMenu: menu_cat];
     [categories_custom setMenu:menu_cat_custom];
     [current_filter setMenu: menu_items[0]];
@@ -315,6 +315,7 @@ void SearchForString(NSString *s) {
     syphon_enabled = NO;
     [self setColorValuesRange:self];
     user_menu = [[NSMenu alloc] init];
+    [self loadMenuList];
     /*
      
      std::vector<std::string> valz;
@@ -364,7 +365,7 @@ void SearchForString(NSString *s) {
     }
 }
 
-- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL)add_u{
     *cat = [[NSMenu alloc] init];
     [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"All Sorted" action:nil keyEquivalent:@""];
@@ -380,7 +381,9 @@ void SearchForString(NSString *s) {
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"SubFilter" action: nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
-    [*cat addItemWithTitle:@"User" action:nil keyEquivalent:@""];
+    
+    if(add_u == YES)
+        [*cat addItemWithTitle:@"User" action:nil keyEquivalent:@""];
     
     for(int i = 1; i < 14; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
@@ -389,9 +392,7 @@ void SearchForString(NSString *s) {
     std::vector<std::string> all_sorted;
     for(int x = 0; x < ac::draw_max-4; ++x)
         all_sorted.push_back(ac::draw_strings[x]);
-    
     std::sort(all_sorted.begin(), all_sorted.end());
-    
     const char **szAllSorted = convertToStringArray(all_sorted);
     [self fillMenuWithString: it_arr[1] stringValues:szAllSorted];
     eraseArray(szAllSorted, all_sorted.size());
@@ -2333,12 +2334,15 @@ void SearchForString(NSString *s) {
 - (void) loadMenuList {
     if(user_menu != nil)
         [user_menu release];
+    
     NSInteger index_value = [categories_custom indexOfSelectedItem];
     user_menu = [[NSMenu alloc] init];
+    
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
     	if(i->second.index != -1)
             [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
     }
+    [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
     if(index_value == 14 && [user_menu numberOfItems] > 0) {
         [current_filter_custom setMenu: user_menu];
     }

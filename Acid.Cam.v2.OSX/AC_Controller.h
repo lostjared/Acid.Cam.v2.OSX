@@ -168,7 +168,7 @@ extern void SearchForString(NSString *s);
     BOOL syphon_enabled;
 }
 // classes messages
-- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
 - (IBAction) menuSelected: (id) sender;
 - (IBAction) customMenuSelected:(id) sender;

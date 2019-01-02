@@ -80,3 +80,16 @@ void ac::ImageSmoothMedianSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     CallFilter(subfilter, frame);
 }
+
+void ac::ImageAlphaXorMedianBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    SmoothImageAlphaBlend(copy1);
+    ImageSmoothMedianBlend(copy2);
+    static double alpha = 1.0, alpha_max = 4.0;
+    AlphaXorBlend(copy1, copy2, frame, alpha);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
