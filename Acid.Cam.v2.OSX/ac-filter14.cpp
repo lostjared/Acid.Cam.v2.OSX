@@ -133,3 +133,27 @@ void ac::MatrixCollectionImageSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     MedianBlend(frame);
 }
+
+void ac::MatrixCollectionBlurAlpha(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copy1 = frame.clone();
+    MedianBlend(copy1);
+    collection.shiftFrames(copy1);
+    Smooth(frame, &collection);
+    for(int z = 0; z < frame.rows; ++z) {
+        cv::Scalar total;
+        cv::Vec3b values[4];
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int q = 0; q < collection.size(); ++q) {
+                values[q] = collection.frames[q].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (values[0][j] ^ values[1][j] ^ values[2][j])^pixel[j];
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
