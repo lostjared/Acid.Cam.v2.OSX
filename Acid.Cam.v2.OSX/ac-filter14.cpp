@@ -142,7 +142,6 @@ void ac::MatrixCollectionBlurAlpha(cv::Mat &frame) {
     collection.shiftFrames(copy1);
     Smooth(frame, &collection);
     for(int z = 0; z < frame.rows; ++z) {
-        cv::Scalar total;
         cv::Vec3b values[4];
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
