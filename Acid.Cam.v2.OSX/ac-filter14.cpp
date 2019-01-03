@@ -103,5 +103,19 @@ void ac::MatrixCollectionBlend(cv::Mat &frame) {
         ShuffleAlpha(collection.frames[i]);
         MedianBlur(collection.frames[i]);
     }
-    Smooth(frame, &collection);
+    Smooth(frame, &collection, false);
+}
+
+// use with Custom goes good with RainbowXorBlend
+void ac::MatrixCollectionSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    for(int i  = 0; i < collection.size(); ++i) {
+        CallFilter(subfilter, collection.frames[i]);
+    }
+    Smooth(copy2, &collection, false);
+    AlphaBlend(copy1, copy2, frame, 0.5);
 }

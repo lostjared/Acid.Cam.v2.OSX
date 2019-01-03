@@ -845,6 +845,7 @@ namespace ac {
     void ImageSmoothMedianSubFilter(cv::Mat &frame);
     void ImageAlphaXorMedianBlend(cv::Mat &frame);
     void MatrixCollectionBlend(cv::Mat &frame);
+    void MatrixCollectionSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
