@@ -53,6 +53,7 @@ void ac::MirrorAlphaBlend(cv::Mat &frame) {
     BlendWithSource(frame);
     DarkenFilter(frame);
     MirrorBitwiseXor(frame);
+    AddInvert(frame);
 }
 
 void ac::ImageSmoothMedianBlend(cv::Mat &frame) {
@@ -65,6 +66,7 @@ void ac::ImageSmoothMedianBlend(cv::Mat &frame) {
     popSubFilter();
     DarkenFilter(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ImageSmoothMedianSubFilter(cv::Mat &frame) {
@@ -79,6 +81,8 @@ void ac::ImageSmoothMedianSubFilter(cv::Mat &frame) {
     MedianBlend(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
     CallFilter(subfilter, frame);
+    AddInvert(frame);
+
 }
 
 void ac::ImageAlphaXorMedianBlend(cv::Mat &frame) {
@@ -92,6 +96,7 @@ void ac::ImageAlphaXorMedianBlend(cv::Mat &frame) {
     AlphaXorBlend(copy1, copy2, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 // use with Custom as Subfilter
@@ -104,6 +109,7 @@ void ac::MatrixCollectionBlend(cv::Mat &frame) {
         MedianBlur(collection.frames[i]);
     }
     Smooth(frame, &collection, false);
+    AddInvert(frame);
 }
 
 // use with Custom goes good with RainbowXorBlend
@@ -118,6 +124,7 @@ void ac::MatrixCollectionSubFilter(cv::Mat &frame) {
     }
     Smooth(copy2, &collection, false);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionImageSubFilter(cv::Mat &frame) {
@@ -132,6 +139,7 @@ void ac::MatrixCollectionImageSubFilter(cv::Mat &frame) {
     Smooth(copy1, &collection, false);
     AlphaBlend(copy1, reimage, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionBlurAlpha(cv::Mat &frame) {
@@ -155,4 +163,23 @@ void ac::MatrixCollectionBlurAlpha(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionXor(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[16];
+            for(int q = 0; q < collection.size(); ++q) {
+                pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = (pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j] ^ pix[4][j] ^ pix[5][j] ^ pix[6][j] ^ pix[7][j] ^ pix[8][j] ^ pix[9][j] ^ pix[10][j] ^ pix[11][j] ^ pix[12][j] ^ pix[13][j] ^ pix[14][j] ^ pix[15][j])^pixel[j];
+            }
+        }
+    }
+    AddInvert(frame);
 }
