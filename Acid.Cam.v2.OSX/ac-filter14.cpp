@@ -93,3 +93,15 @@ void ac::ImageAlphaXorMedianBlend(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
+
+// use with Custom as Subfilter
+void ac::MatrixCollectionBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    collection.shiftFrames(copy1);
+    for(int i = 0; i < collection.size(); ++i) {
+        ShuffleAlpha(collection.frames[i]);
+        MedianBlur(collection.frames[i]);
+    }
+    Smooth(frame, &collection);
+}
