@@ -119,3 +119,17 @@ void ac::MatrixCollectionSubFilter(cv::Mat &frame) {
     Smooth(copy2, &collection, false);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::MatrixCollectionImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionImageSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    collection.shiftFrames(reimage);
+    collection.shiftFrames(copy1);
+    Smooth(copy1, &collection, false);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    MedianBlend(frame);
+}
