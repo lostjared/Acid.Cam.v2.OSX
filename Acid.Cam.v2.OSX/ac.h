@@ -849,6 +849,9 @@ namespace ac {
     void MatrixCollectionImageSubFilter(cv::Mat &frame);
     void MatrixCollectionBlurAlpha(cv::Mat &frame);
     void MatrixCollectionXor(cv::Mat &frame);
+    void MatrixCollectionXor32(cv::Mat &frame);
+    void MatrixCollectionRainbowXor(cv::Mat &frame);
+    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
