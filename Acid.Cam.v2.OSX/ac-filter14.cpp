@@ -173,11 +173,15 @@ void ac::MatrixCollectionXor(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix[16];
+            cv::Vec3b copypix = pixel;
             for(int q = 0; q < collection.size(); ++q) {
                 pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
             }
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = (pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j] ^ pix[4][j] ^ pix[5][j] ^ pix[6][j] ^ pix[7][j] ^ pix[8][j] ^ pix[9][j] ^ pix[10][j] ^ pix[11][j] ^ pix[12][j] ^ pix[13][j] ^ pix[14][j] ^ pix[15][j])^pixel[j];
+                for(int r = 0; r < collection.size(); ++r) {
+                    copypix[j] ^= pix[r][j];
+                }
+                pixel[j] = copypix[j];
             }
         }
     }
@@ -191,41 +195,64 @@ void ac::MatrixCollectionXor32(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix[32];
+            cv::Vec3b copypix = pixel;
             for(int q = 0; q < collection.size(); ++q) {
                 pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
             }
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = (pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j] ^ pix[4][j] ^ pix[5][j] ^ pix[6][j] ^ pix[7][j] ^ pix[8][j] ^ pix[9][j] ^ pix[10][j] ^ pix[11][j] ^ pix[12][j] ^ pix[13][j] ^ pix[14][j] ^ pix[15][j] ^ pix[16][j]
-                            ^ pix[17][j] ^ pix[18][j] ^ pix[19][j] ^ pix[20][j] ^ pix[21][j] ^ pix[22][j] ^ pix[23][j] ^ pix[24][j] ^ pix[25][j] ^ pix[26][j] ^ pix[27][j] ^ pix[28][j] ^ pix[29][j] ^ pix[30][j] ^ pix[31][j])^pixel[j];
+                for(int r = 0; r < collection.size(); ++r) {
+                    copypix[j] ^= pix[r][j];
+                }
+                pixel[j] = copypix[j];
             }
         }
     }
     AddInvert(frame);
 }
 
-void ac::MatrixCollectionRainbowXor(cv::Mat &frame) {
+void ac::MatrixCollectionRandomColorMap(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     cv::Mat copy1 = frame.clone();
-    static bool val = true;
-    if(val == true) {
-        Negate(copy1);
-        val = false;
-    } else {
-        RainbowXorBlend(copy1);
-        val = true;
-    }
+    RandomColorMap(copy1);
     collection.shiftFrames(copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix[16];
+            cv::Vec3b copypix = pixel;
             for(int q = 0; q < collection.size(); ++q) {
                 pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
             }
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = (pix[0][j] ^ pix[1][j] ^ pix[2][j] ^ pix[3][j] ^ pix[4][j] ^ pix[5][j] ^ pix[6][j] ^ pix[7][j] ^ pix[8][j] ^ pix[9][j] ^ pix[10][j] ^ pix[11][j] ^ pix[12][j] ^ pix[13][j] ^ pix[14][j] ^ pix[15][j])^pixel[j];
+                for(int r = 0; r < collection.size(); ++r) {
+                    copypix[j] ^= pix[r][j];
+                }
+                pixel[j] = copypix[j];
             }
         }
     }
     AddInvert(frame);
+}
+
+void ac::MatrixCollectionDarkXor(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[32];
+            cv::Vec3b copypix = pixel;
+            for(int q = 0; q < collection.size(); ++q) {
+                pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                for(int r = 0; r < collection.size(); ++r) {
+                    copypix[j] ^= pix[r][j];
+                }
+               pixel[j] = copypix[j]^pixel[j];
+            }
+        }
+    }
+    AddInvert(frame);
+
 }
