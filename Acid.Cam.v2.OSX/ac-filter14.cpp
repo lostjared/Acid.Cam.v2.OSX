@@ -294,3 +294,24 @@ void ac::MatrixCollectionRGB(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::TrailsSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "TrailsSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MatrixCollectionXor(copy1);
+    CallFilter(subfilter, copy2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i), pix2 = copy2.at<cv::Vec3b>(z, i);
+            cv::Vec3b lv(50, 50, 50);
+            cv::Vec3b hv(50, 50, 50);
+            if(colorBounds(pix,pixel,lv, hv)) {
+                pixel = pix;
+            } else {
+                pixel = pix2;
+            }
+        }
+    }
+}

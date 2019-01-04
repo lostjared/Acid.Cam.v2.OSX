@@ -853,6 +853,7 @@ namespace ac {
     void MatrixCollectionRandomColorMap(cv::Mat &frame);
     void MatrixCollectionDarkXor(cv::Mat &frame);
     void MatrixCollectionRGB(cv::Mat &frame);
+    void TrailsSubFilter(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
