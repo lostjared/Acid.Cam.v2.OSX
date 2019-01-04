@@ -852,6 +852,7 @@ namespace ac {
     void MatrixCollectionXor32(cv::Mat &frame);
     void MatrixCollectionRandomColorMap(cv::Mat &frame);
     void MatrixCollectionDarkXor(cv::Mat &frame);
+    void MatrixCollectionRGB(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);

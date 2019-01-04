@@ -256,3 +256,41 @@ void ac::MatrixCollectionDarkXor(cv::Mat &frame) {
     AddInvert(frame);
 
 }
+
+void ac::MatrixCollectionRGB(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    static int counter = 0;
+    cv::Mat copy1 = frame.clone();
+    switch(counter) {
+        case 0:
+            AllRed(copy1);
+            break;
+        case 1:
+            AllGreen(copy1);
+            break;
+        case 2:
+            AllBlue(copy1);
+            break;
+    }
+    ++counter;
+    if(counter > 2)
+        counter = 0;
+    collection.shiftFrames(copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[32];
+            cv::Vec3b copypix = pixel;
+            for(int q = 0; q < collection.size(); ++q) {
+                pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                for(int r = 0; r < collection.size(); ++r) {
+                    copypix[j] ^= pix[r][j];
+                }
+                pixel[j] = copypix[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
