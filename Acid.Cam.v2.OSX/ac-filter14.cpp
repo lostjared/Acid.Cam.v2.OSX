@@ -305,8 +305,8 @@ void ac::TrailsSubFilter(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i), pix2 = copy2.at<cv::Vec3b>(z, i);
-            cv::Vec3b lv(50, 50, 50);
-            cv::Vec3b hv(50, 50, 50);
+            cv::Vec3b lv(100, 100, 100);
+            cv::Vec3b hv(100, 100, 100);
             if(colorBounds(pix,pixel,lv, hv)) {
                 pixel = pix;
             } else {
