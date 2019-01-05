@@ -855,6 +855,7 @@ namespace ac {
     void MatrixCollectionRGB(cv::Mat &frame);
     void TrailsSubFilter(cv::Mat &frame);
     void TrailsSubFilter32(cv::Mat &frame);
+    void CompareWithSubFilter(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);

@@ -314,6 +314,7 @@ void ac::TrailsSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 // difference between frames
@@ -336,5 +337,26 @@ void ac::TrailsSubFilter32(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
+void ac::CompareWithSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "DifferenceSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i), pix2 = copy2.at<cv::Vec3b>(z, i);
+            cv::Vec3b lv(100, 100, 100);
+            cv::Vec3b hv(100, 100, 100);
+            if(colorBounds(pix1,pix2,lv, hv)) {
+                pixel = pix2;
+            } else {
+                pixel = pix1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
