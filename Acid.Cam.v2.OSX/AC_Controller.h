@@ -259,6 +259,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) user_Clear: (id) sender;
 - (void) loadFileData: (const char *)path;
 - (void) loadMenuList;
+- (IBAction) jumpToCustom: (id) sender;
 @end
 
 class UserFilter {

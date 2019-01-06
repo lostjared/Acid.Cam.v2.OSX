@@ -2348,6 +2348,13 @@ void SearchForString(NSString *s) {
     }
 }
 
+- (IBAction) jumpToCustom: (id) sender {
+    [current_filter selectItemAtIndex:ac::draw_max-4];
+    [window1 orderFront:self];
+    [custom_window orderFront:self];
+    [self changeFilter:self];
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
