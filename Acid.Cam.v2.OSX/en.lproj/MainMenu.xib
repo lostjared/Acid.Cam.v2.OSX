@@ -256,12 +256,6 @@
                                     <action selector="takeSnapshotPNG:" target="630" id="yHO-Xt-6iN"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="5bY-6h-ImI"/>
-                            <menuItem title="Jump to Custom" keyEquivalent="j" id="de5-3y-jQN">
-                                <connections>
-                                    <action selector="jumpToCustom:" target="630" id="fA4-bH-9W7"/>
-                                </connections>
-                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -366,6 +360,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="setStretch:" target="630" id="BLI-th-nku"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="PVo-jh-1Lt"/>
+                            <menuItem title="Jump to Custom" keyEquivalent="j" id="ad6-xy-EqS">
+                                <connections>
+                                    <action selector="jumpToCustom:" target="630" id="Jnj-x9-PjC"/>
                                 </connections>
                             </menuItem>
                         </items>
