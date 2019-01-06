@@ -2349,9 +2349,9 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) jumpToCustom: (id) sender {
+    [categories selectItemAtIndex:0];
+    [self menuSelected:self];
     [current_filter selectItemAtIndex:ac::draw_max-4];
-    [window1 orderFront:self];
-    [custom_window orderFront:self];
     [self changeFilter:self];
 }
 
