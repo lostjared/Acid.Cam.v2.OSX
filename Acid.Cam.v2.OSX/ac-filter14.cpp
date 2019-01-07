@@ -370,3 +370,10 @@ void ac::MedianTrails(cv::Mat &frame) {
     AlphaBlend(copy1,copy2,frame,0.5);
     //MedianBlend(frame);
 }
+
+void ac::SmoothMedianBlend(cv::Mat &frame) {
+    pushSubFilter(filter_map["MatrixCollectionXor"]);
+    SmoothSubFilter(frame);
+    popSubFilter();
+    MedianBlend(frame);
+}
