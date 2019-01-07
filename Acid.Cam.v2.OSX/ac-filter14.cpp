@@ -360,3 +360,13 @@ void ac::CompareWithSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MedianTrails(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    pushSubFilter(filter_map["RandomColorMap"]);
+    TrailsSubFilter(copy1);
+    popSubFilter();
+    MedianBlend(copy2);
+    AlphaBlend(copy1,copy2,frame,0.5);
+    //MedianBlend(frame);
+}
