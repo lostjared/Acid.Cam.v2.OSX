@@ -860,7 +860,8 @@ namespace ac {
     void SmoothMedianBlend(cv::Mat &frame);
     void ColorTransition(cv::Mat &frame);
     void ColorTransitionMedian(cv::Mat &frame);
-    
+    void ColorTransitionRandom(cv::Mat &frame);
+    void ColorTransitionRandomMedian(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

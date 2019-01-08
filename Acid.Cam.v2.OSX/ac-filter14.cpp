@@ -416,3 +416,41 @@ void ac::ColorTransitionMedian(cv::Mat &frame) {
     ColorTransition(frame);
     MedianBlend(frame);
 }
+
+void ac::ColorTransitionRandom(cv::Mat &frame) {
+    static int val[3] = {rand()%255,rand()%255,rand()%255};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += val[j];
+            }
+        }
+    }
+    static int dir[3] = {rand()%2,rand()%2,rand()%2};
+    static int speed[3] = {rand()%5,rand()%5,rand()%5};
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            val[j] += speed[j];
+            if(val[j] >= 255) {
+                val[j] = rand()%255;
+                dir[j] = rand()%2;
+                ++speed[j];
+                if(speed[j] > 5) speed[j] = 1;
+            }
+        } else if(dir[j] == 0) {
+            val[j] -= speed[j];
+            if(val[j] <= 0) {
+                val[j] = rand()%255;
+                dir[j] = rand()%2;
+                ++speed[j];
+                if(speed[j] > 5) speed[j] = 1;
+            }
+        }
+    }
+}
+
+void ac::ColorTransitionRandomMedian(cv::Mat &frame) {
+    ColorTransitionRandom(frame);
+    MedianBlend(frame);
+}
