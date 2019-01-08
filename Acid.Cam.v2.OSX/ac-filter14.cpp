@@ -368,7 +368,7 @@ void ac::MedianTrails(cv::Mat &frame) {
     popSubFilter();
     MedianBlend(copy2);
     AlphaBlend(copy1,copy2,frame,0.5);
-    //MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::SmoothMedianBlend(cv::Mat &frame) {
@@ -376,4 +376,5 @@ void ac::SmoothMedianBlend(cv::Mat &frame) {
     SmoothSubFilter(frame);
     popSubFilter();
     MedianBlend(frame);
+    AddInvert(frame);
 }
