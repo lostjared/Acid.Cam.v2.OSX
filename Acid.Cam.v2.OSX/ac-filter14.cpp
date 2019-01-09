@@ -455,8 +455,8 @@ void ac::ColorTransitionRandomMedian(cv::Mat &frame) {
     MedianBlend(frame);
 }
 
-void ac::TestFilter101SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "TestFilter101SubFilter")
+void ac::ColorTransitionSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ColorTransitionSubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     cv::Mat copy2 = frame.clone();
