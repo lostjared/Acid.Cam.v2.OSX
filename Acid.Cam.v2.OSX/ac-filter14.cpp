@@ -410,11 +410,13 @@ void ac::ColorTransition(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ColorTransitionMedian(cv::Mat &frame) {
     ColorTransition(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ColorTransitionRandom(cv::Mat &frame) {
@@ -448,11 +450,13 @@ void ac::ColorTransitionRandom(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ColorTransitionRandomMedian(cv::Mat &frame) {
     ColorTransitionRandom(frame);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ColorTransitionSubFilter(cv::Mat &frame) {
@@ -464,6 +468,7 @@ void ac::ColorTransitionSubFilter(cv::Mat &frame) {
     ColorTransitionRandomMedian(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::ColorTransitionImageSubFilter(cv::Mat &frame) {
@@ -474,4 +479,50 @@ void ac::ColorTransitionImageSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::CurtainSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "CurtainSubFilter")
+        return;
+    if(testSize(frame) == false)
+        return;
+    static int start = 0;
+    static int direction = 1;
+    static double alpha = 1.0, alpha_max = 7.0;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        if(direction == 1) {
+            for(int i = 0; i < start; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+                }
+            }
+        } else {
+            
+            for(int i = frame.cols-1; i > start; --i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b copy_pix = frame_copy.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(copy_pix[j]+pixel[j]);
+            }
+        }
+    }
+    if(direction == 1) {
+        start += 40;
+        if(start > frame.cols-1) {
+            direction = 0;
+        }
+    } else {
+        start -= 40;
+        if(start <= 1) {
+            direction = 1;
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }

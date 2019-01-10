@@ -864,6 +864,7 @@ namespace ac {
     void ColorTransitionRandomMedian(cv::Mat &frame);
     void ColorTransitionSubFilter(cv::Mat &frame);
     void ColorTransitionImageSubFilter(cv::Mat &frame);
+    void CurtainSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
