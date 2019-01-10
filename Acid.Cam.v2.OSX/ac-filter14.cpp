@@ -465,3 +465,13 @@ void ac::ColorTransitionSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
 }
+
+void ac::ColorTransitionImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ColorTransitionImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::resize(blend_image, copy2, frame.size());
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
