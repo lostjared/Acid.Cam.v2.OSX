@@ -4,11 +4,11 @@
 //
 //  Created by Jared Bruni on 6/3/13.
 //  https://github.com/lostjared
-//  Copyright (c) 2019 Jared Bruni. All rights reserved.
+//  Copyright (c) 2018 Jared Bruni. All rights reserved.
 /*
  * Software written by Jared Bruni https://github.com/lostjared
 
-This software is dedicated to all the people that experience mental illness.
+This software is dedicated to all the people that struggle with mental illness.
 
 Website: http://lostsidedead.com
 YouTube: http://youtube.com/LostSideDead
@@ -22,7 +22,7 @@ as you do not charge anything for this program. This program is meant to be
 
 BSD 2-Clause License
 
-Copyright (c) 2019, Jared Bruni
+Copyright (c) 2018, Jared Bruni
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -53,10 +53,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #undef check
 #include"videocapture.h"
 #include<sstream>
-#include<string>
-#include<unordered_map>
-#include<cstdlib>
-#include<cstdio>
 #include "AC_Renderer.h"
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
@@ -136,18 +132,8 @@ extern void SearchForString(NSString *s);
     IBOutlet NSPopUpButton *proc_change;
     IBOutlet NSPopUpButton *blend_source_amt;
     IBOutlet NSPopUpButton *sy_size;
-    IBOutlet NSButton *chk_replace;
-    IBOutlet NSTextField *selectedFilename, *colorkey_range, *colorkey_r_low, *colorkey_r_high, *colorkey_g_low, *colorkey_g_high, *colorkey_b_low, *colorkey_b_high;
-    IBOutlet NSComboBox *blocked_colors;
-    IBOutlet NSColorWell *blocked_color_well, *blocked_color_well_high;
-    IBOutlet NSWindow *block_colors_window;
-    IBOutlet NSTextField *val_colorkey_r_low, *val_colorkey_r_high, *val_colorkey_g_low, *val_colorkey_g_high, *val_colorkey_b_low, *val_colorkey_b_high;
-    IBOutlet NSButton *key_tolerance, *key_range, *chk_blocked_replace, *chk_blocked_key, *chk_spill;
-    IBOutlet NSComboBox *user_filter_name;
-    IBOutlet NSButton *user_filter_add, *user_filter_remove,*user_filter_set, *user_filter_save;
+    IBOutlet NSTextField *selectedFilename;
     SearchController *search_controller;
-    NSMenu *user_menu;
-    NSThread *proc_cv;
     // variables
     bool reset_memory;
     bool pauseStepTrue;
@@ -168,7 +154,7 @@ extern void SearchForString(NSString *s);
     BOOL syphon_enabled;
 }
 // classes messages
-- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust;
 - (void) fillMenuWithString: (NSMenu *)menu stringValues:(const char **) items;
 - (IBAction) menuSelected: (id) sender;
 - (IBAction) customMenuSelected:(id) sender;
@@ -242,35 +228,7 @@ extern void SearchForString(NSString *s);
 - (IBAction) clearSubFilter: (id) sender;
 - (IBAction) enableSpyhon: (id) sender;
 - (IBAction) setCustomSubFromSearch: (id) sender;
-- (IBAction) updateLabelText: (id) sender;
-- (IBAction) addToBlocked: (id) sender;
-- (IBAction) removedFromBlocked: (id) sender;
-- (IBAction) openBlockedColors: (id) sender;
-- (IBAction) setColorsEnabled: (id) sender;
-- (IBAction) setColorValuesRange: (id) sender;
-- (IBAction) setRangeTolerance:(id) sender;
-- (IBAction) addToRange: (id) sender;
-- (IBAction) addToTolerance: (id) sender;
-- (IBAction) setCheckBoxBlocked: (id) sender;
-- (IBAction) setCheckBoxImage: (id) sender;
-- (IBAction) user_Set: (id) sender;
-- (IBAction) user_Save: (id) sender;
-- (IBAction) user_Load: (id) sender;
-- (IBAction) user_Clear: (id) sender;
-- (void) loadFileData: (const char *)path;
-- (void) loadMenuList;
-- (IBAction) jumpToCustom: (id) sender;
 @end
-
-class UserFilter {
-public:
-    int index, subfilter;
-    std::string name, other_name;
-    UserFilter(): index(0), subfilter(-1) {}
-};
-
-extern std::unordered_map<std::string, UserFilter> user_filter;
-void CustomFilter(cv::Mat &frame, NSMutableArray *list, NSMutableArray *sublist);
 
 // global variables / functions
 extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);

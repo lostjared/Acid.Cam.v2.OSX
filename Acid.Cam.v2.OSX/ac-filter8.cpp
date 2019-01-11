@@ -1,7 +1,7 @@
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that experience mental illness.
+ This software is dedicated to all the people that struggle with mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -15,7 +15,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2019, Jared Bruni
+ Copyright (c) 2018, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -535,7 +535,7 @@ void ac::DiagonalSquare(cv::Mat &frame) {
         cv::Mat out_frame;
         if(col_w > 0 && col_h > 0) {
             cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
-            if(pos_x >= 0 && pos_x < frame.cols-col_w && pos_y >= 0 && pos_y < frame.rows-col_h)
+            if(pos_x >= 0 && pos_x <= frame.cols-col_w && pos_y >= 0 && pos_y <= frame.rows-col_h)
                 copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
         pos_x += col_w;
@@ -545,22 +545,28 @@ void ac::DiagonalSquare(cv::Mat &frame) {
 }
 
 void ac::DiagonalSquareRandom(cv::Mat &frame) {
+    
     if(testSize(frame) == false)
         return;
+    
     static MatrixCollection<4> collection;
     collection.shiftFrames(frame);
     int pos_x = 0, pos_y = 0;
     int col_w = (frame.cols/4)-1;
     int col_h = (frame.rows/4)-1;
+    
     if(col_w < 25 || col_h < 25)
         return;
+    
     Negate(frame);
     for(int i = 0; i < 4; ++i) {
         cv::Mat &copy_frame = collection.frames[i];
         cv::Mat out_frame;
         if(col_w > 0 && col_h > 0) {
             cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
-            randomFilter(out_frame);
+            int index = 0;
+            DrawFunction func = getRandomFilter(index);
+            func(out_frame);
             copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
         pos_x += col_w;

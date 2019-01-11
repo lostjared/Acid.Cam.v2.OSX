@@ -6,7 +6,7 @@
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that experience mental illness.
+ This software is dedicated to all the people that struggle with mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -20,7 +20,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2019, Jared Bruni
+ Copyright (c) 2018, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,6 @@
 #include"tokenize.hpp"
 #include<sys/stat.h>
 #include<AVKit/AVKit.h>
-#include<fstream>
 
 // Global varaibles
 NSTextView *logView;
@@ -88,8 +87,6 @@ bool resize_value = false;
 void custom_filter(cv::Mat &frame);
 void plugin_callback(cv::Mat &frame);
 NSMutableArray *search_results;
-std::string set_filenames[4] = {"None", "None", "None", "None"};
-std::vector<ac::Keys> green_blocked;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -278,8 +275,8 @@ void SearchForString(NSString *s) {
     [filter_search_window setLevel:NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
-    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO adduser:NO];
-    [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES adduser:YES];
+    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO];
+    [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES];
     [categories setMenu: menu_cat];
     [categories_custom setMenu:menu_cat_custom];
     [current_filter setMenu: menu_items[0]];
@@ -299,23 +296,16 @@ void SearchForString(NSString *s) {
     pauseStepTrue = false;
     camera_mode = 0;
     colorkey_set = false;
-    colorkey_bg = false;
-    colorkey_filter = false;
-    colorkey_replace = false;
     frame_proc = 0;
     ac::setCustom(custom_filter);
     ac::setPlugin(plugin_callback);
     [self reloadCameraInfo: self];
     upscale_video = false;
     [up4k setEnabled: YES];
-    [record_op setEnabled: YES];
     set_frame_rate = false;
     set_frame_rate_val = 24;
     reset_memory = false;
     syphon_enabled = NO;
-    [self setColorValuesRange:self];
-    user_menu = [[NSMenu alloc] init];
-    [self loadMenuList];
     /*
      
      std::vector<std::string> valz;
@@ -365,7 +355,7 @@ void SearchForString(NSString *s) {
     }
 }
 
-- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL)add_u{
+- (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust {
     *cat = [[NSMenu alloc] init];
     [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"All Sorted" action:nil keyEquivalent:@""];
@@ -382,9 +372,6 @@ void SearchForString(NSString *s) {
     [*cat addItemWithTitle:@"SubFilter" action: nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Special" action:nil keyEquivalent:@""];
     
-    if(add_u == YES)
-        [*cat addItemWithTitle:@"User" action:nil keyEquivalent:@""];
-    
     for(int i = 1; i < 14; ++i) {
         it_arr[i] = [[NSMenu alloc] init];
     }
@@ -392,68 +379,93 @@ void SearchForString(NSString *s) {
     std::vector<std::string> all_sorted;
     for(int x = 0; x < ac::draw_max-4; ++x)
         all_sorted.push_back(ac::draw_strings[x]);
+    
     std::sort(all_sorted.begin(), all_sorted.end());
+    
     const char **szAllSorted = convertToStringArray(all_sorted);
     [self fillMenuWithString: it_arr[1] stringValues:szAllSorted];
     eraseArray(szAllSorted, all_sorted.size());
-    std::sort(ac::vzBlend.begin(), ac::vzBlend.end());
-    const char **szBlend = convertToStringArray(ac::vzBlend);
+    std::vector<std::string> vzBlend { "Self AlphaBlend", "Self Scale", "Blend #3", "Negative Paradox",  "ThoughtMode", "RandTriBlend", "Filter3","Rainbow Blend","Rand Blend","Pixel Scale","Pulse", "Combine Pixels", "Blend_Angle", "XorMultiBlend", "UpDown","LeftRight", "BlendedScanLines","XorSine", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "DiagonalLines", "HorizontalLines", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "ColorRange", "VectorIncrease", "BlendThree", "HorizontalStripes", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur", "SurroundPixelXor", "WeakBlend", "AverageVertical", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "SelfXorScale", "SelfAlphaRGB", "XorSelfAlphaImage", "AlphaBlendRandom", "ChannelSortAlphaBlend", "RandomXor", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash", "SelfOrDoubleFlash", "BlendRowCurvedSqrt", "CycleShiftRandomAlphaBlend", "TanAlphaGrid", "BlendInAndOut", "BlendScaleInAndOut", "AcidGlitch", "LiquidFilter", "MatrixXorAnd", "XorAlpha", "SelfXorAverage", "RandomXorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "FadeInAndOut", "InitBlend", "LagBlend", "SubFilter", "AddFilter", "AlphaBlendSubFilter", "SmoothSubFilterAlphaBlend", "IntertwineSubFilter", "RandBlend", "EveryOther", "EveryOtherSubFilter", "SmoothSubFilter", "EnergizeSubFilter", "SmoothSubFilter16", "EnergizeSubFilter16", "EnergizeSubFilter32", "SmoothSubFilter32", "HalfAddSubFilter", "HalfXorSubFilter", "StaticXorBlend", "XorScale", "ChannelMedianSubFilter", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "PixelReverseXor", "SilverBlend", "PixelXorBlend", "SelfAlphaScale", "SelfScaleAlpha", "RainbowXorBlend", "FadeBlend", "SelfAlphaScaleBlend", "FadeBars", "ShadeRGB", "InterRGB_SubFilter", "InterSmoothSubFilter", "InterRGB_Bars_XY", "InterRGB_Bars_X", "InterRGB_Bars_Y", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "Blend_AlphaSubFilter","RandomBlendFilter","DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendH", "FlipBlendWH", "FlipBlendAll", "FrameMedianBlendSubFilter", "SelfScaleXorIncrease", "Blend_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "IncDifference", "IncDifferenceAlpha", "MirrorMedianBlend", "SubFilterMedianBlend", "DarkenBlend", "DarkCollectionSubFilter", "DarkSmooth_Filter", "DarkSelfAlpha", "FlipMedian", "FlipMedianSubFilter", "Bars"};
+    std::sort(vzBlend.begin(), vzBlend.end());
+    const char **szBlend = convertToStringArray(vzBlend);
+    
     [self fillMenuWithString: it_arr[2] stringValues:szBlend];
-    eraseArray(szBlend, ac::vzBlend.size());
-    std::sort(ac::svDistort.begin(), ac::svDistort.end());
-    const char **szDistort = convertToStringArray(ac::svDistort);
+    eraseArray(szBlend, vzBlend.size());
+    
+    std::vector<std::string> svDistort { "Tri","Distort","CDraw","Sort Fuzz","Fuzz","Boxes","Boxes Fade", "ShiftPixels", "ShiftPixelsDown","WhitePixel", "Block", "BlockXor","BlockStrobe", "BlockScale", "InvertedScanlines", "ColorMorphing", "NegativeStrobe", "ParticleRelease","ParticleBlend","ParticleFlash","ParticleAlpha", "All Red", "All Green", "All Blue", "LineRGB", "PixelRGB", "BoxedRGB", "KruegerSweater", "RGBStatic1", "RGBStatic2", "FrameBars", "Lines", "WhiteLines", "ThickWhiteLines", "UseLineObject", "LeftLines", "ParticleFast", "PictureBuzz", "ParticleSnow", "RandomPixels", "DarkRandomPixels", "PixelatedHorizontalLines", "PixelatedVerticalLines"};
+    std::sort(svDistort.begin(), svDistort.end());
+    const char **szDistort = convertToStringArray(svDistort);
     [self fillMenuWithString: it_arr[3] stringValues:szDistort];
-    eraseArray(szDistort, ac::svDistort.size());
+    eraseArray(szDistort, svDistort.size());
     std::vector<std::string> svPattern { "Blend Fractal","Blend Fractal Mood","Diamond Pattern" };
-    std::sort(ac::svPattern.begin(), ac::svPattern.end());
-    const char **szPattern = convertToStringArray(ac::svPattern);
+    std::sort(svPattern.begin(), svPattern.end());
+    const char **szPattern = convertToStringArray(svPattern);
     [self fillMenuWithString: it_arr[4] stringValues:szPattern];
     eraseArray(szPattern, svPattern.size());
-    std::sort(ac::svGradient.begin(), ac::svGradient.end());
-    const char **szGradient = convertToStringArray(ac::svGradient);
+    std::vector<std::string> svGradient { "RandomGradient", "CosSinMultiply","New Blend","Color Accumlate1", "Color Accumulate2", "Color Accumulate3", "Filter8", "Graident Rainbow","Gradient Rainbow Flash","Outward", "Outward Square","GradientLines","GradientSelf","GradientSelfVertical","GradientDown","GraidentHorizontal","GradientRGB","GradientStripes", "GradientReverse", "GradientReverseBox", "GradientReverseVertical", "GradientNewFilter", "AverageLines", "QuadCosSinMultiply", "GradientColors", "GradientColorsVertical", "GradientXorSelfScale", "GradientLeftRight", "GraidentUpDown", "GradientLeftRightInOut", "GradientUpDownInOut", "GradientSubFilterXor"};
+    std::sort(svGradient.begin(), svGradient.end());
+    const char **szGradient = convertToStringArray(svGradient);
     [self fillMenuWithString: it_arr[5] stringValues:szGradient];
-    eraseArray(szGradient, ac::svGradient.size());
-    std::sort(ac::svMirror.begin(), ac::svMirror.end());
-    const char **szMirror = convertToStringArray(ac::svMirror);
+    eraseArray(szGradient, svGradient.size());
+    std::vector<std::string> svMirror { "NewOne", "MirrorBlend", "Sideways Mirror","Mirror No Blend","Mirror Average", "Mirror Average Mix","Reverse","Double Vision","RGB Shift","RGB Sep","Side2Side","Top2Bottom", "Soft_Mirror", "KanapaTrip", "InterReverse", "InterMirror", "InterFullMirror", "MirrorRGB", "LineByLineReverse", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBMirror", "MirrorStrobe", "RandomMirror", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "MirrorEnergizeSubFilter", "IntertwinedMirror", "BlurredMirror", "DoubleRandomMirror", "FlipMirror", "FlipMirrorAverage","FlipMirrorSubFilter"};
+    std::sort(svMirror.begin(), svMirror.end());
+    const char **szMirror = convertToStringArray(svMirror);
     [self fillMenuWithString: it_arr[6] stringValues:szMirror];
-    eraseArray(szMirror, ac::svMirror.size());
-    std::sort(ac::svStrobe.begin(), ac::svStrobe.end());
-    const char **szStrobe = convertToStringArray(ac::svStrobe);
+    eraseArray(szMirror, svMirror.size());
+    std::vector<std::string> svStrobe{  "StrobeEffect", "Blank", "Type","Random Flash","Strobe Red Then Green Then Blue","Flash Black","FlashWhite","StrobeScan", "RGBFlash", "ReinterpretDouble", "DiamondStrobe", "BitwiseXorStrobe","FlashBlackAndWhite", "StrobeBlend", "FibFlash", "ScaleFlash", "FadeStrobe", "AndStrobe", "AndStrobeScale", "AndPixelStrobe", "AndOrXorStrobe", "AndOrXorStrobeScale", "BrightStrobe", "DarkStrobe", "RandomXorOpposite", "StrobeTransform", "RandomStrobe", "OrStrobe", "DifferenceStrobe", "BlackAndWhiteDifferenceStrobe", "DifferenceXor", "DifferenceRand", "HalfNegateStrobe", "RandomStrobeFlash", "GaussianStrobe", "StrobeSort", "GlitchSortStrobe", "StrobeXor", "AlphaMorph"};
+    std::sort(svStrobe.begin(), svStrobe.end());
+    const char **szStrobe = convertToStringArray(svStrobe);
     [self fillMenuWithString: it_arr[7] stringValues:szStrobe];
-    eraseArray(szStrobe, ac::svStrobe.size());
-    std::sort(ac::svBlur.begin(), ac::svBlur.end());
-    const char **szBlur = convertToStringArray(ac::svBlur);
+    eraseArray(szStrobe, svStrobe.size());
+    std::vector<std::string> svBlur { "GaussianBlur", "Median Blur", "Blur Distortion", "ColorTrails","TrailsFilter", "TrailsFilterIntense", "TrailsFilterSelfAlpha", "TrailsFilterXor","BlurSim", "TrailsInter", "TrailsBlend", "TrailsNegate", "AcidTrails", "HorizontalTrailsInter" ,"Trails", "BlendTrails", "SmoothTrails", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "XorTrails", "RainbowTrails", "NegativeTrails", "IntenseTrails", "GaussianBlend", "RandomAmountMedianBlur", "MedianBlendAnimation", "AlphaAcidTrails", "RandomBlur", "RGBTrails", "RGBTrailsDark", "RGBTrailsAlpha", "RGBTrailsNegativeAlpha", "MovementRGBTrails", "RGBTrailsXor", "DifferenceBrightStrobe", "PsycheTrails", "DarkTrails", "MedianBlurXor", "NegateTrails", "FrameBlurSubFilter", "Headrush", "MedianBlurSubFilter"};
+    std::sort(svBlur.begin(), svBlur.end());
+    const char **szBlur = convertToStringArray(svBlur);
     [self fillMenuWithString: it_arr[8] stringValues:szBlur];
-    eraseArray(szBlur, ac::svBlur.size());
-    std::sort(ac::svImage.begin(),ac::svImage.end());
-    const char **szImage = convertToStringArray(ac::svImage);
+    eraseArray(szBlur, svBlur.size());
+    std::vector<std::string> svImage{"Blend with Image", "Blend with Image #2", "Blend with Image #3", "Blend with Image #4", "ImageFile", "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "ImageShiftUpLeft", "AlphaBlendImageXor", "ExactImage", "BlendImageXor", "BlendImageAround_Median", "ImageBlendTransform", "ImageXorAlpha", "ImageAverageXor", "DarkImageMedianBlend", "ImageBlendSubFilter", "ImageBlendXorSubFilter", "ImageCollectionSubFilter"};
+    std::sort(svImage.begin(),svImage.end());
+    const char **szImage = convertToStringArray(svImage);
     [self fillMenuWithString: it_arr[9] stringValues:szImage];
-    eraseArray(szImage, ac::svImage.size());
-    std::sort(ac::svOther.begin(), ac::svOther.end());
-    const char **szOther = convertToStringArray(ac::svOther);
-    std::sort(ac::svOther_Custom.begin(), ac::svOther_Custom.end());
-    const char **szOther_Custom = convertToStringArray(ac::svOther_Custom);
-    std::sort(ac::svSquare.begin(), ac::svSquare.end());
-    const char **szSquare = convertToStringArray(ac::svSquare);
+    eraseArray(szImage, svImage.size());
+    std::vector<std::string> svOther { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR", "Bitwise_Rotate", "Bitwise_Rotate Diff","Equalize","PixelSort", "GlitchSort", "HPPD", "FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny", "Inter","Circular","MoveRed","MoveRGB","MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch","ScanAlphaSwitch", "XorAddMul","RandomIntertwine","RandomFour","RandomTwo","Darken", "AverageRandom","RandomCollectionAverage","RandomCollectionAverageMax","BitwiseXorScale","XorChannelSort","Bitwise_XOR_Average","NotEqual","Sort_Vertical_Horizontal","Sort_Vertical_Horizontal_Bitwise_XOR","Scalar_Average_Multiply","Scalar_Average","Total_Average","VerticalColorBars","inOrder","inOrderBySecond","DarkenFilter","RandomFilterBySecond","ThreeRandom",  "Blend with Source", "Plugin", "Custom", "inOrderAlpha", "XorBackwards", "MoveUpLeft", "Stuck", "StuckStrobe", "SoftFeedback", "SoftFeedbackFrames", "ResizeSoftFeedback","SoftFeedback8","SoftFeedbackFrames8","ResizeSoftFeedback8", "ResizeSoftFeedbackSubFilter", "SoftFeedbackRandFilter","SoftFeedback32","SoftFeedbackFrames32","ResizeSoftFeedback32", "SoftFeedbackRandFilter32", "SoftFeedbackSubFilter","SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "RandomOther", "RandomXorFilter", "Bitwise_XOR_AlphaSubFilter", "XorBlend_SubFilter", "RandomFilterRandomTimes", "RandomSubFilterRandomTimes", "PsycheSort", "Bitwise_XOR_Sort", "BitwiseColorMatrix", "PixelatedSubFilterSort", "RandomPixelOrderSort", "FrameDifference", "SmallDiffference","FilteredDifferenceSubFilter", "GammaDarken5", "GammaDarken10","ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "ShuffleRGB", "ShuffleAlpha", "ShuffleSelf", "StrobeShuffle"};
+    std::sort(svOther.begin(), svOther.end());
+    
+    
+    const char **szOther = convertToStringArray(svOther);
+    std::vector<std::string> svOther_Custom { "Mean", "Laplacian", "Bitwise_XOR", "Bitwise_AND", "Bitwise_OR", "Channel Sort", "Reverse_XOR","Bitwise_Rotate","Bitwise_Rotate Diff", "Equalize","PixelSort", "GlitchSort","HPPD","FuzzyLines","Random Filter", "Alpha Flame Filters","Scanlines", "TV Static","FlipTrip", "Canny","Inter","Circular","MoveRed","MoveRGB", "MoveRedGreenBlue", "Wave","HighWave","VerticalSort","VerticalChannelSort","ScanSwitch", "ScanAlphaSwitch","XorAddMul", "RandomIntertwine","RandomFour","RandomTwo","Darken", "Blend with Source","AverageRandom","RandomCollectionAverage","RandomCollectionAverageMax","BitwiseXorScale","XorChannelSort","Bitwise_XOR_Average","NotEqual","Sort_Vertical_Horizontal","Sort_Vertical_Horizontal_Bitwise_XOR", "Scalar_Average_Multiply","Scalar_Average","Total_Average","VerticalColorBars","inOrder","inOrderBySecond","DarkenFilter","RandomFilterBySecond","ThreeRandom","inOrderAlpha","XorBackwards", "Plugin", "MoveUpLeft", "Stuck", "StuckStrobe", "SoftFeedback", "SoftFeedbackFrames", "ResizeSoftFeedback", "SoftFeedback8","SoftFeedbackFrames8","ResizeSoftFeedback8", "ResizeSoftFeedbackSubFilter", "SoftFeedbackRandFilter", "SoftFeedback32","SoftFeedbackFrames32","ResizeSoftFeedback32", "SoftFeedbackRandFilter32", "SoftFeedbackSubFilter","SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "RandomOther", "RandomXorFilter", "Bitwise_XOR_AlphaSubFilter", "XorBlend_SubFilter", "RandomFilterRandomTimes", "RandomSubFilterRandomTimes", "PsycheSort", "Bitwise_XOR_Sort", "BitwiseColorMatrix", "PixelatedSubFilterSort", "RandomPixelOrderSort", "FrameDifference", "SmallDiffference", "FilteredDifferenceSubFilter", "GammaDarken5", "GammaDarken10", "ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending"};
+    std::sort(svOther_Custom.begin(), svOther_Custom.end());
+    const char **szOther_Custom = convertToStringArray(svOther_Custom);
+    
+    std::vector<std::string> svSquare {"SquareSwap","SquareSwap4x2","SquareSwap8x4", "SquareSwap16x8","SquareSwap64x32", "SquareBars","SquareBars8","SquareSwapRand16x8","SquareVertical8","SquareVertical16","SquareVertical_Roll","SquareSwapSort_Roll","SquareVertical_RollReverse","SquareSwapSort_RollReverse", "RandomFilteredSquare","RandomQuads","QuadRandomFilter", "RollRandom", "GridFilter8x", "GridFilter16x", "GridFilter8xBlend", "GridRandom", "GridRandomPixel", "PixelatedSquare", "SmoothSourcePixel", "ColorLines", "Curtain", "RandomCurtain", "RandomCurtainVertical", "CurtainVertical", "SlideFilter","SlideFilterXor", "RandomSlideFilter", "SlideUpDown", "SlideUpDownXor", "SlideUpDownRandom", "SlideSubFilter", "SlideSubUpDownFilter", "FourSquare", "EightSquare", "DiagonalSquare", "DiagonalSquareRandom", "SquareStretchDown", "SquareStretchRight", "SquareStretchUp", "SquareStretchLeft", "ExpandSquareBlendSubFilter", "ExpandSquareSubFilter", "ExpandSquareVerticalSubFilter"};
+    
+    std::sort(svSquare.begin(), svSquare.end());
+    const char **szSquare = convertToStringArray(svSquare);
     [self fillMenuWithString: it_arr[10] stringValues:szSquare];
-    eraseArray(szSquare, ac::svSquare.size());
-    std::sort(ac::vSub.begin(), ac::vSub.end());
-    const char **zSub = convertToStringArray(ac::vSub);
-
+    eraseArray(szSquare, svSquare.size());
+    
+    
+    std::vector<std::string> vSub { "SlideSubFilter", "SubFilter", "ResizeSoftFeedbackSubFilter", "SoftFeedbackSubFilter", "SoftFeedbackResizeSubFilter", "SoftFeedbackResizeSubFilter64", "SoftFeedbackReszieSubFilter64_Negate", "SoftFeedbackReszieSubFilter64_Mirror", "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter", "SmoothSubFilterAlphaBlend", "SmoothSubFilterXorBlend", "IntertwineSubFilter", "EveryOtherSubFilter", "RandomSubFilterRandomTimes", "AddToFrameSubFilter", "SmoothSubFilter", "EnergizeSubFilter", "SmoothSubFilter16", "EnergizeSubFilter16", "EnergizeSubFilter32", "SmoothSubFilter32", "HalfAddSubFilter", "HalfXorSubFilter", "ChannelMedianSubFilter", "PixelatedSubFilterSort", "FilteredDifferenceSubFilter", "ExpandSquareSubFilter", "ExpandSquareBlendSubFilter", "ExpandSquareVerticalSubFilter", "MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter", "ImageBlendSubFilter", "ImageBlendXorSubFilter", "ImageCollectionSubFilter", "SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter"};
+    
+    std::sort(vSub.begin(), vSub.end());
+    const char **zSub = convertToStringArray(vSub);
+    
+    const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "Plugin", "Custom",0};
+    const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "Plugin",0};
+    
     if(cust == NO) {
         [self fillMenuWithString: it_arr[12] stringValues:zSub];
         [self fillMenuWithString: it_arr[11] stringValues:szOther];
-        [self fillMenuWithString: it_arr[13] stringValues:ac::szCustom];
+        [self fillMenuWithString: it_arr[13] stringValues:szCustom];
     }
     else {
         [self fillMenuWithString: it_arr[12] stringValues:zSub];
         [self fillMenuWithString: it_arr[11] stringValues:szOther_Custom];
-        [self fillMenuWithString: it_arr[13] stringValues:ac::szCustom_Spec];
+        [self fillMenuWithString: it_arr[13] stringValues:szCustom_Spec];
     }
     
-    eraseArray(szOther, ac::svOther.size());
-    eraseArray(szOther_Custom, ac::svOther_Custom.size());
-    eraseArray(zSub, ac::vSub.size());
+    eraseArray(szOther, svOther.size());
+    eraseArray(szOther_Custom, svOther_Custom.size());
+    eraseArray(zSub, vSub.size());
     
     *all = [[NSMenu alloc] init];
     
@@ -487,13 +499,7 @@ void SearchForString(NSString *s) {
 
 - (IBAction) customMenuSelected:(id) sender {
     NSInteger index = [categories_custom indexOfSelectedItem];
-    if(index == 14) {
-        if([user_menu numberOfItems] > 0)
-        	[current_filter_custom setMenu: user_menu];
-        
-    } else {
-    	[current_filter_custom setMenu: menu_items_custom[index]];
-    }
+    [current_filter_custom setMenu: menu_items_custom[index]];
 }
 
 - (IBAction) changeFilter: (id) sender {
@@ -570,15 +576,12 @@ void SearchForString(NSString *s) {
     [menuPaused setEnabled: NO];
     [menu_freeze setEnabled: NO];
     
-    [record_op setEnabled: YES];
-    
     if([videoFileInput integerValue] == 0) {
         [up4k setEnabled: NO];
     } else {
         [up4k setEnabled: YES];
     }
     stopCV();
-    [startProg setTitle:@"Start Session"];
 }
 
 - (IBAction) selectPlugin: (id) sender {
@@ -667,101 +670,94 @@ void SearchForString(NSString *s) {
 }
 
 -(IBAction) startProgram: (id) sender {
+    std::string input_file;
+    if([videoFileInput state] == NSOnState) {
+        input_file = [[video_file stringValue] UTF8String];
+        if(input_file.length() == 0) {
+            _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
+            return;
+        }
+        camera_mode = 1;
+    } else camera_mode = 0;
+    NSInteger res = [resolution indexOfSelectedItem];
+    int res_x[3] = { 640, 1280, 1920 };
+    int res_y[3] = { 480, 720, 1080 };
+    bool r;
+    if([record_op integerValue] == 1)
+        r = false;
+    else
+        r = true;
+    freeze_count = 0;
+    frame_proc = 0;
+    NSInteger checkedState = [menuPaused state];
+    isPaused = (checkedState == NSOnState) ? true : false;
+    std::ostringstream fname_stream;
+    std::string filename;
+    NSInteger popupType = [output_Type indexOfSelectedItem];
+    time_t t = time(0);
+    struct tm *m;
+    m = localtime(&t);
+    std::ostringstream time_stream;
+    time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
+    if(popupType == 0)
+        fname_stream << time_stream.str();
+    else
+        fname_stream << time_stream.str();
     
-    if([[startProg title] isEqualToString: @"Start Session"]) {
-        std::string input_file;
-        if([videoFileInput state] == NSOnState) {
-            input_file = [[video_file stringValue] UTF8String];
-            if(input_file.length() == 0) {
-                _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
-                return;
-            }
-            camera_mode = 1;
-        } else camera_mode = 0;
-        NSInteger res = [resolution indexOfSelectedItem];
-        int res_x[3] = { 640, 1280, 1920 };
-        int res_y[3] = { 480, 720, 1080 };
-        bool r;
-        if([record_op integerValue] == 1)
-            r = false;
-        else
-            r = true;
-        freeze_count = 0;
-        frame_proc = 0;
-        NSInteger checkedState = [menuPaused state];
-        isPaused = (checkedState == NSOnState) ? true : false;
-        std::ostringstream fname_stream;
-        std::string filename;
-        NSInteger popupType = [output_Type indexOfSelectedItem];
-        time_t t = time(0);
-        struct tm *m;
-        m = localtime(&t);
-        std::ostringstream time_stream;
-        time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
-        if(popupType == 0)
-            fname_stream << time_stream.str();
-        else
-            fname_stream << time_stream.str();
-        
-        filename = fname_stream.str();
-        NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
-        std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
-        [menuPaused setEnabled: YES];
-        [up4k setEnabled: NO];
-        [record_op setEnabled: NO];
-        ac::reset_filter = true;
-        
+    filename = fname_stream.str();
+    NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
+    std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
+    [startProg setEnabled: NO];
+    [menuPaused setEnabled: YES];
+    [up4k setEnabled: NO];
+    ac::reset_filter = true;
+    
+    if(camera_mode == 1)
+        capture = capture_video.get();
+    else
+        capture = capture_camera.get();
+    
+    bool u4k = ([up4k state] == NSOnState) ? true : false;
+    
+    int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+    
+    if(ret_val == 0) {
         if(camera_mode == 1)
-            capture = capture_video.get();
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
         else
-            capture = capture_camera.get();
+            renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
         
-        bool u4k = ([up4k state] == NSOnState) ? true : false;
-        
-        int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-        
-        if(ret_val == 0) {
-            if(camera_mode == 1)
-                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
-            else
-                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
-            
-            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
-            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
-        }
-        
-        if(ret_val != 0) {
-            _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
-            std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
-            programRunning = false;
-            [startProg setTitle:@"Start Session"];
-            [window1 orderOut:self];
-        } else {
-            if([menu_freeze state] == NSOnState) {
-                capture->read(old_frame);
-                ++frame_cnt;
-                ++frame_proc;
-            }
-            if(resize_value == true) {
-                [stretch_scr setState: NSOnState];
-            } else {
-                [stretch_scr setState: NSOffState];
-            }
-            if(camera_mode == 0) {
-                
-                isPaused = false;
-                [menuPaused setState:NSOffState];
-                frames_captured = 0;
-                background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
-                [background start];
-                camera_active = true;
-            }
-            [window1 orderFront:self];
-            [startProg setTitle:@"Stop"];
-        }
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
+    }
+    
+    if(ret_val != 0) {
+        _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
+        std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
+        programRunning = false;
+        [startProg setEnabled: YES];
+        [window1 orderOut:self];
     } else {
-        [self stopProgram:self];
-        [startProg setTitle:@"Start Session"];
+        if([menu_freeze state] == NSOnState) {
+            capture->read(old_frame);
+            ++frame_cnt;
+            ++frame_proc;
+        }
+        if(resize_value == true) {
+            [stretch_scr setState: NSOnState];
+        } else {
+            [stretch_scr setState: NSOffState];
+        }
+        if(camera_mode == 0) {
+            
+            isPaused = false;
+            [menuPaused setState:NSOffState];
+            frames_captured = 0;
+            background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
+            [background start];
+            camera_active = true;
+        }
+        [window1 orderFront:self];
     }
 }
 
@@ -813,7 +809,6 @@ void SearchForString(NSString *s) {
             cv::flip(frame, temp_frame, 0);
             frame = temp_frame.clone();
         }
-        ac::orig_frame = frame.clone();
         ++frame_cnt;
         ++frame_proc;
         __block NSInteger after = 0;
@@ -883,16 +878,7 @@ void SearchForString(NSString *s) {
             ac::setSaturation(frame, (int)slide_value3);
         }
         
-        if(color_key_set == NSOnState && (colorkey_set == true && !color_image.empty())) {
-            cv::Mat cframe = frame.clone();
-            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-        } else if(color_key_set == NSOnState && colorkey_bg == true) {
-            cv::Mat cframe = frame.clone();
-            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-        } else if(color_key_set == NSOnState && colorkey_replace == true) {
-            cv::Mat cframe = frame.clone();
-            ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-        } else if(color_key_set == NSOnState && colorkey_filter == true) {
+        if(color_key_set == NSOnState && colorkey_set == true && !color_image.empty()) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
@@ -959,7 +945,7 @@ void SearchForString(NSString *s) {
             time_t t = time(0);
             struct tm *m;
             m = localtime(&t);
-            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
             imwrite(stream.str(), frame);
             sout << "Took snapshot: " << stream.str() << "\n";
             ac::snapShot = false;
@@ -988,12 +974,10 @@ void SearchForString(NSString *s) {
         [startProg setEnabled: YES];
         [background release];
         camera_active = false;
-        [startProg setTitle:@"Start Session"];
     });
 }
 
 - (void) cvProc: (id) sender {
-    
     if(breakProgram == true || stopProgram == true) { stopCV(); return; }
     if(isPaused && pauseStepTrue == true) {
         pauseStepTrue = false;
@@ -1060,7 +1044,6 @@ void SearchForString(NSString *s) {
             return;
         }
         stopCV();
-        [startProg setTitle:@"Start Session"];
         return;
     }
     cv::Mat temp_frame;
@@ -1078,7 +1061,7 @@ void SearchForString(NSString *s) {
         frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
     }
     
-    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes") || (ac::draw_strings[ac::draw_offset] == "CollectionXorSourceSubFilter")) {
+    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes")) {
         ac::orig_frame = frame.clone();
     }
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
@@ -1124,16 +1107,8 @@ void SearchForString(NSString *s) {
     if([color_chk state] == NSOnState && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-    } else if([color_chk state] == NSOnState && colorkey_bg == true) {
-        cv::Mat cframe = frame.clone();
-        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-    } else if([color_chk state] == NSOnState && colorkey_replace == true) {
-        cv::Mat cframe = frame.clone();
-        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-    } else if([color_chk state] == NSOnState && colorkey_filter == true) {
-        cv::Mat cframe = frame.clone();
-        ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
+    
     if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
         ++frame_proc;
@@ -1218,14 +1193,13 @@ void SearchForString(NSString *s) {
         time_t t = time(0);
         struct tm *m;
         m = localtime(&t);
-        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
         imwrite(stream.str(), frame);
         sout << "Took snapshot: " << stream.str() << "\n";
         ac::snapShot = false;
         // flush to log
         flushToLog(sout);
     }
-
 }
 
 - (IBAction) openWebcamDialog: (id) sender {
@@ -1241,7 +1215,7 @@ void SearchForString(NSString *s) {
 - (IBAction) selectFile: (id) sender {
     NSOpenPanel *pan = [NSOpenPanel openPanel];
     [pan setAllowsMultipleSelection: NO];
-    NSArray *ar = [NSArray arrayWithObjects: @"mov", @"avi", @"mp4", @"mkv",@"m4v",@"webm", nil];
+    NSArray *ar = [NSArray arrayWithObjects: @"mov", @"avi", @"mp4", @"mkv",@"m4v", nil];
     [pan setAllowedFileTypes:ar];
     if([pan runModal]) {
         NSString *file_name = [[pan URL] path];
@@ -1306,26 +1280,20 @@ void SearchForString(NSString *s) {
     int value = (int)[number integerValue];
     int filter_val = (int)[filter_num integerValue];
     if( [str isEqualTo:@"Filter"] ) {
-        std::string name = ac::draw_strings[value];
-        if(user_filter.find(name) != user_filter.end())
-            return [NSString stringWithUTF8String: user_filter[name].other_name.c_str()];
-        
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
-        
         return s;
     }
     else if([str isEqualTo:@"Sub Filter"]) {
         if(ac::draw_strings[value].find("SubFilter") == std::string::npos)
             return @"Not Supported";
+        
         int rt_val = filter_val; //ac::subfilter_map[value];
         if(rt_val == -1) return @"No SubFilter Set";
         
         std::string sval;
         sval = ac::draw_strings[rt_val];
-        if(user_filter.find(sval) != user_filter.end())
-            return [NSString stringWithUTF8String: user_filter[sval].other_name.c_str()];
-        else
-            return [NSString stringWithUTF8String: sval.c_str()];
+        NSString *s = [NSString stringWithUTF8String: sval.c_str()];
+        return s;
     }
     NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
     return s;
@@ -1338,18 +1306,6 @@ void SearchForString(NSString *s) {
 - (IBAction) addCustomItem: (id) sender {
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSInteger cate = [categories_custom indexOfSelectedItem];
-    if(cate == 14 && index >= 0) {
-        std::string user;
-        NSMenuItem *item = [user_menu itemAtIndex:index];
-        NSString *item_text = [item title];
-        std::string s = [item_text UTF8String];
-        int index_value = ac::filter_map[s];
-        int subf = -1;
-        [custom_array addObject: [NSNumber numberWithInt:index_value]];
-        [custom_subfilters addObject: [NSNumber numberWithInt: subf]];
-        [table_view reloadData];
-        return;
-    }
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
     if(index >= 0 && cate >= 0) {
@@ -1465,7 +1421,6 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) goto_Frame: (id) sender {
-    if(programRunning == false) return;
     int val = (int)[frame_slider integerValue];
     if(val < [frame_slider maxValue]-1) {
         jumptoFrame(syphon_enabled, val);
@@ -1476,7 +1431,6 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) setGoto: (id) sender {
-    if(programRunning == false) return;
     NSInteger time_val = [frame_slider integerValue];
     double seconds = time_val/ac::fps;
     unsigned int sec = static_cast<unsigned int>(seconds);
@@ -1537,18 +1491,10 @@ void SearchForString(NSString *s) {
         }
     }
 }
-
-- (IBAction) updateLabelText: (id) sender {
-    NSInteger index = [image_to_set indexOfSelectedItem];
-    NSString *s = [NSString stringWithUTF8String: set_filenames[index].c_str()];
-    [selectedFilename setStringValue: s];
-}
-
 - (IBAction) setAsImage: (id) sender {
     if([image_combo indexOfSelectedItem] >= 0) {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
         NSInteger index = [image_to_set indexOfSelectedItem];
-        
         if(index == 0) {
             blend_image = cv::imread([current UTF8String]);
             if(blend_image.empty()) {
@@ -1561,14 +1507,9 @@ void SearchForString(NSString *s) {
             stream << "Blend Image set to: " << [current UTF8String] << "\n";
             [selectedFilename setStringValue:current];;
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
-            set_filenames[0] = [current UTF8String];
             _NSRunAlertPanel(@"Image set", s, @"Ok", nil, nil);
             flushToLog(stream);
-        } else if(index == 1) {
-            if(colorkey_bg == true || colorkey_replace == true) {
-                _NSRunAlertPanel(@"You can only set one Color Key setting at a time clear the other ones", @"Only one at a time", @"Ok", nil, nil);
-                return;
-            }
+        } else {
             color_image = cv::imread([current UTF8String]);
             if(color_image.empty()) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
@@ -1577,49 +1518,11 @@ void SearchForString(NSString *s) {
             colorkey_set = true;
             std::ostringstream stream;
             stream << "ColorKey Image set to: " << [current UTF8String] << "\n";
-            set_filenames[1] = [current UTF8String];
             NSString *s = [NSString stringWithFormat:@"%s", stream.str().c_str(), nil];
             _NSRunAlertPanel(@"Image Set", s, @"Ok", nil, nil);
             flushToLog(stream);
-        } else if(index == 2) {
-            if(colorkey_set == true || colorkey_replace == true) {
-                _NSRunAlertPanel(@"You can only set one Color Key setting at a time clear the other ones", @"Only one at a time", @"Ok", nil, nil);
-                return;
-            }
-            color_bg_image = cv::imread([current UTF8String]);
-            if(color_bg_image.empty()) {
-                colorkey_bg = false;
-                _NSRunAlertPanel(@"Error could not open file...", @"Could not open file", @"Ok",nil,nil);
-                return;
-            }
-            set_filenames[2] = [current UTF8String];
-            colorkey_bg = true;
-            std::ostringstream stream;
-            stream << "ColorKey Background image set to: " << [current UTF8String] << "\n";
-            flushToLog(stream);
-            _NSRunAlertPanel(@"Set ColorKey Background", @"Color Key Image Set", @"Ok", nil, nil);
-        } else if(index == 3) {
-            
-            if(colorkey_set == true || colorkey_bg == true) {
-                _NSRunAlertPanel(@"You can only set one Color Key setting at a time clear the other ones", @"Only one at a time", @"Ok", nil, nil);
-                return;
-            }
-            
-            color_replace_image = cv::imread([current UTF8String]);
-            if(color_replace_image.empty()) {
-                colorkey_replace = false;
-                _NSRunAlertPanel(@"Error could not open file...", @"Could not open file", @"Ok",nil,nil);
-                return;
-            }
-            set_filenames[3] = [current UTF8String];
-            colorkey_replace = true;
-            std::ostringstream stream;
-            stream << "ColorKey Replace Background image set to: " << [current UTF8String] << "\n";
-            flushToLog(stream);
-            _NSRunAlertPanel(@"Set ColorKey Replace Background", @"Color Key Image Set", @"Ok", nil, nil);
         }
     }
-    [self updateLabelText:self];
 }
 
 - (IBAction) showCustom: (id) sender {
@@ -1756,7 +1659,6 @@ void SearchForString(NSString *s) {
         case 0:
             blend_set = false;
             blend_image.release();
-            [selectedFilename setStringValue:@""];
             _NSRunAlertPanel(@"Blend image released", @"Released Image", @"Ok", nil, nil);
             break;
         case 1:
@@ -1764,23 +1666,8 @@ void SearchForString(NSString *s) {
             color_image.release();
             _NSRunAlertPanel(@"Color Key image released", @"Released Image", @"Ok", nil, nil);
             break;
-        case 2:
-            colorkey_bg = false;
-            color_bg_image.release();
-            _NSRunAlertPanel(@"Released ColorKey background", @"Released Image", @"Ok", nil, nil);
-            break;
-        case 3:
-            colorkey_replace = false;
-            color_replace_image.release();
-            _NSRunAlertPanel(@"Color Key Replace Image Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
-            break;
     }
-
-    NSInteger index = [image_to_set indexOfSelectedItem];
-    if(index >= 0) {
-        set_filenames[index] = "None";
-        [self updateLabelText:self];
-    }
+    
 }
 
 - (IBAction) setPref: (id) sender {
@@ -1803,23 +1690,6 @@ void SearchForString(NSString *s) {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
-   
-    NSInteger rgb_low[3] = {[colorkey_b_low integerValue],[colorkey_g_low integerValue],[colorkey_r_low integerValue]};
-    NSInteger rgb_high[3] = {[colorkey_b_high integerValue], [colorkey_g_high integerValue],[colorkey_r_high integerValue]};
-    
-    for(int i = 0; i < 3; ++i) {
-        if(rgb_low[i] < 0 || rgb_low[i] > 255) {
-            _NSRunAlertPanel(@"Incorrect Range Value", @"Must be between 0-255", @"Ok", nil, nil);
-            return;
-        }
-        if(rgb_high[i] < 0 || rgb_high[i] > 255) {
-            _NSRunAlertPanel(@"Incorrect Range Value", @"Must be between 0-255", @"Ok", nil, nil);
-            return;
-        }
-    }
-    cv::Vec3b color_low(rgb_low[0], rgb_low[1], rgb_low[2]);
-    cv::Vec3b color_high(rgb_high[0], rgb_high[1], rgb_high[2]);
-    ac::setColorKeyRange(color_low, color_high);
     NSInteger num_index = [blend_source_amt indexOfSelectedItem];
     double amount = 0.1 * (num_index+1);
     ac::setBlendPercentage(amount);
@@ -1829,11 +1699,6 @@ void SearchForString(NSString *s) {
     ac::alpha_increase = values[num];
     log << "Proccess Speed set to: " << str_values[num] << "\n";
     log << "Blend with Source Image set to: " << ((num_index+1)*10) << "%\n";
-    int values_low[] = { color_low[0], color_low[1], color_low[2] };
-    int values_high[] = { color_high[0], color_high[1], color_high[2] };
-    log << "ColorKey Low BGR Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
-    log << "ColorKey High BGR Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
-
     
     NSInteger szPtr = [sy_size indexOfSelectedItem];
     NSSize sz;
@@ -1851,7 +1716,6 @@ void SearchForString(NSString *s) {
             sz.height = 1080;
             break;
     }
-    log << "Syphon Output Set To: " << sz.width << "x" << sz.height << "\n";
     [syphon_window setContentSize: sz];
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
@@ -1991,384 +1855,17 @@ void SearchForString(NSString *s) {
     flushToLog(stream);
 }
 
-- (IBAction) addToBlocked: (id) sender {
-    if([key_range state] == NSOnState) {
-        [self addToRange:self];
-        return;
-    } else {
-        [self addToTolerance:self];
-    }
-}
-- (IBAction) removedFromBlocked: (id) sender {
-    NSInteger row = [blocked_colors indexOfSelectedItem];
-    if(row >= 0) {
-        [blocked_colors removeItemAtIndex:row];
-        [blocked_colors reloadData];
-        auto it = green_blocked.begin()+row;
-        green_blocked.erase(it);
-        if([blocked_colors numberOfItems] == 0)
-            [blocked_colors setStringValue:@""];
-        else if(row-1 >= 0 && row-1 <= [blocked_colors numberOfItems]){
-            [blocked_colors selectItemAtIndex:row-1];
-        }
-    } else {
-        _NSRunAlertPanel(@"Please Select Item Color to Remove\n", @"Select Index to Remove", @"Ok", nil, nil);
-    }
-}
-
-- (IBAction) addToRange: (id) sender {
-    NSInteger color_low[] = {[val_colorkey_b_low integerValue], [val_colorkey_g_low integerValue], [val_colorkey_r_low integerValue]};
-    NSInteger color_high[] =  {[val_colorkey_b_high integerValue], [val_colorkey_g_high integerValue], [val_colorkey_r_high integerValue]};
-    // make sure valid range 0-255
-    for(int i = 0; i < 3; ++i) {
-        if(!(color_low[i] >= 0 && color_low[i] <= 255)) {
-            _NSRunAlertPanel(@"Low color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
-            return;
-        }
-        if(!(color_high[i] >= 0 && color_high[i] <= 255)){
-            _NSRunAlertPanel(@"High color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
-            return;
-        }
-    }
-    
-    cv::Vec3b well_color_low(color_low[0], color_low[1], color_low[2]);
-    cv::Vec3b well_color_high(color_high[0], color_high[1], color_high[2]);
-    ac::Keys keys;
-    if([chk_spill state] == NSOnState)
-        keys.spill = true;
-    else
-        keys.spill = false;
-    keys.low = well_color_low;
-    keys.high = well_color_high;
-    keys.key_type = ac::KeyValueType::KEY_RANGE;// work on tolerance tomorrow
-    
-    if(!(well_color_low[0] <= well_color_high[0] && well_color_low[1] <= well_color_high[1] && well_color_low[2] <= well_color_high[2])) {
-        _NSRunAlertPanel(@"Values must be a valid range", @"Color values must be a valid range between high >= low and low <= high", @"Ok", nil, nil);
-        return;
-    }
-    green_blocked.push_back(keys);
-    NSString *s_color = [NSString stringWithFormat:@"Color BGR Range: (%d, %d, %d) - (%d, %d, %d)", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
-    NSInteger count = [blocked_colors numberOfItems];
-    [blocked_colors addItemWithObjectValue:s_color];
-    [blocked_colors selectItemAtIndex:count];
-}
-- (IBAction) addToTolerance: (id) sender {
-    NSColor *color_value = [blocked_color_well color];
-    double rf = 0, gf = 0, bf = 0;
-    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
-    unsigned int values[3];
-    values[2] = rf*255.99999f;
-    values[1] = gf*255.99999f;
-    values[0] = bf*255.99999f;
-    cv::Vec3b well_color_low;
-    well_color_low[0] = values[0];
-    well_color_low[1] = values[1];
-    well_color_low[2] = values[2];
-    NSInteger color_low[] = {[val_colorkey_b_low integerValue], [val_colorkey_g_low integerValue], [val_colorkey_r_low integerValue]};
-    NSInteger color_high[] =  {[val_colorkey_b_high integerValue], [val_colorkey_g_high integerValue], [val_colorkey_r_high integerValue]};
-    for(int i = 0; i < 3; ++i) {
-        if(!(color_low[i] >= 0 && color_low[i] <= 255)) {
-            _NSRunAlertPanel(@"Low color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
-            return;
-        }
-        if(!(color_high[i] >= 0 && color_high[i] <= 255)){
-            _NSRunAlertPanel(@"High color must be valid range", @"Range between 0-255", @"Ok", nil, nil);
-            return;
-        }
-    }
-    cv::Vec3b low_val, high_val;
-    low_val[0] = ac::size_type_cast<unsigned char>(well_color_low[0]-color_low[0]);
-    low_val[1] = ac::size_type_cast<unsigned char>(well_color_low[1]-color_low[1]);
-    low_val[2] = ac::size_type_cast<unsigned char>(well_color_low[2]-color_low[2]);
-    high_val[0] = ac::size_type_cast<unsigned char>(well_color_low[0]+color_high[0]);
-    high_val[1] = ac::size_type_cast<unsigned char>(well_color_low[1]+color_high[1]);
-    high_val[2] = ac::size_type_cast<unsigned char>(well_color_low[2]+color_high[2]);
-    ac::Keys keys;
-    if([chk_spill state] == NSOnState)
-        keys.spill = true;
-    else
-        keys.spill = false;
-    keys.low = low_val;
-    keys.high = high_val;
-    keys.key_type = ac::KeyValueType::KEY_TOLERANCE;
-    if(!(low_val[0] <= high_val[0] && low_val[1] <= high_val[1] && low_val[2] <= high_val[2])) {
-        _NSRunAlertPanel(@"Values must be a valid range", @"Color values must be a valid range between high >= low and low <= high", @"Ok", nil, nil);
-        return;
-    }
-    green_blocked.push_back(keys);
-    NSString *s_color = [NSString stringWithFormat:@"Color BGR Tolerance: (%d, %d, %d) - (%d, %d, %d)", low_val[0],low_val[1],low_val[2], high_val[0], high_val[1], high_val[2]];
-    NSInteger count = [blocked_colors numberOfItems];
-    [blocked_colors addItemWithObjectValue:s_color];
-    [blocked_colors selectItemAtIndex:count];
-}
-
-- (IBAction) openBlockedColors: (id) sender {
-    [block_colors_window orderFront:self];
-}
-
-- (IBAction) setColorsEnabled: (id) sender {
-    ac::setBlockedColorKeys(green_blocked);
-    _NSRunAlertPanel(@"Set Blocked Colors", @"Blocked Color List Set", @"Ok", nil,nil);
-}
-
-- (IBAction) setColorValuesRange: (id) sender {
-    if([key_range state] == NSOnState) {
-        NSColor *color_value = [blocked_color_well color];
-        double rf = 0, gf = 0, bf = 0;
-        [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
-        unsigned int values[3];
-        values[2] = rf*255.99999f;
-        values[1] = gf*255.99999f;
-        values[0] = bf*255.99999f;
-        cv::Vec3b well_color_low;
-        well_color_low[0] = values[0];
-        well_color_low[1] = values[1];
-        well_color_low[2] = values[2];
-        [val_colorkey_b_low setIntegerValue: well_color_low[0]];
-        [val_colorkey_g_low setIntegerValue: well_color_low[1]];
-        [val_colorkey_r_low setIntegerValue: well_color_low[2]];
-        NSColor *color_value2 = [blocked_color_well_high color];
-        [color_value2 getRed:&rf green:&gf blue:&bf alpha:nil];
-        values[2] = rf*255.99999f;
-        values[1] = gf*255.99999f;
-        values[0] = bf*255.99999f;
-        cv::Vec3b well_color_high;
-        well_color_high[0] = values[0];
-        well_color_high[1] = values[1];
-        well_color_high[2] = values[2];
-        [val_colorkey_b_high setIntegerValue: well_color_high[0]];
-        [val_colorkey_g_high setIntegerValue: well_color_high[1]];
-        [val_colorkey_r_high setIntegerValue: well_color_high[2]];
-    }
-}
-
-- (IBAction) setRangeTolerance:(id) sender {
-    NSInteger key_state = [key_range state];
-    if(key_state == NSOnState) {
-        [blocked_color_well_high setHidden:NO];
-        [val_colorkey_b_high setSelectable:NO];
-        [val_colorkey_g_high setSelectable:NO];
-        [val_colorkey_r_high setSelectable:NO];
-        [val_colorkey_r_low setSelectable:NO];
-        [val_colorkey_g_low setSelectable:NO];
-        [val_colorkey_b_low setSelectable:NO];
-        [val_colorkey_r_high setEditable:NO];
-        [val_colorkey_g_high setEditable:NO];
-        [val_colorkey_b_high setEditable:NO];
-        [val_colorkey_r_low setEditable:NO];
-        [val_colorkey_g_low setEditable:NO];
-        [val_colorkey_b_low setEditable:NO];
-        [self setColorValuesRange:self];
-    } else {
-        [blocked_color_well_high setHidden:YES];
-        [val_colorkey_b_high setSelectable:YES];
-        [val_colorkey_g_high setSelectable:YES];
-        [val_colorkey_r_high setSelectable:YES];
-        [val_colorkey_r_low setSelectable:YES];
-        [val_colorkey_g_low setSelectable:YES];
-        [val_colorkey_b_low setSelectable:YES];
-        [val_colorkey_r_high setEditable:YES];
-        [val_colorkey_g_high setEditable:YES];
-        [val_colorkey_b_high setEditable:YES];
-        [val_colorkey_r_low setEditable:YES];
-        [val_colorkey_g_low setEditable:YES];
-        [val_colorkey_b_low setEditable:YES];
-        [val_colorkey_r_high setStringValue:@"0"];
-        [val_colorkey_g_high setStringValue:@"0"];
-        [val_colorkey_b_high setStringValue:@"0"];
-        [val_colorkey_r_low setStringValue:@"0"];
-        [val_colorkey_g_low setStringValue:@"0"];
-        [val_colorkey_b_low setStringValue:@"0"];
-    }
-}
-
-- (IBAction) setCheckBoxBlocked: (id) sender {
-    NSInteger state1,state2;
-    state1 = [chk_blocked_replace state];
-    state2 = [chk_blocked_key state];
-    [color_chk setState: state2];
-    [chk_replace setState: state1];
-    
-    if([chk_replace state] == NSOnState)
-        colorkey_filter = true;
-    else
-        colorkey_filter = false;
-}
-
-- (IBAction) setCheckBoxImage: (id) sender {
-    NSInteger state1, state2;
-    state1 = [color_chk state];
-    state2 = [chk_replace state];
-    [chk_blocked_replace setState: state2];
-    [chk_blocked_key setState: state1];
-    
-    if([chk_replace state] == NSOnState)
-        colorkey_filter = true;
-    else
-        colorkey_filter = false;
-    
-}
-
-- (IBAction) user_Set: (id) sender {
-    NSString *s = [user_filter_name stringValue];
-    if([s length] == 0) {
-        _NSRunAlertPanel(@"User defined requires a valid name", @"Error forgot to set name", @"Ok", nil, nil);
-        return;
-    }
-    NSInteger index = [current_filter_custom indexOfSelectedItem];
-    if(index < 0) return;
-    
-    std::string ftext = [s UTF8String];
-    auto fp = user_filter.find(ftext);
-    if(ftext.find("User_") != std::string::npos && fp != user_filter.end()) {
-        _NSRunAlertPanel(@"You already set this value", @"You use this value already", @"Ok", nil, nil);
-        return;
-    }
-    
-    NSMenuItem *item = [current_filter_custom itemAtIndex: index];
-    std::string fval_name = [[item title] UTF8String];
-    if(fval_name.find("User_") != std::string::npos) {
-        _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
-        return;
-    }
-    std::string fname;
-    fname = "User_";
-    fname += [s UTF8String];
-    
-    if(fval_name.find("SubFilter") != std::string::npos) {
-        fname += "_SubFilter";
-    }
-    if(fval_name.find("Image") != std::string::npos) {
-        fname += "_Image";
-    }
-    user_filter[fval_name].index = -1;
-    user_filter[fval_name].name = fval_name;
-    user_filter[fval_name].other_name = fname;
-    user_filter[fname].index = ac::filter_map[fval_name];
-    ac::filter_map[fname] = ac::filter_map[fval_name];
-    NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
-    [user_filter_name addItemWithObjectValue:sval];
-    [user_filter_name setStringValue:@""];
-    [self loadMenuList];
-    [table_view reloadData];
-}
-- (IBAction) user_Save: (id) sender {
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setCanCreateDirectories:YES];
-    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"acl", nil]];
-    if([panel runModal]) {
-        NSString *fname = [[panel URL] path];
-        std::string textname = [fname UTF8String];
-        std::fstream file;
-        file.open(textname, std::ios::out);
-        if(!file.is_open()) {
-            _NSRunAlertPanel(@"Error could not save file. Do you have access rights?", @"Cannot save file", @"Ok", nil, nil);
-            return;
-        }
-        for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-            std::string other = "UserDefined";
-            if(i->second.other_name.length() > 0)
-                other = i->second.other_name;
-            file << i->first << ":" << i->second.index << ":" << other << "\n";
-        }
-        file.close();
-    }
-}
-
-- (IBAction) user_Clear: (id) sender {
-    if(!user_filter.empty()) {
-        user_filter.erase(user_filter.begin(), user_filter.end());
-        [user_filter_name removeAllItems];
-        [self loadMenuList];
-        [table_view reloadData];
-    }
-}
-
-- (void) loadFileData: (const char *)path {
-    std::vector<std::string> comp;
-    token::tokenize(std::string(path), std::string(":"), comp);
-    if(comp.size()==0) return;
-    std::string filter_name = comp[0];
-    int index_value = atoi(comp[1].c_str());
-    user_filter[filter_name].name = filter_name;
-    user_filter[filter_name].index = index_value;
-    user_filter[filter_name].other_name = comp[2];
-    
-    if(index_value == -1) {
-        ac::filter_map[comp[2]] = ac::filter_map[comp[0]];
-    }
-    
-    if(user_filter[filter_name].index != -1) {
-    	NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
-        [user_filter_name addItemWithObjectValue:sval];
-    }
-    [table_view reloadData];
-}
-
-- (IBAction) user_Load: (id) sender {
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    [panel setCanChooseDirectories:NO];
-    [panel setAllowsMultipleSelection:NO];
-    [panel setAllowedFileTypes:[NSArray arrayWithObjects:@"acl", nil]];
-    if([panel runModal]) {
-        std::string fname = [[[panel URL] path] UTF8String];
-        std::fstream file;
-        file.open(fname, std::ios::in);
-        if(!file.is_open()) {
-            _NSRunAlertPanel(@"Could not open file..", [NSString stringWithFormat:@"Could not locate file: %s", fname.c_str()], @"Ok", nil, nil);
-            return;
-        }
-        [self user_Clear:nil];
-        while(!file.eof()) {
-            std::string file_data;
-            std::getline(file, file_data);
-            if(file) {
-                [self loadFileData: file_data.c_str()];
-            }
-        }
-        [self loadMenuList];
-        [table_view reloadData];
-    }
-}
-
-- (void) loadMenuList {
-    if(user_menu != nil)
-        [user_menu release];
-    
-    NSInteger index_value = [categories_custom indexOfSelectedItem];
-    user_menu = [[NSMenu alloc] init];
-    
-    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-    	if(i->second.index != -1)
-            [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
-    }
-    [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
-    if(index_value == 14 && [user_menu numberOfItems] > 0) {
-        [current_filter_custom setMenu: user_menu];
-    }
-}
-
-- (IBAction) jumpToCustom: (id) sender {
-    [window1 orderFront:self];
-    [categories selectItemAtIndex:0];
-    [self menuSelected:self];
-    [current_filter selectItemAtIndex:ac::draw_max-4];
-    [self changeFilter:self];
-}
-
 @end
 
-std::unordered_map<std::string, UserFilter> user_filter;
-
-void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist) {
+void custom_filter(cv::Mat &frame) {
     ac::in_custom = true;
-    for(NSInteger i = 0; i < [listval count]; ++i) {
-        if(i == [listval count]-1)
+    for(NSInteger i = 0; i < [custom_array count]; ++i) {
+        if(i == [custom_array count]-1)
             ac::in_custom = false;
         NSNumber *num, *fval_;
         @try {
-            num = [listval objectAtIndex:i];
-            fval_ = [sublist objectAtIndex: i];
+            num = [custom_array objectAtIndex:i];
+            fval_ = [custom_subfilters objectAtIndex: i];
             NSInteger index = [num integerValue];
             if(ac::testSize(frame)) {
                 ac::setSubFilter(static_cast<int>([fval_ integerValue]));
@@ -2380,12 +1877,6 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     }
     ac::in_custom = false;
     ac::clearSubFilter();
-}
-
-
-
-void custom_filter(cv::Mat &frame) {
-    CustomFilter(frame, custom_array, custom_subfilters);
 }
 
 void setSliders(long frame_count) {

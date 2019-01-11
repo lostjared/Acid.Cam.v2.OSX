@@ -2,7 +2,7 @@
  * Acid Cam Functions for OpenCV
  * written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that experience mental illness.
+ This software is dedicated to all the people that struggle with mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -16,7 +16,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2019, Jared Bruni
+ Copyright (c) 2018, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,6 @@
 #include<memory>
 #include<cassert>
 #include<utility>
-#include"ac-filtercat.h"
 //#define ASSERT_CHECK
 // Macro for assert testing
 #ifdef ASSERT_CHECK
@@ -91,8 +90,8 @@
  */
 // exernal variables
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
-extern bool negate, blend_set, colorkey_set,colorkey_bg, colorkey_replace, colorkey_filter;
-extern cv::Mat blend_image,color_image,color_bg_image, color_replace_image, color_filter;
+extern bool negate, blend_set, colorkey_set;
+extern cv::Mat blend_image,color_image;
 
 int AC_GetFX(int oldw,int x, int nw);
 int AC_GetFZ(int oldh, int y, int nh);
@@ -140,16 +139,6 @@ namespace ac {
     inline T rol(T x, int m) {
         return (x << m) | (x >> (sizeof(T)*8 -m));
     }
-    enum class KeyValueType { KEY_RANGE, KEY_TOLERANCE };
-    class Keys {
-    public:
-        cv::Vec3b low, high;
-        KeyValueType key_type;
-        bool spill;
-        Keys() : key_type(KeyValueType::KEY_RANGE), spill(false) {}
-    };
-    
-    enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
     // be sure to call this when the application starts
     void fill_filter_map();
     // draw functions
@@ -158,7 +147,6 @@ namespace ac {
     void DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(int index, cv::Mat &frame);
     void DrawFilter(const std::string &name, cv::Mat &frame);
-    void DrawFilterUnordered(const std::string &name, cv::Mat &frame);
     DrawFunction getFilter(std::string name);
     FilterType filterByIndex(const int &num);
     FilterType filterByString(const std::string &num);
@@ -691,180 +679,6 @@ namespace ac {
     void PixelatedHorizontalLines(cv::Mat &frame);
     void PixelatedVerticalLines(cv::Mat &frame);
     void StrobeShuffle(cv::Mat &frame);
-    void BlendBurred(cv::Mat &frame);
-    void BlendCombinedValues(cv::Mat &frame);
-    void RGBColorTrails(cv::Mat &frame);
-    void BlendCombinedValueSubFilter(cv::Mat &frame);
-    void BlendSubFilterAlpha(cv::Mat &frame);
-    void GradientXorPixels(cv::Mat &frame);
-    void PurpleRain(cv::Mat &frame);
-    void PixelByPixelXor(cv::Mat &frame);
-    void CopyXorAlpha(cv::Mat &frame);
-    void AveragePixelsXor(cv::Mat &frame);
-    void AveragePixelAlpha(cv::Mat &frame);
-    void NegativeByRow(cv::Mat &frame);
-    void AveragePixelCollection(cv::Mat &frame);
-    void IncorrectLine(cv::Mat &frame);
-    void XorShift(cv::Mat &frame);
-    void StrobeXorAndOr(cv::Mat &frame);
-    void XorWithSource(cv::Mat &frame);
-    void AlphaBlendWithSource(cv::Mat &frame);
-    void RGBSep1x(cv::Mat &frame);
-    void RGBMedianBlend(cv::Mat &frame);
-    void RGBMirror1(cv::Mat &frame);
-    void RGBMirror1Median(cv::Mat &frame);
-    void FlashMirror(cv::Mat &frame);
-    void CollectionXorSourceSubFilter(cv::Mat &frame);
-    void ReverseMirrorX(cv::Mat &frame);
-    void MirrorXorAll_Reverse(cv::Mat &frame);
-    void MirrorRGBReverse(cv::Mat &frame);
-    void MirrorRGBReverseBlend(cv::Mat &frame);
-    void BlendReverseSubFilter(cv::Mat &frame);
-    void MirrorBitwiseXor(cv::Mat &frame);
-    void SmoothBlendReverseSubFilter(cv::Mat &frame);
-    void RandomIncrease(cv::Mat &frame);
-    void MedianBlend16(cv::Mat &frame);
-    void MedianBlendBufferSubFilter(cv::Mat &frame);
-    void BGRBlend(cv::Mat &frame);
-    void RGBBlend(cv::Mat &frame);
-    void RGBBlendSubFilter(cv::Mat &frame);
-    void DivideAndIncH(cv::Mat &frame);
-    void DivideAndIncW(cv::Mat &frame);
-    void XorOppositeSubFilter(cv::Mat &frame);
-    void BlendSmoothSubFilter(cv::Mat &frame);
-    void BlurSmooth(cv::Mat &frame);
-    void BlurSmoothMedian(cv::Mat &frame);
-    void BlurSmoothSubFilter(cv::Mat &frame);
-    void BlurFlip(cv::Mat &frame);
-    void BlurFlipSubFilter(cv::Mat &frame);
-    void BlurMirrorGamma(cv::Mat &frame);
-    void MedianBlendDark(cv::Mat &frame);
-    void MedianBlendSubFilterEx(cv::Mat &frame);
-    void EnergyMirrorDark(cv::Mat &frame);
-    void AlphaBlendMirror(cv::Mat &frame);
-    void MirrorAlphaBlendedImage(cv::Mat &frame);
-    void AlphaBlendXorImage(cv::Mat &frame);
-    void ShiftFrameSmoothSubFilter(cv::Mat &frame);
-    void ShiftFrameStaticXorSubFilter(cv::Mat &frame);
-    void IncreaseDecreaseGamma(cv::Mat &frame);
-    void GammaIncDecIncrease(cv::Mat &frame);
-    void RandomSubFilter(cv::Mat &frame);
-    void TwistedVision(cv::Mat &frame);
-    void TwistedMirror(cv::Mat &frame);
-    void SelfScaleSortBlend(cv::Mat &frame);
-    void FlashMedianBlend(cv::Mat &frame);
-    void BlendWithFrameSubFilter(cv::Mat &frame);
-    void AlphaBlendWithFrameSubFilter(cv::Mat &frame);
-    void AlphaXorBlendWithFrameSubFilter(cv::Mat &frame);
-    void XorBlendSubFilter(cv::Mat &frame);
-    void FlipAlphaBlend(cv::Mat &frame);
-    void RandomFlipFilter(cv::Mat &frame);
-    void MirrorMedian(cv::Mat &frame);
-    void FlipMatrixCollection(cv::Mat &frame);
-    void MirrorMatrixCollection(cv::Mat &frame);
-    void MirrorMatrixSource(cv::Mat &frame);
-    void SelfScaleByFrame(cv::Mat &frame);
-    void SmoothMedianRotateSubFilter(cv::Mat &frame);
-    void SmoothCollectionAlphaBlend(cv::Mat &frame);
-    void XorSubFilter(cv::Mat &frame);
-    void XorAlphaSubFilter(cv::Mat &frame);
-    void BlurXorAlphaSubFilter(cv::Mat &frame);
-    void ImageXorFrame(cv::Mat &frame);
-    void ImageXorFunction(cv::Mat &frame);
-    void ImageXorAlphaBlend(cv::Mat &frame);
-    void ImageAlphaXorMedianSubFilter(cv::Mat &frame);
-    void ImageSmoothAlphaXorSubFilter(cv::Mat &frame);
-    void ImageXorMirrorFilter(cv::Mat &frame);
-    void ImageXorSubFilter(cv::Mat &frame);
-    void ImageAlphaXorSubFilter(cv::Mat &frame);
-    void SmoothTrailsBlend(cv::Mat &frame);
-    void MatrixCollectionRGBXor(cv::Mat &frame);
-    void RainbowGlitch(cv::Mat &frame);
-    void RainbowGlichStrobe(cv::Mat &frame);
-    void NegateSwitchStrobe(cv::Mat &frame);
-    void StrobeAlphaShuffle(cv::Mat &frame);
-    void ShuffleAlphaWithRGB(cv::Mat &frame);
-    void ShuffleAlphaSubFilter(cv::Mat &frame);
-    void ShuffleColorMap(cv::Mat &frame);
-    void BlendWithRainbowSubFilter(cv::Mat &frame);
-    void BlendWithJetSubFilter(cv::Mat &frame);
-    void ColormapBlendSubFilter(cv::Mat &frame);
-    void RandomColorMap(cv::Mat &frame);
-    void SmoothMirrorBlurFlip(cv::Mat &frame);
-    void RandomColorMapAlphaBlendSubFilter(cv::Mat &frame);
-    void RandomOrder(cv::Mat &frame);
-    void RandomOrderMedianBlendSubFilter(cv::Mat &frame);
-    void MirrorOrder(cv::Mat &frame);
-    void MirrorOrderSubFilter(cv::Mat &frame);
-    void BlurMirrorOrder(cv::Mat &frame);
-    void AveragePixelMirror(cv::Mat &frames);
-    void ShuffleAlphaMedianBlend(cv::Mat &frame);
-    void MirrorOrderAlpha(cv::Mat &frame);
-    void FilterStrobeSubFilter(cv::Mat &frame);
-    void ImageSubtractMedianBlend(cv::Mat &frame);
-    void ImageDarkBlend(cv::Mat &frame);
-    void ImageAverageDark(cv::Mat &frame);
-    void ImageRemainderPixel(cv::Mat &frame);
-    void AverageLinesBlend(cv::Mat &frame);
-    void SoftFeedbackMirror(cv::Mat &frame);
-    void AverageVerticalLinesBlend(cv::Mat &frame);
-    void LinesMedianBlend(cv::Mat &frame);
-    void XorSquare(cv::Mat &frame);
-    void PixelValuesPlusOne(cv::Mat &frame);
-    void AverageHorizontalFilter(cv::Mat &frame);
-    void AverageVerticalFilter(cv::Mat &frame);
-    void GradientAlphaXorHorizontal(cv::Mat &frame);
-    void GradientAlphaXorVertical(cv::Mat &frame);
-    void BlendImageWithSubFilter(cv::Mat &frame);
-    void BlendImageWithSubFilterAlpha(cv::Mat &frame);
-    void MedianBlendSoft(cv::Mat &frame);
-    void AndImageSubFilterXor(cv::Mat &frame);
-    void AlphaBlendImageSubFilterXor(cv::Mat &frame);
-    void AlphaBlendImageSubFilterXorRev(cv::Mat &frame);
-    void ParticleReleaseXor(cv::Mat &frame);
-    void ParticleReleaseXorVec(cv::Mat &frame);
-    void ParticleReleaseAlphaBlend(cv::Mat &frame);
-    void ParticleReleaseWithImage(cv::Mat &frame);
-    void ParticleReleaseSubFilter(cv::Mat &frame);
-    void ParticleReleaseImageSubFilter(cv::Mat &frame);
-    void ImageEnergy(cv::Mat &frame);
-    void ImageEnergySubFilter(cv::Mat &frame);
-    void ImageDistortion(cv::Mat &frame);
-    void ImageDistortionSubFilter(cv::Mat &frame);
-    void SmoothExactImageXorAlpha(cv::Mat &frame);
-    void FeedbackColormap(cv::Mat &frame);
-    void SmoothImageAlphaBlendMedian(cv::Mat &frame);
-    void ImageDarkenSmoothMedian(cv::Mat &frame);
-    void XorReverseImageSmooth(cv::Mat &frame);
-    void ReverseSubFilterBlend(cv::Mat &frame);
-    void ReverseSubFilterXor(cv::Mat &frame);
-    void ImageReverseSubFilter(cv::Mat &frame);
-    void SmoothRainbowMedian(cv::Mat &frame);
-    void MirrorAlphaBlend(cv::Mat &frame);
-    void ImageSmoothMedianBlend(cv::Mat &frame);
-    void ImageSmoothMedianSubFilter(cv::Mat &frame);
-    void ImageAlphaXorMedianBlend(cv::Mat &frame);
-    void MatrixCollectionBlend(cv::Mat &frame);
-    void MatrixCollectionSubFilter(cv::Mat &frame);
-    void MatrixCollectionImageSubFilter(cv::Mat &frame);
-    void MatrixCollectionBlurAlpha(cv::Mat &frame);
-    void MatrixCollectionXor(cv::Mat &frame);
-    void MatrixCollectionXor32(cv::Mat &frame);
-    void MatrixCollectionRandomColorMap(cv::Mat &frame);
-    void MatrixCollectionDarkXor(cv::Mat &frame);
-    void MatrixCollectionRGB(cv::Mat &frame);
-    void TrailsSubFilter(cv::Mat &frame);
-    void TrailsSubFilter32(cv::Mat &frame);
-    void CompareWithSubFilter(cv::Mat &frame);
-    void MedianTrails(cv::Mat &frame);
-    void SmoothMedianBlend(cv::Mat &frame);
-    void ColorTransition(cv::Mat &frame);
-    void ColorTransitionMedian(cv::Mat &frame);
-    void ColorTransitionRandom(cv::Mat &frame);
-    void ColorTransitionRandomMedian(cv::Mat &frame);
-    void ColorTransitionSubFilter(cv::Mat &frame);
-    void ColorTransitionImageSubFilter(cv::Mat &frame);
-    void CurtainSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -887,27 +701,15 @@ namespace ac {
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
     void setSaturation(cv::Mat &frame, int saturation);
     void AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
-    void RealAlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
-    void AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
-    void Xor(cv::Mat &dst, const cv::Mat &add);
-    void Xor(const cv::Mat &input, const cv::Mat &add, cv::Mat &out);
     void ScalarAverage(const cv::Mat &frame, cv::Scalar &s);
     void TotalAverageOffset(cv::Mat &frame, unsigned long &value);
     void swapColors(cv::Mat &frame, int x, int y);
     void swapColors_(cv::Mat &frame, int x, int y);
     void procPos(int &direction, double &pos, double &pos_max, const double max_size = 15, double iter = 0.05);
-    void setColorKeyRange(cv::Vec3b low, cv::Vec3b high);
-    void setBlockedColorKeys(std::vector<Keys> &blocked);
-    bool colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_low, const cv::Vec3b &range_high);
-    SearchType searchColors(const cv::Vec3b &color);
-    bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
-    void setGrayColor(const cv::Vec3b &color);
-    unsigned char size_cast(long val);
-    unsigned char size_reset(long val);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
@@ -917,11 +719,6 @@ namespace ac {
     void FillRow(cv::Mat &frame, unsigned int row, unsigned char value);
     void Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_array);
     void AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v);
-    void setColorMap(int map, cv::Mat &frame);
-    void blendFilterWithColorMap(int filter, int map, cv::Mat &frame);
-    void SwitchOrder(cv::Vec3b &frame, int order);
-    void pushSubFilter(int newsub);
-    void popSubFilter();
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;
@@ -932,8 +729,6 @@ namespace ac {
     extern bool reset_filter;
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
-    extern std::unordered_map<std::string, FilterType> filter_map_str;
-
     extern bool frames_released;
     extern std::vector<void *> all_objects;
     // Matrix Collection template
@@ -1144,13 +939,6 @@ namespace ac {
                 }
             }
         }
-    }
-    // bound long values to size of a byte
-    template<typename T>
-    T size_type_cast(const long &val) {
-        if(val >= 255) return 255;
-        if(val <= 0) return 0;
-        return static_cast<T>(val);
     }
     // point class
     class Point {
