@@ -500,8 +500,10 @@ bool ac::testSize(cv::Mat &frame) {
 }
 
 ac::DrawFunction ac::getRandomFilter(int &index) {
-    index = filter_map["ShuffleAlpha"];
-    return ShuffleAlpha;
+    static std::string values[] = {"ShuffleAlpha", "ShuffleSelf", "ShuffleMedian", "ShuffleRGB"};
+    int r = rand()%4;
+    index = filter_map[values[r]];
+    return ac::draw_func[filter_map[values[r]]];
 }
 
 int ac::subfilter = -1;

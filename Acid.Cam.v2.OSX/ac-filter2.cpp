@@ -129,7 +129,7 @@ void ac::pixelSort(cv::Mat &frame) {
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
-    switch(rand()%4) {
+    switch(rand()%5) {
         case 0:
             ShuffleAlpha(frame);
             break;
@@ -141,6 +141,9 @@ void ac::randomFilter(cv::Mat &frame) {
             break;
         case 3:
             ShuffleMedian(frame);
+            break;
+        case 4:
+            ShuffleColorMap(frame);
             break;
     }
 }
