@@ -565,8 +565,7 @@ void ac::DiagonalSquareRandom(cv::Mat &frame) {
         if(col_w > 0 && col_h > 0) {
             cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
             int index = 0;
-            DrawFunction func = getRandomFilter(index);
-            func(out_frame);
+            ShuffleAlpha(out_frame);
             copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
         pos_x += col_w;

@@ -500,16 +500,8 @@ bool ac::testSize(cv::Mat &frame) {
 }
 
 ac::DrawFunction ac::getRandomFilter(int &index) {
-    int num;
-    do {
-        num = rand()%(draw_max-6);
-        size_t pos = 0;
-        pos = ac::draw_strings[num].find("Feedback");
-        if(pos != std::string::npos)
-            continue;
-    } while(ac::draw_strings[num] == "Blend Fractal" || ac::draw_strings[num] == "Blend Fractal Mood");
-    index = num;
-    return draw_func[num];
+    index = filter_map["ShuffleAlpha"];
+    return ShuffleAlpha;
 }
 
 int ac::subfilter = -1;

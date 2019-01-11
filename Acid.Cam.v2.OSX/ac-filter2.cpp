@@ -129,19 +129,20 @@ void ac::pixelSort(cv::Mat &frame) {
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
-    if(testSize(frame) == false)
-        return;
-    int num;
-    do {
-        num = rand()%(draw_max-6);
-        size_t pos = 0;
-        pos = ac::draw_strings[num].find("Feedback");
-        if(pos != std::string::npos)
-            continue;
-        
-    } while((ac::draw_strings[num] == "Random Filter") || (ac::draw_strings[num] == "RandomIntertwine") || (ac::draw_strings[num] == "RandomFour" || (ac::draw_strings[num] == "BlendThree") || (ac::draw_strings[num] == "RandomTwo") || ac::draw_strings[num] == "SoftFeedbackResizeSubFilter64" || ac::draw_strings[num] == "SoftFeedbackResizeSubFilter" || ac::draw_strings[num] == "SoftFeedbackSubFilter"));
-    
-    draw_func[num](frame);
+    switch(rand()%4) {
+        case 0:
+            ShuffleAlpha(frame);
+            break;
+        case 1:
+            ShuffleRGB(frame);
+            break;
+        case 2:
+            ShuffleSelf(frame);
+            break;
+        case 3:
+            ShuffleMedian(frame);
+            break;
+    }
 }
 
 void ac::randomFlash(cv::Mat &frame) {
