@@ -1,7 +1,7 @@
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that struggle with mental illness.
+ This software is dedicated to all the people that experience mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -15,7 +15,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2018, Jared Bruni
+ Copyright (c) 2019, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -129,19 +129,23 @@ void ac::pixelSort(cv::Mat &frame) {
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
-    if(testSize(frame) == false)
-        return;
-    int num;
-    do {
-        num = rand()%(draw_max-6);
-        size_t pos = 0;
-        pos = ac::draw_strings[num].find("Feedback");
-        if(pos != std::string::npos)
-            continue;
-        
-    } while((ac::draw_strings[num] == "Random Filter") || (ac::draw_strings[num] == "RandomIntertwine") || (ac::draw_strings[num] == "RandomFour" || (ac::draw_strings[num] == "BlendThree") || (ac::draw_strings[num] == "RandomTwo") || ac::draw_strings[num] == "SoftFeedbackResizeSubFilter64" || ac::draw_strings[num] == "SoftFeedbackResizeSubFilter" || ac::draw_strings[num] == "SoftFeedbackSubFilter"));
-    
-    draw_func[num](frame);
+    switch(rand()%5) {
+        case 0:
+            ShuffleAlpha(frame);
+            break;
+        case 1:
+            ShuffleRGB(frame);
+            break;
+        case 2:
+            ShuffleSelf(frame);
+            break;
+        case 3:
+            ShuffleMedian(frame);
+            break;
+        case 4:
+            ShuffleColorMap(frame);
+            break;
+    }
 }
 
 void ac::randomFlash(cv::Mat &frame) {

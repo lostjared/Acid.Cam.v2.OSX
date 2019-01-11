@@ -1,7 +1,7 @@
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that struggle with mental illness.
+ This software is dedicated to all the people that experience mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -15,7 +15,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2018, Jared Bruni
+ Copyright (c) 2019, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -592,6 +592,19 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
         MedianBlend(frame);
         GaussianBlur(frame);
         GaussianBlur(frame);
+    }
+}
+
+void ac::MirrorAlphaBlendedImage(cv::Mat &frame) {
+    if(blend_set == true) {
+        cv::Mat resized, frame_copy, new_copy;
+        cv::resize(blend_image, resized, frame.size());
+        frame_copy = frame.clone();
+        static double alpha = 1.0, alpha_max = 2.0;
+        AlphaXorBlend(resized, frame_copy, new_copy, alpha);
+        AlphaBlend(new_copy, frame_copy, frame, alpha);
+        static int dir = 1;
+        procPos(dir, alpha, alpha_max, 2.1, 0.05);
     }
 }
 

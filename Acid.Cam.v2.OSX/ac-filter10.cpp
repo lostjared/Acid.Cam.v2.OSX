@@ -1,7 +1,7 @@
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that struggle with mental illness.
+ This software is dedicated to all the people that experience mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -15,7 +15,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2018, Jared Bruni
+ Copyright (c) 2019, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -1131,6 +1131,7 @@ void ac::IncDifferenceAlpha(cv::Mat &frame) {
             cv::Vec3b back = pixel;
             cv::Vec3b &pix_cp = fcopy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
+                if(pixel[j] == 0) pixel[j] = 1;
                 pixel[j] = pix_cp[j]%(1+(pixel[j]));
             }
             pix_cp[index] = 255-(back[index]*alpha);

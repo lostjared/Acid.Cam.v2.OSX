@@ -1,7 +1,7 @@
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
- This software is dedicated to all the people that struggle with mental illness.
+ This software is dedicated to all the people that experience mental illness.
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
@@ -15,7 +15,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2018, Jared Bruni
+ Copyright (c) 2019, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,11 @@
 
 #include "ac.h"
 
+
+cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
+cv::Vec3b gray_color(100, 100, 100);
+std::vector<ac::Keys> blocked_colors;
+
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
     if(set_color_map > 0 && set_color_map < 13) {
@@ -60,6 +65,11 @@ void ac::ApplyColorMap(cv::Mat &frame) {
         }
         color_map_set = false;
     }
+}
+
+void ac::setColorMap(int map, cv::Mat &frame) {
+    cv::Mat output_f1 = frame.clone();
+    cv::applyColorMap(output_f1, frame, (int)map);
 }
 
 // set cv::Mat brightness
@@ -165,9 +175,54 @@ void ac::TotalAverageOffset(cv::Mat &frame, unsigned long &value) {
     value /= (frame.rows * frame.cols);
 }
 
-// filter color keyed image
+void ac::setColorKeyRange(cv::Vec3b low, cv::Vec3b high) {
+    range_low = low;
+    range_high = high;
+}
+
+void ac::setBlockedColorKeys(std::vector<ac::Keys> &blocked) {
+    blocked_colors = blocked;
+}
+
+
+bool ac::colorBounds(const cv::Vec3b &color, const cv::Vec3b &pixel, const cv::Vec3b &range_passed_low, const cv::Vec3b &range_passed_high) {
+    bool result = true;
+    for(int i = 0; i < 3; ++i) {
+        if(!(color[i] <= cv::saturate_cast<unsigned char>(pixel[i]+range_passed_low[i]) && color[i] >= cv::saturate_cast<unsigned char>(pixel[i]-range_passed_high[i]))) {
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+
+bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec3b &high) {
+    if(color[0] >= low[0] && color[0] <= high[0] && color[1] >= low[1] && color[1] <= high[1] && color[2] >= low[2] && color[2] <= high[2])
+        return true;
+    return false;
+}
+
+
+ac::SearchType ac::searchColors(const cv::Vec3b &color) {
+    for(int i = 0; i < blocked_colors.size(); ++i) {
+        if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true) {
+            if(blocked_colors[i].spill == true) {
+                return SEARCH_GRAY;
+            }
+            else {
+                return SEARCH_PIXEL;
+            }
+        }
+    }
+    return SEARCH_NOTFOUND;
+}
+
+void ac::setGrayColor(const cv::Vec3b &color) {
+    gray_color = color;
+}
+
 void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output) {
-    if(colorkey_set == false || color_image.empty()) return;
     if(orig.size()!=filtered.size()) {
         std::cerr << "filterColorKeyed: Error not same size...\n";
         return;
@@ -175,18 +230,59 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
     output = orig.clone();
     for(int z = 0; z < orig.rows; ++z) {
         for(int i = 0; i < orig.cols; ++i) {
-            int cX = AC_GetFX(color_image.cols, i, orig.cols);
-            int cY = AC_GetFZ(color_image.rows, z, orig.rows);
-            cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
-            if(add_i == color) {
-                cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
+            if(colorkey_filter == true) {
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
-                dst = pixel;
+                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
+                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
+                SearchType srch = searchColors(pixel);
+                if(colorBounds(color,pixel,range_low, range_high) || srch == SEARCH_PIXEL) {
+                    dst = fcolor;
+                }
+                else if(srch == SEARCH_GRAY) {
+                    dst = gray_color;
+                }
+                else {
+                    dst = pixel;
+                }
+            } else if(colorkey_set == true && !color_image.empty()) {
+                int cX = AC_GetFX(color_image.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_image.rows, z, orig.rows);
+                cv::Vec3b add_i = color_image.at<cv::Vec3b>(cY, cX);
+            	if(add_i == color) {
+	                cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
+	                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+	                dst = pixel;
+            	}
+            } else if(colorkey_bg == true && !color_bg_image.empty()) {
+                int cX = AC_GetFX(color_bg_image.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_bg_image.rows, z, orig.rows);
+                cv::Vec3b add_i = color_bg_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = filtered.at<cv::Vec3b>(z, i);
+                if(add_i == color)
+                    dst = pixel;
+                else
+                    dst = add_i;
+            } else if(colorkey_replace == true && !color_replace_image.empty()) {
+                int cX = AC_GetFX(color_replace_image.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_replace_image.rows, z, orig.rows);
+                cv::Vec3b add_i = color_replace_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
+                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
+                SearchType srch = searchColors(pixel);
+                if(colorBounds(color, pixel, range_low, range_high) || srch == SEARCH_PIXEL) {
+                	dst = add_i;
+                }
+                else if(srch == SEARCH_GRAY) {
+                    dst = gray_color;
+                } else {
+                    dst = fcolor;
+                }
             }
         }
     }
 }
-
 // Alpha Blend function
 void ac::AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output,double alpha) {
     if(one.size() != two.size()) {
@@ -209,10 +305,40 @@ void ac::AlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output,doub
     }
 }
 
+void ac::AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2) {
+    if(one.size() != two.size()) {
+        return;
+    }
+    if(output.empty() || output.size() != one.size())
+        output.create(one.size(), CV_8UC3);
+    
+    for(int z = 0; z < one.rows; ++z) {
+        for(int i = 0; i < one.cols; ++i) {
+            cv::Vec3b pix[2];
+            cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
+            pix[0] = one.at<cv::Vec3b>(z, i);
+            pix[1] = two.at<cv::Vec3b>(z, i);
+            pixel[0] = static_cast<unsigned char>((pix[0][0] * alpha1) + (pix[1][0] * alpha2));
+            pixel[1] = static_cast<unsigned char>((pix[0][1] * alpha1) + (pix[1][1] * alpha2));
+            pixel[2] = static_cast<unsigned char>((pix[0][2] * alpha1) + (pix[1][2] * alpha2));
+        }
+    }
+}
+
+void ac::RealAlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha) {
+    if(one.size() != two.size()) {
+        return;
+    }
+    AlphaBlendDouble(one, two, output, alpha, 1-alpha);
+}
+
 void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha) {
     if(one.size() != two.size()) {
         return;
     }
+    
+    if(alpha <= 1)
+        alpha = 1;
     
     if(output.empty() || output.size() != one.size())
         output.create(one.size(), CV_8UC3);
@@ -230,6 +356,37 @@ void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, 
     }
     
 }
+
+void ac::Xor(cv::Mat &dst, const cv::Mat &add) {
+    if(dst.size() != add.size()) return;
+    for(int z = 0; z < dst.rows; ++z) {
+        for(int i = 0; i < dst.cols; ++i) {
+            cv::Vec3b &pixel = dst.at<cv::Vec3b>(z, i);
+            cv::Vec3b other = add.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]^other[j];
+        }
+    }
+}
+
+void ac::Xor(const cv::Mat &input, const cv::Mat &add, cv::Mat &output) {
+   if(input.size() != add.size())
+        return;
+    
+    if(output.empty() || output.size() != input.size())
+        output.create(input.size(), CV_8UC3);
+
+    for(int z = 0; z < output.rows; ++z) {
+        for(int i = 0; i < output.cols; ++i) {
+            cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
+            cv::Vec3b src = input.at<cv::Vec3b>(z, i);
+            cv::Vec3b other = add.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = src[j]^other[j];
+        }
+    }
+}
+
 
 bool ac::reset_alpha = false;
 
@@ -343,16 +500,10 @@ bool ac::testSize(cv::Mat &frame) {
 }
 
 ac::DrawFunction ac::getRandomFilter(int &index) {
-    int num;
-    do {
-        num = rand()%(draw_max-6);
-        size_t pos = 0;
-        pos = ac::draw_strings[num].find("Feedback");
-        if(pos != std::string::npos)
-            continue;
-    } while(ac::draw_strings[num] == "Blend Fractal" || ac::draw_strings[num] == "Blend Fractal Mood");
-    index = num;
-    return draw_func[num];
+    static std::string values[] = {"ShuffleAlpha", "ShuffleSelf", "ShuffleMedian", "ShuffleRGB"};
+    int r = rand()%4;
+    index = filter_map[values[r]];
+    return ac::draw_func[filter_map[values[r]]];
 }
 
 int ac::subfilter = -1;
@@ -422,4 +573,61 @@ void ac::Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_ar
 void ac::AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v) {
     for(int i = 0; i < v.size(); ++i)
         Add(frame, v[i]);
+}
+
+unsigned char ac::size_cast(long val) {
+    if(val >= 255) return 255;
+    if(val < 0) return 0;
+    return val;
+}
+
+unsigned char ac::size_reset(long val) {
+    if(val >= 255 || val <= 0) return rand()%255;
+    return val;
+}
+
+void ac::blendFilterWithColorMap(int filter, int map, cv::Mat &frame) {
+    cv::Mat copyf = frame.clone(), copyi = frame.clone();
+    setColorMap(map, copyf);
+    CallFilter(filter, copyf);
+    AlphaBlend(copyf, copyi, frame, 0.5);
+}
+
+void ac::SwitchOrder(cv::Vec3b &cur, int color_order) {
+    cv::Vec3b temp = cur;
+    switch(color_order) {
+        case 1: // RGB
+            cur[0] = temp[2];
+            cur[1] = temp[1];
+            cur[2] = temp[0];
+            break;
+        case 2:// GBR
+            cur[0] = temp[1];
+            cur[1] = temp[0];
+            break;
+        case 3:// BRG
+            cur[1] = temp[2];
+            cur[2] = temp[1];
+            break;
+        case 4: // GRB
+            cur[0] = temp[1];
+            cur[1] = temp[2];
+            cur[2] = temp[0];
+            break;
+    }
+}
+
+std::vector<int> subfilters;
+
+void ac::pushSubFilter(int newsub) {
+    subfilters.push_back(subfilter);
+    subfilter = newsub;
+}
+
+void ac::popSubFilter() {
+    auto subsize = subfilters.size();
+    if(subsize > 0) {
+        subfilter = subfilters[subsize-1];
+        subfilters.pop_back();
+    }
 }
