@@ -535,7 +535,7 @@ void ac::DiagonalSquare(cv::Mat &frame) {
         cv::Mat out_frame;
         if(col_w > 0 && col_h > 0) {
             cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
-            if(pos_x >= 0 && pos_x <= frame.cols-col_w && pos_y >= 0 && pos_y <= frame.rows-col_h)
+            if(pos_x >= 0 && pos_x < frame.cols-col_w && pos_y >= 0 && pos_y < frame.rows-col_h)
                 copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
         pos_x += col_w;
@@ -545,27 +545,22 @@ void ac::DiagonalSquare(cv::Mat &frame) {
 }
 
 void ac::DiagonalSquareRandom(cv::Mat &frame) {
-    
     if(testSize(frame) == false)
         return;
-    
     static MatrixCollection<4> collection;
     collection.shiftFrames(frame);
     int pos_x = 0, pos_y = 0;
     int col_w = (frame.cols/4)-1;
     int col_h = (frame.rows/4)-1;
-    
     if(col_w < 25 || col_h < 25)
         return;
-    
     Negate(frame);
     for(int i = 0; i < 4; ++i) {
         cv::Mat &copy_frame = collection.frames[i];
         cv::Mat out_frame;
         if(col_w > 0 && col_h > 0) {
             cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
-            int index = 0;
-            ShuffleAlpha(out_frame);
+            randomFilter(out_frame);
             copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
         pos_x += col_w;
