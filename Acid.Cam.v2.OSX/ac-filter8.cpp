@@ -558,7 +558,7 @@ void ac::DiagonalSquareRandom(cv::Mat &frame) {
     for(int i = 0; i < 4; ++i) {
         cv::Mat &copy_frame = collection.frames[i];
         cv::Mat out_frame;
-        if(col_w > 0 && col_h > 0) {
+        if(col_w > 0 && col_h > 0 && pos_x < col_w && pos_y < col_h) {
             cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
             randomFilter(out_frame);
             copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
