@@ -526,3 +526,10 @@ void ac::CurtainSubFilter(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max);
     AddInvert(frame);
 }
+
+
+void ac::RandomTrails(cv::Mat &frame) {
+    pushSubFilter(filter_map["Random Filter"]);
+    TrailsSubFilter(frame);
+    popSubFilter();
+}
