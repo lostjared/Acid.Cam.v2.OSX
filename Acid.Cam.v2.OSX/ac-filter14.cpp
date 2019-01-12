@@ -532,4 +532,17 @@ void ac::RandomTrails(cv::Mat &frame) {
     pushSubFilter(filter_map["Random Filter"]);
     TrailsSubFilter(frame);
     popSubFilter();
+    AddInvert(frame);
+}
+
+void ac::RandomTrailsSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomTrailsSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    pushSubFilter(filter_map["Random Filter"]);
+    TrailsSubFilter(copy1);
+    popSubFilter();
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }

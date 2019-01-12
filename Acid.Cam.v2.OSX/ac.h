@@ -866,6 +866,7 @@ namespace ac {
     void ColorTransitionImageSubFilter(cv::Mat &frame);
     void CurtainSubFilter(cv::Mat &frame);
     void RandomTrails(cv::Mat &frame);
+    void RandomTrailsSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
