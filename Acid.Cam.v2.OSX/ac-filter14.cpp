@@ -557,7 +557,7 @@ void ac::CosSinMedianBlend(cv::Mat &frame) {
 
 void ac::TrailsRGB(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    MatrixCollectionXor(copy1);
+    MatrixTrailsXorRandom(copy1);
     StrobeXor(copy2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
