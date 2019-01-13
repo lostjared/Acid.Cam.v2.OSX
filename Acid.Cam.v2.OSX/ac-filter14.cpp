@@ -604,7 +604,7 @@ void ac::MatrixTrailsXorRandom(cv::Mat &frame) {
 }
 
 
-void ac::CosSinMultiplyBitwiseXor(cv::Mat &frame) {
+void ac::CosSinMultiplyCollectionXor(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     cossinMultiply(copy1);
     MatrixCollectionXor(copy2);
