@@ -546,3 +546,10 @@ void ac::RandomTrailsSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::CosSinMedianBlend(cv::Mat &frame) {
+    pushSubFilter(filter_map["CosSinMultiply"]);
+    SmoothSubFilter(frame);
+    popSubFilter();
+    MedianBlend(frame);
+}
