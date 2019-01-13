@@ -870,6 +870,7 @@ namespace ac {
     void CosSinMedianBlend(cv::Mat &frame);
     void TrailsRGB(cv::Mat &frame);
     void MatrixTrailsXorRandom(cv::Mat &frame);
+    void CosSinMultiplyBitwiseXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

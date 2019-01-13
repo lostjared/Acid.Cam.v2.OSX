@@ -602,3 +602,13 @@ void ac::MatrixTrailsXorRandom(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+
+void ac::CosSinMultiplyBitwiseXor(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    cossinMultiply(copy1);
+    MatrixCollectionXor(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
