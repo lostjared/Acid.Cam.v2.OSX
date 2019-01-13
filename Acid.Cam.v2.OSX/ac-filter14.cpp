@@ -552,4 +552,53 @@ void ac::CosSinMedianBlend(cv::Mat &frame) {
     SmoothSubFilter(frame);
     popSubFilter();
     MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::TrailsRGB(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MatrixCollectionXor(copy1);
+    StrobeXor(copy2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i), pix2 = copy2.at<cv::Vec3b>(z, i);
+            cv::Vec3b lv(100, 100, 100);
+            cv::Vec3b hv(100, 100, 100);
+            if(colorBounds(pix,pixel,lv, hv)) {
+                pixel = pix;
+            } else {
+                pixel = pix2;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::MatrixTrailsXorRandom(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[16];
+            cv::Vec3b copypix = pixel;
+            for(int q = 0; q < collection.size(); ++q) {
+                pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
+            }
+            
+            for(int j = 0; j < 3; ++j) {
+                for(int r = 0; r < collection.size(); ++r) {
+                    copypix[j] ^= pix[r][j];
+                }
+                pixel[j] = copypix[j];
+            }
+            if(copypix != pixel) {
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = rand()%256;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
 }
