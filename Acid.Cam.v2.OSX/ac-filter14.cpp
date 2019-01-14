@@ -612,3 +612,12 @@ void ac::CosSinMultiplyCollectionXor(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::Filter8_Blend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    filter8(copy1);
+    Smooth(copy1, &collection);
+    MedianBlend(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
