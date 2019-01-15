@@ -621,3 +621,13 @@ void ac::Filter8_Blend(cv::Mat &frame) {
     MedianBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::Filter8_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "Filter8_SubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    filter8(copy1);
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+}

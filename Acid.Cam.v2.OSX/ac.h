@@ -872,6 +872,7 @@ namespace ac {
     void MatrixTrailsXorRandom(cv::Mat &frame);
     void CosSinMultiplyCollectionXor(cv::Mat &frame);
     void Filter8_Blend(cv::Mat &frame);
+    void Filter8_SubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
