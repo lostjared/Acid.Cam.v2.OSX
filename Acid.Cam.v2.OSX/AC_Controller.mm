@@ -1309,9 +1309,7 @@ void SearchForString(NSString *s) {
         std::string name = ac::draw_strings[value];
         if(user_filter.find(name) != user_filter.end())
             return [NSString stringWithUTF8String: user_filter[name].other_name.c_str()];
-        
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
-        
         return s;
     }
     

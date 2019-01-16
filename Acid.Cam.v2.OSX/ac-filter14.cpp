@@ -696,3 +696,26 @@ void ac::SquareDivideSubFilter(cv::Mat &frame) {
     frame = fcopy.clone();
     AddInvert(frame);
 }
+
+void ac::SquareSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareSubFilter")
+        return;
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    int pos_x = 0, pos_y = 0;
+    int index = 0;
+    int size_w = frame.cols/2;
+    int size_h = frame.rows/2;
+    cv::Mat resized[4];
+    for(int i = 0; i < 2; ++i) {
+        for(int z = 0; z < 2; ++z) {
+            pos_x = i*size_w;
+            pos_y = z*size_h;
+            cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
+            CallFilter(subfilter, resized[index]);
+            copyMat(resized[index], 0, 0, frame, pos_x, pos_y, size_w, size_h);
+            ++index;
+        }
+    }
+}
