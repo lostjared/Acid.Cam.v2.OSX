@@ -1314,6 +1314,12 @@ void SearchForString(NSString *s) {
         
         return s;
     }
+    
+    else if([str isEqualTo:@"SubIndex"]) {
+        if(filter_val == -1)
+            return @"Not Set";
+        return [NSString stringWithFormat:@"%d", filter_val];
+    }
     else if([str isEqualTo:@"Sub Filter"]) {
         if(ac::draw_strings[value].find("SubFilter") == std::string::npos)
             return @"Not Supported";
