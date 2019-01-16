@@ -702,7 +702,6 @@ void ac::SquareSubFilter(cv::Mat &frame) {
         return;
     static MatrixCollection<4> collection;
     collection.shiftFrames(frame);
-    cv::Mat copy1 = frame.clone();
     int pos_x = 0, pos_y = 0;
     int index = 0;
     int size_w = frame.cols/2;
