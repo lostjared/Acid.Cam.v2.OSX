@@ -620,6 +620,7 @@ void ac::Filter8_Blend(cv::Mat &frame) {
     Smooth(copy1, &collection);
     MedianBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::Filter8_SubFilter(cv::Mat &frame) {
@@ -630,6 +631,7 @@ void ac::Filter8_SubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::RandomSmoothAlphaMedian(cv::Mat &frame) {
@@ -639,6 +641,7 @@ void ac::RandomSmoothAlphaMedian(cv::Mat &frame) {
     Smooth(copy1, &collection);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::RandomAlphaBlendFilter(cv::Mat &frame) {
@@ -652,6 +655,7 @@ void ac::RandomAlphaBlendFilter(cv::Mat &frame) {
     AlphaBlend(copy2, copy3, copy5, 0.5);
     AlphaBlend(copy4, copy5, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::RandomMirrorBitwiseXor(cv::Mat &frame) {
@@ -662,4 +666,33 @@ void ac::RandomMirrorBitwiseXor(cv::Mat &frame) {
     MirrorBitwiseXor(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::SquareDivideSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareDivideSubFilter")
+        return;
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    int pos_x = 0, pos_y = 0;
+    int index = 0;
+    int size_w = frame.cols/2;
+    int size_h = frame.rows/2;
+    cv::Mat resized[4];
+    for(int i = 0; i < 2; ++i) {
+        for(int z = 0; z < 2; ++z) {
+            pos_x = i*size_w;
+            pos_y = z*size_h;
+            cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
+            randomFilter(resized[index]);
+            copyMat(resized[index], 0, 0, frame, pos_x, pos_y, size_w, size_h);
+            ++index;
+        }
+    }
+    CallFilter(subfilter, copy1);
+    cv::Mat fcopy = frame.clone();
+    AlphaBlend(copy1, frame, fcopy, 0.5);
+    frame = fcopy.clone();
+    AddInvert(frame);
 }

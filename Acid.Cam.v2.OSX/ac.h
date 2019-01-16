@@ -876,6 +876,7 @@ namespace ac {
     void RandomSmoothAlphaMedian(cv::Mat &frame);
     void RandomAlphaBlendFilter(cv::Mat &frame);
     void RandomMirrorBitwiseXor(cv::Mat &frame);
+    void SquareDivideSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
