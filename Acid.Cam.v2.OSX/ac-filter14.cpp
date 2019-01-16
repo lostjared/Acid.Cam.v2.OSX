@@ -643,7 +643,6 @@ void ac::RandomSmoothAlphaMedian(cv::Mat &frame) {
 
 void ac::RandomAlphaBlendFilter(cv::Mat &frame) {
     static MatrixCollection<8> collection1, collection2;
-    
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone(), copy4, copy5;
     randomFilter(copy1);
     Smooth(copy1, &collection1);
@@ -652,5 +651,15 @@ void ac::RandomAlphaBlendFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy3, copy4, 0.5);
     AlphaBlend(copy2, copy3, copy5, 0.5);
     AlphaBlend(copy4, copy5, frame, 0.5);
+    MedianBlend(frame);
+}
+
+void ac::RandomMirrorBitwiseXor(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    randomFilter(copy1);
+    Smooth(copy1, &collection);
+    MirrorBitwiseXor(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
 }
