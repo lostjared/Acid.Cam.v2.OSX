@@ -879,6 +879,7 @@ namespace ac {
     void SquareDivideSubFilter(cv::Mat &frame);
     void SquareSubFilter(cv::Mat &frame);
     void SquareSubFilter8(cv::Mat &frame);
+    void SquareRandomFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1318,6 +1319,7 @@ namespace ac {
     void copyMat(const cv::Mat &src,int src_x, int src_y, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, int x, int y, cv::Mat &target, int rx, int ry, int rw, int rh);
+    void copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const Rect &dst);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
     // Transform Template

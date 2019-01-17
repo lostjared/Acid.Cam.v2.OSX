@@ -741,3 +741,23 @@ void ac::SquareSubFilter8(cv::Mat &frame) {
         }
     }
 }
+
+void ac::SquareRandomFilter(cv::Mat &frame) {
+    constexpr int num_s = 4;
+    int pos_x = 0, pos_y = 0;
+    int index = 0;
+    int size_w = frame.cols/num_s;
+    int size_h = frame.rows/num_s;
+    cv::Mat resized[num_s*num_s];
+    for(int i = 0; i < num_s; ++i) {
+        for(int z = 0; z < num_s; ++z) {
+            pos_x = i*size_w;
+            pos_y = z*size_h;
+            resized[index].create(cv::Size(size_w, size_h),CV_8UC3);
+            copyMat(frame, Rect(pos_x, pos_y, size_w, size_h), resized[index], Rect(0, 0, size_w, size_h));
+            randomFilter(resized[index]);
+            copyMat(resized[index], Rect(0, 0, size_w, size_h), frame, Rect(pos_x, pos_y, size_w, size_h));
+            ++index;
+        }
+    }
+}

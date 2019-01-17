@@ -436,6 +436,18 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
     }
 }
 
+void ac::copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const Rect &rc) {
+    for(int i = 0; i < rc.w; ++i) {
+        for(int z = 0; z < rc.h; ++z) {
+            cv::Vec3b &dst = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
+            cv::Vec3b srcp = src.at<cv::Vec3b>(srcrc.y+z, srcrc.x+i);
+            dst = srcp;
+        }
+    }
+}
+
+
+
 // Copy cv::Mat
 void ac::copyMat(const cv::Mat &src,int src_x, int src_y ,cv::Mat &target, const ac::Rect &rc) {
     for(int i = 0; i < rc.w; ++i) {
