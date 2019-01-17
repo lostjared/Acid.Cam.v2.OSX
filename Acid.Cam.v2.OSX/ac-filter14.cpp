@@ -722,15 +722,16 @@ void ac::SquareSubFilter(cv::Mat &frame) {
 void ac::SquareSubFilter8(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareSubFilter8")
         return;
-    static MatrixCollection<16> collection;
+    constexpr int num_s = 4;
+    static MatrixCollection<num_s*num_s> collection;
     collection.shiftFrames(frame);
     int pos_x = 0, pos_y = 0;
     int index = 0;
-    int size_w = frame.cols/4;
-    int size_h = frame.rows/4;
-    cv::Mat resized[16];
-    for(int i = 0; i < 4; ++i) {
-        for(int z = 0; z < 4; ++z) {
+    int size_w = frame.cols/num_s;
+    int size_h = frame.rows/num_s;
+    cv::Mat resized[num_s*num_s];
+    for(int i = 0; i < num_s; ++i) {
+        for(int z = 0; z < num_s; ++z) {
             pos_x = i*size_w;
             pos_y = z*size_h;
             cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
