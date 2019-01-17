@@ -700,13 +700,13 @@ void ac::SquareDivideSubFilter(cv::Mat &frame) {
 void ac::SquareSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareSubFilter")
         return;
-    static MatrixCollection<4> collection;
+    static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     int pos_x = 0, pos_y = 0;
     int index = 0;
     int size_w = frame.cols/2;
     int size_h = frame.rows/2;
-    cv::Mat resized[4];
+    cv::Mat resized[8];
     for(int i = 0; i < 2; ++i) {
         for(int z = 0; z < 2; ++z) {
             pos_x = i*size_w;
@@ -722,13 +722,13 @@ void ac::SquareSubFilter(cv::Mat &frame) {
 void ac::SquareSubFilter8(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareSubFilter8")
         return;
-    static MatrixCollection<8> collection;
+    static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
     int pos_x = 0, pos_y = 0;
     int index = 0;
     int size_w = frame.cols/4;
     int size_h = frame.rows/4;
-    cv::Mat resized[8];
+    cv::Mat resized[16];
     for(int i = 0; i < 4; ++i) {
         for(int z = 0; z < 4; ++z) {
             pos_x = i*size_w;
