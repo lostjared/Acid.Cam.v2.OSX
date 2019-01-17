@@ -718,3 +718,25 @@ void ac::SquareSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::SquareSubFilter8(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareSubFilter8")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int pos_x = 0, pos_y = 0;
+    int index = 0;
+    int size_w = frame.cols/4;
+    int size_h = frame.rows/4;
+    cv::Mat resized[8];
+    for(int i = 0; i < 4; ++i) {
+        for(int z = 0; z < 4; ++z) {
+            pos_x = i*size_w;
+            pos_y = z*size_h;
+            cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
+            CallFilter(subfilter, resized[index]);
+            copyMat(resized[index], 0, 0, frame, pos_x, pos_y, size_w, size_h);
+            ++index;
+        }
+    }
+}

@@ -57,8 +57,7 @@
 }
 
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     CGLContextObj context = [[glView openGLContext] CGLContextObj];
     NSDictionary *options = @{SyphonServerOptionDepthBufferResolution: @16};
     syServer = [[SyphonServer alloc] initWithName:nil context:context options:options];
