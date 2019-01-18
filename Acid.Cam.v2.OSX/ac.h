@@ -881,6 +881,7 @@ namespace ac {
     void SquareSubFilter8(cv::Mat &frame);
     void SquareRandomFilter(cv::Mat &frame);
     void SwuareRandomSubFilter(cv::Mat &frame);
+    void ColorExpand(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

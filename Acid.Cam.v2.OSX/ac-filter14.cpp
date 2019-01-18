@@ -788,3 +788,54 @@ void ac::SwuareRandomSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &collection);
 }
+
+
+void ac::ColorExpand(cv::Mat &frame) {
+    static int color_value[3] = {rand()%255,rand()%255,rand()%255};
+    static int dir[3] = {rand()%2, rand()%2, rand()%2};
+    static int max_dir[3] = {rand()%2, rand()%2, rand()%2};
+    static int s_max[3] = {rand()%255, rand()%255, rand()%255};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] += color_value[j];
+        }
+    }
+    for(int q = 0; q < 3; ++q) {
+        if(dir[q] == 0) {
+            ++color_value[q];
+            if(color_value[q] > s_max[q]) {
+                dir[q] = 1;
+                if(max_dir[q] == 0) {
+                    s_max[q] += 5;
+                    if(s_max[q] > 255) {
+                        max_dir[q] = 1;
+                    }
+                } else {
+                    s_max[q] -= 5;
+                    if(s_max[q] <= 0) {
+                        max_dir[q] = 0;
+                    }
+                }
+            }
+            
+        } else {
+            --color_value[q];
+            if(color_value[q] <= 0) {
+                dir[q] = 0;
+                if(max_dir[q] == 0) {
+                    s_max[q] += 5;
+                    if(s_max[q] > 255) {
+                        max_dir[q] = 1;
+                    }
+                } else {
+                    s_max[q] -= 5;
+                    if(s_max[q] <= 0) {
+                        max_dir[q] = 0;
+                    }
+                }
+            }
+        }
+    }
+}
