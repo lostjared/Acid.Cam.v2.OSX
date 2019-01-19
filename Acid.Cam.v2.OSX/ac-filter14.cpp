@@ -762,7 +762,7 @@ void ac::SquareRandomFilter(cv::Mat &frame) {
     }
 }
 
-void ac::SwuareRandomSubFilter(cv::Mat &frame) {
+void ac::SquareRandomSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareRandomSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
@@ -838,4 +838,29 @@ void ac::ColorExpand(cv::Mat &frame) {
             }
         }
     }
+}
+
+void ac::ColorExpandSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ColorExpandSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    ColorExpand(copy2);
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[2];
+            static int pixval[3] = {0,0,0};
+            pix[0] = copy1.at<cv::Vec3b>(z, i);
+            pix[1] = copy2.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixval[j] = pix[0][j] ^ pix[1][j];
+                pixval[j] /= 3;
+                pixel[j] =  pixval[j] ^ static_cast<unsigned char>(pixel[j]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
 }
