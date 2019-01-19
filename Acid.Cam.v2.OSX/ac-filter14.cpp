@@ -883,3 +883,13 @@ void ac::RotateBlendImage(cv::Mat &frame) {
     RotateImage(img_copy);
     AlphaBlend(img_copy, image1, frame, 0.5);
 }
+
+void ac::RotateImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "RotateImageSubFilter")
+        return;
+    
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    RotateBlendImage(copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
