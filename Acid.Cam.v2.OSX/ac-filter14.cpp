@@ -864,3 +864,22 @@ void ac::ColorExpandSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
 }
+
+void ac::RotateImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int fcode = -1;
+    cv::Mat img, copy1;
+    cv::resize(blend_image, img, frame.size());
+    cv::flip(img, copy1, fcode);
+    frame = copy1.clone();
+    ++fcode;
+    if(fcode > 1)
+        fcode = -1;
+}
+
+void ac::RotateBlendImage(cv::Mat &frame) {
+    cv::Mat img_copy = frame.clone(), image1 = frame.clone();
+    RotateImage(img_copy);
+    AlphaBlend(img_copy, image1, frame, 0.5);
+}
