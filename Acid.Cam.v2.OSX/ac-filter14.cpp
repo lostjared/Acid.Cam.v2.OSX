@@ -921,7 +921,7 @@ void ac::FlipShuffle(cv::Mat &frame) {
 void ac::FlipRandom(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     int offset = -1;
-    offset += rand()%2;
+    offset += rand()%3;
     cv::flip(copy1, frame, offset);
 }
 
