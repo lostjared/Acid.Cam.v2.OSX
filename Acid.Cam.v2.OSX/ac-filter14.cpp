@@ -897,11 +897,39 @@ void ac::RotateImageSubFilter(cv::Mat &frame) {
 void ac::RotateAlphaBlendImage(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     RotateImage(copy1);
     static double alpha = 1.0, alpha_max = 2.5;
     AlphaBlend(copy1, copy2, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 2.4, 0.01);
+}
+
+void ac::FlipShuffle(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
+    static std::vector<int> flip_codes {-1, 0, 1};
+    static int offset = 0;
+    cv::Mat copy1 = frame.clone();
+    cv::flip(copy1, frame, flip_codes[offset]);
+    ++offset;
+    if(offset > flip_codes.size()) {
+        offset = 0;
+        std::shuffle(flip_codes.begin(), flip_codes.end(), rng);
+    }
+}
+
+void ac::FlipRandom(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int offset = -1;
+    offset += rand()%2;
+    cv::flip(copy1, frame, offset);
+}
+
+void ac::FlipOrder(cv::Mat &frame) {
+    static int offset = -1;
+    cv::Mat copy1 = frame.clone();
+    cv::flip(copy1, frame, offset);
+    ++offset;
+    if(offset > 1)
+        offset = -1;
 }
