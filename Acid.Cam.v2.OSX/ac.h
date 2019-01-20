@@ -890,6 +890,7 @@ namespace ac {
     void FlipShuffle(cv::Mat &frame);
     void FlipRandom(cv::Mat &frame);
     void FlipOrder(cv::Mat &frame);
+    void FlipStrobeSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

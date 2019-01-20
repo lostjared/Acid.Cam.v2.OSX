@@ -933,3 +933,17 @@ void ac::FlipOrder(cv::Mat &frame) {
     if(offset > 1)
         offset = -1;
 }
+
+void ac::FlipStrobeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FlipStrobeSubFilter")
+        return;
+    static int offset = 0;
+    if(offset == 0) {
+        FlipOrder(frame);
+        CallFilter(subfilter,frame);
+        offset = 1;
+    } else {
+        Negate(frame);
+        offset = 0;
+    }
+}
