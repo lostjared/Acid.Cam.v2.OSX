@@ -886,6 +886,7 @@ namespace ac {
     void RotateImage(cv::Mat &frame);
     void RotateBlendImage(cv::Mat &frame);
     void RotateImageSubFilter(cv::Mat &frame);
+    void RotateAlphaBlendImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
