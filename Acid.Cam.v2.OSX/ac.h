@@ -892,6 +892,7 @@ namespace ac {
     void FlipOrder(cv::Mat &frame);
     void FlipStrobeSubFilter(cv::Mat &frame);
     void MirrorBlendFrame(cv::Mat &frame);
+    void MirrorBlendVertical(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

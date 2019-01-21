@@ -954,3 +954,9 @@ void ac::MirrorBlendFrame(cv::Mat &frame) {
     cv::flip(copy1, copy2, 1);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::MirrorBlendVertical(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::flip(copy1, copy2, 0);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
