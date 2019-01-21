@@ -947,3 +947,10 @@ void ac::FlipStrobeSubFilter(cv::Mat &frame) {
         offset = 0;
     }
 }
+
+
+void ac::MirrorBlendFrame(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::flip(copy1, copy2, 1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
