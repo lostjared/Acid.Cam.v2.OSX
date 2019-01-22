@@ -975,14 +975,14 @@ void ac::BlendEdges(cv::Mat &frame) {
         for(int i = width-1; i >= 0; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
-            pixel = pix;
+            pixel += pix;
         }
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = width-1; i >= 0; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, frame.cols-i-1);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
+            pixel += pix;
         }
     }
 }
