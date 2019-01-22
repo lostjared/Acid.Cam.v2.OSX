@@ -969,7 +969,7 @@ void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
 }
 
 void ac::BlendEdges(cv::Mat &frame) {
-    int width = 2;
+    int width = 1;
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = width-1; i >= 0; --i) {
