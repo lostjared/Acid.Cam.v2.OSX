@@ -78,8 +78,8 @@ namespace ac {
         add_filter(&svUser, "User");
     }
     
-    const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","XorWithSource","AlphaBlendWithSource", "Plugin", "Custom",0};
-    const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "XorWithSource", "AlphaBlendWithSource", "Plugin",0};
+    const char *szCustom[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","BlendEdges","XorWithSource","AlphaBlendWithSource", "Plugin", "Custom",0};
+    const char *szCustom_Spec[] = {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","BlendEdges", "XorWithSource", "AlphaBlendWithSource", "Plugin",0};
     
     std::vector<std::string> svCustom_Spec {"Negate","DarkenFilter","Reverse","ReverseFrameBlend", "No Filter", "Blend with Source", "XorWithSource", "AlphaBlendWithSource"};
     
