@@ -895,6 +895,7 @@ namespace ac {
     void MirrorBlendVertical(cv::Mat &frame);
     void MirrorVerticalAndHorizontal(cv::Mat &frame);
     void BlendFor360(cv::Mat &frame);
+    void MirrorSidesMedian(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

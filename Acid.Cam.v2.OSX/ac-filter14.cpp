@@ -1000,3 +1000,9 @@ void ac::BlendFor360(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MirrorSidesMedian(cv::Mat &frame) {
+    MirrorXorAll(frame);
+    MirrorVerticalAndHorizontal(frame);
+    MedianBlend(frame);
+}
