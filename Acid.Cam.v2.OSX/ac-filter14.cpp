@@ -717,6 +717,7 @@ void ac::SquareSubFilter(cv::Mat &frame) {
             ++index;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SquareSubFilter8(cv::Mat &frame) {
@@ -740,6 +741,7 @@ void ac::SquareSubFilter8(cv::Mat &frame) {
             ++index;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SquareRandomFilter(cv::Mat &frame) {
@@ -760,6 +762,7 @@ void ac::SquareRandomFilter(cv::Mat &frame) {
             ++index;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SquareRandomSubFilter(cv::Mat &frame) {
@@ -787,6 +790,7 @@ void ac::SquareRandomSubFilter(cv::Mat &frame) {
     }
     AlphaBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 
@@ -838,6 +842,7 @@ void ac::ColorExpand(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ColorExpandSubFilter(cv::Mat &frame) {
@@ -863,6 +868,7 @@ void ac::ColorExpandSubFilter(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max);
+    AddInvert(frame);
 }
 
 void ac::RotateImage(cv::Mat &frame) {
@@ -876,12 +882,14 @@ void ac::RotateImage(cv::Mat &frame) {
     ++fcode;
     if(fcode > 1)
         fcode = -1;
+    AddInvert(frame);
 }
 
 void ac::RotateBlendImage(cv::Mat &frame) {
     cv::Mat img_copy = frame.clone(), image1 = frame.clone();
     RotateImage(img_copy);
     AlphaBlend(img_copy, image1, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::RotateImageSubFilter(cv::Mat &frame) {
@@ -892,6 +900,7 @@ void ac::RotateImageSubFilter(cv::Mat &frame) {
     RotateBlendImage(copy1);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::RotateAlphaBlendImage(cv::Mat &frame) {
@@ -903,6 +912,7 @@ void ac::RotateAlphaBlendImage(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 2.4, 0.01);
+    AddInvert(frame);
 }
 
 void ac::FlipShuffle(cv::Mat &frame) {
@@ -916,6 +926,7 @@ void ac::FlipShuffle(cv::Mat &frame) {
         offset = 0;
         std::shuffle(flip_codes.begin(), flip_codes.end(), rng);
     }
+    AddInvert(frame);
 }
 
 void ac::FlipRandom(cv::Mat &frame) {
@@ -923,6 +934,7 @@ void ac::FlipRandom(cv::Mat &frame) {
     int offset = -1;
     offset += rand()%3;
     cv::flip(copy1, frame, offset);
+    AddInvert(frame);
 }
 
 void ac::FlipOrder(cv::Mat &frame) {
@@ -932,6 +944,7 @@ void ac::FlipOrder(cv::Mat &frame) {
     ++offset;
     if(offset > 1)
         offset = -1;
+    AddInvert(frame);
 }
 
 void ac::FlipStrobeSubFilter(cv::Mat &frame) {
@@ -946,6 +959,7 @@ void ac::FlipStrobeSubFilter(cv::Mat &frame) {
         Negate(frame);
         offset = 0;
     }
+    AddInvert(frame);
 }
 
 
@@ -953,12 +967,14 @@ void ac::MirrorBlendFrame(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2;
     cv::flip(copy1, copy2, 1);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MirrorBlendVertical(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2;
     cv::flip(copy1, copy2, 0);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
@@ -966,6 +982,7 @@ void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
     MirrorBlendFrame(copy1);
     MirrorBlendVertical(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlendFor360(cv::Mat &frame) {
@@ -999,10 +1016,12 @@ void ac::BlendFor360(cv::Mat &frame) {
             alpha2 += 0.05;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MirrorSidesMedian(cv::Mat &frame) {
     MirrorXorAll(frame);
     MirrorVerticalAndHorizontal(frame);
     MedianBlend(frame);
+    AddInverrt(frame);
 }
