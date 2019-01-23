@@ -969,12 +969,14 @@ void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
 }
 
 void ac::BlendEdges(cv::Mat &frame) {
-    int width = 10;
+    const int width = 6;
+    const int fade_width = 5;
     double alpha1 = 0.5;
     double alpha2 = 0.5;
     cv::Mat copy1 = frame.clone();
+    /*
     for(int z = 0; z < frame.rows; ++z) {
-        int offset = width;
+        int offset = width * fade_width;
         for(int i = width-1; i >= 0; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
@@ -982,10 +984,9 @@ void ac::BlendEdges(cv::Mat &frame) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]*alpha1)+(pix[j]*alpha2));
                 pixel[j] += offset;
             }
-            --offset;
+            offset -= fade_width;
         }
-    }
-    
+    }*/
     for(int z = 0; z < frame.rows; ++z) {
         int offset = 0;
         for(int i = width-1; i >= 0; --i) {
@@ -995,7 +996,7 @@ void ac::BlendEdges(cv::Mat &frame) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]*alpha1)+(pix[j]*alpha2));
                 pixel[j] += offset;
             }
-            ++offset;
+            offset += fade_width;
         }
     }
 }
