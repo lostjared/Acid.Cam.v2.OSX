@@ -968,7 +968,7 @@ void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
 
-void ac::BlendEdges(cv::Mat &frame) {
+void ac::BlendFor360(cv::Mat &frame) {
     const int width = 20;
     double alpha1 = 0.9;
     double alpha2 = 0.1;
