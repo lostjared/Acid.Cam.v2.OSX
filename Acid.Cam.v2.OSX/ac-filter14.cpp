@@ -1023,5 +1023,5 @@ void ac::MirrorSidesMedian(cv::Mat &frame) {
     MirrorXorAll(frame);
     MirrorVerticalAndHorizontal(frame);
     MedianBlend(frame);
-    AddInverrt(frame);
+    AddInvert(frame);
 }
