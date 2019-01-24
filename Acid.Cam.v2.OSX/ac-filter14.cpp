@@ -988,12 +988,12 @@ void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
 void ac::BlendFor360(cv::Mat &frame) {
     const int width = 100;
     double inc_val = 1.0/width;
-    double alpha1 = 0.9;
-    double alpha2 = 0.1;
+    double alpha1 = 1.0;
+    double alpha2 = 0.0;
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
-        alpha1 = 0.9;
-        alpha2 = 0.1;
+        alpha1 = 1.0;
+        alpha2 = 0.0;
         for(int i = width-1; i >= 0; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, copy1.cols-i-1);
