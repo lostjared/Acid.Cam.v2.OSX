@@ -986,12 +986,13 @@ void ac::MirrorVerticalAndHorizontal(cv::Mat &frame) {
 }
 
 void ac::BlendFor360(cv::Mat &frame) {
-    const int width = 20;
+    const int width = 100;
+    double inc_val = 1.0/width;
     double alpha1 = 0.9;
     double alpha2 = 0.1;
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
-        alpha1 = 1.0;
+        alpha1 = 0.9;
         alpha2 = 0.1;
         for(int i = width-1; i >= 0; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -999,21 +1000,21 @@ void ac::BlendFor360(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]*alpha1)+(pix[j]*alpha2));
             }
+            alpha1 -= inc_val;
+            alpha2 += inc_val;
         }
-        alpha1 -= 0.05;
-        alpha2 += 0.05;
     }
     for(int z = 0; z < frame.rows; ++z) {
-        alpha1 = 1.0;
+        alpha1 = 0.9;
         alpha2 = 0.1;
-        for(int i = width-1; i >= 0; --i) {
+        for(int i = 0; i < width; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, copy1.cols-i-1);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]*alpha1)+(pix[j]*alpha2));
             }
-            alpha1 -= 0.05;
-            alpha2 += 0.05;
+            alpha1 += inc_val;
+            alpha2 -= inc_val;
         }
     }
     AddInvert(frame);
@@ -1052,10 +1053,11 @@ void ac::MedianSubFilter(cv::Mat &frame) {
     static MatrixCollection<8> collection1, collection2;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();;
     CallFilter(subfilter, copy1);
+    randomFilter(copy2);
     collection1.shiftFrames(copy1);
     collection2.shiftFrames(copy2);
-    Smooth(copy1, &collection1);
-    Smooth(copy2, &collection2);
+    Smooth(copy1, &collection1, false);
+    Smooth(copy2, &collection2, false);
     MedianBlend(copy1);
     MedianBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
