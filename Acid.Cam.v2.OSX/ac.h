@@ -898,6 +898,7 @@ namespace ac {
     void MirrorSidesMedian(cv::Mat &frame);
     void MirrorSidesSubFilter(cv::Mat &frame);
     void MedianFrameAlphaBlendSubFilter(cv::Mat &frame);
+    void MedianSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -1045,3 +1045,18 @@ void ac::MedianFrameAlphaBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2,frame, 0.5);
     MedianBlend(frame);
 }
+
+void ac::MedianSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MedianSubFilter")
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();;
+    CallFilter(subfilter, copy1);
+    collection1.shiftFrames(copy1);
+    collection2.shiftFrames(copy2);
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    MedianBlend(copy1);
+    MedianBlend(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
