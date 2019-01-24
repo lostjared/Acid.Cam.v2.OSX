@@ -1004,10 +1004,11 @@ void ac::BlendFor360(cv::Mat &frame) {
             alpha2 += inc_val;
         }
     }
+    /*
     for(int z = 0; z < frame.rows; ++z) {
-        alpha1 = 0.9;
-        alpha2 = 0.1;
-        for(int i = 0; i < width; ++i) {
+        alpha1 = 0.1;
+        alpha2 = 0.9;
+        for(int i = width-1; i >= 0; --i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, copy1.cols-i-1);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
@@ -1017,6 +1018,7 @@ void ac::BlendFor360(cv::Mat &frame) {
             alpha2 -= inc_val;
         }
     }
+    */
     AddInvert(frame);
 }
 
