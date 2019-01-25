@@ -1038,6 +1038,7 @@ void ac::MirrorSidesSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::MedianFrameAlphaBlendSubFilter(cv::Mat &frame) {
@@ -1047,6 +1048,7 @@ void ac::MedianFrameAlphaBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2,frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::MedianSubFilter(cv::Mat &frame) {
@@ -1063,4 +1065,5 @@ void ac::MedianSubFilter(cv::Mat &frame) {
     MedianBlend(copy1);
     MedianBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
