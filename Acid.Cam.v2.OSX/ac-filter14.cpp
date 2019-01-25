@@ -1067,3 +1067,32 @@ void ac::MedianSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ColorXorScale(cv::Mat &frame) {
+    static int rgb[3] = {rand()%255, rand()%255, rand()%255};
+    static int dir[3] = {1,1,1};
+    static double alpha = 1.0, alpha_max = 4.0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(rgb[j] * alpha);
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            ++rgb[j];
+            if(rgb[j] >= 255)
+                dir[j] = 0;
+                
+        } else {
+            --rgb[j];
+            if(rgb[j] <= 0)
+                dir[j] = 1;
+        }
+        
+    }
+    static int d = 1;
+    procPos(d, alpha, alpha_max, 4.1, 0.01);
+}
