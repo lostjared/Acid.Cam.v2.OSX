@@ -1095,4 +1095,15 @@ void ac::ColorXorScale(cv::Mat &frame) {
     }
     static int d = 1;
     procPos(d, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
+}
+
+void ac::ColorXorScaleSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ColorXorScaleSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ColorXorScale(copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
