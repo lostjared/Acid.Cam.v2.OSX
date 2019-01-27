@@ -626,7 +626,7 @@ void ac::XorScale(cv::Mat &frame) {
         } else if(dir[j] == 0) {
             scale[j] -= speed;
             
-            if(scale[j] <= 0)
+            if(scale[j] <= 1)
                 dir[j] = 1;
         }
     }
@@ -1039,7 +1039,7 @@ void ac::FadeBlend(cv::Mat &frame) {
             }
         } else if(dir[j] == 0) {
             fade[j] -= alpha_increase;
-            if(fade[j] <= 0) {
+            if(fade[j] <= 1) {
                 dir[j] = 1;
                 fade[j] = rand()%255;
             }

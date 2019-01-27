@@ -901,6 +901,7 @@ namespace ac {
     void MedianSubFilter(cv::Mat &frame);
     void ColorXorScale(cv::Mat &frame);
     void ColorXorScaleSubFilter(cv::Mat &frame);
+    void ImageXorScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

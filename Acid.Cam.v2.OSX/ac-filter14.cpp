@@ -402,7 +402,7 @@ void ac::ColorTransition(cv::Mat &frame) {
             }
         } else if(dir[j] == 0) {
             val[j] -= speed[j];
-            if(val[j] <= 0) {
+            if(val[j] <= 1) {
                 val[j] = rand()%255;
                 dir[j] = 1;
                 ++speed[j];
@@ -442,7 +442,7 @@ void ac::ColorTransitionRandom(cv::Mat &frame) {
             }
         } else if(dir[j] == 0) {
             val[j] -= speed[j];
-            if(val[j] <= 0) {
+            if(val[j] <= 1) {
                 val[j] = rand()%255;
                 dir[j] = rand()%2;
                 ++speed[j];
@@ -818,7 +818,7 @@ void ac::ColorExpand(cv::Mat &frame) {
                     }
                 } else {
                     s_max[q] -= 5;
-                    if(s_max[q] <= 0) {
+                    if(s_max[q] <= 1) {
                         max_dir[q] = 0;
                     }
                 }
@@ -826,7 +826,7 @@ void ac::ColorExpand(cv::Mat &frame) {
             
         } else {
             --color_value[q];
-            if(color_value[q] <= 0) {
+            if(color_value[q] <= 1) {
                 dir[q] = 0;
                 if(max_dir[q] == 0) {
                     s_max[q] += 5;
@@ -835,7 +835,7 @@ void ac::ColorExpand(cv::Mat &frame) {
                     }
                 } else {
                     s_max[q] -= 5;
-                    if(s_max[q] <= 0) {
+                    if(s_max[q] <= 1) {
                         max_dir[q] = 0;
                     }
                 }
@@ -1088,7 +1088,7 @@ void ac::ColorXorScale(cv::Mat &frame) {
                 
         } else {
             --rgb[j];
-            if(rgb[j] <= 0)
+            if(rgb[j] <= 1)
                 dir[j] = 1;
         }
         
