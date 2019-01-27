@@ -145,10 +145,8 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
         if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(CV_CAP_PROP_FPS);
         if(ac::fps <= 0 || ac::fps > 60) ac::fps = 30;
         sout << "FPS: " << ac::fps << "\n";
-        cv::Mat frame;
-        capture->read(frame);
-        cv::Size frameSize = frame.size();
-        ac::resolution = frame.size();
+        cv::Size frameSize = cv::Size(aw, ah); //frame.size();
+        ac::resolution = frameSize;
         if(camera_mode == 0 && capture_width != 0 && capture_height != 0) {
             capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
             capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
@@ -191,11 +189,10 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
                 _NSRunAlertPanel(@"Error", @"Video file could not be created Output directory exisit?\n", @"Close", nil, nil);
                 return -1;
             }
-            cv::Mat outframe;
-            cv::resize(frame, outframe, frameSize);
-            frame = outframe.clone();
-            if(blend_image.empty())
-                blend_image = frame.clone();
+            if(blend_image.empty()) {
+                blend_image.create(frameSize, CV_8UC3);
+                ac::fillRect(blend_image, ac::Rect(0, 0, blend_image.cols, blend_image.rows), cv::Vec3b(0,0,0));
+            }
         }
         // output wehther recording or not
         if(ac::noRecord == false)
@@ -207,11 +204,11 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
         if(show == NO) {
             cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
         	cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
-            cv::imshow("Acid Cam v2", frame);
+            cv::Mat _bg;
+            _bg.create(frameSize, CV_8UC3);
+            ac::fillRect(_bg,ac::Rect(0, 0, _bg.cols, _bg.rows), cv::Vec3b(0,0,0));
+            cv::imshow("Acid Cam v2", _bg);
         }
-        // if video file go back to start
-        if(camera_mode == 0) jumptoFrame(show,0);
-        // grab the screen info
         NSRect screen = [[NSScreen mainScreen] frame];
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
             rc.size.width = screen.size.width;
