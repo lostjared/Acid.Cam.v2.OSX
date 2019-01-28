@@ -1483,8 +1483,17 @@ void SearchForString(NSString *s) {
     if(programRunning == false) return;
     NSInteger time_val = [frame_slider integerValue];
     double seconds = time_val/ac::fps;
+    int min = 0, re = 0;;
     unsigned int sec = static_cast<unsigned int>(seconds);
-    NSString *str_val = [NSString stringWithFormat:@"Jump to Time: %d Seconds @ Frame #%d", sec, (int)time_val];
+    NSString *str_val;
+    if(sec >= 60) {
+    	min = (sec/60);
+        re = (sec%60);
+        str_val = [NSString stringWithFormat:@"Jump to Time: %d Minutes %d Seconds @ Frame #%d",min,re, (int)time_val];
+    } else {
+        str_val = [NSString stringWithFormat:@"Jump to Time: %d Seconds @ Frame #%d",sec,(int)time_val];
+    }
+
     [goto_fr setStringValue: str_val];
 }
 

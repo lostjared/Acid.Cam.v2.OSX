@@ -1167,7 +1167,7 @@
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="1437" y="487"/>
+            <point key="canvasLocation" x="1423" y="340"/>
         </window>
         <window title="Go To Frame" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="YSx-FJ-btb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -1220,7 +1220,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="1401" y="816"/>
+            <point key="canvasLocation" x="1399" y="798"/>
         </window>
         <window title="Alpha Flame Filters" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="tfb-J3-hzp">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
