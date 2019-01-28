@@ -68,6 +68,7 @@ void ac::ImageXorScale(cv::Mat &frame) {
         if(scale <= 1)
             dir = 1;
     }
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionShiftSubFilter(cv::Mat &frame) {
@@ -80,4 +81,5 @@ void ac::MatrixCollectionShiftSubFilter(cv::Mat &frame) {
     cv::Mat copy2 = frame.clone();
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
+    AddInvert(frame);
 }
