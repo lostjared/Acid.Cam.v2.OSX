@@ -83,3 +83,15 @@ void ac::MatrixCollectionShiftSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionImageShiftSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionImageShiftSubFilter")
+        return;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    static MatrixCollection<16> collection;
+    Smooth(reimage, &collection);
+    AlphaBlend(reimage, copy1, frame, 0.5);
+    MedianBlend(frame);
+}
