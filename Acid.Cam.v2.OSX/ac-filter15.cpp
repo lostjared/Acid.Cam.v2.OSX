@@ -74,7 +74,7 @@ void ac::ImageXorScale(cv::Mat &frame) {
 void ac::MatrixCollectionShiftSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionShiftSubFilter")
         return;
-    static MatrixCollection<16> collection;
+    static MatrixCollection<32> collection;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
     Smooth(copy1, &collection);
@@ -90,8 +90,15 @@ void ac::MatrixCollectionImageShiftSubFilter(cv::Mat &frame) {
     cv::Mat reimage, copy1 = frame.clone();
     cv::resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, reimage);
-    static MatrixCollection<16> collection;
+    static MatrixCollection<32> collection;
     Smooth(reimage, &collection);
     AlphaBlend(reimage, copy1, frame, 0.5);
     MedianBlend(frame);
+}
+
+void ac::MatrixCollectionSmoothAlphaBlend(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
 }
