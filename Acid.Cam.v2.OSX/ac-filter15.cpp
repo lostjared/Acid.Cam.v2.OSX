@@ -69,3 +69,15 @@ void ac::ImageXorScale(cv::Mat &frame) {
             dir = 1;
     }
 }
+
+void ac::MatrixCollectionShiftSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionShiftSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection);
+    cv::Mat copy2 = frame.clone();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+}

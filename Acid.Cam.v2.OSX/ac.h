@@ -902,6 +902,7 @@ namespace ac {
     void ColorXorScale(cv::Mat &frame);
     void ColorXorScaleSubFilter(cv::Mat &frame);
     void ImageXorScale(cv::Mat &frame);
+    void MatrixCollectionShiftSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
