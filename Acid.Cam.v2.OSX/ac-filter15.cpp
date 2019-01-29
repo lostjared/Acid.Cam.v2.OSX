@@ -130,3 +130,16 @@ void ac::MatrixCollectionBlurImageSubFilter(cv::Mat &frame) {
     Smooth(copy1, &collection);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::MatrixCollectionBlurImageSubFilter16(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionBlurImageSubFilter16")
+        return;
+    static MatrixCollection<16> collection;
+    static MatrixCollection<16> image_collection;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::resize(blend_image, copy2, frame.size());
+    CallFilter(subfilter, copy2);
+    Smooth(copy2, &image_collection);
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
