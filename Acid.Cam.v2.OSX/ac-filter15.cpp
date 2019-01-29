@@ -116,6 +116,7 @@ void ac::MatrixCollectionBlurImageXorAlpha(cv::Mat &frame) {
     Smooth(copy2, &image_collection);
     Smooth(copy1, &collection);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionBlurImageSubFilter(cv::Mat &frame) {
@@ -129,6 +130,7 @@ void ac::MatrixCollectionBlurImageSubFilter(cv::Mat &frame) {
     Smooth(copy2, &image_collection);
     Smooth(copy1, &collection);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionBlurImageSubFilter16(cv::Mat &frame) {
@@ -142,6 +144,7 @@ void ac::MatrixCollectionBlurImageSubFilter16(cv::Mat &frame) {
     Smooth(copy2, &image_collection);
     Smooth(copy1, &collection);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::ImageAlphaBlendSubFilter(cv::Mat &frame) {
@@ -155,6 +158,7 @@ void ac::ImageAlphaBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::MultipleMatrixCollectionSubFilter(cv::Mat &frame) {
@@ -170,4 +174,5 @@ void ac::MultipleMatrixCollectionSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &fcollection);
     MedianBlend(frame);
+    AddInvert(frame);
 }
