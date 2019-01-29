@@ -905,6 +905,8 @@ namespace ac {
     void MatrixCollectionShiftSubFilter(cv::Mat &frame);
     void MatrixCollectionImageShiftSubFilter(cv::Mat &frame);
     void MatrixCollectionSmoothAlphaBlend(cv::Mat &frame);
+    void MatrixCollectionBlurImageXorAlpha(cv::Mat &frame);
+    void MatrixCollectionBlurImageSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

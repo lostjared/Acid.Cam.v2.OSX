@@ -104,3 +104,29 @@ void ac::MatrixCollectionSmoothAlphaBlend(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionBlurImageXorAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    static MatrixCollection<8> image_collection;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::resize(blend_image, copy2, frame.size());
+    XorAlpha(copy2);
+    Smooth(copy2, &image_collection);
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
+
+void ac::MatrixCollectionBlurImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollectionBlurImageSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static MatrixCollection<8> image_collection;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::resize(blend_image, copy2, frame.size());
+    CallFilter(subfilter, copy2);
+    Smooth(copy2, &image_collection);
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
