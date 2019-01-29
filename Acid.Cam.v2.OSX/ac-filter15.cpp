@@ -156,3 +156,18 @@ void ac::ImageAlphaBlendSubFilter(cv::Mat &frame) {
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
 }
+
+void ac::MultipleMatrixCollectionSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MultipleMatrixCollectionSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    static MatrixCollection<16> filter_collection;
+    static MatrixCollection<16> fcollection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &filter_collection);
+    Smooth(copy2, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    Smooth(frame, &fcollection);
+    MedianBlend(frame);
+}
