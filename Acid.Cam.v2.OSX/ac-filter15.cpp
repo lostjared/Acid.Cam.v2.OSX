@@ -202,4 +202,5 @@ void ac::BlurImageSubFilter(cv::Mat &frame) {
     Smooth(copy1, &collection1);
     Smooth(reimage, &collection2);
     AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
