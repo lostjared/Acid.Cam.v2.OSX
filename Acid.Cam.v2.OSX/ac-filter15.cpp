@@ -181,9 +181,9 @@ void ac::MultipleMatrixCollectionSubFilter(cv::Mat &frame) {
 void ac::MirrorBlurAlphaSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "MirrorBlurAlphaSubFilter")
         return;
-    static MatrixCollection<16> collection1,collection2;
+    static MatrixCollection<8> collection1,collection2;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    MirrorBitwiseXor(copy1);
+    CallFilter(subfilter, copy1);
     Smooth(copy1, &collection1);
     Smooth(copy2, &collection2);
     AlphaBlend(copy1, copy2, frame, 0.5);
