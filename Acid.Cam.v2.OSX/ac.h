@@ -910,6 +910,7 @@ namespace ac {
     void MatrixCollectionBlurImageSubFilter16(cv::Mat &frame);
     void ImageAlphaBlendSubFilter(cv::Mat &frame);
     void MultipleMatrixCollectionSubFilter(cv::Mat &frame);
+    void MirrorBlurAlphaSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
