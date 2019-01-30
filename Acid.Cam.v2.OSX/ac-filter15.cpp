@@ -178,8 +178,8 @@ void ac::MultipleMatrixCollectionSubFilter(cv::Mat &frame) {
 }
 
 // use MedianBlend as Subfilter for cool efffect
-void ac::MirrorBlurAlphaSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "MirrorBlurAlphaSubFilter")
+void ac::BlurAlphaSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurAlphaSubFilter")
         return;
     static MatrixCollection<8> collection1,collection2;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
