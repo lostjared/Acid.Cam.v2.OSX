@@ -275,3 +275,11 @@ void ac::MedianBlendSelfBlend(cv::Mat &frame) {
     MedianBlend(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::BlendHalfSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlendHalfSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
