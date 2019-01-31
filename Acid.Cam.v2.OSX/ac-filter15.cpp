@@ -194,7 +194,7 @@ void ac::BlurAlphaSubFilter(cv::Mat &frame) {
 void ac::BlurImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "BlurImageSubFilter")
         return;
-    static MatrixCollection<8> collection1, collection2;
+    static MatrixCollection<8> collection1, collection2, collection3;
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
@@ -202,5 +202,6 @@ void ac::BlurImageSubFilter(cv::Mat &frame) {
     Smooth(copy1, &collection1);
     Smooth(reimage, &collection2);
     AlphaBlend(copy1, reimage, frame, 0.5);
+    Smooth(frame, &collection3);
     AddInvert(frame);
 }
