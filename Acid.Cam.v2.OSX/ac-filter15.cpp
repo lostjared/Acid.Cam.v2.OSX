@@ -269,3 +269,9 @@ void ac::MedianBlendImageSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::MedianBlendSelfBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MedianBlend(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}

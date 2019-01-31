@@ -914,6 +914,7 @@ namespace ac {
     void BlurImageSubFilter(cv::Mat &frame);
     void MedianBlendSubFilter(cv::Mat &frame);
     void MedianBlendImageSubFilter(cv::Mat &frame);
+    void MedianBlendSelfBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
