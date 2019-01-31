@@ -207,14 +207,46 @@ void ac::BlurImageSubFilter(cv::Mat &frame) {
 }
 
 void ac::MedianBlendSubFilter(cv::Mat &frame) {
-    
     if(subfilter == -1 || ac::draw_strings[subfilter] == "MedianBlendSubFilter")
         return;
-    
     static MatrixCollection<8> collection;
     int r = 3+(rand()%3);
     for(int i = 0; i < r; ++i)
         MedianBlur(frame);
+    CallFilter(subfilter, frame);
+    cv::Mat copy1 = frame.clone();
+    collection.shiftFrames(frame);
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Scalar value;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    value[q] += pixel[q];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = 1+static_cast<int>(value[j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+            }
+        }
+    }
+    cv::Mat copy2 = frame.clone();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "MedianBlendImageSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    int r = 3+(rand()%3);
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
     CallFilter(subfilter, frame);
     collection.shiftFrames(frame);
     for(int i = 0; i < frame.cols; ++i) {
@@ -231,8 +263,9 @@ void ac::MedianBlendSubFilter(cv::Mat &frame) {
                 int val = 1+static_cast<int>(value[j]);
                 pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
             }
-            swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
         }
     }
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
