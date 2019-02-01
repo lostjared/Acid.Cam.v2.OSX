@@ -2423,8 +2423,13 @@ void SearchForString(NSString *s) {
         for(int i = 0; i < values.size(); ++i ){
             std::string item = values[i];
             std::string s_left, s_right;
-            s_left = item.substr(0, item.find(";"));
-            s_right = item.substr(item.find(":")+1, item.length());
+            auto pos = item.find(":");
+            if(pos == std::string::npos) {
+                _NSRunAlertPanel(@"Incorrect File..\n", @"Values in file incorrect", @"Ok", nil, nil);
+                return;
+            }
+            s_left = item.substr(0,pos);
+            s_right = item.substr(pos+1, item.length());
             int val1 = atoi(s_left.c_str());
             int val2 = atoi(s_right.c_str());
             if(!(val1 >= 0 && val1 < ac::draw_max-4)) {
