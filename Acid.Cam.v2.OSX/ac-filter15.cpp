@@ -274,6 +274,7 @@ void ac::MedianBlendSelfBlend(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     MedianBlend(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlendHalfSubFilter(cv::Mat &frame) {
@@ -282,6 +283,7 @@ void ac::BlendHalfSubFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurImageAlphaBlend(cv::Mat &frame) {
@@ -296,6 +298,7 @@ void ac::BlurImageAlphaBlend(cv::Mat &frame) {
         MedianBlur(reimage);
     }
     AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurImageAlphaBlendSubFilter(cv::Mat &frame) {
@@ -311,6 +314,7 @@ void ac::BlurImageAlphaBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     CallFilter(subfilter, reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurImageAlphaBlendScaleSubFilter(cv::Mat &frame) {
@@ -329,10 +333,13 @@ void ac::BlurImageAlphaBlendScaleSubFilter(cv::Mat &frame) {
     static int dir = 1;
     AlphaBlend(copy1, reimage, frame, alpha);
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::RandomAmountOfMedianBlur(cv::Mat &frame) {
     int r = 3+(rand()%3);
     for(int j = 0; j < r; ++j)
         MedianBlur(frame);
+    
+    AddInvert(frame);
 }
