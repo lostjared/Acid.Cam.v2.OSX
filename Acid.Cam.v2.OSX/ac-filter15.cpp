@@ -283,3 +283,17 @@ void ac::BlendHalfSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::BlurImageAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    int r = 3+(rand()%3);
+    for(int j = 0; j < 3; ++j)
+        MedianBlur(copy1);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    for(int j = 0; j < r; ++j)
+        MedianBlur(reimage);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+}
