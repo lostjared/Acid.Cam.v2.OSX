@@ -260,6 +260,8 @@ extern void SearchForString(NSString *s);
 - (void) loadFileData: (const char *)path;
 - (void) loadMenuList;
 - (IBAction) jumpToCustom: (id) sender;
+- (IBAction) custom_Save: (id) sender;
+- (IBAction) custom_Load: (id) sender;
 @end
 
 class UserFilter {

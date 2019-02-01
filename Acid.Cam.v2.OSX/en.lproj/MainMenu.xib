@@ -890,19 +890,19 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-577" y="-778"/>
+            <point key="canvasLocation" x="-209" y="-781"/>
         </window>
         <window title="Custom Filter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="92I-tF-b7z">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1870" y="597" width="646" height="466"/>
+            <rect key="contentRect" x="1870" y="597" width="646" height="482"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="64L-Vq-rCh">
-                <rect key="frame" x="0.0" y="0.0" width="646" height="466"/>
+                <rect key="frame" x="0.0" y="0.0" width="646" height="482"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="CF3-sd-QMw">
-                        <rect key="frame" x="20" y="108" width="606" height="309"/>
+                        <rect key="frame" x="20" y="124" width="606" height="309"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="Kca-yO-0lq">
                             <rect key="frame" x="1" y="0.0" width="604" height="308"/>
@@ -1029,7 +1029,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="wW4-kQ-B7I">
-                        <rect key="frame" x="18" y="429" width="64" height="17"/>
+                        <rect key="frame" x="18" y="445" width="64" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Category:" id="dYN-iu-VmN">
                             <font key="font" metaFont="system"/>
@@ -1038,7 +1038,7 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" id="pJA-QY-H3x">
-                        <rect key="frame" x="86" y="423" width="250" height="26"/>
+                        <rect key="frame" x="86" y="439" width="250" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="EH5-b5-Qjr">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1083,7 +1083,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dUH-s9-L7q">
-                        <rect key="frame" x="339" y="430" width="39" height="17"/>
+                        <rect key="frame" x="339" y="446" width="39" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter:" id="Wxo-5Q-oly">
                             <font key="font" metaFont="system"/>
@@ -1092,7 +1092,7 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" id="W5Y-Jr-pAq">
-                        <rect key="frame" x="379" y="423" width="250" height="26"/>
+                        <rect key="frame" x="379" y="439" width="250" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="ttA-gs-s63">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1156,8 +1156,30 @@
                             </connections>
                         </buttonCell>
                     </button>
+                    <button verticalHuggingPriority="750" id="f6M-m4-MJV">
+                        <rect key="frame" x="399" y="86" width="120" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Custom Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NjL-n9-AWs">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="custom_Save:" target="630" id="pQg-Ld-yJ7"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="upH-Wl-Nkl">
+                        <rect key="frame" x="512" y="86" width="120" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Custom Load" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V9m-2F-zRo">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="custom_Load:" target="630" id="EpH-zy-fBj"/>
+                        </connections>
+                    </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="vIt-x4-3dS">
-                        <rect key="frame" x="18" y="63" width="84" height="17"/>
+                        <rect key="frame" x="18" y="69" width="84" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="User Defined" id="qfJ-kE-vkI">
                             <font key="font" metaFont="system"/>
@@ -1167,7 +1189,7 @@
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="1423" y="340"/>
+            <point key="canvasLocation" x="1426" y="361"/>
         </window>
         <window title="Go To Frame" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="YSx-FJ-btb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>

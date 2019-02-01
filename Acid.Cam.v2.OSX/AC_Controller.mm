@@ -2369,6 +2369,42 @@ void SearchForString(NSString *s) {
     [self changeFilter:self];
 }
 
+- (IBAction) custom_Save: (id) sender {
+    if([custom_array count] == 0) {
+        _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
+        return;
+    }
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setCanCreateDirectories:YES];
+    [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
+    if([panel runModal]) {
+        NSString *fileName = [[panel URL] path];
+        std::fstream file_n;
+        file_n.open([fileName UTF8String],std::ios::out);
+        if(!file_n.is_open()) {
+            _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
+            return;
+        }
+        for(int i = 0; i < [custom_array count]; ++i) {
+            NSNumber *nval = [custom_array objectAtIndex:i];
+            NSNumber *sval = [custom_subfilters objectAtIndex:i];
+            NSInteger value1 = [nval integerValue];
+            NSInteger value2 = [sval integerValue];
+            file_n << (int)value1 << ":" << value2 << "\n";
+        }
+        std::ostringstream stream;
+        stream << "Wrote custom to: " << [fileName UTF8String] << "\n";
+        flushToLog(stream);
+    }
+}
+
+- (IBAction) custom_Load: (id) sender {
+    
+    
+    
+    
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
