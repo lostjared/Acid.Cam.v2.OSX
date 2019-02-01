@@ -2412,20 +2412,42 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
             return;
         }
-        [custom_array removeAllObjects];
-        [custom_subfilters removeAllObjects];
+        std::vector<std::string> values;
         while(!file.eof()) {
             std::string item;
             std::getline(file, item);
-            if(file) {
-                std::string s_left, s_right;
-                s_left = item.substr(0, item.find(";"));
-                s_right = item.substr(item.find(":")+1, item.length());
-                NSNumber *num1 = [NSNumber numberWithInteger: atoi(s_left.c_str())];
-                NSNumber *num2 = [NSNumber numberWithInteger: atoi(s_right.c_str())];
-                [custom_array addObject:num1];
-                [custom_subfilters addObject:num2];
+            if(file)
+                values.push_back(item);
+        }
+        // check if data valid
+        for(int i = 0; i < values.size(); ++i ){
+            std::string item = values[i];
+            std::string s_left, s_right;
+            s_left = item.substr(0, item.find(";"));
+            s_right = item.substr(item.find(":")+1, item.length());
+            int val1 = atoi(s_left.c_str());
+            int val2 = atoi(s_right.c_str());
+            if(!(val1 >= 0 && val1 < ac::draw_max-4)) {
+                _NSRunAlertPanel(@"Unsupported Value", @"Filter value out of range... wrong program revision?", @"Ok", nil, nil);
+                return;
             }
+            if(!(val2 == -1 || (val2 >= 0 && val2 < ac::draw_max-4))) {
+                _NSRunAlertPanel(@"Unsupported SubFilter value",@"Sub Filter value of range...", @"Ok", nil, nil);
+                return;
+            }
+        }
+        [custom_array removeAllObjects];
+        [custom_subfilters removeAllObjects];
+        for(int i = 0; i < values.size(); ++i) {
+            std::string item = values[i];
+            std::string s_left, s_right;
+            s_left = item.substr(0, item.find(";"));
+            s_right = item.substr(item.find(":")+1, item.length());
+            NSNumber *num1 = [NSNumber numberWithInteger: atoi(s_left.c_str())];
+            NSNumber *num2 = [NSNumber numberWithInteger: atoi(s_right.c_str())];
+            [custom_array addObject:num1];
+            [custom_subfilters addObject:num2];
+            
         }
         [table_view reloadData];
         file.close();
