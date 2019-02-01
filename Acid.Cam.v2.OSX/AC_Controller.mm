@@ -2395,14 +2395,41 @@ void SearchForString(NSString *s) {
         std::ostringstream stream;
         stream << "Wrote custom to: " << [fileName UTF8String] << "\n";
         flushToLog(stream);
+        file_n.close();
     }
 }
 
 - (IBAction) custom_Load: (id) sender {
-    
-    
-    
-    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:YES];
+    [panel setCanChooseDirectories: NO];
+    [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
+    if([panel runModal]) {
+        NSString *fileName = [[panel URL] path];
+        std::fstream file;
+        file.open([fileName UTF8String], std::ios::in);
+        if(!file.is_open()) {
+            _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
+            return;
+        }
+        [custom_array removeAllObjects];
+        [custom_subfilters removeAllObjects];
+        while(!file.eof()) {
+            std::string item;
+            std::getline(file, item);
+            if(file) {
+                std::string s_left, s_right;
+                s_left = item.substr(0, item.find(";"));
+                s_right = item.substr(item.find(":")+1, item.length());
+                NSNumber *num1 = [NSNumber numberWithInteger: atoi(s_left.c_str())];
+                NSNumber *num2 = [NSNumber numberWithInteger: atoi(s_right.c_str())];
+                [custom_array addObject:num1];
+                [custom_subfilters addObject:num2];
+            }
+        }
+        [table_view reloadData];
+        file.close();
+    }
 }
 
 @end
