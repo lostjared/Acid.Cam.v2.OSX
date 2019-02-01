@@ -348,3 +348,11 @@ void ac::Bitwise_XOR_BlendFrame(cv::Mat &frame) {
     Bitwise_XOR(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::AlphaBlendWithSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendWithSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
