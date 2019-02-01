@@ -312,3 +312,27 @@ void ac::BlurImageAlphaBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
 }
+
+void ac::BlurImageAlphaBlendScaleSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "BlurImageAlphaBlendScaleSubFilter")
+        return;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    int r = 3+(rand()%3);
+    for(int j = 0; j < r; ++j) {
+        MedianBlur(copy1);
+        MedianBlur(reimage);
+    }
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, reimage);
+    double alpha = 1.0, alpha_max = 4.0;
+    static int dir = 1;
+    AlphaBlend(copy1, reimage, frame, alpha);
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
+
+void ac::RandomAmountOfMedianBlur(cv::Mat &frame) {
+    int r = 3+(rand()%3);
+    for(int j = 0; j < r; ++j)
+        MedianBlur(frame);
+}
