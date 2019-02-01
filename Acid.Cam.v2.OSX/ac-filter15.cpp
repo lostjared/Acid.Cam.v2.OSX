@@ -337,9 +337,14 @@ void ac::BlurImageAlphaBlendScaleSubFilter(cv::Mat &frame) {
 }
 
 void ac::RandomAmountOfMedianBlur(cv::Mat &frame) {
-    int r = 3+(rand()%3);
+    int r = 1+(rand()%5);
     for(int j = 0; j < r; ++j)
         MedianBlur(frame);
-    
     AddInvert(frame);
+}
+
+void ac::Bitwise_XOR_BlendFrame(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Bitwise_XOR(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
 }
