@@ -367,3 +367,18 @@ void ac::MatrixBlendSubFilter(cv::Mat &frame) {
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::SmoothMatrixBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothMatrixBlendSubFilter")
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Smooth(copy1, &collection1);
+    CallFilter(subfilter, copy1);
+    for(int i = 0; i < 3; ++i)
+    	MedianBlur(copy2);
+    CallFilter(subfilter, copy2);
+    collection2.shiftFrames(copy2);
+    MatrixBlend(copy2, &collection2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}

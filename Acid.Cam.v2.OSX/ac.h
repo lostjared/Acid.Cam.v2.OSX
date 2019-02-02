@@ -926,6 +926,7 @@ namespace ac {
     void GaussianBlendEx(cv::Mat &frame);
     void SimpleMatrixBlend(cv::Mat &frame);
     void MatrixBlendSubFilter(cv::Mat &frame);
+    void SmoothMatrixBlendSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
