@@ -925,6 +925,7 @@ namespace ac {
     void AlphaBlendScaleWithSubFilter(cv::Mat &frame);
     void GaussianBlendEx(cv::Mat &frame);
     void SimpleMatrixBlend(cv::Mat &frame);
+    void MatrixBlendSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
