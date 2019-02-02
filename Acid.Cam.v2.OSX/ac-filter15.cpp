@@ -347,6 +347,7 @@ void ac::Bitwise_XOR_BlendFrame(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     Bitwise_XOR(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendWithSubFilter(cv::Mat &frame) {
@@ -355,6 +356,7 @@ void ac::AlphaBlendWithSubFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendScaleWithSubFilter(cv::Mat &frame) {
@@ -366,4 +368,52 @@ void ac::AlphaBlendScaleWithSubFilter(cv::Mat &frame) {
     static int dir = 1;
     AlphaBlend(copy1, copy2, frame, alpha);
     procPos(dir, alpha, alpha_max, 3.1, 0.01);
+    AddInvert(frame);
+}
+
+void ac::GaussianBlendEx(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    int r = 3+(rand()%3);
+    for(int i = 0; i < r; ++i)
+        GaussianBlur(frame);
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar value;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    value[q] += pixel[q];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = 1+static_cast<int>(value[j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::SimpleMatrixBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar value;
+            for(int j = 0; j < collection.size(); ++j) {
+                cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    value[q] += pixel[q];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int val = 1+static_cast<int>(value[j]);
+                pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+            }
+        }
+    }
+    AddInvert(frame);
 }

@@ -1232,7 +1232,7 @@ void ac::FlashBlackAndWhite(cv::Mat &frame) {
 void ac::GaussianBlend(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     static MatrixCollection<8> collection;
-    unsigned int r = rand()%10;
+    unsigned int r = 3+(rand()%10);
     for(unsigned int q = 0; q < r; ++q)
         GaussianBlur(frame);
     
