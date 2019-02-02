@@ -922,6 +922,7 @@ namespace ac {
     void RandomAmountOfMedianBlur(cv::Mat &frame);
     void Bitwise_XOR_BlendFrame(cv::Mat &frame);
     void AlphaBlendWithSubFilter(cv::Mat &frame);
+    void AlphaBlendScaleWithSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

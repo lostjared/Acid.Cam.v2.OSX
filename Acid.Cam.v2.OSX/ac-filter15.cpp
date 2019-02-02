@@ -356,3 +356,14 @@ void ac::AlphaBlendWithSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::AlphaBlendScaleWithSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendScaleWithSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    static double alpha = 1.0, alpha_max = 3.0;
+    static int dir = 1;
+    AlphaBlend(copy1, copy2, frame, alpha);
+    procPos(dir, alpha, alpha_max, 3.1, 0.01);
+}

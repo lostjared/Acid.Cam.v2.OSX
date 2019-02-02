@@ -1180,7 +1180,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="vIt-x4-3dS">
-                        <rect key="frame" x="18" y="69" width="84" height="17"/>
+                        <rect key="frame" x="18" y="63" width="84" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="User Defined" id="qfJ-kE-vkI">
                             <font key="font" metaFont="system"/>
