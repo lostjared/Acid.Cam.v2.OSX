@@ -928,6 +928,7 @@ namespace ac {
     void MatrixBlendSubFilter(cv::Mat &frame);
     void SmoothMatrixBlendSubFilter(cv::Mat &frame);
     void BlurSmoothSubFilterAlphaBlend(cv::Mat &frame);
+    void BlurSmoothAlphaXorBlendSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

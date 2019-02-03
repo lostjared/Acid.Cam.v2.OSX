@@ -392,3 +392,13 @@ void ac::BlurSmoothSubFilterAlphaBlend(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &collection);
 }
+
+void ac::BlurSmoothAlphaXorBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurSmoothAlphaXorBlendSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaXorBlend(copy1, copy2, frame, 0.5);
+    Smooth(frame, &collection);
+}
