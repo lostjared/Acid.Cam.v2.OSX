@@ -415,3 +415,24 @@ void ac::BlurTwiceSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::BlurFrameBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurFrameBlendSubFilter")
+        return;
+    static int index = 0;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int i = 0; i < 3; ++i) {
+        if(index == 0) {
+        	MedianBlur(copy1);
+        	GaussianBlur(copy2);
+        } else {
+            MedianBlur(copy2);
+            GaussianBlur(copy1);
+        }
+    }
+    ++index;
+    if(index > 1)
+        index = 0;
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
