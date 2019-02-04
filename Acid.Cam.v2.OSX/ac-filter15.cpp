@@ -402,3 +402,16 @@ void ac::BlurSmoothAlphaXorBlendSubFilter(cv::Mat &frame) {
     AlphaXorBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &collection);
 }
+
+void ac::BlurTwiceSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurTwiceSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int i = 0; i < 3; ++i) {
+        MedianBlur(copy1);
+        GaussianBlur(copy2);
+    }
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
