@@ -504,3 +504,9 @@ void ac::GaussianBlurInc(cv::Mat &frame) {
     }
     ++frame_counter;
 }
+
+void ac::BlurSmoothMedianInc(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    MedianBlurInc(frame);
+    Smooth(frame, &collection);
+}
