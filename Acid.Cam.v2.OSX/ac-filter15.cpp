@@ -510,3 +510,9 @@ void ac::BlurSmoothMedianInc(cv::Mat &frame) {
     MedianBlurInc(frame);
     Smooth(frame, &collection);
 }
+
+void ac::BlurSmoothGaussianInc(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    GaussianBlurInc(frame);
+    Smooth(frame, &collection);
+}
