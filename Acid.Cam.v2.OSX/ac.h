@@ -934,6 +934,7 @@ namespace ac {
     void BlurFrameSubFilter(cv::Mat &frame);
     void BlurSmoothMatrix(cv::Mat &frame);
     void MedianBlurInc(cv::Mat &frame);
+    void GaussianBlurInc(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
