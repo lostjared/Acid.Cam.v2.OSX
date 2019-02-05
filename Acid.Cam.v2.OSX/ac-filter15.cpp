@@ -456,3 +456,27 @@ void ac::BlurSmoothMatrix(cv::Mat &frame) {
     MedianBlur(frame);
     Smooth(frame, &collection);
 }
+
+void ac::MedianBlurInc(cv::Mat &frame) {
+    int fps = static_cast<int>(ac::fps);
+    static int dir = 1;
+    static int offset = 1, frame_counter = 1;
+    
+    for(int i = 0; i < offset; ++i)
+        MedianBlur(frame);
+    
+    if((frame_counter%fps) == 0) {
+        if(dir == 1) {
+            ++offset;
+            if(offset > 8) {
+                dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                dir = 1;
+            }
+        }
+    }
+    ++frame_counter;
+}
