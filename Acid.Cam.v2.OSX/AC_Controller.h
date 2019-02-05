@@ -58,10 +58,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<cstdlib>
 #include<cstdio>
 #include "AC_Renderer.h"
+
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
-
+// Filter Info type
+class UserFilter {
+public:
+    int index, subfilter;
+    std::string name, other_name;
+    UserFilter(): index(0), subfilter(-1) {}
+};
 // global variables
 extern pixel pix;
 extern drawn d;
@@ -71,7 +78,22 @@ extern NSThread *background;
 extern  bool camera_active;
 extern unsigned long frame_proc;
 extern bool resize_value;
+extern std::unordered_map<std::string, UserFilter> user_filter;
+extern NSTimer *renderTimer, *validProc;
+
+extern cv::Mat old_frame;
+extern bool resize_frame;
+extern NSRect rc;
+// global function prototypes
+extern cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor);
+extern void CustomFilter(cv::Mat &frame, NSMutableArray *list, NSMutableArray *sublist);
 extern void SearchForString(NSString *s);
+extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);
+extern void flushToLog(std::ostringstream &sout);
+extern void setFrameLabel(std::ostringstream &text);
+extern void setSliders(long frame_count);
+extern void jumptoFrame(BOOL showJump, long frame);
+
 
 @interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
 }
@@ -264,26 +286,5 @@ extern void SearchForString(NSString *s);
 - (IBAction) custom_Load: (id) sender;
 @end
 
-class UserFilter {
-public:
-    int index, subfilter;
-    std::string name, other_name;
-    UserFilter(): index(0), subfilter(-1) {}
-};
-
-extern std::unordered_map<std::string, UserFilter> user_filter;
-void CustomFilter(cv::Mat &frame, NSMutableArray *list, NSMutableArray *sublist);
-
-// global variables / functions
-extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);
-extern void flushToLog(std::ostringstream &sout);
-extern void setFrameLabel(std::ostringstream &text);
-extern void setSliders(long frame_count);
-extern void jumptoFrame(BOOL showJump, long frame);
-extern NSTimer *renderTimer, *validProc;
 extern AC_Controller *controller;
-extern cv::Mat old_frame;
-extern bool resize_frame;
-extern NSRect rc;
-extern cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor);
 
