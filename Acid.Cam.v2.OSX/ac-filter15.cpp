@@ -446,6 +446,7 @@ void ac::BlurFrameSubFilter(cv::Mat &frame) {
     }
     static MatrixCollection<8> collection;
     Smooth(copy1, &collection);
+     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
-    CallFilter(subfilter, frame);
+   
 }
