@@ -436,3 +436,16 @@ void ac::BlurFrameBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::BlurFrameSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurFrameSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int i = 0; i < 3; ++i) {
+        MedianBlur(copy1);
+    }
+    static MatrixCollection<8> collection;
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    CallFilter(subfilter, frame);
+}
