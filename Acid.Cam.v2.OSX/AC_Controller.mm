@@ -2390,7 +2390,13 @@ void SearchForString(NSString *s) {
             NSNumber *sval = [custom_subfilters objectAtIndex:i];
             NSInteger value1 = [nval integerValue];
             NSInteger value2 = [sval integerValue];
-            file_n << (int)value1 << ":" << value2 << "\n";
+            std::string value1s, value2s;
+            value1s = ac::draw_strings[value1];
+            if(value2 != -1)
+            	value2s = ac::draw_strings[value2];
+            else
+                value2s = "None";
+            file_n << value1s << ":" << value2s << "\n";
         }
         std::ostringstream stream;
         stream << "Wrote custom to: " << [fileName UTF8String] << "\n";
@@ -2430,8 +2436,13 @@ void SearchForString(NSString *s) {
             }
             s_left = item.substr(0,pos);
             s_right = item.substr(pos+1, item.length());
-            int val1 = atoi(s_left.c_str());
-            int val2 = atoi(s_right.c_str());
+            int val1 = ac::filter_map[s_left];
+            int val2 = 0;
+            if(s_right == "None")
+                val2 = -1;
+            else
+                val2 = ac::filter_map[s_right];
+            
             if(!(val1 >= 0 && val1 < ac::draw_max-4)) {
                 _NSRunAlertPanel(@"Unsupported Value", @"Filter value out of range... wrong program revision?", @"Ok", nil, nil);
                 return;
@@ -2446,13 +2457,18 @@ void SearchForString(NSString *s) {
         for(int i = 0; i < values.size(); ++i) {
             std::string item = values[i];
             std::string s_left, s_right;
-            s_left = item.substr(0, item.find(";"));
+            s_left = item.substr(0, item.find(":"));
             s_right = item.substr(item.find(":")+1, item.length());
-            NSNumber *num1 = [NSNumber numberWithInteger: atoi(s_left.c_str())];
-            NSNumber *num2 = [NSNumber numberWithInteger: atoi(s_right.c_str())];
+            int val1 = ac::filter_map[s_left];
+            int val2 = 0;
+            if(s_right == "None")
+                val2 = -1;
+            else
+                val2 = ac::filter_map[s_right];
+            NSNumber *num1 = [NSNumber numberWithInteger: val1];
+            NSNumber *num2 = [NSNumber numberWithInteger: val2];
             [custom_array addObject:num1];
             [custom_subfilters addObject:num2];
-            
         }
         [table_view reloadData];
         file.close();
