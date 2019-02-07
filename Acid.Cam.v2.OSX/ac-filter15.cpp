@@ -567,3 +567,28 @@ void ac::MatrixCollection8XorSubFilter(cv::Mat &frame) {
     cv::Mat copy2 = frame.clone();
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::BlurSmoothRevFilter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    BlurSmoothMatrix(copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            pix[0] = pixel;
+            pix[1] = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            pix[2] = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            pix[3] = copy1.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            cv::Scalar values;
+            for(int q = 0; q < 4; ++q) {
+                for(int j = 0; j < 3; ++j)
+                    values[j] += pix[q][j];
+            }
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= 3;
+                int value = static_cast<int>(values[j]);
+                pixel[j] = pixel[j]^value;
+            }
+        }
+    }
+}
