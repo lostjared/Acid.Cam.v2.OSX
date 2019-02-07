@@ -540,3 +540,30 @@ void ac::BlurMatrixCollectionXor(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MatrixCollection8XorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MatrixCollection8XorSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar values;
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    values[j] += pix[j];
+            }
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= collection.size();
+                int value = static_cast<int>(values[j]);
+                pixel[j] = pixel[j]^value;
+            }
+        }
+    }
+    cv::Mat copy2 = frame.clone();
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
