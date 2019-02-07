@@ -516,3 +516,27 @@ void ac::BlurSmoothGaussianInc(cv::Mat &frame) {
     GaussianBlurInc(frame);
     Smooth(frame, &collection);
 }
+
+void ac::BlurMatrixCollectionXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    MedianBlurInc(copy1);
+    Smooth(copy1, &collection);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Scalar values;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    values[j] += pix[j];
+            }
+            cv::Vec3b cpix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= 3;
+                int val = static_cast<int>(values[j]);
+                pixel[j] = (val^cpix[j])^pixel[j];
+            }
+        }
+    }
+}
