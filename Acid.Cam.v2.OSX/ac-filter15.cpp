@@ -381,6 +381,7 @@ void ac::SmoothMatrixBlendSubFilter(cv::Mat &frame) {
     collection2.shiftFrames(copy2);
     MatrixBlend(copy2, &collection2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothSubFilterAlphaBlend(cv::Mat &frame) {
@@ -391,6 +392,7 @@ void ac::BlurSmoothSubFilterAlphaBlend(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothAlphaXorBlendSubFilter(cv::Mat &frame) {
@@ -401,6 +403,7 @@ void ac::BlurSmoothAlphaXorBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaXorBlend(copy1, copy2, frame, 0.5);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::BlurTwiceSubFilter(cv::Mat &frame) {
@@ -414,6 +417,7 @@ void ac::BlurTwiceSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurFrameBlendSubFilter(cv::Mat &frame) {
@@ -435,6 +439,7 @@ void ac::BlurFrameBlendSubFilter(cv::Mat &frame) {
         index = 0;
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurFrameSubFilter(cv::Mat &frame) {
@@ -448,6 +453,7 @@ void ac::BlurFrameSubFilter(cv::Mat &frame) {
     Smooth(copy1, &collection);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothMatrix(cv::Mat &frame) {
@@ -455,6 +461,7 @@ void ac::BlurSmoothMatrix(cv::Mat &frame) {
     GaussianBlur(frame);
     MedianBlur(frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::MedianBlurInc(cv::Mat &frame) {
@@ -479,6 +486,7 @@ void ac::MedianBlurInc(cv::Mat &frame) {
         }
     }
     ++frame_counter;
+    AddInvert(frame);
 }
 
 void ac::GaussianBlurInc(cv::Mat &frame) {
@@ -503,18 +511,21 @@ void ac::GaussianBlurInc(cv::Mat &frame) {
         }
     }
     ++frame_counter;
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothMedianInc(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     MedianBlurInc(frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothGaussianInc(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     GaussianBlurInc(frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::BlurMatrixCollectionXor(cv::Mat &frame) {
@@ -539,6 +550,7 @@ void ac::BlurMatrixCollectionXor(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MatrixCollection8XorSubFilter(cv::Mat &frame) {
@@ -566,6 +578,7 @@ void ac::MatrixCollection8XorSubFilter(cv::Mat &frame) {
     }
     cv::Mat copy2 = frame.clone();
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::BlurSmoothRevFilter(cv::Mat &frame) {
@@ -591,6 +604,7 @@ void ac::BlurSmoothRevFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SurroundingPixels(cv::Mat &frame) {
@@ -616,6 +630,7 @@ void ac::SurroundingPixels(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::SurroundingPixelsAlpha(cv::Mat &frame) {
@@ -643,6 +658,7 @@ void ac::SurroundingPixelsAlpha(cv::Mat &frame) {
     }
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionSurroundingPixels(cv::Mat &frame) {
@@ -673,4 +689,6 @@ void ac::MatrixCollectionSurroundingPixels(cv::Mat &frame) {
     MedianBlend(frame);
     cv::Mat copy3 = frame.clone();
     AlphaBlend(copy2, copy3, frame, 0.5);
+    AddInvert(frame);
 }
+
