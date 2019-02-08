@@ -617,3 +617,30 @@ void ac::SurroundingPixels(cv::Mat &frame) {
         }
     }
 }
+
+void ac::SurroundingPixelsAlpha(cv::Mat &frame) {
+    double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            pix[0] = pixel;
+            pix[1] = copy1.at<cv::Vec3b>(z, i+1);
+            pix[2] = copy1.at<cv::Vec3b>(z+1, i);
+            pix[3] = copy1.at<cv::Vec3b>(z+1, i+1);
+            cv::Scalar values;
+            for(int q = 0; q < 4; ++q) {
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += pix[q][j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= 3;
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(values[j]*alpha);
+            }
+        }
+    }
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
