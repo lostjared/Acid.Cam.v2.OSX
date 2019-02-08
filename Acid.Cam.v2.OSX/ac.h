@@ -943,6 +943,7 @@ namespace ac {
     void SurroundingPixels(cv::Mat &frame);
     void SurroundingPixelsAlpha(cv::Mat &frame);
     void MatrixCollectionSurroundingPixels(cv::Mat &frame);
+    void MatrixCollectionSurroundingPixelsSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
