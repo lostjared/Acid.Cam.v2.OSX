@@ -20,8 +20,6 @@ Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code th
 
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
-View this YouTube playlist for videos created with this software
-
 OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  version switch to oldmacosx branch
 or for OpenCV 3 go to OpenCV3.
 
@@ -36,7 +34,6 @@ The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will n
 ![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
 
 This project contains the compiled static libraries / include files required to build the program.
-
 
 Project home page: http://lostsidedead.com/blog/?index=212
 
