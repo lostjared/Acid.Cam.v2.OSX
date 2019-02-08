@@ -726,3 +726,38 @@ void ac::MatrixCollectionSurroundingPixelsSubFilter(cv::Mat &frame) {
     AlphaBlend(copy2, copy3, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionSurroundingPixelsImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Mat copyx = frame.clone();
+    AlphaBlend(copyx, reimage, frame, 0.5);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[4];
+            pix[0] = pixel;
+            pix[1] = copy1.at<cv::Vec3b>(z, i+1);
+            pix[2] = copy1.at<cv::Vec3b>(z+1, i);
+            pix[3] = copy1.at<cv::Vec3b>(z+1, i+1);
+            cv::Scalar values;
+            for(int q = 0; q < 4; ++q) {
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += pix[q][j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= 4;
+                int value = static_cast<int>(values[j]);
+                pixel[j] = pixel[j]^value;
+            }
+        }
+    }
+    cv::Mat copy3 = frame.clone();
+    AlphaBlend(copy2, copy3, frame, 0.5);
+    AddInvert(frame);
+}
