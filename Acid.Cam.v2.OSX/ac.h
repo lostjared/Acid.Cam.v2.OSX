@@ -942,6 +942,7 @@ namespace ac {
     void BlurSmoothRevFilter(cv::Mat &frame);
     void SurroundingPixels(cv::Mat &frame);
     void SurroundingPixelsAlpha(cv::Mat &frame);
+    void MatrixCollectionSurroundingPixels(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
