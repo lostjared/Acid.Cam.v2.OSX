@@ -810,3 +810,16 @@ void ac::ImageTransparent(cv::Mat &frame) {
     AlphaBlend(cp1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::MatrixImageAlphaBlendSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageSubFilter1")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2, reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    AlphaBlend(copy1, reimage, copy2, 0.5);
+    static MatrixCollection<8> collection;
+    Smooth(copy2, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    CallFilter(subfilter, frame);
+}
