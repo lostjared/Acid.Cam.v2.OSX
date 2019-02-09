@@ -823,3 +823,16 @@ void ac::MatrixImageAlphaBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     CallFilter(subfilter, frame);
 }
+
+void ac::ImageAlphaCollectionSmoothBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), reimage, copy2;
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1, reimage, copy2, 0.8);
+    Smooth(copy2, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    static MatrixCollection<8> collection2;
+    Smooth(frame, &collection2);
+}
