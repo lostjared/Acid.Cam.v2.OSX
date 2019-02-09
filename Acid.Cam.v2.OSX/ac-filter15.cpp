@@ -797,3 +797,16 @@ void ac::MatrixCollectionSurroundingPixelsImageSubFilter(cv::Mat &frame) {
     AlphaBlend(copy2, copy3, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageTransparent(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage, copy2 = frame.clone();
+    cv::resize(blend_image, reimage, copy1.size());
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    static MatrixCollection<8> collection;
+    Smooth(frame, &collection);
+    cv::Mat cp1 = frame.clone();
+    AlphaBlend(cp1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
