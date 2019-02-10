@@ -953,6 +953,9 @@ namespace ac {
     void ImageRandomColormapAlphaBlend(cv::Mat &frame);
     void ImageRandomColormapAlphaScale(cv::Mat &frame);
     void ImageRandomColormapSubFilter(cv::Mat &frame);
+    void ImageShuffle(cv::Mat &frame);
+    void ImageSubFilter(cv::Mat &frame);
+    void ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

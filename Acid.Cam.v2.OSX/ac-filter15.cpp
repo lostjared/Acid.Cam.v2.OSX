@@ -881,3 +881,33 @@ void ac::ImageRandomColormapSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copyimg, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageShuffle(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat imgcopy;
+    cv::resize(blend_image, imgcopy, frame.size());
+    randomFilter(imgcopy);
+    frame = imgcopy.clone();
+    AddInvert(frame);
+}
+
+void ac::ImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageSubFilter")
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    frame = reimage.clone();
+    AddInvert(frame);
+}
+
+void ac::ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageAlphaBlendWithFrameSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
