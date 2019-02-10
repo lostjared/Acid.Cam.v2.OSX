@@ -2436,6 +2436,15 @@ void SearchForString(NSString *s) {
             }
             s_left = item.substr(0,pos);
             s_right = item.substr(pos+1, item.length());
+            
+            if(ac::filter_map.find(s_left) == ac::filter_map.end()) {
+                _NSRunAlertPanel(@"Filter not in this version", [NSString stringWithFormat:@"This filter: %s is not found in this version maybe using older version try updating", s_left.c_str()], @"Ok", nil, nil);
+                return;
+            }
+            if(s_right != "None" && ac::filter_map.find(s_right) == ac::filter_map.end()) {
+                _NSRunAlertPanel(@"Filter not in this version", [NSString stringWithFormat:@"This filter: %s is not found in this version maybe using older version try updating", s_right.c_str()], @"Ok", nil, nil);
+                return;
+            }
             int val1 = ac::filter_map[s_left];
             int val2 = 0;
             if(s_right == "None")
