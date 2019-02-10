@@ -835,4 +835,14 @@ void ac::ImageAlphaCollectionSmoothBlend(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     static MatrixCollection<8> collection2;
     Smooth(frame, &collection2);
+    AddInvert(frame);
+}
+
+void ac::ImageRandomColormap(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1;
+    cv::resize(blend_image, copy1, frame.size());
+    ShuffleColorMap(copy1);
+    frame = copy1.clone();
 }
