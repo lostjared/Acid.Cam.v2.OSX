@@ -845,4 +845,15 @@ void ac::ImageRandomColormap(cv::Mat &frame) {
     cv::resize(blend_image, copy1, frame.size());
     ShuffleColorMap(copy1);
     frame = copy1.clone();
+    AddInvert(frame);
+}
+
+void ac::ImageRandomColormapAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copyimg;
+    cv::resize(blend_image, copyimg, frame.size());
+    ShuffleColorMap(copyimg);
+    AlphaBlend(copy1, copyimg, frame, 0.5);
+    AddInvert(frame);
 }

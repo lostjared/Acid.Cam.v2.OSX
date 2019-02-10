@@ -950,6 +950,7 @@ namespace ac {
     void MatrixImageAlphaBlendSubFilter(cv::Mat &frame);
     void ImageAlphaCollectionSmoothBlend(cv::Mat &frame);
     void ImageRandomColormap(cv::Mat &frame);
+    void ImageRandomColormapAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
