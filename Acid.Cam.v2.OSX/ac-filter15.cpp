@@ -857,3 +857,27 @@ void ac::ImageRandomColormapAlphaBlend(cv::Mat &frame) {
     AlphaBlend(copy1, copyimg, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageRandomColormapAlphaScale(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static double alpha = 1.0, alpha_max = 4.0;
+    cv::Mat copy1 = frame.clone(), copyimg;
+    cv::resize(blend_image, copyimg, frame.size());
+    ShuffleColorMap(copyimg);
+    AlphaBlend(copy1, copyimg, frame, alpha);
+    AddInvert(frame);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+}
+
+void ac::ImageRandomColormapSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageRandomColormapSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copyimg;
+    cv::resize(blend_image, copyimg, frame.size());
+    CallFilter(subfilter, copyimg);
+    ShuffleColorMap(copyimg);
+    AlphaBlend(copy1, copyimg, frame, 0.5);
+    AddInvert(frame);
+}
