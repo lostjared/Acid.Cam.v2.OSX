@@ -736,6 +736,7 @@ void SearchForString(NSString *s) {
             programRunning = false;
             [startProg setTitle:@"Start Session"];
             [window1 orderOut:self];
+            [record_op setEnabled:YES];
         } else {
             if([menu_freeze state] == NSOnState) {
                 capture->read(old_frame);

@@ -959,3 +959,17 @@ void ac::ImageXorStrobeAlpha(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageBlurXorAlphaSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlurXorAlphaSubFilter")
+        return;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    for(int i = 0; i < 3; ++i) {
+        MedianBlur(reimage);
+        MedianBlur(copy1);
+    }
+    CallFilter(subfilter, reimage);
+    AlphaBlendDouble(copy1, reimage, frame, 1.0,0.5);
+    AddInvert(frame);
+}

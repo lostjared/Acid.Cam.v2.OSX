@@ -960,6 +960,7 @@ namespace ac {
     void ImageXorStrobe(cv::Mat &frame);
     void ImageStrobeAlpha(cv::Mat &frame);
     void ImageXorStrobeAlpha(cv::Mat &frame);
+    void ImageBlurXorAlphaSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
