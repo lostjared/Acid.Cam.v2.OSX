@@ -983,6 +983,7 @@ void ac::ImageAlphaBlendDouble(cv::Mat &frame) {
     static int dir[2] = {0, 1};
     AlphaMovement(alpha, dir, 0.01);
     AlphaBlendDouble(copy1, reimage, frame, alpha[0], alpha[1]);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendDoubleSubFilter(cv::Mat &frame) {
@@ -994,4 +995,20 @@ void ac::AlphaBlendDoubleSubFilter(cv::Mat &frame) {
     AlphaMovement(alpha, dir, 0.01);
     CallFilter(subfilter, copy2);
     AlphaBlendDouble(copy1, copy2, frame, alpha[0], alpha[1]);
+}
+
+void ac::ImageSmoothAlphaDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    static int dir[2] = {0, 1};
+    static double alpha[2] = { 1.0, 0.1 };
+    AlphaMovement(alpha, dir, 0.01);
+    cv::Mat copy1 = frame.clone(), copy2, reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlendDouble(copy1, reimage, copy2, alpha[0], alpha[1]);
+    Smooth(copy2, &collection1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    Smooth(frame, &collection2);
+    AddInvert(frame);
 }

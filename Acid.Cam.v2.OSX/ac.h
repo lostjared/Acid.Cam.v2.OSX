@@ -963,6 +963,7 @@ namespace ac {
     void ImageBlurXorAlphaSubFilter(cv::Mat &frame);
     void ImageAlphaBlendDouble(cv::Mat &frame);
     void AlphaBlendDoubleSubFilter(cv::Mat &frame);
+    void ImageSmoothAlphaDouble(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
