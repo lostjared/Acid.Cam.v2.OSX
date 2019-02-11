@@ -962,6 +962,7 @@ namespace ac {
     void ImageXorStrobeAlpha(cv::Mat &frame);
     void ImageBlurXorAlphaSubFilter(cv::Mat &frame);
     void ImageAlphaBlendDouble(cv::Mat &frame);
+    void AlphaBlendDoubleSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -987,6 +988,7 @@ namespace ac {
     void RealAlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
+    void AlphaMovement(double *alpha, int *dir, double inc = 0.01);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);

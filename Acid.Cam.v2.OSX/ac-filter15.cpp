@@ -981,16 +981,17 @@ void ac::ImageAlphaBlendDouble(cv::Mat &frame) {
     cv::resize(blend_image, reimage, frame.size());
     static double alpha[2] = {1.0, 0.1};
     static int dir[2] = {0, 1};
-    for(int i = 0; i < 2; ++i) {
-        if(dir[i] == 0) {
-            alpha[i] -= 0.01;
-            if(alpha[i] <= 0.1)
-                dir[i] = 1;
-        } else {
-            alpha[i] += 0.01;
-            if(alpha[i] >= 1.0)
-                dir[i] = 0;
-        }
-    }
+    AlphaMovement(alpha, dir, 0.01);
     AlphaBlendDouble(copy1, reimage, frame, alpha[0], alpha[1]);
+}
+
+void ac::AlphaBlendDoubleSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendDoubleSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static double alpha[2] = { 1.0, 0.1 };
+    static int dir[2] = {0, 1};
+    AlphaMovement(alpha, dir, 0.01);
+    CallFilter(subfilter, copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha[0], alpha[1]);
 }

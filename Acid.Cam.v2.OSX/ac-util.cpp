@@ -643,3 +643,17 @@ void ac::popSubFilter() {
         subfilters.pop_back();
     }
 }
+
+void ac::AlphaMovement(double *alpha, int *dir, double inc) {
+    for(int i = 0; i < 2; ++i) {
+        if(dir[i] == 0) {
+            alpha[i] -= inc;
+            if(alpha[i] <= 0.1)
+                dir[i] = 1;
+        } else {
+            alpha[i] += inc;
+            if(alpha[i] >= 1.0)
+                dir[i] = 0;
+        }
+    }
+}
