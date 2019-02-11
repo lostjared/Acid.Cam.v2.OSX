@@ -911,3 +911,51 @@ void ac::ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageStrobe(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Vec3b strobe_val(rand()%255, rand()%255, rand()%255);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Transform(reimage, frame,[=](cv::Vec3b &pix, int i, int z) {
+        for(int j = 0; j < 3; ++j) {
+            pix[j] += strobe_val[j];
+        }
+    });
+    AddInvert(frame);
+}
+
+void ac::ImageXorStrobe(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Vec3b strobe_val(rand()%255, rand()%255, rand()%255);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Transform(reimage, frame,[=](cv::Vec3b &pix, int i, int z) {
+        for(int j = 0; j < 3; ++j) {
+            pix[j] = pix[j]^strobe_val[j];
+        }
+    });
+    AddInvert(frame);
+}
+void ac::ImageStrobeAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    ImageStrobe(reimage);
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
+void ac::ImageXorStrobeAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    ImageXorStrobe(reimage);
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
