@@ -973,3 +973,24 @@ void ac::ImageBlurXorAlphaSubFilter(cv::Mat &frame) {
     AlphaBlendDouble(copy1, reimage, frame, 1.0,0.5);
     AddInvert(frame);
 }
+
+void ac::ImageAlphaBlendDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha[2] = {1.0, 0.1};
+    static int dir[2] = {0, 1};
+    for(int i = 0; i < 2; ++i) {
+        if(dir[i] == 0) {
+            alpha[i] -= 0.01;
+            if(alpha[i] <= 0.1)
+                dir[i] = 1;
+        } else {
+            alpha[i] += 0.01;
+            if(alpha[i] >= 1.0)
+                dir[i] = 0;
+        }
+    }
+    AlphaBlendDouble(copy1, reimage, frame, alpha[0], alpha[1]);
+}
