@@ -2390,28 +2390,30 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
             return;
         }
-        NSInteger rgb[] = {[red_slider integerValue], [green_slider integerValue], [blue_slider integerValue]};
-        file_n << "=red:" << (int)rgb[0] << "\n";
-        file_n << "=green:" << (int)rgb[1] << "\n";
-        file_n << "=blue:" << (int)rgb[2] << "\n";
-        NSInteger color_m = [color_map indexOfSelectedItem];
-        file_n << "=color_map:" << (int)color_m << "\n";
-        NSInteger bright = [brightness integerValue];
-        file_n << "=brightness:" << bright << "\n";
-        NSInteger gam = [gamma integerValue];
-        file_n << "=gamma:" << gam << "\n";
-        NSInteger sat = [saturation integerValue];
-        file_n << "=sat: " << sat << "\n";
-        NSInteger chkNegate = [negate_checked integerValue];
-        file_n << "=negate: " << chkNegate << "\n";
-        NSInteger cord = [corder indexOfSelectedItem];
-        file_n << "=color_order:" << cord << "\n";
-        NSInteger procM = [procMode indexOfSelectedItem];
-        file_n << "=proc:" << (int)procM << "\n";
-        NSInteger mvmnt = [proc_change indexOfSelectedItem];
-        file_n << "=mvmnt:"<< (int)mvmnt << "\n";
-        NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
-        file_n << "=bsrc:" << (int)src_amt << "\n";
+        if([load_settings integerValue] == 1) {
+            NSInteger rgb[] = {[red_slider integerValue], [green_slider integerValue], [blue_slider integerValue]};
+            file_n << "=red:" << (int)rgb[0] << "\n";
+            file_n << "=green:" << (int)rgb[1] << "\n";
+            file_n << "=blue:" << (int)rgb[2] << "\n";
+            NSInteger color_m = [color_map indexOfSelectedItem];
+            file_n << "=color_map:" << (int)color_m << "\n";
+            NSInteger bright = [brightness integerValue];
+            file_n << "=brightness:" << bright << "\n";
+            NSInteger gam = [gamma integerValue];
+            file_n << "=gamma:" << gam << "\n";
+            NSInteger sat = [saturation integerValue];
+            file_n << "=sat: " << sat << "\n";
+            NSInteger chkNegate = [negate_checked integerValue];
+            file_n << "=negate: " << chkNegate << "\n";
+            NSInteger cord = [corder indexOfSelectedItem];
+            file_n << "=color_order:" << cord << "\n";
+            NSInteger procM = [procMode indexOfSelectedItem];
+            file_n << "=proc:" << (int)procM << "\n";
+            NSInteger mvmnt = [proc_change indexOfSelectedItem];
+            file_n << "=mvmnt:"<< (int)mvmnt << "\n";
+            NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
+            file_n << "=bsrc:" << (int)src_amt << "\n";
+        }
         for(int i = 0; i < [custom_array count]; ++i) {
             NSNumber *nval = [custom_array objectAtIndex:i];
             NSNumber *sval = [custom_subfilters objectAtIndex:i];
@@ -2550,7 +2552,9 @@ void SearchForString(NSString *s) {
             std::string s_left, s_right;
             s_left = item.substr(0, item.find(":"));
             s_right = item.substr(item.find(":")+1, item.length());
-            if(item[0] == '=') {
+            if(item[0] == '=' && [load_settings integerValue] == 0)
+                continue;
+            if(item[0] == '=' && [load_settings integerValue] == 1) {
                 [self setCustomValue:[NSString stringWithUTF8String:s_left.c_str()] value: [NSString stringWithUTF8String:s_right.c_str()]];
                 continue;
             }

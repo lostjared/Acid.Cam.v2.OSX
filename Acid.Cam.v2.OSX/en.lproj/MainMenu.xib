@@ -67,6 +67,7 @@
                 <outlet property="image_to_set" destination="h31-Wk-Aq4" id="aTH-eq-7xV"/>
                 <outlet property="key_range" destination="fnz-ND-Ko7" id="1w8-hL-rLO"/>
                 <outlet property="key_tolerance" destination="K8V-2K-bHz" id="Rkt-SD-Msh"/>
+                <outlet property="load_settings" destination="J8u-5o-7L8" id="vGj-C6-G6r"/>
                 <outlet property="menuPaused" destination="Isy-gQ-uSb" id="BeU-Zh-4FO"/>
                 <outlet property="menu_freeze" destination="J0h-Ug-VbD" id="KMF-EJ-A03"/>
                 <outlet property="negate_checked" destination="eDA-pn-7R7" id="5YZ-bW-ZMd"/>
@@ -1188,6 +1189,14 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" id="J8u-5o-7L8">
+                        <rect key="frame" x="326" y="95" width="73" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Settings" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="BEA-VL-DXf">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="1426" y="361"/>

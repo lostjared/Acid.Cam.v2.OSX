@@ -167,6 +167,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSButton *key_tolerance, *key_range, *chk_blocked_replace, *chk_blocked_key, *chk_spill;
     IBOutlet NSComboBox *user_filter_name;
     IBOutlet NSButton *user_filter_add, *user_filter_remove,*user_filter_set, *user_filter_save;
+    IBOutlet NSButton *load_settings;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
