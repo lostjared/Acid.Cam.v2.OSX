@@ -2402,9 +2402,9 @@ void SearchForString(NSString *s) {
             NSInteger gam = [gamma integerValue];
             file_n << "=gamma:" << gam << "\n";
             NSInteger sat = [saturation integerValue];
-            file_n << "=sat: " << sat << "\n";
+            file_n << "=sat:" << sat << "\n";
             NSInteger chkNegate = [negate_checked integerValue];
-            file_n << "=negate: " << chkNegate << "\n";
+            file_n << "=negate:" << chkNegate << "\n";
             NSInteger cord = [corder indexOfSelectedItem];
             file_n << "=color_order:" << cord << "\n";
             NSInteger procM = [procMode indexOfSelectedItem];
