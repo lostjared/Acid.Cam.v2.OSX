@@ -284,6 +284,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) jumpToCustom: (id) sender;
 - (IBAction) custom_Save: (id) sender;
 - (IBAction) custom_Load: (id) sender;
+- (void) setCustomValue: (NSString *)sid value: (NSString *)value;
 @end
 
 extern AC_Controller *controller;

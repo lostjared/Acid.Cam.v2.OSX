@@ -2386,6 +2386,22 @@ void SearchForString(NSString *s) {
             _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
             return;
         }
+        NSInteger rgb[] = {[red_slider integerValue], [green_slider integerValue], [blue_slider integerValue]};
+        file_n << "=red:" << (int)rgb[0] << "\n";
+        file_n << "=green:" << (int)rgb[1] << "\n";
+        file_n << "=blue:" << (int)rgb[2] << "\n";
+        NSInteger color_m = [color_map indexOfSelectedItem];
+        file_n << "=color_map:" << (int)color_m << "\n";
+        NSInteger bright = [brightness integerValue];
+        file_n << "=brightness:" << bright << "\n";
+        NSInteger gam = [gamma integerValue];
+        file_n << "=gamma:" << gam << "\n";
+        NSInteger sat = [saturation integerValue];
+        file_n << "=sat: " << sat << "\n";
+        NSInteger chkNegate = [negate_checked integerValue];
+        file_n << "=negate: " << chkNegate << "\n";
+        NSInteger cord = [corder indexOfSelectedItem];
+        file_n << "=color_order:" << cord << "\n";
         for(int i = 0; i < [custom_array count]; ++i) {
             NSNumber *nval = [custom_array objectAtIndex:i];
             NSNumber *sval = [custom_subfilters objectAtIndex:i];
@@ -2403,6 +2419,47 @@ void SearchForString(NSString *s) {
         stream << "Wrote custom to: " << [fileName UTF8String] << "\n";
         flushToLog(stream);
         file_n.close();
+    }
+}
+
+- (void) setCustomValue: (NSString *)sid value: (NSString *)value {
+    NSLog(@"Value ID: %@ Value %@\n", sid, value);
+    NSInteger num = [value integerValue];
+    if([sid isEqualToString:@"=red"]) {
+        [red_slider setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=green"]) {
+        [green_slider setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=blue"]) {
+        [blue_slider setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=color_map"]) {
+        [color_map selectItemAtIndex:num];
+        return;
+    }
+    if([sid isEqualToString:@"=brightness"]) {
+        [brightness setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=gamma"]) {
+        [gamma setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=sat"]) {
+        [saturation setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=negate"]) {
+        [negate_checked setIntegerValue:num];
+        return;
+    }
+    if([sid isEqualToString:@"=color_order"]) {
+        [corder selectItemAtIndex:num];
+        return;
     }
 }
 
@@ -2435,9 +2492,11 @@ void SearchForString(NSString *s) {
                 _NSRunAlertPanel(@"Incorrect File..\n", @"Values in file incorrect", @"Ok", nil, nil);
                 return;
             }
+            if(item[0] == '=')
+                continue;
+            
             s_left = item.substr(0,pos);
             s_right = item.substr(pos+1, item.length());
-            
             if(ac::filter_map.find(s_left) == ac::filter_map.end()) {
                 _NSRunAlertPanel(@"Filter not in this version", [NSString stringWithFormat:@"This filter: %s is not found in this version maybe using older version try updating", s_left.c_str()], @"Ok", nil, nil);
                 return;
@@ -2469,6 +2528,10 @@ void SearchForString(NSString *s) {
             std::string s_left, s_right;
             s_left = item.substr(0, item.find(":"));
             s_right = item.substr(item.find(":")+1, item.length());
+            if(item[0] == '=') {
+                [self setCustomValue:[NSString stringWithUTF8String:s_left.c_str()] value: [NSString stringWithUTF8String:s_right.c_str()]];
+                continue;
+            }
             int val1 = ac::filter_map[s_left];
             int val2 = 0;
             if(s_right == "None")
