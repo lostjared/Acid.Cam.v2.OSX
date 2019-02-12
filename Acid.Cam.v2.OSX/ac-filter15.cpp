@@ -1012,3 +1012,42 @@ void ac::ImageSmoothAlphaDouble(cv::Mat &frame) {
     Smooth(frame, &collection2);
     AddInvert(frame);
 }
+
+struct IndexValue {
+    int dir;
+    double alpha;
+};
+
+void ac::ImageRandomAlphaDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static IndexValue values[2] = {{0, 1.0}, {1, 0.1}};
+    static bool value_set = false;
+    static double alpha[2] = {0};
+    static int dir[2] = {0};
+    static int random1 = 0, random2 = 0;
+    if(value_set == false) {
+        value_set = true;
+        random1 = rand()%2;
+        alpha[0] = values[random1].alpha;
+        dir[0] = values[random1].dir;
+        random2 = rand()%2;
+        alpha[1] = values[random2].alpha;
+        dir[1] = values[random2].dir;
+    }
+    if(dir[0] == 1 && alpha[0] <= 0.1)
+        value_set = false;
+    if(dir[0] == 0 && alpha[0] >= 1.0)
+        value_set = false;
+    if(dir[1] == 1 && alpha[1] <= 0.1)
+        value_set = false;
+    if(dir[1] == 0 && alpha[1] >= 1.0)
+        value_set = false;
+    AlphaMovement(alpha, dir, 0.01);
+    AlphaBlendDouble(copy1, reimage, copy2, alpha[0], alpha[1]);
+    static MatrixCollection<8> collection;
+    Smooth(copy2, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
