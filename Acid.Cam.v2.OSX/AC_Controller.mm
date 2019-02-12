@@ -1797,7 +1797,7 @@ void SearchForString(NSString *s) {
     }
 }
 
-- (IBAction) setPref: (id) sender {
+- (void) updatePref: (BOOL)display_msg {
     NSInteger pos = [procMode indexOfSelectedItem];
     ac::setProcMode(static_cast<unsigned int >(pos));
     std::ostringstream log;
@@ -1817,7 +1817,7 @@ void SearchForString(NSString *s) {
         set_frame_rate = false;
         set_frame_rate_val = 24;
     }
-   
+    
     NSInteger rgb_low[3] = {[colorkey_b_low integerValue],[colorkey_g_low integerValue],[colorkey_r_low integerValue]};
     NSInteger rgb_high[3] = {[colorkey_b_high integerValue], [colorkey_g_high integerValue],[colorkey_r_high integerValue]};
     
@@ -1847,7 +1847,7 @@ void SearchForString(NSString *s) {
     int values_high[] = { color_high[0], color_high[1], color_high[2] };
     log << "ColorKey Low BGR Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
     log << "ColorKey High BGR Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
-
+    
     
     NSInteger szPtr = [sy_size indexOfSelectedItem];
     NSSize sz;
@@ -1868,8 +1868,12 @@ void SearchForString(NSString *s) {
     log << "Syphon Output Set To: " << sz.width << "x" << sz.height << "\n";
     [syphon_window setContentSize: sz];
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
-    _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
+    if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
+}
+
+- (IBAction) setPref: (id) sender {
+    [self updatePref: YES];
 }
 
 - (IBAction) showPrefs:(id) sender {
@@ -2402,6 +2406,12 @@ void SearchForString(NSString *s) {
         file_n << "=negate: " << chkNegate << "\n";
         NSInteger cord = [corder indexOfSelectedItem];
         file_n << "=color_order:" << cord << "\n";
+        NSInteger procM = [procMode indexOfSelectedItem];
+        file_n << "=proc:" << (int)procM << "\n";
+        NSInteger mvmnt = [proc_change indexOfSelectedItem];
+        file_n << "=mvmnt:"<< (int)mvmnt << "\n";
+        NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
+        file_n << "=bsrc:" << (int)src_amt << "\n";
         for(int i = 0; i < [custom_array count]; ++i) {
             NSNumber *nval = [custom_array objectAtIndex:i];
             NSNumber *sval = [custom_subfilters objectAtIndex:i];
@@ -2459,6 +2469,18 @@ void SearchForString(NSString *s) {
     }
     if([sid isEqualToString:@"=color_order"]) {
         [corder selectItemAtIndex:num];
+        return;
+    }
+    if([sid isEqualToString:@"=proc"]) {
+        [procMode selectItemAtIndex:num];
+        return;
+    }
+    if([sid isEqualToString:@"=mvmnt"]) {
+        [proc_change selectItemAtIndex:num];
+        return;
+    }
+    if([sid isEqualToString:@"=bsrc"]) {
+        [blend_source_amt selectItemAtIndex:num];
         return;
     }
 }
@@ -2547,6 +2569,7 @@ void SearchForString(NSString *s) {
         [self changeOrder:self];
         [self setNegative:self];
         [self setColorMap:self];
+        [self updatePref:NO];
         [table_view reloadData];
         file.close();
     }
