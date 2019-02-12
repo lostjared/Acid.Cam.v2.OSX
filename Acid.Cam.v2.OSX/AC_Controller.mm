@@ -2543,6 +2543,10 @@ void SearchForString(NSString *s) {
             [custom_array addObject:num1];
             [custom_subfilters addObject:num2];
         }
+        [self setRGB_Values:self];
+        [self changeOrder:self];
+        [self setNegative:self];
+        [self setColorMap:self];
         [table_view reloadData];
         file.close();
     }
