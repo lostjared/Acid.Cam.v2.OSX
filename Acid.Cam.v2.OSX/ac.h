@@ -122,6 +122,7 @@ namespace ac {
     extern bool strobe_It;
     extern int set_color_map;
     extern bool color_map_set;
+    extern int proc_mode;
     extern int GetFX(cv::Mat &frame, int x, int nw);
     extern int GetFY(cv::Mat &frame, int y, int nh);
     extern bool reset_alpha;
