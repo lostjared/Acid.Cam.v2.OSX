@@ -2428,14 +2428,13 @@ void SearchForString(NSString *s) {
             file_n << value1s << ":" << value2s << "\n";
         }
         std::ostringstream stream;
-        stream << "Wrote custom to: " << [fileName UTF8String] << "\n";
+        stream << "Saved Custom Filter: " << [fileName UTF8String] << "\n";
         flushToLog(stream);
         file_n.close();
     }
 }
 
 - (void) setCustomValue: (NSString *)sid value: (NSString *)value {
-    NSLog(@"Value ID: %@ Value %@\n", sid, value);
     NSInteger num = [value integerValue];
     if([sid isEqualToString:@"=red"]) {
         [red_slider setIntegerValue:num];
@@ -2576,6 +2575,9 @@ void SearchForString(NSString *s) {
         [self updatePref:NO];
         [table_view reloadData];
         file.close();
+        std::ostringstream stream_;
+        stream_ << "Loaded Custom Filter: " << [fileName UTF8String] << "\n";
+        flushToLog(stream_);
     }
 }
 
