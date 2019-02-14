@@ -57,3 +57,22 @@ void ac::ImageFadeInOut(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max, 4.1, 0.01);
     AlphaBlendDouble(copy1, copy2, frame, 0.3, 0.8);
 }
+
+void ac::ImageFadeBlackInOut(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha = 1.0;
+    AlphaBlendDouble(copy1, reimage, frame, 1.0, alpha);
+    static int dir = 1;
+    if(dir == 1) {
+        alpha += 0.01;
+        if(alpha >= 1)
+            dir = 0;
+    } else {
+        alpha -= 0.01;
+        if(alpha <= 0.1)
+            dir = 1;
+    }
+}
