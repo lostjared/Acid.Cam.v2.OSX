@@ -995,6 +995,7 @@ namespace ac {
     void AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void AlphaMovement(double *alpha, int *dir, double inc = 0.01);
+    void AlphaMovementMaxMin(double &alpha, int &dir,double speed, double max, double min);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);

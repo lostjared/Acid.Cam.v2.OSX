@@ -66,15 +66,7 @@ void ac::ImageFadeBlackInOut(cv::Mat &frame) {
     static double alpha = 1.0;
     AlphaBlendDouble(copy1, reimage, frame, 1.0, alpha);
     static int dir = 1;
-    if(dir == 1) {
-        alpha += 0.01;
-        if(alpha >= 1)
-            dir = 0;
-    } else {
-        alpha -= 0.01;
-        if(alpha <= 0.1)
-            dir = 1;
-    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
 
 void ac::ImageFadeBlackInOutSubFilter(cv::Mat &frame) {
@@ -87,13 +79,5 @@ void ac::ImageFadeBlackInOutSubFilter(cv::Mat &frame) {
     static double alpha = 1.0;
     AlphaBlendDouble(copy2, copy1, frame, 1.0, alpha);
     static int dir = 1;
-    if(dir == 1) {
-        alpha += 0.01;
-        if(alpha >= 1)
-            dir = 0;
-    } else {
-        alpha -= 0.01;
-        if(alpha <= 0.1)
-            dir = 1;
-    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }

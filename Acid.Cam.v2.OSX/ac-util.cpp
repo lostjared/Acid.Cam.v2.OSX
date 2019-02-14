@@ -645,6 +645,7 @@ void ac::popSubFilter() {
 }
 
 void ac::AlphaMovement(double *alpha, int *dir, double inc) {
+    if(alpha_increase != 0) inc = alpha_increase;
     for(int i = 0; i < 2; ++i) {
         if(dir[i] == 0) {
             alpha[i] -= inc;
@@ -655,5 +656,20 @@ void ac::AlphaMovement(double *alpha, int *dir, double inc) {
             if(alpha[i] >= 1.0)
                 dir[i] = 0;
         }
+        resetAlpha(dir[i], alpha[i]);
     }
+}
+
+void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min) {
+    if(alpha_increase != 0) speed = alpha_increase;
+    if(dir == 1) {
+        alpha += speed;
+        if(alpha >= max)
+            dir = 0;
+    } else {
+        alpha -= speed;
+        if(alpha <= min)
+            dir = 1;
+    }
+    resetAlpha(dir, alpha);
 }
