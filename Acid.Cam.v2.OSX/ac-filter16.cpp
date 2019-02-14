@@ -90,7 +90,7 @@ void ac::ImageFadeFrameInOut(cv::Mat &frame) {
     static double alpha = 1.0;
     AlphaBlendDouble(copy1, reimage, frame, alpha, 1.0);
     static int dir = 1;
-    AlphaMovementMaxMin(alpha, dir, 0.01, 0.1, alpha);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
 
 void ac::ImageFadeFrameInOutSubFilter(cv::Mat &frame) {
@@ -113,6 +113,19 @@ void ac::ImageFadeDouble(cv::Mat &frame) {
     static double alpha1 = 1.0, alpha2 = 1.0;
     AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
     static int dir1 = 1,  dir2 = 0;
-    AlphaMovementMaxMin(alpha1, dir1, 0.01, 0.1, alpha1);
-    AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.0, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.0, 0.1);
+}
+
+void ac::BlendSubFilterAndImage(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "BlendSubFilterAndImage")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha1 = 0.1, alpha2 = 1.0;
+    static int dir1 = 1, dir2 = 0;
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.5, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.5, 0.1);
+    CallFilter(subfilter, copy1);
+    AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
 }
