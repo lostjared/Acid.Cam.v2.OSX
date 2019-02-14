@@ -104,3 +104,15 @@ void ac::ImageFadeFrameInOutSubFilter(cv::Mat &frame) {
     static int dir = 1;
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
+
+void ac::ImageFadeDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha1 = 1.0, alpha2 = 1.0;
+    AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
+    static int dir1 = 1,  dir2 = 0;
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 0.1, alpha1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.0, alpha2);
+}

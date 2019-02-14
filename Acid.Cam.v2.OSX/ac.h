@@ -971,6 +971,7 @@ namespace ac {
     void ImageFadeBlackInOutSubFilter(cv::Mat &frame);
     void ImageFadeFrameInOut(cv::Mat &frame);
     void ImageFadeFrameInOutSubFilter(cv::Mat &frame);
+    void ImageFadeDouble(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
