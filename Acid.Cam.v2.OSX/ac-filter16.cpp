@@ -44,3 +44,16 @@
 #include "ac.h"
 
 
+void ac::ImageFadeInOut(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static MatrixCollection<8> collection;
+    static double alpha = 1.0, alpha_max = 4.0;
+    AlphaBlendDouble(copy1, reimage, copy2, 1.0, alpha);
+    Smooth(copy2, &collection);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max, 4.1, 0.01);
+    AlphaBlendDouble(copy1, copy2, frame, 0.3, 0.8);
+}
