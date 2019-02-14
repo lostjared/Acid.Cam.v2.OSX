@@ -76,3 +76,24 @@ void ac::ImageFadeBlackInOut(cv::Mat &frame) {
             dir = 1;
     }
 }
+
+void ac::ImageFadeBlackInOutSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageFadeBlackInOutSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    ImageFadeBlackInOut(copy1);
+    CallFilter(subfilter, copy1);
+    static double alpha = 1.0;
+    AlphaBlendDouble(copy2, copy1, frame, 1.0, alpha);
+    static int dir = 1;
+    if(dir == 1) {
+        alpha += 0.01;
+        if(alpha >= 1)
+            dir = 0;
+    } else {
+        alpha -= 0.01;
+        if(alpha <= 0.1)
+            dir = 1;
+    }
+}
