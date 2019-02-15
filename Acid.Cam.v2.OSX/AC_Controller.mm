@@ -224,6 +224,7 @@ void SearchForString(NSString *s) {
 
 - (void) stopCV_prog {
     [startProg setEnabled: YES];
+    [record_op setEnabled: YES];
     programRunning = false;
 }
 
