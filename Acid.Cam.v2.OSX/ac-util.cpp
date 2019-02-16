@@ -354,7 +354,30 @@ void ac::AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, 
             pixel[2] = static_cast<unsigned char>((pix[0][2] * static_cast<unsigned char>(alpha)) ^ (pix[1][2] * static_cast<unsigned char>(alpha)));
         }
     }
+}
+
+void ac::AlphaXorBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2) {
+    if(one.size() != two.size()) {
+        return;
+    }
+    if(alpha1 <= 1)
+        alpha1 = 1;
+    if(alpha2 <= 1)
+        alpha2 = 1;
+    if(output.empty() || output.size() != one.size())
+        output.create(one.size(), CV_8UC3);
     
+    for(int z = 0; z < one.rows; ++z) {
+        for(int i = 0; i < one.cols; ++i) {
+            cv::Vec3b pix[2];
+            cv::Vec3b &pixel = output.at<cv::Vec3b>(z, i);
+            pix[0] = one.at<cv::Vec3b>(z, i);
+            pix[1] = two.at<cv::Vec3b>(z, i);
+            pixel[0] = static_cast<unsigned char>((pix[0][0] * static_cast<unsigned char>(alpha1)) ^ (pix[1][0] * static_cast<unsigned char>(alpha2)));
+            pixel[1] = static_cast<unsigned char>((pix[0][1] * static_cast<unsigned char>(alpha1)) ^ (pix[1][1] * static_cast<unsigned char>(alpha2)));
+            pixel[2] = static_cast<unsigned char>((pix[0][2] * static_cast<unsigned char>(alpha1)) ^ (pix[1][2] * static_cast<unsigned char>(alpha2)));
+        }
+    }
 }
 
 void ac::Xor(cv::Mat &dst, const cv::Mat &add) {
@@ -673,3 +696,4 @@ void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, 
     }
     resetAlpha(dir, alpha);
 }
+
