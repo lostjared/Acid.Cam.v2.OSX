@@ -148,3 +148,14 @@ void ac::FlipImageBlend(cv::Mat &frame) {
     AlphaBlendDouble(copy2, copy1, frame, alpha1, alpha2);
 }
     
+void ac::FadeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FadeSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy2);
+    static double alpha1 = 1.0, alpha2 = 0.1;
+    static int dir1 = 1, dir2 = 0;
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 1.0, 0.1);
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+}
