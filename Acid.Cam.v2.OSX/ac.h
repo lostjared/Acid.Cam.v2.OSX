@@ -976,6 +976,7 @@ namespace ac {
     void FlipImageBlend(cv::Mat &frame);
     void FadeSubFilter(cv::Mat &frame);
     void FadeSubFilterRev(cv::Mat &frame);
+    void ImageBlendSubFilterMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

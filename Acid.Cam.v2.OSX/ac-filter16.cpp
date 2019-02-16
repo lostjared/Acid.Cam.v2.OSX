@@ -173,3 +173,14 @@ void ac::FadeSubFilterRev(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha2, dir2, 0.01, 1.0, 0.1);
     AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
 }
+
+void ac::ImageBlendSubFilterMedianBlend(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlendSubFilterMedianBlend")
+        return;
+    DarkenFilter(frame);
+    DarkenFilter(frame);
+    BlendSubFilterAndImage(frame);
+    BlendWithSource(frame);
+    BlendWithSource(frame);
+    MedianBlend(frame);
+}
