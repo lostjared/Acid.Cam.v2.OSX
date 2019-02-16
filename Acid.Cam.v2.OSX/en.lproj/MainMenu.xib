@@ -257,6 +257,13 @@
                                     <action selector="takeSnapshotPNG:" target="630" id="yHO-Xt-6iN"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="cCT-xE-aRk"/>
+                            <menuItem title="Copy Custom String" id="FYH-xq-UXa">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="copyCustomToString:" target="630" id="dm2-12-GLo"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -1063,7 +1070,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="tnO-ZZ-MGM">
-                        <rect key="frame" x="249" y="13" width="88" height="32"/>
+                        <rect key="frame" x="260" y="13" width="86" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set Sub" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kll-RI-CIK">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1071,17 +1078,6 @@
                         </buttonCell>
                         <connections>
                             <action selector="setSubFilter:" target="630" id="veN-Up-wUB"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" id="z5O-SC-cqJ">
-                        <rect key="frame" x="161" y="13" width="99" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Clear Sub" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SQh-D5-IL5">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="clearSubFilter:" target="630" id="KUq-OF-7Wm"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dUH-s9-L7q">
@@ -1196,6 +1192,17 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" id="z5O-SC-cqJ">
+                        <rect key="frame" x="183" y="13" width="86" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Clear Sub" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SQh-D5-IL5">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clearSubFilter:" target="630" id="KUq-OF-7Wm"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

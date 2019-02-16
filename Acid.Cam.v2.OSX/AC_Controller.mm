@@ -2582,6 +2582,35 @@ void SearchForString(NSString *s) {
     }
 }
 
+- (IBAction) copyCustomToString: (id) sender {
+    std::ostringstream stream;
+    NSInteger count = [custom_array count];
+    if(count == 0) return;
+    for(int i = 0; i < count; ++i) {
+        NSNumber *num1 = [custom_array objectAtIndex: i];
+        NSNumber *num2 = [custom_subfilters objectAtIndex: i];
+        NSInteger val1 = [num1 integerValue];
+        NSInteger val2 = [num2 integerValue];
+        if(val2 == -1) {
+            stream << (int)val1;
+        } else {
+            stream << (int)val1 << ":" << (int)val2;
+        }
+        
+        if(i == count-1)
+            continue;
+        else
+            stream << ",";
+        
+    }
+    if(stream.str().length() == 0)
+        return;
+    NSString *cmd_str = [NSString stringWithUTF8String:stream.str().c_str()];
+    [[NSPasteboard generalPasteboard] clearContents];
+    [[NSPasteboard generalPasteboard] setString:cmd_str forType:NSPasteboardTypeString];
+    _NSRunAlertPanel(@"Copied String for Acid Cam Cli Application to Clipboard", cmd_str, @"Ok", nil, nil);
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
