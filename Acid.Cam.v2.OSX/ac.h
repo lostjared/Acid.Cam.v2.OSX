@@ -979,6 +979,7 @@ namespace ac {
     void ImageBlendSubFilterMedianBlend(cv::Mat &frame);
     void FadeSubFilterXor(cv::Mat &frame);
     void BlurXorSubFilter(cv::Mat &frame);
+    void ColorFlashIncrease(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

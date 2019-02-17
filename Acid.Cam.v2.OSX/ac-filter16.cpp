@@ -226,3 +226,38 @@ void ac::BlurXorSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+
+void ac::ColorFlashIncrease(cv::Mat &frame) {
+    static unsigned int max_value = 2;
+    cv::Vec3b value(rand()%max_value, rand()%max_value, rand()%max_value);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    DarkenFilter(copy1);
+    DarkenFilter(copy1);
+    for(int z = 0; z < copy2.rows; ++z) {
+        for(int i = 0; i < copy2.cols; ++i) {
+            cv::Vec3b &pixel = copy2.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^value[j]^pix[j];
+            }
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        ++max_value;
+        if(max_value >= 255)
+            dir = 0;
+    } else {
+        --max_value;
+        if(max_value <= 1)
+            dir = 1;
+    }
+    static double alpha1 = 0.1, alpha2 = 1.0;
+    static int dir1 = 1, dir2 = 0;
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 1.0, 0.1);
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+}
