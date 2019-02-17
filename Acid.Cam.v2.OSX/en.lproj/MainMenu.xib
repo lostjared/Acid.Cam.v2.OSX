@@ -1612,7 +1612,7 @@ Gw
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" id="efF-9E-1nR">
-                        <rect key="frame" x="20" y="19" width="307" height="22"/>
+                        <rect key="frame" x="20" y="19" width="255" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="T7d-2L-rTq">
                             <font key="font" metaFont="system"/>
@@ -1628,7 +1628,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="t1A-tL-tG7">
                             <rect key="frame" x="1" y="0.0" width="544" height="365"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
                                     <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>
@@ -1681,7 +1681,7 @@ Gw
                         </tableHeaderView>
                     </scrollView>
                     <button verticalHuggingPriority="750" id="4mA-9c-Iiq">
-                        <rect key="frame" x="497" y="13" width="75" height="32"/>
+                        <rect key="frame" x="355" y="13" width="75" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Jmt-Me-xbX">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1691,19 +1691,8 @@ Gw
                             <action selector="addSearchItem:" target="630" id="5EY-SF-vWA"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" id="gFz-7h-Ofs">
-                        <rect key="frame" x="417" y="13" width="87" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Search" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nwp-iQ-Oqe">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="searchForItem:" target="630" id="KeK-m2-ZtM"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" id="Qce-TW-4zS">
-                        <rect key="frame" x="329" y="13" width="95" height="32"/>
+                        <rect key="frame" x="424" y="13" width="80" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="SubFilter" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l64-ZK-QtX">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1711,6 +1700,28 @@ Gw
                         </buttonCell>
                         <connections>
                             <action selector="setCustomSubFromSearch:" target="630" id="OF7-3j-h4A"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="KhP-ib-vU0">
+                        <rect key="frame" x="497" y="13" width="75" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Insert" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LuI-a9-UF2">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="insertFilter_Custom:" target="630" id="Rdu-5I-mgU"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="gFz-7h-Ofs">
+                        <rect key="frame" x="277" y="13" width="87" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Search" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nwp-iQ-Oqe">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="searchForItem:" target="630" id="KeK-m2-ZtM"/>
                         </connections>
                     </button>
                 </subviews>

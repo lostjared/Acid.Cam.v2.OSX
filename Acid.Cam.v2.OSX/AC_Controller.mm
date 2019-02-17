@@ -2623,10 +2623,40 @@ void SearchForString(NSString *s) {
             NSNumber *obj2 = [NSNumber numberWithInteger:-1];
             [custom_array setObject:obj1 atIndexedSubscript:set_index];
             [custom_subfilters setObject:obj2 atIndexedSubscript:set_index];
+            std::ostringstream stream;
+            stream << "Filter " << [filter_str UTF8String] << " inserted\n";
+            flushToLog(stream);
             [table_view reloadData];
+        } else {
+            _NSRunAlertPanel(@"You must select filter to replace", @"Select a Filter first", @"Ok", nil, nil);
         }
     }
 }
+
+- (IBAction) insertFilter_Custom: (id) sender {
+    NSInteger index = [find_table selectedRow];
+    NSInteger pos = [table_view selectedRow];
+    if(pos < 0 || index < 0) {
+        _NSRunAlertPanel(@"You need to select a filter", @"Select a filter in Search and select a filter in Custom Window", @"Ok", nil, nil);
+        return;
+    }
+    if(index >= 0 && index < [search_results count]) {
+        NSNumber *num = [search_results objectAtIndex:index];
+        int val = static_cast<int>([num integerValue]);
+        std::string sub_chk1= ac::draw_strings[val];
+        if(val != -1) {
+            int filter_pos = ac::filter_map[sub_chk1];
+            NSNumber *fval = [NSNumber numberWithInt:filter_pos];
+            [custom_array setObject:fval atIndexedSubscript: pos];
+            std::ostringstream stream;
+            stream << "Filter " << sub_chk1 << " inserted\n";
+            flushToLog(stream);
+            [table_view reloadData];
+        }
+        [table_view reloadData];
+    }
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
