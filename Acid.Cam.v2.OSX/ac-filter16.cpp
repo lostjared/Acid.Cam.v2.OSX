@@ -208,3 +208,21 @@ void ac::FadeSubFilterXor(cv::Mat &frame) {
     AlphaXorBlendDouble(copy1, copy2, frame, alpha1, alpha2);
     AddInvert(frame);
 }
+
+void ac::BlurXorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlurXorSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int i = 0; i < 3; ++i) {
+        MedianBlur(copy1);
+        MedianBlur(copy2);
+    }
+    CallFilter(subfilter, copy1);
+    static double alpha1 = 2.0, alpha2 = 6.0;
+    static int dir1 = 0, dir2 = 1;
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 6.0, 2.0);
+    AlphaMovementMaxMin(alpha2, dir2, 0.1, 6.0, 2.0);
+    AlphaXorBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+    AddInvert(frame);
+}
+
