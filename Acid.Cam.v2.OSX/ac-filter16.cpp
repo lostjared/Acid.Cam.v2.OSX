@@ -261,3 +261,10 @@ void ac::ColorFlashIncrease(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha2, dir2, 0.01, 1.0, 0.1);
     AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
 }
+
+void ac::ScaleFilter(cv::Mat &frame) {
+    static double amt = 0.1;
+    static int dir = 1;
+    PixelScaleAlpha(frame, amt);
+    AlphaMovementMaxMin(amt, dir, 0.01, 1.0, 0.1);
+}
