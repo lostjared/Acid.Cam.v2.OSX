@@ -2611,6 +2611,22 @@ void SearchForString(NSString *s) {
     _NSRunAlertPanel(@"Copied String for Acid Cam Cli Application to Clipboard", cmd_str, @"Ok", nil, nil);
 }
 
+- (IBAction) insertFilter: (id) sender {
+    NSInteger index = [current_filter_custom indexOfSelectedItem];
+    if(index >= 0) {
+        NSMenuItem *item = [current_filter_custom itemAtIndex: index];
+        NSString *filter_str = [item title];
+        NSInteger set_index = [table_view selectedRow];
+        if(set_index >= 0) {
+            int object1_value = ac::filter_map[[filter_str UTF8String ]];
+            NSNumber *obj1 = [NSNumber numberWithInteger:object1_value];
+            NSNumber *obj2 = [NSNumber numberWithInteger:-1];
+            [custom_array setObject:obj1 atIndexedSubscript:set_index];
+            [custom_subfilters setObject:obj2 atIndexedSubscript:set_index];
+            [table_view reloadData];
+        }
+    }
+}
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;

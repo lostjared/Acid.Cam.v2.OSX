@@ -288,6 +288,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) custom_Load: (id) sender;
 - (void) setCustomValue: (NSString *)sid value: (NSString *)value;
 - (IBAction) copyCustomToString: (id) sender;
+- (IBAction) insertFilter: (id) sender;
 @end
 
 extern AC_Controller *controller;
