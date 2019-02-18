@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.17.0 (macOS)";
+    const std::string version="2.18.0 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.17.0 (Linux)";
+    const std::string version="2.18.0 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.17.0 (Windows)";
+    const std::string version="2.18.0 (Windows)";
 #else
-    const std::string version="2.17.0 (Generic)";
+    const std::string version="2.18.0 (Generic)";
 #endif
     // variables
     int swapColor_r = 0, swapColor_g = 0, swapColor_b = 0;
@@ -102,7 +102,7 @@ namespace ac {
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"Blend With Image #1",blendWithImage}, {"TriBlend with Image", triBlendWithImage}, {"Image Strobe",imageStrobe}
     };
-      
+    
     FilterType *filter_array = filters;
     FilterType filterByIndex(const int &num) {
         return filter_array[num];

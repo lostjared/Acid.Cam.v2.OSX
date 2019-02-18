@@ -272,18 +272,17 @@ void ac::ScaleFilter(cv::Mat &frame) {
 
 void ac::NegativeDarkenXor(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
-    for(int j = 0; j < 2; ++j) {
-        MedianBlur(copy1);
-        DarkenFilter(copy1);
-    }
     static double alpha1 = 1.0;
     static int dir = 1;
+    MedianBlur(copy1);
+    MedianBlur(copy1);
+    MedianBlur(copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = pixel[j]^static_cast<unsigned char>((~pix[j])*alpha1);
+                pixel[j] = pixel[j]^static_cast<unsigned char>((-pix[j])*alpha1);
             }
         }
     }
