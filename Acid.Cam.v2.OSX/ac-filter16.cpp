@@ -43,7 +43,7 @@
 
 #include "ac.h"
 
-
+/*
 void ac::ImageFadeInOut(cv::Mat &frame) {
     if(blend_set == false)
         return;
@@ -290,3 +290,4 @@ void ac::NegativeDarkenXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir, 0.1, 6.0, 1.0);
     AddInvert(frame);
 }
+*/
