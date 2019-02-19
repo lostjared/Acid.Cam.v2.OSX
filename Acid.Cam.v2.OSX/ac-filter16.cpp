@@ -97,7 +97,8 @@ void ac::ImageFadeFrameInOut(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
-/*
+
+
 void ac::ImageFadeFrameInOutSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageFadeFrameInOutSubFilter")
         return;
@@ -123,6 +124,7 @@ void ac::ImageFadeDouble(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.0, 0.1);
     AddInvert(frame);
 }
+
 
 void ac::BlendSubFilterAndImage(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "BlendSubFilterAndImage")
@@ -156,7 +158,7 @@ void ac::FlipImageBlend(cv::Mat &frame) {
     AlphaBlendDouble(copy2, copy1, frame, alpha1, alpha2);
     AddInvert(frame);
 }
-    
+
 void ac::FadeSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "FadeSubFilter")
         return;
@@ -291,4 +293,4 @@ void ac::NegativeDarkenXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir, 0.1, 6.0, 1.0);
     AddInvert(frame);
 }
-*/
+

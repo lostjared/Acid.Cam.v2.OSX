@@ -960,6 +960,22 @@ namespace ac {
     void ImageFadeBlackInOut(cv::Mat &frame);
     void ImageFadeBlackInOutSubFilter(cv::Mat &frame);
     void ImageFadeFrameInOut(cv::Mat &frame);
+    
+    
+    // testing
+    void ImageFadeFrameInOutSubFilter(cv::Mat &frame);
+    void ImageFadeDouble(cv::Mat &frame);
+    void BlendSubFilterAndImage(cv::Mat &frame);
+    void FlipImageBlend(cv::Mat &frame);
+    void FadeSubFilter(cv::Mat &frame);
+    void FadeSubFilterRev(cv::Mat &frame);
+    void ImageBlendSubFilterMedianBlend(cv::Mat &frame);
+    void FadeSubFilterXor(cv::Mat &frame);
+    void BlurXorSubFilter(cv::Mat &frame);
+    void ColorFlashIncrease(cv::Mat &frame);
+    void ScaleFilter(cv::Mat &frame);
+    void NegativeDarkenXor(cv::Mat &frame);
+    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -985,8 +1001,10 @@ namespace ac {
     void RealAlphaBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
+    void AlphaXorBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaMovement(double *alpha, int *dir, double inc);
     void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
+    void PixelScaleAlpha(cv::Mat &frame, double amt);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
