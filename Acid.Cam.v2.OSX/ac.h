@@ -960,9 +960,6 @@ namespace ac {
     void ImageFadeBlackInOut(cv::Mat &frame);
     void ImageFadeBlackInOutSubFilter(cv::Mat &frame);
     void ImageFadeFrameInOut(cv::Mat &frame);
-    
-    
-    // testing
     void ImageFadeFrameInOutSubFilter(cv::Mat &frame);
     void ImageFadeDouble(cv::Mat &frame);
     void BlendSubFilterAndImage(cv::Mat &frame);
@@ -974,8 +971,7 @@ namespace ac {
     void BlurXorSubFilter(cv::Mat &frame);
     void ColorFlashIncrease(cv::Mat &frame);
     void ScaleFilter(cv::Mat &frame);
-    void NegativeDarkenXor(cv::Mat &frame);
-    
+    void NegativeDarkenXor(cv::Mat &frame);    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
