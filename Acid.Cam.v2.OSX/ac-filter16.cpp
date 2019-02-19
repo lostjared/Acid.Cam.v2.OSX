@@ -43,7 +43,7 @@
 
 #include "ac.h"
 
-/*
+
 void ac::ImageFadeInOut(cv::Mat &frame) {
     if(blend_set == false)
         return;
@@ -71,6 +71,7 @@ void ac::ImageFadeBlackInOut(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+
 void ac::ImageFadeBlackInOutSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageFadeBlackInOutSubFilter")
         return;
@@ -96,7 +97,7 @@ void ac::ImageFadeFrameInOut(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
-
+/*
 void ac::ImageFadeFrameInOutSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageFadeFrameInOutSubFilter")
         return;
