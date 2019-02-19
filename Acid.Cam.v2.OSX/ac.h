@@ -956,15 +956,6 @@ namespace ac {
     void ImageShuffle(cv::Mat &frame);
     void ImageSubFilter(cv::Mat &frame);
     void ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame);
-    void ImageStrobe(cv::Mat &frame);
-    void ImageXorStrobe(cv::Mat &frame);
-    void ImageStrobeAlpha(cv::Mat &frame);
-    void ImageXorStrobeAlpha(cv::Mat &frame);
-    void ImageBlurXorAlphaSubFilter(cv::Mat &frame);
-    void ImageAlphaBlendDouble(cv::Mat &frame);
-    void AlphaBlendDoubleSubFilter(cv::Mat &frame);
-    void ImageSmoothAlphaDouble(cv::Mat &frame);
-    void ImageRandomAlphaDouble(cv::Mat &frame);
     void ImageFadeInOut(cv::Mat &frame);
     void ImageFadeBlackInOut(cv::Mat &frame);
     void ImageFadeBlackInOutSubFilter(cv::Mat &frame);
@@ -979,7 +970,7 @@ namespace ac {
     void BlurXorSubFilter(cv::Mat &frame);
     void ColorFlashIncrease(cv::Mat &frame);
     void ScaleFilter(cv::Mat &frame);
-    void NegativeDarkenXor(cv::Mat &frame);
+    void NegativeDarkenXor(cv::Mat &frame);    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
