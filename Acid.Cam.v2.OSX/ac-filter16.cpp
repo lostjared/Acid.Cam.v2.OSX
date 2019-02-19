@@ -140,25 +140,6 @@ void ac::BlendSubFilterAndImage(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::FlipImageBlend(cv::Mat &frame) {
-    if(blend_set == false)
-        return;
-    cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
-    cv::Mat copy1, copy2 = frame.clone();
-    int r = -1;
-    r += rand()%3;
-    cv::flip(reimage, copy1, r);
-    static MatrixCollection<8> collection;
-    Smooth(copy1, &collection);
-    static double alpha1 = 1.0, alpha2 = 0.1;
-    static int dir1 = 1, dir2 = 0;
-    AlphaMovementMaxMin(alpha1,dir1, 0.01, 1.0, 0.1);
-    AlphaMovementMaxMin(alpha2,dir2, 0.01, 1.0, 0.1);
-    AlphaBlendDouble(copy2, copy1, frame, alpha1, alpha2);
-    AddInvert(frame);
-}
-
 void ac::FadeSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "FadeSubFilter")
         return;
@@ -293,4 +274,3 @@ void ac::NegativeDarkenXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir, 0.1, 6.0, 1.0);
     AddInvert(frame);
 }
-
