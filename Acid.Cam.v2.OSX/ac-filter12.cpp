@@ -820,7 +820,7 @@ void ac::FlipAlphaBlend(cv::Mat &frame) {
 
 void ac::RandomFlipFilter(cv::Mat &frame) {
     int value = -1;
-    int rnd = rand()%3;
+    int rnd = rand()%2;
     value += rnd;
     cv::Mat copyf = frame.clone();
     flip(copyf, frame, value);
