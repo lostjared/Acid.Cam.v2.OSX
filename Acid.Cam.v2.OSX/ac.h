@@ -956,7 +956,6 @@ namespace ac {
     void ImageShuffle(cv::Mat &frame);
     void ImageSubFilter(cv::Mat &frame);
     void ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame);
-    //start
     void ImageStrobe(cv::Mat &frame);
     void ImageXorStrobe(cv::Mat &frame);
     void ImageStrobeAlpha(cv::Mat &frame);
@@ -966,7 +965,6 @@ namespace ac {
     void AlphaBlendDoubleSubFilter(cv::Mat &frame);
     void ImageSmoothAlphaDouble(cv::Mat &frame);
     void ImageRandomAlphaDouble(cv::Mat &frame);
-    //end
     void ImageFadeInOut(cv::Mat &frame);
     void ImageFadeBlackInOut(cv::Mat &frame);
     void ImageFadeBlackInOutSubFilter(cv::Mat &frame);
