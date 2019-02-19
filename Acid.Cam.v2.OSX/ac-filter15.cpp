@@ -911,3 +911,143 @@ void ac::ImageAlphaBlendWithFrameSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageStrobe(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Vec3b strobe_val(rand()%255, rand()%255, rand()%255);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Transform(reimage, frame,[=](cv::Vec3b &pix, int i, int z) {
+        for(int j = 0; j < 3; ++j) {
+            pix[j] += strobe_val[j];
+        }
+    });
+    AddInvert(frame);
+}
+
+void ac::ImageXorStrobe(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Vec3b strobe_val(rand()%255, rand()%255, rand()%255);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Transform(reimage, frame,[=](cv::Vec3b &pix, int i, int z) {
+        for(int j = 0; j < 3; ++j) {
+            pix[j] = pix[j]^strobe_val[j];
+        }
+    });
+    AddInvert(frame);
+}
+void ac::ImageStrobeAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    ImageStrobe(reimage);
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
+void ac::ImageXorStrobeAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    ImageXorStrobe(reimage);
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::ImageBlurXorAlphaSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageBlurXorAlphaSubFilter")
+        return;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    for(int i = 0; i < 3; ++i) {
+        MedianBlur(reimage);
+        MedianBlur(copy1);
+    }
+    CallFilter(subfilter, reimage);
+    AlphaBlendDouble(copy1, reimage, frame, 1.0,0.5);
+    AddInvert(frame);
+}
+
+void ac::ImageAlphaBlendDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha[2] = {1.0, 0.1};
+    static int dir[2] = {0, 1};
+    AlphaMovement(alpha, dir, 0.01);
+    AlphaBlendDouble(copy1, reimage, frame, alpha[0], alpha[1]);
+    AddInvert(frame);
+}
+
+void ac::AlphaBlendDoubleSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendDoubleSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static double alpha[2] = { 1.0, 0.1 };
+    static int dir[2] = {0, 1};
+    AlphaMovement(alpha, dir, 0.01);
+    CallFilter(subfilter, copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha[0], alpha[1]);
+}
+
+void ac::ImageSmoothAlphaDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    static int dir[2] = {0, 1};
+    static double alpha[2] = { 1.0, 0.1 };
+    AlphaMovement(alpha, dir, 0.01);
+    cv::Mat copy1 = frame.clone(), copy2, reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlendDouble(copy1, reimage, copy2, alpha[0], alpha[1]);
+    Smooth(copy2, &collection1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    Smooth(frame, &collection2);
+    AddInvert(frame);
+}
+
+struct IndexValue {
+    int dir;
+    double alpha;
+};
+
+void ac::ImageRandomAlphaDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static IndexValue values[2] = {{0, 1.0}, {1, 0.1}};
+    static bool value_set = false;
+    static double alpha[2] = {0};
+    static int dir[2] = {0};
+    static int random1 = 0, random2 = 0;
+    if(value_set == false) {
+        value_set = true;
+        random1 = rand()%2;
+        alpha[0] = values[random1].alpha;
+        dir[0] = values[random1].dir;
+        random2 = rand()%2;
+        alpha[1] = values[random2].alpha;
+        dir[1] = values[random2].dir;
+    }
+    if(dir[0] == 1 && alpha[0] <= 0.1)
+        value_set = false;
+    if(dir[0] == 0 && alpha[0] >= 1.0)
+        value_set = false;
+    if(dir[1] == 1 && alpha[1] <= 0.1)
+        value_set = false;
+    if(dir[1] == 0 && alpha[1] >= 1.0)
+        value_set = false;
+    AlphaMovement(alpha, dir, 0.01);
+    AlphaBlendDouble(copy1, reimage, copy2, alpha[0], alpha[1]);
+    static MatrixCollection<8> collection;
+    Smooth(copy2, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
