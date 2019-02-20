@@ -254,7 +254,7 @@ void ac::ImageAlphaBlend(cv::Mat &frame) {
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] = static_cast<unsigned char>((pixel[j]*alpha) + (add_i[j] * alpha));
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*(alpha+1)) + (add_i[j] * alpha));
                 
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i); // invert pixel
@@ -416,7 +416,7 @@ void ac::XorSelfAlphaImage(cv::Mat &frame) {
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j) {
                     //pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pix[j] * alpha_r));
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha)) + (pix[j] * alpha_r));
                 }
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel */

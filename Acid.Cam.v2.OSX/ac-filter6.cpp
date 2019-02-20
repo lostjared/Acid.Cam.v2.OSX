@@ -725,7 +725,7 @@ void ac::MedianBlendAnimation(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = 1+static_cast<int>(value[j]);
-                pixel[j] = static_cast<unsigned char>(static_cast<int>(pixel[j]*alpha) ^ static_cast<int>(val * alpha));
+                pixel[j] = static_cast<unsigned char>(static_cast<int>(pixel[j]*(alpha+1)) ^ static_cast<int>(val * alpha));
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
@@ -802,7 +802,7 @@ void ac::LeftLines(cv::Mat &frame) {
         for(int i = 0; i < line_width[z]; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
             
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
@@ -824,7 +824,7 @@ void ac::Curtain(cv::Mat &frame) {
             for(int i = 0; i < start; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
                 }
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
@@ -835,7 +835,7 @@ void ac::Curtain(cv::Mat &frame) {
             for(int i = frame.cols-1; i > start; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
                 
                 swapColors(frame, z, i);// swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
@@ -919,7 +919,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
             for(int i = 0; i < start; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
                 }
             }
         } else {
@@ -927,7 +927,7 @@ void ac::CurtainVertical(cv::Mat &frame) {
             for(int i = frame.rows-1; i > start; --i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(i, z);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
     }

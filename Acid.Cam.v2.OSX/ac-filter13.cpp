@@ -477,7 +477,7 @@ void ac::ImageRemainderPixel(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    unsigned int val = static_cast<unsigned int>(pixel[j] * alpha)%(1+pix[j]);
+                    unsigned int val = static_cast<unsigned int>(pixel[j] * (1+alpha))%(1+pix[j]);
                     pixel[j] = pixel[j] ^ val;
                 }
             }
@@ -612,7 +612,7 @@ void ac::AverageHorizontalFilter(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(values[j] * alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j] * (1+alpha)) ^ static_cast<unsigned char>(values[j] * alpha);
             }
         }
     }
@@ -637,7 +637,7 @@ void ac::AverageVerticalFilter(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(values[j] * alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j] * (1+alpha)) ^ static_cast<unsigned char>(values[j] * alpha);
             }
         }
     }
@@ -659,7 +659,7 @@ void ac::GradientAlphaXorHorizontal(cv::Mat &frame) {
             }
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for (int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(index_value*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1))^static_cast<unsigned char>(index_value*alpha);
             }
         }
     }
@@ -681,7 +681,7 @@ void ac::GradientAlphaXorVertical(cv::Mat &frame) {
             }
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for (int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(index_value*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1))^static_cast<unsigned char>(index_value*alpha);
             }
         }
     }
@@ -742,7 +742,7 @@ void ac::BlendImageWithSubFilterAlpha(cv::Mat &frame) {
             }
             for(int j = 0; j < 3; ++j) {
                 values[j] /= 3;
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(values[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>(values[j]*alpha);
             }
         }
     }
@@ -834,7 +834,7 @@ void ac::ParticleReleaseXor(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(pix[j] * alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j] * (1+alpha)) ^ static_cast<unsigned char>(pix[j] * alpha);
             }
         }
     }
@@ -868,7 +868,7 @@ void ac::ParticleReleaseAlphaBlend(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) + static_cast<unsigned char>(pix[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1)) + static_cast<unsigned char>(pix[j]*alpha);
             }
         }
     }

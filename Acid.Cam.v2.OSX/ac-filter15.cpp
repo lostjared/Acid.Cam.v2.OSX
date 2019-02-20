@@ -652,7 +652,7 @@ void ac::SurroundingPixelsAlpha(cv::Mat &frame) {
             }
             for(int j = 0; j < 3; ++j) {
                 values[j] /= 3;
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(values[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1))+static_cast<unsigned char>(values[j]*alpha);
             }
         }
     }

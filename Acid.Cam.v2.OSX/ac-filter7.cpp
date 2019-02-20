@@ -54,13 +54,13 @@ void ac::SlideUpDown(cv::Mat &frame) {
         for(int z = 0; z < start_1; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             
         }
     }
@@ -104,13 +104,13 @@ void ac::SlideUpDownXor(cv::Mat &frame) {
         for(int z = 0; z < start_1; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
             
         }
     }

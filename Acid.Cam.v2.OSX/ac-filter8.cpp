@@ -293,7 +293,7 @@ void ac::DifferenceStrobe(cv::Mat &frame) {
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1))+static_cast<unsigned char>(pix[j]*alpha);
                 }
             } else {
                 pixel[offset] = rand_value;
@@ -328,7 +328,7 @@ void ac::BlackAndWhiteDifferenceStrobe(cv::Mat &frame) {
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1))+static_cast<unsigned char>(pix[j]*alpha);
                 }
             } else {
                 if(counter == 0)
@@ -365,7 +365,7 @@ void ac::DifferenceXor(cv::Mat &frame) {
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1))+static_cast<unsigned char>(pix[j]*alpha);
                 }
             } else {
                 for(int j = 0; j < 3; ++j) {
@@ -403,7 +403,7 @@ void ac::DifferenceRand(cv::Mat &frame) {
                 }
             } else {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha)+static_cast<unsigned char>(pix[j]*alpha);
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1))+static_cast<unsigned char>(pix[j]*alpha);
                 }
             }
             swapColors(frame, z, i);

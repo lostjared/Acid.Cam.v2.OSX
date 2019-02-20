@@ -106,7 +106,7 @@ void ac::MirrorBitwiseXor(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = temp.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha)^static_cast<unsigned char>(pix[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1))^static_cast<unsigned char>(pix[j]*alpha);
             }
         }
     }
@@ -966,7 +966,7 @@ void ac::XorAlphaSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copyf.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(pix[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>(pix[j]*alpha);
         }
     }
     static int dir = 1;

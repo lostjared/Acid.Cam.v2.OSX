@@ -160,7 +160,7 @@ void ac::RandomMirrorAlphaBlend(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha)+(pix[j]*alpha));
+                pixel[j] = static_cast<unsigned char>((pixel[j]*(alpha+1))+(pix[j]*alpha));
             }
         }
     }
@@ -283,7 +283,7 @@ void ac::SmoothSubFilterXorBlend(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = (static_cast<unsigned char>(pixel[j]*alpha)) ^ (static_cast<unsigned char>(pix[j]*alpha));
+                pixel[j] = (static_cast<unsigned char>(pixel[j]*(alpha+1))) ^ (static_cast<unsigned char>(pix[j]*alpha));
             }
         }
     }
@@ -329,7 +329,7 @@ void ac::EveryOther(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             if(on_off == true) {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
                 }
             }
             on_off = (on_off == true) ? false : true;
@@ -447,7 +447,7 @@ void ac::MirrorXorScale(cv::Mat &frame) {
             values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = (pixel[j] ^ values[0][j] ^ values[1][j] ^ values[2][j]);
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
     }
@@ -837,7 +837,7 @@ void ac::RandomPixelOrderSort(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             SwapColors(pixel);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
     }
@@ -857,7 +857,7 @@ void ac::ImageXorAlpha(cv::Mat &frame) {
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = (static_cast<unsigned char>((pixel[j]*alpha)) ^ static_cast<unsigned char>((pix[j]*alpha)));
+                    pixel[j] = (static_cast<unsigned char>((pixel[j]*(alpha+1))) ^ static_cast<unsigned char>((pix[j]*alpha)));
                 }
             }
         }
@@ -887,7 +887,7 @@ void ac::ImageAverageXor(cv::Mat &frame) {
                 cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j) {
                     values[j] /= collection.size();
-                    pixel[j] = (static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>((pix[j]*alpha)) ^ static_cast<unsigned char>((values[j]*alpha)));
+                    pixel[j] = (static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>((pix[j]*alpha)) ^ static_cast<unsigned char>((values[j]*alpha)));
                 }
             }
         }
@@ -943,7 +943,7 @@ void ac::SelfScaleAlpha(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha))^index[j];
+                pixel[j] = static_cast<unsigned char>((pixel[j]*(alpha+1)))^index[j];
         }
     }
     static int direction[3] = {1,1,1};

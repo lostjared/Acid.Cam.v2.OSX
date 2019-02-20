@@ -862,7 +862,7 @@ void ac::ColorExpandSubFilter(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixval[j] = pix[0][j] ^ pix[1][j];
                 pixval[j] /= 3;
-                pixel[j] =  pixval[j] ^ static_cast<unsigned char>(pixel[j]*alpha);
+                pixel[j] =  pixval[j] ^ static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
     }
@@ -1076,7 +1076,7 @@ void ac::ColorXorScale(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) ^ static_cast<unsigned char>(rgb[j] * alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j] * (1+alpha)) ^ static_cast<unsigned char>(rgb[j] * alpha);
             }
         }
     }

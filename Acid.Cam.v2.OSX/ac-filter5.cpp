@@ -140,7 +140,7 @@ void ac::AverageRandom(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j] + pix1[j] + pix2[j]);
                 pixel[j] /= static_cast<unsigned char>(1.5);
-                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha);
+                pixel[j] = static_cast<unsigned char>(pixel[j] * (1+alpha));
             }
         }
     }
@@ -474,7 +474,7 @@ void ac::AlphaBlendPosition(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>((pixel[j]*alpha)+(pix[j]*alpha));
+                pixel[j] = static_cast<unsigned char>((pixel[j]*(alpha+1))+(pix[j]*alpha));
             
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel
@@ -865,7 +865,7 @@ void ac::ChannelSortAlphaBlend(cv::Mat &frame) {
             cv::Vec3b pixadd = output.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 //pixel += pixadd;
-                pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pixadd[j] * alpha));
+                pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha)) + (pixadd[j] * alpha));
             }
         }
     }
@@ -955,7 +955,7 @@ void ac::Bitwise_XOR_Average(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (static_cast<unsigned char>(sval[j])*alpha));
+                pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha)) + (static_cast<unsigned char>(sval[j])*alpha));
             
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
@@ -986,7 +986,7 @@ void ac::NotEqual(cv::Mat &frame) {
             }
             if(same_value == false) {
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (value[j] * alpha));
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha)) + (value[j] * alpha));
                 }
             }
             swapColors(frame, z, i);// swap colors
@@ -1004,7 +1004,7 @@ void ac::GradientXorSelfScale(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = frame.at<cv::Vec3b>(z+1, i+1);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((pixel[j] * alpha)) ^ pix[j];
+                pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha))) ^ pix[j];
             }
             swapColors(frame, z, i);// swap colors
             if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
