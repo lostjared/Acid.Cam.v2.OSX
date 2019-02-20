@@ -686,14 +686,10 @@ void SearchForString(NSString *s) {
            _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
             return;
         }
-        
         // test values
-        
         int res_x[3] = { 640, 1280, 1920 };
         int res_y[3] = { 480, 720, 1080 };
-        
         bool use_resized_res = false;
-        
         if([videoFileInput state] == NSOnState) {
             input_file = [[video_file stringValue] UTF8String];
             if(input_file.length() == 0) {
@@ -825,8 +821,6 @@ void SearchForString(NSString *s) {
 - (void) camThread: (id) sender {
     __block cv::Mat frame;
     bool got_frame = true;
-    NSInteger cap_width = [video_width integerValue];
-    NSInteger cap_height = [video_height integerValue];
     while(camera_active && got_frame) {
         if(isPaused) continue;
         cv::Mat temp_frame;
@@ -970,11 +964,7 @@ void SearchForString(NSString *s) {
         
         if(ac::noRecord == false) {
             cv::Mat up;
-            if(up4ki == NSOnState && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
-                up = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
-            } else {
-                up = frame;
-            }
+            up = frame;
             if(writer->isOpened()) writer->write(up);
             struct stat buf;
             stat(ac::fileName.c_str(), &buf);
