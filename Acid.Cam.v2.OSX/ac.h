@@ -972,6 +972,7 @@ namespace ac {
     void ScaleFilter(cv::Mat &frame);
     void NegativeDarkenXor(cv::Mat &frame);
     void ImageXor_SubFilter(cv::Mat &frame);
+    void NegateBlendSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

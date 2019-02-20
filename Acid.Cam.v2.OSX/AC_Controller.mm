@@ -2671,6 +2671,8 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
             num = [listval objectAtIndex:i];
             fval_ = [sublist objectAtIndex: i];
             NSInteger index = [num integerValue];
+            if([num integerValue] == [fval_ integerValue])
+                continue;
             if(ac::testSize(frame)) {
                 ac::setSubFilter(static_cast<int>([fval_ integerValue]));
                 ac::draw_func[static_cast<int>(index)](frame);

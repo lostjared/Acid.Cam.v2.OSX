@@ -280,6 +280,7 @@ void ac::ImageXor_SubFilter(cv::Mat &frame) {
         return;
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(blend_image, reimage, frame.size());
+    Negate(copy1);
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -290,4 +291,17 @@ void ac::ImageXor_SubFilter(cv::Mat &frame) {
                 pixel[j] = pix1[j]^pix2[j]^pixel[j];
         }
     }
+}
+
+void ac::NegateBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "NegateBlendSubFilter")
+        return;
+    static double alpha1 = 1.0, alpha2 = 3.0;
+    static int dir1 = 1, dir2 = 0;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Negate(copy2);
+    CallFilter(subfilter, copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.08, 4.0, 1.0);
+    AlphaMovementMaxMin(alpha2, dir2, 0.08, 4.0, 1.0);
 }
