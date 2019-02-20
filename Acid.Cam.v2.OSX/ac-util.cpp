@@ -664,12 +664,16 @@ void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, 
     if(alpha_increase != 0) speed = alpha_increase;
     if(dir == 1) {
         alpha += speed;
-        if(alpha >= max)
+        if(alpha > max) {
+            alpha = max;
             dir = 0;
+        }
     } else {
         alpha -= speed;
-        if(alpha <= min)
+        if(alpha < min) {
+            alpha = min;
             dir = 1;
+        }
     }
     resetAlpha(dir, alpha);
 }

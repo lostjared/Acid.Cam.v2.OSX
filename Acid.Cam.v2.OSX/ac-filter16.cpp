@@ -358,3 +358,33 @@ void ac::ImageStrobeOnOff(cv::Mat &frame) {
     }
     AlphaBlend(copy1, reimage, frame, 0.5);
 }
+
+void ac::AlphaStrobeBlend(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int index = 0;
+    static int dir_v = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
+            }
+            pixel[index] = ~pixel[index];
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > 2) {
+            dir = 0;
+            index = 2;
+        }
+    } else {
+        --index;
+        if(index < 0) {
+            dir = 1;
+            index = 0;
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir_v, 0.1, 3.0, 1.0);
+}
