@@ -305,3 +305,56 @@ void ac::NegateBlendSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir1, 0.08, 4.0, 1.0);
     AlphaMovementMaxMin(alpha2, dir2, 0.08, 4.0, 1.0);
 }
+
+void ac::StrobeNegatePixel(cv::Mat &frame) {
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] = ~pixel[index];
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+}
+
+void ac::StrobeNegateInOut(cv::Mat &frame) {
+    static int dir = 1;
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] = ~pixel[index];
+        }
+    }
+    if(dir == 1) {
+        ++index;
+        if(index > 2) {
+            dir = 0;
+            index = 2;
+        }
+    } else {
+        --index;
+        if(index < 0) {
+            dir = 1;
+            index = 0;
+        }
+    }
+}
+
+void ac::ImageStrobeOnOff(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static int index = 0;
+    if(index == 0) {
+        Negate(reimage);
+        index = 1;
+    } else {
+        Negate(copy1);
+        index = 0;
+    }
+    AlphaBlend(copy1, reimage, frame, 0.5);
+}

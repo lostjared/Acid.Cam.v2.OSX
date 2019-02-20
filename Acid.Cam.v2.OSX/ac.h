@@ -973,6 +973,9 @@ namespace ac {
     void NegativeDarkenXor(cv::Mat &frame);
     void ImageXor_SubFilter(cv::Mat &frame);
     void NegateBlendSubFilter(cv::Mat &frame);
+    void StrobeNegatePixel(cv::Mat &frame);
+    void StrobeNegateInOut(cv::Mat &frame);
+    void ImageStrobeOnOff(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
