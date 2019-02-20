@@ -136,8 +136,8 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             sout << "Acid Cam Capture device [" << ((camera_mode == 0) ? "Camera" : "Video") << "] opened..\n";
         int aw = capture->get(CV_CAP_PROP_FRAME_WIDTH);
         int ah = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
-        if(u4k && aw != 3840 && ah != 2160)
-            sout << "Resolution Upscaled to 3840x2160\n";
+        if(u4k && aw != capture_width && ah != capture_height)
+            sout << "Resolution Scaled to " << capture_width << "x" << capture_height << "\n";
         else
             sout << "Resolution: " << aw << "x" << ah << "\n";
         
@@ -151,7 +151,7 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
             capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
             if(u4k)
-                sout << "Resolution upsacled to  3840x2160\n";
+                sout << "Resolution upsacled to " << capture_width << "x" << capture_height << "\n";
             else
                 sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
@@ -160,7 +160,7 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
         bool opened = false;
         // if recording open the writer object with desired codec
         if(ac::noRecord == false) {
-            cv::Size s4k = cv::Size(3840, 2160);
+            cv::Size s4k = cv::Size(capture_width, capture_height);
             if(u4k ==false) {
                 s4k = frameSize;
             }

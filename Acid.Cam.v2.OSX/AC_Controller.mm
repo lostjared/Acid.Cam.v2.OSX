@@ -572,12 +572,12 @@ void SearchForString(NSString *s) {
     [menu_freeze setEnabled: NO];
     
     [record_op setEnabled: YES];
-    
     if([videoFileInput integerValue] == 0) {
         [up4k setEnabled: NO];
     } else {
         [up4k setEnabled: YES];
     }
+    [up4k setEnabled: YES];
     stopCV();
     [startProg setTitle:@"Start Session"];
 }
@@ -671,17 +671,40 @@ void SearchForString(NSString *s) {
     
     if([[startProg title] isEqualToString: @"Start Session"]) {
         std::string input_file;
+        
+        NSInteger cap_width = [video_width integerValue];
+        NSInteger cap_height = [video_height integerValue];
+        
+        if([up4k state] == NSOnState) {
+            if((cap_width < 320 || cap_height < 240) || (cap_width > 3840 || cap_height > 2160)) {
+                _NSRunAlertPanel(@"Invalid Screen Resolution...", @"Invalid", @"Ok", nil, nil);
+                return;
+            }
+        }
+        
+        if([up4k state] == NSOnState && [videoFileInput state] == NSOffState) {
+           _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
+            return;
+        }
+        
+        // test values
+        
+        int res_x[3] = { 640, 1280, 1920 };
+        int res_y[3] = { 480, 720, 1080 };
+        
+        bool use_resized_res = false;
+        
         if([videoFileInput state] == NSOnState) {
             input_file = [[video_file stringValue] UTF8String];
             if(input_file.length() == 0) {
                 _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
                 return;
             }
+            use_resized_res = true;
             camera_mode = 1;
         } else camera_mode = 0;
         NSInteger res = [resolution indexOfSelectedItem];
-        int res_x[3] = { 640, 1280, 1920 };
-        int res_y[3] = { 480, 720, 1080 };
+        
         bool r;
         if([record_op integerValue] == 1)
             r = false;
@@ -719,8 +742,13 @@ void SearchForString(NSString *s) {
         
         bool u4k = ([up4k state] == NSOnState) ? true : false;
         
-        int ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         
+        int ret_val = 0;
+        if(use_resized_res == false)
+        	ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+        else
+            ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+
         if(ret_val == 0) {
             if(camera_mode == 1)
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
@@ -797,6 +825,8 @@ void SearchForString(NSString *s) {
 - (void) camThread: (id) sender {
     __block cv::Mat frame;
     bool got_frame = true;
+    NSInteger cap_width = [video_width integerValue];
+    NSInteger cap_height = [video_height integerValue];
     while(camera_active && got_frame) {
         if(isPaused) continue;
         cv::Mat temp_frame;
@@ -940,8 +970,8 @@ void SearchForString(NSString *s) {
         
         if(ac::noRecord == false) {
             cv::Mat up;
-            if(up4ki == NSOnState && frame.size() != cv::Size(3840, 2160)) {
-                up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+            if(up4ki == NSOnState && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
+                up = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
             } else {
                 up = frame;
             }
@@ -1001,6 +1031,8 @@ void SearchForString(NSString *s) {
         pauseStepTrue = false;
     }
     else if(isPaused) return;
+    NSInteger cap_width = [video_width integerValue];
+    NSInteger cap_height = [video_height integerValue];
     cv::Mat frame;
     bool frame_read = true;
     if([menu_freeze state] == NSOffState) {
@@ -1027,7 +1059,7 @@ void SearchForString(NSString *s) {
         reset_memory = false;
     }
     
-    if([up4k state] == NSOnState || frame.size() == cv::Size(3840, 2160)) {
+    if([up4k state] == NSOnState || frame.size() == cv::Size((int)cap_width, (int)cap_height)) {
         [stretch_scr setState: NSOnState];
         cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
@@ -1076,8 +1108,8 @@ void SearchForString(NSString *s) {
     }
     
     cv::Mat up;
-    if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
-        frame = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
+    if([up4k state] == NSOnState && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
+        frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
     }
     
     if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes") || (ac::draw_strings[ac::draw_offset] == "CollectionXorSourceSubFilter")) {
@@ -1147,8 +1179,6 @@ void SearchForString(NSString *s) {
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
         cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
     }
-    
-    
     NSInteger mask = [[NSApp mainWindow] styleMask];
     NSString *main_window = [[NSApp mainWindow] title];
     NSWindow *main_w = [NSApp mainWindow];
@@ -1198,14 +1228,6 @@ void SearchForString(NSString *s) {
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
-        /*
-         cv::Mat up;
-         if([up4k state] == NSOnState && frame.size() != cv::Size(3840, 2160)) {
-         up = resizeKeepAspectRatio(frame, cv::Size(3840, 2160), cv::Scalar(0, 0, 0));
-         } else {
-         up = frame;
-         }*/
-        
         if(writer->isOpened() )writer->write(frame);
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
@@ -1290,6 +1312,8 @@ void SearchForString(NSString *s) {
         [chk_repeat setEnabled:NO];
         [up4k setEnabled: NO];
         [up4k setState: NSOffState];
+        [video_width setEnabled: NO];
+        [video_height setEnabled: NO];
     }
     else {
         [video_file setEnabled: NO];
@@ -1298,6 +1322,8 @@ void SearchForString(NSString *s) {
         [selectVideoFile setEnabled: YES];
         [chk_repeat setEnabled:YES];
         [up4k setEnabled: YES];
+        [video_width setEnabled: YES];
+        [video_height setEnabled: YES];
     }
 }
 
