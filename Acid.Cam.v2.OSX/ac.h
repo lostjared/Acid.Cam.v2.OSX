@@ -970,7 +970,8 @@ namespace ac {
     void BlurXorSubFilter(cv::Mat &frame);
     void ColorFlashIncrease(cv::Mat &frame);
     void ScaleFilter(cv::Mat &frame);
-    void NegativeDarkenXor(cv::Mat &frame);    
+    void NegativeDarkenXor(cv::Mat &frame);
+    void ImageXor_SubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

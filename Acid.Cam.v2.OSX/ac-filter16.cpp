@@ -275,3 +275,19 @@ void ac::NegativeDarkenXor(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::ImageXor_SubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageXor_SubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = reimage.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix2 = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pix1[j]^pix2[j]^pixel[j];
+        }
+    }
+}
