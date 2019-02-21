@@ -572,14 +572,17 @@ void SearchForString(NSString *s) {
     stopProgram = true;
     [menuPaused setEnabled: NO];
     [menu_freeze setEnabled: NO];
-    
     [record_op setEnabled: YES];
     if([videoFileInput integerValue] == 0) {
         [up4k setEnabled: NO];
-    } else {
-        [up4k setEnabled: YES];
+        [video_width setEnabled:NO];
+        [video_height setEnabled:NO];
     }
-    [up4k setEnabled: YES];
+    else {
+        [up4k setEnabled: YES];
+        [video_width setEnabled:YES];
+        [video_height setEnabled:YES];
+    }
     stopCV();
     [startProg setTitle:@"Start Session"];
 }
@@ -673,10 +676,10 @@ void SearchForString(NSString *s) {
     
     if([[startProg title] isEqualToString: @"Start Session"]) {
         std::string input_file;
-        
         NSInteger cap_width = [video_width integerValue];
         NSInteger cap_height = [video_height integerValue];
-        
+        [video_width setEnabled: NO];
+        [video_height setEnabled: NO];
         if([up4k state] == NSOnState) {
             if((cap_width < 320 || cap_height < 240) || (cap_width > 3840 || cap_height > 2160)) {
                 _NSRunAlertPanel(@"Invalid Screen Resolution...", @"Invalid", @"Ok", nil, nil);
