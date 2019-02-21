@@ -981,6 +981,8 @@ namespace ac {
     void FrameImageFadeInOut(cv::Mat &frame);
     void FrameImageFadeInOutDouble(cv::Mat &frame);
     void ChangeEachSecond(cv::Mat &frame);
+    void ShuffleImage(cv::Mat &frame);
+    void ChangeImageEachSecond(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
