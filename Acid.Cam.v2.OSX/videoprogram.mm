@@ -210,6 +210,14 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             cv::imshow("Acid Cam v2", _bg);
         }
         NSRect screen = [[NSScreen mainScreen] frame];
+        
+        if(u4k && capture_width >= screen.size.width && capture_height >= screen.size.height) {
+            rc.size.width = screen.size.width;
+            rc.size.height = screen.size.height;
+            resize_value = true;
+            cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        }
+        else
         if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
             rc.size.width = screen.size.width;
             rc.size.height = screen.size.height;
@@ -217,8 +225,13 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
             
         } else {
-            rc.size.width = (double) frameSize.width;
-            rc.size.height = (double) frameSize.height;
+            if(u4k) {
+                rc.size.width = capture_width;
+                rc.size.height = capture_height;
+            } else {
+            	rc.size.width = (double) frameSize.width;
+            	rc.size.height = (double) frameSize.height;
+            }
         }
         // flush to log
         flushToLog(sout);

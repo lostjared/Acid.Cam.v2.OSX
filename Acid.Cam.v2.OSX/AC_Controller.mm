@@ -1055,7 +1055,6 @@ void SearchForString(NSString *s) {
         [stretch_scr setState: NSOnState];
         cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
-    
     if(capture->isOpened() && frame_read == false) {
         ++frame_cnt;
         ++frame_proc;
