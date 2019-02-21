@@ -388,3 +388,16 @@ void ac::AlphaStrobeBlend(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir_v, 0.1, 3.0, 1.0);
 }
+
+void ac::CannyRandomPixels(cv::Mat &frame) {
+    Canny(frame);
+    cv::Vec3b r(100+rand()%155, 100+rand()%155, 100+rand()%155);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255) {
+                pixel = r;
+            }
+        }
+    }
+}
