@@ -271,3 +271,16 @@ void ac::FrameImageFadeInOut(cv::Mat &frame) {
     AlphaBlendDouble(copy1, reimage, frame, alpha1, 0.5);
     AddInvert(frame);
 }
+
+void ac::FrameImageFadeInOutDouble(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha1 = 1.0, alpha2 = 4.0;
+    static int dir1 = 1, dir2 = 0;
+    AlphaMovementMaxMin(alpha1, dir1, 0.05, 4.0, 1.0);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 4.0, 1.0);
+    AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
+}
+

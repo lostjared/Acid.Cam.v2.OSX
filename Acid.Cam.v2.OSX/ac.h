@@ -979,6 +979,7 @@ namespace ac {
     void AlphaStrobeBlend(cv::Mat &frame);
     void CannyRandomPixels(cv::Mat &frame);
     void FrameImageFadeInOut(cv::Mat &frame);
+    void FrameImageFadeInOutDouble(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
