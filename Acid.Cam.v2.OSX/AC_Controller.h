@@ -291,6 +291,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) copyCustomToString: (id) sender;
 - (IBAction) insertFilter: (id) sender;
 - (IBAction) insertFilter_Custom: (id) sender;
+- (IBAction) scaleToggle: (id) sender;
 @end
 
 extern AC_Controller *controller;

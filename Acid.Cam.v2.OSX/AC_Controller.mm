@@ -317,6 +317,8 @@ void SearchForString(NSString *s) {
     [self setColorValuesRange:self];
     user_menu = [[NSMenu alloc] init];
     [self loadMenuList];
+    [video_width setEnabled:NO];
+    [video_height setEnabled:NO];
     /*
      
      std::vector<std::string> valz;
@@ -1301,7 +1303,6 @@ void SearchForString(NSString *s) {
         [selectVideoFile setEnabled: NO];
         [chk_repeat setEnabled:NO];
         [up4k setEnabled: NO];
-        [up4k setState: NSOffState];
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
     }
@@ -1312,8 +1313,13 @@ void SearchForString(NSString *s) {
         [selectVideoFile setEnabled: YES];
         [chk_repeat setEnabled:YES];
         [up4k setEnabled: YES];
-        [video_width setEnabled: YES];
-        [video_height setEnabled: YES];
+        if([up4k state] == NSOnState) {
+        	[video_width setEnabled: YES];
+        	[video_height setEnabled: YES];
+        } else {
+            [video_width setEnabled: NO];
+            [video_height setEnabled:NO];
+        }
     }
 }
 
@@ -2670,6 +2676,16 @@ void SearchForString(NSString *s) {
             [table_view reloadData];
         }
         [table_view reloadData];
+    }
+}
+
+- (IBAction) scaleToggle: (id) sender {
+    if([up4k state] == NSOffState) {
+        [video_width setEnabled:NO];
+        [video_height setEnabled:NO];
+    } else {
+        [video_width setEnabled:YES];
+        [video_height setEnabled:YES];
     }
 }
 
