@@ -304,7 +304,7 @@ void ac::ChangeEachSecond(cv::Mat &frame) {
 
 
 void ac::ShuffleImage(cv::Mat &frame) {
-static std::vector<std::string> filter_array { "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "XorSelfAlphaImage", "ImageShiftUpLeft", "AlphaBlendImageXor", "BlendImageXor","BlendImageAround_Median","ImageBlendTransform","ImageXorAlpha","ImageAverageXor","DarkImageMedianBlend","MirrorAlphaBlendedImage","AlphaBlendXorImage","ImageXorFrame","ImageXorFunction","ImageXorAlphaBlend","ImageXorMirrorFilter","ImageSubtractMedianBlend","ImageDarkBlend","ImageAverageDark","ImageRemainderPixel","ParticleReleaseWithImage","ImageEnergy","ImageDistortion","SmoothExactImageXorAlpha","SmoothImageAlphaBlendMedian","ImageDarkenSmoothMedian","XorReverseImageSmooth","ImageSmoothMedianBlend","ImageAlphaXorMedianBlend","RotateImage","RotateBlendImage","RotateAlphaBlendImage","ImageXorScale","MatrixCollectionBlurImageXorAlpha", "BlurImageAlphaBlend", "MatrixCollectionSurroundingPixelsImage", "ImageTransparent", "ImageAlphaCollectionSmoothBlend", "ImageRandomColormap", "ImageRandomColormapAlphaBlend", "ImageRandomColormapAlphaScale", "ImageShuffle", "ImageFadeInOut", "ImageFadeBlackInOut", "ImageFadeFrameInOut", "ImageFadeDouble", "ImageStrobeOnOff", "FrameImageFadeInOut", "FrameImageFadeInOutDouble"};
+	static std::vector<std::string> filter_array { "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "XorSelfAlphaImage", "ImageShiftUpLeft", "AlphaBlendImageXor", "BlendImageXor","BlendImageAround_Median","ImageBlendTransform","ImageXorAlpha","ImageAverageXor","DarkImageMedianBlend","MirrorAlphaBlendedImage","AlphaBlendXorImage","ImageXorFrame","ImageXorFunction","ImageXorAlphaBlend","ImageXorMirrorFilter","ImageSubtractMedianBlend","ImageDarkBlend","ImageAverageDark","ImageRemainderPixel","ParticleReleaseWithImage","ImageEnergy","ImageDistortion","SmoothExactImageXorAlpha","SmoothImageAlphaBlendMedian","ImageDarkenSmoothMedian","XorReverseImageSmooth","ImageSmoothMedianBlend","ImageAlphaXorMedianBlend","RotateImage","RotateBlendImage","RotateAlphaBlendImage","ImageXorScale","MatrixCollectionBlurImageXorAlpha", "BlurImageAlphaBlend", "MatrixCollectionSurroundingPixelsImage", "ImageTransparent", "ImageAlphaCollectionSmoothBlend", "ImageRandomColormap", "ImageRandomColormapAlphaBlend", "ImageRandomColormapAlphaScale", "ImageShuffle", "ImageFadeInOut", "ImageFadeBlackInOut", "ImageFadeFrameInOut", "ImageFadeDouble", "ImageStrobeOnOff", "FrameImageFadeInOut", "FrameImageFadeInOutDouble"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
     AddInvert(frame);
@@ -324,5 +324,18 @@ void ac::ChangeImageEachSecond(cv::Mat &frame) {
         	index = 0;
         	std::shuffle(filter_array.begin(), filter_array.end(),rng);
     	}
+    }
+}
+
+void ac::ChangeImageFilterOnOff(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int index = 0;
+    if(index == 0) {
+        index = 1;
+        ChangeImageEachSecond(frame);
+    } else {
+        index = 0;
+        ChangeEachSecond(frame);
     }
 }

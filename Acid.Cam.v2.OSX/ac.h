@@ -983,6 +983,7 @@ namespace ac {
     void ChangeEachSecond(cv::Mat &frame);
     void ShuffleImage(cv::Mat &frame);
     void ChangeImageEachSecond(cv::Mat &frame);
+    void ChangeImageFilterOnOff(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
