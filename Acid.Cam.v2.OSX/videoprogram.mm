@@ -203,7 +203,7 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
             cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
             cv::Mat _bg;
-            _bg.create(frameSize, CV_8UC3);
+            _bg.create(cv::Size(capture_width, capture_height), CV_8UC3);
             ac::fillRect(_bg,ac::Rect(0, 0, _bg.cols, _bg.rows), cv::Vec3b(0,0,0));
             cv::imshow("Acid Cam v2", _bg);
         }
