@@ -223,13 +223,8 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
                 cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
                 
             } else {
-                if(u4k) {
-                    rc.size.width = capture_width;
-                    rc.size.height = capture_height;
-                } else {
-                    rc.size.width = (double) frameSize.width;
-                    rc.size.height = (double) frameSize.height;
-                }
+                rc.size.width = (double) frameSize.width;
+                rc.size.height = (double) frameSize.height;
             }
         // flush to log
         flushToLog(sout);
