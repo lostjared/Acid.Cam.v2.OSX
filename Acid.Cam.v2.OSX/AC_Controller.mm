@@ -1067,8 +1067,7 @@ void SearchForString(NSString *s) {
         cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
     if(capture->isOpened() && frame_read == false) {
-        ++frame_cnt;
-        ++frame_proc;
+         ++frame_proc;
         double seconds = ((total_frames)/ac::fps);
         double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
         double elapsed = (frame_proc/ac::fps);

@@ -170,9 +170,7 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             }
             std::ostringstream fs;
             static unsigned int counter = 0;
-            
             if(!noRecord) ++counter;
-            
             if(outputType == 0) {
                 fs << ac::fileName << s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".mov";
                 ac::fileName = fs.str();
