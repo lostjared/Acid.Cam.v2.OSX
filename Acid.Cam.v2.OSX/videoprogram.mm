@@ -201,7 +201,7 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
         // create the window and show initial frame
         if(show == NO) {
             cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
-        	cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
+            cv::resizeWindow("Acid Cam v2", frameSize.width, frameSize.height);
             cv::Mat _bg;
             _bg.create(frameSize, CV_8UC3);
             ac::fillRect(_bg,ac::Rect(0, 0, _bg.cols, _bg.rows), cv::Vec3b(0,0,0));
@@ -216,26 +216,26 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
         }
         else
-        if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
-            rc.size.width = screen.size.width;
-            rc.size.height = screen.size.height;
-            resize_value = true;
-            cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
-            
-        } else {
-            if(u4k) {
-                rc.size.width = capture_width;
-                rc.size.height = capture_height;
+            if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
+                rc.size.width = screen.size.width;
+                rc.size.height = screen.size.height;
+                resize_value = true;
+                cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+                
             } else {
-            	rc.size.width = (double) frameSize.width;
-            	rc.size.height = (double) frameSize.height;
+                if(u4k) {
+                    rc.size.width = capture_width;
+                    rc.size.height = capture_height;
+                } else {
+                    rc.size.width = (double) frameSize.width;
+                    rc.size.height = (double) frameSize.height;
+                }
             }
-        }
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
         frame_proc = 0;
-     return 0;
+        return 0;
     }
     // standard exceptions handled here
     catch(std::exception &e) {
