@@ -225,6 +225,13 @@ void SearchForString(NSString *s) {
 - (void) stopCV_prog {
     [startProg setEnabled: YES];
     [record_op setEnabled: YES];
+    if([videoFileInput state] == NSOnState) {
+        [up4k setEnabled:YES];
+        if([up4k state] == NSOnState) {
+        	[video_width setEnabled:YES];
+        	[video_height setEnabled:YES];
+        }
+    }
     programRunning = false;
 }
 
