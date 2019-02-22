@@ -215,17 +215,17 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             resize_value = true;
             cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
         }
-        else
-            if(frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
-                rc.size.width = screen.size.width;
-                rc.size.height = screen.size.height;
-                resize_value = true;
-                cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
-                
-            } else {
-                rc.size.width = (double) frameSize.width;
-                rc.size.height = (double) frameSize.height;
-            }
+        else if(u4k == false && frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
+            rc.size.width = screen.size.width;
+            rc.size.height = screen.size.height;
+            resize_value = true;
+            cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        } else {
+            rc.size.width = (double) capture_width;
+            rc.size.height = (double) capture_height;
+            resize_value = true;
+            cv::resizeWindow("Acid Camv2", rc.size.width, rc.size.height);
+        }
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
