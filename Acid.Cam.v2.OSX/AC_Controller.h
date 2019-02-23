@@ -169,6 +169,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSButton *user_filter_add, *user_filter_remove,*user_filter_set, *user_filter_save;
     IBOutlet NSButton *load_settings;
     IBOutlet NSTextField *video_width, *video_height;
+    IBOutlet NSButton *chk_stretch;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;

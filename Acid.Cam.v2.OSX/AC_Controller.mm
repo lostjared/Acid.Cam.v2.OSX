@@ -230,6 +230,7 @@ void SearchForString(NSString *s) {
         if([up4k state] == NSOnState) {
         	[video_width setEnabled:YES];
         	[video_height setEnabled:YES];
+            [chk_stretch setEnabled:YES];
         }
     }
     programRunning = false;
@@ -326,6 +327,7 @@ void SearchForString(NSString *s) {
     [self loadMenuList];
     [video_width setEnabled:NO];
     [video_height setEnabled:NO];
+    [chk_stretch setEnabled:NO];
     /*
      
      std::vector<std::string> valz;
@@ -592,11 +594,13 @@ void SearchForString(NSString *s) {
         [up4k setEnabled: NO];
         [video_width setEnabled:NO];
         [video_height setEnabled:NO];
+        [chk_stretch setEnabled:NO];
     }
     else {
         [up4k setEnabled: YES];
         [video_width setEnabled:YES];
         [video_height setEnabled:YES];
+        [chk_stretch setEnabled:YES];
     }
     stopCV();
     [startProg setTitle:@"Start Session"];
@@ -695,6 +699,7 @@ void SearchForString(NSString *s) {
         NSInteger cap_height = [video_height integerValue];
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
+        [chk_stretch setEnabled:NO];
         if([up4k state] == NSOnState) {
             if((cap_width < 320 || cap_height < 240) || (cap_width > 3840 || cap_height > 2160)) {
                 _NSRunAlertPanel(@"Invalid Screen Resolution...", @"Invalid", @"Ok", nil, nil);
@@ -757,14 +762,11 @@ void SearchForString(NSString *s) {
             capture = capture_camera.get();
         
         bool u4k = ([up4k state] == NSOnState) ? true : false;
-        
         int value_w = 0, value_h = 0;
-        
         if([up4k state] == NSOnState) {
             value_w = (int)cap_width;
             value_h = (int)cap_height;
         }
-        
         int ret_val = 0;
         if(use_resized_res == false)
         	ret_val = program_main(0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
@@ -780,7 +782,6 @@ void SearchForString(NSString *s) {
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
-        
         if(ret_val != 0) {
             _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
             std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -1123,7 +1124,12 @@ void SearchForString(NSString *s) {
     
     cv::Mat up;
     if([up4k state] == NSOnState && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
-        frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
+        if([chk_stretch state] == NSOffState) {
+        	frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
+        } else {
+            cv::Mat copy1 = frame.clone();
+            cv::resize(copy1, frame, cv::Size((int)cap_width, (int)cap_height));
+        }
     }
     
     if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes") || (ac::draw_strings[ac::draw_offset] == "CollectionXorSourceSubFilter")) {
@@ -1327,6 +1333,7 @@ void SearchForString(NSString *s) {
         [up4k setEnabled: NO];
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
+        [chk_stretch setEnabled:NO];
     }
     else {
         [video_file setEnabled: NO];
@@ -1338,9 +1345,11 @@ void SearchForString(NSString *s) {
         if([up4k state] == NSOnState) {
         	[video_width setEnabled: YES];
         	[video_height setEnabled: YES];
+            [chk_stretch setEnabled: YES];
         } else {
             [video_width setEnabled: NO];
             [video_height setEnabled:NO];
+            [chk_stretch setEnabled:NO];
         }
     }
 }
@@ -2705,9 +2714,11 @@ void SearchForString(NSString *s) {
     if([up4k state] == NSOffState) {
         [video_width setEnabled:NO];
         [video_height setEnabled:NO];
+        [chk_stretch setEnabled:NO];
     } else {
         [video_width setEnabled:YES];
         [video_height setEnabled:YES];
+        [chk_stretch setEnabled:YES];
     }
 }
 
