@@ -224,6 +224,13 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
                 resize_value = false;
             }
         }
+        
+        if(show == NO) {
+            cv::Mat _bg;
+            _bg.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
+            ac::fillRect(_bg,ac::Rect(0, 0, _bg.cols, _bg.rows), cv::Vec3b(0,0,0));
+            cv::imshow("Acid Cam v2", _bg);
+        }
         // flush to log
         flushToLog(sout);
         frame_cnt = 0;
