@@ -706,6 +706,10 @@ void SearchForString(NSString *s) {
                 return;
             }
         }
+        if([up4k state] == NSOffState && [chk_stretch state] == NSOnState) {
+            _NSRunAlertPanel(@"Cannot Stretch", @"Please turn off Stretching as requires resize to be enabled", @"Ok", nil, nil);
+            return;
+        }
         
         if([up4k state] == NSOnState && [videoFileInput state] == NSOffState) {
            _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
@@ -1334,13 +1338,13 @@ void SearchForString(NSString *s) {
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
         [chk_stretch setEnabled:NO];
+
     }
     else {
         [video_file setEnabled: NO];
         [resolution setEnabled: NO];
         [device_index setEnabled: NO];
         [selectVideoFile setEnabled: YES];
-        [chk_repeat setEnabled:YES];
         [up4k setEnabled: YES];
         if([up4k state] == NSOnState) {
         	[video_width setEnabled: YES];
@@ -2715,6 +2719,7 @@ void SearchForString(NSString *s) {
         [video_width setEnabled:NO];
         [video_height setEnabled:NO];
         [chk_stretch setEnabled:NO];
+        [chk_stretch setState: NSOffState];
     } else {
         [video_width setEnabled:YES];
         [video_height setEnabled:YES];
