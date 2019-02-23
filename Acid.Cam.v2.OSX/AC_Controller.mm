@@ -758,12 +758,18 @@ void SearchForString(NSString *s) {
         
         bool u4k = ([up4k state] == NSOnState) ? true : false;
         
+        int value_w = 0, value_h = 0;
+        
+        if([up4k state] == NSOnState) {
+            value_w = (int)cap_width;
+            value_h = (int)cap_height;
+        }
         
         int ret_val = 0;
         if(use_resized_res == false)
-        	ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+        	ret_val = program_main(0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         else
-            ret_val = program_main(syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+            ret_val = program_main(value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
 
         if(ret_val == 0) {
             if(camera_mode == 1)

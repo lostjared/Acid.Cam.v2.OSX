@@ -101,7 +101,7 @@ void stopCV() {
 }
 
 // program function to start process
-int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
     sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::draw_max-4 << " Filters Loaded...\n";
     add_path="default";
@@ -221,10 +221,15 @@ int program_main(BOOL show, bool fps_on, double fps_val, bool u4k, int outputTyp
             resize_value = true;
             cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
         } else {
-            rc.size.width = (double) capture_width;
-            rc.size.height = (double) capture_height;
+            if(u4k) {
+            	rc.size.width = (double) capture_width;
+            	rc.size.height = (double) capture_height;
+            } else {
+                rc.size.width = aw;
+                rc.size.height = ah;
+            }
             resize_value = true;
-            cv::resizeWindow("Acid Camv2", rc.size.width, rc.size.height);
+            cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
         }
         // flush to log
         flushToLog(sout);
