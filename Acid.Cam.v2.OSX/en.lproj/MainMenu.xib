@@ -423,14 +423,14 @@
         <window title="Acid Cam v2 - Start New Session" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="538">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="124" y="878" width="353" height="249"/>
+            <rect key="contentRect" x="124" y="878" width="353" height="252"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="539">
-                <rect key="frame" x="0.0" y="0.0" width="353" height="249"/>
+                <rect key="frame" x="0.0" y="0.0" width="353" height="252"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" id="540">
-                        <rect key="frame" x="18" y="140" width="318" height="26"/>
+                        <rect key="frame" x="18" y="143" width="318" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="640x480 (SD)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="543" id="541">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -445,7 +445,7 @@
                         </popUpButtonCell>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="553">
-                        <rect key="frame" x="20" y="193" width="220" height="22"/>
+                        <rect key="frame" x="20" y="196" width="220" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="554">
                             <font key="font" metaFont="system"/>
@@ -454,7 +454,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="601">
-                        <rect key="frame" x="242" y="187" width="97" height="32"/>
+                        <rect key="frame" x="242" y="190" width="97" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="602">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -465,7 +465,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="615">
-                        <rect key="frame" x="170" y="111" width="163" height="22"/>
+                        <rect key="frame" x="170" y="114" width="163" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="Video1" drawsBackground="YES" usesSingleLineMode="YES" id="616">
                             <font key="font" metaFont="system"/>
@@ -474,7 +474,7 @@
                         </textFieldCell>
                     </textField>
                     <button id="686">
-                        <rect key="frame" x="18" y="221" width="90" height="18"/>
+                        <rect key="frame" x="18" y="224" width="90" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Video" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="687">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -485,7 +485,7 @@
                         </connections>
                     </button>
                     <button id="701">
-                        <rect key="frame" x="20" y="22" width="75" height="18"/>
+                        <rect key="frame" x="18" y="18" width="75" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Record" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="702">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -493,7 +493,7 @@
                         </buttonCell>
                     </button>
                     <popUpButton verticalHuggingPriority="750" id="rOk-Yh-mZb">
-                        <rect key="frame" x="170" y="76" width="166" height="26"/>
+                        <rect key="frame" x="170" y="79" width="166" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="MOV" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lcg-O8-BK7" id="Sy2-pe-2LX">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -507,7 +507,7 @@
                         </popUpButtonCell>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="VWy-Oh-EsT">
-                        <rect key="frame" x="20" y="81" width="167" height="17"/>
+                        <rect key="frame" x="20" y="84" width="167" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output to File As:" id="2Z2-9l-r1S">
                             <font key="font" metaFont="system"/>
@@ -516,7 +516,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="FRG-kI-oe7">
-                        <rect key="frame" x="18" y="113" width="145" height="17"/>
+                        <rect key="frame" x="18" y="116" width="145" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Save Prefix: ~/Movies/" id="gkf-8b-U4B">
                             <font key="font" metaFont="system"/>
@@ -525,7 +525,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="575">
-                        <rect key="frame" x="122" y="172" width="46" height="17"/>
+                        <rect key="frame" x="122" y="175" width="46" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Device" id="576">
                             <font key="font" metaFont="system"/>
@@ -534,7 +534,7 @@
                         </textFieldCell>
                     </textField>
                     <button id="70r-gC-kLy">
-                        <rect key="frame" x="112" y="221" width="96" height="18"/>
+                        <rect key="frame" x="112" y="224" width="96" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Repeat" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NGJ-os-cWs">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -542,7 +542,7 @@
                         </buttonCell>
                     </button>
                     <popUpButton verticalHuggingPriority="750" id="586">
-                        <rect key="frame" x="168" y="165" width="168" height="26"/>
+                        <rect key="frame" x="168" y="168" width="168" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="587">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -551,7 +551,7 @@
                         </popUpButtonCell>
                     </popUpButton>
                     <button verticalHuggingPriority="750" id="GTi-zi-kC5">
-                        <rect key="frame" x="18" y="51" width="62" height="18"/>
+                        <rect key="frame" x="18" y="48" width="62" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Resize" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Fl6-vo-Vfj">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -562,7 +562,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="3sF-7d-ibb">
-                        <rect key="frame" x="20" y="172" width="103" height="17"/>
+                        <rect key="frame" x="20" y="175" width="103" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Or Use Webcam" id="Mx5-eQ-AZ1">
                             <font key="font" metaFont="system"/>
@@ -570,35 +570,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="p30-pX-yXw">
-                        <rect key="frame" x="273" y="45" width="60" height="22"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1080" drawsBackground="YES" id="LwH-3g-zVl">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="Dmu-BM-fnD">
-                        <rect key="frame" x="198" y="45" width="60" height="22"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1920" drawsBackground="YES" id="WFd-00-0bg">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Fm7-MX-Fbn">
-                        <rect key="frame" x="260" y="48" width="11" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="x" id="dYY-Ev-EgM">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" id="624">
-                        <rect key="frame" x="219" y="10" width="120" height="32"/>
+                        <rect key="frame" x="219" y="6" width="120" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Start Session" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="625">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -609,16 +582,43 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="7hc-ce-x5u">
-                        <rect key="frame" x="89" y="51" width="82" height="18"/>
+                        <rect key="frame" x="86" y="48" width="82" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Stretch" bezelStyle="regularSquare" imagePosition="left" inset="2" id="RYL-78-SJg">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <textField verticalHuggingPriority="750" id="p30-pX-yXw">
+                        <rect key="frame" x="273" y="46" width="60" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1080" drawsBackground="YES" id="LwH-3g-zVl">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="Dmu-BM-fnD">
+                        <rect key="frame" x="200" y="46" width="60" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1920" drawsBackground="YES" id="WFd-00-0bg">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Fm7-MX-Fbn">
+                        <rect key="frame" x="260" y="51" width="11" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="x" id="dYY-Ev-EgM">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-9.5" y="48.5"/>
+            <point key="canvasLocation" x="-9.5" y="50"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
