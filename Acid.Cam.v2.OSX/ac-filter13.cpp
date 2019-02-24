@@ -354,7 +354,7 @@ void ac::AveragePixelMirror(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 s[j] /= 4;
                 unsigned int value1 = static_cast<unsigned int>(s[j]);
-                unsigned int value2 = pixel[j]%value1;
+                unsigned int value2 = pixel[j]%(1+value1);
                 pixel[j] = pixel[j]^value2;
             }
         }

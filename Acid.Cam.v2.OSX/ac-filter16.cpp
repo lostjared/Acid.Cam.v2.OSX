@@ -376,3 +376,24 @@ void ac::MorphXorWithSubFilter(cv::Mat &frame) {
     Smooth(frame, &collection);
     MedianBlend(frame);
 }
+
+void ac::MirrorEachSecond(cv::Mat &frame) {
+    static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe", "RandomMirror", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "DoubleRandomMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage", "RGBMirror1", "RGBMirror1Median", "FlashMirror", "ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian", "MirrorMatrixCollection", "MirrorMatrixSource", "SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "AveragePixelMirror", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend", "RandomMirrorBitwiseXor", "MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
+    
+    
+    static unsigned int counter = 0;
+    int fps_val = static_cast<unsigned int>(ac::fps);
+    static int index = 0;
+    static auto rng = std::default_random_engine{};
+    CallFilter(filter_array[index], frame);
+    ++counter;
+    if((counter%fps_val) == 0) {
+        std::cout << filter_array[index] << "\n";
+        ++index;
+        if(index > filter_array.size()-1) {
+            index = 0;
+            std::shuffle(filter_array.begin(), filter_array.end(),rng);
+        }
+    }
+    
+}
