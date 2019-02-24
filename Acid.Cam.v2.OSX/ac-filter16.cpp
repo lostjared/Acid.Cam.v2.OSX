@@ -339,3 +339,28 @@ void ac::ChangeImageFilterOnOff(cv::Mat &frame) {
         ChangeEachSecond(frame);
     }
 }
+
+void ac::ChangeXorEachSecond(cv::Mat &frame) {
+    static std::vector<std::string> filter_array {"XorMultiBlend", "XorSine", "TrailsFilterXor","XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale", "BitwiseXorScale", "XorTrails", "BitwiseXorStrobe", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash","XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage","AndOrXorStrobe", "AndOrXorStrobeScale","MedianBlurXor", "StaticXorBlend", "XorScale", "PixelReverseXor", "PixelXorBlend", "RainbowXorBlend", "StrobeXor", "SelfScaleXorIncrease","PixelByPixelXor", "CopyXorAlpha", "AveragePixelsXor","StrobeXorAndOr"};
+    static unsigned int counter = 0;
+    int fps_val = static_cast<unsigned int>(ac::fps);
+    static int index = 0;
+    static auto rng = std::default_random_engine{};
+    CallFilter(filter_array[index], frame);
+    ++counter;
+    if((counter%fps_val) == 0) {
+        //std::cout << filter_array[index] << "\n";
+        ++index;
+        if(index > filter_array.size()-1) {
+            index = 0;
+            std::shuffle(filter_array.begin(), filter_array.end(),rng);
+        }
+    }
+}
+
+void ac::MorphXor(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    ChangeXorEachSecond(frame);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+}

@@ -984,6 +984,8 @@ namespace ac {
     void ShuffleImage(cv::Mat &frame);
     void ChangeImageEachSecond(cv::Mat &frame);
     void ChangeImageFilterOnOff(cv::Mat &frame);
+    void ChangeXorEachSecond(cv::Mat &frame);
+    void MorphXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
