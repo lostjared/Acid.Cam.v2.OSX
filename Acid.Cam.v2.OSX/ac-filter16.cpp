@@ -383,12 +383,11 @@ void ac::MorphXorWithSubFilter(cv::Mat &frame) {
 
 void ac::MirrorEachSecond(cv::Mat &frame) {
     static auto rng = std::default_random_engine{};
-    static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe","MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage", "RGBMirror1", "RGBMirror1Median", "FlashMirror", "ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian", "MirrorMatrixCollection", "MirrorMatrixSource", "SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "AveragePixelMirror", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend","MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
+    static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe","MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage","ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian","SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend","MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
     static unsigned int counter = 0;
     if(counter == 0) {
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
-    
     int fps_val = static_cast<unsigned int>(ac::fps);
     static int index = 0;
     CallFilter(filter_array[index], frame);
