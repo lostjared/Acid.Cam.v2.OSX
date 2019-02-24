@@ -366,9 +366,9 @@ void ac::MorphXor(cv::Mat &frame) {
 }
 
 void ac::MorphXorWithSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 && ac::draw_strings[subfilter] == "MorphXorWithSubFilter")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MorphXorWithSubFilter")
         return;
-    static MatrixCollection<16> collection;
+    static MatrixCollection<32> collection;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     CallFilter(subfilter, copy1);
     ChangeXorEachSecond(copy2);
