@@ -289,6 +289,9 @@ void ac::ChangeEachSecond(cv::Mat &frame) {
     static std::vector<std::string> filter_array {"Self AlphaBlend","ScanAlphaSwitch", "Dual_SelfAlphaRainbow","BlendAlphaXor","SmoothTrailsSelfAlphaBlend","SelfAlphaRGB","XorAlpha","SelfAlphaScale", "SelfScaleAlpha","DarkSelfAlpha", "RGB Shift", "RGB Sep", "SlideRGB", "GradientRGB", "FrameBlendRGB", "MoveRGB", "LineRGB", "PixelRGB", "RGBFlash", "MirrorRGB", "RGBStatic1", "RGBStatic2", "SelfAlphaRGB", "CycleShiftRGB", "CycleShiftRandomRGB", "CycleShiftRandomRGB_XorBlend", "RGBVerticalXor", "RGBVerticalXorScale", "RGBHorizontalXor", "RGBHorizontalXorScale", "RGBMirror", "RGBTrails", "RGBTrailsDark", "RGBTrailsAlpha", "RGBTrailsNegativeAlpha", "MovementRGBTrails", "RGBTrailsXor", "ShadeRGB", "Self AlphaBlend", "Self Scale", "ReinterpSelfScale", "Dual_SelfAlphaRainbow", "Dual_SelfAlphaBlur","SelfXorScale", "SelfAlphaRGB", "GradientXorSelfScale", "SelfXorBlend", "SelfXorDoubleFlash", "SelfOrDoubleFlash", "SelfXorAverage", "SelfAlphaScale", "SelfScaleAlpha", "SelfAlphaScaleBlend", "SelfScaleXorIncrease", "DarkSelfAlpha", "ShuffleColorMap"};
     static int index = 0;
     static unsigned int frame_counter = 0;
+    if(frame_counter == 0) {
+        std::sort(filter_array.begin(), filter_array.end());
+    }
     unsigned int frames_per_second = static_cast<unsigned int>(ac::fps);
     ++frame_counter;
     if((frame_counter%frames_per_second)==0) {
@@ -343,6 +346,11 @@ void ac::ChangeImageFilterOnOff(cv::Mat &frame) {
 void ac::ChangeXorEachSecond(cv::Mat &frame) {
     static std::vector<std::string> filter_array {"XorMultiBlend", "XorSine", "TrailsFilterXor","XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale", "BitwiseXorScale", "XorTrails", "BitwiseXorStrobe", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash","XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage","AndOrXorStrobe", "AndOrXorStrobeScale","MedianBlurXor", "StaticXorBlend", "XorScale", "PixelReverseXor", "PixelXorBlend", "RainbowXorBlend", "StrobeXor", "SelfScaleXorIncrease","PixelByPixelXor", "CopyXorAlpha", "AveragePixelsXor","StrobeXorAndOr"};
     static unsigned int counter = 0;
+    
+    if(counter == 0) {
+        std::sort(filter_array.begin(), filter_array.end());
+    }
+    
     int fps_val = static_cast<unsigned int>(ac::fps);
     static int index = 0;
     static auto rng = std::default_random_engine{};
@@ -379,16 +387,18 @@ void ac::MorphXorWithSubFilter(cv::Mat &frame) {
 
 void ac::MirrorEachSecond(cv::Mat &frame) {
     static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe", "RandomMirror", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "DoubleRandomMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage", "RGBMirror1", "RGBMirror1Median", "FlashMirror", "ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian", "MirrorMatrixCollection", "MirrorMatrixSource", "SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "AveragePixelMirror", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend", "RandomMirrorBitwiseXor", "MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
-    
-    
     static unsigned int counter = 0;
+    if(counter == 0) {
+        std::sort(filter_array.begin(), filter_array.end());
+    }
+    
     int fps_val = static_cast<unsigned int>(ac::fps);
     static int index = 0;
     static auto rng = std::default_random_engine{};
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {
-        std::cout << filter_array[index] << "\n";
+//        std::cout << filter_array[index] << "\n";
         ++index;
         if(index > filter_array.size()-1) {
             index = 0;
