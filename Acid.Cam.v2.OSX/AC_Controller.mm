@@ -355,6 +355,7 @@ void SearchForString(NSString *s) {
      	std::cout << "\"" << s << "\", ";
      }*/
     
+    /*
     for(int i = 0; i < ac::draw_max-4; ++i) {
         std::string s = ac::draw_strings[i];
         if(s.find("Xor") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos) {
@@ -362,7 +363,7 @@ void SearchForString(NSString *s) {
         }
     }
      std::cout << "\n";
-    
+    */
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {

@@ -986,6 +986,7 @@ namespace ac {
     void ChangeImageFilterOnOff(cv::Mat &frame);
     void ChangeXorEachSecond(cv::Mat &frame);
     void MorphXor(cv::Mat &frame);
+    void MorphXorWithSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
