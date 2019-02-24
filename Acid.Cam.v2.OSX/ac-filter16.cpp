@@ -303,9 +303,6 @@ void ac::ChangeEachSecond(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-
-
-
 void ac::ShuffleImage(cv::Mat &frame) {
 	static std::vector<std::string> filter_array { "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "XorSelfAlphaImage", "ImageShiftUpLeft", "AlphaBlendImageXor", "BlendImageXor","BlendImageAround_Median","ImageBlendTransform","ImageXorAlpha","ImageAverageXor","DarkImageMedianBlend","MirrorAlphaBlendedImage","AlphaBlendXorImage","ImageXorFrame","ImageXorFunction","ImageXorAlphaBlend","ImageXorMirrorFilter","ImageSubtractMedianBlend","ImageDarkBlend","ImageAverageDark","ImageRemainderPixel","ParticleReleaseWithImage","ImageEnergy","ImageDistortion","SmoothExactImageXorAlpha","SmoothImageAlphaBlendMedian","ImageDarkenSmoothMedian","XorReverseImageSmooth","ImageSmoothMedianBlend","ImageAlphaXorMedianBlend","RotateImage","RotateBlendImage","RotateAlphaBlendImage","ImageXorScale","MatrixCollectionBlurImageXorAlpha", "BlurImageAlphaBlend", "MatrixCollectionSurroundingPixelsImage", "ImageTransparent", "ImageAlphaCollectionSmoothBlend", "ImageRandomColormap", "ImageRandomColormapAlphaBlend", "ImageRandomColormapAlphaScale", "ImageShuffle", "ImageFadeInOut", "ImageFadeBlackInOut", "ImageFadeFrameInOut", "ImageFadeDouble", "ImageStrobeOnOff", "FrameImageFadeInOut", "FrameImageFadeInOutDouble"};
     static int index = 0;
@@ -344,20 +341,19 @@ void ac::ChangeImageFilterOnOff(cv::Mat &frame) {
 }
 
 void ac::ChangeXorEachSecond(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
     static std::vector<std::string> filter_array {"XorMultiBlend", "XorSine", "TrailsFilterXor","XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale", "BitwiseXorScale", "XorTrails", "BitwiseXorStrobe", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash","XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage","AndOrXorStrobe", "AndOrXorStrobeScale","MedianBlurXor", "StaticXorBlend", "XorScale", "PixelReverseXor", "PixelXorBlend", "RainbowXorBlend", "StrobeXor", "SelfScaleXorIncrease","PixelByPixelXor", "CopyXorAlpha", "AveragePixelsXor","StrobeXorAndOr"};
     static unsigned int counter = 0;
     
     if(counter == 0) {
-        std::sort(filter_array.begin(), filter_array.end());
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
     
     int fps_val = static_cast<unsigned int>(ac::fps);
     static int index = 0;
-    static auto rng = std::default_random_engine{};
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {
-        //std::cout << filter_array[index] << "\n";
         ++index;
         if(index > filter_array.size()-1) {
             index = 0;
@@ -386,19 +382,18 @@ void ac::MorphXorWithSubFilter(cv::Mat &frame) {
 }
 
 void ac::MirrorEachSecond(cv::Mat &frame) {
-    static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe", "RandomMirror", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "DoubleRandomMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage", "RGBMirror1", "RGBMirror1Median", "FlashMirror", "ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian", "MirrorMatrixCollection", "MirrorMatrixSource", "SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "AveragePixelMirror", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend", "RandomMirrorBitwiseXor", "MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
+    static auto rng = std::default_random_engine{};
+    static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe","MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage", "RGBMirror1", "RGBMirror1Median", "FlashMirror", "ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian", "MirrorMatrixCollection", "MirrorMatrixSource", "SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "AveragePixelMirror", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend","MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
     static unsigned int counter = 0;
     if(counter == 0) {
-        std::sort(filter_array.begin(), filter_array.end());
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
     
     int fps_val = static_cast<unsigned int>(ac::fps);
     static int index = 0;
-    static auto rng = std::default_random_engine{};
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {
-//        std::cout << filter_array[index] << "\n";
         ++index;
         if(index > filter_array.size()-1) {
             index = 0;
@@ -406,4 +401,47 @@ void ac::MirrorEachSecond(cv::Mat &frame) {
         }
     }
     
+}
+
+void ac::MirrorReverseSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MirrorReverseSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::flip(frame, copy2, 0);
+    CallFilter(subfilter, copy1);
+    MirrorEachSecond(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
+
+void ac::MirrorReverseSubFilterAlphaBlend(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MirrorReverseSubFilter")
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat copy1 = frame.clone(), copy2;
+    cv::flip(frame, copy2, 0);
+    CallFilter(subfilter, copy1);
+    MirrorEachSecond(copy2);
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaMovementMaxMin(alpha, dir, 0.05, 3.0, 1.0);
+    AlphaBlend(copy1, copy2, frame, alpha);
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+}
+
+void ac::Mirror_Xor_Combined(cv::Mat &frame) {
+    DarkenFilter(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static MatrixCollection<32> collection;
+    MirrorEachSecond(copy1);
+    ChangeXorEachSecond(copy2);
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaMovementMaxMin(alpha, dir, 0.05, 3.0, 1.0);
+    AlphaBlend(copy1, copy2, frame, alpha);
+    Smooth(frame, &collection);
+    BlendWithSource(frame);
+    BlendWithSource(frame);
+    BlendWithSource(frame);
+    MedianBlend(frame);
 }

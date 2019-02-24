@@ -988,6 +988,9 @@ namespace ac {
     void MorphXor(cv::Mat &frame);
     void MorphXorWithSubFilter(cv::Mat &frame);
     void MirrorEachSecond(cv::Mat &frame);
+    void MirrorReverseSubFilter(cv::Mat &frame);
+    void MirrorReverseSubFilterAlphaBlend(cv::Mat &frame);
+    void Mirror_Xor_Combined(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
