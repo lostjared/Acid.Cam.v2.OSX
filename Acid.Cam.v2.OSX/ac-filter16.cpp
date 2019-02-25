@@ -497,3 +497,10 @@ void ac::XorFrameShuffle(cv::Mat &frame) {
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
 }
+
+void ac::XorMirrorBlendFrame(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    XorFrameShuffle(copy1);
+    MirrorFrameShuffle(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
