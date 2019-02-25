@@ -51,7 +51,6 @@
                 <outlet property="device_index" destination="586" id="633"/>
                 <outlet property="disable_filters" destination="OsF-br-7Fg" id="RJ3-2o-sr4"/>
                 <outlet property="fade_filter" destination="ybb-Ri-H7o" id="1sa-EL-6Va"/>
-                <outlet property="filter_name_text" destination="TRr-WV-vYA" id="Daa-ik-vts"/>
                 <outlet property="filter_search_window" destination="Z1m-Pb-5Gb" id="Quo-sn-3tX"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
                 <outlet property="find_table" destination="5zp-Ok-oBd" id="0hD-Fm-7Vy"/>
@@ -1257,15 +1256,6 @@
                             <action selector="addCustomItem:" target="630" id="ASp-R2-moM"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="TRr-WV-vYA">
-                        <rect key="frame" x="18" y="96" width="290" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Current Filter" id="OCt-dy-63I">
-                            <font key="font" metaFont="systemBold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="1426" y="361"/>
