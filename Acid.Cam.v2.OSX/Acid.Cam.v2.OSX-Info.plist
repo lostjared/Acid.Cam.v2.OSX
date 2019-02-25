@@ -17,13 +17,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.18.1 High Sierra</string>
+	<string>2.18.2 High Sierra</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>Liquid</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Program uses a Webcam</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2019 LostSideDead. All rights reserved.</string>
 	<key>NSMainNibFile</key>
