@@ -444,3 +444,55 @@ void ac::Mirror_Xor_Combined(cv::Mat &frame) {
     BlendWithSource(frame);
     MedianBlend(frame);
 }
+
+void ac::MirrorFrameShuffle(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
+    static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe","MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage","ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian","SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend","MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
+    static int init = 0;
+    if(init == 0) {
+        std::shuffle(filter_array.begin(), filter_array.end(), rng);
+        init = 1;
+    }    static int index = 0;
+    CallFilter(filter_array[index], frame);
+    ++index;
+    if(index > filter_array.size()-1) {
+        index = 0;
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+}
+
+void ac::MirrorShuffleSmooth(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    MirrorFrameShuffle(frame);
+    Smooth(frame, &collection);
+}
+
+void ac::Mirror_Xor_Smooth(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    MirrorFrameShuffle(copy1);
+    XorFrameShuffle(copy2);
+    AlphaBlend(copy1, copy2, frame, alpha);
+    Smooth(frame, &collection);
+    AlphaMovementMaxMin(alpha, dir, 0.05, 4.0, 1.0);
+}
+
+void ac::XorFrameShuffle(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
+    static std::vector<std::string> filter_array {"XorMultiBlend", "XorSine", "TrailsFilterXor","XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale", "BitwiseXorScale", "XorTrails", "BitwiseXorStrobe", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash","XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage","AndOrXorStrobe", "AndOrXorStrobeScale","MedianBlurXor", "StaticXorBlend", "XorScale", "PixelReverseXor", "PixelXorBlend", "RainbowXorBlend", "StrobeXor", "SelfScaleXorIncrease","PixelByPixelXor", "CopyXorAlpha", "AveragePixelsXor","StrobeXorAndOr"};
+    static unsigned int index = 0;
+    static int init = 0;
+    if(init == 0) {
+        std::shuffle(filter_array.begin(), filter_array.end(), rng);
+        init = 1;
+    }
+    CallFilter(filter_array[index], frame);
+    ++index;
+    if(index > filter_array.size()-1) {
+        index = 0;
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+}

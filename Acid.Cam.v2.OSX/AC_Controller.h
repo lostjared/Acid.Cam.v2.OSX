@@ -80,7 +80,6 @@ extern unsigned long frame_proc;
 extern bool resize_value;
 extern std::unordered_map<std::string, UserFilter> user_filter;
 extern NSTimer *renderTimer, *validProc;
-
 extern cv::Mat old_frame;
 extern bool resize_frame;
 extern NSRect rc;
@@ -93,7 +92,6 @@ extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(long frame_count);
 extern void jumptoFrame(BOOL showJump, long frame);
-
 
 @interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
 }
@@ -170,6 +168,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSButton *load_settings;
     IBOutlet NSTextField *video_width, *video_height;
     IBOutlet NSButton *chk_stretch;
+    IBOutlet NSTextField *filter_name_text;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;

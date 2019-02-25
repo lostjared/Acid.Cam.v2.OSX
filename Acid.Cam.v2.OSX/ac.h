@@ -991,6 +991,10 @@ namespace ac {
     void MirrorReverseSubFilter(cv::Mat &frame);
     void MirrorReverseSubFilterAlphaBlend(cv::Mat &frame);
     void Mirror_Xor_Combined(cv::Mat &frame);
+    void MirrorFrameShuffle(cv::Mat &frame);
+    void MirrorShuffleSmooth(cv::Mat &frame);
+    void Mirror_Xor_Smooth(cv::Mat &frame);
+    void XorFrameShuffle(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
