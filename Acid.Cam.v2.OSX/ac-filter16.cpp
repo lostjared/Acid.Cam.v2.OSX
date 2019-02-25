@@ -468,16 +468,17 @@ void ac::MirrorShuffleSmooth(cv::Mat &frame) {
 }
 
 void ac::Mirror_Xor_Smooth(cv::Mat &frame) {
-    static MatrixCollection<32> collection;
+    static MatrixCollection<16> collection;
     static double alpha = 1.0;
     static int dir = 1;
     cv::Mat copy1 = frame.clone();
     cv::Mat copy2 = frame.clone();
     MirrorFrameShuffle(copy1);
     XorFrameShuffle(copy2);
-    AlphaBlend(copy1, copy2, frame, alpha);
-    Smooth(frame, &collection);
-    AlphaMovementMaxMin(alpha, dir, 0.05, 4.0, 1.0);
+    collection.shiftFrames(copy1);
+    collection.shiftFrames(copy2);
+    Smooth(frame, &collection, false);
+    AlphaMovementMaxMin(alpha, dir, 0.005, 4.0, 1.0);
 }
 
 void ac::XorFrameShuffle(cv::Mat &frame) {
