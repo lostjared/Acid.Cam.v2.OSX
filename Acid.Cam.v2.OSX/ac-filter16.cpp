@@ -533,9 +533,7 @@ void ac::ImageXorSmooth(cv::Mat &frame) {
 }
 
 void ac::SmoothSubFilter64(cv::Mat &frame) {
-    if(subfilter == -1)
-        return;
-    if(ac::draw_strings[subfilter] == "SmoothSubFilter64")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothSubFilter64")
         return;
     static MatrixCollection<64> collection;
     cv::Mat frame_copy = frame.clone();
