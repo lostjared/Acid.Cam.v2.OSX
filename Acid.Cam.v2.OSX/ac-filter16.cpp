@@ -562,3 +562,20 @@ void ac::SmoothMedian32_SubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::SmoothAlphaMedian_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothAlphaMedian_SubFilter")
+        return;
+    static MatrixCollection<32> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    static double alpha1 = 0.5, alpha2 = 3.0;
+    static int dir1 = 1, dir2 = 0;
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 0.5);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 3.0, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
