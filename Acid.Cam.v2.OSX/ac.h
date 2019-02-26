@@ -999,7 +999,7 @@ namespace ac {
     void ImageXorSmooth(cv::Mat &frame);
     void SmoothSubFilter64(cv::Mat &frame);
     void SmoothMedian64(cv::Mat &frame);
-    void SmoothMedian64_SubFilter(cv::Mat &frame);
+    void SmoothMedian32_SubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
