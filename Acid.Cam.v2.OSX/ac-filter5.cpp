@@ -149,10 +149,8 @@ void ac::AverageRandom(cv::Mat &frame) {
 }
 
 void ac::HorizontalStripes(cv::Mat &frame) {
-    
     if(frame.empty() || frame.rows < 25 || frame.cols < 25)
         return;
-    
     static cv::Scalar value(1.0, 1.0, 1.0);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {

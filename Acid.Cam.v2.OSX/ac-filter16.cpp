@@ -542,3 +542,10 @@ void ac::SmoothSubFilter64(cv::Mat &frame) {
     Smooth(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::SmoothMedian(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    Smooth(frame, &collection);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
