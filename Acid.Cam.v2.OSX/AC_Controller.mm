@@ -225,6 +225,7 @@ void SearchForString(NSString *s) {
 - (void) stopCV_prog {
     [startProg setEnabled: YES];
     [record_op setEnabled: YES];
+    [videoFileInput setEnabled:YES];
     if([videoFileInput state] == NSOnState) {
         [up4k setEnabled:YES];
         if([up4k state] == NSOnState) {
@@ -590,6 +591,7 @@ void SearchForString(NSString *s) {
     [menuPaused setEnabled: NO];
     [menu_freeze setEnabled: NO];
     [record_op setEnabled: YES];
+    [videoFileInput setEnabled:YES];
     if([videoFileInput integerValue] == 0) {
         [up4k setEnabled: NO];
         [video_width setEnabled:NO];
@@ -700,6 +702,7 @@ void SearchForString(NSString *s) {
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
         [chk_stretch setEnabled:NO];
+        [videoFileInput setEnabled:NO];
         if([up4k state] == NSOnState) {
             if((cap_width < 320 || cap_height < 240) || (cap_width > 3840 || cap_height > 2160)) {
                 _NSRunAlertPanel(@"Invalid Screen Resolution...", @"Invalid", @"Ok", nil, nil);
@@ -793,6 +796,7 @@ void SearchForString(NSString *s) {
             [startProg setTitle:@"Start Session"];
             [window1 orderOut:self];
             [record_op setEnabled:YES];
+            [videoFileInput setEnabled:YES];
         } else {
             if([menu_freeze state] == NSOnState) {
                 capture->read(old_frame);

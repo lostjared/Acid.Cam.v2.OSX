@@ -543,7 +543,7 @@ void ac::SmoothSubFilter64(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::SmoothMedian(cv::Mat &frame) {
+void ac::SmoothMedian64(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     Smooth(frame, &collection);
     MedianBlend(frame);
