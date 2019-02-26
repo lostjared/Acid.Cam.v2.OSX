@@ -549,3 +549,15 @@ void ac::SmoothMedian64(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::SmoothMedian64_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothMedian64_SubFilter")
+        return;
+    static MatrixCollection<16> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+}
