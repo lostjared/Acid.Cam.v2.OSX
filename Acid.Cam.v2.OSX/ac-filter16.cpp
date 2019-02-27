@@ -592,3 +592,18 @@ void ac::SmoothImage_SubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::SmoothImageMedian_SubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "SmoothImageMedian_SubFilter")
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(frame, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    SmoothRGB(reimage, &collection1);
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection2);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
+}

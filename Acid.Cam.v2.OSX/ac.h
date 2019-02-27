@@ -1002,6 +1002,7 @@ namespace ac {
     void SmoothMedian32_SubFilter(cv::Mat &frame);
     void SmoothAlphaMedian_SubFilter(cv::Mat &frame);
     void SmoothImage_SubFilter(cv::Mat &frame);
+    void SmoothImageMedian_SubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
