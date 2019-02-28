@@ -2331,6 +2331,11 @@ void SearchForString(NSString *s) {
     [user_filter_name setStringValue:@""];
     [self loadMenuList];
     [table_view reloadData];
+    
+    std::ostringstream stream;
+    stream << "User set: " << fval_name << " to: " << fname << "\n";
+    flushToLog(stream);
+    
 }
 - (IBAction) user_Save: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];
@@ -2352,6 +2357,10 @@ void SearchForString(NSString *s) {
             file << i->first << ":" << i->second.index << ":" << other << "\n";
         }
         file.close();
+        std::ostringstream stream;
+        stream << "User saved IDs to: " << fname << "\n";
+        flushToLog(stream);
+
     }
 }
 
@@ -2362,6 +2371,9 @@ void SearchForString(NSString *s) {
         [self loadMenuList];
         [table_view reloadData];
     }
+    std::ostringstream stream;
+    stream << "User Filters Cleared.\n";
+    flushToLog(stream);
 }
 
 - (void) loadFileData: (const char *)path {
@@ -2408,6 +2420,9 @@ void SearchForString(NSString *s) {
         }
         [self loadMenuList];
         [table_view reloadData];
+        std::ostringstream stream;
+        stream << "Loaded Custom Filter From File: " << fname << "\n";
+        flushToLog(stream);
     }
 }
 
@@ -2434,6 +2449,9 @@ void SearchForString(NSString *s) {
     [self menuSelected:self];
     [current_filter selectItemAtIndex:ac::draw_max-4];
     [self changeFilter:self];
+    std::ostringstream stream;
+    stream << "Jumped to Custom Filter Mode\n";
+    flushToLog(stream);
 }
 
 - (IBAction) custom_Save: (id) sender {
@@ -2670,6 +2688,9 @@ void SearchForString(NSString *s) {
     [[NSPasteboard generalPasteboard] clearContents];
     [[NSPasteboard generalPasteboard] setString:cmd_str forType:NSPasteboardTypeString];
     _NSRunAlertPanel(@"Copied String for Acid Cam Cli Application to Clipboard", cmd_str, @"Ok", nil, nil);
+    std::ostringstream stream1;
+    stream1 << "acidcam-cli filter generated code is: " << stream.str().c_str() << "\n";
+    flushToLog(stream1);
 }
 
 - (IBAction) insertFilter: (id) sender {
