@@ -647,3 +647,21 @@ void ac::SmoothMedianImageSubFilter16(cv::Mat &frame) {
     Smooth(copy3, &collection3);
     AlphaBlend(copy3,copy2,frame, 0.5);
 }
+
+void ac::ImageNegate(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Negate(reimage);
+    frame = reimage.clone();
+}
+
+void ac::ImageNegateAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Negate(reimage);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+}

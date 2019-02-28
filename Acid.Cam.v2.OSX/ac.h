@@ -1006,6 +1006,8 @@ namespace ac {
     void SmoothImageAndSubFilter(cv::Mat &frame);
     void SmoothSubFilter90(cv::Mat &frame);
     void SmoothMedianImageSubFilter16(cv::Mat &frame);
+    void ImageNegate(cv::Mat &frame);
+    void ImageNegateAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
