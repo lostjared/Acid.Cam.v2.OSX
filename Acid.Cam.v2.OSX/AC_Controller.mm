@@ -1743,6 +1743,9 @@ void SearchForString(NSString *s) {
     jumptoFrame(syphon_enabled, 0);
     frame_count = 0;
     [frame_slider setIntegerValue:(NSInteger)frame_count];
+    std::ostringstream stream;
+    stream << "Video position set to start.\n";
+    flushToLog(stream);
 }
 
 - (IBAction) changeVideoPos: (id) sender {
@@ -1766,6 +1769,9 @@ void SearchForString(NSString *s) {
 - (IBAction) setColorMap: (id) sender {
     NSInteger index = [color_map indexOfSelectedItem];
     ac::set_color_map = (int) index;
+    std::ostringstream stream;
+    stream << "Color Map set to: " << ac::set_color_map << "\n";
+    flushToLog(stream);
 }
 
 - (IBAction) selectedCustomFilter: (id) sender {
@@ -1816,6 +1822,10 @@ void SearchForString(NSString *s) {
         [custom_array addObject:num];
         [custom_subfilters addObject: subf];
         [table_view reloadData];
+        std::ostringstream stream;
+        NSInteger val = [num integerValue];
+        stream << "Added Search Item: " << ac::draw_strings[val] << "\n";
+        flushToLog(stream);
     }
 }
 - (IBAction) searchForItem: (id) sender {
@@ -1828,27 +1838,38 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) clearBlend: (id) sender {
+    
+    std::ostringstream stream;
+    
     switch([image_to_set indexOfSelectedItem]) {
         case 0:
             blend_set = false;
             blend_image.release();
             [selectedFilename setStringValue:@""];
             _NSRunAlertPanel(@"Blend image released", @"Released Image", @"Ok", nil, nil);
+            stream << "Blend image released.\n";
+            flushToLog(stream);
             break;
         case 1:
             colorkey_set = false;
             color_image.release();
             _NSRunAlertPanel(@"Color Key image released", @"Released Image", @"Ok", nil, nil);
+            stream << "Color Key image released.\n";
+            flushToLog(stream);
             break;
         case 2:
             colorkey_bg = false;
             color_bg_image.release();
             _NSRunAlertPanel(@"Released ColorKey background", @"Released Image", @"Ok", nil, nil);
+            stream << "Released ColorKey background.\n";
+            flushToLog(stream);
             break;
         case 3:
             colorkey_replace = false;
             color_replace_image.release();
             _NSRunAlertPanel(@"Color Key Replace Image Cleared", @"Color Key Image Replace Released", @"Ok", nil, nil);
+            stream << "Color Key Replace Image Cleared.\n";
+            flushToLog(stream);
             break;
     }
 
@@ -1857,6 +1878,7 @@ void SearchForString(NSString *s) {
         set_filenames[index] = "None";
         [self updateLabelText:self];
     }
+    
 }
 
 - (void) updatePref: (BOOL)display_msg {
