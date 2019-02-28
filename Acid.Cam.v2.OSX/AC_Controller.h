@@ -74,6 +74,7 @@ extern pixel pix;
 extern drawn d;
 extern int camera_mode;
 extern bool disableFilter;
+extern unsigned long freeze_count;
 extern NSThread *background;
 extern  bool camera_active;
 extern unsigned long frame_proc;
@@ -182,7 +183,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
     NSImage *current_image;
-    unsigned long freeze_count;
+ 
     NSInteger current_fade;
     double current_fade_alpha;
     bool upscale_video;
