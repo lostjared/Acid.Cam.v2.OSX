@@ -1091,7 +1091,8 @@ void SearchForString(NSString *s) {
     if(capture->isOpened() && frame_read == false) {
          ++frame_proc;
         double seconds = ((total_frames)/ac::fps);
-        double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+        //double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+        double cfps = frame_cnt/ac::fps;
         double elapsed = (frame_proc/ac::fps);
         char elapsed_s[1024];
         snprintf(elapsed_s, 1023, "%.2f", elapsed);
@@ -1238,7 +1239,8 @@ void SearchForString(NSString *s) {
     }
     
     double seconds = ((total_frames)/ac::fps);
-    double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+    //double cfps = ((freeze_count+video_total_frames+frame_cnt)/ac::fps);
+    double cfps = frame_cnt/ac::fps;
     double elapsed = (frame_proc/ac::fps);
     
     char elapsed_s[1024];

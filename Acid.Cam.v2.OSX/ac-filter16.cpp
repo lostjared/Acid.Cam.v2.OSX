@@ -622,3 +622,11 @@ void ac::SmoothImageAndSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, copy3, 0.5);
     AlphaBlend(copy3, copy2, frame, 0.5);
 }
+
+void ac::SmoothSubFilter90(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothSubFilter90")
+        return;
+    static MatrixCollection<90> collection;
+    CallFilter(subfilter, frame);
+    Smooth(frame, &collection);
+}
