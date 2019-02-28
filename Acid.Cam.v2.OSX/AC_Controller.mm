@@ -1016,7 +1016,7 @@ void SearchForString(NSString *s) {
             time_t t = time(0);
             struct tm *m;
             m = localtime(&t);
-            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec  << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
             imwrite(stream.str(), frame);
             sout << "Took snapshot: " << stream.str() << "\n";
             ac::snapShot = false;
@@ -1270,7 +1270,7 @@ void SearchForString(NSString *s) {
         time_t t = time(0);
         struct tm *m;
         m = localtime(&t);
-        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_" << (++index) << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
         imwrite(stream.str(), frame);
         sout << "Took snapshot: " << stream.str() << "\n";
         ac::snapShot = false;
@@ -1415,6 +1415,9 @@ void SearchForString(NSString *s) {
         [custom_array addObject: [NSNumber numberWithInt:index_value]];
         [custom_subfilters addObject: [NSNumber numberWithInt: subf]];
         [table_view reloadData];
+        std::ostringstream stream;
+        stream << "Added Filter: " << s << " to Custom.\n";
+        flushToLog(stream);
         return;
     }
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
@@ -1424,6 +1427,9 @@ void SearchForString(NSString *s) {
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
         [custom_subfilters addObject: [NSNumber numberWithInt: -1]];
         [table_view reloadData];
+        std::ostringstream stream;
+        stream << "Added Filter: " << [title UTF8String] << " to Custom.\n";
+        flushToLog(stream);
     }
 }
 
@@ -1556,7 +1562,6 @@ void SearchForString(NSString *s) {
     } else {
         str_val = [NSString stringWithFormat:@"Jump to Time: %d Seconds @ Frame #%d",sec,(int)time_val];
     }
-
     [goto_fr setStringValue: str_val];
 }
 
@@ -1566,6 +1571,9 @@ void SearchForString(NSString *s) {
     } else {
         _NSRunAlertPanel(@"Cannot jump to frame must be in video mode", @"Recording Error", @"Ok", nil, nil);
     }
+    std::ostringstream stream;
+    stream << "Opened Goto Window.\n";
+    flushToLog(stream);
 }
 
 - (IBAction) pauseVideo: (id) sender {}
@@ -1701,6 +1709,9 @@ void SearchForString(NSString *s) {
 - (IBAction) showCustom: (id) sender {
     [custom_window orderFront: self];
     [filter_search_window orderFront: self];
+    std::ostringstream stream;
+    stream << "Custom Window Now Visible.\n";
+    flushToLog(stream);
 }
 
 - (IBAction) showActivityLog: (id) sender {
@@ -1709,6 +1720,9 @@ void SearchForString(NSString *s) {
 
 - (IBAction) showSelectImage: (id) sender {
     [image_select orderFront: self];
+    std::ostringstream stream;
+    stream << "Image Settings Window Shown.\n";
+    flushToLog(stream);
 }
 
 - (IBAction) showAlpha: (id) sender {
@@ -1732,11 +1746,16 @@ void SearchForString(NSString *s) {
 }
 
 - (IBAction) menuFreeze: (id) sender {
+    std::ostringstream stream;
     if([menu_freeze state] == NSOnState) {
         [menu_freeze setState: NSOffState];
+        stream << "Set Freeze Off.\n";
+        
     } else {
         [menu_freeze setState: NSOnState];
+        stream << "Set Freeze On.\n";
     }
+    flushToLog(stream);
 }
 
 - (IBAction) rewindToStart:(id) sender {
