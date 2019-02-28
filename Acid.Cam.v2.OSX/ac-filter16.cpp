@@ -627,6 +627,23 @@ void ac::SmoothSubFilter90(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothSubFilter90")
         return;
     static MatrixCollection<90> collection;
+    collection.shiftFrames(frame);
     CallFilter(subfilter, frame);
     Smooth(frame, &collection);
+}
+
+void ac::SmoothMedianImageSubFilter16(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "SmoothMedianImageSubFilter16")
+        return;
+    static MatrixCollection<16> collection1, collection2, collection3;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage, copy3;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, reimage);
+    Smooth(copy1, &collection1);
+    Smooth(reimage, &collection2);
+    AlphaBlend(copy1, reimage, copy3, 0.5);
+    CallFilter(subfilter, copy3);
+    Smooth(copy3, &collection3);
+    AlphaBlend(copy3,copy2,frame, 0.5);
 }
