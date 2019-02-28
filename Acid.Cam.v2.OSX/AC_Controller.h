@@ -74,7 +74,6 @@ extern pixel pix;
 extern drawn d;
 extern int camera_mode;
 extern bool disableFilter;
-extern unsigned long freeze_count;
 extern NSThread *background;
 extern  bool camera_active;
 extern unsigned long frame_proc;

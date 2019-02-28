@@ -74,7 +74,6 @@ bool plugin_loaded = false;
 void *library = NULL;
 std::ostringstream ftext;
 std::ostringstream stream;
-unsigned long freeze_count = 0;
 //cv::Mat blend_image;
 int camera_mode = 0;
 bool disableFilter;
@@ -739,7 +738,6 @@ void SearchForString(NSString *s) {
             r = false;
         else
             r = true;
-        freeze_count = 0;
         frame_proc = 0;
         NSInteger checkedState = [menuPaused state];
         isPaused = (checkedState == NSOnState) ? true : false;
