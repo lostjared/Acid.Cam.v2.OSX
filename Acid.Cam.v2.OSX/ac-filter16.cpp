@@ -665,3 +665,16 @@ void ac::ImageNegateAlphaBlend(cv::Mat &frame) {
     Negate(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
 }
+
+void ac::ImageNegateAlphaBlendSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageNegateAlphaBlendSubFilter")
+        return;
+    static MatrixCollection<16> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    Negate(reimage);
+    Smooth(reimage, &collection1);
+    Smooth(copy1, &collection2);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+}
