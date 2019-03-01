@@ -704,4 +704,7 @@ void ac::DarkTrailsEffect(cv::Mat &frame) {
     GammaDarken5(frame);
 }
 
-// Save Log File
+void ac::DarkNegate(cv::Mat &frame) {
+    Negate(frame);
+    GammaDarken5(frame);
+}

@@ -291,6 +291,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) insertFilter: (id) sender;
 - (IBAction) insertFilter_Custom: (id) sender;
 - (IBAction) scaleToggle: (id) sender;
+- (IBAction) saveLogToFile: (id) sender;
 @end
 
 extern AC_Controller *controller;

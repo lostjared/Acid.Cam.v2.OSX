@@ -203,6 +203,11 @@
                                     <action selector="user_Save:" target="630" id="oe2-cy-TJw"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Save Log " keyEquivalent="l" id="tfX-47-jlL">
+                                <connections>
+                                    <action selector="saveLogToFile:" target="630" id="OUR-vK-TXB"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="hWb-fv-rMN"/>
                             <menuItem title="Reload Camera Info" id="QqX-Fh-ztu">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -312,8 +317,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Syphon" id="72S-wv-BlG">
                         <items>
-                            <menuItem title="Output as Syphon Server" id="bXM-2u-RbS">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Output as Syphon Server" keyEquivalent="o" id="bXM-2u-RbS">
                                 <connections>
                                     <action selector="enableSpyhon:" target="630" id="qaH-Fw-TXD"/>
                                 </connections>

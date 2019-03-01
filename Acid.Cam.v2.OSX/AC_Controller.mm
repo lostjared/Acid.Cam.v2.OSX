@@ -2793,6 +2793,33 @@ void SearchForString(NSString *s) {
     }
 }
 
+- (IBAction) saveLogToFile: (id) sender {
+    NSTextView *sv = t_view;
+    NSString *value = [[sv textStorage] string];
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setCanCreateDirectories:NO];
+    [panel setCanSelectHiddenExtension:NO];
+    [panel setAllowedFileTypes:[NSArray arrayWithObject:@"log"]];
+    if([panel runModal]) {
+        std::string filename;
+        NSString *fname = [[panel URL] path];
+        filename = [fname UTF8String];
+        std::fstream file;
+        file.open(filename, std::ios::out);
+        time_t t = time(0);
+        struct tm *m;
+        m = localtime(&t);
+        std::ostringstream time_stream;
+        time_stream << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
+        file << "Log Output Generated On: " << time_stream.str() << "\n";
+        file << [value UTF8String];
+        file.close();
+        std::ostringstream stream;
+        stream << "Log File Outputted to: " << filename << "\n";
+        flushToLog(stream);
+    }
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
