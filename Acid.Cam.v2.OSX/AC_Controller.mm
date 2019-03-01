@@ -329,6 +329,12 @@ void SearchForString(NSString *s) {
     [video_width setEnabled:NO];
     [video_height setEnabled:NO];
     [chk_stretch setEnabled:NO];
+    time_t t = time(0);
+    struct tm *m;
+    m = localtime(&t);
+    std::ostringstream time_stream;
+    time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At: " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
+    flushToLog(time_stream);
     /*
      
      std::vector<std::string> valz;
