@@ -695,3 +695,13 @@ void ac::FrameNegateAlphaBlendImage(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 0.1);
     AlphaMovementMaxMin(alpha2, dir2, 0.05, 3.0, 0.1);
 }
+
+void ac::DarkTrailsEffect(cv::Mat &frame) {
+    pushSubFilter(filter_map["Rainbow Blend"]);
+    TrailsSubFilter(frame);
+    popSubFilter();
+    Negate(frame);
+    GammaDarken5(frame);
+}
+
+// Save Log File
