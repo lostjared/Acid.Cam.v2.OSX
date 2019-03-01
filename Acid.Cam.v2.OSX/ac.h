@@ -1009,6 +1009,7 @@ namespace ac {
     void ImageNegate(cv::Mat &frame);
     void ImageNegateAlphaBlend(cv::Mat &frame);
     void ImageNegateAlphaBlendSubFilter(cv::Mat &frame);
+    void FrameNegateAlphaBlendImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

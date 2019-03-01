@@ -663,7 +663,11 @@ void ac::ImageNegateAlphaBlend(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(blend_image, reimage, frame.size());
     Negate(reimage);
-    AlphaBlend(copy1, reimage, frame, 0.5);
+    static double alpha1 = 3.0, alpha2 = 0.1;
+    static int dir1 = 0, dir2 = 1;
+    AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 3.0, 0.1);
 }
 
 void ac::ImageNegateAlphaBlendSubFilter(cv::Mat &frame) {
@@ -677,4 +681,17 @@ void ac::ImageNegateAlphaBlendSubFilter(cv::Mat &frame) {
     Smooth(reimage, &collection1);
     Smooth(copy1, &collection2);
     AlphaBlend(copy1, reimage, frame, 0.5);
+}
+
+void ac::FrameNegateAlphaBlendImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Negate(copy1);
+    static double alpha1 = 3.0, alpha2 = 0.1;
+    static int dir1 = 0, dir2 = 1;
+    AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 3.0, 0.1);
 }
