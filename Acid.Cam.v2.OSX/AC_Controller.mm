@@ -181,6 +181,7 @@ void SearchForString(NSString *s) {
     std::vector<std::string> tokens;
     token::tokenize(search, std::string(" "), tokens);
     std::vector<int> used;
+    int num = 0;
     for(int i = 0; i < ac::draw_max-4; ++i) {
         std::string search_items = Lower(ac::draw_strings[i]);
         for(unsigned q = 0; q < tokens.size(); ++q) {
@@ -188,10 +189,14 @@ void SearchForString(NSString *s) {
                 if(std::find(used.begin(), used.end(), i) == std::end(used)) {
                     [search_results addObject: [NSNumber numberWithInt:i]];
                     used.push_back(i);
+                    ++num;
                 }
             }
         }
     }
+    std::ostringstream stream;
+    stream << "Searched for: " << [s UTF8String] << " matched " << num << " filters.\n";
+    flushToLog(stream);
     [controller reloadTable];
 }
 
