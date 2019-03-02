@@ -728,3 +728,16 @@ void ac::ChannelSortMedianBlend(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionMirrorDirection(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3;
+    MirrorFrameShuffle(copy1);
+    int r_dir = -1+rand()%2;
+    cv::flip(copy1, copy3, r_dir);
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(copy2);
+    Smooth(copy3, &collection);
+    AlphaBlend(copy2, copy3, frame, 0.3);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
