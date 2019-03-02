@@ -1012,6 +1012,7 @@ namespace ac {
     void FrameNegateAlphaBlendImage(cv::Mat &frame);
     void DarkTrailsEffect(cv::Mat &frame);
     void DarkNegate(cv::Mat &frame);
+    void ChannelSortMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

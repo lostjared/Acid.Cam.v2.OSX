@@ -621,6 +621,7 @@ void ac::SmoothImageAndSubFilter(cv::Mat &frame) {
     Smooth(copy2, &collection3);
     AlphaBlend(copy1, reimage, copy3, 0.5);
     AlphaBlend(copy3, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::SmoothSubFilter90(cv::Mat &frame) {
@@ -630,6 +631,7 @@ void ac::SmoothSubFilter90(cv::Mat &frame) {
     collection.shiftFrames(frame);
     CallFilter(subfilter, frame);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::SmoothMedianImageSubFilter16(cv::Mat &frame) {
@@ -646,6 +648,7 @@ void ac::SmoothMedianImageSubFilter16(cv::Mat &frame) {
     CallFilter(subfilter, copy3);
     Smooth(copy3, &collection3);
     AlphaBlend(copy3,copy2,frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::ImageNegate(cv::Mat &frame) {
@@ -655,6 +658,7 @@ void ac::ImageNegate(cv::Mat &frame) {
     cv::resize(blend_image, reimage, frame.size());
     Negate(reimage);
     frame = reimage.clone();
+    AddInvert(frame);
 }
 
 void ac::ImageNegateAlphaBlend(cv::Mat &frame) {
@@ -668,6 +672,7 @@ void ac::ImageNegateAlphaBlend(cv::Mat &frame) {
     AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 0.1);
     AlphaMovementMaxMin(alpha2, dir2, 0.05, 3.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::ImageNegateAlphaBlendSubFilter(cv::Mat &frame) {
@@ -681,6 +686,7 @@ void ac::ImageNegateAlphaBlendSubFilter(cv::Mat &frame) {
     Smooth(reimage, &collection1);
     Smooth(copy1, &collection2);
     AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::FrameNegateAlphaBlendImage(cv::Mat &frame) {
@@ -694,6 +700,7 @@ void ac::FrameNegateAlphaBlendImage(cv::Mat &frame) {
     AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 0.1);
     AlphaMovementMaxMin(alpha2, dir2, 0.05, 3.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::DarkTrailsEffect(cv::Mat &frame) {
@@ -702,9 +709,22 @@ void ac::DarkTrailsEffect(cv::Mat &frame) {
     popSubFilter();
     Negate(frame);
     GammaDarken5(frame);
+    AddInvert(frame);
 }
 
 void ac::DarkNegate(cv::Mat &frame) {
     Negate(frame);
     GammaDarken5(frame);
+    AddInvert(frame);
+}
+
+void ac::ChannelSortMedianBlend(cv::Mat &frame) {
+    static MatrixCollection<16> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+	ChannelSort(copy1);
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
 }

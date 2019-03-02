@@ -1447,9 +1447,13 @@ void SearchForString(NSString *s) {
 - (IBAction) removeCustomItem: (id) sender {
     NSInteger index = [table_view selectedRow];
     if(index >= 0) {
+        NSNumber *num = [custom_array objectAtIndex: index];
+        std::ostringstream stream;
+        stream << "Removed Filter in Custom: " << ac::draw_strings[[num integerValue]] << "\n";
         [custom_array removeObjectAtIndex:index];
         [custom_subfilters removeObjectAtIndex: index];
         [table_view reloadData];
+        flushToLog(stream);
     }
 }
 
