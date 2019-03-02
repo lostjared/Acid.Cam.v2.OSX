@@ -741,3 +741,16 @@ void ac::MatrixCollectionMirrorDirection(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::StrobeRandomChannel(cv::Mat &frame) {
+    int res = rand()%3;
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaMovementMaxMin(alpha, dir, 0.1, 6.0, 1.0);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[res] = pixel[res]*alpha;
+        }
+    }
+}
