@@ -831,15 +831,28 @@ void ac::SplitFrameBlend(cv::Mat &frame) {
     ColorXorScale(frame);
     ColorExpand(copy1);
     rainbowBlend(copy2);
-    cv::split(frame, v1);
-    cv::split(copy1, v2);
-    cv::split(copy2, v3);
     cv::Mat channels[3];
-    cv::Mat output;
     cv::extractChannel(frame, channels[0], 0);
     cv::extractChannel(copy1, channels[1], 1);
     cv::extractChannel(copy2, channels[2], 2);
-    cv::merge(channels, 3, output);
-    frame = output.clone();
+    cv::merge(channels, 3, frame);
+    AddInvert(frame);
+}
+
+void ac::SplitFrameBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SplitFrameBlendSubFilter")
+        return;
+    cv::Mat frames[3];
+    int r = rand()%3;
+    frames[0] = frame.clone();
+    frames[1] = frame.clone();
+    frames[2] = frame.clone();
+    CallFilter(subfilter, frames[r]);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::extractChannel(frames[0], channels[0], 0);
+    cv::extractChannel(frames[1], channels[1], 1);
+    cv::extractChannel(frames[2], channels[2], 2);
+    cv::merge(channels, 3, frame);
     AddInvert(frame);
 }
