@@ -1021,6 +1021,7 @@ namespace ac {
     void SplitFrameFilter(cv::Mat &frame);
     void SplitFrameBlend(cv::Mat &frame);
     void SplitFrameBlendSubFilter(cv::Mat &frame);
+    void SplitFrameCollection(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

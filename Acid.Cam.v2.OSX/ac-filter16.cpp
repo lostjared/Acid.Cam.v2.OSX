@@ -856,3 +856,33 @@ void ac::SplitFrameBlendSubFilter(cv::Mat &frame) {
     cv::merge(channels, 3, frame);
     AddInvert(frame);
 }
+
+void ac::SplitFrameCollection(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = frame.clone();
+    frames[1] = collection.frames[6].clone();
+    frames[2] = collection.frames[7].clone();
+    static int dir = 1;
+    if(dir == 1) {
+    	RainbowXorBlend(frames[0]);
+    	MedianBlend(frames[1]);
+    	ColorXorScale(frames[2]);
+        dir = 0;
+    } else {
+        dir = 1;
+        ColorXorScale(frames[0]);
+        MedianBlend(frames[1]);
+        RainbowXorBlend(frames[2]);
+    }
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::extractChannel(frames[0], channels[0], 0);
+    cv::extractChannel(frames[1], channels[1], 1);
+    cv::extractChannel(frames[2], channels[2], 2);
+    cv::merge(channels, 3, frame);
+    AddInvert(frame);
+
+    
+}
