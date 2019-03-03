@@ -824,3 +824,22 @@ void ac::SplitFrameFilter(cv::Mat &frame) {
     frame = output.clone();
     AddInvert(frame);
 }
+
+void ac::SplitFrameBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    std::vector<cv::Mat> v1, v2, v3;
+    ColorXorScale(frame);
+    ColorExpand(copy1);
+    rainbowBlend(copy2);
+    cv::split(frame, v1);
+    cv::split(copy1, v2);
+    cv::split(copy2, v3);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::extractChannel(frame, channels[0], 0);
+    cv::extractChannel(copy1, channels[1], 1);
+    cv::extractChannel(copy2, channels[2], 2);
+    cv::merge(channels, 3, output);
+    frame = output.clone();
+    AddInvert(frame);
+}
