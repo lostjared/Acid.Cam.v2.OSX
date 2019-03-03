@@ -772,6 +772,7 @@ void ac::SplitFramesSort(cv::Mat &frame) {
     cv::sort(v3[2], channels[2],cv::SORT_ASCENDING);
     cv::merge(channels, 3, output);
     frame = output.clone();
+    AddInvert(frame);
 }
 
 void ac::SplitFrameSortSubFilter(cv::Mat &frame) {
@@ -791,6 +792,7 @@ void ac::SplitFrameSortSubFilter(cv::Mat &frame) {
     cv::sort(v3[2], channels[2],cv::SORT_ASCENDING);
     cv::merge(channels, 3, output);
     frame = output.clone();
+    AddInvert(frame);
 }
 
 void ac::MedianBlend64(cv::Mat &frame) {
@@ -800,4 +802,25 @@ void ac::MedianBlend64(cv::Mat &frame) {
         MedianBlur(frame);
     collection.shiftFrames(frame);
     MatrixBlend(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::SplitFrameFilter(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    std::vector<cv::Mat> v1, v2, v3;
+    ColorExpand(frame);
+    rainbowBlend(collection.frames[1]);
+    RainbowXorBlend(collection.frames[2]);
+    cv::split(frame, v1);
+    cv::split(collection.frames[1], v2);
+    cv::split(collection.frames[2], v3);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::sort(v1[0], channels[0],cv::SORT_ASCENDING);
+    cv::sort(v2[1], channels[1],cv::SORT_ASCENDING);
+    cv::sort(v3[2], channels[2],cv::SORT_ASCENDING);
+    cv::merge(channels, 3, output);
+    frame = output.clone();
+    AddInvert(frame);
 }

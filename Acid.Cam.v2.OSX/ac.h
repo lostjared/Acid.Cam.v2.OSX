@@ -1018,6 +1018,7 @@ namespace ac {
     void SplitFramesSort(cv::Mat &frame);
     void SplitFrameSortSubFilter(cv::Mat &frame);
     void MedianBlend64(cv::Mat &frame);
+    void SplitFrameFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
