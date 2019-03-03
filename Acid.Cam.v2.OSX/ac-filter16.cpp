@@ -883,6 +883,30 @@ void ac::SplitFrameCollection(cv::Mat &frame) {
     cv::extractChannel(frames[2], channels[2], 2);
     cv::merge(channels, 3, frame);
     AddInvert(frame);
+}
 
-    
+void ac::SplitFrameMirror(cv::Mat &frame) {
+    cv::Mat frames[3];
+    frames[0] = frame.clone();
+    frames[1] = frame.clone();
+    frames[2] = frame.clone();
+    MirrorXorAll(frames[0]);
+    FlipBlendWH(frames[1]);
+    rainbowBlend(frames[2]);
+    cv::Mat channels[3];
+    cv::Mat output;
+    static int dir = 1;
+    if(dir == 1) {
+        dir = 0;
+        cv::extractChannel(frames[0], channels[0], 0);
+    	cv::extractChannel(frames[1], channels[1], 1);
+        cv::extractChannel(frames[2], channels[2], 2);
+    } else {
+        dir = 1;
+        cv::extractChannel(frames[0], channels[2], 0);
+        cv::extractChannel(frames[1], channels[1], 1);
+        cv::extractChannel(frames[2], channels[0], 2);
+    }
+    cv::merge(channels, 3, frame);
+    AddInvert(frame);
 }
