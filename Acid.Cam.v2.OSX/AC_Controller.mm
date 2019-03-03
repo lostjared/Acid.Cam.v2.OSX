@@ -1055,6 +1055,7 @@ void SearchForString(NSString *s) {
         [startProg setEnabled: YES];
         [background release];
         camera_active = false;
+        [videoFileInput setEnabled:YES];
         [startProg setTitle:@"Start Session"];
     });
 }
