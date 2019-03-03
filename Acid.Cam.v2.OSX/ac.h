@@ -1017,6 +1017,7 @@ namespace ac {
     void StrobeRandomChannel(cv::Mat &frame);
     void SplitFramesSort(cv::Mat &frame);
     void SplitFrameSortSubFilter(cv::Mat &frame);
+    void MedianBlend64(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

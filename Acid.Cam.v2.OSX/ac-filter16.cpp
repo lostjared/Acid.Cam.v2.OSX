@@ -792,3 +792,12 @@ void ac::SplitFrameSortSubFilter(cv::Mat &frame) {
     cv::merge(channels, 3, output);
     frame = output.clone();
 }
+
+void ac::MedianBlend64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    int r = 3+rand()%7;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    collection.shiftFrames(frame);
+    MatrixBlend(frame, &collection);
+}
