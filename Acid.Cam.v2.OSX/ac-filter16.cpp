@@ -935,3 +935,21 @@ void ac::RandomChannels(cv::Mat &frame) {
     cv::merge(channels, 3, frame);
     AddInvert(frame);
 }
+
+void ac::SmoothRandomChannels(cv::Mat &frame) {
+    static MatrixCollection<16> collection1, collection2, collection3;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone();
+    randomFilter(copy1);
+    randomFilter(copy2);
+    randomFilter(copy3);
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    Smooth(copy3, &collection3);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::extractChannel(copy1, channels[0], 0);
+    cv::extractChannel(copy2, channels[1], 1);
+    cv::extractChannel(copy3, channels[2], 2);
+    cv::merge(channels, 3, frame);
+    AddInvert(frame);
+}

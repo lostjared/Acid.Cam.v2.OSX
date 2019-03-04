@@ -1024,6 +1024,7 @@ namespace ac {
     void SplitFrameCollection(cv::Mat &frame);
     void SplitFrameMirror(cv::Mat &frame);
     void RandomChannels(cv::Mat &frame);
+    void SmoothRandomChannels(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
