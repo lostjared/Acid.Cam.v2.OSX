@@ -911,16 +911,27 @@ void ac::SplitFrameMirror(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::RandomSelection(cv::Mat &frame) {
+void ac::RandomChannels(cv::Mat &frame) {
     static auto rng = std::default_random_engine{};
-    static std::vector<std::string> selection ({"Self AlphaBlend", "Blend #3", "RandTriBlend", "Blend Fractal", "Blend Fractal Mood", "Rainbow Blend", "Rand Blend", "New Blend", "MirrorBlend", "Mirror No Blend", "Blend_Angle", "XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "TrailsBlend", "BlendThree", "BlendTrails", "GridFilter8xBlend", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend", "BlendRowCurvedSqrt", "CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend", "MedianBlendAnimation", "ParticleBlend", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend", "LagBlend", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "RandBlend", "StaticXorBlend", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "SilverBlend", "PixelXorBlend", "RainbowXorBlend", "FadeBlend", "SelfAlphaScaleBlend", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "RandomBlendFilter", "DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendWH", "FlipBlendH", "FlipBlendAll", "Blend_RedGreenBlue", "XorBlend_RedGreenBlue", "BlendIncrease_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "MirrorMedianBlend", "DarkenBlend", "ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "BlendBurred", "BlendCombinedValues", "AlphaBlendWithSource", "RGBMedianBlend", "MirrorRGBReverseBlend", "MedianBlend16", "BGRBlend", "RGBBlend", "MedianBlendDark", "AlphaBlendMirror", "SelfScaleSortBlend", "FlashMedianBlend", "FlipAlphaBlend", "SmoothCollectionAlphaBlend", "SmoothTrailsBlend", "ShuffleAlphaMedianBlend", "AverageLinesBlend", "AverageVerticalLinesBlend", "LinesMedianBlend", "MedianBlendSoft", "ParticleReleaseAlphaBlend", "MirrorAlphaBlend", "MatrixCollectionBlend", "SmoothMedianBlend", "CosSinMedianBlend", "Filter8_Blend", "RandomAlphaBlendFilter", "MirrorBlendFrame", "MirrorBlendVertical", "BlendFor360", "MatrixCollectionSmoothAlphaBlend", "MedianBlendSelfBlend", "Bitwise_XOR_BlendFrame", "GaussianBlendEx", "SimpleMatrixBlend", "AlphaStrobeBlend", "XorMirrorBlendFrame", "ChannelSortMedianBlend", "MedianBlend64", "SplitFrameBlend"});
-    
+    static std::vector<std::string> selection ({"Self AlphaBlend", "Blend #3", "RandTriBlend", "Rainbow Blend", "Rand Blend", "New Blend", "MirrorBlend", "Mirror No Blend", "Blend_Angle", "XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "TrailsBlend", "BlendThree", "BlendTrails", "GridFilter8xBlend", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend", "BlendRowCurvedSqrt", "CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend", "MedianBlendAnimation", "ParticleBlend", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend", "LagBlend", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "RandBlend", "StaticXorBlend", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "SilverBlend", "PixelXorBlend", "RainbowXorBlend", "FadeBlend", "SelfAlphaScaleBlend", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "RandomBlendFilter", "DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendWH", "FlipBlendH", "FlipBlendAll", "Blend_RedGreenBlue", "XorBlend_RedGreenBlue", "BlendIncrease_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "MirrorMedianBlend", "DarkenBlend", "ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "BlendBurred", "BlendCombinedValues", "AlphaBlendWithSource", "RGBMedianBlend", "MirrorRGBReverseBlend", "MedianBlend16", "BGRBlend", "RGBBlend", "MedianBlendDark", "AlphaBlendMirror", "SelfScaleSortBlend", "FlashMedianBlend", "FlipAlphaBlend", "SmoothCollectionAlphaBlend", "SmoothTrailsBlend", "ShuffleAlphaMedianBlend", "AverageLinesBlend", "AverageVerticalLinesBlend", "LinesMedianBlend", "MedianBlendSoft", "ParticleReleaseAlphaBlend", "MirrorAlphaBlend", "MatrixCollectionBlend", "SmoothMedianBlend", "CosSinMedianBlend", "Filter8_Blend", "RandomAlphaBlendFilter", "MirrorBlendFrame", "MirrorBlendVertical", "BlendFor360", "MatrixCollectionSmoothAlphaBlend", "MedianBlendSelfBlend", "Bitwise_XOR_BlendFrame", "GaussianBlendEx", "SimpleMatrixBlend", "AlphaStrobeBlend", "XorMirrorBlendFrame", "ChannelSortMedianBlend", "MedianBlend64", "SplitFrameBlend"});
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone();
     static int index = 0;
     if(index == 0) {
         std::shuffle(selection.begin(), selection.end(), rng);
     }
-    CallFilter(selection[index], frame);
-    ++index;
+    if(index+3 < selection.size()) {
+        CallFilter(selection[index], copy1);
+    	CallFilter(selection[index+1], copy2);
+    	CallFilter(selection[index+2], copy3);
+    }
+    index += 3;
     if(index > selection.size())
         index = 0;
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::extractChannel(copy1, channels[0], 0);
+    cv::extractChannel(copy2, channels[1], 1);
+    cv::extractChannel(copy3, channels[2], 2);
+    cv::merge(channels, 3, frame);
+    AddInvert(frame);
 }
