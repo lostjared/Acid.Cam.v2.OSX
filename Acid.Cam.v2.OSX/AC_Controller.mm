@@ -367,14 +367,14 @@ void SearchForString(NSString *s) {
      	std::cout << "\"" << s << "\", ";
      }*/
     
-    /*
+    
     for(int i = 0; i < ac::draw_max-4; ++i) {
         std::string s = ac::draw_strings[i];
-        if(s.find("Mirror") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos) {
+        if(s.find("Blend") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos) {
             std::cout << "\"" << ac::draw_strings[i] << "\", ";
         }
     }
-     std::cout << "\n"; */
+     std::cout << "\n";
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
