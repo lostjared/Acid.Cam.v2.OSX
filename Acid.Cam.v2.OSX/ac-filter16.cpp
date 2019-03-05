@@ -978,3 +978,24 @@ void ac::SmoothChannelSubFilter(cv::Mat &frame) {
     cv::merge(chan, 3, frame);
     AddInvert(frame);
 }
+
+void ac::IncreaseRGB(cv::Mat &frame) {
+    static int index = 0;
+    static int max = 0;
+    static int speed = 5;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] += max;
+        }
+    }
+    if(max >= 255) {
+        ++index;
+        if(index > 2)
+            index = 0;
+        max = 0;
+    } else {
+        max += speed;
+    }
+    AddInvert(frame);
+}
