@@ -45,7 +45,7 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.20.0 (macOS)";
+    const std::string version="2.19.2 (macOS)";
 #elif defined(__linux__)
     const std::string version="2.20.0 (Linux)";
 #elif defined(_WIN32)
@@ -126,7 +126,7 @@ std::string ac::getVersion() {
 void ac::fill_filter_map() {
     for(int i = 0; i < ac::draw_max; ++i)
         filter_map[draw_strings[i]] = i;
-    for(int i = 0; i < ac::draw_max-4; ++i)
+    for(int i = 0; i < ac::draw_max-3; ++i)
         filter_map_str[filters[i].first] = filters[i];
     ac::init_filter_menu_map();
 }
