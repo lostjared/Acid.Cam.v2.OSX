@@ -953,3 +953,28 @@ void ac::SmoothRandomChannels(cv::Mat &frame) {
     cv::merge(channels, 3, frame);
     AddInvert(frame);
 }
+
+void ac::SmoothChannelSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SmoothChannelSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static int index = 0;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    collection.shiftFrames(copy1);
+    cv::Mat copies[3];
+    copies[0] = collection.frames[1].clone();
+    copies[1] = collection.frames[3].clone();
+    copies[2] = collection.frames[6].clone();
+    copies[index] = copy1.clone();
+    ++index;
+    if(index > 2)
+        index = 0;
+    cv::Mat chan[3];
+    cv::Mat output;
+    cv::extractChannel(copies[0], chan[0], 0);
+    cv::extractChannel(copies[1], chan[1], 1);
+    cv::extractChannel(copies[2], chan[2], 2);
+    cv::merge(chan, 3, frame);
+    AddInvert(frame);
+}
