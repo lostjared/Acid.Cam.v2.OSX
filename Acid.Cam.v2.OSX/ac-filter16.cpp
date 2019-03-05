@@ -999,3 +999,30 @@ void ac::IncreaseRGB(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::IncreaseRGB_Individual(cv::Mat &frame) {
+    static int index = 0;
+    static int max[3] = {0,50,100};
+    static int speed = 5;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = pixel;
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += max[j];
+            }
+            pixel[index] = pix[index];
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    for(int j = 0; j < 3; ++j) {
+        if(max[j] >= 255) {
+            max[j] = 0;
+        } else {
+            max[j] += speed;
+        }
+    }
+    AddInvert(frame);
+}
