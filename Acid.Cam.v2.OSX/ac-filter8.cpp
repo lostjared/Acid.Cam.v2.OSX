@@ -579,7 +579,7 @@ void ac::SquareStretchDown(cv::Mat &frame) {
     if(frame.cols > 0 && z > 0) {
         cv::resize(copy_frame, out_frame, cv::Size(frame.cols,z));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchDown") {
-            ac::draw_func[ac::subfilter](out_frame);
+            CallFilter(subfilter, out_frame); //ac::draw_func[ac::subfilter](out_frame);
         }
         copyMat(out_frame, 0, 0, frame, 0, 0, frame.cols, z);
     }
@@ -597,7 +597,7 @@ void ac::SquareStretchRight(cv::Mat &frame) {
     if(z > 0 && frame.rows > 0) {
         cv::resize(copy_frame, out_frame, cv::Size(z,frame.rows));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquarehStretcRight") {
-            ac::draw_func[ac::subfilter](out_frame);
+            CallFilter(subfilter, out_frame);//ac::draw_func[ac::subfilter](out_frame);
         }
         copyMat(out_frame, 0, 0, frame, 0, 0, z,frame.rows);
     }
@@ -617,7 +617,7 @@ void ac::SquareStretchUp(cv::Mat &frame) {
     if(frame.cols > 0 && size > 0) {
         cv::resize(copy_frame, out_frame, cv::Size(frame.cols, size));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchUp") {
-            ac::draw_func[ac::subfilter](out_frame);
+            CallFilter(subfilter, out_frame); //ac::draw_func[ac::subfilter](out_frame);
         }
         copyMat(out_frame, 0, 0, frame, 0, y, frame.cols, size);
     }
@@ -638,7 +638,7 @@ void ac::SquareStretchLeft(cv::Mat &frame) {
     if(size > 0 && frame.rows > 0) {
         cv::resize(copy_frame, out_frame, cv::Size(size, frame.rows));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchLeft") {
-            ac::draw_func[ac::subfilter](out_frame);
+            CallFilter(subfilter, out_frame); //ac::draw_func[ac::subfilter](out_frame);
         }
         copyMat(out_frame, 0, 0, frame, y, 0, size, frame.rows);
     }
@@ -821,7 +821,8 @@ void ac::ResizeSoftFeedbackSubFilter(cv::Mat &frame) {
             if(offset < collection.size() && source.w > add_w && source.h > add_h) {
                 cv::Mat out_frame;
                 cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
-                ac::draw_func[ac::subfilter](out_frame);
+                //ac::draw_func[ac::subfilter](out_frame);
+                CallFilter(subfilter, out_frame);
                 copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
             }
             source.x += add_w;
@@ -984,7 +985,7 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
-                ac::draw_func[ac::subfilter](out_frame);
+                CallFilter(subfilter, out_frame); //ac::draw_func[ac::subfilter](out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
@@ -1017,7 +1018,8 @@ void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
-                ac::draw_func[ac::subfilter](out_frame);
+                //ac::draw_func[ac::subfilter](out_frame);
+                CallFilter(subfilter, out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
@@ -1061,7 +1063,8 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64") {
-                ac::draw_func[ac::subfilter](out_frame);
+                //ac::draw_func[ac::subfilter](out_frame);
+                CallFilter(subfilter, out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
@@ -1142,7 +1145,8 @@ void ac::SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame) {
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             
             if(testSize(out_frame) && rand_test != std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64" && ac::draw_strings[subfilter] != "Random Filter") {
-                ac::draw_func[ac::subfilter](out_frame);
+               // ac::draw_func[ac::subfilter](out_frame);
+                CallFilter(subfilter, out_frame);
              }
             if((offset%2) == 0)
                 Negate(out_frame);
@@ -1192,7 +1196,8 @@ void ac::SoftFeedbackReszieSubFilter64_Mirror(cv::Mat &frame) {
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             
             if(testSize(out_frame) && rand_test != std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64" && ac::draw_strings[subfilter] != "Random Filter") {
-                ac::draw_func[ac::subfilter](out_frame);
+                //ac::draw_func[ac::subfilter](out_frame);
+                CallFilter(subfilter, out_frame);
             }
             if((offset%2) == 0)
                 Reverse(out_frame);

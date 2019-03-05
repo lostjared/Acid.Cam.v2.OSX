@@ -221,7 +221,8 @@ void ac::SlideSubFilter(cv::Mat &frame) {
     cv::Mat frame_x;
     frame_x = frame.clone();
     if(ac::subfilter != -1) {
-        ac::draw_func[ac::subfilter](frame_x);
+        CallFilter(subfilter, frame_x);
+        //ac::draw_func[ac::subfilter](frame_x);
     } else return;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < start_1; ++i) {
@@ -279,7 +280,7 @@ void ac::SlideSubUpDownFilter(cv::Mat &frame) {
     cv::Mat frame_x;
     frame_x = frame.clone();
     if(ac::subfilter != -1) {
-        ac::draw_func[ac::subfilter](frame_x);
+        CallFilter(subfilter, frame_x); //ac::draw_func[ac::subfilter](frame_x);
     } else return;
     
     for(int i = 0; i < frame.cols; ++i) {

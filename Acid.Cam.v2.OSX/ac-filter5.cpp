@@ -69,7 +69,7 @@ void ac::RandomQuads(cv::Mat &frame) {
         do {
             frame_index = rand()%28;
         } while(frame_index == 13 || frame_index == 14);
-        ac::draw_func[frame_index](collection.frames[j]);
+        CallFilter(frame_index, collection.frames[j]); //ac::draw_func[frame_index](collection.frames[j]);
     }
     cv::Size quarter(frame.cols/2, frame.rows/2);
     ac::copyMat(collection.frames[0],0, 0, frame, ac::Rect(0, 0, quarter));
