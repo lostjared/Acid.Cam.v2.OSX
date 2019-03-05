@@ -375,6 +375,7 @@ void SearchForString(NSString *s) {
         }
     }
      std::cout << "\n"; */
+  
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {

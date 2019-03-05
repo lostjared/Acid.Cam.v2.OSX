@@ -1000,7 +1000,7 @@ void ac::IncreaseRGB(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::IncreaseRGB_Individual(cv::Mat &frame) {
+void ac::IncreaseColor(cv::Mat &frame) {
     static int index = 0;
     static int max[3] = {0,50,100};
     static int speed = 5;
