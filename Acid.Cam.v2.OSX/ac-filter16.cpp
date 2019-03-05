@@ -1026,3 +1026,9 @@ void ac::IncreaseColor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::GlitchyTrails(cv::Mat &frame) {
+    pushSubFilter(ac::filter_map["IncreaseColor"]);
+    SmoothChannelSubFilter(frame);
+    popSubFilter();
+}
