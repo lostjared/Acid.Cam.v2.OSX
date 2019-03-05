@@ -1028,7 +1028,6 @@ namespace ac {
     void SmoothChannelSubFilter(cv::Mat &frame);
     void IncreaseRGB(cv::Mat &frame);
     void IncreaseColor(cv::Mat &frame);
-    void GlitchyTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
