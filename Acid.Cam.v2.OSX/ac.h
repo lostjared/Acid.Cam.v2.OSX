@@ -78,9 +78,9 @@
  *
  * ac::SelfAlphaBlend(mat);
  *
- * or use draw_func
+ * or use CallFilter
  *
- * ac::draw_func[function_index](mat);
+ * CallFilter(function_index, mat);
  *
  * then just use function_index to point to whatever filter
  *
