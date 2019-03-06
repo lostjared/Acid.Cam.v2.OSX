@@ -45,7 +45,7 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.19.2 (macOS)";
+    const std::string version="2.20.0 (macOS)";
 #elif defined(__linux__)
     const std::string version="2.20.0 (Linux)";
 #elif defined(_WIN32)

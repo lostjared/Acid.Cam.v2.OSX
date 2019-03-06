@@ -1053,7 +1053,7 @@ void ac::SaturateBlendSubFilter(cv::Mat &frame) {
     static int dir = 1;
     cv::Mat copy1 = frame.clone();
     cv::Mat copy2 = frame.clone();
-    ColorXorScale(copy1);
+    IncreaseColor(copy1);
     CallFilter(subfilter, copy2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
