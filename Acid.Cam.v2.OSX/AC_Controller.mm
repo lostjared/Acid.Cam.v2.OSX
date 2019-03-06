@@ -929,13 +929,13 @@ void SearchForString(NSString *s) {
             ac::ApplyColorMap(frame);
         
         if(fade_state == NSOffState) {
-            if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame); //ac::draw_func[ac::draw_offset](frame);
+            if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame);
         } else {
             if(current_fade_alpha >= 0) {
                 ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
                 current_fade_alpha -= 0.08;
             } else {
-                if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame); //ac::draw_func[ac::draw_offset](frame);
+                if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame);
             }
         }
         ac::frames_released = false;
@@ -1165,14 +1165,13 @@ void SearchForString(NSString *s) {
     
     if([fade_filter state] == NSOffState) {
         if(disableFilter == false && ac::testSize(frame))
-           // ac::draw_func[ac::draw_offset](frame);
             ac::CallFilter(ac::draw_offset, frame);
     } else {
         if(current_fade_alpha >= 0) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
         } else {
-            if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame); //ac::draw_func[ac::draw_offset](frame);
+            if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame);
         }
     }
     ac::frames_released = false;
@@ -2855,7 +2854,6 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
                 continue;
             if(ac::testSize(frame)) {
                 ac::setSubFilter(static_cast<int>([fval_ integerValue]));
-                //ac::draw_func[static_cast<int>(index)](frame);
                 ac::CallFilter(static_cast<int>(index), frame);
             }
         } @catch(NSException *e) {

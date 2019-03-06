@@ -69,7 +69,7 @@ void ac::RandomQuads(cv::Mat &frame) {
         do {
             frame_index = rand()%28;
         } while(frame_index == 13 || frame_index == 14);
-        CallFilter(frame_index, collection.frames[j]); //ac::draw_func[frame_index](collection.frames[j]);
+        CallFilter(frame_index, collection.frames[j]);
     }
     cv::Size quarter(frame.cols/2, frame.rows/2);
     ac::copyMat(collection.frames[0],0, 0, frame, ac::Rect(0, 0, quarter));
@@ -81,7 +81,7 @@ void ac::RandomQuads(cv::Mat &frame) {
 void ac::QuadCosSinMultiply(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     cv::Size quarter(frame.cols/2, frame.rows/2);
-    DrawFunction procFunc = ac::draw_func[15];
+    DrawFunction procFunc = getFilter(ac::draw_strings[15]);
     procFunc(frame_copy);
     procFunc(frame_copy);
     ac::copyMat(frame_copy,0, 0, frame, ac::Rect(0, 0, quarter));

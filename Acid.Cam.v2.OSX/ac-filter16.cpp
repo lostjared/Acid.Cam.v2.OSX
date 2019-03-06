@@ -1122,3 +1122,7 @@ void ac::XorDifferenceFilter(cv::Mat &frame) {
     ++index;
     if(index > 2) index = 0;
 }
+
+void ac::TestFilter101(cv::Mat &frame) {
+    
+}

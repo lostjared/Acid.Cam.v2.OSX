@@ -68,7 +68,6 @@ void ac::Box::drawBox(cv::Mat &frame) {
             target = pixel;
         }
     }
-    //ac::draw_func[frame_index](temp);
     CallFilter(frame_index, temp);
     for(int z = y, pos_y = 0; z < y+h && z < frame_height; ++z, ++pos_y) {
         for(int i = x, pos_x = 0; i < x+w && i < frame_width; ++i, ++pos_x) {

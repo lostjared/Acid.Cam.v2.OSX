@@ -421,9 +421,7 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
     // make copies of original frame
     cv::Mat frame1 = frame.clone(), frame2 = frame.clone();
     // apply filters on two copies of original frame
-    //ac::draw_func[filter1](frame1);
     CallFilter(filter1, frame1);
-    //ac::draw_func[filter2](frame2);
     CallFilter(filter2, frame2);
     // loop through image setting each pixel with alphablended pixel
     for(int z = 0; z < h; ++z) {
@@ -503,7 +501,6 @@ void ac::plugin(cv::Mat &frame) {
 }
 
 ac::DrawFunction ac::getFilter(std::string name) {
-    //return ac::draw_func[filter_map[name]];
     if(filter_map_str.find(name) != filter_map_str.end())
     	return filter_map_str[name].second;
     return filter_map_str["MedianBlend"].second;
@@ -520,7 +517,7 @@ ac::DrawFunction ac::getRandomFilter(int &index) {
     static std::string values[] = {"ShuffleAlpha", "ShuffleSelf", "ShuffleMedian", "ShuffleRGB"};
     int r = rand()%4;
     index = filter_map[values[r]];
-    return ac::draw_func[filter_map[values[r]]];
+    return filter_map_str[values[r]].second;
 }
 
 int ac::subfilter = -1;
