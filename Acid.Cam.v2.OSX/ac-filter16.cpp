@@ -1086,28 +1086,39 @@ void ac::MaxRGB(cv::Mat &frame) {
 }
 
 void ac::XorDifferenceFilter(cv::Mat &frame) {
-    static MatrixCollection<16> collection;
+    static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    MaxRGB(copy1);
+    static int index = 0;
+    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Scalar values;
+            cv::Vec3b copy_pix[collection.size()];
             for(int q = 0; q < collection.size(); ++q) {
-                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    values[j] += pix[j];
-                }
-            }
-            cv::Vec3b color;
-            for(int j = 0; j < 3; ++j) {
-                values[j] /= (collection.size()-1);
-                color[j] = static_cast<unsigned char>(values[0]);
+                copy_pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
             }
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b copy_pixel = pixel;
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = color[j]^pixel[j];
+                pixel[j] = copy_pix[0][j] ^ copy_pix[1][j] ^ copy_pix[2][j] ^ copy_pix[3][j] ^ copy_pix[4][j] ^ copy_pix[5][j] ^ copy_pix[6][j] ^ copy_pix[7][j] ^ pixel[j];
+            }
+            cv::Vec3b lw(100, 100, 100);
+            if(colorBounds(pixel,copy_pixel,lw, lw)) {
+                //pixel = cv::Vec3b(0,0,0);
+            } else {
+                switch(index) {
+                    case 0:
+                        pixel = cv::Vec3b(0,0,255);
+                        break;
+                    case 1:
+                        pixel = cv::Vec3b(0,255,0);
+                        break;
+                    case 2:
+                        pixel = cv::Vec3b(255,0,0);
+                        break;
+                }
             }
         }
     }
+    ++index;
+    if(index > 2) index = 0;
 }
