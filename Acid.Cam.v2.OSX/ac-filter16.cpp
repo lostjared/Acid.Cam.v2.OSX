@@ -1069,3 +1069,45 @@ void ac::SaturateBlendSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 2.5, 1.0);
     AddInvert(frame);
 }
+
+// average
+
+void ac::MaxRGB(cv::Mat &frame) {
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] = 255;
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+}
+
+void ac::XorDifferenceFilter(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MaxRGB(copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar values;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += pix[j];
+                }
+            }
+            cv::Vec3b color;
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= (collection.size()-1);
+                color[j] = static_cast<unsigned char>(values[0]);
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = color[j]^pixel[j];
+            }
+        }
+    }
+}
