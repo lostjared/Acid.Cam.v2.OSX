@@ -1046,3 +1046,26 @@ void ac::SaturateBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SaturateBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SaturateBlendSubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    ColorXorScale(copy1);
+    CallFilter(subfilter, copy2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[2];
+            pix[0] = copy1.at<cv::Vec3b>(z, i);
+            pix[1] = copy2.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] ^= cv::saturate_cast<unsigned char>((pixel[j]*alpha)+(pix[0][j]*alpha)+(pix[1][j]*alpha));
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 2.5, 1.0);
+    AddInvert(frame);
+}
