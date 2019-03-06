@@ -1026,3 +1026,23 @@ void ac::IncreaseColor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SaturateBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    IncreaseColor(copy1);
+    rainbowBlend(copy2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[2];
+            pix[0] = copy1.at<cv::Vec3b>(z, i);
+            pix[1] = copy2.at<cv::Vec3b>(z, i);
+            for(int j = 1; j < 3; ++j) {
+                pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]+pix[0][j]+pix[1][j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
