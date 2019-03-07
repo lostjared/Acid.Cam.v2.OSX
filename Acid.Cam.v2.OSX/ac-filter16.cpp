@@ -1083,6 +1083,7 @@ void ac::MaxRGB(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
+    AddInvert(frame);
 }
 
 void ac::XorDifferenceFilter(cv::Mat &frame) {
@@ -1121,6 +1122,7 @@ void ac::XorDifferenceFilter(cv::Mat &frame) {
     }
     ++index;
     if(index > 2) index = 0;
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendChannelSort(cv::Mat &frame) {
@@ -1128,12 +1130,14 @@ void ac::AlphaBlendChannelSort(cv::Mat &frame) {
     SplitFrameFilter(copy2);
     MedianBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 
 void ac::ColorTrailsFilter(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     SmoothRGB(frame, &collection);
+    AddInvert(frame);
 }
 
 
@@ -1146,14 +1150,16 @@ void ac::ColorTrailsSubFilter(cv::Mat &frame) {
     MedianBlend(copy1);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
-void ac::DarkNegateTrails(cv::Mat &frame) {
+void ac::DarkNegateRainbowMedian(cv::Mat &frame) {
     static MatrixCollection<8> collection1, collection2;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     DarkNegate(copy1);
     SmoothRGB(copy1, &collection1);
-    Negate(copy2);
-    SmoothRGB(copy2, &collection2);
+    rainbowBlend(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
 }
