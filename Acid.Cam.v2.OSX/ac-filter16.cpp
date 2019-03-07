@@ -1130,3 +1130,8 @@ void ac::AlphaBlendChannelSort(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
 
+
+void ac::ColorTrailsFilter(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    SmoothRGB(frame, &collection);
+}
