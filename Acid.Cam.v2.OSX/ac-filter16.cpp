@@ -1147,3 +1147,13 @@ void ac::ColorTrailsSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::DarkNegateTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    DarkNegate(copy1);
+    SmoothRGB(copy1, &collection1);
+    Negate(copy2);
+    SmoothRGB(copy2, &collection2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
