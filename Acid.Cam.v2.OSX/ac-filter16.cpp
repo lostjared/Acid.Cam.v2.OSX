@@ -1123,6 +1123,10 @@ void ac::XorDifferenceFilter(cv::Mat &frame) {
     if(index > 2) index = 0;
 }
 
-void ac::TestFilter101(cv::Mat &frame) {
-    
+void ac::AlphaBlendChannelSort(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    SplitFrameFilter(copy2);
+    MedianBlend(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
 }
+

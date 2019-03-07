@@ -1032,7 +1032,7 @@ namespace ac {
     void SaturateBlendSubFilter(cv::Mat &frame);
     void MaxRGB(cv::Mat &frame);
     void XorDifferenceFilter(cv::Mat &frame);
-    void TestFilter101(cv::Mat &frame);
+    void AlphaBlendChannelSort(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
