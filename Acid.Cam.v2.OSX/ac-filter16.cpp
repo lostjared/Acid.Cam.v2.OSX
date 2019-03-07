@@ -1135,3 +1135,15 @@ void ac::ColorTrailsFilter(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     SmoothRGB(frame, &collection);
 }
+
+
+void ac::ColorTrailsSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ColorTrailsSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    SmoothRGB(copy1, &collection);
+    MedianBlend(copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
