@@ -1036,6 +1036,7 @@ namespace ac {
     void ColorTrailsFilter(cv::Mat &frame);
     void ColorTrailsSubFilter(cv::Mat &frame);
     void DarkNegateRainbowMedian(cv::Mat &frame);
+    void IncreaseQuick(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

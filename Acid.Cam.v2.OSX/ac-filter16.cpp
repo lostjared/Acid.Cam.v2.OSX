@@ -1163,3 +1163,47 @@ void ac::DarkNegateRainbowMedian(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::IncreaseQuick(cv::Mat &frame) {
+    static double speed = 1.0;
+    static double pixel_color[] = {0.1*(rand()%10), (0.1*(rand()%10)), (0.1*(rand()%10))};
+    static int dir = 1, speed_dir = 1;
+    for(int z = 0;  z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += pixel[j]*pixel_color[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir == 1) {
+        	pixel_color[j] += speed;
+        	if(pixel_color[j] >= 5) {
+	            dir = 0;
+    	    }
+        } else {
+            pixel_color[j] -= speed;
+            if(pixel_color[j] <= 1.0) {
+                dir = 1;
+            }
+        }
+    }
+    if(speed_dir == 1) {
+    	speed += 0.1;
+        if(speed > 2.0) {
+            speed_dir = 0;
+            for(int j = 0; j < 3; ++j) {
+                pixel_color[j] = 3.0;
+            }
+        }
+    } else {
+        speed -= 0.1;
+        if(speed <= 1.0) {
+            speed_dir = 1;
+            for(int j = 0; j < 3; ++j) {
+                pixel_color[j] = 1.0;
+            }
+        }
+    }
+}
