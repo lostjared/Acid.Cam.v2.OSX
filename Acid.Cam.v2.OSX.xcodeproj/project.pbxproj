@@ -27,6 +27,7 @@
 		7F9D711E17DE4F7C009C54DA /* videoprogram.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F9D70EC17DE4F7C009C54DA /* videoprogram.mm */; };
 		7F9D712117DE4FA0009C54DA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9D709817DE4F35009C54DA /* AppKit.framework */; };
 		7F9D715B17DE5082009C54DA /* image.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D715A17DE5082009C54DA /* image.icns */; };
+		7F9DCAB32232F9CC0031F992 /* ac-filter17.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F9DCAB22232F9CC0031F992 /* ac-filter17.cpp */; };
 		7F9E38B8204C807C002A1F4F /* libippiw.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9E38A9204B3ED3002A1F4F /* libippiw.a */; };
 		7F9E38B9204C807C002A1F4F /* libittnotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9E38A8204B3ED3002A1F4F /* libittnotify.a */; };
 		7F9E38BA204C807C002A1F4F /* liblibjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB41E28356900B14623 /* liblibjpeg.a */; };
@@ -131,6 +132,7 @@
 		7F9D70EB17DE4F7C009C54DA /* videocapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = videocapture.h; path = Acid.Cam.v2.OSX/videocapture.h; sourceTree = "<group>"; };
 		7F9D70EC17DE4F7C009C54DA /* videoprogram.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = videoprogram.mm; path = Acid.Cam.v2.OSX/videoprogram.mm; sourceTree = "<group>"; };
 		7F9D715A17DE5082009C54DA /* image.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = image.icns; sourceTree = "<group>"; };
+		7F9DCAB22232F9CC0031F992 /* ac-filter17.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter17.cpp"; path = "Acid.Cam.v2.OSX/ac-filter17.cpp"; sourceTree = "<group>"; };
 		7F9E38A7204B3ED3002A1F4F /* liblibwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblibwebp.a; path = cvlibs/liblibwebp.a; sourceTree = "<group>"; };
 		7F9E38A8204B3ED3002A1F4F /* libittnotify.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libittnotify.a; path = cvlibs/libittnotify.a; sourceTree = "<group>"; };
 		7F9E38A9204B3ED3002A1F4F /* libippiw.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libippiw.a; path = cvlibs/libippiw.a; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				7FA4F5D221DBDF7700E6D442 /* ac-filter14.cpp */,
 				7F8E8A3221FE36EC00775DAE /* ac-filter15.cpp */,
 				7F9CE203221B7A83009C544C /* ac-filter16.cpp */,
+				7F9DCAB22232F9CC0031F992 /* ac-filter17.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -477,6 +480,7 @@
 				7FA4F5D121D553E600E6D442 /* ac-filtercat.cpp in Sources */,
 				7FEE832F20C45B0E0027A848 /* ac-filter4.cpp in Sources */,
 				7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */,
+				7F9DCAB32232F9CC0031F992 /* ac-filter17.cpp in Sources */,
 				7FEC38792130EB6800EE1A3E /* AC_AppDelegate.mm in Sources */,
 				7FEE832520C3DD140027A848 /* ac-image.cpp in Sources */,
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
