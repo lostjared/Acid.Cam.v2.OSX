@@ -1154,7 +1154,7 @@ void ac::ColorTrailsSubFilter(cv::Mat &frame) {
 }
 
 void ac::DarkNegateRainbowMedian(cv::Mat &frame) {
-    static MatrixCollection<8> collection1, collection2;
+    static MatrixCollection<8> collection1;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     DarkNegate(copy1);
     SmoothRGB(copy1, &collection1);
