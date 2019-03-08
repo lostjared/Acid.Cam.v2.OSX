@@ -1207,3 +1207,25 @@ void ac::IncreaseQuick(cv::Mat &frame) {
         }
     }
 }
+
+
+void ac::IncreaseRandomIndex(cv::Mat &frame) {
+    static int index = rand()%2, speed = 10;
+    static int colors[3] = {0,75,150};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] += colors[index];
+        }
+    }
+    for(int j = 0; j < 3; ++j ){
+        colors[j] += speed;
+        if(colors[j] >= 255) {
+            colors[j] = 0;
+            ++index;
+            if(index > 2)
+                index = rand()%2;
+        }
+    }
+    AddInvert(frame);
+}
