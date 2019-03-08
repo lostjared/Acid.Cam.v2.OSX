@@ -1229,3 +1229,39 @@ void ac::IncreaseRandomIndex(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageChannelSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageChannelSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    CallFilter(subfilter, copy1);
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    cv::Mat chan[3], output;
+    static int index = 0;
+    static int values[3] = {0,1,2};
+    switch(index) {
+        case 0:
+            values[0] = 0;
+            values[1] = 1;
+            values[2] = 2;
+            break;
+        case 1:
+            values[0] = 1;
+            values[1] = 2;
+            values[2] = 0;
+            break;
+        case 2:
+            values[0] = 2;
+            values[1] = 0;
+            values[2] = 1;
+            break;
+    }
+    ++index;
+    if(index > 2) index = 0;
+    cv::extractChannel(copy1, chan[values[0]], 0);
+    cv::extractChannel(reimage, chan[values[1]],1);
+    cv::extractChannel(copy2, chan[values[2]], 2);
+    cv::merge(chan, 3, output);
+    AlphaBlend(output, copy2, frame, 0.5);
+}

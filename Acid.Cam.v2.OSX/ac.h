@@ -1038,6 +1038,7 @@ namespace ac {
     void DarkNegateRainbowMedian(cv::Mat &frame);
     void IncreaseQuick(cv::Mat &frame);
     void IncreaseRandomIndex(cv::Mat &frame);
+    void ImageChannelSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
