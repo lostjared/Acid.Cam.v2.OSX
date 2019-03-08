@@ -1093,7 +1093,7 @@ void ac::XorDifferenceFilter(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b copy_pix[collection.size()];
+            cv::Vec3b copy_pix[8];
             for(int q = 0; q < collection.size(); ++q) {
                 copy_pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
             }
