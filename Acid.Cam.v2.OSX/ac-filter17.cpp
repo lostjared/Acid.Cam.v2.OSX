@@ -175,6 +175,101 @@ void ac::ImageChannelChangeSubFilter(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
-    
     AddInvert(frame);
+}
+
+void ac::ImageChannelRandom(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int index = 0;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone();
+    cv::Mat chan[3], output;
+    static int values[3] = {0,1,2};
+    switch(index) {
+        case 0:
+            values[0] = 0;
+            values[1] = 1;
+            values[2] = 2;
+            break;
+        case 1:
+            values[0] = 1;
+            values[1] = 2;
+            values[2] = 0;
+            break;
+        case 2:
+            values[0] = 2;
+            values[1] = 0;
+            values[2] = 1;
+            break;
+    }
+    cv::extractChannel(reimage, chan[0], values[0]);
+    cv::extractChannel(reimage, chan[1], values[1]);
+    cv::extractChannel(reimage, chan[2], values[2]);
+    cv::merge(chan, 3, output);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > 2) {
+            index = 2;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index < 0) {
+            index = 0;
+            dir = 1;
+        }
+    }
+}
+
+void ac::ImageChannelRandomSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageChannelRandomSubFilter")
+        return;
+    
+    static int index = 0;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone();
+    cv::Mat chan[3], output;
+    static int values[3] = {0,1,2};
+    switch(index) {
+        case 0:
+            values[0] = 0;
+            values[1] = 1;
+            values[2] = 2;
+            break;
+        case 1:
+            values[0] = 1;
+            values[1] = 2;
+            values[2] = 0;
+            break;
+        case 2:
+            values[0] = 2;
+            values[1] = 0;
+            values[2] = 1;
+            break;
+    }
+    CallFilter(subfilter, copy1);
+    cv::extractChannel(reimage, chan[0], values[0]);
+    cv::extractChannel(reimage, chan[1], values[1]);
+    cv::extractChannel(reimage, chan[2], values[2]);
+    cv::merge(chan, 3, output);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > 2) {
+            index = 2;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index < 0) {
+            index = 0;
+            dir = 1;
+        }
+    }
 }

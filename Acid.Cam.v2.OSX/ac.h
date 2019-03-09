@@ -1040,6 +1040,8 @@ namespace ac {
     void IncreaseRandomIndex(cv::Mat &frame);
     void ImageChannelSubFilter(cv::Mat &frame);
     void ImageChannelChangeSubFilter(cv::Mat &frame);
+    void ImageChannelRandom(cv::Mat &frame);
+    void ImageChannelRandomSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
