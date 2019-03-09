@@ -223,6 +223,7 @@ void ac::ImageChannelRandom(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ImageChannelRandomSubFilter(cv::Mat &frame) {
@@ -272,4 +273,18 @@ void ac::ImageChannelRandomSubFilter(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::PixelateBlur(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MedianBlur(copy1);
+    Block(copy1);
+    static double alpha1 = 0.1, alpha2 = 1.0;
+    static int dir1 = 1, dir2 = 0;
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+    MedianBlur(frame);
+    AlphaMovementMaxMin(alpha1,dir1,0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2,dir2,0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
