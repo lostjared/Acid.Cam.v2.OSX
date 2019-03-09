@@ -154,4 +154,27 @@ void ac::ImageChannelSubFilter(cv::Mat &frame) {
     cv::extractChannel(copy2, chan[values[2]], 2);
     cv::merge(chan, 3, output);
     AlphaBlend(output, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::ImageChannelChangeSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageChannelChangeSubFilter")
+        return;
+    static int index = 0;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, frame);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b repixel = reimage.at<cv::Vec3b>(z, i);
+            pixel[index] = repixel[index];
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    
+    AddInvert(frame);
 }
