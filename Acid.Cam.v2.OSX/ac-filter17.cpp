@@ -288,3 +288,15 @@ void ac::PixelateBlur(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha2,dir2,0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::PixelateBlock(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ParticleRelease(copy1);
+    Block(copy1);
+    static double alpha1 = 0.1, alpha2 = 1.0;
+    static int dir1 = 1, dir2 = 0;
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1,dir1,0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2,dir2,0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
