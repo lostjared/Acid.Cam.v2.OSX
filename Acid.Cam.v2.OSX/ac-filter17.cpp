@@ -320,3 +320,8 @@ void ac::PixelateNoResize16(cv::Mat &frame) {
     Pixelate(frame, 16);
     AddInvert(frame);
 }
+
+void ac::PixelateNoResize24(cv::Mat &frame) {
+    Pixelate(frame, 24);
+    AddInvert(frame);
+}
