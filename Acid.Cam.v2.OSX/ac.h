@@ -1044,7 +1044,9 @@ namespace ac {
     void ImageChannelRandomSubFilter(cv::Mat &frame);
     void PixelateBlur(cv::Mat &frame);
     void PixelateBlock(cv::Mat &frame);
-    void PixelateNoResize(cv::Mat &frame);
+    void PixelateNoResize12(cv::Mat &frame);
+    void PixelateNoResize8(cv::Mat &frame);
+    void PixelateNoResize32(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1075,6 +1077,7 @@ namespace ac {
     void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
     void PixelScaleAlpha(cv::Mat &frame, double amt);
     void DarkenImage(cv::Mat &frame, unsigned int size);
+    void Pixelate(cv::Mat &frame, unsigned int size);
     void Add(cv::Mat &src, cv::Mat &add, bool sat = false);
     void Sub(cv::Mat &src, cv::Mat &sub, bool sat = false);
     void Xor(cv::Mat &dst, const cv::Mat &add);

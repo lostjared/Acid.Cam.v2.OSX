@@ -301,22 +301,17 @@ void ac::PixelateBlock(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::PixelateNoResize(cv::Mat &frame) {
-    const int w = frame.cols;// frame width
-    const int h = frame.rows;// frame heigh
-    static int square = 12;
-    for(int z = 0; z < h; z += square) {
-        for(int i = 0; i < w; i += square) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(int x = 0; x < square; ++x) {
-                for(int y = 0; y < square; ++y) {
-                    if(y+z < h && i+x < w) {
-                        cv::Vec3b &pix = frame.at<cv::Vec3b>(y+z, i+x);
-                        pix = pixel;
-                    }
-                }
-            }
-        }
-    }
+void ac::PixelateNoResize12(cv::Mat &frame) {
+    Pixelate(frame, 12);
+    AddInvert(frame);
+}
+
+void ac::PixelateNoResize8(cv::Mat &frame) {
+    Pixelate(frame, 8);
+    AddInvert(frame);
+}
+
+void ac::PixelateNoResize32(cv::Mat &frame) {
+    Pixelate(frame, 32);
     AddInvert(frame);
 }
