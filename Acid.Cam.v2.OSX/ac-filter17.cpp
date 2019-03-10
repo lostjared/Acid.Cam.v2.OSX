@@ -325,3 +325,13 @@ void ac::PixelateNoResize24(cv::Mat &frame) {
     Pixelate(frame, 24);
     AddInvert(frame);
 }
+
+void ac::PixelateBlurFilter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    int r = 3+(rand()%7);
+    for(int i = 0; i < r; ++i) {
+        MedianBlur(copy1);
+    }
+    Pixelate(copy1,16);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
