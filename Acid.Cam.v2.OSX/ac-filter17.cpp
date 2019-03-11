@@ -347,3 +347,30 @@ void ac::PixelateBlurSubFilter(cv::Mat &frame) {
     Pixelate(copy1, 12);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+
+void ac::MirrorXorImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage, copy1;
+    copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b values[8];
+            values[0] = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[1] = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            values[2] = copy1.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[3] = reimage.at<cv::Vec3b>(z, i);
+            values[4] = reimage.at<cv::Vec3b>(reimage.rows-z-1, i);
+            values[5] = reimage.at<cv::Vec3b>(z, reimage.cols-i-1);
+            values[6] = reimage.at<cv::Vec3b>(reimage.rows-z-1, reimage.cols-i-1);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                for(int q = 0; q < 7; ++q)
+                    pixel[j] ^= values[q][j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
