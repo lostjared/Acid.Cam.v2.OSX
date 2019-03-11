@@ -1050,6 +1050,7 @@ namespace ac {
     void PixelateNoResize16(cv::Mat &frame);
     void PixelateNoResize24(cv::Mat &frame);
     void PixelateBlurFilter(cv::Mat &frame);
+    void PixelateBlurSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

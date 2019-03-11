@@ -335,3 +335,15 @@ void ac::PixelateBlurFilter(cv::Mat &frame) {
     Pixelate(copy1,16);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::PixelateBlurSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "PixelateBlurSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    int r = 3+(rand()%7);
+    for(int i = 0; i < r; ++i)
+        MedianBlur(copy1);
+    Pixelate(copy1, 12);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
