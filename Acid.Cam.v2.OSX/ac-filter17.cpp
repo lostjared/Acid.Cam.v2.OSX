@@ -460,4 +460,6 @@ void ac::PixelAlphaImageSubFilter(cv::Mat &frame) {
             }
         }
     }
+    MedianBlend(frame);
+    AddInvert(frame);
 }
