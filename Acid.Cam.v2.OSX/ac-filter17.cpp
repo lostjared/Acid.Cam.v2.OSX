@@ -431,12 +431,9 @@ void ac::PixelXorImageSubFilter(cv::Mat &frame) {
 void ac::PixelAlphaImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelAlphaImageSubFilter")
         return;
-    static double alpha1 = 1.0;
-    static int dir1 = 1;
     cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
     cv::resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy2);
-    AlphaMovementMaxMin(alpha1,dir1,0.01, 2.0, 1.0);
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
             cv::Vec3b values1[4], values2[4],values3[4];
