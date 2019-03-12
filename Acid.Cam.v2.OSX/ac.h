@@ -1053,6 +1053,8 @@ namespace ac {
     void PixelateBlurSubFilter(cv::Mat &frame);
     void MirrorXorImage(cv::Mat &frame);
     void MirrorXorSubFilter(cv::Mat &frame);
+    void PixelXorImageSubFilter(cv::Mat &frame);
+    void PixelAlphaImageSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

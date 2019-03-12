@@ -401,3 +401,63 @@ void ac::MirrorXorSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PixelXorImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "PixelXorImageSubFilter")
+        return;
+    cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, frame);
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b values[8];
+            values[0] = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[1] = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            values[2] = copy1.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[3] = reimage.at<cv::Vec3b>(z, i);
+            values[4] = reimage.at<cv::Vec3b>(reimage.rows-z-1, i);
+            values[5] = reimage.at<cv::Vec3b>(z, reimage.cols-i-1);
+            values[6] = reimage.at<cv::Vec3b>(reimage.rows-z-1, reimage.cols-i-1);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                for(int q = 0; q < 4; ++q)
+                    pixel[j] ^= values[q][j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::PixelAlphaImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelAlphaImageSubFilter")
+        return;
+    static double alpha1 = 1.0;
+    static int dir1 = 1;
+    cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy2);
+    AlphaMovementMaxMin(alpha1,dir1,0.01, 2.0, 1.0);
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b values1[4], values2[4],values3[4];
+            values1[0] = copy1.at<cv::Vec3b>(z, i);
+            values1[1] = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            values1[2] = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            values1[3] = copy1.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values2[0] = reimage.at<cv::Vec3b>(z, i);
+            values2[1] = reimage.at<cv::Vec3b>(reimage.rows-z-1, i);
+            values2[2] = reimage.at<cv::Vec3b>(z, reimage.cols-i-1);
+            values2[3] = reimage.at<cv::Vec3b>(reimage.rows-z-1, reimage.cols-i-1);
+            values3[0] = copy2.at<cv::Vec3b>(z, i);
+            values3[1] = copy2.at<cv::Vec3b>(frame.rows-z-1, i);
+            values3[2] = copy2.at<cv::Vec3b>(z, frame.cols-i-1);
+            values3[3] = copy2.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                for(int q = 0; q < 4; ++q) {
+                    pixel[j] = static_cast<unsigned char>((values1[q][j] + values2[q][j] + values3[q][j]) * 0.3);
+                }
+            }
+        }
+    }
+}
