@@ -571,3 +571,26 @@ void ac::PixelImageXorSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::PixelRowMedianBlend(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        cv::Scalar scale;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                scale[j] += pixel[j] * 0.1;
+            }
+        }
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int value = static_cast<int>(scale[j]);
+                pixel[j] += static_cast<unsigned char>((pixel[j]^value) * 0.5);
+            }
+        }
+    }
+    BlendWithSource(frame);
+    BlendWithSource(frame);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
