@@ -452,7 +452,7 @@ void ac::PixelAlphaImageSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 for(int q = 0; q < 4; ++q) {
-                    pixel[j] = static_cast<unsigned char>((values1[q][j] + values2[q][j] + values3[q][j]) * 0.3);
+                    pixel[j] += static_cast<unsigned char>((values1[q][j] + values2[q][j] + values3[q][j]) * 0.1);
                 }
             }
         }
