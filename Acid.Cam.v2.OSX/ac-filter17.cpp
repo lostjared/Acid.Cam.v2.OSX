@@ -496,3 +496,45 @@ void ac::PixelScaleImageSubFilter(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha,dir,0.005, 0.5, 0.1);
 }
+
+void ac::PixelImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelImageSubFilter")
+        return;
+    cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy2);
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            cv::Vec3b values1[4], values2[4],values3[4];
+            values1[0] = copy1.at<cv::Vec3b>(z, i);
+            values1[1] = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            values1[2] = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            values1[3] = copy1.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values2[0] = reimage.at<cv::Vec3b>(z, i);
+            values2[1] = reimage.at<cv::Vec3b>(reimage.rows-z-1, i);
+            values2[2] = reimage.at<cv::Vec3b>(z, reimage.cols-i-1);
+            values2[3] = reimage.at<cv::Vec3b>(reimage.rows-z-1, reimage.cols-i-1);
+            values3[0] = copy2.at<cv::Vec3b>(z, i);
+            values3[1] = copy2.at<cv::Vec3b>(frame.rows-z-1, i);
+            values3[2] = copy2.at<cv::Vec3b>(z, frame.cols-i-1);
+            values3[3] = copy2.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                for(int q = 0; q < 4; ++q) {
+                    pixel[j] += static_cast<unsigned char>((values1[q][j] + values2[q][j] + values3[q][j]) * 0.1);
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::PixelImageTex(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    pushSubFilter(ac::filter_map["ColorExpand"]);
+    PixelImageSubFilter(frame);
+    popSubFilter();
+    BlendWithSource(frame);
+    MedianBlend(frame);
+}
