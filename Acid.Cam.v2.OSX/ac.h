@@ -1055,6 +1055,7 @@ namespace ac {
     void MirrorXorSubFilter(cv::Mat &frame);
     void PixelXorImageSubFilter(cv::Mat &frame);
     void PixelAlphaImageSubFilter(cv::Mat &frame);
+    void PixelScaleImageSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
