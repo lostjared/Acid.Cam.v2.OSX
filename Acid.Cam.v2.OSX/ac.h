@@ -1062,6 +1062,8 @@ namespace ac {
     void PixelRowMedianBlend(cv::Mat &frame);
     void IntertwineRows32(cv::Mat &frame);
     void IntertwineRows16(cv::Mat &frame);
+    void IntertwineRows8(cv::Mat &frame);
+    void IntertwineAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1391,6 +1393,30 @@ namespace ac {
             }
         }
     }
+    
+    template<int row_size, typename F>
+    void IntertwineRowsOperation(cv::Mat &frame, MatrixCollection<row_size> *collection, F func) {
+        collection->shiftFrames(frame);
+        int index = 0;
+        int pos = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Mat &current = collection->frames[index];
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                func(pixel, value);
+            }
+            ++pos;
+            if(pos > row_size-1) {
+                pos = 0;
+                ++index;
+                if(index > row_size-1)
+                    index = 0;
+            }
+        }
+    }
+
+    
 
     
     // bound long values to size of a byte

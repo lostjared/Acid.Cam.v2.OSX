@@ -604,3 +604,20 @@ void ac::IntertwineRows16(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     IntertwineRows(frame, &collection);
 }
+
+void ac::IntertwineRows8(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    IntertwineRows(frame, &collection);
+}
+
+void ac::IntertwineAlpha(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    static double alpha = 1.0;
+    static int dir = 1;
+    IntertwineRowsOperation(frame, &collection, [&](cv::Vec3b &pixel, cv::Vec3b value) {
+        for(int j = 0; j < 3; ++j) {
+            pixel[j] = static_cast<unsigned char>((pixel[j]+value[j])*alpha);
+        }
+    });
+    AlphaMovementMaxMin(alpha, dir, 0.01, 2.0, 1.0);
+}
