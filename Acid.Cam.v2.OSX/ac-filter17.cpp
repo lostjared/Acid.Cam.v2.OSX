@@ -594,3 +594,13 @@ void ac::PixelRowMedianBlend(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::IntertwineRows32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    IntertwineRows(frame, &collection);
+}
+
+void ac::IntertwineRows16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    IntertwineRows(frame, &collection);
+}

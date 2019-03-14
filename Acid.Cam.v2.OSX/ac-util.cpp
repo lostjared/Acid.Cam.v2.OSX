@@ -733,3 +733,4 @@ void ac::Pixelate(cv::Mat &frame, unsigned int size) {
         }
     }
 }
+

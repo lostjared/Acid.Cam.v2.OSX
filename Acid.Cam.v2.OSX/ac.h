@@ -1060,6 +1060,8 @@ namespace ac {
     void PixelImageTex(cv::Mat &frame);
     void PixelImageXorSubFilter(cv::Mat &frame);
     void PixelRowMedianBlend(cv::Mat &frame);
+    void IntertwineRows32(cv::Mat &frame);
+    void IntertwineRows16(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1366,6 +1368,30 @@ namespace ac {
             }
         }
     }
+    template<int row_size>
+    void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection) {
+        collection->shiftFrames(frame);
+        int index = 0;
+        int pos = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Mat &current = collection->frames[index];
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = value[j];
+                }
+            }
+            ++pos;
+            if(pos > row_size-1) {
+                pos = 0;
+                ++index;
+                if(index > row_size-1)
+                    index = 0;
+            }
+        }
+    }
+
     
     // bound long values to size of a byte
     template<typename T>
