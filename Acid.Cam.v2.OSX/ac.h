@@ -1372,8 +1372,9 @@ namespace ac {
             }
         }
     }
+    
     template<int row_size>
-    void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection) {
+    void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height) {
         collection->shiftFrames(frame);
         int index = 0;
         int pos = 0;
@@ -1387,13 +1388,18 @@ namespace ac {
                 }
             }
             ++pos;
-            if(pos > row_size-1) {
+            if(pos > height-1) {
                 pos = 0;
                 ++index;
                 if(index > row_size-1)
                     index = 0;
             }
         }
+    }
+    
+    template<int row_size>
+    void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection) {
+        IntertwineRows(frame, collection, row_size);
     }
     
     template<int row_size, typename F>
