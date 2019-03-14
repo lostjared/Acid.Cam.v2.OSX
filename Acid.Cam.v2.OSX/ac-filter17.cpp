@@ -621,3 +621,21 @@ void ac::IntertwineAlpha(cv::Mat &frame) {
     });
     AlphaMovementMaxMin(alpha, dir, 0.01, 2.0, 1.0);
 }
+
+void ac::InterwineSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "InterwineSubFilter")
+        return;
+    
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    IntertwineRows(copy1, &collection1);
+    CallFilter(subfilter, copy2);
+    IntertwineRows(copy2, &collection2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
+
+void ac::InterwineRows4(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    IntertwineRows(frame, &collection);
+}
