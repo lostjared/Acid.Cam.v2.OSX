@@ -647,3 +647,18 @@ void ac::Intertwine64x4(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     IntertwineRows(frame, &collection, 4);
 }
+
+void ac::Intertwine64X(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    static int dir = 1, index = 4;
+    IntertwineRows(frame, &collection, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+}
