@@ -666,7 +666,7 @@ void ac::Intertwine64X(cv::Mat &frame) {
             dir = 0;
     } else {
         --index;
-        if(index <= 1)
+        if(index <= 0)
             dir = 1;
     }
     AddInvert(frame);
