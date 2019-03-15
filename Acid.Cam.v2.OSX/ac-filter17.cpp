@@ -675,8 +675,6 @@ void ac::Intertwine64X(cv::Mat &frame) {
 void ac::Intertwine64XSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || draw_strings[subfilter] == "Intertwine64XSubFilter")
         return;
-    
-    
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     Intertwine64X(copy1);
     pushSubFilter(subfilter);
@@ -687,4 +685,26 @@ void ac::Intertwine64XSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
     
+}
+
+void ac::Intertwine64XPixel(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    static int dir = 0, index = 62;
+    if(dir == 1) {
+        ++index;
+        if(index > 62) {
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 1)
+            dir = 1;
+    }
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Intertwine64X(copy1);
+    collection.shiftFrames(copy1);
+    PixelateNoResize16(copy2);
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
