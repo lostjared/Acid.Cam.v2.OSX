@@ -598,16 +598,19 @@ void ac::PixelRowMedianBlend(cv::Mat &frame) {
 void ac::IntertwineRows32(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     IntertwineRows(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRows16(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     IntertwineRows(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRows8(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     IntertwineRows(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::IntertwineAlpha(cv::Mat &frame) {
@@ -620,6 +623,8 @@ void ac::IntertwineAlpha(cv::Mat &frame) {
         }
     });
     AlphaMovementMaxMin(alpha, dir, 0.01, 2.0, 1.0);
+    AddInvert(frame);
+
 }
 
 
@@ -634,18 +639,21 @@ void ac::IntertwineRowsSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     IntertwineRows(copy2, &collection2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 
 void ac::IntertwineRows4(cv::Mat &frame) {
     static MatrixCollection<4> collection;
     IntertwineRows(frame, &collection);
+    AddInvert(frame);
 }
 
 
 void ac::Intertwine64x4(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     IntertwineRows(frame, &collection, 4);
+    AddInvert(frame);
 }
 
 void ac::Intertwine64X(cv::Mat &frame) {
@@ -658,7 +666,25 @@ void ac::Intertwine64X(cv::Mat &frame) {
             dir = 0;
     } else {
         --index;
-        if(index <= 0)
+        if(index <= 1)
             dir = 1;
     }
+    AddInvert(frame);
+}
+
+void ac::Intertwine64XSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "Intertwine64XSubFilter")
+        return;
+    
+    
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Intertwine64X(copy1);
+    pushSubFilter(subfilter);
+    SmoothSubFilter32(copy1);
+    popSubFilter();
+    Intertwine64X(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
+    
 }
