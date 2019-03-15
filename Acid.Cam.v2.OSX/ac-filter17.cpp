@@ -627,7 +627,6 @@ void ac::IntertwineAlpha(cv::Mat &frame) {
 void ac::IntertwineRowsSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || draw_strings[subfilter] == "IntertwineSubFilter")
         return;
-    
     static MatrixCollection<8> collection1, collection2;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     CallFilter(subfilter, copy1);
@@ -643,3 +642,8 @@ void ac::IntertwineRows4(cv::Mat &frame) {
     IntertwineRows(frame, &collection);
 }
 
+
+void ac::Intertwine64x4(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    IntertwineRows(frame, &collection, 4);
+}

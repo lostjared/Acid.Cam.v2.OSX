@@ -838,8 +838,8 @@ void SearchForString(NSString *s) {
 
 - (void) stopCamera {
     camera_active = false;
-    [finish_queue orderFront:self];
-    [finish_queue_progress startAnimation:self];
+   // [finish_queue orderFront:self];
+   // [finish_queue_progress startAnimation:self];
     if(renderTimer != nil && renderTimer.valid) {
         [renderTimer invalidate];
         renderTimer = nil;
