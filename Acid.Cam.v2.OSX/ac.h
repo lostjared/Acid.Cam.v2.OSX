@@ -1070,6 +1070,7 @@ namespace ac {
     void Intertwine64X(cv::Mat &frame);
     void Intertwine64XSubFilter(cv::Mat &frame);
     void Intertwine64XPixel(cv::Mat &frame);
+    void IntertwinePixels(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

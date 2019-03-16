@@ -708,3 +708,12 @@ void ac::Intertwine64XPixel(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::IntertwinePixels(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    PixelateNoResize16(copy1);
+    IntertwineRows(copy1, &collection, 32);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
