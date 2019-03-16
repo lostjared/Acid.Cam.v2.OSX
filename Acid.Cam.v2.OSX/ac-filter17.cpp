@@ -717,3 +717,37 @@ void ac::IntertwinePixels(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::IntertwineColsX(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    static int dir = 1, index = 4;
+    IntertwineCols(frame, &collection, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
+
+void ac::IntertwineCols16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    IntertwineCols(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::IntertwineCols8(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    IntertwineCols(frame, &collection);
+    AddInvert(frame);
+}
+void ac::IntertwineCols32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    IntertwineCols(frame, &collection);
+    AddInvert(frame);
+
+}
