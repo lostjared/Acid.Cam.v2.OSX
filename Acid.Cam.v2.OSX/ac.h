@@ -1079,6 +1079,7 @@ namespace ac {
     void MirrorIntertwineImage(cv::Mat &frame);
     void MirrorIntertwineImageSubFilter(cv::Mat &frame);
     void IntertwineImageSubFilter(cv::Mat &frame);
+    void BlendWithImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
