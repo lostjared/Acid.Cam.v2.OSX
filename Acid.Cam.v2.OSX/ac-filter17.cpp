@@ -779,3 +779,17 @@ void ac::MirrorIntertwineImageSubFilter(cv::Mat &frame) {
     MirrorIntertwine(frame);
     AddInvert(frame);
 }
+
+void ac::IntertwineImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage, cp1, cp2;
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1, reimage, cp1, 0.5);
+    CallFilter(subfilter, cp1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, cp2, 0.5);
+    AlphaBlend(cp1, cp2, frame, 0.5);
+    MirrorIntertwine(frame);
+    AddInvert(frame);
+}
