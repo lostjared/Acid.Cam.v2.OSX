@@ -749,5 +749,11 @@ void ac::IntertwineCols32(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     IntertwineCols(frame, &collection);
     AddInvert(frame);
+}
 
+void ac::MirrorIntertwine(cv::Mat &frame) {
+    IntertwineRows32(frame);
+    DarkenFilter(frame);
+    MirrorXorAll(frame);
+    MedianBlend(frame);
 }
