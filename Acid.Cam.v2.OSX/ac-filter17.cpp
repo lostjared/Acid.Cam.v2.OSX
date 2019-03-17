@@ -768,3 +768,14 @@ void ac::MirrorIntertwineImage(cv::Mat &frame) {
     MirrorIntertwine(frame);
     AddInvert(frame);
 }
+
+void ac::MirrorIntertwineImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "MirrorIntertwineImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    CallFilter(subfilter, frame);
+    MirrorIntertwine(frame);
+    AddInvert(frame);
+}
