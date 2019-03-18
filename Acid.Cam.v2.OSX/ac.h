@@ -1080,6 +1080,9 @@ namespace ac {
     void MirrorIntertwineImageSubFilter(cv::Mat &frame);
     void IntertwineImageSubFilter(cv::Mat &frame);
     void BlendWithImage(cv::Mat &frame);
+    void IntertwineRowsReverse32(cv::Mat &frame);
+    void IntertwineRowsReverse16(cv::Mat &frame);
+    void IntertwineRowsReverse8(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1415,6 +1418,36 @@ namespace ac {
     void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection) {
         IntertwineRows(frame, collection, row_size);
     }
+    
+    template<int row_size>
+    void IntertwineRowsReverse(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height) {
+        collection->shiftFrames(frame);
+        int index = 0;
+        int pos = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Mat &current = collection->frames[row_size-index-1];
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = value[j];
+                }
+            }
+            ++pos;
+            if(pos > height-1) {
+                pos = 0;
+                ++index;
+                if(index > row_size-1)
+                    index = 0;
+            }
+        }
+    }
+    
+    template<int row_size>
+    void IntertwineRowsReverse(cv::Mat &frame, MatrixCollection<row_size> *collection) {
+        IntertwineRowsReverse(frame, collection, row_size);
+    }
+    
     
     template<int row_size, typename F>
     void IntertwineRowsOperation(cv::Mat &frame, MatrixCollection<row_size> *collection, F func) {

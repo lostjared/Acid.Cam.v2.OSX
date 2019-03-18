@@ -801,3 +801,19 @@ void ac::BlendWithImage(cv::Mat &frame) {
     cv::resize(blend_image, reimage, frame.size());
     AlphaBlend(copy1, reimage, frame, 0.5);
 }
+
+void ac::IntertwineRowsReverse32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    IntertwineRowsReverse(frame, &collection, 32);
+}
+
+void ac::IntertwineRowsReverse16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    IntertwineRowsReverse(frame, &collection, 16);
+
+}
+void ac::IntertwineRowsReverse8(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    IntertwineRowsReverse(frame, &collection, 8);
+}
+
