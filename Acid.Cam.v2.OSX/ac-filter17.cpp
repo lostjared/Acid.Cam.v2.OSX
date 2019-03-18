@@ -817,3 +817,72 @@ void ac::IntertwineRowsReverse8(cv::Mat &frame) {
     IntertwineRowsReverse(frame, &collection, 8);
 }
 
+void ac::IntertwineRowsReverse64X(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    static int dir = 1, index = 4;
+    IntertwineRowsReverse(frame, &collection, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
+
+void ac::IntertwineRowsSwitch32(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        index = 1;
+        IntertwineRows32(frame);
+    } else {
+        index = 0;
+        IntertwineRowsReverse32(frame);
+    }
+}
+
+void ac::IntertwineRowsSwitch16(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        index = 1;
+        IntertwineRows16(frame);
+    } else {
+        index = 0;
+        IntertwineRowsReverse16(frame);
+    }
+
+}
+void ac::IntertwineRowsSwitch8(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        index = 1;
+        IntertwineRows8(frame);
+    } else {
+        index = 0;
+        IntertwineRowsReverse8(frame);
+    }
+}
+
+void ac::IntertwineRows64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    IntertwineRows(frame, &collection, 64);
+}
+
+void ac::IntertwineRowsReverse64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    IntertwineRowsReverse(frame, &collection, 64);
+}
+void ac::IntertwineRowsSwitch64(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        index = 1;
+        IntertwineRows64(frame);
+    } else {
+        index = 0;
+        IntertwineRowsReverse64(frame);
+    }
+
+}
