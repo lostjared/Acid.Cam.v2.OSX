@@ -800,21 +800,25 @@ void ac::BlendWithImage(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(blend_image, reimage, frame.size());
     AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRowsReverse32(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     IntertwineRowsReverse(frame, &collection, 32);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRowsReverse16(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     IntertwineRowsReverse(frame, &collection, 16);
+    AddInvert(frame);
 
 }
 void ac::IntertwineRowsReverse8(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     IntertwineRowsReverse(frame, &collection, 8);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRowsReverse64X(cv::Mat &frame) {
@@ -842,6 +846,7 @@ void ac::IntertwineRowsSwitch32(cv::Mat &frame) {
         index = 0;
         IntertwineRowsReverse32(frame);
     }
+    AddInvert(frame);
 }
 
 void ac::IntertwineRowsSwitch16(cv::Mat &frame) {
@@ -853,7 +858,7 @@ void ac::IntertwineRowsSwitch16(cv::Mat &frame) {
         index = 0;
         IntertwineRowsReverse16(frame);
     }
-
+    AddInvert(frame);
 }
 void ac::IntertwineRowsSwitch8(cv::Mat &frame) {
     static int index = 0;
@@ -864,16 +869,19 @@ void ac::IntertwineRowsSwitch8(cv::Mat &frame) {
         index = 0;
         IntertwineRowsReverse8(frame);
     }
+    AddInvert(frame);
 }
 
 void ac::IntertwineRows64(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     IntertwineRows(frame, &collection, 64);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRowsReverse64(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     IntertwineRowsReverse(frame, &collection, 64);
+    AddInvert(frame);
 }
 void ac::IntertwineRowsSwitch64(cv::Mat &frame) {
     static int index = 0;
@@ -884,5 +892,23 @@ void ac::IntertwineRowsSwitch64(cv::Mat &frame) {
         index = 0;
         IntertwineRowsReverse64(frame);
     }
+    AddInvert(frame);
+}
 
+void ac::IntertwineShuffle(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
+    static std::vector<std::string> filter_array({"IntertwineRows32","IntertwineRows16","IntertwineRows8","IntertwineRows4","Intertwine64x4","Intertwine64X","IntertwineColsX","IntertwineCols16","IntertwineCols32","IntertwineCols8","IntertwineRowsReverse32","IntertwineRowsReverse16","IntertwineRowsReverse8","IntertwineRowsReverse64X","IntertwineRowsSwitch32","IntertwineRowsSwitch16","IntertwineRowsSwitch8","IntertwineRows64", "IntertwineRowsReverse64", "IntertwineRowsSwitch64"});
+    static int init = 0;
+    if(init == 0) {
+        std::shuffle(filter_array.begin(), filter_array.end(), rng);
+        init = 1;
+    }
+    static int index = 0;
+    CallFilter(filter_array[index], frame);
+    ++index;
+    if(index > filter_array.size()-1) {
+        index = 0;
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+    AddInvert(frame);
 }
