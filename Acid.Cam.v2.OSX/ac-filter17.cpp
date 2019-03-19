@@ -928,3 +928,15 @@ void ac::InterwtineAlphaSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::IntertwineImageAndSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineImageAndSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    IntertwineRows32(reimage);
+    IntertwineRowsReverse32(copy1);
+    AlphaBlendDouble(copy1, reimage, frame, 1.0, 0.3);
+    CallFilter(subfilter, copy1);
+    AddInvert(frame);
+}
