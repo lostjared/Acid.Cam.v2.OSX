@@ -897,7 +897,7 @@ void ac::IntertwineRowsSwitch64(cv::Mat &frame) {
 
 void ac::IntertwineShuffle(cv::Mat &frame) {
     static auto rng = std::default_random_engine{};
-    static std::vector<std::string> filter_array({"IntertwineRows32","IntertwineRows16","IntertwineRows8","IntertwineRows4","Intertwine64x4","Intertwine64X","IntertwineColsX","IntertwineCols16","IntertwineCols32","IntertwineCols8","IntertwineRowsReverse32","IntertwineRowsReverse16","IntertwineRowsReverse8","IntertwineRowsReverse64X","IntertwineRowsSwitch32","IntertwineRowsSwitch16","IntertwineRowsSwitch8","IntertwineRows64", "IntertwineRowsReverse64", "IntertwineRowsSwitch64"});
+    static std::vector<std::string> filter_array({"IntertwineRows32","IntertwineRows16","IntertwineRows8","IntertwineRows4","Intertwine64x4","Intertwine64X","IntertwineColsX","IntertwineCols16","IntertwineCols32","IntertwineCols8","IntertwineRowsReverse32","IntertwineRowsReverse16","IntertwineRowsReverse8","IntertwineRowsReverse64X","IntertwineRowsSwitch32","IntertwineRowsSwitch16","IntertwineRowsSwitch8","IntertwineRows64","IntertwineRowsReverse64","IntertwineRowsSwitch64"});
     static int init = 0;
     if(init == 0) {
         std::shuffle(filter_array.begin(), filter_array.end(), rng);
@@ -910,5 +910,21 @@ void ac::IntertwineShuffle(cv::Mat &frame) {
         index = 0;
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
+    AddInvert(frame);
+}
+
+void ac::InterwtineAlphaSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "InterwtineAlphaSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static double alpha = 1.0;
+    static int dir = 1;
+    CallFilter(subfilter, copy1);
+    AlphaMovementMaxMin(alpha,dir,0.005, 3.0, 1.0);
+    AlphaBlend(copy1,copy2,frame,alpha);
+    pushSubFilter(filter_map["IntertwineShuffle"]);
+    SmoothSubFilter32(frame);
+    popSubFilter();
+    MedianBlend(frame);
     AddInvert(frame);
 }
