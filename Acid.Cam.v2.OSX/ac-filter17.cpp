@@ -940,3 +940,25 @@ void ac::IntertwineImageAndSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AddInvert(frame);
 }
+
+void ac::IntertwineRowsAndCols(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    IntertwineRows32(copy1);
+    IntertwineCols32(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::IntertwineRowsAndColsSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineRowsAndColsSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    IntertwineRows32(copy1);
+    Intertwine64X(copy2);
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    static MatrixCollection<16> collection;
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}

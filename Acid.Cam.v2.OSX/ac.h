@@ -1093,6 +1093,8 @@ namespace ac {
     void IntertwineShuffle(cv::Mat &frame);
     void InterwtineAlphaSubFilter(cv::Mat &frame);
     void IntertwineImageAndSubFilter(cv::Mat &frame);
+    void IntertwineRowsAndCols(cv::Mat &frame);
+    void IntertwineRowsAndColsSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
