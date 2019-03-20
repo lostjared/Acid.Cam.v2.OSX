@@ -962,3 +962,11 @@ void ac::IntertwineRowsAndColsSubFilter(cv::Mat &frame) {
     Smooth(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionVariable(cv::Mat &frame) {
+    static int depth = 2;
+    static int dir = 1;
+    static constexpr int v_size = 8;
+    static MatrixCollection<v_size> collection;
+    MatrixVariable(frame, &collection, depth, dir);
+}

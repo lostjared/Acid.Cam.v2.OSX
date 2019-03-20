@@ -1095,6 +1095,7 @@ namespace ac {
     void IntertwineImageAndSubFilter(cv::Mat &frame);
     void IntertwineRowsAndCols(cv::Mat &frame);
     void IntertwineRowsAndColsSubFilter(cv::Mat &frame);
+    void MatrixCollectionVariable(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1510,6 +1511,39 @@ namespace ac {
     template<int col_size>
     void IntertwineCols(cv::Mat &frame, MatrixCollection<col_size> *collection) {
         IntertwineCols(frame, collection, col_size);
+    }
+    
+    
+    template<int r_size>
+    void MatrixVariable(cv::Mat &frame, MatrixCollection<r_size> *collection, int &depth, int &dir) {
+        static constexpr int v_size = r_size;
+        collection->shiftFrames(frame);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Scalar values;
+                for(int q = 0; q < depth; ++q) {
+                    cv::Mat &frame = collection->frames[q];
+                    cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        values[j] += pixel[j];
+                    }
+                }
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val = static_cast<int>(values[j]);
+                    pixel[j] = pixel[j]^val;
+                }
+            }
+        }
+        if(dir == 1) {
+            ++depth;
+            if(depth > v_size-1)
+                dir = 0;
+        } else {
+            --depth;
+            if(depth <= 2)
+                dir = 1;
+    	}
     }
     
     // bound long values to size of a byte
