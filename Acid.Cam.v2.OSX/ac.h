@@ -1096,6 +1096,7 @@ namespace ac {
     void IntertwineRowsAndCols(cv::Mat &frame);
     void IntertwineRowsAndColsSubFilter(cv::Mat &frame);
     void MatrixCollectionVariable(cv::Mat &frame);
+    void MatrixCollectionVariableSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

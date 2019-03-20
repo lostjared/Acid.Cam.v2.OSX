@@ -969,4 +969,16 @@ void ac::MatrixCollectionVariable(cv::Mat &frame) {
     static constexpr int v_size = 8;
     static MatrixCollection<v_size> collection;
     MatrixVariable(frame, &collection, depth, dir);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionVariableSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionVariableSubFilter")
+        return;
+    static int depth = 2;
+    static int dir = 1;
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, frame);
+    MatrixVariable(frame, &collection, depth, dir);
+    AddInvert(frame);
 }
