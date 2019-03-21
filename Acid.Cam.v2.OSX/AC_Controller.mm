@@ -1305,7 +1305,7 @@ void SearchForString(NSString *s) {
 - (IBAction) selectFile: (id) sender {
     NSOpenPanel *pan = [NSOpenPanel openPanel];
     [pan setAllowsMultipleSelection: NO];
-    NSArray *ar = [NSArray arrayWithObjects: @"mov", @"avi", @"mp4", @"mkv",@"m4v",@"webm",@"mts",nil];
+    NSArray *ar = [NSArray arrayWithObjects: @"mov", @"avi", @"mp4", @"mkv",@"m4v",@"webm",@"mts",@"m2ts", nil];
     [pan setAllowedFileTypes:ar];
     if([pan runModal]) {
         NSString *file_name = [[pan URL] path];
