@@ -993,3 +993,14 @@ void ac::MatrixCollectionVariableImage(cv::Mat &frame) {
     AlphaBlendDouble(copy1, reimage, frame, 0.7, 0.3);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionVariableImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionVariableImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    MatrixCollectionVariable(reimage);
+    AlphaBlendDouble(copy1, reimage, frame, 0.7, 0.3);
+    CallFilter(subfilter, frame);
+    AddInvert(frame);
+}
