@@ -1099,6 +1099,8 @@ namespace ac {
     void MatrixCollectionVariableSubFilter(cv::Mat &frame);
     void MatrixCollectionVariableImage(cv::Mat &frame);
     void MatrixCollectionVariableImageSubFilter(cv::Mat &frame);
+    void SmoothImageAverageSubFilter(cv::Mat &frame);
+    void CallSubFilterBlend50(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

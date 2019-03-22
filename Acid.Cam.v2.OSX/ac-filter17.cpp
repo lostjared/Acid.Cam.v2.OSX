@@ -1004,3 +1004,20 @@ void ac::MatrixCollectionVariableImageSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame);
     AddInvert(frame);
 }
+
+void ac::SmoothImageAverageSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "SmoothBlendSubFilter8")
+        return;
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, frame);
+    Smooth(frame, &collection);
+}
+
+void ac::CallSubFilterBlend50(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "CallSubFilterBlend50")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
