@@ -1088,7 +1088,8 @@ void ac::MatrixCollectionXorBlend(cv::Mat &frame) {
             }
             for(int j = 0; j < 3; ++j) {
                 values[j] /= (collection.size()-1);
-                pixel[j] = pixel[j]^increase;
+                static int val = static_cast<int>(values[j]);
+                pixel[j] = pixel[j]^increase^val;
             }
         }
     }
