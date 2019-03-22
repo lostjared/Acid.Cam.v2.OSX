@@ -1021,3 +1021,46 @@ void ac::CallSubFilterBlend50(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::CallSubFilterBlend25(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "CallSubFilterBlend25")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.25);
+    AddInvert(frame);
+
+}
+void ac::CallSubFilterBlend75(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "CallSubFilterBlend75")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.75);
+    AddInvert(frame);
+}
+
+void ac::IntertwineColsX2(cv::Mat &frame) {
+    static MatrixCollection<64> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static int dir = 1, index = 4;
+    IntertwineCols(copy1, &collection1, index);
+    IntertwineRows(copy2, &collection2, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::SmoothFrame64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
