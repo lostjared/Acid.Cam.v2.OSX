@@ -904,7 +904,7 @@ namespace ac {
     void ImageXorScale(cv::Mat &frame);
     void MatrixCollectionShiftSubFilter(cv::Mat &frame);
     void MatrixCollectionImageShiftSubFilter(cv::Mat &frame);
-    void MatrixCollectionSmoothAlphaBlend(cv::Mat &frame);
+    void MatrixCollectionXorBlendAlphaBlend(cv::Mat &frame);
     void MatrixCollectionBlurImageXorAlpha(cv::Mat &frame);
     void MatrixCollectionBlurImageSubFilter(cv::Mat &frame);
     void MatrixCollectionBlurImageSubFilter16(cv::Mat &frame);
@@ -1105,6 +1105,8 @@ namespace ac {
     void CallSubFilterBlend75(cv::Mat &frame);
     void IntertwineColsX2(cv::Mat &frame);
     void SmoothFrame64(cv::Mat &frame);
+    void SmoothFrame32(cv::Mat &frame);
+    void MatrixCollectionXorBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

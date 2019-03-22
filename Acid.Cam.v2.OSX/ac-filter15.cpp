@@ -97,7 +97,7 @@ void ac::MatrixCollectionImageShiftSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::MatrixCollectionSmoothAlphaBlend(cv::Mat &frame) {
+void ac::MatrixCollectionXorBlendAlphaBlend(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     Smooth(copy1, &collection);

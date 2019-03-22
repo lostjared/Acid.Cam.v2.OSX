@@ -1064,3 +1064,46 @@ void ac::SmoothFrame64(cv::Mat &frame) {
     Smooth(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::SmoothFrame32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionXorBlend(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static unsigned int increase = 2;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Scalar values;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += pix[j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= (collection.size()-1);
+                pixel[j] = pixel[j]^increase;
+            }
+        }
+    }
+    if(dir == 1) {
+        ++increase;
+        if(increase > collection.size()-1) {
+            dir = 0;
+            increase = collection.size()-1;
+        }
+    } else {
+        --increase;
+        if(increase <= 2) {
+            increase = 2;
+            dir = 1;
+        }
+    }
+    MedianBlend(frame);
+}
