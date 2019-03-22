@@ -1071,7 +1071,7 @@ void ac::SmoothFrame32(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::MatrixCollectionXorBlend(cv::Mat &frame) {
+void ac::MatrixCollectionMedianBlendFilter(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
     static unsigned int increase = 2;

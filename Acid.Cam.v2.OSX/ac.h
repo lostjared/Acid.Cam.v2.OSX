@@ -1106,7 +1106,7 @@ namespace ac {
     void IntertwineColsX2(cv::Mat &frame);
     void SmoothFrame64(cv::Mat &frame);
     void SmoothFrame32(cv::Mat &frame);
-    void MatrixCollectionXorBlend(cv::Mat &frame);
+    void MatrixCollectionMedianBlendFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
