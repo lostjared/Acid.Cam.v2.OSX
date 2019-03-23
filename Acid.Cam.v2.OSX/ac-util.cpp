@@ -92,7 +92,7 @@ void ac::setGamma(cv::Mat &frame, cv::Mat &outframe, const double gamma) {
 // set cv::Mat saturation
 void ac::setSaturation(cv::Mat &frame, int saturation) {
     cv::Mat image;
-    cv::cvtColor(frame, image, CV_BGR2HSV);
+    cv::cvtColor(frame, image, cv::COLOR_BGR2HSV);
     const int w = frame.cols;
     const int h = frame.rows;
     for(int z = 0; z < h; ++z) {
@@ -101,7 +101,7 @@ void ac::setSaturation(cv::Mat &frame, int saturation) {
             pixel[1] = static_cast<unsigned char>(saturation);
         }
     }
-    cv::cvtColor(image, frame, CV_HSV2BGR);
+    cv::cvtColor(image, frame, cv::COLOR_HSV2BGR);
 }
 
 void ac::Negate(cv::Mat &frame) {

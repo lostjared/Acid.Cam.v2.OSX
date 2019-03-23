@@ -50,7 +50,7 @@ void ac::Square::setSize(const int &xx, const int &yy, const int &w, const int &
     if(width != w || height != h) {
         width = w;
         height = h;
-        image.create(cvSize(w, h), CV_8UC3);
+        image.create(cv::Size(w, h), CV_8UC3);
     }
 }
 void ac::Square::setPos(const int &p) {

@@ -60,7 +60,7 @@ void ac::Box::initBox(int width, int height) {
 
 void ac::Box::drawBox(cv::Mat &frame) {
     cv::Mat temp;
-    temp.create(cvSize(w, h), CV_8UC3);
+    temp.create(cv::Size(w, h), CV_8UC3);
     for(int yy = y, pos_y = 0; yy < y+h && yy < frame_height; ++yy, ++pos_y) {
         for(int ii = x,pos_x = 0; ii < x+w && ii < frame_width; ++ii, ++pos_x) {
             cv::Vec3b pixel = frame.at<cv::Vec3b>(yy, ii);
