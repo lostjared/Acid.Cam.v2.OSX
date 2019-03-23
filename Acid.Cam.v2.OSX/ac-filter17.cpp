@@ -1131,3 +1131,17 @@ void ac::MedianBlendIncreaseFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::MedianBlendNegate(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        index = 1;
+        Negate(frame);
+        MedianBlend(frame);
+    } else {
+        index = 0;
+        DarkNegate(frame);
+        MedianBlend(frame);
+    }
+    AddInvert(frame);
+}
