@@ -1107,4 +1107,27 @@ void ac::MatrixCollectionMedianBlendFilter(cv::Mat &frame) {
         }
     }
     MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendIncreaseFilter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    rainbowBlend(copy1);
+    ColorExpand(copy2);
+    static int index = 0;
+    switch(index) {
+        case 0:
+            AlphaBlend(copy1, copy2, frame, 0.25);
+            break;
+        case 1:
+            AlphaBlend(copy1, copy2, frame, 0.50);
+            break;
+        case 2:
+            AlphaBlend(copy1, copy2, frame, 0.75);
+            break;
+    }
+    ++index;
+    if(index > 2) index = 0;
+    MedianBlend(frame);
+    AddInvert(frame);
 }

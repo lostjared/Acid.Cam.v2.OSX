@@ -1107,6 +1107,7 @@ namespace ac {
     void SmoothFrame64(cv::Mat &frame);
     void SmoothFrame32(cv::Mat &frame);
     void MatrixCollectionMedianBlendFilter(cv::Mat &frame);
+    void MedianBlendIncreaseFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
