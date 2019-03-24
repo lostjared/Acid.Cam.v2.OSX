@@ -126,7 +126,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
         if(camera_mode == 0 /*&& capture->isOpened() == false*/) capture->open(capture_device);
         else if(camera_mode == 1)  {
             capture->open(input_file);
-            total_frames = capture->get(CV_CAP_PROP_FRAME_COUNT);
+            total_frames = capture->get(cv::CAP_PROP_FRAME_COUNT);
         }
         // check that it is opened
         if (!capture->isOpened()) {
@@ -134,22 +134,22 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             return -1;
         } else
             sout << "Acid Cam Capture device [" << ((camera_mode == 0) ? "Camera" : "Video") << "] opened..\n";
-        int aw = capture->get(CV_CAP_PROP_FRAME_WIDTH);
-        int ah = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
+        int aw = capture->get(cv::CAP_PROP_FRAME_WIDTH);
+        int ah = capture->get(cv::CAP_PROP_FRAME_HEIGHT);
         if(u4k && aw != capture_width && ah != capture_height)
             sout << "Resolution Scaled to " << capture_width << "x" << capture_height << "\n";
         else
             sout << "Resolution: " << aw << "x" << ah << "\n";
         
-        ac::fps = capture->get(CV_CAP_PROP_FPS);
-        if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(CV_CAP_PROP_FPS);
+        ac::fps = capture->get(cv::CAP_PROP_FPS);
+        if(ac::fps_force == false && input_file.size() != 0) ac::fps = capture->get(cv::CAP_PROP_FPS);
         if(ac::fps <= 0 || ac::fps > 60) ac::fps = 30;
         sout << "FPS: " << ac::fps << "\n";
         cv::Size frameSize = cv::Size(aw, ah); //frame.size();
         ac::resolution = frameSize;
         if(camera_mode == 0 && capture_width != 0 && capture_height != 0) {
-            capture->set(CV_CAP_PROP_FRAME_WIDTH, capture_width);
-            capture->set(CV_CAP_PROP_FRAME_HEIGHT, capture_height);
+            capture->set(cv::CAP_PROP_FRAME_WIDTH, capture_width);
+            capture->set(cv::CAP_PROP_FRAME_HEIGHT, capture_height);
             if(u4k)
                 sout << "Resolution upsacled to " << capture_width << "x" << capture_height << "\n";
             else
@@ -174,12 +174,12 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             if(outputType == 0) {
                 fs << ac::fileName << s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".mov";
                 ac::fileName = fs.str();
-                opened = writer->open(ac::fileName, CV_FOURCC('m','p','4','v'),  ac::fps, s4k, true);
+                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
             else {
                 fs << ac::fileName <<  s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".avi";
                 ac::fileName = fs.str();
-                opened = writer->open(ac::fileName, CV_FOURCC('X','V','I','D'),  ac::fps, s4k, true);
+                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('X','V','I','D'),  ac::fps, s4k, true);
             }
             // if writer is not opened exit
             if(writer->isOpened() == false || opened == false) {
@@ -251,10 +251,10 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
 std::ostringstream strout;
 // jump to frame in video
 void jumptoFrame(BOOL showJump, long frame) {
-    capture->set(CV_CAP_PROP_POS_FRAMES,frame);
+    capture->set(cv::CAP_PROP_POS_FRAMES,frame);
     cv::Mat pos;
     capture->read(pos);
-    capture->set(CV_CAP_PROP_POS_FRAMES,frame);
+    capture->set(cv::CAP_PROP_POS_FRAMES,frame);
     if(showJump == NO) cv::imshow("Acid Cam v2", pos);
     frame_cnt = frame;
 }
