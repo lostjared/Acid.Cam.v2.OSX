@@ -1158,3 +1158,57 @@ void ac::BlendWithFrameAndImageSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::ImageIntertwine32(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1,reimage, frame, 0.5);
+    IntertwineRows(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::ImageIntertwine16(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1,reimage, frame, 0.5);
+    IntertwineRows(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::ImageIntertwine8(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1,reimage, frame, 0.5);
+    IntertwineRows(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::ImageIntertwine64X(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<64> collection;
+    static int dir = 1, index = 4;
+    cv::Mat reimage, copy1 = frame.clone();
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1,reimage, frame, 0.5);
+    IntertwineRows(frame, &collection, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+    AddInvert(frame);
+}

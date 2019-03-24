@@ -1110,6 +1110,10 @@ namespace ac {
     void MedianBlendIncreaseFilter(cv::Mat &frame);
     void MedianBlendNegate(cv::Mat &frame);
     void BlendWithFrameAndImageSubFilter(cv::Mat &frame);
+    void ImageIntertwine32(cv::Mat &frame);
+    void ImageIntertwine16(cv::Mat &Frame);
+    void ImageIntertwine8(cv::Mat &frame);
+    void ImageIntertwine64X(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
