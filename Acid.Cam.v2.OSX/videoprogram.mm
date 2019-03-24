@@ -212,7 +212,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             rc.size.width = screen.size.width;
             rc.size.height = screen.size.height;
             resize_value = true;
-            cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+            //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
         } else {
             if(u4k) {
             	rc.size.width = (double) capture_width;
@@ -224,7 +224,6 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
                 resize_value = false;
             }
         }
-        
         if(show == NO) {
             cv::Mat _bg;
             _bg.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
