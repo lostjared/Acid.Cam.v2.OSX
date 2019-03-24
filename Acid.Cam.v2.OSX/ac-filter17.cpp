@@ -1145,3 +1145,16 @@ void ac::MedianBlendNegate(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::BlendWithFrameAndImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "BlendWithFrameAndImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    BlendWithSource(reimage);
+    BlendWithImage(copy1);
+    AlphaBlendDouble(copy1, copy2, frame, 0.7, 0.3);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
