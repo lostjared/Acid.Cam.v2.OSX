@@ -1268,3 +1268,8 @@ void ac::IntertwineEachRowXSubFilter(cv::Mat &frame) {
     }
     IntertwineDoubleRows(frame, &collection1, &collection2, index);
 }
+
+void ac::IntertwineGhost(cv::Mat &frame) {
+    Intertwine64X(frame);
+    BlendWithSource(frame);
+}
