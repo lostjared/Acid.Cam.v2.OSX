@@ -1224,3 +1224,47 @@ void ac::IntertwineDoubleSubFilter(cv::Mat &frame) {
     IntertwineDoubleRows(frame, &collection1, &collection2, 32);
     AddInvert(frame);
 }
+
+void ac::IntertwineDoubleImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineDoubleImageSubFilter")
+        return;
+    static MatrixCollection<64> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, reimage);
+    collection1.shiftFrames(copy1);
+    collection2.shiftFrames(reimage);
+    static int dir = 1, index = 0;
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+    IntertwineDoubleRows(frame, &collection1, &collection2, index);
+}
+
+void ac::IntertwineEachRowXSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineEachRowXSubFilter")
+        return;
+    static MatrixCollection<32> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    collection1.shiftFrames(copy1);
+    collection2.shiftFrames(copy2);
+    static int dir = 1, index = 0;
+    if(dir == 1) {
+        ++index;
+        if(index > 63-1)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 0)
+            dir = 1;
+    }
+    IntertwineDoubleRows(frame, &collection1, &collection2, index);
+}

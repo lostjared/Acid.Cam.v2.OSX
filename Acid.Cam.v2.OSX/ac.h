@@ -1115,6 +1115,8 @@ namespace ac {
     void ImageIntertwine8(cv::Mat &frame);
     void ImageIntertwine64X(cv::Mat &frame);
     void IntertwineDoubleSubFilter(cv::Mat &frame);
+    void IntertwineDoubleImageSubFilter(cv::Mat &frame);
+    void IntertwineEachRowXSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1544,15 +1546,9 @@ namespace ac {
                 cv::Vec3b pix_val[2];
                 pix_val[0] = copy1.at<cv::Vec3b>(z, i);
                 pix_val[1] = copy2.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = pix_val[index_col][j];
-                }
+                pixel = pix_val[index_col];
             }
-            if(index_col == 0) {
-                index_col = 1;
-            } else {
-                index_col = 0;
-            }
+            index_col = (index_col == 0) ? 1 : 0;
             ++pos;
             if(pos > height-1) {
                 pos = 0;
@@ -1563,7 +1559,6 @@ namespace ac {
             }
         }
     }
-    
     
     template<int r_size>
     void MatrixVariable(cv::Mat &frame, MatrixCollection<r_size> *collection, int &depth, int &dir) {
