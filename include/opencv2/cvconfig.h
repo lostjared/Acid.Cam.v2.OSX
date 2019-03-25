@@ -8,7 +8,7 @@
 #define CV_ENABLE_INTRINSICS
 
 /* OpenCV additional optimized code */
-#define CV_DISABLE_OPTIMIZATION
+/* #undef CV_DISABLE_OPTIMIZATION */
 
 /* Compile for 'real' NVIDIA GPU architectures */
 #define CUDA_ARCH_BIN ""
@@ -25,8 +25,14 @@
 /* AVFoundation video libraries */
 #define HAVE_AVFOUNDATION
 
+/* V4L capturing support */
+/* #undef HAVE_CAMV4L */
+
 /* V4L2 capturing support */
 /* #undef HAVE_CAMV4L2 */
+
+/* Carbon windowing environment */
+/* #undef HAVE_CARBON */
 
 /* AMD's Basic Linear Algebra Subprograms Library*/
 /* #undef HAVE_CLAMDBLAS */
@@ -40,13 +46,16 @@
 /* Cocoa API */
 #define HAVE_COCOA
 
-/* NVIDIA CUDA Basic Linear Algebra Subprograms (BLAS) API*/
+/* C= */
+/* #undef HAVE_CSTRIPES */
+
+/* NVidia Cuda Basic Linear Algebra Subprograms (BLAS) API*/
 /* #undef HAVE_CUBLAS */
 
-/* NVIDIA CUDA Runtime API*/
+/* NVidia Cuda Runtime API*/
 /* #undef HAVE_CUDA */
 
-/* NVIDIA CUDA Fast Fourier Transform (FFT) API*/
+/* NVidia Cuda Fast Fourier Transform (FFT) API*/
 /* #undef HAVE_CUFFT */
 
 /* IEEE1394 capturing support */
@@ -86,9 +95,6 @@
 /* Halide support */
 /* #undef HAVE_HALIDE */
 
-/* Vulkan support */
-/* #undef HAVE_VULKAN */
-
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
@@ -98,11 +104,13 @@
 /* Intel Integrated Performance Primitives */
 #define HAVE_IPP
 #define HAVE_IPP_ICV
-/* #undef HAVE_IPP_IW */
-/* #undef HAVE_IPP_IW_LL */
+#define HAVE_IPP_IW
+
+/* Intel IPP Async */
+/* #undef HAVE_IPP_A */
 
 /* JPEG-2000 codec */
-#define HAVE_JASPER
+/* #undef HAVE_JASPER */
 
 /* IJG JPEG codec */
 #define HAVE_JPEG
@@ -113,13 +121,16 @@
 /* GDCM DICOM codec */
 /* #undef HAVE_GDCM */
 
+/* V4L/V4L2 capturing support via libv4l */
+/* #undef HAVE_LIBV4L */
+
 /* Microsoft Media Foundation Capture library */
 /* #undef HAVE_MSMF */
 
-/* NVIDIA Video Decoding API*/
+/* NVidia Video Decoding API*/
 /* #undef HAVE_NVCUVID */
 
-/* NVIDIA Video Encoding API*/
+/* NVidia Video Encoding API*/
 /* #undef HAVE_NVCUVENC */
 
 /* OpenCL Support */
@@ -139,9 +150,6 @@
 /* OpenNI library */
 /* #undef HAVE_OPENNI2 */
 
-/* librealsense library */
-/* #undef HAVE_LIBREALSENSE */
-
 /* PNG codec */
 #define HAVE_PNG
 
@@ -149,7 +157,7 @@
 #define HAVE_PTHREAD
 
 /* parallel_for with pthreads */
-#define HAVE_PTHREADS_PF
+/* #undef HAVE_PTHREADS_PF */
 
 /* Qt support */
 /* #undef HAVE_QT */
@@ -157,14 +165,23 @@
 /* Qt OpenGL support */
 /* #undef HAVE_QT_OPENGL */
 
+/* QuickTime video libraries */
+/* #undef HAVE_QUICKTIME */
+
+/* QTKit video libraries */
+/* #undef HAVE_QTKIT */
+
 /* Intel Threading Building Blocks */
 /* #undef HAVE_TBB */
 
-/* Ste||ar Group High Performance ParallelX */
-/* #undef HAVE_HPX */
-
 /* TIFF codec */
 #define HAVE_TIFF
+
+/* Unicap video capture library */
+/* #undef HAVE_UNICAP */
+
+/* Video for Windows support */
+/* #undef HAVE_VFW */
 
 /* V4L2 capturing support in videoio.h */
 /* #undef HAVE_VIDEOIO */
@@ -205,6 +222,8 @@
 
 #if defined(HAVE_XINE)         || \
     defined(HAVE_GSTREAMER)    || \
+    defined(HAVE_QUICKTIME)    || \
+    defined(HAVE_QTKIT)        || \
     defined(HAVE_AVFOUNDATION) || \
     /*defined(HAVE_OPENNI)     || too specialized */ \
     defined(HAVE_FFMPEG)       || \
@@ -214,6 +233,8 @@
 
 #if /*defined(HAVE_XINE)       || */\
     defined(HAVE_GSTREAMER)    || \
+    defined(HAVE_QUICKTIME)    || \
+    defined(HAVE_QTKIT)        || \
     defined(HAVE_AVFOUNDATION) || \
     defined(HAVE_FFMPEG)       || \
     defined(HAVE_MSMF)
@@ -223,7 +244,5 @@
 /* OpenCV trace utilities */
 #define OPENCV_TRACE
 
-/* Library QR-code decoding */
-#define HAVE_QUIRC
 
 #endif // OPENCV_CVCONFIG_H_INCLUDED

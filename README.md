@@ -20,9 +20,10 @@ Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code th
 
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
-OpenCV 4 is now on the master branch.
+OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  version switch to oldmacosx branch
+or for OpenCV 3 go to OpenCV3.
 
-Newest version of the program now requires macOS High Sierra or Greater to run. 
+Newest version of the program now requires macOS High Sierra to run. 
 
 To compile first clone then open with Xcode and build.
 

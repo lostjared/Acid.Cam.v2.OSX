@@ -796,7 +796,7 @@ void SearchForString(NSString *s) {
             else
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
             
-            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+            //[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
         if(ret_val != 0) {
@@ -993,7 +993,7 @@ void SearchForString(NSString *s) {
                 if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
             } else {
                 if(syphon_enabled == NO) {
-                    //cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+                    cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
                     cv::imshow("Acid Cam v2", frame);
                 }
             }
@@ -1097,7 +1097,7 @@ void SearchForString(NSString *s) {
     
     if([up4k state] == NSOnState || frame.size() == cv::Size((int)cap_width, (int)cap_height)) {
         [stretch_scr setState: NSOnState];
-        //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
     if(capture->isOpened() && frame_read == false) {
          ++frame_proc;
@@ -1148,7 +1148,6 @@ void SearchForString(NSString *s) {
         } else {
             cv::Mat copy1 = frame.clone();
             cv::resize(copy1, frame, cv::Size((int)cap_width, (int)cap_height));
-            cv::resizeWindow("Acid Cam v2", (int)cap_width, (int)cap_height);
         }
     }
     

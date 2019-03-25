@@ -57,64 +57,54 @@ namespace detail {
 
 /** @brief Base class for all exposure compensators.
  */
-class CV_EXPORTS_W ExposureCompensator
+class CV_EXPORTS ExposureCompensator
 {
 public:
     virtual ~ExposureCompensator() {}
 
     enum { NO, GAIN, GAIN_BLOCKS };
-    CV_WRAP static Ptr<ExposureCompensator> createDefault(int type);
+    static Ptr<ExposureCompensator> createDefault(int type);
 
     /**
     @param corners Source image top-left corners
     @param images Source images
     @param masks Image masks to update (second value in pair specifies the value which should be used
     to detect where image is)
-        */
-    CV_WRAP void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
-        const std::vector<UMat> &masks);
+     */
+    void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
+              const std::vector<UMat> &masks);
     /** @overload */
     virtual void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
-        const std::vector<std::pair<UMat, uchar> > &masks) = 0;
+                      const std::vector<std::pair<UMat,uchar> > &masks) = 0;
     /** @brief Compensate exposure in the specified image.
 
     @param index Image index
     @param corner Image top-left corner
     @param image Image to process
     @param mask Image mask
-        */
-    CV_WRAP virtual void apply(int index, Point corner, InputOutputArray image, InputArray mask) = 0;
-    CV_WRAP virtual void getMatGains(CV_OUT std::vector<Mat>& ) {CV_Error(Error::StsInternal, "");};
-    CV_WRAP virtual void setMatGains(std::vector<Mat>& ) { CV_Error(Error::StsInternal, ""); };
-    CV_WRAP void setUpdateGain(bool b) { updateGain = b; };
-    CV_WRAP bool getUpdateGain() { return updateGain; };
-protected :
-    bool updateGain;
+     */
+    virtual void apply(int index, Point corner, InputOutputArray image, InputArray mask) = 0;
 };
 
 /** @brief Stub exposure compensator which does nothing.
  */
-class CV_EXPORTS_W NoExposureCompensator : public ExposureCompensator
+class CV_EXPORTS NoExposureCompensator : public ExposureCompensator
 {
 public:
     void feed(const std::vector<Point> &/*corners*/, const std::vector<UMat> &/*images*/,
-              const std::vector<std::pair<UMat,uchar> > &/*masks*/) CV_OVERRIDE { }
-    CV_WRAP void apply(int /*index*/, Point /*corner*/, InputOutputArray /*image*/, InputArray /*mask*/) CV_OVERRIDE { }
-    CV_WRAP void getMatGains(CV_OUT std::vector<Mat>& umv) CV_OVERRIDE { umv.clear(); return; };
-    CV_WRAP void setMatGains(std::vector<Mat>& umv) CV_OVERRIDE { umv.clear(); return; };
+              const std::vector<std::pair<UMat,uchar> > &/*masks*/) { }
+    void apply(int /*index*/, Point /*corner*/, InputOutputArray /*image*/, InputArray /*mask*/) { }
 };
 
 /** @brief Exposure compensator which tries to remove exposure related artifacts by adjusting image
 intensities, see @cite BL07 and @cite WJ10 for details.
  */
-class CV_EXPORTS_W GainCompensator : public ExposureCompensator
+class CV_EXPORTS GainCompensator : public ExposureCompensator
 {
 public:
     void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
-              const std::vector<std::pair<UMat,uchar> > &masks) CV_OVERRIDE;
-    CV_WRAP void apply(int index, Point corner, InputOutputArray image, InputArray mask) CV_OVERRIDE;
-    CV_WRAP void getMatGains(CV_OUT std::vector<Mat>& umv) CV_OVERRIDE ;
-    CV_WRAP void setMatGains(std::vector<Mat>& umv) CV_OVERRIDE ;
+              const std::vector<std::pair<UMat,uchar> > &masks);
+    void apply(int index, Point corner, InputOutputArray image, InputArray mask);
     std::vector<double> gains() const;
 
 private:
@@ -124,16 +114,14 @@ private:
 /** @brief Exposure compensator which tries to remove exposure related artifacts by adjusting image block
 intensities, see @cite UES01 for details.
  */
-class CV_EXPORTS_W BlocksGainCompensator : public ExposureCompensator
+class CV_EXPORTS BlocksGainCompensator : public ExposureCompensator
 {
 public:
-    CV_WRAP BlocksGainCompensator(int bl_width = 32, int bl_height = 32)
-            : bl_width_(bl_width), bl_height_(bl_height) {setUpdateGain(true);}
+    BlocksGainCompensator(int bl_width = 32, int bl_height = 32)
+            : bl_width_(bl_width), bl_height_(bl_height) {}
     void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
-              const std::vector<std::pair<UMat,uchar> > &masks) CV_OVERRIDE;
-    CV_WRAP void apply(int index, Point corner, InputOutputArray image, InputArray mask) CV_OVERRIDE;
-    CV_WRAP void getMatGains(CV_OUT std::vector<Mat>& umv) CV_OVERRIDE;
-    CV_WRAP void setMatGains(std::vector<Mat>& umv) CV_OVERRIDE;
+              const std::vector<std::pair<UMat,uchar> > &masks);
+    void apply(int index, Point corner, InputOutputArray image, InputArray mask);
 
 private:
     int bl_width_, bl_height_;
