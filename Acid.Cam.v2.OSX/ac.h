@@ -1114,6 +1114,7 @@ namespace ac {
     void ImageIntertwine16(cv::Mat &Frame);
     void ImageIntertwine8(cv::Mat &frame);
     void ImageIntertwine64X(cv::Mat &frame);
+    void IntertwineDoubleSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1529,6 +1530,38 @@ namespace ac {
     template<int col_size>
     void IntertwineCols(cv::Mat &frame, MatrixCollection<col_size> *collection) {
         IntertwineCols(frame, collection, col_size);
+    }
+    
+    template<int row_size>
+    void IntertwineDoubleRows(cv::Mat &frame, MatrixCollection<row_size> *collection1, MatrixCollection<row_size> *collection2, int height) {
+        int index_col = 0, index = 0;
+        int pos = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Mat &copy1 = collection1->frames[index];
+            cv::Mat &copy2 = collection2->frames[index];
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix_val[2];
+                pix_val[0] = copy1.at<cv::Vec3b>(z, i);
+                pix_val[1] = copy2.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pix_val[index_col][j];
+                }
+            }
+            if(index_col == 0) {
+                index_col = 1;
+            } else {
+                index_col = 0;
+            }
+            ++pos;
+            if(pos > height-1) {
+                pos = 0;
+                ++index;
+                if(index > row_size-1) {
+                    index = 0;
+                }
+            }
+        }
     }
     
     

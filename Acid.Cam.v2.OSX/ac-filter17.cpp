@@ -1212,3 +1212,15 @@ void ac::ImageIntertwine64X(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::IntertwineDoubleSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineDoubleSubFilter")
+        return;
+    static MatrixCollection<32> collection1, collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter,copy2);
+    collection1.shiftFrames(copy1);
+    collection2.shiftFrames(copy2);
+    IntertwineDoubleRows(frame, &collection1, &collection2, 32);
+    AddInvert(frame);
+}
