@@ -1273,3 +1273,20 @@ void ac::IntertwineGhost(cv::Mat &frame) {
     Intertwine64X(frame);
     BlendWithSource(frame);
 }
+
+void ac::IntertwineGhost32(cv::Mat &frame) {
+    IntertwineRows32(frame);
+    IntertwineRowsReverse32(frame);
+    BlendWithSource(frame);
+}
+
+void ac::IntertwineGhostSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineGhostSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    IntertwineRows32(copy1);
+    Intertwine64X(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    BlendWithSource(frame);
+    CallFilter(subfilter, frame);
+}
