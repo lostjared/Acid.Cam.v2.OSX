@@ -12,7 +12,7 @@
  GitHub: http://github.com/lostjared
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
- Instagram: http://instagram.com/jaredbruni
+ Instagram: http://instagram.com/lostsidedead
  Twitter: http://twitter.com/jaredbruni
  Facebook: http://facebook.com/LostSideDead0x
  
