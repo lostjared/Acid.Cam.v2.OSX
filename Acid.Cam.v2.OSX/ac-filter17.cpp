@@ -1246,6 +1246,7 @@ void ac::IntertwineDoubleImageSubFilter(cv::Mat &frame) {
             dir = 1;
     }
     IntertwineDoubleRows(frame, &collection1, &collection2, index);
+    AddInvert(frame);
 }
 
 void ac::IntertwineEachRowXSubFilter(cv::Mat &frame) {
@@ -1267,17 +1268,20 @@ void ac::IntertwineEachRowXSubFilter(cv::Mat &frame) {
             dir = 1;
     }
     IntertwineDoubleRows(frame, &collection1, &collection2, index);
+    AddInvert(frame);
 }
 
 void ac::IntertwineGhost(cv::Mat &frame) {
     Intertwine64X(frame);
     BlendWithSource(frame);
+    AddInvert(frame);
 }
 
 void ac::IntertwineGhost32(cv::Mat &frame) {
     IntertwineRows32(frame);
     IntertwineRowsReverse32(frame);
     BlendWithSource(frame);
+    AddInvert(frame);
 }
 
 void ac::IntertwineGhostSubFilter(cv::Mat &frame) {
@@ -1289,4 +1293,34 @@ void ac::IntertwineGhostSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     BlendWithSource(frame);
     CallFilter(subfilter, frame);
+    AddInvert(frame);
+}
+
+void ac::BlendWithOldFrame(cv::Mat &frame) {
+    static int index = 63;
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = collection.frames[index];
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    static int dir = 1;
+    if(dir == 1) {
+        --index;
+        if(index <= 1) {
+            dir = 0;
+        }
+    } else {
+        ++index;
+        if(index >= 62) {
+            dir = 1;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::BlendWith16thFrame(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = collection.frames[15];
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
