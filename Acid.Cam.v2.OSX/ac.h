@@ -1122,6 +1122,7 @@ namespace ac {
     void IntertwineGhostSubFilter(cv::Mat &frame);
     void BlendWithOldFrame(cv::Mat &frame);
     void BlendWith16thFrame(cv::Mat &frame);
+    void BlendTrailsFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

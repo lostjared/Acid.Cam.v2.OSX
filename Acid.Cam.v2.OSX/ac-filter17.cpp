@@ -1324,3 +1324,17 @@ void ac::BlendWith16thFrame(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::BlendTrailsFilter(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), output;
+    for(int i = 1; i < collection.size(); i += 2) {
+        cv::Mat reimage = collection.frames[i].clone();
+        CallFilter(subfilter, reimage);
+        AlphaBlend(copy1, reimage, output, 0.5);
+        copy1 = output.clone();
+    }
+    frame = copy1.clone();
+    AddInvert(frame);
+}
