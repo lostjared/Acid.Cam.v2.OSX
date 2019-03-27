@@ -1126,6 +1126,9 @@ namespace ac {
     void LineMoveInOut(cv::Mat &frame);
     void MatrixCollectionTrails(cv::Mat &frame);
     void MatrixCollectionRandom(cv::Mat &frame);
+    void MatrixCollectionRandom(cv::Mat &frame);
+    void MatrixCollectionRandomSmooth(cv::Mat &frame);
+
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

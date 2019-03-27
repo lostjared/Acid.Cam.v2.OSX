@@ -424,3 +424,12 @@ void ac::MatrixCollectionRandom(cv::Mat &frame) {
     frame = collection.frames[index].clone();
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionRandomSmooth(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MatrixCollectionRandom(copy1);
+    SmoothFrame32(copy1);
+    MatrixCollectionRandom(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
+
