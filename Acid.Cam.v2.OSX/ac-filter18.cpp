@@ -415,3 +415,12 @@ void ac::MatrixCollectionTrails(cv::Mat &frame) {
     frame = copy2.clone();
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionRandom(cv::Mat &frame) {
+    static constexpr int c_size = 16;
+    static MatrixCollection<c_size> collection;
+    int index = rand()%c_size;
+    collection.shiftFrames(frame);
+    frame = collection.frames[index].clone();
+    AddInvert(frame);
+}
