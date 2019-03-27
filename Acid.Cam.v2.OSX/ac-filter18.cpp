@@ -378,3 +378,40 @@ void ac::BlendTrailsFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::LineMoveInOut(cv::Mat &frame) {
+    static int index = 62;
+    static int dir = 0;
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copyf = frame.clone();
+    cv::Mat copy1 = collection.frames[index].clone();
+    AlphaBlend(copy1, copyf, frame, 0.5);
+    if(dir == 0) {
+        --index;
+        if(index <= 1)
+            dir = 1;
+    } else {
+        ++index;
+        if(index >= 62)
+            dir = 0;
+    }
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionTrails(cv::Mat &frame) {
+    static constexpr int a_size = 8;
+    static MatrixCollection<a_size> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frame_copy[4];
+    for(int j = 0, index = 0; j < 3 && index < a_size-1; ++j, index += 2) {
+        frame_copy[j] = collection.frames[index].clone();
+    }
+    cv::Mat copy1 = frame.clone(), copy2;
+    for(int i = 1; i < 3; ++i) {
+        MovementRGBTrails(frame_copy[i]);
+        AlphaBlend(copy1, frame_copy[i], copy2, 0.5);
+        copy1 = copy2.clone();
+    }
+    frame = copy2.clone();
+    AddInvert(frame);
+}

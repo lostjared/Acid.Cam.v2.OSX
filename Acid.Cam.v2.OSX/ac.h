@@ -1123,6 +1123,8 @@ namespace ac {
     void BlendWithOldFrame(cv::Mat &frame);
     void BlendWith16thFrame(cv::Mat &frame);
     void BlendTrailsFilter(cv::Mat &frame);
+    void LineMoveInOut(cv::Mat &frame);
+    void MatrixCollectionTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
