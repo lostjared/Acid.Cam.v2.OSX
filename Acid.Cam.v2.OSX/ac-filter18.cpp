@@ -431,6 +431,7 @@ void ac::MatrixCollectionRandomSmooth(cv::Mat &frame) {
     SmoothFrame32(copy1);
     MatrixCollectionRandom(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionRandomDouble(cv::Mat &frame) {
@@ -438,4 +439,35 @@ void ac::MatrixCollectionRandomDouble(cv::Mat &frame) {
     MatrixCollectionRandom(copy1);
     MatrixCollectionRandom(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionAddImage(cv::Mat &frame) {
+    
+    if(blend_set == false)
+        return;
+    
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Scalar values;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b &val = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] += val[j];
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] /= collection.size();
+                unsigned int val = static_cast<unsigned int>(values[j]);
+                pixel[j] = (static_cast<unsigned char>(pixel[j]*0.5) + static_cast<unsigned char>(pix[j]*0.3))^val;
+            }
+        }
+    }
+    AddInvert(frame);
 }

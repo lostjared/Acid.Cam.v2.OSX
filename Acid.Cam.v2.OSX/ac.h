@@ -1129,6 +1129,7 @@ namespace ac {
     void MatrixCollectionRandom(cv::Mat &frame);
     void MatrixCollectionRandomSmooth(cv::Mat &frame);
     void MatrixCollectionRandomDouble(cv::Mat &frame);
+    void MatrixCollectionAddImage(cv::Mat &frame);
 
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
