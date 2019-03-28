@@ -730,8 +730,8 @@ void SearchForString(NSString *s) {
             return;
         }
         // test values
-        int res_x[3] = { 640, 1280, 1920 };
-        int res_y[3] = { 480, 720, 1080 };
+        int res_x[4] = { 640, 1280, 1920, 3840 };
+        int res_y[4] = { 480, 720, 1080, 2160 };
         bool use_resized_res = false;
         if([videoFileInput state] == NSOnState) {
             input_file = [[video_file stringValue] UTF8String];
