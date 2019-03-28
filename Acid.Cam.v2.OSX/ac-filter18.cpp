@@ -480,3 +480,19 @@ void ac::MatrixCollectionAlphaBlendSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     CallFilter(subfilter, frame);
 }
+
+void ac::MatrixCollectionImageBlendSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionImageBlendSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), output, reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    MatrixCollectionRandom(copy2);
+    AlphaBlend(copy1, copy2, output, 0.33);
+    AlphaBlend(reimage, output, frame, 0.33);
+}
+
+void ac::TwitchinGlitchin(cv::Mat &frame) {
+    MatrixCollectionRandom(frame);
+    MatrixCollectionTrails(frame);
+}

@@ -1131,6 +1131,8 @@ namespace ac {
     void MatrixCollectionRandomDouble(cv::Mat &frame);
     void MatrixCollectionAddImage(cv::Mat &frame);
     void MatrixCollectionAlphaBlendSubFilter(cv::Mat &frame);
+    void MatrixCollectionImageBlendSubFilter(cv::Mat &frame);
+    void TwitchinGlitchin(cv::Mat &frame);
 
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
