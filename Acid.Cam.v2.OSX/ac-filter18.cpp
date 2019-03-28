@@ -471,3 +471,12 @@ void ac::MatrixCollectionAddImage(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionAlphaBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionAlphaBlendSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MatrixCollectionRandom(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    CallFilter(subfilter, frame);
+}
