@@ -69,11 +69,11 @@
                 <outlet property="key_range" destination="fnz-ND-Ko7" id="1w8-hL-rLO"/>
                 <outlet property="key_tolerance" destination="K8V-2K-bHz" id="Rkt-SD-Msh"/>
                 <outlet property="load_settings" destination="J8u-5o-7L8" id="vGj-C6-G6r"/>
-                <outlet property="menuPaused" destination="Isy-gQ-uSb" id="BeU-Zh-4FO"/>
+                <outlet property="menuPaused" destination="ZrZ-W4-LqE" id="fpr-lZ-Dwl"/>
                 <outlet property="menu_freeze" destination="J0h-Ug-VbD" id="KMF-EJ-A03"/>
                 <outlet property="negate_checked" destination="eDA-pn-7R7" id="5YZ-bW-ZMd"/>
                 <outlet property="output_Type" destination="rOk-Yh-mZb" id="D7G-rY-Zgn"/>
-                <outlet property="pause_step" destination="vta-z2-KqS" id="fG1-0w-JST"/>
+                <outlet property="pause_step" destination="Ed5-ab-28I" id="Syv-Kz-xrX"/>
                 <outlet property="plugin_dir" destination="3tf-4d-aHN" id="PLv-dK-4Q1"/>
                 <outlet property="plugin_name" destination="WxG-7y-2je" id="NAO-mA-Xur"/>
                 <outlet property="plugin_window" destination="lg6-0V-qNM" id="9Ek-nb-w9H"/>
@@ -98,7 +98,7 @@
                 <outlet property="slider_red" destination="mzX-pn-252" id="ruZ-J7-hWX"/>
                 <outlet property="slider_red_pos" destination="S4C-AA-haV" id="7Xg-vp-Wcc"/>
                 <outlet property="startProg" destination="624" id="fSI-qU-vVv"/>
-                <outlet property="stop_prog" destination="AhA-QM-fZT" id="tGq-Wi-bIT"/>
+                <outlet property="stop_prog" destination="ci8-G4-Am4" id="xTc-Q0-xVj"/>
                 <outlet property="stretch_scr" destination="KDy-87-FEf" id="dpI-bj-Wy9"/>
                 <outlet property="sy_size" destination="jCa-sP-gpI" id="LsC-cM-hdQ"/>
                 <outlet property="syphon_enable" destination="bXM-2u-RbS" id="x8Z-yI-Bh1"/>
@@ -216,17 +216,6 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="jmw-rL-Oi4"/>
-                            <menuItem title="Pause" keyEquivalent="p" id="Isy-gQ-uSb">
-                                <connections>
-                                    <action selector="pauseProgram:" target="630" id="7Zn-7B-0iq"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Step" enabled="NO" keyEquivalent="i" id="vta-z2-KqS">
-                                <connections>
-                                    <action selector="stepPause:" target="630" id="Mss-GT-ir7"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="uVa-un-dC1"/>
                             <menuItem title="Disable Filters" keyEquivalent="d" id="OsF-br-7Fg">
                                 <connections>
                                     <action selector="disableFilters:" target="630" id="Xcj-XT-vHD"/>
@@ -241,17 +230,6 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="releaseFrames:" target="630" id="TgK-6I-Jk6"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Go To Frame" id="mn3-fh-8CV">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="openGoto:" target="630" id="q9N-gn-Hr6"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Stop " keyEquivalent="c" id="AhA-QM-fZT">
-                                <connections>
-                                    <action selector="stopProgram:" target="630" id="kg6-5x-BTv"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="zbR-BR-Pc6"/>
@@ -308,6 +286,42 @@
                             <menuItem title="Freeze" keyEquivalent="f" id="J0h-Ug-VbD">
                                 <connections>
                                     <action selector="menuFreeze:" target="630" id="2Df-7a-7oL"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Playback" id="U2r-VD-D7E">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Playback" id="6cA-YG-hbm">
+                        <items>
+                            <menuItem title="Pause" keyEquivalent="p" id="ZrZ-W4-LqE">
+                                <connections>
+                                    <action selector="pauseProgram:" target="630" id="g4B-mq-QaB"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Stop " keyEquivalent="c" id="ci8-G4-Am4">
+                                <connections>
+                                    <action selector="stopProgram:" target="630" id="SuC-Jn-oD1"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="pag-yP-sxV"/>
+                            <menuItem title="Step" enabled="NO" keyEquivalent="i" id="Ed5-ab-28I">
+                                <connections>
+                                    <action selector="stepPause:" target="630" id="P3c-5s-Kfm"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="k0b-9M-uzO"/>
+                            <menuItem title="Rewind" id="e2B-8o-rty">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="rewindToStart:" target="630" id="sYN-JA-RKJ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Go To Frame" id="zlZ-NS-0Pd">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="openGoto:" target="630" id="3dK-hB-FSq"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -547,6 +561,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="setRepeat:" target="630" id="2uE-0S-wwr"/>
+                        </connections>
                     </button>
                     <popUpButton verticalHuggingPriority="750" id="586">
                         <rect key="frame" x="168" y="168" width="168" height="26"/>
@@ -641,7 +658,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="705" height="209"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="209"/>
@@ -654,12 +671,12 @@
                                 </textView>
                             </subviews>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="WuA-8u-SVQ">
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="WuA-8u-SVQ">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="duY-MZ-OiB">
-                            <rect key="frame" x="691" y="1" width="15" height="209"/>
+                            <rect key="frame" x="690" y="1" width="16" height="209"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

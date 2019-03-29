@@ -109,6 +109,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSWindow      *window1, *window2;
     IBOutlet NSButton      *videoFileInput, *selectVideoFile;
     IBOutlet NSButton *chk_repeat;
+    IBOutlet NSMenuItem *chk_repeat_menu;
     IBOutlet NSTextField *prefix_input_2, *video_file;
     IBOutlet NSPopUpButton *vid_format_2;
     IBOutlet NSButton *record_op2,*startaction_2;
@@ -292,6 +293,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) insertFilter_Custom: (id) sender;
 - (IBAction) scaleToggle: (id) sender;
 - (IBAction) saveLogToFile: (id) sender;
+
 @end
 
 extern AC_Controller *controller;

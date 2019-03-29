@@ -1349,7 +1349,6 @@ void SearchForString(NSString *s) {
         [resolution setEnabled: YES];
         [device_index setEnabled: YES];
         [selectVideoFile setEnabled: NO];
-        [chk_repeat setEnabled:NO];
         [up4k setEnabled: NO];
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
