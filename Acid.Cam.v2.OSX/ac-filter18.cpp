@@ -496,3 +496,18 @@ void ac::TwitchinGlitchin(cv::Mat &frame) {
     MatrixCollectionRandom(frame);
     MatrixCollectionTrails(frame);
 }
+
+void ac::IntertwineRowsImageAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static double alpha = 1.0, alpha_max = 2.0;
+    static int dir = 1;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Intertwine64X(copy1);
+    SmoothImageAlphaBlend(copy1);
+    IntertwineRows32(copy2);
+    AlphaBlend(copy1, copy2, frame, alpha);
+    procPos(dir, alpha, alpha_max,2.0, 0.005);
+}
