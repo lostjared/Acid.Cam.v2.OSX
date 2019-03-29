@@ -479,6 +479,7 @@ void ac::MatrixCollectionAlphaBlendSubFilter(cv::Mat &frame) {
     MatrixCollectionRandom(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
     CallFilter(subfilter, frame);
+    AddInvert(frame);
 }
 
 void ac::MatrixCollectionImageBlendSubFilter(cv::Mat &frame) {
@@ -490,11 +491,13 @@ void ac::MatrixCollectionImageBlendSubFilter(cv::Mat &frame) {
     MatrixCollectionRandom(copy2);
     AlphaBlend(copy1, copy2, output, 0.33);
     AlphaBlend(reimage, output, frame, 0.33);
+    AddInvert(frame);
 }
 
 void ac::TwitchinGlitchin(cv::Mat &frame) {
     MatrixCollectionRandom(frame);
     MatrixCollectionTrails(frame);
+    AddInvert(frame);
 }
 
 void ac::IntertwineRowsImageAlphaBlend(cv::Mat &frame) {
@@ -510,4 +513,5 @@ void ac::IntertwineRowsImageAlphaBlend(cv::Mat &frame) {
     IntertwineRows32(copy2);
     AlphaBlend(copy1, copy2, frame, alpha);
     procPos(dir, alpha, alpha_max,2.0, 0.005);
+    AddInvert(frame);
 }
