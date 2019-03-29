@@ -515,3 +515,13 @@ void ac::IntertwineRowsImageAlphaBlend(cv::Mat &frame) {
     procPos(dir, alpha, alpha_max,2.0, 0.005);
     AddInvert(frame);
 }
+
+void ac::ChannelSortSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "ChannelSortSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ChannelSort_NoBlend_Ascending(copy1);
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
