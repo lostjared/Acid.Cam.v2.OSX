@@ -563,3 +563,10 @@ void ac::IntertwineRow1080pX2(cv::Mat &frame) {
     cv::resize(sizef, frame, frame.size());
 }
 
+void ac::IntertwineCols1280(cv::Mat &frame) {
+    cv::Mat sizef;
+    cv::resize(frame, sizef, cv::Size(1280, 720));
+    static MatrixCollection<720> collection;
+    IntertwineCols(sizef, &collection, 2);
+    cv::resize(sizef, frame, frame.size());
+}
