@@ -1138,6 +1138,8 @@ namespace ac {
     void IntertwineRow2(cv::Mat &frame);
     void IntertwineRow720p(cv::Mat &frame);
     void IntertwineRow1080p(cv::Mat &frame);
+    void IntertwineRow720pX2(cv::Mat &frame);
+    void IntertwineRow1080pX2(cv::Mat &frame);
 
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
