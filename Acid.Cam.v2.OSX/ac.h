@@ -1135,6 +1135,9 @@ namespace ac {
     void TwitchinGlitchin(cv::Mat &frame);
     void IntertwineRowsImageAlphaBlend(cv::Mat &frame);
     void ChannelSortSubFilter(cv::Mat &frame);
+    void IntertwineRow2(cv::Mat &frame);
+    void IntertwineRow720p(cv::Mat &frame);
+    void IntertwineRow1080p(cv::Mat &frame);
 
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);

@@ -525,3 +525,26 @@ void ac::ChannelSortSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::IntertwineRow2(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    IntertwineRows(frame, &collection, 2);
+}
+
+// Both Takes a lot of ram.
+void ac::IntertwineRow720p(cv::Mat &frame) {
+    cv::Mat sizef;
+    cv::resize(frame, sizef, cv::Size(1280, 720));
+    static MatrixCollection<720> collection;
+    IntertwineRows(sizef, &collection, 1);
+    cv::resize(sizef, frame, frame.size());
+}
+
+void ac::IntertwineRow1080p(cv::Mat &frame) {
+    cv::Mat sizef;
+    cv::resize(frame, sizef, cv::Size(1920, 1080));
+    static MatrixCollection<1080> collection;
+    IntertwineRows(sizef, &collection, 1);
+    cv::resize(sizef, frame, frame.size());
+}
+
