@@ -529,6 +529,7 @@ void ac::ChannelSortSubFilter(cv::Mat &frame) {
 void ac::IntertwineRow2(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     IntertwineRows(frame, &collection, 2);
+    AddInvert(frame);
 }
 
 // Both Takes a lot of ram.
@@ -538,6 +539,7 @@ void ac::IntertwineRow720p(cv::Mat &frame) {
     static MatrixCollection<720> collection;
     IntertwineRows(sizef, &collection, 1);
     cv::resize(sizef, frame, frame.size());
+    AddInvert(frame);
 }
 
 void ac::IntertwineRow1080p(cv::Mat &frame) {
@@ -546,6 +548,7 @@ void ac::IntertwineRow1080p(cv::Mat &frame) {
     static MatrixCollection<1080> collection;
     IntertwineRows(sizef, &collection, 1);
     cv::resize(sizef, frame, frame.size());
+    AddInvert(frame);
 }
 
 void ac::IntertwineRow720pX2(cv::Mat &frame) {
@@ -554,6 +557,7 @@ void ac::IntertwineRow720pX2(cv::Mat &frame) {
     static MatrixCollection<720> collection;
     IntertwineRows(sizef, &collection, 2);
     cv::resize(sizef, frame, frame.size());
+    AddInvert(frame);
 }
 void ac::IntertwineRow1080pX2(cv::Mat &frame) {
     cv::Mat sizef;
@@ -561,6 +565,7 @@ void ac::IntertwineRow1080pX2(cv::Mat &frame) {
     static MatrixCollection<1080> collection;
     IntertwineRows(sizef, &collection, 2);
     cv::resize(sizef, frame, frame.size());
+    AddInvert(frame);
 }
 
 void ac::IntertwineCols1280(cv::Mat &frame) {
@@ -569,4 +574,32 @@ void ac::IntertwineCols1280(cv::Mat &frame) {
     static MatrixCollection<720> collection;
     IntertwineCols(sizef, &collection, 2);
     cv::resize(sizef, frame, frame.size());
+    AddInvert(frame);
+}
+
+void ac::IntertwineRowCols1280x720(cv::Mat &frame) {
+    static MatrixCollection<1280> collection1;
+    static MatrixCollection<720> collection2;
+    cv::Mat sizef1, sizef2;
+    cv::resize(frame, sizef1, cv::Size(1280, 720));
+    cv::resize(frame, sizef2, cv::Size(1280, 720));
+    IntertwineRows(sizef1, &collection1, 2);
+    IntertwineCols(sizef2, &collection2, 2);
+    cv::Mat output;
+    AlphaBlend(sizef1, sizef2, output, 0.5);
+    cv::resize(output, frame, frame.size());
+    AddInvert(frame);
+}
+
+void ac::IntertwineRowsImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage, output;
+    cv::resize(blend_image, reimage, frame.size());
+    AlphaBlend(copy1, reimage,output,0.5);
+    cv::Mat col_output;
+    resize(output, col_output, cv::Size(1280, 720));
+    static MatrixCollection<720> collection1;
+    IntertwineRows(col_output, &collection1, 4);
+    resize(col_output, frame, frame.size());
 }

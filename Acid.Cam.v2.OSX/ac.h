@@ -1141,6 +1141,8 @@ namespace ac {
     void IntertwineRow720pX2(cv::Mat &frame);
     void IntertwineRow1080pX2(cv::Mat &frame);
     void IntertwineCols1280(cv::Mat &frame);
+    void IntertwineRowCols1280x720(cv::Mat &frame);
+    void IntertwineRowsImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
