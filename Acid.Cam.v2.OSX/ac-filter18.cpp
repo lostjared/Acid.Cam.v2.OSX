@@ -639,3 +639,16 @@ void ac::MedianBlendSquare(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::SmoothIntertwineMedianBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaMovementMaxMin(alpha, dir, 0.01, 2.0, 1.0);
+    pushSubFilter(ac::filter_map["IntertwineRow720pX2"]);
+    SmoothSubFilter(copy1);
+    popSubFilter();
+    AlphaBlend(copy1, copy2, frame, 1.0);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
