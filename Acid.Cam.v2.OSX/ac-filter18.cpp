@@ -602,4 +602,40 @@ void ac::IntertwineRowsImage(cv::Mat &frame) {
     static MatrixCollection<720> collection1;
     IntertwineRows(col_output, &collection1, 4);
     resize(col_output, frame, frame.size());
+    AddInvert(frame);
+}
+
+void ac::MedianBlendSquare(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static int index = 0, dir = 1, speed = 80;
+    IntertwineRow720pX2(copy2);
+    for(int z = 0; z < copy1.rows; ++z) {
+        if(dir == 1) {
+            for(int i = 0; i < index; ++i) {
+                cv::Vec3b col = copy2.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]^col[j];
+            }
+        } else {
+            for(int i = index; i >= 0; --i) {
+                cv::Vec3b col = copy2.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]^col[j];
+            }
+        }
+    }
+    if(dir == 1) {
+        index += speed;
+        if(index >= copy1.cols-1)
+            dir = 0;
+    } else {
+        index -= speed;
+        if(index <= 0)
+            dir = 1;
+    }
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
 }
