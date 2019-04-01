@@ -658,4 +658,19 @@ void ac::SmoothBlendMedian(cv::Mat &frame) {
     SmoothSubFilter32(frame);
     popSubFilter();
     MedianBlend(frame);
+    AddInvert(frame);
+}
+
+void ac::SmoothDoubleSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "SmoothDoubleSubFilter")
+        return;
+    static MatrixCollection<16> collection1;
+    static MatrixCollection<8> collection2;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
 }
