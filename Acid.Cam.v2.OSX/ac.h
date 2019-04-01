@@ -1147,6 +1147,7 @@ namespace ac {
     void SmoothIntertwineMedianBlend(cv::Mat &frame);
     void SmoothBlendMedian(cv::Mat &frame);
     void SmoothDoubleSubFilter(cv::Mat &frame);
+    void AlphaBlendMedianSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -674,3 +674,18 @@ void ac::SmoothDoubleSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendMedianSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "AlphaBlendMedianSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    DarkenFilter(copy1);
+    DarkenFilter(copy2);
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    DarkenFilter(copy1);
+    DarkenFilter(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    MedianBlend(frame);
+    AddInvert(frame);
+}
