@@ -1145,6 +1145,7 @@ namespace ac {
     void IntertwineRowsImage(cv::Mat &frame);
     void MedianBlendSquare(cv::Mat &frame);
     void SmoothIntertwineMedianBlend(cv::Mat &frame);
+    void SmoothBlendMedian(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

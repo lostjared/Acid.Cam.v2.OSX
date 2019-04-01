@@ -652,3 +652,10 @@ void ac::SmoothIntertwineMedianBlend(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::SmoothBlendMedian(cv::Mat &frame) {
+    pushSubFilter(ac::filter_map["Random Filter"]);
+    SmoothSubFilter32(frame);
+    popSubFilter();
+    MedianBlend(frame);
+}
