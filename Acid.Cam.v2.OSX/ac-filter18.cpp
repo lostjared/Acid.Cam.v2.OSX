@@ -689,3 +689,40 @@ void ac::AlphaBlendMedianSubFilter(cv::Mat &frame) {
     MedianBlend(frame);
     AddInvert(frame);
 }
+
+void ac::ReverseOnOff(cv::Mat &frame) {
+    static int state = 0;
+    if(state == 0) {
+        Reverse(frame);
+        state = 1;
+    } else {
+        state = 0;
+    }
+    AddInvert(frame);
+}
+
+void ac::SmoothReverseSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "SmoothReverseSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    ReverseOnOff(frame);
+    Smooth(frame, &collection);
+    CallFilter(subfilter, frame);
+    AddInvert(frame);
+}
+
+void ac::IntertwineWithSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineWithSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if((z%2) == 0) {
+                cv::Vec3b cp1 = copy1.at<cv::Vec3b>(z, i);
+                pixel = cp1;
+            }
+        }
+    }
+}

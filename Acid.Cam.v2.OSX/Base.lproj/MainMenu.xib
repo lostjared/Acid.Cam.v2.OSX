@@ -312,14 +312,12 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="k0b-9M-uzO"/>
-                            <menuItem title="Rewind" id="e2B-8o-rty">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Rewind to Start" keyEquivalent="e" id="e2B-8o-rty">
                                 <connections>
                                     <action selector="rewindToStart:" target="630" id="sYN-JA-RKJ"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Go To Frame" id="zlZ-NS-0Pd">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Go To Frame" keyEquivalent="g" id="zlZ-NS-0Pd">
                                 <connections>
                                     <action selector="openGoto:" target="630" id="3dK-hB-FSq"/>
                                 </connections>
@@ -657,7 +655,7 @@
                         <rect key="frame" x="20" y="126" width="707" height="211"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="CQX-W9-Xrg">
-                            <rect key="frame" x="1" y="1" width="705" height="209"/>
+                            <rect key="frame" x="1" y="1" width="690" height="209"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
@@ -676,7 +674,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="duY-MZ-OiB">
-                            <rect key="frame" x="690" y="1" width="16" height="209"/>
+                            <rect key="frame" x="691" y="1" width="15" height="209"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
