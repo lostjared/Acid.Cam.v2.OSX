@@ -1152,6 +1152,7 @@ namespace ac {
     void SmoothReverseSubFilter(cv::Mat &frame);
     void IntertwineWithSubFilter(cv::Mat &frame);
     void IntertwineWithImageAndSubFilter(cv::Mat &frame);
+    void IntertwineFrameWithImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

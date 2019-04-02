@@ -756,3 +756,22 @@ void ac::IntertwineWithImageAndSubFilter(cv::Mat &frame) {
             index = 0;
     }
 }
+
+void ac::IntertwineFrameWithImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    int index = rand()%2;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(index == 0) {
+                index = 1;
+            } else {
+                index = 0;
+                pixel = reimage.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+}
