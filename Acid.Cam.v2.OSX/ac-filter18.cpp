@@ -726,3 +726,33 @@ void ac::IntertwineWithSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::IntertwineWithImageAndSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineWithImageAndSubFilter")
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            switch(index) {
+                case 0:
+                    break;
+                case 1:
+                    pixel = img_pix;
+                    break;
+                case 2:
+                    pixel = pix;
+                    break;
+            }
+        }
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+}
