@@ -776,8 +776,38 @@ void ac::IntertwineFrameWithImage(cv::Mat &frame) {
     }
 }
 
-void ac::InterlaceFilter(cv::Mat &frame) {
-    static int index = 0;
+void ac::InterlaceVerticalFilter(cv::Mat &frame) {
+    static int index = 0, start_index = 0;
+    if(start_index == 0) {
+        start_index = 1;
+        index = 0;
+    } else {
+        start_index = 0;
+        index = 1;
+    }
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(index == 0) {
+                pixel = cv::Vec3b(0,0,0);
+            } else {
+                pixel = copy1.at<cv::Vec3b>(z, i);
+            }
+        }
+        index = (index == 0) ? 1 : 0;
+    }
+}
+
+void ac::InterlaceHorizontalFilter(cv::Mat &frame) {
+    static int index = 0, start_index = 0;
+    if(start_index == 0) {
+        start_index = 1;
+        index = 0;
+    } else {
+        start_index = 0;
+        index = 1;
+    }
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -786,10 +816,9 @@ void ac::InterlaceFilter(cv::Mat &frame) {
                 pixel = cv::Vec3b(0,0,0);
                 index = 1;
             } else {
-                index = 0;
                 pixel = copy1.at<cv::Vec3b>(z, i);
+                index = 0;
             }
         }
     }
-    index = (index == 0) ? 1 : 0;
 }
