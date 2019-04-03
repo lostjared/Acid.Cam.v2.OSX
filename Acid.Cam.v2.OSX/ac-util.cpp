@@ -734,3 +734,26 @@ void ac::Pixelate(cv::Mat &frame, unsigned int size) {
     }
 }
 
+void ac::InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1) {
+    cv::Mat reimage = copy1.clone();
+    static int start_index  = 0;
+    int index = 0;
+    if(start_index == 0) {
+        start_index = 1;
+        index = 0;
+    } else {
+        start_index = 0;
+        index = 1;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(index == 0) {
+                pixel = reimage.at<cv::Vec3b>(z, i);
+            } else {
+                continue;
+            }
+        }
+        index = (index == 0) ? 1 : 0;
+    }
+}

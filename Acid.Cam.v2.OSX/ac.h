@@ -1155,6 +1155,8 @@ namespace ac {
     void IntertwineFrameWithImage(cv::Mat &frame);
     void InterlaceVerticalFilter(cv::Mat &frame);
     void InterlaceHorizontalFilter(cv::Mat &frame);
+    void IntertwineImageFlip(cv::Mat &frame);
+    void IntertwineImageFlipSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1215,6 +1217,7 @@ namespace ac {
     void setColorMap(int map, cv::Mat &frame);
     void blendFilterWithColorMap(int filter, int map, cv::Mat &frame);
     void SwitchOrder(cv::Vec3b &frame, int order);
+    void InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1);
     void pushSubFilter(int newsub);
     void popSubFilter();
     // draw functions / strings

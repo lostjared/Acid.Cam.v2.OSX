@@ -822,3 +822,33 @@ void ac::InterlaceHorizontalFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::IntertwineImageFlip(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static int val = -1;
+    cv::Mat recopy = reimage.clone();
+    cv::flip(recopy, reimage, val);
+    InterlaceFrames(frame, reimage);
+    ++val;
+    if(val > 1)
+        val = -1;
+}
+
+void ac::IntertwineImageFlipSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineImageFlipSubFilter")
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static int val = -1;
+    cv::Mat recopy = reimage.clone();
+    cv::flip(recopy, reimage, val);
+    CallFilter(subfilter, frame);
+    CallFilter(subfilter, reimage);
+    InterlaceFrames(frame, reimage);
+    ++val;
+    if(val > 1)
+        val = -1;
+}
