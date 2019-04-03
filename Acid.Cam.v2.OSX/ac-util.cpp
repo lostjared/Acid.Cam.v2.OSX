@@ -761,19 +761,14 @@ void ac::InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1) {
 void ac::InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_obj) {
     static int start_index  = 0;
     int index = 0;
-    
     switch(index) {
         case 0:
             start_index = 1;
             index = 0;
             break;
         case 1:
-            start_index = 2;
-            index = 1;
-            break;
-        case 2:
             start_index = 0;
-            index = 2;
+            index = 1;
             break;
     }
     for(int z = 0; z < frame.rows; ++z) {
@@ -782,7 +777,7 @@ void ac::InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_obj) {
             pixel = items[index].at<cv::Vec3b>(z, i);
         }
         ++index;
-        if(index > 2)
+        if(index > num_obj)
             index = 0;
     }
 }
