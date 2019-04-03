@@ -1157,6 +1157,7 @@ namespace ac {
     void InterlaceHorizontalFilter(cv::Mat &frame);
     void IntertwineImageFlip(cv::Mat &frame);
     void IntertwineImageFlipSubFilter(cv::Mat &frame);
+    void IntertwineFlipImageAndSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1218,6 +1219,7 @@ namespace ac {
     void blendFilterWithColorMap(int filter, int map, cv::Mat &frame);
     void SwitchOrder(cv::Vec3b &frame, int order);
     void InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1);
+    void InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_items);
     void pushSubFilter(int newsub);
     void popSubFilter();
     // draw functions / strings
@@ -1632,7 +1634,6 @@ namespace ac {
                 dir = 1;
     	}
     }
-    
     // bound long values to size of a byte
     template<typename T>
     T size_type_cast(const long &val) {

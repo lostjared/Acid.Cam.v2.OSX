@@ -757,3 +757,32 @@ void ac::InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1) {
         index = (index == 0) ? 1 : 0;
     }
 }
+
+void ac::InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_obj) {
+    static int start_index  = 0;
+    int index = 0;
+    
+    switch(index) {
+        case 0:
+            start_index = 1;
+            index = 0;
+            break;
+        case 1:
+            start_index = 2;
+            index = 1;
+            break;
+        case 2:
+            start_index = 0;
+            index = 2;
+            break;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel = items[index].at<cv::Vec3b>(z, i);
+        }
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+}

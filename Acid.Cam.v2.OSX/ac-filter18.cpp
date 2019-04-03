@@ -725,6 +725,7 @@ void ac::IntertwineWithSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::IntertwineWithImageAndSubFilter(cv::Mat &frame) {
@@ -755,6 +756,7 @@ void ac::IntertwineWithImageAndSubFilter(cv::Mat &frame) {
         if(index > 2)
             index = 0;
     }
+    AddInvert(frame);
 }
 
 void ac::IntertwineFrameWithImage(cv::Mat &frame) {
@@ -774,6 +776,7 @@ void ac::IntertwineFrameWithImage(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::InterlaceVerticalFilter(cv::Mat &frame) {
@@ -797,6 +800,7 @@ void ac::InterlaceVerticalFilter(cv::Mat &frame) {
         }
         index = (index == 0) ? 1 : 0;
     }
+    AddInvert(frame);
 }
 
 void ac::InterlaceHorizontalFilter(cv::Mat &frame) {
@@ -821,6 +825,7 @@ void ac::InterlaceHorizontalFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::IntertwineImageFlip(cv::Mat &frame) {
@@ -835,6 +840,7 @@ void ac::IntertwineImageFlip(cv::Mat &frame) {
     ++val;
     if(val > 1)
         val = -1;
+    AddInvert(frame);
 }
 
 void ac::IntertwineImageFlipSubFilter(cv::Mat &frame) {
@@ -851,4 +857,27 @@ void ac::IntertwineImageFlipSubFilter(cv::Mat &frame) {
     ++val;
     if(val > 1)
         val = -1;
+    
+    AddInvert(frame);
+}
+
+void ac::IntertwineFlipImageAndSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineFlipImageAndSubFilter")
+        return;
+    int flip_codes[3] = {-1,-1,-1};
+    flip_codes[0] += rand()%2;
+    flip_codes[1] += rand()%2;
+    flip_codes[2] += rand()%2;
+    cv::Mat filtered = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, filtered);
+    cv::Mat copy_input[3], output[3];
+    copy_input[0] = frame.clone();
+    copy_input[1] = reimage.clone();
+    copy_input[2] = filtered.clone();
+    for(int i = 0; i < 3; ++i) {
+        cv::flip(copy_input[i], output[i], flip_codes[i]);
+    }
+    InterlaceFrames(frame, output, 3);
+    AddInvert(frame);
 }
