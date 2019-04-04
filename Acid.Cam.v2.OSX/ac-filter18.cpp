@@ -881,3 +881,29 @@ void ac::IntertwineFlipImageAndSubFilter(cv::Mat &frame) {
     InterlaceFrames(frame, output, 3);
     AddInvert(frame);
 }
+
+void ac::IntertwineImageOnOff(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int on_val = 0;
+    static int start_off_on = 0;
+    if(start_off_on == 0) {
+        on_val = 0;
+        start_off_on = 1;
+    } else {
+        on_val = 1;
+        start_off_on = 0;
+    }
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on_val == 0)
+                pixel = reimage.at<cv::Vec3b>(z, i);
+            else
+                continue;
+        }
+        on_val = (on_val == 0) ? 1 : 0;
+    }
+}

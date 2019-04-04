@@ -1158,6 +1158,7 @@ namespace ac {
     void IntertwineImageFlip(cv::Mat &frame);
     void IntertwineImageFlipSubFilter(cv::Mat &frame);
     void IntertwineFlipImageAndSubFilter(cv::Mat &frame);
+    void IntertwineImageOnOff(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
