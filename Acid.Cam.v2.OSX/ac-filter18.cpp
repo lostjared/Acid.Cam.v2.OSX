@@ -906,4 +906,23 @@ void ac::IntertwineImageOnOff(cv::Mat &frame) {
         }
         on_val = (on_val == 0) ? 1 : 0;
     }
+    AddInvert(frame);
+}
+
+void ac::IntertwineVideoShuffle(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
+    static std::vector<std::string> filter_array({"IntertwineRows32", "IntertwineRows16", "IntertwineRows8","Intertwine64X", "IntertwineRowsReverse32", "IntertwineRowsReverse16", "IntertwineRowsReverse8", "IntertwineRowsReverse64X", "IntertwineRowsSwitch32", "IntertwineRowsSwitch16", "IntertwineRowsSwitch8", "IntertwineRows64"});
+    static int init = 0;
+    if(init == 0) {
+        std::shuffle(filter_array.begin(), filter_array.end(), rng);
+        init = 1;
+    }
+    static int index = 0;
+    CallFilter(filter_array[index], frame);
+    ++index;
+    if(index > filter_array.size()-1) {
+        index = 0;
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+    AddInvert(frame);
 }
