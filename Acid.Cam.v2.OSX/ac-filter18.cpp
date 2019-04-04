@@ -941,3 +941,13 @@ void ac::ImageFlipFilter(cv::Mat &frame) {
         val = -1;
     AddInvert(frame);
 }
+
+void ac::FlipFrameFilter(cv::Mat &frame) {
+    static int val = -1;
+    cv::Mat copy1 = frame.clone();
+    cv::flip(copy1, frame, val);
+    ++val;
+    if(val > 1)
+        val = -1;
+    AddInvert(frame);
+}

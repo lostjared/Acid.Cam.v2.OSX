@@ -1161,6 +1161,7 @@ namespace ac {
     void IntertwineImageOnOff(cv::Mat &frame);
     void IntertwineVideoShuffle(cv::Mat &frame);
     void ImageFlipFilter(cv::Mat &frame);
+    void FlipFrameFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
