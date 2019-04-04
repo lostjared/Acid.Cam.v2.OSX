@@ -110,6 +110,23 @@ void Square_Swap(ac::Square *squares, int num_w, int num_h, cv::Mat &frame, bool
     delete [] points;
 }
 
+void ac::SquareFill(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    int r = rand()%3;
+    switch(r) {
+        case 0:
+            SquareSwap8x4(copy1);
+            break;
+        case 1:
+            SquareSwap4x2(copy1);
+            break;
+        case 2:
+            SquareSwap16x8(copy1);
+            break;
+    }
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
 
 // SquareSwap
 void ac::SquareSwap(cv::Mat &frame) {

@@ -951,3 +951,15 @@ void ac::FlipFrameFilter(cv::Mat &frame) {
         val = -1;
     AddInvert(frame);
 }
+
+void ac::AlphaBlendImageAndSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "AlphaBlendImageAndSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage, output;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, output, 0.5);
+    AlphaBlend(output,reimage,frame, 0.5);
+    AddInvert(frame);
+}
+
