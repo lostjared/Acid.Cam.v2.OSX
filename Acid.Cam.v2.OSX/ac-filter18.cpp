@@ -926,3 +926,18 @@ void ac::IntertwineVideoShuffle(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageFlipFilter(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static int val = -1;
+    cv::Mat recopy = reimage.clone(), copy1 = frame.clone();
+    cv::flip(recopy, reimage, val);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    ++val;
+    if(val > 1)
+        val = -1;
+    AddInvert(frame);
+}
