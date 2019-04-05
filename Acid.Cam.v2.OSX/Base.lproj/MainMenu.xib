@@ -232,17 +232,6 @@
                                     <action selector="releaseFrames:" target="630" id="TgK-6I-Jk6"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="zbR-BR-Pc6"/>
-                            <menuItem title="Take Snapshot JPG" keyEquivalent="s" id="649">
-                                <connections>
-                                    <action selector="takeSnopshot:" target="630" id="700"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Take Snapshot PNG" keyEquivalent="a" id="Fy3-Ag-Dft">
-                                <connections>
-                                    <action selector="takeSnapshotPNG:" target="630" id="yHO-Xt-6iN"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="cCT-xE-aRk"/>
                             <menuItem title="Copy Custom String" id="FYH-xq-UXa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -257,6 +246,17 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Image" id="soX-kv-x2v">
                         <items>
+                            <menuItem title="Take Snapshot JPG" keyEquivalent="s" id="mSM-Hc-z0T">
+                                <connections>
+                                    <action selector="takeSnopshot:" target="630" id="Gef-aP-9cK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Take Snapshot PNG" keyEquivalent="a" id="EaF-hZ-btw">
+                                <connections>
+                                    <action selector="takeSnapshotPNG:" target="630" id="6J7-Ha-7nh"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="sBe-FG-dBw"/>
                             <menuItem title="Set Blend Image/Color Key" id="127-AT-vbl">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
@@ -975,7 +975,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="Kca-yO-0lq">
                             <rect key="frame" x="1" y="0.0" width="604" height="308"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rNv-eJ-jDi" id="oR9-5h-21a">
                                     <rect key="frame" x="0.0" y="0.0" width="604" height="285"/>
@@ -1053,17 +1053,6 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
-                    <button verticalHuggingPriority="750" id="R6q-Jw-fju">
-                        <rect key="frame" x="496" y="13" width="75" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dPv-h2-qVJ">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="removeCustomItem:" target="630" id="HnQ-e9-aHJ"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" id="dvN-kQ-oUl">
                         <rect key="frame" x="14" y="13" width="58" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1253,8 +1242,19 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <button verticalHuggingPriority="750" id="R6q-Jw-fju">
+                        <rect key="frame" x="491" y="13" width="75" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dPv-h2-qVJ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="removeCustomItem:" target="630" id="HnQ-e9-aHJ"/>
+                        </connections>
+                    </button>
                     <button verticalHuggingPriority="750" id="tXr-Sw-1SE">
-                        <rect key="frame" x="562" y="13" width="75" height="32"/>
+                        <rect key="frame" x="557" y="13" width="75" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Insert" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Lsn-Eh-Bbs">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1265,7 +1265,7 @@
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" id="Y5f-yV-qPs">
-                        <rect key="frame" x="430" y="13" width="75" height="32"/>
+                        <rect key="frame" x="425" y="13" width="75" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HSw-Ke-dLI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1643,7 +1643,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="880" y="105"/>
+            <point key="canvasLocation" x="1426" y="-38"/>
         </window>
         <window title="Wait for Queue to Finish" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="8dK-49-42N">
             <windowStyleMask key="styleMask" titled="YES"/>
@@ -1660,7 +1660,7 @@ Gw
                     </progressIndicator>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="148" y="-634"/>
+            <point key="canvasLocation" x="222" y="-445"/>
         </window>
         <window title="Search Filters" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Z1m-Pb-5Gb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -1688,7 +1688,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="t1A-tL-tG7">
                             <rect key="frame" x="1" y="0.0" width="544" height="365"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
                                     <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>
