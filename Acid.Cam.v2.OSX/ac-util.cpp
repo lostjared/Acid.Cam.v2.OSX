@@ -770,3 +770,28 @@ void ac::InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_obj) {
             index = 0;
     }
 }
+
+void ac::StretchAlphaBlendSelf(cv::Mat &frame, const int speed_x, const int speed_y, int &offset_x, int &offset_y) {
+    cv::Size sizeval;
+    sizeval.width = frame.cols-offset_x;
+    sizeval.height = frame.rows-offset_y;
+    if((offset_x >= frame.cols-10) || (offset_y >= frame.rows-10)) {
+        offset_x = 1;
+        offset_y = 1;
+    } else {
+        offset_x += speed_x;
+        offset_y += speed_y;
+    }
+    cv::Mat reimage;
+    cv::resize(frame, reimage, sizeval);
+    static double alpha = 0.5;
+    for(int z = 0; z < reimage.rows; ++z) {
+        for(int i = 0; i < reimage.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pixi = reimage.at<cv::Vec3b>(z, i);
+            
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) + static_cast<unsigned char>(pixi[j]*alpha);
+        }
+    }
+}

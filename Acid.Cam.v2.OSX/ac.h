@@ -1164,6 +1164,9 @@ namespace ac {
     void FlipFrameFilter(cv::Mat &frame);
     void AlphaBlendImageAndSubFilter(cv::Mat &frame);
     void SquareFill(cv::Mat &frame);
+    void StretchAlphaBlend(cv::Mat &frame);
+    void StretchAlphaBlendWidth(cv::Mat &frame);
+    void StretchAlphaBlendHeight(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1190,6 +1193,7 @@ namespace ac {
     void AlphaBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
     void AlphaXorBlend(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha);
     void AlphaXorBlendDouble(const cv::Mat &one, const cv::Mat &two, cv::Mat &output, double alpha1, double alpha2);
+    void StretchAlphaBlendSelf(cv::Mat &frame, const int speed_x, const int speed_y, int &offset_x, int &offset_y);
     void AlphaMovement(double *alpha, int *dir, double inc);
     void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
     void PixelScaleAlpha(cv::Mat &frame, double amt);

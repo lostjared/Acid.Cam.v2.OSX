@@ -963,3 +963,20 @@ void ac::AlphaBlendImageAndSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::StretchAlphaBlend(cv::Mat &frame) {
+    static int offset_x = 1;
+    static int offset_y = 1;
+     StretchAlphaBlendSelf(frame, 1, 1, offset_x, offset_y);
+}
+
+void ac::StretchAlphaBlendWidth(cv::Mat &frame) {
+    static int offset_x = 1;
+    static int offset_y = 1;
+    StretchAlphaBlendSelf(frame, 1, 0, offset_x, offset_y);
+
+}
+void ac::StretchAlphaBlendHeight(cv::Mat &frame) {
+    static int offset_x = 1;
+    static int offset_y = 1;
+    StretchAlphaBlendSelf(frame, 0, 1, offset_x, offset_y);
+}
