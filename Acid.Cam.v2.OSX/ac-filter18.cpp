@@ -980,3 +980,17 @@ void ac::StretchAlphaBlendHeight(cv::Mat &frame) {
     static int offset_y = 1;
     StretchAlphaBlendSelf(frame, 0, 1, offset_x, offset_y);
 }
+
+void ac::StretchAlphaBlendTwitch(cv::Mat &frame) {
+    static int offset_x = 1;
+    static int offset_y = 1;
+    static int dir = 1;
+    StretchAlphaBlendSelf(frame,dir, 1, 0, offset_x, offset_y, 100, 100);
+}
+
+void ac::StretchAlphaBlednTwitchFast(cv::Mat &frame) {
+    static int offset_x = 1;
+    static int offset_y = 1;
+    static int dir = 1;
+    StretchAlphaBlendSelf(frame,dir, 10, 0, offset_x, offset_y, 100, 100);
+}

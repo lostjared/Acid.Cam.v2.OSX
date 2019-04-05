@@ -795,3 +795,35 @@ void ac::StretchAlphaBlendSelf(cv::Mat &frame, const int speed_x, const int spee
         }
     }
 }
+
+void ac::StretchAlphaBlendSelf(cv::Mat &frame, int &dir, const int &speed_x, const int &speed_y, int &offset_x, int &offset_y, const int &size_x, const int &size_y) {
+    cv::Size sizeval;
+    sizeval.width = frame.cols-offset_x;
+    sizeval.height = frame.rows-offset_y;
+    if(dir == 1) {
+        offset_x += speed_x;
+        offset_y += speed_y;
+        if((offset_x >= size_x-10 && speed_x > 0) || (offset_y >=size_y-10 && speed_y > 0)) {
+            dir = 0;
+        }
+    } else {
+        offset_x -= speed_x;
+        offset_y -= speed_y;
+        if((offset_x <= 10 && speed_x > 0) || (offset_y <= 10 && speed_y > 0)) {
+            dir = 1;
+        }
+    }
+    cv::Mat reimage;
+    cv::resize(frame, reimage, sizeval);
+    static double alpha = 0.5;
+    for(int z = 0; z < reimage.rows; ++z) {
+        for(int i = 0; i < reimage.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pixi = reimage.at<cv::Vec3b>(z, i);
+            
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) + static_cast<unsigned char>(pixi[j]*alpha);
+        }
+    }
+    
+}
