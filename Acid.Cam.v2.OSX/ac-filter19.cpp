@@ -74,14 +74,15 @@ void ac::AlphaBlendTrails(cv::Mat &frame) {
 
 void ac::VideoStretchHorizontal(cv::Mat &frame) {
     static int x = 0, dir = 2;
+    static const int speed = 20;
     if(x < frame.cols-1)
         x = frame.cols;
     if(dir == 1) {
-        x += 5;
+        x += speed;
         if(x > (frame.cols*3))
             dir = 0;
     } else if(dir == 0) {
-        x -= 5;
+        x -= speed;
         if(x < frame.cols-1)
             dir = 1;
     } else if(dir == 2) {
@@ -95,14 +96,15 @@ void ac::VideoStretchHorizontal(cv::Mat &frame) {
 
 void ac::VideoStretchVertical(cv::Mat &frame) {
     static int y = 0, dir = 2;
+    static const int speed = 20;
     if(y < frame.rows-1)
         y = frame.rows;
     if(dir == 1) {
-        y += 5;
+        y += speed;
         if(y > (frame.rows*3))
             dir = 0;
     } else if(dir == 0) {
-        y -= 5;
+        y -= speed;
         if(y < frame.rows-1)
             dir = 1;
     } else if(dir == 2) {
