@@ -994,3 +994,17 @@ void ac::StretchAlphaBlednTwitchFast(cv::Mat &frame) {
     static int dir = 1;
     StretchAlphaBlendSelf(frame,dir, 10, 0, offset_x, offset_y, 100, 100);
 }
+// Use as a subfilter for Smooth
+void ac::StretchRandomValues(cv::Mat &frame) {
+    cv::Mat reimage;
+    int r_x = 0, r_y = 0;
+    r_x = rand()%(frame.cols-1);
+    r_y = rand()%(frame.rows-1);
+    if(r_x < 10)
+        r_x = 10;
+    if(r_y < 10)
+        r_y = 10;    
+    cv::Size size_val(r_x, r_y);
+    cv::resize(frame, reimage, size_val);
+    copyMat(frame, reimage);
+}

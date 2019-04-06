@@ -64,7 +64,7 @@
 #include<cassert>
 #include<utility>
 #include"ac-filtercat.h"
-//#define ASSERT_CHECK
+#define ASSERT_CHECK
 // Macro for assert testing
 #ifdef ASSERT_CHECK
 #define ASSERT(X) assert(X)
@@ -1169,6 +1169,8 @@ namespace ac {
     void StretchAlphaBlendHeight(cv::Mat &frame);
     void StretchAlphaBlendTwitch(cv::Mat &frame);
     void StretchAlphaBlednTwitchFast(cv::Mat &frame);
+    void StretchRandomValues(cv::Mat &frame);
+    void ImageRandomValues(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1807,6 +1809,8 @@ namespace ac {
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, int x, int y, cv::Mat &target, int rx, int ry, int rw, int rh);
     void copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const Rect &dst);
+    void copyMat(cv::Mat &frame, const cv::Mat &cpy, int x, int y);
+    void copyMat(cv::Mat &frame, const cv::Mat &cpy);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
     // Transform Template

@@ -446,6 +446,20 @@ void ac::copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const R
     }
 }
 
+void ac::copyMat(cv::Mat &frame, const cv::Mat &cpy, int x, int y) {
+    for(int i = x; i < x+cpy.cols; ++i) {
+        for(int z = y; z < y+cpy.rows; ++z) {
+            ASSERT((i < frame.cols) && (z < frame.rows) && (i >= 0 && z >= 0));
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = cpy.at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+}
+
+void ac::copyMat(cv::Mat &frame, const cv::Mat &cpy) {
+    copyMat(frame, cpy, 0, 0);
+}
 
 
 // Copy cv::Mat

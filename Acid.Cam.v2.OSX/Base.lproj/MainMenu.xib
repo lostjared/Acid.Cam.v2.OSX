@@ -440,7 +440,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-594" y="-1613"/>
+            <point key="canvasLocation" x="-1189" y="-2071"/>
         </menu>
         <customObject id="494" customClass="AC_AppDelegate">
             <connections>
@@ -1938,7 +1938,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-150" y="-1288"/>
+            <point key="canvasLocation" x="-595" y="-1665"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
