@@ -1172,6 +1172,8 @@ namespace ac {
     void StretchRandomValues(cv::Mat &frame);
     void ImageRandomValues(cv::Mat &frame);
     void AlphaBlendTrails(cv::Mat &frame);
+    void VideoStretchHorizontal(cv::Mat &frame);
+    void VideoStretchVertical(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1812,6 +1814,7 @@ namespace ac {
     void copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const Rect &dst);
     void copyMat(cv::Mat &frame, const cv::Mat &cpy, int x, int y);
     void copyMat(cv::Mat &frame, const cv::Mat &cpy);
+    void copyMatSize(cv::Mat &frame, const cv::Mat &cpy, int offset_x, int offset_y);
     void fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel);
     
     // Transform Template

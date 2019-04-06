@@ -71,3 +71,45 @@ void ac::AlphaBlendTrails(cv::Mat &frame) {
     AlphaBlend(frame, copy1, copy2,0.5);
     frame = copy2.clone();
 }
+
+void ac::VideoStretchHorizontal(cv::Mat &frame) {
+    static int x = 0, dir = 2;
+    if(x < frame.cols-1)
+        x = frame.cols;
+    if(dir == 1) {
+        x += 5;
+        if(x > (frame.cols*3))
+            dir = 0;
+    } else if(dir == 0) {
+        x -= 5;
+        if(x < frame.cols-1)
+            dir = 1;
+    } else if(dir == 2) {
+        x = frame.cols;
+        dir = 1;
+    }
+    cv::Mat copy1;
+    cv::resize(frame, copy1, cv::Size(x, frame.rows));
+    copyMatSize(frame, copy1, 0, 0);
+}
+
+void ac::VideoStretchVertical(cv::Mat &frame) {
+    static int y = 0, dir = 2;
+    if(y < frame.rows-1)
+        y = frame.rows;
+    if(dir == 1) {
+        y += 5;
+        if(y > (frame.rows*3))
+            dir = 0;
+    } else if(dir == 0) {
+        y -= 5;
+        if(y < frame.rows-1)
+            dir = 1;
+    } else if(dir == 2) {
+        y = frame.rows;
+        dir = 1;
+    }
+    cv::Mat copy1;
+    cv::resize(frame, copy1, cv::Size(frame.cols, y));
+    copyMatSize(frame, copy1, 0, 0);
+}
