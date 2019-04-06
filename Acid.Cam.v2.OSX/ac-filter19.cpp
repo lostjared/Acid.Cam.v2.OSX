@@ -59,4 +59,15 @@ void ac::ImageRandomValues(cv::Mat &frame) {
     copyMat(frame, reimage);
 }
 
-
+void ac::AlphaBlendTrails(cv::Mat &frame) {
+    static MatrixCollection<17> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int i = 0; i < 16;  i += 2) {
+        cv::Mat &cp = collection.frames[i];
+        AlphaBlend(copy1, cp, copy2, 0.5);
+        copy1 = copy2.clone();
+    }
+    AlphaBlend(frame, copy1, copy2,0.5);
+    frame = copy2.clone();
+}

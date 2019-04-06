@@ -1171,6 +1171,7 @@ namespace ac {
     void StretchAlphaBlednTwitchFast(cv::Mat &frame);
     void StretchRandomValues(cv::Mat &frame);
     void ImageRandomValues(cv::Mat &frame);
+    void AlphaBlendTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
