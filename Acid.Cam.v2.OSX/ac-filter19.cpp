@@ -60,10 +60,10 @@ void ac::ImageRandomValues(cv::Mat &frame) {
 }
 
 void ac::AlphaBlendTrails(cv::Mat &frame) {
-    static MatrixCollection<32> collection;
+    static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    for(int i = 0; i < 16;  ++i += 2) {
+    for(int i = 0; i < 16;  i += 2) {
         cv::Mat &cp = collection.frames[i];
         AlphaBlendDouble(copy1, cp, copy2, 0.6, 0.4);
         copy1 = copy2.clone();
