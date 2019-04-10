@@ -966,19 +966,22 @@ void ac::AlphaBlendImageAndSubFilter(cv::Mat &frame) {
 void ac::StretchAlphaBlend(cv::Mat &frame) {
     static int offset_x = 1;
     static int offset_y = 1;
-     StretchAlphaBlendSelf(frame, 1, 1, offset_x, offset_y);
+    StretchAlphaBlendSelf(frame, 1, 1, offset_x, offset_y);
+    AddInvert(frame);
 }
 
 void ac::StretchAlphaBlendWidth(cv::Mat &frame) {
     static int offset_x = 1;
     static int offset_y = 1;
     StretchAlphaBlendSelf(frame, 1, 0, offset_x, offset_y);
+    AddInvert(frame);
 
 }
 void ac::StretchAlphaBlendHeight(cv::Mat &frame) {
     static int offset_x = 1;
     static int offset_y = 1;
     StretchAlphaBlendSelf(frame, 0, 1, offset_x, offset_y);
+    AddInvert(frame);
 }
 
 void ac::StretchAlphaBlendTwitch(cv::Mat &frame) {
@@ -986,6 +989,7 @@ void ac::StretchAlphaBlendTwitch(cv::Mat &frame) {
     static int offset_y = 1;
     static int dir = 1;
     StretchAlphaBlendSelf(frame,dir, 1, 0, offset_x, offset_y, 100, 100);
+    AddInvert(frame);
 }
 
 void ac::StretchAlphaBlednTwitchFast(cv::Mat &frame) {
@@ -993,6 +997,7 @@ void ac::StretchAlphaBlednTwitchFast(cv::Mat &frame) {
     static int offset_y = 1;
     static int dir = 1;
     StretchAlphaBlendSelf(frame,dir, 10, 0, offset_x, offset_y, 100, 100);
+    AddInvert(frame);
 }
 // Use as a subfilter for Smooth
 void ac::StretchRandomValues(cv::Mat &frame) {
@@ -1007,4 +1012,5 @@ void ac::StretchRandomValues(cv::Mat &frame) {
     cv::Size size_val(r_x, r_y);
     cv::resize(frame, reimage, size_val);
     copyMat(frame, reimage);
+    AddInvert(frame);
 }

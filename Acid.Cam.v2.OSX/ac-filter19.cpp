@@ -57,6 +57,7 @@ void ac::ImageRandomValues(cv::Mat &frame) {
     cv::Size size_val(r_x, r_y);
     cv::resize(blend_image, reimage, size_val);
     copyMat(frame, reimage);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendTrails(cv::Mat &frame) {
@@ -71,6 +72,7 @@ void ac::AlphaBlendTrails(cv::Mat &frame) {
     }
     AlphaBlend(frame, copy1, copy2,0.5);
     frame = copy2.clone();
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendTrailsReverse(cv::Mat &frame) {
@@ -84,6 +86,7 @@ void ac::AlphaBlendTrailsReverse(cv::Mat &frame) {
     }
     AlphaBlend(frame, copy1, copy2,0.5);
     frame = copy2.clone();
+    AddInvert(frame);
 }
 
 
@@ -107,6 +110,7 @@ void ac::VideoStretchHorizontal(cv::Mat &frame) {
     cv::Mat copy1;
     cv::resize(frame, copy1, cv::Size(x, frame.rows));
     copyMatSize(frame, copy1, 0, 0);
+    AddInvert(frame);
 }
 
 void ac::VideoStretchVertical(cv::Mat &frame) {
@@ -129,6 +133,7 @@ void ac::VideoStretchVertical(cv::Mat &frame) {
     cv::Mat copy1;
     cv::resize(frame, copy1, cv::Size(frame.cols, y));
     copyMatSize(frame, copy1, 0, 0);
+    AddInvert(frame);
 }
 
 void ac::StrobeTrailsFilter(cv::Mat &frame) {
@@ -148,27 +153,60 @@ void ac::StrobeTrailsFilter(cv::Mat &frame) {
     }
     AlphaBlend(frame, copy1, copy2,0.5);
     frame = copy2.clone();
+    AddInvert(frame);
 }
 
-void ac::ShadowAlphaBlend(cv::Mat &frame) {
+void ac::ShadowAlphaTrails16(cv::Mat &frame) {
+    static int index = 1;
+    static MatrixCollection<16> collection;
+    ShadowTrails(frame, &collection, index);
+    AddInvert(frame);
+}
+
+void ac::ShadowAlphaTrailsReset(cv::Mat &frame) {
+    static int index = 1;
     static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
-    static int index = 0;
     cv::Mat &copy1 = collection.frames[index];
-    cv::Mat copy2  = frame.clone();
+    cv::Mat copy2 = frame.clone();
     AlphaBlend(copy2, copy1, frame, 0.5);
-    static int dir = 1;
-    if(dir == 1) {
-        ++index;
-        if(index >= 15) {
-            dir = 0;
-            index = 15;
-        }
-    } else {
-        --index;
-        if(index <= 1) {
-            dir = 1;
-            index = 1;
-        }
+    ++index;
+    if(index >= 15) {
+        index = 1;
     }
+    AddInvert(frame);
+}
+
+void ac::SetColormap(cv::Mat &frame) {
+    static int index = 2;
+    static int counter = 0;
+    static MatrixCollection<16> collection;
+    int fps = static_cast<int>(ac::fps);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ++counter;
+    setColorMap(index, copy2);
+    Smooth(copy2, &collection);
+    if((counter%fps) == 0) {
+        ++index;
+        if(index > 10)
+            index = 2;
+    }
+    AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
+    AddInvert(frame);
+}
+
+void ac::ShadowAlphaTrails(cv::Mat &frame) {
+    static constexpr int size_val = 32;
+    static int index = 1;
+    static MatrixCollection<size_val> collection;
+    ShadowTrails(frame, &collection, index);
+    AddInvert(frame);
+}
+
+void ac::ShadowAlphaTrails64(cv::Mat &frame) {
+    static constexpr int size_val = 64;
+    static int index = 1;
+    static MatrixCollection<size_val> collection;
+    ShadowTrails(frame, &collection, index);
+    AddInvert(frame);
 }

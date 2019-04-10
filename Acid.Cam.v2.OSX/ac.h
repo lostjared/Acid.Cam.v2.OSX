@@ -1176,7 +1176,11 @@ namespace ac {
     void VideoStretchVertical(cv::Mat &frame);
     void StrobeTrailsFilter(cv::Mat &frame);
     void AlphaBlendTrailsReverse(cv::Mat &frame);
-    void ShadowAlphaBlend(cv::Mat &frame);
+    void ShadowAlphaTrails16(cv::Mat &frame);
+    void ShadowAlphaTrailsReset(cv::Mat &frame);
+    void SetColormap(cv::Mat &frame);
+    void ShadowAlphaTrails(cv::Mat &frame);
+    void ShadowAlphaTrails64(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1656,6 +1660,29 @@ namespace ac {
                 dir = 1;
     	}
     }
+    
+    template<int size_val>
+    void ShadowTrails(cv::Mat &frame, MatrixCollection<size_val> *collection, int &index) {
+        collection->shiftFrames(frame);
+        cv::Mat &copy1 = collection->frames[index];
+        cv::Mat copy2  = frame.clone();
+        AlphaBlend(copy2, copy1, frame, 0.5);
+        static int dir = 0;
+        if(dir == 1) {
+            ++index;
+            if(index >= size_val-1) {
+                dir = 0;
+                index = size_val-1;
+            }
+        } else {
+            --index;
+            if(index <= 1) {
+                dir = 1;
+                index = 1;
+            }
+        }
+    }
+    
     // bound long values to size of a byte
     template<typename T>
     T size_type_cast(const long &val) {
