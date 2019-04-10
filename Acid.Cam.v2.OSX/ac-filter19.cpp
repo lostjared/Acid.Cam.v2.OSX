@@ -63,6 +63,20 @@ void ac::AlphaBlendTrails(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    
+    for(int i = 15; i >= 0;  i -= 2) {
+        cv::Mat &cp = collection.frames[i];
+        AlphaBlendDouble(copy1, cp, copy2, 0.6, 0.4);
+        copy1 = copy2.clone();
+    }
+    AlphaBlend(frame, copy1, copy2,0.5);
+    frame = copy2.clone();
+}
+
+void ac::AlphaBlendTrailsReverse(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     for(int i = 0; i < 16;  i += 2) {
         cv::Mat &cp = collection.frames[i];
         AlphaBlendDouble(copy1, cp, copy2, 0.6, 0.4);
@@ -71,6 +85,7 @@ void ac::AlphaBlendTrails(cv::Mat &frame) {
     AlphaBlend(frame, copy1, copy2,0.5);
     frame = copy2.clone();
 }
+
 
 void ac::VideoStretchHorizontal(cv::Mat &frame) {
     static int x = 0, dir = 2;
@@ -114,4 +129,46 @@ void ac::VideoStretchVertical(cv::Mat &frame) {
     cv::Mat copy1;
     cv::resize(frame, copy1, cv::Size(frame.cols, y));
     copyMatSize(frame, copy1, 0, 0);
+}
+
+void ac::StrobeTrailsFilter(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static int index = 0;
+    for(int i = 0; i < 16;  i += 2) {
+        cv::Mat &cp = collection.frames[i];
+        cv::Mat copy_c = cp.clone();
+        setChannelToValue(copy_c, index, 255);
+        ++index;
+        if(index > 2)
+            index = 0;
+        AlphaBlendDouble(copy1, copy_c, copy2, 0.6, 0.4);
+        copy1 = copy2.clone();
+    }
+    AlphaBlend(frame, copy1, copy2,0.5);
+    frame = copy2.clone();
+}
+
+void ac::ShadowAlphaBlend(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int index = 0;
+    cv::Mat &copy1 = collection.frames[index];
+    cv::Mat copy2  = frame.clone();
+    AlphaBlend(copy2, copy1, frame, 0.5);
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index >= 15) {
+            dir = 0;
+            index = 15;
+        }
+    } else {
+        --index;
+        if(index <= 1) {
+            dir = 1;
+            index = 1;
+        }
+    }
 }

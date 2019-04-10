@@ -1174,6 +1174,9 @@ namespace ac {
     void AlphaBlendTrails(cv::Mat &frame);
     void VideoStretchHorizontal(cv::Mat &frame);
     void VideoStretchVertical(cv::Mat &frame);
+    void StrobeTrailsFilter(cv::Mat &frame);
+    void AlphaBlendTrailsReverse(cv::Mat &frame);
+    void ShadowAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1222,6 +1225,7 @@ namespace ac {
     SearchType searchColors(const cv::Vec3b &color);
     bool compareColor(const cv::Vec3b &color, const cv::Vec3b &low, const cv::Vec3b &high);
     void setGrayColor(const cv::Vec3b &color);
+    void setChannelToValue(cv::Mat &frame, unsigned int channel, unsigned char value);
     unsigned char size_cast(long val);
     unsigned char size_reset(long val);
     // Alpha Blend two filters and set to frame by alpha variable
