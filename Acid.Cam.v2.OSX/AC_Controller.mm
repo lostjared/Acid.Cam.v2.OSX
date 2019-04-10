@@ -1640,7 +1640,18 @@ void SearchForString(NSString *s) {
 - (IBAction) updateLabelText: (id) sender {
     NSInteger index = [image_to_set indexOfSelectedItem];
     NSString *s = [NSString stringWithUTF8String: set_filenames[index].c_str()];
+    NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
+    [view_image setImage:img];
+    [img release];
     [selectedFilename setStringValue: s];
+}
+
+- (IBAction) changeImageSelected: (id) sender {
+    NSInteger combo_i = [image_combo indexOfSelectedItem];
+    NSString *s = [image_combo itemObjectValueAtIndex:combo_i];
+    NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
+    [cur_selected_image setImage:img];
+    [img release];
 }
 
 - (IBAction) setAsImage: (id) sender {
@@ -1912,7 +1923,8 @@ void SearchForString(NSString *s) {
         set_filenames[index] = "None";
         [self updateLabelText:self];
     }
-    
+    [cur_selected_image setImage:nil];
+    [view_image setImage:nil];
 }
 
 - (void) updatePref: (BOOL)display_msg {

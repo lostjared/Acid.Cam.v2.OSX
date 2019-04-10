@@ -169,6 +169,8 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSButton *load_settings;
     IBOutlet NSTextField *video_width, *video_height;
     IBOutlet NSButton *chk_stretch;
+    IBOutlet NSImageView *view_image;
+    IBOutlet NSImageView *cur_selected_image;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -293,6 +295,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) insertFilter_Custom: (id) sender;
 - (IBAction) scaleToggle: (id) sender;
 - (IBAction) saveLogToFile: (id) sender;
+- (IBAction) changeImageSelected: (id) sender;
 
 @end
 
