@@ -256,8 +256,8 @@ void ac::FadeFromColorToColor(cv::Mat &frame) {
     for(int j = 0; j < 3; ++j) {
         if(new_value[j]+15 >= old_color[j] && new_value[j]-15 <= old_color[j])
         {
-            old_color = new_value;
-            new_value = cv::Vec3b(rand()%255, rand()%255, rand()%255);
+            old_color[j] = new_value[j];
+            new_value[j] = rand()%255;
             continue;
         }
         if(new_value[j] > old_color[j]) {
