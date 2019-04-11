@@ -1183,6 +1183,7 @@ namespace ac {
     void ShadowAlphaTrails64(cv::Mat &frame);
     void MirrorLeft(cv::Mat &frame);
     void MirrorRight(cv::Mat &frame);
+    void MirrorBackAndForth(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

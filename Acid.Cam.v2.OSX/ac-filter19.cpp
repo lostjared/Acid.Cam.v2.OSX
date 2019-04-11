@@ -238,3 +238,14 @@ void ac::MirrorRight(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MirrorBackAndForth(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        MirrorLeft(frame);
+        index = 1;
+    } else {
+        MirrorRight(frame);
+        index = 0;
+    }
+}
