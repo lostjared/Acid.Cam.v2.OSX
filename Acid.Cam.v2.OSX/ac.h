@@ -1181,6 +1181,7 @@ namespace ac {
     void SetColormap(cv::Mat &frame);
     void ShadowAlphaTrails(cv::Mat &frame);
     void ShadowAlphaTrails64(cv::Mat &frame);
+    void MirrorLeft(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

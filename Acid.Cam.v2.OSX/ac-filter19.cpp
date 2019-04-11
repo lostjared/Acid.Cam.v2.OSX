@@ -210,3 +210,17 @@ void ac::ShadowAlphaTrails64(cv::Mat &frame) {
     ShadowTrails(frame, &collection, index);
     AddInvert(frame);
 }
+
+void ac::MirrorLeft(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    int halfway = (frame.cols/2);
+    for(int z = 0; z < frame.rows; ++z) {
+        int start = 0;
+        for(int i = halfway; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z,((halfway)-start));
+            pixel = pix;
+            ++start;
+        }
+    }
+}
