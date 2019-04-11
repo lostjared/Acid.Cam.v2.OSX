@@ -219,8 +219,22 @@ void ac::MirrorLeft(cv::Mat &frame) {
         for(int i = halfway; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z,((halfway)-start));
+            ASSERT(halfway-start > 0);
             pixel = pix;
             ++start;
+        }
+    }
+}
+
+void ac::MirrorRight(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int halfway = (frame.cols/2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < halfway; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            ASSERT(frame.cols-i-1 > 0);
+            pixel = pix;
         }
     }
 }
