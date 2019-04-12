@@ -275,3 +275,39 @@ void ac::FadeFromColorToColor(cv::Mat &frame) {
         }
     }
 }
+
+void ac::FadeFromColorToColorImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static cv::Vec3b new_value(rand()%255, rand()%255, rand()%255), old_color(rand()%255, rand()%255, rand()%255);
+    static int speed = 1;
+    for(int j = 0; j < 3; ++j) {
+        if(new_value[j]+15 >= old_color[j] && new_value[j]-15 <= old_color[j])
+        {
+            old_color[j] = new_value[j];
+            new_value[j] = rand()%255;
+            ++speed;
+            if(speed > 10)
+                speed = 1;
+            continue;
+        }
+        if(new_value[j] > old_color[j]) {
+            old_color[j] += speed;
+        } else if(new_value[j] < old_color[j]) {
+            old_color[j] -= speed;
+        }
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += static_cast<unsigned char>((pix[j]+old_color[j])*0.5);
+            }
+        }
+    }
+}
+
+

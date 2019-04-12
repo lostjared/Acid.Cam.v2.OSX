@@ -1185,6 +1185,7 @@ namespace ac {
     void MirrorRight(cv::Mat &frame);
     void MirrorBackAndForth(cv::Mat &frame);
     void FadeFromColorToColor(cv::Mat &frame);
+    void FadeFromColorToColorImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
