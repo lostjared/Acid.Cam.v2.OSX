@@ -150,6 +150,7 @@ namespace ac {
     };
     
     enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
+    extern std::vector<std::string> solo_filter;
     // be sure to call this when the application starts
     void fill_filter_map();
     // draw functions
@@ -1186,6 +1187,7 @@ namespace ac {
     void MirrorBackAndForth(cv::Mat &frame);
     void FadeFromColorToColor(cv::Mat &frame);
     void FadeFromColorToColorImage(cv::Mat &frame);
+    void Random_Filter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

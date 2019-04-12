@@ -310,4 +310,7 @@ void ac::FadeFromColorToColorImage(cv::Mat &frame) {
     }
 }
 
-
+void ac::Random_Filter(cv::Mat &frame) {
+    std::string value = solo_filter[rand()%solo_filter.size()];
+    CallFilter(value, frame);
+}
