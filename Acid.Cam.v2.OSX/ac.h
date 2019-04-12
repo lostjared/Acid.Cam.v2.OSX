@@ -453,7 +453,6 @@ namespace ac {
     void MedianBlendAnimation(cv::Mat &frame);
     void FibFlash(cv::Mat &frame);
     void ScaleFlash(cv::Mat &frame);
-    void LeftLines(cv::Mat &frame);
     void Curtain(cv::Mat &frame);
     void RandomCurtain(cv::Mat &frame);
     void CurtainVertical(cv::Mat &frame);

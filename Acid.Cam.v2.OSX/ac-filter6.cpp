@@ -787,33 +787,6 @@ void ac::ScaleFlash(cv::Mat &frame) {
     }
 }
 
-void ac::LeftLines(cv::Mat &frame) {
-    static std::unique_ptr<unsigned int[]> line_width;
-    static int width = 0;
-    if(!line_width || frame.rows != width) {
-        line_width.reset(new unsigned int[frame.rows+1]);
-        width = frame.rows;
-        for(int i = 0; i < width; ++i) {
-            line_width[i] = rand()%50;
-        }
-    }
-    static double alpha = 1.0, alpha_max = 3.0;
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < line_width[z]; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j)
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
-            
-            swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
-        }
-        line_width[z] += 50;
-        if(line_width[z] > frame.cols)
-            line_width[z] = 1;
-    }
-    int direction = 1;
-    procPos(direction, alpha, alpha_max, 4.0, 0.05);
-}
 
 void ac::Curtain(cv::Mat &frame) {
     static int start = 0;
