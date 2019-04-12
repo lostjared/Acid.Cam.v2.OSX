@@ -87,7 +87,7 @@ namespace ac {
         for(int i = 0; i < svAll.size(); ++i) {
             std::string value = svAll[i];
             lwr(value);
-            if(value.find("subfilter") == std::string::npos && value.find("image") == std::string::npos && value.find("random") == std::string::npos && value.find("fractal") == std::string::npos && value.find("feedback") == std::string::npos) {
+            if(value.find("subfilter") == std::string::npos && value.find("image") == std::string::npos && value.find("random") == std::string::npos && value.find("fractal") == std::string::npos && value.find("feedback") == std::string::npos && value.find("1080p") == std::string::npos && value.find("720p") == std::string::npos) {
                 solo_filter.push_back(svAll[i]);
             }
         }
