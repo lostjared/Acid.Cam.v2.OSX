@@ -313,6 +313,6 @@ void ac::FadeFromColorToColorImage(cv::Mat &frame) {
 void ac::Random_Filter(cv::Mat &frame) {
     std::string value = solo_filter[rand()%solo_filter.size()];
     // uncomment below to see what filter is currently being processed
-    std::cout << "Current Filter: " << value << "\n";
+    // std::cout << "Current Filter: " << value << "\n";
     CallFilter(value, frame);
 }
