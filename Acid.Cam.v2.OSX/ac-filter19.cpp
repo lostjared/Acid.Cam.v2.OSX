@@ -316,3 +316,20 @@ void ac::Random_Filter(cv::Mat &frame) {
     // std::cout << "Current Filter: " << value << "\n";
     CallFilter(value, frame);
 }
+
+void ac::FlipHorizontal(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::flip(copy1, frame, 1);
+}
+
+void ac::FlipVertical(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::flip(copy1, frame, 0);
+    
+}
+
+void ac::FlipBoth(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::flip(copy1, frame, -1);
+}
+
