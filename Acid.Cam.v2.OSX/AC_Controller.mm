@@ -64,6 +64,7 @@ NSTextView *logView;
 NSTextField *frame_count;
 NSMutableArray *custom_array;
 NSMutableArray *custom_subfilters;
+NSMutableArray *filter_on;
 bool isPaused = false;
 NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
@@ -259,6 +260,7 @@ void SearchForString(NSString *s) {
 - (void) dealloc {
     [custom_subfilters release];
     [custom_array release];
+    [filter_on release];
     [self closePlugin];
     [menu_cat release];
     [menu_all release];
@@ -301,6 +303,7 @@ void SearchForString(NSString *s) {
     [current_filter_custom setMenu: menu_items_custom[0]];
     custom_array = [[NSMutableArray alloc] init];
     custom_subfilters = [[NSMutableArray alloc] init];
+    filter_on = [[NSMutableArray alloc] init];
     [table_view setDelegate:self];
     [table_view setDataSource:self];
     [find_table setDelegate:search_controller];
@@ -1377,8 +1380,10 @@ void SearchForString(NSString *s) {
     NSString *str =  [[aTableColumn headerCell] stringValue];
     NSNumber *number = [custom_array objectAtIndex:rowIndex];
     NSNumber *filter_num = [custom_subfilters objectAtIndex: rowIndex];
+    NSNumber *on_state = [filter_on objectAtIndex: rowIndex];
     int value = (int)[number integerValue];
     int filter_val = (int)[filter_num integerValue];
+    int state_val = (int)[on_state integerValue];
     if( [str isEqualTo:@"Filter"] ) {
         std::string name = ac::draw_strings[value];
         if(user_filter.find(name) != user_filter.end())
@@ -1386,7 +1391,13 @@ void SearchForString(NSString *s) {
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
         return s;
     }
-    
+    else if([str isEqualTo:@"State"]) {
+        if(state_val == 0) {
+            return @"Off";
+        } else {
+            return @"On";
+        }
+    }
     else if([str isEqualTo:@"SubIndex"]) {
         if(filter_val == -1)
             return @"Not Set";
@@ -1425,6 +1436,7 @@ void SearchForString(NSString *s) {
         int subf = -1;
         [custom_array addObject: [NSNumber numberWithInt:index_value]];
         [custom_subfilters addObject: [NSNumber numberWithInt: subf]];
+        [filter_on addObject: [NSNumber numberWithInt: 1]];
         [table_view reloadData];
         std::ostringstream stream;
         stream << "Added Filter: " << s << " to Custom.\n";
@@ -1437,6 +1449,7 @@ void SearchForString(NSString *s) {
         int filter_value = ac::filter_map[[title UTF8String]];
         [custom_array addObject: [NSNumber numberWithInt: filter_value]];
         [custom_subfilters addObject: [NSNumber numberWithInt: -1]];
+        [filter_on addObject: [NSNumber numberWithInt: 1]];
         [table_view reloadData];
         std::ostringstream stream;
         stream << "Added Filter: " << [title UTF8String] << " to Custom.\n";
@@ -1452,6 +1465,7 @@ void SearchForString(NSString *s) {
         stream << "Removed Filter in Custom: " << ac::draw_strings[[num integerValue]] << "\n";
         [custom_array removeObjectAtIndex:index];
         [custom_subfilters removeObjectAtIndex: index];
+        [filter_on removeObjectAtIndex:index];
         [table_view reloadData];
         flushToLog(stream);
     }
@@ -1465,10 +1479,14 @@ void SearchForString(NSString *s) {
         id mv = [custom_array objectAtIndex:index];
         id mv_c = [custom_subfilters objectAtIndex:index];
         id obj_c = [custom_subfilters objectAtIndex:pos];
+        id var1_mv = [filter_on objectAtIndex:index];
+        id var2_obj = [filter_on objectAtIndex:pos];
         [custom_array setObject:obj atIndexedSubscript:index];
         [custom_array setObject:mv atIndexedSubscript: pos];
         [custom_subfilters setObject:obj_c atIndexedSubscript:index];
         [custom_subfilters setObject:mv_c atIndexedSubscript: pos];
+        [filter_on setObject:var2_obj atIndexedSubscript:index];
+        [filter_on setObject:var1_mv atIndexedSubscript:pos];
         [table_view deselectAll:self];
         [table_view reloadData];
     }
@@ -1481,10 +1499,14 @@ void SearchForString(NSString *s) {
         id mv = [custom_array objectAtIndex:index];
         id mv_c = [custom_subfilters objectAtIndex:index];
         id obj_c = [custom_subfilters objectAtIndex:pos];
+        id mv_f = [filter_on objectAtIndex:index];
+        id obj_cf = [filter_on objectAtIndex:pos];
         [custom_array setObject:obj atIndexedSubscript:index];
         [custom_array setObject:mv atIndexedSubscript: pos];
         [custom_subfilters setObject:obj_c atIndexedSubscript:index];
         [custom_subfilters setObject:mv_c atIndexedSubscript: pos];
+        [filter_on setObject:obj_cf atIndexedSubscript: index];
+        [filter_on setObject:mv_f atIndexedSubscript:pos];
         [table_view deselectAll:self];
         [table_view reloadData];
     }
@@ -1866,6 +1888,7 @@ void SearchForString(NSString *s) {
         NSNumber *subf = [NSNumber numberWithInt: -1];
         [custom_array addObject:num];
         [custom_subfilters addObject: subf];
+        [filter_on addObject: [NSNumber numberWithInt: 1]];
         [table_view reloadData];
         std::ostringstream stream;
         NSInteger val = [num integerValue];
@@ -2771,8 +2794,10 @@ void SearchForString(NSString *s) {
             int object1_value = ac::filter_map[[filter_str UTF8String ]];
             NSNumber *obj1 = [NSNumber numberWithInteger:object1_value];
             NSNumber *obj2 = [NSNumber numberWithInteger:-1];
+            NSNumber *obj3 = [NSNumber numberWithInteger: 1];
             [custom_array setObject:obj1 atIndexedSubscript:set_index];
             [custom_subfilters setObject:obj2 atIndexedSubscript:set_index];
+            [filter_on setObject:obj3 atIndexedSubscript:set_index];
             std::ostringstream stream;
             stream << "Filter " << [filter_str UTF8String] << " inserted\n";
             flushToLog(stream);
@@ -2798,6 +2823,10 @@ void SearchForString(NSString *s) {
             int filter_pos = ac::filter_map[sub_chk1];
             NSNumber *fval = [NSNumber numberWithInt:filter_pos];
             [custom_array setObject:fval atIndexedSubscript: pos];
+            NSNumber *obj2 = [NSNumber numberWithInteger:-1];
+            NSNumber *obj3 = [NSNumber numberWithInteger: 1];
+            [custom_subfilters setObject:obj2 atIndexedSubscript:pos];
+            [filter_on setObject:obj3 atIndexedSubscript:pos];
             std::ostringstream stream;
             stream << "Filter " << sub_chk1 << " inserted\n";
             flushToLog(stream);
@@ -2847,26 +2876,43 @@ void SearchForString(NSString *s) {
     }
 }
 
+- (IBAction) toggleFilterState: (id) sender {
+    NSInteger set_index = [table_view selectedRow];
+    NSNumber *num = [filter_on objectAtIndex:set_index];
+    NSNumber *new_val;
+    if([num integerValue] == 1)
+        new_val = [NSNumber numberWithInt: 0];
+    else
+        new_val = [NSNumber numberWithInt: 1];
+    [filter_on setObject:new_val atIndexedSubscript:set_index];
+    [table_view reloadData];
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
 
-void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist) {
+void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     ac::in_custom = true;
     for(NSInteger i = 0; i < [listval count]; ++i) {
         if(i == [listval count]-1)
             ac::in_custom = false;
-        NSNumber *num, *fval_;
+        NSNumber *num, *fval_, *f_on;
         @try {
             num = [listval objectAtIndex:i];
             fval_ = [sublist objectAtIndex: i];
+            f_on = [filter_on objectAtIndex: i];
             NSInteger index = [num integerValue];
-            if([num integerValue] == [fval_ integerValue])
+            if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
                 continue;
+            
             if(ac::testSize(frame)) {
                 ac::setSubFilter(static_cast<int>([fval_ integerValue]));
                 ac::CallFilter(static_cast<int>(index), frame);
             }
+            [num release];
+            [fval_ release];
+            [f_on release];
         } @catch(NSException *e) {
             NSLog(@"%@\n", [e reason]);
         }
@@ -2878,7 +2924,7 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
 
 
 void custom_filter(cv::Mat &frame) {
-    CustomFilter(frame, custom_array, custom_subfilters);
+    CustomFilter(frame, custom_array, custom_subfilters, filter_on);
 }
 
 void setSliders(long frame_count) {

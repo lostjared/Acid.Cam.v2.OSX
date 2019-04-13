@@ -986,19 +986,32 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="CF3-sd-QMw">
-                        <rect key="frame" x="20" y="124" width="606" height="309"/>
+                        <rect key="frame" x="20" y="127" width="606" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="Kca-yO-0lq">
-                            <rect key="frame" x="1" y="0.0" width="604" height="308"/>
+                            <rect key="frame" x="1" y="0.0" width="604" height="299"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rNv-eJ-jDi" id="oR9-5h-21a">
-                                    <rect key="frame" x="0.0" y="0.0" width="604" height="285"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="604" height="276"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
+                                        <tableColumn width="62.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="cCc-3o-aCy">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="State">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="92t-rp-hfU">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
                                         <tableColumn width="50.96484375" minWidth="40" maxWidth="1000" id="ycY-ks-ZcW">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Index">
                                                 <font key="font" metaFont="smallSystem"/>
@@ -1038,7 +1051,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn width="225" minWidth="10" maxWidth="3.4028234663852886e+38" id="0g1-rF-NHB">
+                                        <tableColumn width="159.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="0g1-rF-NHB">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Sub Filter">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1056,7 +1069,7 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="7l8-hv-mTH">
-                            <rect key="frame" x="1" y="300" width="612" height="15"/>
+                            <rect key="frame" x="1" y="284" width="604" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="N6P-hp-f0i">
@@ -1288,6 +1301,17 @@
                         </buttonCell>
                         <connections>
                             <action selector="addCustomItem:" target="630" id="ASp-R2-moM"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="gnr-dl-6Jg">
+                        <rect key="frame" x="14" y="86" width="109" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Toggle State" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="M2x-m8-qUe">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="toggleFilterState:" target="630" id="w1h-TD-frp"/>
                         </connections>
                     </button>
                 </subviews>

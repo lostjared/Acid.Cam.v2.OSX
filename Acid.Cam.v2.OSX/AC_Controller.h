@@ -85,7 +85,7 @@ extern bool resize_frame;
 extern NSRect rc;
 // global function prototypes
 extern cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor);
-extern void CustomFilter(cv::Mat &frame, NSMutableArray *list, NSMutableArray *sublist);
+extern void CustomFilter(cv::Mat &frame, NSMutableArray *list, NSMutableArray *sublist, NSMutableArray *filter_states);
 extern void SearchForString(NSString *s);
 extern NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NSString *button2, NSString *button3);
 extern void flushToLog(std::ostringstream &sout);
@@ -296,6 +296,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) scaleToggle: (id) sender;
 - (IBAction) saveLogToFile: (id) sender;
 - (IBAction) changeImageSelected: (id) sender;
+- (IBAction) toggleFilterState: (id) sender;
 
 @end
 
