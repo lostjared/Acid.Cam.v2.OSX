@@ -2738,6 +2738,7 @@ void SearchForString(NSString *s) {
             NSNumber *num2 = [NSNumber numberWithInteger: val2];
             [custom_array addObject:num1];
             [custom_subfilters addObject:num2];
+            [filter_on addObject: [NSNumber numberWithInteger:1]];
         }
         [self setRGB_Values:self];
         [self changeOrder:self];
