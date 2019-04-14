@@ -224,6 +224,7 @@ void ac::MirrorLeft(cv::Mat &frame) {
             ++start;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MirrorRight(cv::Mat &frame) {
@@ -237,6 +238,7 @@ void ac::MirrorRight(cv::Mat &frame) {
             pixel = pix;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MirrorBackAndForth(cv::Mat &frame) {
@@ -248,6 +250,7 @@ void ac::MirrorBackAndForth(cv::Mat &frame) {
         MirrorRight(frame);
         index = 0;
     }
+    AddInvert(frame);
 }
 
 void ac::FadeFromColorToColor(cv::Mat &frame) {
@@ -274,6 +277,7 @@ void ac::FadeFromColorToColor(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::FadeFromColorToColorImage(cv::Mat &frame) {
@@ -308,6 +312,7 @@ void ac::FadeFromColorToColorImage(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::Random_Filter(cv::Mat &frame) {
@@ -315,21 +320,36 @@ void ac::Random_Filter(cv::Mat &frame) {
     // uncomment below to see what filter is currently being processed
     // std::cout << "Current Filter: " << value << "\n";
     CallFilter(value, frame);
+    AddInvert(frame);
 }
 
 void ac::FlipHorizontal(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, 1);
+    AddInvert(frame);
 }
 
 void ac::FlipVertical(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, 0);
-    
+    AddInvert(frame);
 }
 
 void ac::FlipBoth(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, -1);
+    AddInvert(frame);
 }
 
+void ac::FlipMirrorAlphaBlend(cv::Mat &frame) {
+    cv::Mat copies[2];
+    copies[0] = frame.clone();
+    copies[1] = frame.clone();
+    FlipHorizontal(copies[0]);
+    FlipVertical(copies[1]);
+    cv::Mat output[2];
+    AlphaBlendDouble(copies[0], frame, output[0], 0.5, 0.5);
+    AlphaBlendDouble(copies[1], frame, output[1], 0.5, 0.5);
+    AlphaBlend(output[0], output[1], frame, 0.5);
+    AddInvert(frame);
+}

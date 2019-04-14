@@ -1190,6 +1190,7 @@ namespace ac {
     void FlipHorizontal(cv::Mat &frame);
     void FlipVertical(cv::Mat &frame);
     void FlipBoth(cv::Mat &frame);
+    void FlipMirrorAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
