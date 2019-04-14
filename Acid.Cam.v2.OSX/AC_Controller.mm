@@ -2878,14 +2878,16 @@ void SearchForString(NSString *s) {
 
 - (IBAction) toggleFilterState: (id) sender {
     NSInteger set_index = [table_view selectedRow];
-    NSNumber *num = [filter_on objectAtIndex:set_index];
-    NSNumber *new_val;
-    if([num integerValue] == 1)
-        new_val = [NSNumber numberWithInt: 0];
-    else
-        new_val = [NSNumber numberWithInt: 1];
-    [filter_on setObject:new_val atIndexedSubscript:set_index];
-    [table_view reloadData];
+    if(set_index >= 0) {
+        NSNumber *num = [filter_on objectAtIndex:set_index];
+        NSNumber *new_val;
+        if([num integerValue] == 1)
+            new_val = [NSNumber numberWithInt: 0];
+        else
+            new_val = [NSNumber numberWithInt: 1];
+        [filter_on setObject:new_val atIndexedSubscript:set_index];
+        [table_view reloadData];
+    }
 }
 
 @end
