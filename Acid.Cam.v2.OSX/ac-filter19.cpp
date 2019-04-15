@@ -376,7 +376,7 @@ void ac::IntertwineRow480pX2(cv::Mat &frame) {
     cv::Mat sizef;
     cv::resize(frame, sizef, cv::Size(640, 480));
     static MatrixCollection<480> collection;
-    IntertwineRows(sizef, &collection, 24);
+    IntertwineRows(sizef, &collection, 2);
     cv::resize(sizef, frame, frame.size());
     AddInvert(frame);
 }
@@ -388,7 +388,7 @@ void ac::LowFi(cv::Mat &frame) {
     cv::resize(reimage, frame, frame.size());
 }
 
-void ac::LowToHigh(cv::Mat &frame) {
+void ac::HighToLow(cv::Mat &frame) {
     static int div_by = 2;
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(copy1, reimage, cv::Size(frame.cols/div_by, frame.rows/div_by));
