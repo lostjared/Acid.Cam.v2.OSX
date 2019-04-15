@@ -359,6 +359,7 @@ void ac::Random_FilterX2(cv::Mat &frame) {
     Random_Filter(copy1);
     Random_Filter(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::Random_FilterSubFilter(cv::Mat &frame) {
@@ -368,4 +369,21 @@ void ac::Random_FilterSubFilter(cv::Mat &frame) {
     Random_Filter(copy1);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::IntertwineRow480pX2(cv::Mat &frame) {
+    cv::Mat sizef;
+    cv::resize(frame, sizef, cv::Size(640, 480));
+    static MatrixCollection<480> collection;
+    IntertwineRows(sizef, &collection, 24);
+    cv::resize(sizef, frame, frame.size());
+    AddInvert(frame);
+}
+
+
+void ac::LowFi(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(copy1, reimage, cv::Size(160, 120));
+    cv::resize(reimage, frame, frame.size());
 }
