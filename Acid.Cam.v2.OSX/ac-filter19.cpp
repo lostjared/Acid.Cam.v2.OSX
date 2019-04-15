@@ -396,8 +396,8 @@ void ac::LowToHigh(cv::Mat &frame) {
     static int dir = 1;
     if(dir == 1) {
         ++div_by;
-        if(div_by > 16) {
-            div_by = 8;
+        if(div_by > 128) {
+            div_by = 128;
             dir = 0;
         }
     } else {
