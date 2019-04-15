@@ -387,3 +387,24 @@ void ac::LowFi(cv::Mat &frame) {
     cv::resize(copy1, reimage, cv::Size(160, 120));
     cv::resize(reimage, frame, frame.size());
 }
+
+void ac::LowToHigh(cv::Mat &frame) {
+    static int div_by = 2;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(copy1, reimage, cv::Size(frame.cols/div_by, frame.rows/div_by));
+    cv::resize(reimage, frame, frame.size());
+    static int dir = 1;
+    if(dir == 1) {
+        ++div_by;
+        if(div_by > 16) {
+            div_by = 8;
+            dir = 0;
+        }
+    } else {
+        --div_by;
+        if(div_by <= 2) {
+            div_by = 2;
+            dir = 1;
+        }
+    }
+}
