@@ -489,3 +489,33 @@ void ac::Quality1080(cv::Mat &frame) {
     cv::resize(copy1, frame, frame.size());
     AddInvert(frame);
 }
+
+void ac::StretchVerticalMirror(cv::Mat &frame) {
+    static int  h = 4, speed = 10, dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(copy1, reimage, cv::Size(copy1.cols, h));
+    MirrorXorAll(reimage);
+    cv::resize(reimage, copy2, frame.size());
+    AlphaBlendDouble(copy1, copy2, frame, 0.7, 0.3);
+    AddInvert(frame);
+    if(dir == 1) {
+        h += speed;
+        if(h > frame.rows-2) {
+            dir = 0;
+        }
+    } else if(dir == 0) {
+        h -= speed;
+        if(h <= 4) {
+            dir = 1;
+        }
+    }
+}
+
+void ac::ImageLoFi(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1, reimage;
+    cv::resize(blend_image, reimage, cv::Size(640, 360));
+    cv::resize(reimage, frame, frame.size());
+    AddInvert(frame);
+}

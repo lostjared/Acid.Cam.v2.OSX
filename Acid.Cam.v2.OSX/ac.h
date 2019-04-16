@@ -1202,6 +1202,8 @@ namespace ac {
     void Quality480(cv::Mat &frame);
     void Quality720(cv::Mat &frame);
     void Quality1080(cv::Mat &frame);
+    void StretchVerticalMirror(cv::Mat &frame);
+    void ImageLoFi(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
