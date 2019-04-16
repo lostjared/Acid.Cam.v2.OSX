@@ -440,3 +440,52 @@ void ac::MoveHighAndLow(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::StretchSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "StretchSubFilter")
+        return;
+    static int w = 2, h = 2, speed = 5, dir = 25;
+    if(dir == 1) {
+        w += speed;
+        h += speed;
+        if(w > (frame.cols-1) || (h > frame.rows-1)) {
+            dir = 0;
+            w = frame.cols-2;
+            h = frame.rows-2;
+        }
+    } else {
+        w -= speed;
+        h -= speed;
+        if(w <= 1 || h <= 1) {
+            dir = 1;
+            w = 2;
+            h = 2;
+        }
+    }
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(frame, copy1, cv::Size(w, h));
+    CallFilter(subfilter, copy1);
+    cv::resize(copy1, reimage, frame.size());
+    AlphaBlend(copy2, reimage, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::Quality480(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::resize(frame, copy1, cv::Size(640, 480));
+    cv::resize(copy1, frame, frame.size());
+    AddInvert(frame);
+}
+
+void ac::Quality720(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::resize(frame, copy1, cv::Size(1280, 720));
+    cv::resize(copy1, frame, frame.size());
+    AddInvert(frame);
+}
+void ac::Quality1080(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    cv::resize(frame, copy1, cv::Size(1920, 1080));
+    cv::resize(copy1, frame, frame.size());
+    AddInvert(frame);
+}
