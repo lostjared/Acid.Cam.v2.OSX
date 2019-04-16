@@ -386,6 +386,7 @@ void ac::LowFi(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), reimage;
     cv::resize(copy1, reimage, cv::Size(160, 120));
     cv::resize(reimage, frame, frame.size());
+    AddInvert(frame);
 }
 
 void ac::HighToLow(cv::Mat &frame) {
@@ -407,6 +408,7 @@ void ac::HighToLow(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::LowToHigh(cv::Mat &frame) {
@@ -428,4 +430,13 @@ void ac::LowToHigh(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::MoveHighAndLow(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    LowToHigh(copy1);
+    HighToLow(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }

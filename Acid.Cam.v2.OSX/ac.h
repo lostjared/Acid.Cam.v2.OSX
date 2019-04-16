@@ -1197,6 +1197,7 @@ namespace ac {
     void LowFi(cv::Mat &frame);
     void HighToLow(cv::Mat &frame);
     void LowToHigh(cv::Mat &frame);
+    void MoveHighAndLow(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
