@@ -408,3 +408,24 @@ void ac::HighToLow(cv::Mat &frame) {
         }
     }
 }
+
+void ac::LowToHigh(cv::Mat &frame) {
+    static int div_by = 128;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(copy1, reimage, cv::Size(frame.cols/div_by, frame.rows/div_by));
+    cv::resize(reimage, frame, frame.size());
+    static int dir = 0;
+    if(dir == 1) {
+        ++div_by;
+        if(div_by > 128) {
+            div_by = 128;
+            dir = 0;
+        }
+    } else {
+        --div_by;
+        if(div_by <= 2) {
+            div_by = 2;
+            dir = 1;
+        }
+    }
+}
