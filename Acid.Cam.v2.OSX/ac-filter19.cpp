@@ -575,3 +575,10 @@ void ac::FrameStretchAlphaBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::BlurHighToLow(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    HighToLow(frame);
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
