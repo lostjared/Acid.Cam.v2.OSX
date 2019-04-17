@@ -519,3 +519,11 @@ void ac::ImageLoFi(cv::Mat &frame) {
     cv::resize(reimage, frame, frame.size());
     AddInvert(frame);
 }
+
+void ac::ImageLofiAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    ImageLoFi(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
