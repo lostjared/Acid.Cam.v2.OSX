@@ -444,7 +444,7 @@ void ac::MoveHighAndLow(cv::Mat &frame) {
 void ac::StretchSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || draw_strings[subfilter] == "StretchSubFilter")
         return;
-    static int w = 2, h = 2, speed = 5, dir = 25;
+    static int w = 2, h = 2, speed = 5, dir = 100;
     if(dir == 1) {
         w += speed;
         h += speed;
@@ -456,10 +456,10 @@ void ac::StretchSubFilter(cv::Mat &frame) {
     } else {
         w -= speed;
         h -= speed;
-        if(w <= 1 || h <= 1) {
+        if(w <= 64 || h <= 64) {
             dir = 1;
-            w = 2;
-            h = 2;
+            w = 64;
+            h = 64;
         }
     }
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
@@ -491,7 +491,7 @@ void ac::Quality1080(cv::Mat &frame) {
 }
 
 void ac::StretchVerticalMirror(cv::Mat &frame) {
-    static int  h = 4, speed = 10, dir = 1;
+    static int  h = 4, speed = 75, dir = 1;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
     cv::resize(copy1, reimage, cv::Size(copy1.cols, h));
     MirrorXorAll(reimage);
@@ -505,8 +505,9 @@ void ac::StretchVerticalMirror(cv::Mat &frame) {
         }
     } else if(dir == 0) {
         h -= speed;
-        if(h <= 4) {
+        if(h <= 64) {
             dir = 1;
+            h = 64;
         }
     }
 }
@@ -536,5 +537,41 @@ void ac::ImageAlphaBlendScale(cv::Mat &frame) {
     cv::resize(blend_image, reimage, frame.size());
     HighToLow(copy1);
     AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::FrameStretchAlphaBlend(cv::Mat &frame) {
+    static int w = 2, h = 2, speed = 25, dir = 25;
+    if(dir == 1) {
+        if(w < frame.cols) w += speed;
+        if(h < frame.rows) h += speed;
+        if(w > (frame.cols-64) && (h > frame.rows-64)) {
+            dir = 0;
+            w = frame.cols-64;
+            h = frame.rows-64;
+        }
+    } else {
+        if(w > 64) w -= speed;
+        if(h > 64) h -= speed;
+        if(w < 64 &&  h < 64) {
+            dir = 1;
+            w = 64;
+            h = 64;
+        }
+    }
+    static double alpha = 1.0, alpha_max =3.0;
+    static int dir1 = 1;
+    procPos(dir1, alpha, alpha_max);
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(frame, copy1, cv::Size(w, h));
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) + static_cast<unsigned char>(pix[j] * alpha);
+            }
+        }
+    }
     AddInvert(frame);
 }

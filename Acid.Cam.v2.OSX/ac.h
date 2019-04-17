@@ -1206,6 +1206,7 @@ namespace ac {
     void ImageLoFi(cv::Mat &frame);
     void ImageLofiAlphaBlend(cv::Mat &frame);
     void ImageAlphaBlendScale(cv::Mat &frame);
+    void FrameStretchAlphaBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
