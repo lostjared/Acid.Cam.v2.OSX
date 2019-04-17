@@ -1296,6 +1296,7 @@ namespace ac {
         MatrixCollection() : w(0), h(0) {
             for(int i = 0; i < Size; ++i)
                 all_objects.push_back(&frames[i]);
+            completedRows = 0;
         }
         cv::Mat frames[Size+4];
         int w, h;
@@ -1305,6 +1306,7 @@ namespace ac {
 	                frames[i] = frames[i-1];
             	}
             	frames[0] = frame.clone();
+                if(completedRows < size()) ++completedRows;
             }
         }
         
@@ -1325,12 +1327,14 @@ namespace ac {
                 w = wx;
                 h = wh;
                 reset_filter = false;
+                completedRows = 0;
                 return false;
             }
             return true;
         }
         
         int size() const { return ArraySize; }
+        int completedRows;
     };
     extern void release_all_objects();
     extern bool testSize(cv::Mat &frame);
@@ -1520,7 +1524,7 @@ namespace ac {
     }
     
     template<int row_size>
-    void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height) {
+    void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height, bool hideRows = false) {
         collection->shiftFrames(frame);
         int index = 0;
         int pos = 0;
@@ -1528,9 +1532,16 @@ namespace ac {
             cv::Mat &current = collection->frames[index];
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b value = current.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = value[j];
+                if(hideRows == false) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = value[j];
+                    }
+                } else if(z < collection->completedRows) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = value[j];
+                    }
                 }
             }
             ++pos;
@@ -1549,7 +1560,7 @@ namespace ac {
     }
     
     template<int row_size>
-    void IntertwineRowsReverse(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height) {
+    void IntertwineRowsReverse(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height, bool hideRows = false) {
         collection->shiftFrames(frame);
         int index = 0;
         int pos = 0;
@@ -1557,9 +1568,16 @@ namespace ac {
             cv::Mat &current = collection->frames[row_size-index-1];
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b value = current.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = value[j];
+                if(hideRows == false) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = value[j];
+                    }
+                } else if(z < collection->completedRows) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = value[j];
+                    }
                 }
             }
             ++pos;
@@ -1587,8 +1605,10 @@ namespace ac {
             cv::Mat &current = collection->frames[index];
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b value = current.at<cv::Vec3b>(z, i);
-                func(pixel, value);
+                if(z < collection->completedRows) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    func(pixel, value);
+                }
             }
             ++pos;
             if(pos > row_size-1) {
