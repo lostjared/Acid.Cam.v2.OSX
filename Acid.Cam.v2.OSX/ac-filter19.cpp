@@ -526,4 +526,15 @@ void ac::ImageLofiAlphaBlend(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     ImageLoFi(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::ImageAlphaBlendScale(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    HighToLow(copy1);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
