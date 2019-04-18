@@ -1211,6 +1211,7 @@ namespace ac {
     void ImageHighToLowAlpha(cv::Mat &frame);
     void MirrorTopToBottom(cv::Mat &frame);
     void MirrorBottomToTop(cv::Mat &frame);
+    void FlashRGB_SubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

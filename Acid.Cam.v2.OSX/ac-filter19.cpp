@@ -623,3 +623,25 @@ void ac::MirrorBottomToTop(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FlashRGB_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "FlashRGB_SubFilter")
+        return;
+    CallFilter(subfilter, frame);
+    static int index = 0;
+    switch(index) {
+        case 0:
+            AllRed(frame);
+            break;
+        case 1:
+            AllGreen(frame);
+            break;
+        case 2:
+            AllBlue(frame);
+            break;
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+}
