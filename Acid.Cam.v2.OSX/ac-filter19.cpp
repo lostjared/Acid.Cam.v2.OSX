@@ -645,3 +645,29 @@ void ac::FlashRGB_SubFilter(cv::Mat &frame) {
         index = 0;
     AddInvert(frame);
 }
+
+void ac::MirrorSwitch(cv::Mat &frame) {
+    static int index = 0;
+    switch(index) {
+        case 0:
+            MirrorLeft(frame);
+            MirrorTopToBottom(frame);
+            break;
+        case 2:
+            MirrorRight(frame);
+            MirrorTopToBottom(frame);
+            break;
+        case 1:
+            MirrorLeft(frame);
+            MirrorBottomToTop(frame);
+            break;
+        case 3:
+            MirrorRight(frame);
+            MirrorBottomToTop(frame);
+            break;
+    }
+    ++index;
+    if(index > 3)
+        index = 0;
+}
+
