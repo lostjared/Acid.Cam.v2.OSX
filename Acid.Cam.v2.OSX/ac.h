@@ -65,7 +65,7 @@
 #include<utility>
 #include"ac-filtercat.h"
 //#define ASSERT_CHECK
-// Macro for assert testing
+//Macro for assert testing
 #ifdef ASSERT_CHECK
 #define ASSERT(X) assert(X)
 #else
@@ -1209,6 +1209,8 @@ namespace ac {
     void FrameStretchAlphaBlend(cv::Mat &frame);
     void BlurHighToLow(cv::Mat &frame);
     void ImageHighToLowAlpha(cv::Mat &frame);
+    void MirrorTopToBottom(cv::Mat &frame);
+    void MirrorBottomToTop(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

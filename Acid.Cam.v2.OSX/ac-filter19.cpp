@@ -592,3 +592,34 @@ void ac::ImageHighToLowAlpha(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::MirrorTopToBottom(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    int halfway = (frame.rows/2);
+    for(int i = 0; i < frame.cols; ++i) {
+        int start = 0;
+        for(int z = halfway; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(((halfway)-start), i);
+            ASSERT(halfway-start > 0);
+            pixel = pix;
+            ++start;
+        }
+    }
+    AddInvert(frame);
+    
+}
+
+void ac::MirrorBottomToTop(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int halfway = (frame.rows/2);
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < halfway; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            ASSERT(frame.rows-z-1 > 0);
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
