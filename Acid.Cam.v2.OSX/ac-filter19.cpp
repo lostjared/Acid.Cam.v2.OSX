@@ -582,3 +582,13 @@ void ac::BlurHighToLow(cv::Mat &frame) {
     Smooth(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::ImageHighToLowAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    HighToLow(reimage);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}

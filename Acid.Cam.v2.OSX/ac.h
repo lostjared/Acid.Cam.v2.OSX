@@ -1208,6 +1208,7 @@ namespace ac {
     void ImageAlphaBlendScale(cv::Mat &frame);
     void FrameStretchAlphaBlend(cv::Mat &frame);
     void BlurHighToLow(cv::Mat &frame);
+    void ImageHighToLowAlpha(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
