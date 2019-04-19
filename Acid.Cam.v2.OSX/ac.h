@@ -1215,6 +1215,8 @@ namespace ac {
     void MirrorSwitch(cv::Mat &frame);
     void MirrorSwitchSubFilter(cv::Mat &frame);
     void MirrorSwitchFlip(cv::Mat &frame);
+    void MedianBlendDifference(cv::Mat &frame);
+    void BlendDifferenceSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1733,6 +1735,23 @@ namespace ac {
             if(index <= 1) {
                 dir = 1;
                 index = 1;
+            }
+        }
+    }
+    
+
+    // be sure matrix collection is initialized
+    template<int size_val>
+    void BlendDifference(cv::Mat &frame, cv::Mat &src, MatrixCollection<size_val> *collection) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int q = 0; q < collection->size(); ++q) {
+                    cv::Vec3b pix = collection->frames[q].template at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix_s = src.at<cv::Vec3b>(z, i);
+                    if(pixel == pix)
+                        pixel = pix_s;
+                }
             }
         }
     }
