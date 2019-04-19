@@ -1213,6 +1213,7 @@ namespace ac {
     void MirrorBottomToTop(cv::Mat &frame);
     void FlashRGB_SubFilter(cv::Mat &frame);
     void MirrorSwitch(cv::Mat &frame);
+    void MirrorSwitchSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

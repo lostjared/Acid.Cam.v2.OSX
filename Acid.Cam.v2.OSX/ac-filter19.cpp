@@ -669,5 +669,15 @@ void ac::MirrorSwitch(cv::Mat &frame) {
     ++index;
     if(index > 3)
         index = 0;
+    AddInvert(frame);
 }
 
+void ac::MirrorSwitchSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MirrorSwitchSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorSwitch(copy1);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    CallFilter(subfilter, frame);
+    AddInvert(frame);
+}
