@@ -692,21 +692,3 @@ void ac::MirrorSwitchFlip(cv::Mat &frame) {
     cv::flip(copy1, frame, rndval);
     AddInvert(frame);
 }
-
-void ac::MedianBlendDifference(cv::Mat &frame) {
-    static MatrixCollection<8> collection;
-    collection.shiftFrames(frame);
-    cv::Mat copy1 = frame.clone();
-    MedianBlend(copy1);
-    BlendDifference(frame,copy1,&collection);
-}
-
-void ac::BlendDifferenceSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || draw_strings[subfilter] == "BlendDifferenceSubFilter")
-        return;
-    static MatrixCollection<8> collection;
-    collection.shiftFrames(frame);
-    cv::Mat copy1 = frame.clone();
-    CallFilter(subfilter, copy1);
-    BlendDifference(frame,copy1,&collection);
-}
