@@ -681,3 +681,14 @@ void ac::MirrorSwitchSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame);
     AddInvert(frame);
 }
+
+void ac::MirrorSwitchFlip(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int rndval = -1;
+    rndval += rand()%3;
+    if(rndval >= 2)
+        return;
+    MirrorSwitch(copy1);
+    cv::flip(copy1, frame, rndval);
+    AddInvert(frame);
+}
