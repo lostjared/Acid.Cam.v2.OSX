@@ -707,6 +707,7 @@ void ac::BlendImageLayer(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 void ac::StrobeRandomFilter(cv::Mat &frame) {
     static int index = 0;
@@ -727,10 +728,24 @@ void ac::StrobeRandomFilter(cv::Mat &frame) {
         }
         index = 0;
     }
+    AddInvert(frame);
 }
 // Light
 void ac::AlphaBlendRandom_Filter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     Random_Filter(copy1);
     AlphaBlendDouble(copy1, copy2, frame, 0.3, 0.7);
+    AddInvert(frame);
+}
+
+void ac::DoubleRandomAlphaImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "DoubleRandomAlphaImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    Random_Filter(copy1);
+    Random_Filter(reimage);
+    AlphaBlendDouble(copy1, reimage, frame, 0.3, 0.3);
+    CallFilter(subfilter, frame);
+    AddInvert(frame);
 }
