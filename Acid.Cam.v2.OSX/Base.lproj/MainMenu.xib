@@ -315,15 +315,15 @@
                                     <action selector="pauseProgram:" target="630" id="g4B-mq-QaB"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Stop " keyEquivalent="c" id="ci8-G4-Am4">
-                                <connections>
-                                    <action selector="stopProgram:" target="630" id="SuC-Jn-oD1"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="pag-yP-sxV"/>
                             <menuItem title="Step" enabled="NO" keyEquivalent="i" id="Ed5-ab-28I">
                                 <connections>
                                     <action selector="stepPause:" target="630" id="P3c-5s-Kfm"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="pag-yP-sxV"/>
+                            <menuItem title="Stop " keyEquivalent="c" id="ci8-G4-Am4">
+                                <connections>
+                                    <action selector="stopProgram:" target="630" id="SuC-Jn-oD1"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="k0b-9M-uzO"/>

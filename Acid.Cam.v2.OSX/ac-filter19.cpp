@@ -708,3 +708,23 @@ void ac::BlendImageLayer(cv::Mat &frame) {
         }
     }
 }
+void ac::StrobeRandomFilter(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        Random_Filter(frame);
+        index = 1;
+    } else {
+        switch(rand()%2) {
+            case 0:
+                AllRed(frame);
+                break;
+            case 1:
+                AllGreen(frame);
+                break;
+            case 2:
+                AllBlue(frame);
+                break;
+        }
+        index = 0;
+    }
+}
