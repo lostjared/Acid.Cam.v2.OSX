@@ -692,3 +692,19 @@ void ac::MirrorSwitchFlip(cv::Mat &frame) {
     cv::flip(copy1, frame, rndval);
     AddInvert(frame);
 }
+
+void ac::BlendImageLayer(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += pix[j];
+            }
+        }
+    }
+}

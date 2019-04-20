@@ -1215,6 +1215,7 @@ namespace ac {
     void MirrorSwitch(cv::Mat &frame);
     void MirrorSwitchSubFilter(cv::Mat &frame);
     void MirrorSwitchFlip(cv::Mat &frame);
+    void BlendImageLayer(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
