@@ -749,3 +749,19 @@ void ac::DoubleRandomAlphaImageSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame);
     AddInvert(frame);
 }
+
+void ac::MirrorLeftMirrorRightBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorLeft(copy1);
+    MirrorRight(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
+
+void ac::MirrorTopMirrorBottomBlend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorTopToBottom(copy1);
+    MirrorBottomToTop(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}

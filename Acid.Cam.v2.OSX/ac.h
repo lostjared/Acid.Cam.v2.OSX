@@ -1219,6 +1219,8 @@ namespace ac {
     void StrobeRandomFilter(cv::Mat &frame);
     void AlphaBlendRandom_Filter(cv::Mat &frame);
     void DoubleRandomAlphaImageSubFilter(cv::Mat &frame);
+    void MirrorLeftMirrorRightBlend(cv::Mat &frame);
+    void MirrorTopMirrorBottomBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
