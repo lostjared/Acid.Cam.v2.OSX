@@ -728,3 +728,9 @@ void ac::StrobeRandomFilter(cv::Mat &frame) {
         index = 0;
     }
 }
+// Light
+void ac::AlphaBlendRandom_Filter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Random_Filter(copy1);
+    AlphaBlendDouble(copy1, copy2, frame, 0.3, 0.7);
+}
