@@ -813,7 +813,7 @@ void ac::RestoreBlack(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix = orig_frame.at<cv::Vec3b>(z, i);
-                if(pix[0] >= 0 && pix[0] <= 5 && pix[1] >= 0 && pix[1] <= 5 && pix[2] >= 0 && pix[2] <= 5)
+                if(pix[0] >= 0 && pix[0] <= 2 && pix[1] >= 0 && pix[1] <= 2 && pix[2] >= 0 && pix[2] <= 2)
                     pixel = pix;
             }
         }
