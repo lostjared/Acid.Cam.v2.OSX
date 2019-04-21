@@ -1222,6 +1222,7 @@ namespace ac {
     void MirrorLeftMirrorRightBlend(cv::Mat &frame);
     void MirrorTopMirrorBottomBlend(cv::Mat &frame);
     void MirrorAll(cv::Mat &frame);
+    void ImageDiff(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

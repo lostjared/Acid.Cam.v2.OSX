@@ -780,3 +780,17 @@ void ac::MirrorAll(cv::Mat &frame) {
     AlphaBlend(out[0], out[1], frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ImageDiff(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            pixel = pixel-pix;
+        }
+    }
+}
