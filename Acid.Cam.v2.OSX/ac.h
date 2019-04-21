@@ -1224,6 +1224,7 @@ namespace ac {
     void MirrorAll(cv::Mat &frame);
     void ImageDiff(cv::Mat &frame);
     void ImageDiffSubFilter(cv::Mat &frame);
+    void RestoreBlack(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

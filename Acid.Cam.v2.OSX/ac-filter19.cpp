@@ -806,3 +806,16 @@ void ac::ImageDiffSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::RestoreBlack(cv::Mat &frame) {
+    if(!orig_frame.empty()) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = orig_frame.at<cv::Vec3b>(z, i);
+                if(pix[0] >= 0 && pix[0] <= 25 && pix[1] >= 0 && pix[1] <= 25 && pix[2] >= 0 && pix[2] <= 25)
+                    pixel = pix;
+            }
+        }
+    }
+}
