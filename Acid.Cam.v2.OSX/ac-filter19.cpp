@@ -793,4 +793,16 @@ void ac::ImageDiff(cv::Mat &frame) {
             pixel = pixel-pix;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::ImageDiffSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageDiffSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    ImageDiff(copy1);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
