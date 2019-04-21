@@ -805,10 +805,11 @@ void ac::ImageDiffSubFilter(cv::Mat &frame) {
     ImageDiff(copy1);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
+    
 }
 
 void ac::RestoreBlack(cv::Mat &frame) {
-    if(!orig_frame.empty()) {
+    if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
