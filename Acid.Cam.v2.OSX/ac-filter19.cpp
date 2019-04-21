@@ -765,3 +765,18 @@ void ac::MirrorTopMirrorBottomBlend(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::MirrorAll(cv::Mat &frame) {
+    cv::Mat copies[4];
+    for(int i = 0; i < 4; ++i)
+        copies[i] = frame.clone();
+    MirrorLeft(copies[0]);
+    MirrorRight(copies[1]);
+    MirrorTopToBottom(copies[2]);
+    MirrorBottomToTop(copies[3]);
+    cv::Mat out[2];
+    AlphaBlend(copies[0], copies[1], out[0], 0.5);
+    AlphaBlend(copies[2], copies[3], out[1], 0.5);
+    AlphaBlend(out[0], out[1], frame, 0.5);
+    AddInvert(frame);
+}
