@@ -1154,8 +1154,6 @@ void SearchForString(NSString *s) {
         }
     }
     ac::orig_frame = frame.clone();
-    if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes") || (ac::draw_strings[ac::draw_offset] == "CollectionXorSourceSubFilter")) {
-    }
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
         if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
         else ac::isNegative = true;
