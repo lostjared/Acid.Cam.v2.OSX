@@ -1153,9 +1153,8 @@ void SearchForString(NSString *s) {
             cv::resize(copy1, frame, cv::Size((int)cap_width, (int)cap_height));
         }
     }
-    
+    ac::orig_frame = frame.clone();
     if(([color_chk state] == NSOnState) || (ac::draw_strings[ac::draw_offset] == "Blend with Source") || (ac::draw_strings[ac::draw_offset] == "Custom") || (ac::draw_strings[ac::draw_offset] == "AlphaBlendWithSource") || (ac::draw_strings[ac::draw_offset] == "XorWithSource") || (ac::draw_strings[ac::draw_offset] == "HorizontalStripes") || (ac::draw_strings[ac::draw_offset] == "CollectionXorSourceSubFilter")) {
-        ac::orig_frame = frame.clone();
     }
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
         if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
