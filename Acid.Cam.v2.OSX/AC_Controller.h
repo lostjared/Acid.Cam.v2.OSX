@@ -1,10 +1,3 @@
-//
-//  AC_Controller.h
-//  Acid.Cam.2
-//
-//  Created by Jared Bruni on 6/3/13.
-//  https://github.com/lostjared
-//  Copyright (c) 2019 Jared Bruni. All rights reserved.
 /*
  * Software written by Jared Bruni https://github.com/lostjared
 
@@ -58,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<cstdlib>
 #include<cstdio>
 #include "AC_Renderer.h"
-
+#include "AC_SearchController.h"
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
@@ -92,10 +85,6 @@ extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(long frame_count);
 extern void jumptoFrame(BOOL showJump, long frame);
-
-@interface SearchController : NSObject<NSTableViewDataSource, NSTableViewDelegate> {
-}
-@end
 
 // Main controller class for the program
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
@@ -185,7 +174,6 @@ extern void jumptoFrame(BOOL showJump, long frame);
     NSMenu *menu_all_custom;
     NSMenu *menu_cat_custom;
     NSImage *current_image;
- 
     NSInteger current_fade;
     double current_fade_alpha;
     bool upscale_video;
@@ -297,7 +285,6 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) saveLogToFile: (id) sender;
 - (IBAction) changeImageSelected: (id) sender;
 - (IBAction) toggleFilterState: (id) sender;
-
 @end
 
 extern AC_Controller *controller;

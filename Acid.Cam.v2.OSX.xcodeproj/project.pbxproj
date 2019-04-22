@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F190F8E226E305F001F4521 /* AC_SearchController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F190F8D226E305F001F4521 /* AC_SearchController.mm */; };
+		7F190F91226E343B001F4521 /* tokenize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F190F90226E343B001F4521 /* tokenize.cpp */; };
 		7F3170D0225820DE0095C384 /* ac-filter19.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3170CF225820DE0095C384 /* ac-filter19.cpp */; };
 		7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F47CB331C6D0549008689B9 /* AudioToolbox.framework */; };
 		7F4D4B9320E50293000248F9 /* ac-filter7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D4B9220E50292000248F9 /* ac-filter7.cpp */; };
@@ -102,6 +104,9 @@
 
 /* Begin PBXFileReference section */
 		7F122ED919C37026000DA576 /* Acid.Cam.v2.OSX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Acid.Cam.v2.OSX.entitlements; sourceTree = "<group>"; };
+		7F190F8D226E305F001F4521 /* AC_SearchController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AC_SearchController.mm; path = Acid.Cam.v2.OSX/AC_SearchController.mm; sourceTree = "<group>"; };
+		7F190F8F226E3076001F4521 /* AC_SearchController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AC_SearchController.h; path = Acid.Cam.v2.OSX/AC_SearchController.h; sourceTree = "<group>"; };
+		7F190F90226E343B001F4521 /* tokenize.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = tokenize.cpp; path = Acid.Cam.v2.OSX/tokenize.cpp; sourceTree = "<group>"; };
 		7F3170CF225820DE0095C384 /* ac-filter19.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter19.cpp"; path = "Acid.Cam.v2.OSX/ac-filter19.cpp"; sourceTree = "<group>"; };
 		7F3BFD26224BE19C00838B80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F47CB331C6D0549008689B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -248,6 +253,8 @@
 			children = (
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
+				7F190F8D226E305F001F4521 /* AC_SearchController.mm */,
+				7F190F8F226E3076001F4521 /* AC_SearchController.h */,
 				7FEC387B2130EB9800EE1A3E /* AC_ImageView.h */,
 				7FEC387A2130EB9800EE1A3E /* AC_ImageView.mm */,
 				7FEC38772130EB6800EE1A3E /* AC_Renderer.h */,
@@ -288,6 +295,7 @@
 				7FEE831620C399420027A848 /* ac-alpha.cpp */,
 				7FEE832620C3DFEA0027A848 /* ac-box.cpp */,
 				7F4A50A920800F84009998DA /* tokenize.hpp */,
+				7F190F90226E343B001F4521 /* tokenize.cpp */,
 				7F9D70BD17DE4F7C009C54DA /* fractal.cpp */,
 				7F9D70BE17DE4F7C009C54DA /* fractal.h */,
 				7F9D715A17DE5082009C54DA /* image.icns */,
@@ -494,12 +502,14 @@
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
 				7F9D70F217DE4F7C009C54DA /* fractal.cpp in Sources */,
+				7F190F91226E343B001F4521 /* tokenize.cpp in Sources */,
 				7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */,
 				7FA4F5D321DBDF7700E6D442 /* ac-filter14.cpp in Sources */,
 				7F9A55D3224A92B900F9A7DB /* ac-filter18.cpp in Sources */,
 				7F9D711E17DE4F7C009C54DA /* videoprogram.mm in Sources */,
 				7F98DA6E21B85C41003876C7 /* ac-filter13.cpp in Sources */,
 				7FEE833020C45B0E0027A848 /* ac-filter3.cpp in Sources */,
+				7F190F8E226E305F001F4521 /* AC_SearchController.mm in Sources */,
 				7F8E8A3321FE36EC00775DAE /* ac-filter15.cpp in Sources */,
 				7FEE833120C45B0E0027A848 /* ac-filter2.cpp in Sources */,
 				7F7346832145AD4700F1A327 /* ac-filter11.cpp in Sources */,

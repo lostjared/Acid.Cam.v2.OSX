@@ -1,8 +1,3 @@
-//
-//  AC_Controller.m
-//  Acid.Cam.2
-//  https://github.com/lostjared
-//  Created by Jared Bruni on 6/3/13.
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
@@ -54,10 +49,10 @@
 #include<time.h>
 #include<vector>
 #include<algorithm>
-#include"tokenize.hpp"
 #include<sys/stat.h>
 #include<AVKit/AVKit.h>
 #include<fstream>
+#include"tokenize.hpp"
 
 // Global varaibles
 NSTextView *logView;
@@ -168,62 +163,9 @@ void setEnabledProg() {
     [stop_prog_i setEnabled: NO];
 }
 
-std::string Lower(const std::string &s) {
-    std::string tmp;
-    for(int i = 0; i < s.length(); ++i) {
-        tmp += tolower(s[i]);
-    }
-    return tmp;
-}
 
-void SearchForString(NSString *s) {
-    [search_results removeAllObjects];
-    std::string search = Lower([s UTF8String]);
-    std::vector<std::string> tokens;
-    token::tokenize(search, std::string(" "), tokens);
-    std::vector<int> used;
-    int num = 0;
-    for(int i = 0; i < ac::draw_max-4; ++i) {
-        std::string search_items = Lower(ac::draw_strings[i]);
-        for(unsigned q = 0; q < tokens.size(); ++q) {
-            if(search_items.find(tokens[q]) != std::string::npos) {
-                if(std::find(used.begin(), used.end(), i) == std::end(used)) {
-                    [search_results addObject: [NSNumber numberWithInt:i]];
-                    used.push_back(i);
-                    ++num;
-                }
-            }
-        }
-    }
-    std::ostringstream stream;
-    stream << "Searched for: " << [s UTF8String] << " matched " << num << " filters.\n";
-    flushToLog(stream);
-    [controller reloadTable];
-}
 
-// search Delegate
-@implementation SearchController
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-    NSString *str =  [[aTableColumn headerCell] stringValue];
-    NSNumber *number = [search_results objectAtIndex:rowIndex];
-    if( [str isEqualTo:@"Filter"] ) {
-        int value = (int)[number integerValue];
-        NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
-        return s;
-    }
-    else if([str isEqualTo:@"Index"]) {
-        NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
-        return s;
-    }
-    return @"";
-}
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [search_results count];
-}
-
-@end
 
 // Objective-C implemtation of class AC_Controller
 @implementation AC_Controller
@@ -235,8 +177,8 @@ void SearchForString(NSString *s) {
     if([videoFileInput state] == NSOnState) {
         [up4k setEnabled:YES];
         if([up4k state] == NSOnState) {
-        	[video_width setEnabled:YES];
-        	[video_height setEnabled:YES];
+            [video_width setEnabled:YES];
+            [video_height setEnabled:YES];
             [chk_stretch setEnabled:YES];
         }
     }
@@ -366,17 +308,17 @@ void SearchForString(NSString *s) {
      for(int i = 0; i < ac::draw_max; ++i) {
      std::string s;
      s = ac::draw_strings[i];
-	if(s.find("Strobe") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos)
-     	std::cout << "\"" << s << "\", ";
+     if(s.find("Strobe") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos)
+     std::cout << "\"" << s << "\", ";
      }*/
     
     /*
-    for(int i = 0; i < ac::draw_max-4; ++i) {
-        std::string s = ac::draw_strings[i];
-        if(s.find("Intertwine") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos) {
-            std::cout << "\"" << ac::draw_strings[i] << "\", ";
-        }
-    }
+     for(int i = 0; i < ac::draw_max-4; ++i) {
+     std::string s = ac::draw_strings[i];
+     if(s.find("Intertwine") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos) {
+     std::cout << "\"" << ac::draw_strings[i] << "\", ";
+     }
+     }
      std::cout << "\n"; */
 }
 
@@ -474,7 +416,7 @@ void SearchForString(NSString *s) {
     eraseArray(szSquare, ac::svSquare.size());
     std::sort(ac::vSub.begin(), ac::vSub.end());
     const char **zSub = convertToStringArray(ac::vSub);
-
+    
     if(cust == NO) {
         [self fillMenuWithString: it_arr[12] stringValues:zSub];
         [self fillMenuWithString: it_arr[11] stringValues:szOther];
@@ -524,10 +466,10 @@ void SearchForString(NSString *s) {
     NSInteger index = [categories_custom indexOfSelectedItem];
     if(index == 14) {
         if([user_menu numberOfItems] > 0)
-        	[current_filter_custom setMenu: user_menu];
+            [current_filter_custom setMenu: user_menu];
         
     } else {
-    	[current_filter_custom setMenu: menu_items_custom[index]];
+        [current_filter_custom setMenu: menu_items_custom[index]];
     }
 }
 
@@ -729,7 +671,7 @@ void SearchForString(NSString *s) {
         }
         
         if([up4k state] == NSOnState && [videoFileInput state] == NSOffState) {
-           _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
+            _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
             return;
         }
         // test values
@@ -789,10 +731,10 @@ void SearchForString(NSString *s) {
         }
         int ret_val = 0;
         if(use_resized_res == false)
-        	ret_val = program_main(0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+            ret_val = program_main(0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         else
             ret_val = program_main(value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-
+        
         if(ret_val == 0) {
             if(camera_mode == 1)
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
@@ -841,8 +783,8 @@ void SearchForString(NSString *s) {
 
 - (void) stopCamera {
     camera_active = false;
-   // [finish_queue orderFront:self];
-   // [finish_queue_progress startAnimation:self];
+    // [finish_queue orderFront:self];
+    // [finish_queue_progress startAnimation:self];
     if(renderTimer != nil && renderTimer.valid) {
         [renderTimer invalidate];
         renderTimer = nil;
@@ -1103,7 +1045,7 @@ void SearchForString(NSString *s) {
         cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
     if(capture->isOpened() && frame_read == false) {
-         ++frame_proc;
+        ++frame_proc;
         double seconds = ((total_frames)/ac::fps);
         double cfps = frame_cnt/ac::fps;;
         double elapsed = (frame_proc/ac::fps);
@@ -1147,7 +1089,7 @@ void SearchForString(NSString *s) {
     cv::Mat up;
     if([up4k state] == NSOnState && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
         if([chk_stretch state] == NSOffState) {
-        	frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
+            frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
         } else {
             cv::Mat copy1 = frame.clone();
             cv::resize(copy1, frame, cv::Size((int)cap_width, (int)cap_height));
@@ -1289,7 +1231,7 @@ void SearchForString(NSString *s) {
         // flush to log
         flushToLog(sout);
     }
-
+    
 }
 
 - (IBAction) openWebcamDialog: (id) sender {
@@ -1353,7 +1295,7 @@ void SearchForString(NSString *s) {
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
         [chk_stretch setEnabled:NO];
-
+        
     }
     else {
         [video_file setEnabled: NO];
@@ -1362,8 +1304,8 @@ void SearchForString(NSString *s) {
         [selectVideoFile setEnabled: YES];
         [up4k setEnabled: YES];
         if([up4k state] == NSOnState) {
-        	[video_width setEnabled: YES];
-        	[video_height setEnabled: YES];
+            [video_width setEnabled: YES];
+            [video_height setEnabled: YES];
             [chk_stretch setEnabled: YES];
         } else {
             [video_width setEnabled: NO];
@@ -1590,7 +1532,7 @@ void SearchForString(NSString *s) {
     unsigned int sec = static_cast<unsigned int>(seconds);
     NSString *str_val;
     if(sec >= 60) {
-    	min = (sec/60);
+        min = (sec/60);
         re = (sec%60);
         str_val = [NSString stringWithFormat:@"Jump to Time: %d Minutes %d Seconds @ Frame #%d",min,re, (int)time_val];
     } else {
@@ -1937,7 +1879,7 @@ void SearchForString(NSString *s) {
             flushToLog(stream);
             break;
     }
-
+    
     NSInteger index = [image_to_set indexOfSelectedItem];
     if(index >= 0) {
         set_filenames[index] = "None";
@@ -2448,7 +2390,7 @@ void SearchForString(NSString *s) {
         std::ostringstream stream;
         stream << "User saved IDs to: " << fname << "\n";
         flushToLog(stream);
-
+        
     }
 }
 
@@ -2479,7 +2421,7 @@ void SearchForString(NSString *s) {
     }
     
     if(user_filter[filter_name].index != -1) {
-    	NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
+        NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
         [user_filter_name addItemWithObjectValue:sval];
     }
     [table_view reloadData];
@@ -2522,7 +2464,7 @@ void SearchForString(NSString *s) {
     user_menu = [[NSMenu alloc] init];
     
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-    	if(i->second.index != -1)
+        if(i->second.index != -1)
             [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
     }
     [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
@@ -2590,7 +2532,7 @@ void SearchForString(NSString *s) {
             std::string value1s, value2s;
             value1s = ac::draw_strings[value1];
             if(value2 != -1)
-            	value2s = ac::draw_strings[value2];
+                value2s = ac::draw_strings[value2];
             else
                 value2s = "None";
             file_n << value1s << ":" << value2s << "\n";

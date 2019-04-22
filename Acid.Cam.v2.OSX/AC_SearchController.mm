@@ -1,3 +1,4 @@
+
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
@@ -40,60 +41,64 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
  */
-#ifndef __TOKENIZE_H__
-#define __TOKENIZE_H__
 
-#include<iostream>
-#include<vector>
-#include<string>
+#import "AC_Controller.h"
+#import "tokenize.hpp"
 
-namespace token {
-    
-    template<typename type>
-    type substr(type t, size_t start, size_t stop) {
-        type temp;
-        for(size_t i = start; i < stop; i++)
-            temp += t[i];
-        return temp;
+std::string Lower(const std::string &s) {
+    std::string tmp;
+    for(int i = 0; i < s.length(); ++i) {
+        tmp += tolower(s[i]);
     }
-    template<> char* substr(char *t, size_t start, size_t stop);
-    template<typename type>
-    size_t len(type &t) {
-        size_t c = 0;
-        for(c = 0; t[c] != 0; c++);
-        return c;
-    }
-    template<typename type>
-    size_t find(size_t start, type& source, type& sub) {
-        for(size_t i = start; source[i] != 0; i++) {
-            bool add = true;
-            for(size_t z = 0; sub[z] != 0; z++) {
-                if(source[i+z] != sub[z]) {
-                    add = false;
-                    break;
-                }
-            }
-            if(add == true)
-                return i;
-        }
-        return 0;
-    }
-    template<typename type>
-    size_t tokenize(type source, type delim, std::vector<type> &v) {
-        size_t i = find<type>(0,source,delim),z=0;
-        if(i == 0) i = find<type>(i+1, source,delim);
-        size_t lenz = len<type>(source), dlen = len<type>(delim);
-        while (i != 0 && i < lenz && z < lenz ) {
-            type s = substr(source,z,i);
-            if(len(s) > 0 && s[0] != delim[0])
-                v.push_back(s);
-            z = i+dlen;
-            i = find<type>(i+1, source, delim);
-        }
-        if( z < lenz ) v.push_back( substr(source,z,lenz) );
-        return v.size();
-    }
+    return tmp;
 }
 
-#endif
+void SearchForString(NSString *s) {
+    [search_results removeAllObjects];
+    std::string search = Lower([s UTF8String]);
+    std::vector<std::string> tokens;
+    token::tokenize(search, std::string(" "), tokens);
+    std::vector<int> used;
+    int num = 0;
+    for(int i = 0; i < ac::draw_max-4; ++i) {
+        std::string search_items = Lower(ac::draw_strings[i]);
+        for(unsigned q = 0; q < tokens.size(); ++q) {
+            if(search_items.find(tokens[q]) != std::string::npos) {
+                if(std::find(used.begin(), used.end(), i) == std::end(used)) {
+                    [search_results addObject: [NSNumber numberWithInt:i]];
+                    used.push_back(i);
+                    ++num;
+                }
+            }
+        }
+    }
+    std::ostringstream stream;
+    stream << "Searched for: " << [s UTF8String] << " matched " << num << " filters.\n";
+    flushToLog(stream);
+    [controller reloadTable];
+}
 
+
+// search Delegate
+@implementation SearchController
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+    NSString *str =  [[aTableColumn headerCell] stringValue];
+    NSNumber *number = [search_results objectAtIndex:rowIndex];
+    if( [str isEqualTo:@"Filter"] ) {
+        int value = (int)[number integerValue];
+        NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
+        return s;
+    }
+    else if([str isEqualTo:@"Index"]) {
+        NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
+        return s;
+    }
+    return @"";
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+    return [search_results count];
+}
+
+@end

@@ -1977,7 +1977,7 @@ Gw
                     </imageView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-584.5" y="-1527.5"/>
+            <point key="canvasLocation" x="-669" y="-2338"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
