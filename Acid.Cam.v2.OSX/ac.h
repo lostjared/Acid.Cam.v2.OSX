@@ -1227,6 +1227,7 @@ namespace ac {
     void RestoreBlack(cv::Mat &frame);
     void OrigBlendSubFilter(cv::Mat &frame);
     void OrigAndCurrentRandomX2(cv::Mat &frame);
+    void FillPixelsImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1904,6 +1905,44 @@ namespace ac {
     
     bool operator<(const Point &p1, const Point &p2);
     
+    class ImageIndex {
+    public:
+        ImageIndex() : x(0), y(0) {}
+        ImageIndex(int xx,int yy) {
+            x = xx;
+            y = yy;
+        }
+        ImageIndex(const ImageIndex &i) {
+            x = i.x;
+            y = i.y;
+        }
+        int x,y;
+        bool operator<(const ImageIndex &i1) {
+            if(x < i1.x && y < i1.y)
+                return true;
+            return false;
+        }
+    };
+    
+    class Pixelated {
+    public:
+        Pixelated();
+        void reset(cv::Mat &val);
+        void setPixel(int amount);
+        bool resetNeeded() const { return reset_needed; }
+        void setInit(const bool &b) { is_init = b; }
+        bool isInit() const { return is_init; }
+        void drawToMatrix(cv::Mat &frame);
+    private:
+        cv::Mat pix_image, copy_val;
+        std::vector<ImageIndex> value_x;
+        std::default_random_engine rng;
+        int x_offset;
+        bool reset_needed;
+        bool is_init;
+        void setPix();
+    };    
+    
     // slow copy functions
     void copyMat(const cv::Mat &src,int src_x, int src_y, cv::Mat &target, const Rect &rc);
     void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
@@ -1942,6 +1981,7 @@ namespace ac {
         }
     }
     
+    extern Pixelated pix;
 }
 
 extern ac::ParticleEmiter emiter;

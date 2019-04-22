@@ -774,6 +774,7 @@ void setEnabledProg() {
             }
             [window1 orderFront:self];
             [startProg setTitle:@"Stop"];
+            ac::pix.setInit(false);
         }
     } else {
         [self stopProgram:self];
@@ -1691,6 +1692,7 @@ void setEnabledProg() {
         }
     }
     [self updateLabelText:self];
+    ac::pix.setInit(false);
 }
 
 - (IBAction) showCustom: (id) sender {
