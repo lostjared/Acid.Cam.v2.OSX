@@ -820,3 +820,11 @@ void ac::RestoreBlack(cv::Mat &frame) {
         }
     }
 }
+
+void ac::OrigBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "OrigBlendSubFilter" || orig_frame.empty() ||  orig_frame.size() != frame.size())
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = orig_frame.clone();
+    CallFilter(subfilter, copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
