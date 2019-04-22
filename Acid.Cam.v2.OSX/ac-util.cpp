@@ -863,3 +863,59 @@ void ac::setChannelToValue(cv::Mat &frame, unsigned int channel, unsigned char v
         }
     }
 }
+
+ac::Pixelated::Pixelated() : x_offset(0), reset_needed(false), is_init(false) {
+    
+}
+void ac::Pixelated::reset(cv::Mat &val) {
+    pix_image = val.clone();
+    copy_val = pix_image.clone();
+    ac::fillRect(copy_val, ac::Rect(0, 0, copy_val.cols, copy_val.rows), cv::Vec3b(0, 0, 0));
+    for(int i = 0; i < pix_image.cols; ++i) {
+        for(int z = 0; z < pix_image.rows; ++z) {
+            value_x.push_back(ImageIndex(i, z));
+        }
+    }
+    std::shuffle(value_x.begin(), value_x.end(), rng);
+    is_init = true;
+    x_offset = 0;
+    reset_needed = false;
+    is_init = true;
+}
+
+void ac::Pixelated::setPixel(int amount) {
+    for(int j = 0; j < amount; ++j) {
+        if(resetNeeded()) {
+            return;
+        }
+        setPix();
+    }
+}
+
+void ac::Pixelated::setPix() {
+    if(reset_needed == true)
+        return;
+    if(pix_image.size() != copy_val.size())
+        return;
+    ImageIndex &index = value_x[x_offset];
+    cv::Vec3b pixel = pix_image.at<cv::Vec3b>(index.y, index.x);
+    cv::Vec3b &src_pixel = copy_val.at<cv::Vec3b>(index.y, index.x);
+    src_pixel = pixel;
+    ++x_offset;
+    if(x_offset > value_x.size()-1)
+        reset_needed = true;
+}
+
+void ac::Pixelated::drawToMatrix(cv::Mat &frame) {
+    if(frame.size() !=  pix_image.size())
+        return;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b pix = copy_val.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] += pix[j];
+        }
+    }
+}
+
