@@ -1226,6 +1226,7 @@ namespace ac {
     void ImageDiffSubFilter(cv::Mat &frame);
     void RestoreBlack(cv::Mat &frame);
     void OrigBlendSubFilter(cv::Mat &frame);
+    void OrigAndCurrentRandomX2(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

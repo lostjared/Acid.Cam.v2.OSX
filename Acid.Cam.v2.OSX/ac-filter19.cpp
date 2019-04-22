@@ -828,3 +828,10 @@ void ac::OrigBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
 }
+
+void ac::OrigAndCurrentRandomX2(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = orig_frame.clone();
+    Random_Filter(copy1);
+    Random_Filter(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+}
