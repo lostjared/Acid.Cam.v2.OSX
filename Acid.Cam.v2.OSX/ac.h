@@ -1228,7 +1228,7 @@ namespace ac {
     void OrigBlendSubFilter(cv::Mat &frame);
     void OrigAndCurrentRandomX2(cv::Mat &frame);
     void FillPixelsImage(cv::Mat &frame);
-    void AverageLinesMedianBlend(cv::Mat &frame);
+    void AverageHorizontalDistortion(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
