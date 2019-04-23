@@ -846,5 +846,21 @@ void ac::FillPixelsImage(cv::Mat &frame) {
     }
     pix.setPixel(pix.size()/120);
     pix.drawToMatrix(frame);
-    
+}
+
+void ac::AverageLinesMedianBlend(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        unsigned int values[3] = {0,0,0};
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                values[j] += pixel[j];
+        }
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5*(values[j]/255)));
+        }
+    }
+    MedianBlend(frame);
 }
