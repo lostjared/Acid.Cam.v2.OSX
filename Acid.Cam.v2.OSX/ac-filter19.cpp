@@ -819,6 +819,7 @@ void ac::RestoreBlack(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::OrigBlendSubFilter(cv::Mat &frame) {
@@ -827,6 +828,7 @@ void ac::OrigBlendSubFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = orig_frame.clone();
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::OrigAndCurrentRandomX2(cv::Mat &frame) {
@@ -834,6 +836,7 @@ void ac::OrigAndCurrentRandomX2(cv::Mat &frame) {
     Random_Filter(copy1);
     Random_Filter(copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }
 
 void ac::FillPixelsImage(cv::Mat &frame) {
@@ -846,6 +849,7 @@ void ac::FillPixelsImage(cv::Mat &frame) {
     }
     pix.setPixel(pix.size()/120);
     pix.drawToMatrix(frame);
+    AddInvert(frame);
 }
 
 void ac::AverageHorizontalDistortion(cv::Mat &frame) {
@@ -869,4 +873,20 @@ void ac::AverageHorizontalDistortion(cv::Mat &frame) {
             value += 0.09;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::AlphaBlendImageWithOrigSource(cv::Mat &frame) {
+    if(blend_set == false || orig_frame.empty() || orig_frame.size() != frame.size())
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha1 = 1.0, alpha2 = 2.0;
+    static int dir1 = 1, dir2 = 0;
+    cv::Mat copy1 = orig_frame.clone(), copy2 = frame.clone(), copy3;
+    AlphaBlendDouble(copy1, reimage, copy3, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 2.0, 1.0);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 2.0, 1.0);
+    AlphaBlend(copy2, copy3, frame, 0.5);
+    AddInvert(frame);
 }
