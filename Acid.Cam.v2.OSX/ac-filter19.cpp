@@ -908,15 +908,16 @@ void ac::resizeFrameWidth(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            int x = (resize_x-frame.cols)+i;
-            int y = (resize_y-frame.rows)+z;
+            int x = (resize_x-(frame.cols))+i;
+            int y = (resize_y-(frame.rows))+z;
+            ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(y, x);
             pixel = pix;
         }
     }
     if(dir == 1) {
         resize_x += 50;
-        if(resize_x > 9000) {
+        if(resize_x > 8000) {
             dir = 0;
         }
     } else {
@@ -944,15 +945,16 @@ void ac::resizeFrameHeight(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            int x = (resize_x-frame.cols)+i;
-            int y = (resize_y-frame.rows)+z;
+            int x = (resize_x-(frame.cols))+i;
+            int y = (resize_y-(frame.rows))+z;
+            ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(y, x);
             pixel = pix;
         }
     }
     if(dir == 1) {
         resize_y += 50;
-        if(resize_y > 9000) {
+        if(resize_y > 8000) {
             dir = 0;
         }
     } else {
@@ -980,8 +982,9 @@ void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            int x = (resize_x-frame.cols)+i;
-            int y = (resize_y-frame.rows)+z;
+            int x = (resize_x-(frame.cols))+i;
+            int y = (resize_y-(frame.rows))+z;
+            ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(y, x);
             pixel = pix;
         }
@@ -989,7 +992,7 @@ void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
     if(dir == 1) {
         resize_x += 50;
         resize_y += 50;
-        if(resize_x > 9000 || resize_y > 5000) {
+        if(resize_x > 8000 || resize_y > 8000) {
             dir = 0;
         }
     } else {
