@@ -917,7 +917,7 @@ void ac::resizeFrameWidth(cv::Mat &frame) {
     }
     if(dir == 1) {
         resize_x += 50;
-        if(resize_x > 8000) {
+        if(resize_x > (frame.cols*6)) {
             dir = 0;
         }
     } else {
@@ -954,7 +954,7 @@ void ac::resizeFrameHeight(cv::Mat &frame) {
     }
     if(dir == 1) {
         resize_y += 50;
-        if(resize_y > 8000) {
+        if(resize_y > (frame.rows*6)) {
             dir = 0;
         }
     } else {
@@ -992,7 +992,7 @@ void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
     if(dir == 1) {
         resize_x += 50;
         resize_y += 50;
-        if(resize_x > 8000 || resize_y > 8000) {
+        if(resize_x >  (frame.cols*6) || resize_y > (frame.rows*6)) {
             dir = 0;
         }
     } else {
