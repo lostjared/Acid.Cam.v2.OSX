@@ -1230,6 +1230,9 @@ namespace ac {
     void FillPixelsImage(cv::Mat &frame);
     void AverageHorizontalDistortion(cv::Mat &frame);
     void AlphaBlendImageWithOrigSource(cv::Mat &frame);
+    void resizeFrameWidth(cv::Mat &frame);
+    void resizeFrameHeight(cv::Mat &frame);
+    void resizeFrameWidthAndHeight(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
