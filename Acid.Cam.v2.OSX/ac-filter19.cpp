@@ -928,6 +928,7 @@ void ac::resizeFrameWidth(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::resizeFrameHeight(cv::Mat &frame) {
@@ -965,6 +966,7 @@ void ac::resizeFrameHeight(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
@@ -1004,6 +1006,7 @@ void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::resizeImageWidth(cv::Mat &frame) {
@@ -1043,6 +1046,7 @@ void ac::resizeImageWidth(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::resizeImageHeight(cv::Mat &frame) {
@@ -1081,6 +1085,7 @@ void ac::resizeImageHeight(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::resizeImageWidthAndHeight(cv::Mat &frame) {
@@ -1122,4 +1127,16 @@ void ac::resizeImageWidthAndHeight(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::resizeImageAndFrameBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    resizeImageWidthAndHeight(reimage);
+    resizeFrameWidthAndHeight(copy1);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
 }
