@@ -1233,6 +1233,9 @@ namespace ac {
     void resizeFrameWidth(cv::Mat &frame);
     void resizeFrameHeight(cv::Mat &frame);
     void resizeFrameWidthAndHeight(cv::Mat &frame);
+    void resizeImageHeight(cv::Mat &frame);
+    void resizeImageWidth(cv::Mat &frame);
+    void resizeImageWidthAndHeight(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1300,6 +1303,8 @@ namespace ac {
     void InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_items);
     void pushSubFilter(int newsub);
     void popSubFilter();
+    // todo: later
+    // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
     extern std::string *draw_strings;
     extern DrawFunction plugin_func;

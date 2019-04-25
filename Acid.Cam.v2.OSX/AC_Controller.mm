@@ -764,7 +764,6 @@ void setEnabledProg() {
                 [stretch_scr setState: NSOffState];
             }
             if(camera_mode == 0) {
-                
                 isPaused = false;
                 [menuPaused setState:NSOffState];
                 frames_captured = 0;
@@ -1013,6 +1012,7 @@ void setEnabledProg() {
         pauseStepTrue = false;
     }
     else if(isPaused) return;
+    
     NSInteger cap_width = [video_width integerValue];
     NSInteger cap_height = [video_height integerValue];
     cv::Mat frame;
