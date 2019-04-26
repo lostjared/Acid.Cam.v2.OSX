@@ -241,4 +241,31 @@ void ac::resizeImageRandom(cv::Mat &frame) {
         if(index > 2)
             index = 0;
     }
+    AddInvert(frame);
+}
+
+void ac::resizeFrameRandom(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static int index = 0, fcount = 0;
+    switch(index) {
+        case 0:
+            resizeFrameWidth(copy1);
+            break;
+        case 1:
+            resizeFrameHeight(copy1);
+            break;
+        case 2:
+            resizeFrameWidthAndHeight(copy1);
+            break;
+    }
+    AddInvert(copy1);
+    ++fcount;
+    int fps = static_cast<int>(ac::fps);
+    if((fcount%fps) == 0) {
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }

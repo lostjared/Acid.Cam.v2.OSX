@@ -1242,6 +1242,7 @@ namespace ac {
     void resizeImageFrameHeight(cv::Mat &frame) ;
     void resizeImageFrameWidthAndHeight(cv::Mat &frame);
     void resizeImageRandom(cv::Mat &frame);
+    void resizeFrameRandom(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
