@@ -269,3 +269,42 @@ void ac::resizeFrameRandom(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::resizeFrameImageFlash(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    int offset = rand()%9;
+    switch(offset) {
+        case 0:
+            resizeFrameWidth(copy1);
+            break;
+        case 1:
+            resizeFrameHeight(copy1);
+            break;
+        case 2:
+            resizeFrameWidthAndHeight(copy1);
+            break;
+        case 3:
+            resizeImageFrameWidth(copy1);
+            break;
+        case 4:
+            resizeImageFrameHeight(copy1);
+            break;
+        case 5:
+            resizeImageFrameWidthAndHeight(copy1);
+            break;
+        case 6:
+            resizeImageWidth(copy1);
+            break;
+        case 7:
+            resizeImageWidth(copy1);
+            break;
+        case 8:
+            resizeImageWidthAndHeight(copy1);
+            break;
+            
+    }
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
