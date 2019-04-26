@@ -308,3 +308,12 @@ void ac::resizeFrameImageFlash(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::RandomFlip(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int rt_val = -1;
+    rt_val += rand()%4;
+    if(rt_val >= 2) return;
+    cv::flip(copy1, frame, rt_val);
+    AddInvert(frame);
+}
