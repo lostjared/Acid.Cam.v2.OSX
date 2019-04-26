@@ -217,3 +217,28 @@ void ac::resizeImageFrameWidthAndHeight(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::resizeImageRandom(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int index = 0, fcount = 0;
+    switch(index) {
+        case 0:
+            resizeImageFrameWidth(frame);
+            break;
+        case 1:
+            resizeImageFrameHeight(frame);
+            break;
+        case 2:
+            resizeImageFrameWidthAndHeight(frame);
+            break;
+    }
+    AddInvert(frame);
+    ++fcount;
+    int fps = static_cast<int>(ac::fps);
+    if((fcount%fps) == 0) {
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+}
