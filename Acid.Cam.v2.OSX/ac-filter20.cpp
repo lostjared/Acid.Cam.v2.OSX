@@ -338,3 +338,11 @@ void ac::ColorsFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MirrorDoubleVision(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorLeft(copy1);
+    MirrorRight(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+}
