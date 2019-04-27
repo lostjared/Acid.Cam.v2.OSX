@@ -1245,6 +1245,7 @@ namespace ac {
     void resizeFrameRandom(cv::Mat &frame);
     void resizeFrameImageFlash(cv::Mat &frame);
     void RandomFlip(cv::Mat &frame);
+    void ColorsFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

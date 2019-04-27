@@ -317,3 +317,24 @@ void ac::RandomFlip(cv::Mat &frame) {
     cv::flip(copy1, frame, rt_val);
     AddInvert(frame);
 }
+
+void ac::ColorsFilter(cv::Mat &frame) {
+    static std::vector<std::string> filter_array({"ColorExpand", "ColorRange", "ColorTransition","ColorTransitionRandom","ColorXorScale", "Rainbow Blend", "RainbowXorBlend"});
+    static auto rng = std::default_random_engine{};
+    static unsigned int counter = 0;
+    if(counter == 0) {
+        std::shuffle(filter_array.begin(), filter_array.end(),rng);
+    }
+    int fps_val = static_cast<unsigned int>(ac::fps);
+    static int index = 0;
+    CallFilter(filter_array[index], frame);
+    ++counter;
+    if((counter%fps_val) == 0) {
+        ++index;
+        if(index > filter_array.size()-1) {
+            index = 0;
+            std::shuffle(filter_array.begin(), filter_array.end(),rng);
+        }
+    }
+    AddInvert(frame);
+}
