@@ -346,3 +346,31 @@ void ac::MirrorDoubleVision(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ColorFadeFilter(cv::Mat &frame) {
+    static int rgb_start[] = {rand()%255,rand()%255,rand()%255};
+    static int speed = 5;
+    static int dir[3] = {1, 0, 1};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += rgb_start[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            rgb_start[j] += speed;
+            if(rgb_start[j] >= 255) {
+                dir[j] = 0;
+                rgb_start[j] = rand()%255;
+            }
+        } else if(dir[j] == 0) {
+            rgb_start[j] -= speed;
+            if(rgb_start[j] <= 0) {
+                dir[j] = 1;
+            }
+        }
+    }
+}
