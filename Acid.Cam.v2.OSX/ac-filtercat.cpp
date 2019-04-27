@@ -59,7 +59,7 @@ namespace ac {
     }
     
     void init_filter_menu_map() {
-        for(int i = 0; i < draw_max-4; ++i) {
+        for(int i = 0; i < draw_max-5; ++i) {
             svAll.push_back(ac::draw_strings[i]);
             svAllSorted.push_back(ac::draw_strings[i]);
         }
@@ -87,7 +87,7 @@ namespace ac {
         for(int i = 0; i < svAll.size(); ++i) {
             std::string value = svAll[i];
             lwr(value);
-            if(value.find("subfilter") == std::string::npos && value.find("image") == std::string::npos && value.find("random") == std::string::npos && value.find("fractal") == std::string::npos && value.find("feedback") == std::string::npos && value.find("1080p") == std::string::npos && value.find("720p") == std::string::npos) {
+            if(value.find("subfilter") == std::string::npos && value.find("image") == std::string::npos && value.find("random") == std::string::npos && value.find("fractal") == std::string::npos && value.find("feedback") == std::string::npos && value.find("1080p") == std::string::npos && value.find("720p") == std::string::npos && value.find("custom") == std::string::npos && value.find("plugin") == std::string::npos) {
                 solo_filter.push_back(svAll[i]);
             }
         }
