@@ -1748,9 +1748,8 @@ void setEnabledProg() {
 }
 
 - (IBAction) rewindToStart:(id) sender {
+    [frame_slider setIntegerValue:0];
     jumptoFrame(syphon_enabled, 0);
-    frame_count = 0;
-    [frame_slider setIntegerValue:(NSInteger)frame_count];
     std::ostringstream stream;
     stream << "Video position set to start.\n";
     flushToLog(stream);
