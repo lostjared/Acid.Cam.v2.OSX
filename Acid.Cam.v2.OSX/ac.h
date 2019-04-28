@@ -1187,8 +1187,8 @@ namespace ac {
     void FadeFromColorToColor(cv::Mat &frame);
     void FadeFromColorToColorImage(cv::Mat &frame);
     void Random_Filter(cv::Mat &frame);
-    void FlipHorizontal(cv::Mat &frame);
-    void FlipVertical(cv::Mat &frame);
+    void FlipY_Axis(cv::Mat &frame);
+    void FlipX_Axis(cv::Mat &frame);
     void FlipBoth(cv::Mat &frame);
     void FlipMirrorAlphaBlend(cv::Mat &frame);
     void Random_FilterX2(cv::Mat &frame);
@@ -1251,6 +1251,7 @@ namespace ac {
     void ColorChannelMoveUpAndDown(cv::Mat &frame);
     void MedianStrobe(cv::Mat &frame);
     void DifferenceSubFilter(cv::Mat &frame);
+    void AlphaBlendFlippedFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

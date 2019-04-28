@@ -433,3 +433,15 @@ void ac::DifferenceSubFilter(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendFlippedFilter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static double alpha1 = 0.5, alpha2 = 2.0;
+    static int dir1 = 1, dir2 = 0;
+    FlipX_Axis(copy1);
+    AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 2.0, 0.5);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 2.0, 0.5);
+}
+
+

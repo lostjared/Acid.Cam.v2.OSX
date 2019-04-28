@@ -323,13 +323,13 @@ void ac::Random_Filter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::FlipHorizontal(cv::Mat &frame) {
+void ac::FlipY_Axis(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, 1);
     AddInvert(frame);
 }
 
-void ac::FlipVertical(cv::Mat &frame) {
+void ac::FlipX_Axis(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, 0);
     AddInvert(frame);
@@ -345,8 +345,8 @@ void ac::FlipMirrorAlphaBlend(cv::Mat &frame) {
     cv::Mat copies[2];
     copies[0] = frame.clone();
     copies[1] = frame.clone();
-    FlipHorizontal(copies[0]);
-    FlipVertical(copies[1]);
+    FlipY_Axis(copies[0]);
+    FlipX_Axis(copies[1]);
     cv::Mat output[2];
     AlphaBlendDouble(copies[0], frame, output[0], 0.5, 0.5);
     AlphaBlendDouble(copies[1], frame, output[1], 0.5, 0.5);
