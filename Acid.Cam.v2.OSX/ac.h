@@ -1248,6 +1248,7 @@ namespace ac {
     void ColorsFilter(cv::Mat &frame);
     void MirrorDoubleVision(cv::Mat &frame);
     void ColorFadeFilter(cv::Mat &frame);
+    void ColorChannelMoveUpAndDown(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -319,7 +319,7 @@ void ac::RandomFlip(cv::Mat &frame) {
 }
 
 void ac::ColorsFilter(cv::Mat &frame) {
-    static std::vector<std::string> filter_array({"ColorExpand", "ColorRange", "ColorTransition","ColorTransitionRandom","ColorXorScale", "Rainbow Blend", "RainbowXorBlend"});
+    static std::vector<std::string> filter_array({"ColorExpand", "ColorRange", "ColorTransition","ColorTransitionRandom","ColorXorScale", "Rainbow Blend", "RainbowXorBlend", "ColorChannelUpAndDown"});
     static auto rng = std::default_random_engine{};
     static unsigned int counter = 0;
     if(counter == 0) {
@@ -370,6 +370,34 @@ void ac::ColorFadeFilter(cv::Mat &frame) {
             rgb_start[j] -= speed;
             if(rgb_start[j] <= 0) {
                 dir[j] = 1;
+            }
+        }
+    }
+}
+
+void ac::ColorChannelMoveUpAndDown(cv::Mat &frame) {
+    int rgb_values[3] = {rand()%2255, rand()%255, rand()%255};
+    int rgb_stop[3] = {rand()%255, rand()%255, rand()%255};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] += rgb_values[j];
+            
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(rgb_values[j] > rgb_stop[j]) {
+            --rgb_values[j];
+            if(rgb_values[j] == rgb_stop[j]) {
+                rgb_stop[j] = rgb_values[j];
+                rgb_values[j] = rand()%255;
+            }
+        } else if(rgb_values[j] < rgb_stop[j]) {
+            ++rgb_values[j];
+            if(rgb_values[j] == rgb_stop[j]) {
+                rgb_stop[j] = rgb_values[j];
+                rgb_values[j] = rand()%255;
             }
         }
     }
