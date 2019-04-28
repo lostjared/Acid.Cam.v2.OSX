@@ -373,6 +373,7 @@ void ac::ColorFadeFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ColorChannelMoveUpAndDown(cv::Mat &frame) {
@@ -401,6 +402,7 @@ void ac::ColorChannelMoveUpAndDown(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MedianStrobe(cv::Mat &frame) {
@@ -412,4 +414,22 @@ void ac::MedianStrobe(cv::Mat &frame) {
         MedianBlendDark(frame);
         index = 0;
     }
+    AddInvert(frame);
+}
+
+void ac::DifferenceSubFilter(cv::Mat &frame) {
+    if(orig_frame.empty() || orig_frame.size() != frame.size() || subfilter == -1 || draw_strings[subfilter] == "DifferenceSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = orig_frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] -= (pix[j]);
+        }
+    }
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
 }

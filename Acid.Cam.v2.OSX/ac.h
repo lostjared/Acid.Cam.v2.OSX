@@ -1250,6 +1250,7 @@ namespace ac {
     void ColorFadeFilter(cv::Mat &frame);
     void ColorChannelMoveUpAndDown(cv::Mat &frame);
     void MedianStrobe(cv::Mat &frame);
+    void DifferenceSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
