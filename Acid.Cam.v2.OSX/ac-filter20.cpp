@@ -319,7 +319,7 @@ void ac::RandomFlip(cv::Mat &frame) {
 }
 
 void ac::ColorsFilter(cv::Mat &frame) {
-    static std::vector<std::string> filter_array({"ColorExpand", "ColorRange", "ColorTransition","ColorTransitionRandom","ColorXorScale", "Rainbow Blend", "RainbowXorBlend", "ColorChannelUpAndDown"});
+    static std::vector<std::string> filter_array({"ColorExpand", "ColorRange", "ColorTransition","ColorTransitionRandom","ColorXorScale", "Rainbow Blend", "RainbowXorBlend", "ColorChannelMoveUpAndDown"});
     static auto rng = std::default_random_engine{};
     static unsigned int counter = 0;
     if(counter == 0) {
@@ -400,5 +400,16 @@ void ac::ColorChannelMoveUpAndDown(cv::Mat &frame) {
                 rgb_values[j] = rand()%255;
             }
         }
+    }
+}
+
+void ac::MedianStrobe(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        MedianBlend(frame);
+        index = 1;
+    } else {
+        MedianBlendDark(frame);
+        index = 0;
     }
 }
