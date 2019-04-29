@@ -442,6 +442,7 @@ void ac::AlphaBlendFlippedFilter(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy2, frame, alpha1, alpha2);
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 2.0, 0.5);
     AlphaMovementMaxMin(alpha2, dir2, 0.01, 2.0, 0.5);
+    AddInvert(frame);
 }
 
 
