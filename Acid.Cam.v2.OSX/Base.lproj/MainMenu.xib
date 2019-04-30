@@ -50,7 +50,7 @@
                 <outlet property="current_filter_custom" destination="W5Y-Jr-pAq" id="3kr-nF-4l5"/>
                 <outlet property="custom_window" destination="92I-tF-b7z" id="aeZ-BW-0IX"/>
                 <outlet property="device_index" destination="586" id="633"/>
-                <outlet property="disable_filters" destination="OsF-br-7Fg" id="RJ3-2o-sr4"/>
+                <outlet property="disable_filters" destination="JLh-0m-Y5J" id="qRU-2U-dah"/>
                 <outlet property="fade_filter" destination="ybb-Ri-H7o" id="1sa-EL-6Va"/>
                 <outlet property="filter_search_window" destination="Z1m-Pb-5Gb" id="Quo-sn-3tX"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
@@ -231,24 +231,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="jmw-rL-Oi4"/>
-                            <menuItem title="Disable Filters" keyEquivalent="d" id="OsF-br-7Fg">
-                                <connections>
-                                    <action selector="disableFilters:" target="630" id="Xcj-XT-vHD"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Reset Filters" keyEquivalent="r" id="cZf-J1-ZOb">
-                                <connections>
-                                    <action selector="resetAllFilters:" target="630" id="RQt-7r-0N8"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Release Frames" id="zoQ-23-oA1">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="releaseFrames:" target="630" id="TgK-6I-Jk6"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="cCT-xE-aRk"/>
-                            <menuItem title="Copy Custom String" id="FYH-xq-UXa">
+                            <menuItem title="Copy Filter String" id="FYH-xq-UXa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="copyCustomToString:" target="630" id="dm2-12-GLo"/>
@@ -335,6 +318,28 @@
                             <menuItem title="Go To Frame" keyEquivalent="g" id="zlZ-NS-0Pd">
                                 <connections>
                                     <action selector="openGoto:" target="630" id="3dK-hB-FSq"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Filter" id="pIg-tn-hhK">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Filter" id="s7d-02-fvR">
+                        <items>
+                            <menuItem title="Disable Filters" keyEquivalent="d" id="JLh-0m-Y5J">
+                                <connections>
+                                    <action selector="disableFilters:" target="630" id="Wyu-8w-tNw"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Reset Filters" keyEquivalent="r" id="AXb-kt-Z1x">
+                                <connections>
+                                    <action selector="resetAllFilters:" target="630" id="xy9-Ip-tJS"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Release Frames" keyEquivalent="t" id="g3Z-3j-LcR">
+                                <connections>
+                                    <action selector="releaseFrames:" target="630" id="oiO-L2-QQc"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -668,7 +673,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="209"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="209"/>
@@ -990,7 +995,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="Kca-yO-0lq">
                             <rect key="frame" x="1" y="0.0" width="604" height="299"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rNv-eJ-jDi" id="oR9-5h-21a">
                                     <rect key="frame" x="0.0" y="0.0" width="604" height="276"/>
@@ -1727,7 +1732,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="t1A-tL-tG7">
                             <rect key="frame" x="1" y="0.0" width="544" height="365"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
                                     <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>
