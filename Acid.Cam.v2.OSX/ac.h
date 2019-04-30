@@ -1253,6 +1253,8 @@ namespace ac {
     void DifferenceSubFilter(cv::Mat &frame);
     void AlphaBlendFlippedFilter(cv::Mat &frame);
     void ColorVariableBlend(cv::Mat &frame);
+    void ColorXorBlend(cv::Mat &frame);
+    void ColorAddBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

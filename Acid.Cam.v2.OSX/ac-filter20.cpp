@@ -473,3 +473,73 @@ void ac::ColorVariableBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorXorBlend(cv::Mat &frame) {
+    static int rgb_values[3] = {0,0,0};
+    static int dir[3] = {1,1,1};
+    static int speed = 10;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^rgb_values[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            rgb_values[j] += rand()%speed;
+            if(rgb_values[j] > 255) {
+                rgb_values[j] = 255;
+                dir[j] = 0;
+                ++speed;
+                if(speed > 25)
+                    speed = 10;
+            }
+        } else {
+            rgb_values[j] -= rand()%speed;
+            if(rgb_values[j] <= 0) {
+                rgb_values[j] = 0;
+                dir[j] = 1;
+                ++speed;
+                if(speed > 25)
+                    speed = 10;
+            }
+        }
+    }
+}
+
+void ac::ColorAddBlend(cv::Mat &frame) {
+    static int rgb_values[3] = {rand()%255,rand()%255,rand()%255};
+    static int dir[3] = {1,1,1};
+    static int speed = 10;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += rgb_values[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            rgb_values[j] += rand()%speed;
+            if(rgb_values[j] > 255) {
+                rgb_values[j] = 255;
+                dir[j] = 0;
+                ++speed;
+                if(speed > 25)
+                    speed = 10;
+            }
+        } else {
+            rgb_values[j] -= rand()%speed;
+            if(rgb_values[j] <= 0) {
+                rgb_values[j] = 0;
+                dir[j] = 1;
+                ++speed;
+                if(speed > 25)
+                    speed = 10;
+            }
+        }
+    }
+}
