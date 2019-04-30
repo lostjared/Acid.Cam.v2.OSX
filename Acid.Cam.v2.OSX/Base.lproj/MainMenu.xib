@@ -289,6 +289,28 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Filter" id="pIg-tn-hhK">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Filter" id="s7d-02-fvR">
+                        <items>
+                            <menuItem title="Disable Filters" keyEquivalent="d" id="JLh-0m-Y5J">
+                                <connections>
+                                    <action selector="disableFilters:" target="630" id="Wyu-8w-tNw"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Reset Filters" keyEquivalent="r" id="AXb-kt-Z1x">
+                                <connections>
+                                    <action selector="resetAllFilters:" target="630" id="xy9-Ip-tJS"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Release Frames" keyEquivalent="t" id="g3Z-3j-LcR">
+                                <connections>
+                                    <action selector="releaseFrames:" target="630" id="oiO-L2-QQc"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Playback" id="U2r-VD-D7E">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Playback" id="6cA-YG-hbm">
@@ -318,28 +340,6 @@
                             <menuItem title="Go To Frame" keyEquivalent="g" id="zlZ-NS-0Pd">
                                 <connections>
                                     <action selector="openGoto:" target="630" id="3dK-hB-FSq"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
-                <menuItem title="Filter" id="pIg-tn-hhK">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Filter" id="s7d-02-fvR">
-                        <items>
-                            <menuItem title="Disable Filters" keyEquivalent="d" id="JLh-0m-Y5J">
-                                <connections>
-                                    <action selector="disableFilters:" target="630" id="Wyu-8w-tNw"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Reset Filters" keyEquivalent="r" id="AXb-kt-Z1x">
-                                <connections>
-                                    <action selector="resetAllFilters:" target="630" id="xy9-Ip-tJS"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Release Frames" keyEquivalent="t" id="g3Z-3j-LcR">
-                                <connections>
-                                    <action selector="releaseFrames:" target="630" id="oiO-L2-QQc"/>
                                 </connections>
                             </menuItem>
                         </items>
