@@ -543,3 +543,17 @@ void ac::ColorAddBlend(cv::Mat &frame) {
         }
     }
 }
+
+void ac::IntertwineRowsShadow720p(cv::Mat &frame) {
+    static constexpr int row_size = 720;
+    static MatrixCollection<row_size> collection;
+    IntertwineRowsInter(frame,&collection,2);
+}
+
+void ac::IntertwineRowsAlpha720p(cv::Mat &frame) {
+    static constexpr int row_size = 720;
+    static MatrixCollection<row_size> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    IntertwineRowsInter(copy1,&collection,2);
+    AlphaBlendDouble(copy1, copy2, frame, 0.7, 0.3);
+}

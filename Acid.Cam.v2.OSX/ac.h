@@ -1255,6 +1255,8 @@ namespace ac {
     void ColorVariableBlend(cv::Mat &frame);
     void ColorXorBlend(cv::Mat &frame);
     void ColorAddBlend(cv::Mat &frame);
+    void IntertwineRowsShadow720p(cv::Mat &frame);
+    void IntertwineRowsAlpha720p(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1607,6 +1609,39 @@ namespace ac {
     template<int row_size>
     void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection) {
         IntertwineRows(frame, collection, row_size);
+    }
+
+    template<int row_size>
+    void IntertwineRowsInter(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height, bool hideRows = false) {
+        collection->shiftFrames(frame);
+        int index = 0;
+        int pos = 0;
+        int on_off = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Mat &current = (on_off == 0) ? collection->frames[index] : frame;
+            on_off = (on_off == 0) ? 1 : 0;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                if(hideRows == false) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = value[j];
+                    }
+                } else if(z < collection->completedRows) {
+                    cv::Vec3b value = current.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = value[j];
+                    }
+                }
+            }
+            ++pos;
+            if(pos > height-1) {
+                pos = 0;
+                ++index;
+                if(index > row_size-1)
+                    index = 0;
+            }
+        }
     }
     
     template<int row_size>
