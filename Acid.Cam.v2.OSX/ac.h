@@ -1257,7 +1257,8 @@ namespace ac {
     void ColorAddBlend(cv::Mat &frame);
     void IntertwineRowsShadow720p(cv::Mat &frame);
     void IntertwineRowsAlpha720p(cv::Mat &frame);
-    void ColorChangeByFrame(cv::Mat &frame);
+    void IntertwineByFrameDown(cv::Mat &frame);
+    void IntertwineByFrameUp(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
