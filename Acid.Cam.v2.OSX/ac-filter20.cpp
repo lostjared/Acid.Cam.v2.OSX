@@ -661,7 +661,7 @@ void ac::IntertwineFrame360X(cv::Mat &frame) {
         if(size_value > collection.size()-1) {
             size_value = collection.size()-1;
             dir = 0;
-            index =  collection.size()-1;
+            index =  1;
         }
     } else if(dir == 0) {
         --size_value;
