@@ -598,7 +598,6 @@ void ac::IntertwineFrameFast(cv::Mat &frame) {
     static constexpr int row_size = 128;
     static MatrixCollection<row_size> collection;
     collection.shiftFrames(frame);
-    static double alpha = 1.0, alpha_max = 4.0;
     static int index = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -612,6 +611,28 @@ void ac::IntertwineFrameFast(cv::Mat &frame) {
         if(index > collection.size()-1)
             index = 1;
     }
-    static int dir = 1;
-    procPos(dir, alpha, alpha_max);
+}
+
+void ac::IntertwineFrame360(cv::Mat &frame) {
+    static MatrixCollection<360> collection;
+    cv::Mat copy1;
+    cv::resize(frame, copy1, cv::Size(640, 360));
+    collection.shiftFrames(copy1);
+    int index = 0;
+    
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i) {
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            if(pixel == pix) {
+                pixel = collection.frames[1].at<cv::Vec3b>(z, i);
+            } else {
+                pixel = pix;
+            }
+        }
+        ++index;
+        if(index > collection.size()-1)
+            index = 0;
+    }
+    cv::resize(copy1, frame, frame.size());
 }
