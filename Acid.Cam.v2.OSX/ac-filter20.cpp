@@ -561,7 +561,6 @@ void ac::IntertwineRowsAlpha720p(cv::Mat &frame) {
 void ac::IntertwineByFrameDown(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
-    static double alpha = 1.0, alpha_max = 3.0;
     static int index = collection.size()-1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -575,14 +574,11 @@ void ac::IntertwineByFrameDown(cv::Mat &frame) {
         if(index <= 1)
             index = collection.size()-1;
     }
-    static int dir = 1;
-    procPos(dir, alpha, alpha_max);
 }
 
 void ac::IntertwineByFrameUp(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
-    static double alpha = 1.0, alpha_max = 3.0;
     static int index = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -590,6 +586,26 @@ void ac::IntertwineByFrameUp(cv::Mat &frame) {
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^pix[j];
+            }
+        }
+        ++index;
+        if(index > collection.size()-1)
+            index = 1;
+    }
+}
+
+void ac::IntertwineFrameFast(cv::Mat &frame) {
+    static constexpr int row_size = 128;
+    static MatrixCollection<row_size> collection;
+    collection.shiftFrames(frame);
+    static double alpha = 1.0, alpha_max = 4.0;
+    static int index = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix[j];
             }
         }
         ++index;

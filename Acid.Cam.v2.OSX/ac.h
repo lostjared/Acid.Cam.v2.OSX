@@ -1259,6 +1259,7 @@ namespace ac {
     void IntertwineRowsAlpha720p(cv::Mat &frame);
     void IntertwineByFrameDown(cv::Mat &frame);
     void IntertwineByFrameUp(cv::Mat &frame);
+    void IntertwineFrameFast(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
