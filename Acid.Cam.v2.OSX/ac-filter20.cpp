@@ -841,3 +841,39 @@ void ac::IntertwineFrameBlend(cv::Mat &frame) {
     cv::resize(copy1,frame,frame.size());
     AddInvert(frame);
 }
+
+void ac::IntertwineXorCollection(cv::Mat &frame) {
+    static MatrixCollection<96> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    static int size_value = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^pix[j];
+            }
+        }
+        ++index;
+        if(index > size_value) {
+            index = 1;
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        ++size_value;
+        if(size_value > collection.size()-1) {
+            size_value = collection.size()-1;
+            dir = 0;
+            index = 1;
+        }
+    } else if(dir == 0) {
+        --size_value;
+        if(size_value <= 1) {
+            dir = 1 ;
+            index = 1;
+        }
+    }
+    AddInvert(frame);
+}

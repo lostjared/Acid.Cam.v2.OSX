@@ -1266,6 +1266,7 @@ namespace ac {
     void IntertwineFrameDark(cv::Mat &frame);
     void IntertwineFrame360_Reverse(cv::Mat &frame);
     void IntertwineFrameBlend(cv::Mat &frame);
+    void IntertwineXorCollection(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
