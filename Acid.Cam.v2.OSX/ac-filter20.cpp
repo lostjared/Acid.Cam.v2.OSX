@@ -804,3 +804,40 @@ void ac::IntertwineFrame360_Reverse(cv::Mat &frame) {
     cv::resize(copy1, frame, frame.size());
     AddInvert(frame);
 }
+
+void ac::IntertwineFrameBlend(cv::Mat &frame) {
+    static MatrixCollection<360> collection;
+    cv::Mat copy1;
+    cv::resize(frame, copy1, cv::Size(640, 360));
+    collection.shiftFrames(copy1);
+    int index = 1;
+    static int size_value = 1;
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i) {
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel += pix;
+        }
+        ++index;
+        if(index > size_value) {
+            index = 0;
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        ++size_value;
+        if(size_value > collection.size()-1) {
+            size_value = collection.size()-1;
+            dir = 0;
+            index = 1;
+        }
+    } else if(dir == 0) {
+        --size_value;
+        if(size_value <= 1) {
+            dir = 1 ;
+            index = 1;
+        }
+    }
+    cv::resize(copy1,frame,frame.size());
+    AddInvert(frame);
+}
