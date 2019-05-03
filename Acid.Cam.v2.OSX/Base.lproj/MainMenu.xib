@@ -231,7 +231,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="jmw-rL-Oi4"/>
-                            <menuItem title="Copy Filter String" id="FYH-xq-UXa">
+                            <menuItem title="Copy Custom Filter String" id="FYH-xq-UXa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="copyCustomToString:" target="630" id="dm2-12-GLo"/>
