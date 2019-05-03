@@ -1264,6 +1264,7 @@ namespace ac {
     void IntertwineFrame360X(cv::Mat &frame);
     void IntertwineFrameTwitch(cv::Mat &frame);
     void IntertwineFrameDark(cv::Mat &frame);
+    void IntertwineFrame360_Reverse(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
