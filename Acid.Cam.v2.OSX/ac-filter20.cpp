@@ -970,7 +970,9 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
             cv::Vec3b &pixel = reframe.at<cv::Vec3b>(z, i);
             if((z%2) == 0) {
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
-                pixel = pix;
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*0.5) + (pix[j]*0.5));
+                }
             } else {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 pixel = pix;
@@ -997,5 +999,7 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
         }
     }
     cv::resize(reframe, frame, orig_size);
+    BlendWithImage(frame);
+    BlendWithSource(frame);
     AddInvert(frame);
 }
