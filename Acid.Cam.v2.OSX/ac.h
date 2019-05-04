@@ -2010,7 +2010,7 @@ namespace ac {
         void setInit(const bool &b) { is_init = b; }
         bool isInit() const { return is_init; }
         void drawToMatrix(cv::Mat &frame);
-        const int size() const {  return pix_image.cols * pix_image.rows; }
+        int size() const {  return pix_image.cols * pix_image.rows; }
     private:
         cv::Mat pix_image, copy_val;
         std::vector<ImageIndex> value_x;

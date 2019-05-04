@@ -48,10 +48,10 @@
 
 @interface AC_AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {
     NSWindow *window;
-    AC_ImageView* glView;
+    AC_ImageView *glView;
     SyphonServer *syServer;
     AC_Renderer *renderer;
-    NSTimer* lameRenderingTimer;
+    NSTimer *lameRenderingTimer;
     NSUInteger FPS;
     NSTimeInterval fpsStart;
     NSUInteger fpsCount;
