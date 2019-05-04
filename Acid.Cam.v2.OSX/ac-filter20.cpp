@@ -948,6 +948,54 @@ void ac::IntertwineFrame1080X(cv::Mat &frame) {
             index = 1;
         }
     }
+    
     cv::resize(copy1, frame, frame.size());
+    AddInvert(frame);
+}
+
+void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Size orig_size = frame.size();
+    static constexpr int row_size_h = 1080, row_size_w = 1920;
+    static MatrixCollection<row_size_h> collection;
+    cv::Mat reframe, reimage;
+    cv::resize(frame, reframe, cv::Size(row_size_w, row_size_h));
+    cv::resize(blend_image, reimage, reframe.size());
+    collection.shiftFrames(reframe);
+    int index = 1;
+    static int size_value = 1;
+    for(int z = 0; z < reframe.rows; ++z) {
+        for(int i = 0; i < reframe.cols; ++i) {
+            cv::Vec3b &pixel = reframe.at<cv::Vec3b>(z, i);
+            if((z%2) == 0) {
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            } else {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        ++index;
+        if(index > size_value) {
+            index = 0;
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        ++size_value;
+        if(size_value > collection.size()-1) {
+            size_value = collection.size()-1;
+            dir = 0;
+            index = 1;
+        }
+    } else if(dir == 0) {
+        --size_value;
+        if(size_value <= 1) {
+            dir = 1 ;
+            index = 1;
+        }
+    }
+    cv::resize(reframe, frame, orig_size);
     AddInvert(frame);
 }

@@ -1269,6 +1269,7 @@ namespace ac {
     void IntertwineXorCollection(cv::Mat &frame);
     void IntertwineFrame720X(cv::Mat &frame);
     void IntertwineFrame1080X(cv::Mat &frame);
+    void IntertwineFrameImage1080X(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
