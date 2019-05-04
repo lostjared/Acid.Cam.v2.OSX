@@ -58,6 +58,7 @@
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     CGLContextObj context = [[glView openGLContext] CGLContextObj];
     NSDictionary *options = @{SyphonServerOptionDepthBufferResolution: @16};
     syServer = [[SyphonServer alloc] initWithName:nil context:context options:options];
@@ -73,8 +74,7 @@
     [syServer stop];
 }
 
--(void) render:(NSTimer*) aTimer
-{
+-(void) render:(NSTimer*) aTimer {
     if (renderer.hasNewFrame)
     {
         NSSize frameSize = glView.renderSize;
@@ -96,17 +96,18 @@
     }
 }
 
-- (void)openFile:(NSURL *)url
-{
+- (void)openFile:(NSURL *)url {
     glView.image = nil;
     [renderer release];
-    renderer = [[AC_Renderer alloc] initWithComposition:url
-                                                   context:[glView openGLContext]
-                                               pixelFormat:[glView pixelFormat]];
+    renderer = [[AC_Renderer alloc] initWithComposition:url context:[glView openGLContext] pixelFormat:[glView pixelFormat]];
 }
 
-- (IBAction) open:(id)sender
-{
+- (IBAction) open:(id)sender {
     
 }
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
+    return YES;
+}
+
 @end

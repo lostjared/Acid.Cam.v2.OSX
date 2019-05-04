@@ -1075,6 +1075,12 @@ void setEnabledProg() {
         }
         stopCV();
         [startProg setTitle:@"Start Session"];
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        notification.title = @"Your Video has Finished Processing!";
+        notification.informativeText = @"Acid Cam Video Complete";
+        notification.soundName = NSUserNotificationDefaultSoundName;
+        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+        [notification release];
         return;
     }
     cv::Mat temp_frame;
@@ -1705,6 +1711,7 @@ void setEnabledProg() {
 
 - (IBAction) showActivityLog: (id) sender {
     [window1 orderFront: self];
+ 
 }
 
 - (IBAction) showSelectImage: (id) sender {
