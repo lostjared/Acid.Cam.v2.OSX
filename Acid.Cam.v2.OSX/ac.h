@@ -1773,6 +1773,38 @@ namespace ac {
         }
     }
     
+    template<int row_size>
+    void IntertwineResizeRowX(cv::Mat &frame, MatrixCollection<row_size> *collection, int width, int height, int &dir, int &size_value) {
+        cv::Mat copy1;
+        cv::resize(frame, copy1, cv::Size(width,height));
+        collection->shiftFrames(copy1);
+        int index = 1;
+        for(int z = 0; z < copy1.rows; ++z) {
+            for(int i = 0; i < copy1.cols; ++i) {
+                cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection->frames[index].template at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+            ++index;
+            if(index > size_value) {
+                index = 0;
+            }
+        }
+        if(dir == 1) {
+            ++size_value;
+            if(size_value > collection->size()-1) {
+                size_value = collection->size()-1;
+                dir = 0;
+            }
+        } else if(dir == 0) {
+            --size_value;
+            if(size_value <= 1) {
+                dir = 1 ;
+            }
+        }
+        cv::resize(copy1, frame, frame.size());
+    }
+    
     template<int r_size>
     void MatrixVariable(cv::Mat &frame, MatrixCollection<r_size> *collection, int &depth, int &dir) {
         static constexpr int v_size = r_size;
