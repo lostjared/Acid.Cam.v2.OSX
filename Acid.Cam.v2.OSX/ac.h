@@ -1323,6 +1323,8 @@ namespace ac {
     void setChannelToValue(cv::Mat &frame, unsigned int channel, unsigned char value);
     unsigned char size_cast(long val);
     unsigned char size_reset(long val);
+    void setThreadCount(const int &threads);
+    int getThreadCount();
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);

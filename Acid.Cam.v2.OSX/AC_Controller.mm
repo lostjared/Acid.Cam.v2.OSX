@@ -285,6 +285,7 @@ void setEnabledProg() {
     std::ostringstream time_stream;
     time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At: " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
     flushToLog(time_stream);
+    ac::setThreadCount(4);
     /*
      
      std::vector<std::string> valz;

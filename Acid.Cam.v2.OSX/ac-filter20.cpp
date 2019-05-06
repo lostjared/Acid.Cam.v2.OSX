@@ -925,6 +925,6 @@ void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
             }
         }
     };
-    UseMultipleThreads(frame, 4, callback);
+    UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }

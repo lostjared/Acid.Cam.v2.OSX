@@ -413,6 +413,16 @@ void ac::AddInvert(cv::Mat &frame) {
     }
 }
 
+int thread_count = 0;
+
+void ac::setThreadCount(const int &threads) {
+    thread_count = threads;
+}
+
+int ac::getThreadCount() {
+    return thread_count;
+}
+
 
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
 // then Alpha Blend them together
