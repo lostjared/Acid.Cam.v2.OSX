@@ -912,3 +912,19 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
     BlendWithSource(frame);
     AddInvert(frame);
 }
+
+
+void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
+    cv::Vec3b rand_color(rand()%255, rand()%255, rand()%255);
+    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]^rand_color[j];
+            }
+        }
+    };
+    UseMultipleThreads(frame, 4, callback);
+    AddInvert(frame);
+}

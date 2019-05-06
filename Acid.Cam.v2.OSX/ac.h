@@ -63,6 +63,7 @@
 #include<memory>
 #include<cassert>
 #include<utility>
+#include<thread>
 #include"ac-filtercat.h"
 //#define ASSERT_CHECK
 //Macro for assert testing
@@ -1270,6 +1271,7 @@ namespace ac {
     void IntertwineFrame720X(cv::Mat &frame);
     void IntertwineFrame1080X(cv::Mat &frame);
     void IntertwineFrameImage1080X(cv::Mat &frame);
+    void RandomXorMultiThreadTest(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1403,6 +1405,20 @@ namespace ac {
     };
     extern void release_all_objects();
     extern bool testSize(cv::Mat &frame);
+    
+    //
+    template<typename F>
+    void UseMultipleThreads(cv::Mat &frame, int cores, F func) {
+        int size = frame.rows/cores;
+        std::vector<std::thread> values;
+        for(int i = 0; i < cores; ++i) {
+            values.push_back(std::thread(func, frame, i*size, frame.cols, size));
+        }
+        for(int i = 0; i < values.size(); ++i) {
+            values[i].join();
+        }
+    }
+    
     // Trails function
     template<int Size>
     void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection, bool addframe = true) {
