@@ -1404,6 +1404,7 @@ namespace ac {
             return true;
         }
         
+        bool valid() const { return (w != 0 && h != 0); }
         int size() const { return ArraySize; }
         int completedRows;
     };
