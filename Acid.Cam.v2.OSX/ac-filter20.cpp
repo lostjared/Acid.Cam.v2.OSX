@@ -945,3 +945,31 @@ void ac::SelfAlphaBlendMultiThread(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendMultiThread(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    int r = 3+rand()%7;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Scalar value;
+                for(int j = 0; j < collection.size(); ++j) {
+                    cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        value[q] += pixel[q];
+                    }
+                }
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val = 1+static_cast<int>(value[j]);
+                    pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
