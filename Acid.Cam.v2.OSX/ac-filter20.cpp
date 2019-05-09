@@ -928,3 +928,20 @@ void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::SelfAlphaBlendMultiThread(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]*alpha;
+            }
+        }
+    };
+    ac::AlphaMovementMaxMin(alpha,dir, 0.09, 6.0, 1.0);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

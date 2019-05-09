@@ -1272,6 +1272,7 @@ namespace ac {
     void IntertwineFrame1080X(cv::Mat &frame);
     void IntertwineFrameImage1080X(cv::Mat &frame);
     void RandomXorMultiThreadTest(cv::Mat &frame);
+    void SelfAlphaBlendMultiThread(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
