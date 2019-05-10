@@ -973,3 +973,25 @@ void ac::MedianBlendMultiThread(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::BytePixelSort(cv::Mat &frame) {
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            std::vector<unsigned char> bytes;
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    bytes.push_back(pixel[j]);
+            }
+            std::sort(bytes.begin(), bytes.end());
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = bytes[i+j];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    
+}
