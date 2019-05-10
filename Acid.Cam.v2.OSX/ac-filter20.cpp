@@ -916,7 +916,7 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
 
 void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
     cv::Vec3b rand_color(rand()%255, rand()%255, rand()%255);
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -932,7 +932,7 @@ void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
 void ac::SelfAlphaBlendMultiThread(cv::Mat &frame) {
     static double alpha = 1.0;
     static int dir = 1;
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -952,7 +952,7 @@ void ac::MedianBlendMultiThread(cv::Mat &frame) {
     for(int i = 0; i < r; ++i)
         MedianBlur(frame);
     collection.shiftFrames(frame);
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Scalar value;
