@@ -1277,6 +1277,7 @@ namespace ac {
     void BytePixelSort(cv::Mat &frame);
     void SortedImageColorVariable(cv::Mat &frame);
     void SmoothColorVariableImageBlend(cv::Mat &frame);
+    void BlendChannelXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

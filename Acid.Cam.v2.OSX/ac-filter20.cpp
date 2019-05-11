@@ -1038,3 +1038,31 @@ void ac::SmoothColorVariableImageBlend(cv::Mat &frame) {
     ColorVariableBlend(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::BlendChannelXor(cv::Mat &frame) {
+    static cv::Vec3b color_value(rand()%100, rand()%100, rand()%100);
+    int cur_color[3] = {rand()%100, rand()%100, rand()%100};
+    static double alpha1 = 1.0;
+    static int dir1 = 1;
+    static int index = 0;
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1) ^ (cur_color[j]);
+                }
+            }
+        }
+    };
+    ++cur_color[index];
+    if((cur_color[index] > 255) || (cur_color[index] == color_value[index])) {
+        cur_color[index] = rand()%255;
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+    AlphaMovementMaxMin(alpha1, dir1, 0.09, 3.0, 1.0);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
