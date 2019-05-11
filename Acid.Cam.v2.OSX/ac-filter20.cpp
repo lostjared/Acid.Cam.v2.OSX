@@ -1018,14 +1018,23 @@ void ac::SortedImageColorVariable(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0;j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1)+(alpha2 * bytes[i+j]);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1)+(alpha2*bytes[i+j]);
                 }
             }
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
-    ColorVariableBlend(frame);
+    //ColorVariableBlend(frame);
     AlphaMovementMaxMin(alpha1, dir1, 0.09, 3.0, 1.0);
     AlphaMovementMaxMin(alpha2, dir2, 0.01, 3.0, 1.0);
     AddInvert(frame);
+}
+
+void ac::SmoothColorVariableImageBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    SortedImageColorVariable(frame);
+    SmoothFrame32(frame);
+    ColorVariableBlend(frame);
+    MedianBlendMultiThread(frame);
 }

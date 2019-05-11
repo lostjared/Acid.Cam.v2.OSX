@@ -413,7 +413,7 @@ void ac::AddInvert(cv::Mat &frame) {
     }
 }
 
-int thread_count = 0;
+int thread_count = 4;
 
 void ac::setThreadCount(const int &threads) {
     thread_count = threads;
