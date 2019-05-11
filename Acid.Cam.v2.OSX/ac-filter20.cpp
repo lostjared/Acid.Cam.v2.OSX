@@ -1057,6 +1057,7 @@ void ac::BlendChannelXor(cv::Mat &frame) {
     };
     ++cur_color[index];
     if((cur_color[index] > 255) || (cur_color[index] == color_value[index])) {
+        color_value[index] = cur_color[index];
         cur_color[index] = rand()%255;
         ++index;
         if(index > 2)
