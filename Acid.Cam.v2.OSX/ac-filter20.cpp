@@ -993,5 +993,39 @@ void ac::BytePixelSort(cv::Mat &frame) {
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
-    
+}
+
+
+void ac::SortedImageColorVariable(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    static double alpha1 = 1.0, alpha2 = 3.0;
+    static int dir1 = 1, dir2 = 0;
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            std::vector<unsigned char> bytes;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b pixel1 = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel2 = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    bytes.push_back(pixel1[j]);
+                    bytes.push_back(pixel2[j]);
+                }
+            }
+            std::sort(bytes.begin(), bytes.end());
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0;j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1)+(alpha2 * bytes[i+j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ColorVariableBlend(frame);
+    AlphaMovementMaxMin(alpha1, dir1, 0.09, 3.0, 1.0);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 3.0, 1.0);
+    AddInvert(frame);
 }

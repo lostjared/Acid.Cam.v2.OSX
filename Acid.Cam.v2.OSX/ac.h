@@ -1275,6 +1275,7 @@ namespace ac {
     void SelfAlphaBlendMultiThread(cv::Mat &frame);
     void MedianBlendMultiThread(cv::Mat &frame);
     void BytePixelSort(cv::Mat &frame);
+    void SortedImageColorVariable(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
