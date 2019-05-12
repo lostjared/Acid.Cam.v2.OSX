@@ -1967,7 +1967,14 @@ void setEnabledProg() {
             break;
     }
     log << "Syphon Output Set To: " << sz.width << "x" << sz.height << "\n";
+    NSInteger thread_num = [num_threads integerValue];
+    if(thread_num <= 0) {
+        _NSRunAlertPanel(@"Invalid Thread Number", @"Must use at least one thread for filters that support threads", @"Ok", nil, nil);
+        return;
+    }
+    ac::setThreadCount(static_cast<int>(thread_num));
     [syphon_window setContentSize: sz];
+    log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

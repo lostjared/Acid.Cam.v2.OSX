@@ -160,6 +160,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSButton *chk_stretch;
     IBOutlet NSImageView *view_image;
     IBOutlet NSImageView *cur_selected_image;
+    IBOutlet NSTextField *num_threads;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
