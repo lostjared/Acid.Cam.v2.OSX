@@ -1067,3 +1067,65 @@ void ac::BlendChannelXor(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorShiftXor(cv::Mat &frame) {
+    static int rgb_value[3] = { 32, 64, 128 };
+    static int dir[3] = {1,1,1};
+    static int speed = 6;
+    static int speed_dir[3] = {1,1,1};
+    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] -= (pixel[j]^rgb_value[j]);
+                }
+            
+            }
+        }
+    };
+    
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            rgb_value[j] += (rand()%speed);
+            if(rgb_value[j] >= 255) {
+                rgb_value[j] = rand()%255;
+                dir[j] = 0;
+                if(speed_dir[j] == 1) {
+                    speed += 2;
+                    if(speed > 15) {
+                        speed_dir[j] = 0;
+                        speed = 15;
+                    }
+                } else {
+                    speed -= 2;
+                    if(speed <= 3) {
+                        speed_dir[j] = 1;
+                        speed = 3;
+                    }
+                }
+            }
+        } else {
+            rgb_value[j] -= (rand()%speed);
+            if(rgb_value[j] <= 0) {
+                rgb_value[j] = rand()%255;
+                dir[j] = 1;
+                if(speed_dir[j] == 1) {
+                    speed += 2;
+                    if(speed > 15) {
+                        speed_dir[j] = 0;
+                        speed = 15;
+                    }
+                } else {
+                    speed -= 2;
+                    if(speed <= 3) {
+                        speed_dir[j] = 1;
+                        speed = 3;
+                    }
+                }
+            }
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
