@@ -1003,7 +1003,7 @@ void ac::SortedImageColorVariable(cv::Mat &frame) {
     cv::resize(blend_image, reimage, frame.size());
     static double alpha1 = 1.0, alpha2 = 3.0;
     static int dir1 = 1, dir2 = 0;
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             std::vector<unsigned char> bytes;
             for(int i = 0; i < frame.cols; ++i) {
