@@ -1282,6 +1282,7 @@ namespace ac {
     void RandomSquares(cv::Mat &frame);
     void RandomImageSquares(cv::Mat &frame);
     void Random_FilterX2_SubFilter(cv::Mat &frame);
+    void FuzzyFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
