@@ -121,7 +121,7 @@ void ac::RandomSquares(cv::Mat &frame) {
     cv::Vec3b color(rand()%255, rand()%255, rand()%255);
     int num_values = 10+(rand()%frame.rows/10);
     for(int j = 0; j < num_values; ++j) {
-        ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),10+(rand()%200), 10+(rand()%50));
+        ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),75+(rand()%200), 20+(rand()%25));
         for(int i = rc.x; i < rc.x+rc.w; ++i) {
             for(int z = rc.y; z < rc.y+rc.h; ++z) {
                 if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
@@ -144,7 +144,7 @@ void ac::RandomImageSquares(cv::Mat &frame) {
     cv::Mat reimage;
     cv::resize(blend_image, reimage, frame.size());
     for(int j = 0; j < num_values; ++j) {
-        ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),10+(rand()%200), 10+(rand()%50));
+        ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),75+(rand()%200), 20+(rand()%25));
         for(int i = rc.x; i < rc.x+rc.w; ++i) {
             for(int z = rc.y; z < rc.y+rc.h; ++z) {
                 if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
@@ -158,4 +158,14 @@ void ac::RandomImageSquares(cv::Mat &frame) {
         }
         
     }
+}
+void ac::Random_FilterX2_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "Random_FilterX2_SubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    Random_Filter(copy1);
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    Random_Filter(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
 }
