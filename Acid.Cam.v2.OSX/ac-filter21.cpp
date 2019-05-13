@@ -41,6 +41,18 @@
  
  */
 
+/*
+ //Basic Multithreaded Filter
+ auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+ for(int z = offset; z <  offset+size; ++z) {
+    for(int i = 0; i < frame.cols; ++i) {
+        }
+    }
+ };
+ UseMultipleThreads(frame, getThreadCount(), callback);
+ AddInvert(frame);
+*/
+
 #include "ac.h"
 
 void ac::ColorShiftXor(cv::Mat &frame) {
@@ -106,6 +118,44 @@ void ac::ColorShiftXor(cv::Mat &frame) {
 }
 
 void ac::RandomSquares(cv::Mat &frame) {
-    
+    cv::Vec3b color(rand()%255, rand()%255, rand()%255);
+    int num_values = 10+(rand()%frame.rows/10);
+    for(int j = 0; j < num_values; ++j) {
+        ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),10+(rand()%200), 10+(rand()%50));
+        for(int i = rc.x; i < rc.x+rc.w; ++i) {
+            for(int z = rc.y; z < rc.y+rc.h; ++z) {
+                if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        pixel[q] = pixel[q]^color[q];
+                    }
+                }
+            }
+        }
+                    
+    }
 }
 
+void ac::RandomImageSquares(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Vec3b color(rand()%255, rand()%255, rand()%255);
+    int num_values = 10+(rand()%frame.rows/10);
+    cv::Mat reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    for(int j = 0; j < num_values; ++j) {
+        ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),10+(rand()%200), 10+(rand()%50));
+        for(int i = rc.x; i < rc.x+rc.w; ++i) {
+            for(int z = rc.y; z < rc.y+rc.h; ++z) {
+                if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        pixel[q] = pixel[q]^pix[q];
+                    }
+                }
+            }
+        }
+        
+    }
+}

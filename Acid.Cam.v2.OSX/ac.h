@@ -1280,6 +1280,7 @@ namespace ac {
     void BlendChannelXor(cv::Mat &frame);
     void ColorShiftXor(cv::Mat &frame);
     void RandomSquares(cv::Mat &frame);
+    void RandomImageSquares(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
