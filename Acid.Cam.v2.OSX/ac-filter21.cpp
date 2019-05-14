@@ -195,3 +195,10 @@ void ac::XorMultiply(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.1, 2.5, 1.0);
 }
+
+void ac::Grayscale(cv::Mat &frame) {
+    cv::Mat change;
+    cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(change, frame, cv::COLOR_GRAY2BGR);
+    AddInvert(frame);
+}

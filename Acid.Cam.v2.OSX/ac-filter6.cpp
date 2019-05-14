@@ -1245,7 +1245,9 @@ void ac::RandomSlideFilter(cv::Mat &frame) {
 }
 
 // No Filter
-void ac::NoFilter(cv::Mat &) {}
+void ac::NoFilter(cv::Mat &frame) {
+    AddInvert(frame);
+}
 // Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {
     cv::Mat copyf = frame.clone();
