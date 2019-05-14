@@ -175,3 +175,23 @@ void ac::FuzzyFilter(cv::Mat &frame) {
     Random_FilterX2_SubFilter(frame);
     popSubFilter();
 }
+
+void ac::XorMultiply(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    MedianBlur(frame);
+    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                unsigned int value = pixel[0]^pixel[1]^pixel[2];
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^static_cast<unsigned char>(value*alpha);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 2.5, 1.0);
+}
