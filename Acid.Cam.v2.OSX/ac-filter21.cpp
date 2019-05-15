@@ -266,3 +266,13 @@ void ac::GhostTrails(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy_output, frame, 0.3, 0.7);
     AddInvert(frame);
 }
+
+void ac::MedianBlend_Random_Filter(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int i = 0; i < collection.size()-1; ++i) {
+        Random_Filter(collection.frames[i]);
+    }
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
