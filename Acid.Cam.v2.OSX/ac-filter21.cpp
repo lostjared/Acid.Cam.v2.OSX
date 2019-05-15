@@ -254,3 +254,15 @@ void ac::FlashMatrixTrails(cv::Mat &frame) {
         AlphaMovementMaxMin(value[j], dir[j], 0.1, 3.0, 1.0);
     }
 }
+
+void ac::GhostTrails(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = collection.frames[collection.size()-1].clone();
+    cv::Mat copy3 = collection.frames[collection.size()/2].clone();
+    cv::Mat copy_output;
+    AlphaBlend(copy2, copy3, copy_output, 0.5);
+    AlphaBlendDouble(copy1, copy_output, frame, 0.3, 0.7);
+    AddInvert(frame);
+}
