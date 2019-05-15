@@ -227,25 +227,27 @@ void ac::ColorShadowBlend(cv::Mat &frame) {
 void ac::FlashMatrixTrails(cv::Mat &frame) {
     static double value[3] = {1,1,1};
     static int dir[3] = {1,1,1};
+    MedianBlur(frame);
+    ColorVariableBlend(frame);
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
-    int cur_frame = 7;
+    int cur_frame = collection.size()-1;
     auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b old_pixel = collection.frames[cur_frame].at<cv::Vec3b>(z, i);
+                    if(pixel == old_pixel)
+                        continue;
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = (pixel[j]*value[j]) + (old_pixel[j]*value[j]);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*value[j]) ^ static_cast<unsigned char>(old_pixel[j]*value[j]);
                 }
             }
         }
     };
-  
     --cur_frame;
-    if(cur_frame <= 0)
+    if(cur_frame <= 1)
         cur_frame = collection.size()-1;
-    
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
     for(int j = 0; j < 3; ++j) {
