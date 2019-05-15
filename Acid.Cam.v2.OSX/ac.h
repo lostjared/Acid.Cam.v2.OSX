@@ -1284,7 +1284,9 @@ namespace ac {
     void Random_FilterX2_SubFilter(cv::Mat &frame);
     void FuzzyFilter(cv::Mat &frame);
     void XorMultiply(cv::Mat &frame);
+    void ColorShadowBlend(cv::Mat &frame);
     void Grayscale(cv::Mat &frame);
+    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
