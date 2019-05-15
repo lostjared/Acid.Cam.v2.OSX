@@ -1286,6 +1286,7 @@ namespace ac {
     void XorMultiply(cv::Mat &frame);
     void ColorShadowBlend(cv::Mat &frame);
     void Grayscale(cv::Mat &frame);
+    void FlashMatrixTrails(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
