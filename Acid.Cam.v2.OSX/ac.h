@@ -1290,6 +1290,7 @@ namespace ac {
     void GhostTrails(cv::Mat &frame);
     void MedianBlend_Random_Filter(cv::Mat &frame);
     void IntertwineMirrorEnergy(cv::Mat &frame);
+    void IntertwineMultipleRows(cv::Mat &Frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
@@ -1423,6 +1424,7 @@ namespace ac {
         
         bool valid() const { return (w != 0 && h != 0); }
         int size() const { return ArraySize; }
+        int completed() { return completedRows; }
         int completedRows;
     };
     extern void release_all_objects();

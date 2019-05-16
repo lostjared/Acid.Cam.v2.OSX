@@ -302,3 +302,25 @@ void ac::IntertwineMirrorEnergy(cv::Mat &frame) {
     MirrorLeft(frame);
     MirrorBlend(frame);
 }
+
+void ac::IntertwineMultipleRows(cv::Mat &frame) {
+    static MatrixCollection<720> collection;
+    for(int i = 0; i < 1+(rand()%4); ++i)
+        collection.shiftFrames(frame);
+    int index = 0;
+    int row_counter = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i< frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b time_pixel = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = time_pixel;
+        }
+        ++row_counter;
+        if(row_counter > 1) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            row_counter = 0;
+        }
+    }
+}
