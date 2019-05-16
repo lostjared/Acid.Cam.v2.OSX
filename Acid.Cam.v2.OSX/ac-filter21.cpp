@@ -276,3 +276,29 @@ void ac::MedianBlend_Random_Filter(cv::Mat &frame) {
     Smooth(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::IntertwineMirrorEnergy(cv::Mat &frame) {
+    static MatrixCollection<720> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    int numeric_value = frame.rows/(collection.size()/2);
+    int row_counter = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i< frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b time_pixel = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = time_pixel;
+        }
+        ++row_counter;
+        if(row_counter > numeric_value) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            row_counter = 0;
+        }
+    }
+    DarkNegate(frame);
+    MirrorBottomToTop(frame);
+    MirrorLeft(frame);
+    MirrorBlend(frame);
+}

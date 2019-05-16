@@ -1289,6 +1289,7 @@ namespace ac {
     void FlashMatrixTrails(cv::Mat &frame);
     void GhostTrails(cv::Mat &frame);
     void MedianBlend_Random_Filter(cv::Mat &frame);
+    void IntertwineMirrorEnergy(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
