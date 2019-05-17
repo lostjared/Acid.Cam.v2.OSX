@@ -337,3 +337,9 @@ void ac::GhostTwitch(cv::Mat &frame) {
     AlphaBlend(copy1, img_out, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::GhostTwitchTrails(cv::Mat &frame) {
+    GhostTwitch(frame);
+    GhostTrails(frame);
+    AddInvert(frame);
+}

@@ -1292,6 +1292,7 @@ namespace ac {
     void IntertwineMirrorEnergy(cv::Mat &frame);
     void IntertwineMultipleRows(cv::Mat &Frame);
     void GhostTwitch(cv::Mat &frame);
+    void GhostTwitchTrails(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
