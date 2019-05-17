@@ -1291,6 +1291,7 @@ namespace ac {
     void MedianBlend_Random_Filter(cv::Mat &frame);
     void IntertwineMirrorEnergy(cv::Mat &frame);
     void IntertwineMultipleRows(cv::Mat &Frame);
+    void GhostTwitch(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);

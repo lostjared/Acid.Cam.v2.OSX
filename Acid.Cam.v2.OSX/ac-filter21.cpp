@@ -301,6 +301,7 @@ void ac::IntertwineMirrorEnergy(cv::Mat &frame) {
     MirrorBottomToTop(frame);
     MirrorLeft(frame);
     MirrorBlend(frame);
+    AddInvert(frame);
 }
 
 void ac::IntertwineMultipleRows(cv::Mat &frame) {
@@ -323,4 +324,16 @@ void ac::IntertwineMultipleRows(cv::Mat &frame) {
             row_counter = 0;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::GhostTwitch(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), output, img_out;
+    cv::Mat &img1 = collection.frames[rand()%(collection.size()-1)], &img2 = collection.frames[rand()%(collection.size()-1)], &img3 = collection.frames[rand()%(collection.size()-1)];
+    AlphaBlend(img1, img2, output,0.5);
+    AlphaBlend(img3, output, img_out, 0.5);
+    AlphaBlend(copy1, img_out, frame, 0.5);
+    AddInvert(frame);
 }
