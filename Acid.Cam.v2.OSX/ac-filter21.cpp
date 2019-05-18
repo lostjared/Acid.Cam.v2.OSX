@@ -376,6 +376,7 @@ void ac::Mirror_Rainbow_Blur(cv::Mat &frame) {
         }
     }
     GhostTrails(frame);
+    AddInvert(frame);
 }
 
 void ac::MirrorMedianBlur(cv::Mat &frame) {
@@ -384,6 +385,7 @@ void ac::MirrorMedianBlur(cv::Mat &frame) {
     ColorTransitionRandom(frame);
     SmoothFrame32(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::VideoTwitch(cv::Mat &frame) {
@@ -402,4 +404,5 @@ void ac::VideoTwitch(cv::Mat &frame) {
     } else {
         frame = stored.clone();
     }
+    AddInvert(frame);
 }
