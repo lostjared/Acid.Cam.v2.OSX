@@ -385,3 +385,21 @@ void ac::MirrorMedianBlur(cv::Mat &frame) {
     SmoothFrame32(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::VideoTwitch(cv::Mat &frame) {
+    static cv::Mat stored;
+    static int changed = 0, offset = 0;
+    ++changed;
+    ++offset;
+    if(stored.empty() || (stored.size() != frame.size())) {
+        stored = frame.clone();
+    }
+    else if((changed%6) == 0)
+        stored = frame.clone();
+    
+    if(offset >= 4) {
+        offset = 0;
+    } else {
+        frame = stored.clone();
+    }
+}

@@ -1296,6 +1296,7 @@ namespace ac {
     void Dyskinesia(cv::Mat &frame);
     void Mirror_Rainbow_Blur(cv::Mat &frame);
     void MirrorMedianBlur(cv::Mat &frame);
+    void VideoTwitch(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
