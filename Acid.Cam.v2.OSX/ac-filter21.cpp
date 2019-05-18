@@ -377,3 +377,11 @@ void ac::Mirror_Rainbow_Blur(cv::Mat &frame) {
     }
     GhostTrails(frame);
 }
+
+void ac::MirrorMedianBlur(cv::Mat &frame) {
+    MirrorAll(frame);
+    MedianBlur(frame);
+    ColorTransitionRandom(frame);
+    SmoothFrame32(frame);
+    MedianBlendMultiThread(frame);
+}
