@@ -343,3 +343,37 @@ void ac::GhostTwitchTrails(cv::Mat &frame) {
     GhostTrails(frame);
     AddInvert(frame);
 }
+
+void ac::Dyskinesia(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    frame = collection.frames[rand()%(collection.size()-1)].clone();
+    GhostTrails(frame);
+    AddInvert(frame);
+}
+
+void ac::Mirror_Rainbow_Blur(cv::Mat &frame) {
+    MedianBlendMultiThread(frame);
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int index = 1, dir = 1;
+    cv::Mat copy1 = collection.frames[index].clone(), copy2 = collection.frames[collection.size()-2].clone();
+    MirrorLeft(copy1);
+    MirrorRight(copy2);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+    if(dir == 1) {
+        ++index;
+        if(index > collection.size()-2) {
+            index = collection.size()-2;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 1) {
+            index = 1;
+            dir = 1;
+        }
+    }
+    GhostTrails(frame);
+}
