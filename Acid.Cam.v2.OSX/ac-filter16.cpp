@@ -129,7 +129,7 @@ void ac::ImageXor_SubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ImageXor_SubFilter")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     Negate(copy1);
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
@@ -201,7 +201,7 @@ void ac::ImageStrobeOnOff(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     static int index = 0;
     if(index == 0) {
         Negate(reimage);
@@ -266,7 +266,7 @@ void ac::FrameImageFadeInOut(cv::Mat &frame) {
     static double alpha1 = 1.0;
     static int dir1 = 1;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 3.0, 1.0);
     AlphaBlendDouble(copy1, reimage, frame, alpha1, 0.5);
     AddInvert(frame);
@@ -276,7 +276,7 @@ void ac::FrameImageFadeInOutDouble(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     static double alpha1 = 1.0, alpha2 = 4.0;
     static int dir1 = 1, dir2 = 0;
     AlphaMovementMaxMin(alpha1, dir1, 0.05, 4.0, 1.0);
@@ -585,7 +585,7 @@ void ac::SmoothImage_SubFilter(cv::Mat &frame) {
         return;
     static MatrixCollection<32> collection1, collection2;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     Smooth(copy1, &collection1);
     CallFilter(subfilter, reimage);
     Smooth(reimage, &collection2);
@@ -598,7 +598,7 @@ void ac::SmoothImageMedian_SubFilter(cv::Mat &frame) {
         return;
     static MatrixCollection<8> collection1, collection2;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(frame, reimage, frame.size());
+    ac_resize(frame, reimage, frame.size());
     CallFilter(subfilter, reimage);
     SmoothRGB(reimage, &collection1);
     CallFilter(subfilter, copy1);
@@ -612,7 +612,7 @@ void ac::SmoothImageAndSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "SmoothImageAndSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3, reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     static MatrixCollection<16> collection1, collection2, collection3;
     CallFilter(subfilter, reimage);
     CallFilter(subfilter, copy1);
@@ -639,7 +639,7 @@ void ac::SmoothMedianImageSubFilter16(cv::Mat &frame) {
         return;
     static MatrixCollection<16> collection1, collection2, collection3;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage, copy3;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     CallFilter(subfilter, reimage);
     Smooth(copy1, &collection1);
@@ -655,7 +655,7 @@ void ac::ImageNegate(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     Negate(reimage);
     frame = reimage.clone();
     AddInvert(frame);
@@ -665,7 +665,7 @@ void ac::ImageNegateAlphaBlend(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     Negate(reimage);
     static double alpha1 = 3.0, alpha2 = 0.1;
     static int dir1 = 0, dir2 = 1;
@@ -680,7 +680,7 @@ void ac::ImageNegateAlphaBlendSubFilter(cv::Mat &frame) {
         return;
     static MatrixCollection<16> collection1, collection2;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, reimage);
     Negate(reimage);
     Smooth(reimage, &collection1);
@@ -693,7 +693,7 @@ void ac::FrameNegateAlphaBlendImage(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     Negate(copy1);
     static double alpha1 = 3.0, alpha2 = 0.1;
     static int dir1 = 0, dir2 = 1;

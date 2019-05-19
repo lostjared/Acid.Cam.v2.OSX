@@ -335,7 +335,7 @@ void ac::SmoothRandomImageBlend(cv::Mat &frame) {
         int index = 0;
         DrawFunction rfunc = getRandomFilter(index);
         cv::Mat temp_frame;
-        cv::resize(blend_image, temp_frame, frame.size());
+        ac_resize(blend_image, temp_frame, frame.size());
         rfunc(temp_frame);
         collection.shiftFrames(temp_frame);
         Smooth(frame, &collection);
@@ -349,7 +349,7 @@ void ac::SmoothImageAlphaBlend(cv::Mat &frame) {
         cv::Mat temp_frame;
         cv::Mat temp_image;
         cv::Mat blend_image_scaled;
-        cv::resize(blend_image, blend_image_scaled, frame.size());
+        ac_resize(blend_image, blend_image_scaled, frame.size());
         temp_frame = frame.clone();
         AlphaBlend(temp_frame,blend_image_scaled,frame,alpha);
         collection.shiftFrames(frame);
@@ -598,7 +598,7 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
 void ac::MirrorAlphaBlendedImage(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat resized, frame_copy, new_copy;
-        cv::resize(blend_image, resized, frame.size());
+        ac_resize(blend_image, resized, frame.size());
         frame_copy = frame.clone();
         static double alpha = 1.0, alpha_max = 2.0;
         AlphaXorBlend(resized, frame_copy, new_copy, alpha);

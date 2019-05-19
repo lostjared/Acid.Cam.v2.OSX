@@ -55,7 +55,7 @@ void ac::resizeImageWidth(cv::Mat &frame) {
         cur = frame.size();
     }
     cv::Mat copy1;
-    cv::resize(blend_image, copy1, cv::Size(resize_x,resize_y));
+    ac_resize(blend_image, copy1, cv::Size(resize_x,resize_y));
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -95,7 +95,7 @@ void ac::resizeImageHeight(cv::Mat &frame) {
         cur = frame.size();
     }
     cv::Mat copy1;
-    cv::resize(blend_image, copy1, cv::Size(resize_x,resize_y));
+    ac_resize(blend_image, copy1, cv::Size(resize_x,resize_y));
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -134,7 +134,7 @@ void ac::resizeImageWidthAndHeight(cv::Mat &frame) {
         cur = frame.size();
     }
     cv::Mat copy1;
-    cv::resize(blend_image, copy1, cv::Size(resize_x,resize_y));
+    ac_resize(blend_image, copy1, cv::Size(resize_x,resize_y));
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -168,7 +168,7 @@ void ac::resizeImageAndFrameBlend(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     resizeImageWidthAndHeight(reimage);
     resizeFrameWidthAndHeight(copy1);
     AlphaBlend(copy1, reimage, frame, 0.5);
@@ -179,7 +179,7 @@ void ac::resizeImageWidthAndHeightSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "resizeImageWidthAndHeightSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), reimage, copy3;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     resizeImageWidthAndHeight(reimage);
     CallFilter(subfilter, reimage);
     resizeFrameWidthAndHeight(copy1);
@@ -192,7 +192,7 @@ void ac::resizeImageFrameWidth(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     resizeImageWidth(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
@@ -202,7 +202,7 @@ void ac::resizeImageFrameHeight(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     resizeImageHeight(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
@@ -212,7 +212,7 @@ void ac::resizeImageFrameWidthAndHeight(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     resizeImageWidthAndHeight(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
@@ -623,7 +623,7 @@ void ac::IntertwineFrameFast(cv::Mat &frame) {
 void ac::IntertwineFrame360(cv::Mat &frame) {
     static MatrixCollection<360> collection;
     cv::Mat copy1;
-    cv::resize(frame, copy1, cv::Size(640, 360));
+    ac_resize(frame, copy1, cv::Size(640, 360));
     collection.shiftFrames(copy1);
     int index = 0;
     
@@ -641,7 +641,7 @@ void ac::IntertwineFrame360(cv::Mat &frame) {
         if(index > collection.size()-1)
             index = 0;
     }
-    cv::resize(copy1, frame, frame.size());
+    ac_resize(copy1, frame, frame.size());
     AddInvert(frame);
 }
 
@@ -655,7 +655,7 @@ void ac::IntertwineFrame360X(cv::Mat &frame) {
 void ac::IntertwineFrameTwitch(cv::Mat &frame) {
     static MatrixCollection<360> collection;
     cv::Mat copy1;
-    cv::resize(frame, copy1, cv::Size(640, 360));
+    ac_resize(frame, copy1, cv::Size(640, 360));
     collection.shiftFrames(copy1);
     int index = 1;
     static int size_value = 1;
@@ -685,7 +685,7 @@ void ac::IntertwineFrameTwitch(cv::Mat &frame) {
             index = 1;
         }
     }
-    cv::resize(copy1, frame, frame.size());
+    ac_resize(copy1, frame, frame.size());
     AddInvert(frame);
 }
 
@@ -693,7 +693,7 @@ void ac::IntertwineFrameDark(cv::Mat &frame) {
     static MatrixCollection<360> collection;
     cv::Mat copy1;
     cv::Mat copy2 = frame.clone();
-    cv::resize(frame, copy1, cv::Size(640, 360));
+    ac_resize(frame, copy1, cv::Size(640, 360));
     ColorVariableBlend(copy1);
     MedianBlend(copy1);
     collection.shiftFrames(copy1);
@@ -726,7 +726,7 @@ void ac::IntertwineFrameDark(cv::Mat &frame) {
         }
     }
     cv::Mat reframe;
-    cv::resize(copy1, reframe, frame.size());
+    ac_resize(copy1, reframe, frame.size());
     AlphaBlend(copy2, reframe, frame, 0.5);
     MedianBlendDark(frame);
     AddInvert(frame);
@@ -735,7 +735,7 @@ void ac::IntertwineFrameDark(cv::Mat &frame) {
 void ac::IntertwineFrame360_Reverse(cv::Mat &frame) {
     static MatrixCollection<360> collection;
     cv::Mat copy1;
-    cv::resize(frame, copy1, cv::Size(640, 360));
+    ac_resize(frame, copy1, cv::Size(640, 360));
     cv::Mat copyf = copy1.clone();
     static int off_x = 0;
     off_x = (off_x == 0) ? 1 : 0;
@@ -771,14 +771,14 @@ void ac::IntertwineFrame360_Reverse(cv::Mat &frame) {
             index = 1;
         }
     }
-    cv::resize(copy1, frame, frame.size());
+    ac_resize(copy1, frame, frame.size());
     AddInvert(frame);
 }
 
 void ac::IntertwineFrameBlend(cv::Mat &frame) {
     static MatrixCollection<360> collection;
     cv::Mat copy1;
-    cv::resize(frame, copy1, cv::Size(640, 360));
+    ac_resize(frame, copy1, cv::Size(640, 360));
     collection.shiftFrames(copy1);
     int index = 1;
     static int size_value = 1;
@@ -808,7 +808,7 @@ void ac::IntertwineFrameBlend(cv::Mat &frame) {
             index = 1;
         }
     }
-    cv::resize(copy1,frame,frame.size());
+    ac_resize(copy1,frame,frame.size());
     AddInvert(frame);
 }
 
@@ -869,8 +869,11 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
     static constexpr int row_size_h = 1080, row_size_w = 1920;
     static MatrixCollection<row_size_h> collection;
     cv::Mat reframe, reimage;
-    cv::resize(frame, reframe, cv::Size(row_size_w, row_size_h));
-    cv::resize(blend_image, reimage, reframe.size());
+    cv::UMat reframe_temp, reimage_temp;
+    cv::resize(frame.getUMat(cv::ACCESS_FAST), reframe_temp, cv::Size(row_size_w, row_size_h));
+    reframe_temp.copyTo(reframe);
+    cv::resize(blend_image.getUMat(cv::ACCESS_FAST), reimage_temp, reframe.size());
+    reimage_temp.copyTo(reimage);
     collection.shiftFrames(reframe);
     int index = 1;
     static int size_value = 1;
@@ -907,7 +910,11 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
             index = 1;
         }
     }
-    cv::resize(reframe, frame, orig_size);
+    
+    cv::UMat reframe1, frame1;
+    reframe1 = frame.getUMat(cv::ACCESS_FAST);
+    cv::resize(reframe1, frame1, orig_size);
+    frame1.copyTo(frame);
     BlendWithImage(frame);
     BlendWithSource(frame);
     AddInvert(frame);
@@ -1000,7 +1007,7 @@ void ac::SortedImageColorVariable(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     static double alpha1 = 1.0, alpha2 = 3.0;
     static int dir1 = 1, dir2 = 0;
     auto callback = [&](cv::Mat frame, int offset, int cols, int size) {

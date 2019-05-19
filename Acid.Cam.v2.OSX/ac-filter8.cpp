@@ -494,7 +494,7 @@ void ac::FourSquare(cv::Mat &frame) {
     for(int i = 0; i < collection.size(); ++i) {
         cv::Mat out_frame;
         if(frame.cols/2 > 0 && frame.rows/2 > 0) {
-            cv::resize(collection.frames[i], out_frame, cv::Size(frame.cols/2,frame.rows/2));
+            ac_resize(collection.frames[i], out_frame, cv::Size(frame.cols/2,frame.rows/2));
             copyMat(out_frame, 0,0, frame, pos_x, pos_y, frame.cols/2, frame.rows/2);
         }
         pos_x += frame.cols/2;
@@ -514,7 +514,7 @@ void ac::EightSquare(cv::Mat &frame) {
     for(int i = 0; i < collection.size(); ++i) {
         cv::Mat out_frame;
         if(frame.cols/4 > 0 && frame.rows/2 > 0) {
-            cv::resize(collection.frames[i], out_frame, cv::Size(frame.cols/4,frame.rows/2));
+            ac_resize(collection.frames[i], out_frame, cv::Size(frame.cols/4,frame.rows/2));
             copyMat(out_frame, 0,0, frame, pos_x, pos_y, frame.cols/4, frame.rows/2);
         }
         pos_x += frame.cols/4;
@@ -534,7 +534,7 @@ void ac::DiagonalSquare(cv::Mat &frame) {
     for(int i = 0; i < 3; ++i) {
         cv::Mat out_frame;
         if(col_w > 0 && col_h > 0) {
-            cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
+            ac_resize(copy_frame, out_frame, cv::Size(col_w,col_h));
             if(pos_x >= 0 && pos_x < frame.cols-col_w && pos_y >= 0 && pos_y < frame.rows-col_h)
                 copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
@@ -559,7 +559,7 @@ void ac::DiagonalSquareRandom(cv::Mat &frame) {
         cv::Mat &copy_frame = collection.frames[i];
         cv::Mat out_frame;
         if(col_w > 0 && col_h > 0) {
-            cv::resize(copy_frame, out_frame, cv::Size(col_w,col_h));
+            ac_resize(copy_frame, out_frame, cv::Size(col_w,col_h));
             randomFilter(out_frame);
             copyMat(out_frame, 0, 0, frame, pos_x, pos_y, col_w, col_h);
         }
@@ -577,7 +577,7 @@ void ac::SquareStretchDown(cv::Mat &frame) {
     }
     cv::Mat out_frame;
     if(frame.cols > 0 && z > 0) {
-        cv::resize(copy_frame, out_frame, cv::Size(frame.cols,z));
+        ac_resize(copy_frame, out_frame, cv::Size(frame.cols,z));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchDown") {
             CallFilter(subfilter, out_frame);
         }
@@ -595,7 +595,7 @@ void ac::SquareStretchRight(cv::Mat &frame) {
     }
     cv::Mat out_frame;
     if(z > 0 && frame.rows > 0) {
-        cv::resize(copy_frame, out_frame, cv::Size(z,frame.rows));
+        ac_resize(copy_frame, out_frame, cv::Size(z,frame.rows));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquarehStretcRight") {
             CallFilter(subfilter, out_frame);
         }
@@ -615,7 +615,7 @@ void ac::SquareStretchUp(cv::Mat &frame) {
         size = 1;
     }
     if(frame.cols > 0 && size > 0) {
-        cv::resize(copy_frame, out_frame, cv::Size(frame.cols, size));
+        ac_resize(copy_frame, out_frame, cv::Size(frame.cols, size));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchUp") {
             CallFilter(subfilter, out_frame);
         }
@@ -636,7 +636,7 @@ void ac::SquareStretchLeft(cv::Mat &frame) {
         size = 1;
     }
     if(size > 0 && frame.rows > 0) {
-        cv::resize(copy_frame, out_frame, cv::Size(size, frame.rows));
+        ac_resize(copy_frame, out_frame, cv::Size(size, frame.rows));
         if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchLeft") {
             CallFilter(subfilter, out_frame);
         }
@@ -662,7 +662,7 @@ void ac::SoftFeedback(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(source.w > 100 && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            ac_resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -684,7 +684,7 @@ void ac::SoftFeedbackFrames(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -708,7 +708,7 @@ void ac::ResizeSoftFeedback(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -741,7 +741,7 @@ void ac::SoftFeedback8(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            ac_resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -762,7 +762,7 @@ void ac::SoftFeedbackFrames8(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -785,7 +785,7 @@ void ac::ResizeSoftFeedback8(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -820,7 +820,7 @@ void ac::ResizeSoftFeedbackSubFilter(cv::Mat &frame) {
         while(source.x < frame.cols-1 && source.w > add_w) {
             if(offset < collection.size() && source.w > add_w && source.h > add_h) {
                 cv::Mat out_frame;
-                cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+                ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
                 CallFilter(subfilter, out_frame);
                 copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
             }
@@ -854,7 +854,7 @@ void ac::SoftFeedbackRandFilter(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            ac_resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             func[rand()%10](out_frame);
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
@@ -876,7 +876,7 @@ void ac::SoftFeedback32(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(source.w > 100 && source.h > 100) {
             cv::Mat out_frame;
-            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            ac_resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -897,7 +897,7 @@ void ac::SoftFeedbackFrames32(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w+10 && source.h > add_h+10) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -922,7 +922,7 @@ void ac::ResizeSoftFeedback32(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -954,7 +954,7 @@ void ac::SoftFeedbackRandFilter32(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            ac_resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             func[rand()%10](out_frame);
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
@@ -980,7 +980,7 @@ void ac::SoftFeedbackSubFilter(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(source.w > 100 && source.h > 100) {
             cv::Mat out_frame;
-            cv::resize(frame_copy, out_frame, cv::Size(source.w, source.h));
+            ac_resize(frame_copy, out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
@@ -1013,7 +1013,7 @@ void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter" && ac::draw_strings[subfilter] != "Random Filter") {
@@ -1057,7 +1057,7 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
     while(source.x >= 0 && source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset >= 0 && offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64") {
@@ -1098,7 +1098,7 @@ void ac::SoftFeedbackResize64(cv::Mat &frame) {
     while(source.x >= 0 && source.x < frame.cols-1 && source.w > add_w+10 && source.h > add_h+10) {
         if(offset >= 0 && offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
         }
         source.x += add_w;
@@ -1137,7 +1137,7 @@ void ac::SoftFeedbackReszieSubFilter64_Negate(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             
@@ -1187,7 +1187,7 @@ void ac::SoftFeedbackReszieSubFilter64_Mirror(cv::Mat &frame) {
     while(source.x < frame.cols-1 && source.w > add_w) {
         if(offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
-            cv::resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
+            ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
             size_t rand_test = 0;
             if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
             

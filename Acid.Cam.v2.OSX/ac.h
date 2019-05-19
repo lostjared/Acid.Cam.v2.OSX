@@ -46,6 +46,7 @@
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
 #include<opencv2/highgui.hpp>
+#include<opencv2/core/ocl.hpp>
 #else
 #include<opencv2/opencv.hpp>
 #endif
@@ -72,6 +73,17 @@
 #else
 #define ASSERT(X)
 #endif
+
+#define OPENCL_ON
+#ifdef OPENCL_ON
+#define ac_resize(frame, outframe, scalef) ac::fast_resize(frame, outframe, scalef)
+#else
+#define ac_resize(frame, outframe, scalef) ac::resize(frame, output, scalef)
+#endif
+
+
+
+
 /*
  *
  * Be sure to call fill_filter_map
@@ -1297,6 +1309,7 @@ namespace ac {
     void Mirror_Rainbow_Blur(cv::Mat &frame);
     void MirrorMedianBlur(cv::Mat &frame);
     void VideoTwitch(cv::Mat &frame);
+    void TestFilter101x(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1350,6 +1363,8 @@ namespace ac {
     unsigned char size_reset(long val);
     void setThreadCount(const int &threads);
     int getThreadCount();
+    void fast_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale);
+    void fast_resize(const cv::UMat &src, cv::Mat &dst, cv::Size scale);
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
@@ -1821,7 +1836,7 @@ namespace ac {
     template<int row_size>
     void IntertwineResizeRowX(cv::Mat &frame, MatrixCollection<row_size> *collection, int width, int height, int &dir, int &size_value) {
         cv::Mat copy1;
-        cv::resize(frame, copy1, cv::Size(width,height));
+        ac_resize(frame, copy1, cv::Size(width,height));
         collection->shiftFrames(copy1);
         int index = 1;
         for(int z = 0; z < copy1.rows; ++z) {
@@ -1847,7 +1862,7 @@ namespace ac {
                 dir = 1 ;
             }
         }
-        cv::resize(copy1, frame, frame.size());
+        ac_resize(copy1, frame, frame.size());
     }
     
     template<int r_size>

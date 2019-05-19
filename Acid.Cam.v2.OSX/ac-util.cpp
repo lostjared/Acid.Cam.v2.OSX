@@ -423,6 +423,22 @@ int ac::getThreadCount() {
     return thread_count;
 }
 
+void ac::fast_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale) {
+    if(dst.empty())
+        dst.create(src.rows, src.cols, CV_8UC3);
+    cv::UMat copy1 = src.getUMat(cv::ACCESS_FAST);
+    cv::Mat reimage;
+    copy1 = src.getUMat(cv::ACCESS_FAST);
+    cv::resize(copy1, reimage, scale);
+    reimage.copyTo(dst);
+}
+void ac::fast_resize(const cv::UMat &copy1, cv::Mat &dst, cv::Size scale) {
+    if(dst.empty())
+        dst.create(copy1.rows, copy1.cols, CV_8UC3);
+    cv::Mat reimage;
+    cv::resize(copy1, reimage, scale);
+    reimage.copyTo(dst);
+}
 
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
 // then Alpha Blend them together
@@ -821,7 +837,7 @@ void ac::StretchAlphaBlendSelf(cv::Mat &frame, const int speed_x, const int spee
         offset_y += speed_y;
     }
     cv::Mat reimage;
-    cv::resize(frame, reimage, sizeval);
+    ac_resize(frame, reimage, sizeval);
     static double alpha = 0.5;
     for(int z = 0; z < reimage.rows; ++z) {
         for(int i = 0; i < reimage.cols; ++i) {
@@ -852,7 +868,7 @@ void ac::StretchAlphaBlendSelf(cv::Mat &frame, int &dir, const int &speed_x, con
         }
     }
     cv::Mat reimage;
-    cv::resize(frame, reimage, sizeval);
+    ac_resize(frame, reimage, sizeval);
     static double alpha = 0.5;
     for(int z = 0; z < reimage.rows; ++z) {
         for(int i = 0; i < reimage.cols; ++i) {

@@ -571,7 +571,7 @@ void ac::AlphaBlendXorImage(cv::Mat &frame) {
     	static double alpha = 1.0, alpha_max = 3.0;
         
         cv::Mat copyf,outval;
-        cv::resize(blend_image, copyf, frame.size());
+        ac_resize(blend_image, copyf, frame.size());
         AlphaBlend(frame, copyf, outval, alpha);
         MedianBlur(outval);
         MedianBlur(outval);
@@ -996,7 +996,7 @@ void ac::ImageXorFrame(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat copye = frame.clone();
         cv::Mat copyf = frame.clone(), copyi;
-        cv::resize(blend_image, copyi, frame.size());
+        ac_resize(blend_image, copyi, frame.size());
         Xor(copyf, copyi);
         AlphaBlend(copyf, copye, frame, 0.8);
         AddInvert(frame);
@@ -1006,7 +1006,7 @@ void ac::ImageXorFrame(cv::Mat &frame) {
 void ac::ImageXorFunction(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat image_resized;
-        cv::resize(blend_image, image_resized, frame.size());
+        ac_resize(blend_image, image_resized, frame.size());
         Xor(frame, image_resized);
         AddInvert(frame);
     }
@@ -1016,7 +1016,7 @@ void ac::ImageXorAlphaBlend(cv::Mat &frame) {
     if(blend_set == true) {
     	cv::Mat copyf = frame.clone();
     	cv::Mat image_resized;
-    	cv::resize(blend_image, image_resized, frame.size());
+    	ac_resize(blend_image, image_resized, frame.size());
         Xor(copyf, image_resized);
         static double alpha = 1.0, alpha_max = 4.0;
         cv::Mat copyi = frame.clone();
@@ -1032,7 +1032,7 @@ void ac::ImageAlphaXorMedianSubFilter(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 4.0;
         cv::Mat copyf = frame.clone(), copyi = frame.clone();
         cv::Mat resized;
-        cv::resize(blend_image, resized, frame.size());
+        ac_resize(blend_image, resized, frame.size());
         CallFilter(subfilter, frame);
         AlphaBlend(copyf, resized, frame, alpha);
         Xor(frame, copyi);
@@ -1050,7 +1050,7 @@ void ac::ImageSmoothAlphaXorSubFilter(cv::Mat &frame) {
         static MatrixCollection<8> collection;
         CallFilter(subfilter, copyf);
         Smooth(copyf, &collection);
-        cv::resize(blend_image, copyi, frame.size());
+        ac_resize(blend_image, copyi, frame.size());
         AlphaBlend(copyf,copyi,frame,0.5);
         Xor(frame, copye);
         AddInvert(frame);
@@ -1061,7 +1061,7 @@ void ac::ImageXorMirrorFilter(cv::Mat &frame) {
     if(blend_set == true) {
     	cv::Mat copyf = frame.clone();
         cv::Mat imgf;
-        cv::resize(blend_image, imgf, frame.size());
+        ac_resize(blend_image, imgf, frame.size());
     	for(int z = 0; z < frame.rows; ++z) {
         	for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b frame_values[5], image_values[5];
@@ -1088,7 +1088,7 @@ void ac::ImageXorSubFilter(cv::Mat &frame) {
         cv::Mat copyf = frame.clone();
         CallFilter(subfilter, copyf);
         cv::Mat resized_blend;
-        cv::resize(blend_image, resized_blend, frame.size());
+        ac_resize(blend_image, resized_blend, frame.size());
         static double scale = 0.5;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {

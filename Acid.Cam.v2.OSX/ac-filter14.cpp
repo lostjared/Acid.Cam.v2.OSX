@@ -89,7 +89,7 @@ void ac::ImageAlphaXorMedianBlend(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     SmoothImageAlphaBlend(copy1);
     ImageSmoothMedianBlend(copy2);
     static double alpha = 1.0, alpha_max = 4.0;
@@ -132,7 +132,7 @@ void ac::MatrixCollectionImageSubFilter(cv::Mat &frame) {
         return;
     static MatrixCollection<8> collection;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     collection.shiftFrames(reimage);
     collection.shiftFrames(copy1);
@@ -475,7 +475,7 @@ void ac::ColorTransitionImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ColorTransitionImageSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy2;
-    cv::resize(blend_image, copy2, frame.size());
+    ac_resize(blend_image, copy2, frame.size());
     CallFilter(subfilter, copy1);
     CallFilter(subfilter, copy2);
     AlphaBlend(copy1, copy2, frame, 0.5);
@@ -684,7 +684,7 @@ void ac::SquareDivideSubFilter(cv::Mat &frame) {
         for(int z = 0; z < 2; ++z) {
             pos_x = i*size_w;
             pos_y = z*size_h;
-            cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
+            ac_resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
             randomFilter(resized[index]);
             copyMat(resized[index], 0, 0, frame, pos_x, pos_y, size_w, size_h);
             ++index;
@@ -711,7 +711,7 @@ void ac::SquareSubFilter(cv::Mat &frame) {
         for(int z = 0; z < 2; ++z) {
             pos_x = i*size_w;
             pos_y = z*size_h;
-            cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
+            ac_resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
             CallFilter(subfilter, resized[index]);
             copyMat(resized[index], 0, 0, frame, pos_x, pos_y, size_w, size_h);
             ++index;
@@ -735,7 +735,7 @@ void ac::SquareSubFilter8(cv::Mat &frame) {
         for(int z = 0; z < num_s; ++z) {
             pos_x = i*size_w;
             pos_y = z*size_h;
-            cv::resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
+            ac_resize(collection.frames[index], resized[index], cv::Size(size_w, size_h));
             CallFilter(subfilter, resized[index]);
             copyMat(resized[index], 0, 0, frame, pos_x, pos_y, size_w, size_h);
             ++index;
@@ -876,7 +876,7 @@ void ac::RotateImage(cv::Mat &frame) {
         return;
     static int fcode = -1;
     cv::Mat img, copy1;
-    cv::resize(blend_image, img, frame.size());
+    ac_resize(blend_image, img, frame.size());
     cv::flip(img, copy1, fcode);
     frame = copy1.clone();
     ++fcode;

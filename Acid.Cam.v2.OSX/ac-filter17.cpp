@@ -125,7 +125,7 @@ void ac::ImageChannelSubFilter(cv::Mat &frame) {
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
     CallFilter(subfilter, copy1);
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, reimage);
     cv::Mat chan[3], output;
     static int index = 0;
@@ -162,7 +162,7 @@ void ac::ImageChannelChangeSubFilter(cv::Mat &frame) {
         return;
     static int index = 0;
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, frame);
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
@@ -183,7 +183,7 @@ void ac::ImageChannelRandom(cv::Mat &frame) {
         return;
     static int index = 0;
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     cv::Mat copy1 = frame.clone();
     cv::Mat chan[3], output;
     static int values[3] = {0,1,2};
@@ -232,7 +232,7 @@ void ac::ImageChannelRandomSubFilter(cv::Mat &frame) {
     
     static int index = 0;
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     cv::Mat copy1 = frame.clone();
     cv::Mat chan[3], output;
     static int values[3] = {0,1,2};
@@ -354,7 +354,7 @@ void ac::MirrorXorImage(cv::Mat &frame) {
         return;
     cv::Mat reimage, copy1;
     copy1 = frame.clone();
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
             cv::Vec3b values[8];
@@ -406,7 +406,7 @@ void ac::PixelXorImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "PixelXorImageSubFilter")
         return;
     cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, frame);
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
@@ -432,7 +432,7 @@ void ac::PixelAlphaImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelAlphaImageSubFilter")
         return;
     cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy2);
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
@@ -465,7 +465,7 @@ void ac::PixelScaleImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelScaleImageSubFilter")
         return;
     cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy2);
     static double alpha = 0.1;
     static int dir = 1;
@@ -501,7 +501,7 @@ void ac::PixelImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelImageSubFilter")
         return;
     cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy2);
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
@@ -543,7 +543,7 @@ void ac::PixelImageXorSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "PixelImageXorSubFilter")
         return;
     cv::Mat reimage, copy1 = frame.clone(), copy2 = frame.clone();
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy2);
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
@@ -763,7 +763,7 @@ void ac::MirrorIntertwineImage(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     AlphaBlend(copy1, reimage, frame, 0.5);
     MirrorIntertwine(frame);
     AddInvert(frame);
@@ -773,7 +773,7 @@ void ac::MirrorIntertwineImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "MirrorIntertwineImageSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     AlphaBlend(copy1, reimage, frame, 0.5);
     CallFilter(subfilter, frame);
     MirrorIntertwine(frame);
@@ -784,7 +784,7 @@ void ac::IntertwineImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineImageSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage, cp1, cp2;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     AlphaBlend(copy1, reimage, cp1, 0.5);
     CallFilter(subfilter, cp1);
     CallFilter(subfilter, copy2);
@@ -798,7 +798,7 @@ void ac::BlendWithImage(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
@@ -933,7 +933,7 @@ void ac::IntertwineImageAndSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineImageAndSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     IntertwineRows32(reimage);
     IntertwineRowsReverse32(copy1);
     AlphaBlendDouble(copy1, reimage, frame, 1.0, 0.3);
@@ -987,7 +987,7 @@ void ac::MatrixCollectionVariableImage(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     MatrixCollectionVariable(copy1);
     MatrixCollectionVariable(reimage);
     AlphaBlendDouble(copy1, reimage, frame, 0.7, 0.3);
@@ -998,7 +998,7 @@ void ac::MatrixCollectionVariableImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionVariableImageSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     MatrixCollectionVariable(reimage);
     AlphaBlendDouble(copy1, reimage, frame, 0.7, 0.3);
     CallFilter(subfilter, frame);

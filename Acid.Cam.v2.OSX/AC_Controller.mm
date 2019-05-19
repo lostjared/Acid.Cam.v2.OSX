@@ -95,9 +95,9 @@ cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, con
     double h1 = dstSize.width * (input.rows/(double)input.cols);
     double w2 = dstSize.height * (input.cols/(double)input.rows);
     if( h1 <= dstSize.height) {
-        cv::resize( input, output, cv::Size(dstSize.width, h1));
+        ac_resize( input, output, cv::Size(dstSize.width, h1));
     } else {
-        cv::resize( input, output, cv::Size(w2, dstSize.height));
+        ac_resize( input, output, cv::Size(w2, dstSize.height));
     }
     int top = (dstSize.height-output.rows) / 2;
     int down = (dstSize.height-output.rows+1) / 2;
@@ -1100,7 +1100,7 @@ void setEnabledProg() {
             frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
         } else {
             cv::Mat copy1 = frame.clone();
-            cv::resize(copy1, frame, cv::Size((int)cap_width, (int)cap_height));
+            ac_resize(copy1, frame, cv::Size((int)cap_width, (int)cap_height));
         }
     }
     ac::orig_frame = frame.clone();

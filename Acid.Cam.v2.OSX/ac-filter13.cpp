@@ -48,7 +48,7 @@ void ac::ImageAlphaXorSubFilter(cv::Mat &frame) {
     if(blend_set == true && subfilter != -1 && ac::draw_strings[subfilter] != "ImageAlphaXorSubFilter") {
         cv::Mat copyf = frame.clone(), copyi = frame.clone();;
         cv::Mat resized;
-        cv::resize(blend_image, resized, frame.size());
+        ac_resize(blend_image, resized, frame.size());
         cv::Mat out;
         CallFilter(subfilter, copyi);
         AlphaBlend(resized, copyi, out, 0.5);
@@ -400,7 +400,7 @@ void ac::FilterStrobeSubFilter(cv::Mat &frame) {
 void ac::ImageSubtractMedianBlend(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat image1;
-        cv::resize(blend_image, image1, frame.size());
+        ac_resize(blend_image, image1, frame.size());
         for(int z  = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -418,7 +418,7 @@ void ac::ImageSubtractMedianBlend(cv::Mat &frame) {
 void ac::ImageDarkBlend(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat reimage;
-        cv::resize(blend_image, reimage, frame.size());
+        ac_resize(blend_image, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             cv::Scalar value;
             for(int i = 0; i < frame.cols; ++i) {
@@ -438,7 +438,7 @@ void ac::ImageDarkBlend(cv::Mat &frame) {
 void ac::ImageAverageDark(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat reimage,frame_copy = frame.clone();
-        cv::resize(blend_image,reimage, frame.size());
+        ac_resize(blend_image,reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -470,7 +470,7 @@ void ac::ImageAverageDark(cv::Mat &frame) {
 void ac::ImageRemainderPixel(cv::Mat &frame) {
     if(blend_set == true) {
         cv::Mat reimage;
-        cv::resize(blend_image, reimage, frame.size());
+        ac_resize(blend_image, reimage, frame.size());
         static double alpha = 1.0, alpha_max = 4.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
@@ -695,7 +695,7 @@ void ac::BlendImageWithSubFilter(cv::Mat &frame) {
         return;
     cv::Mat copy1 = frame.clone();
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -725,7 +725,7 @@ void ac::BlendImageWithSubFilterAlpha(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 4.0;
     cv::Mat copy1 = frame.clone();
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -780,7 +780,7 @@ void ac::AndImageSubFilterXor(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "AndImageSubFilterXor")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
@@ -807,7 +807,7 @@ void ac::AlphaBlendImageSubFilterXor(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     cv::Mat copy1 = frame.clone(), copy2;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     AlphaBlend(copy1, reimage, copy2, 0.5);
     Xor(frame, copy2);
@@ -818,7 +818,7 @@ void ac::AlphaBlendImageSubFilterXorRev(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "AlphaBlendImageSubFilterXorRev")
         return;
     cv::Mat reimage, copy1;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, reimage);
     AlphaBlend(frame, reimage, copy1, 0.5);
     Xor(frame, copy1);
@@ -882,7 +882,7 @@ void ac::ParticleReleaseWithImage(cv::Mat &frame) {
         return;
     cv::Mat copy1;
     cv::Mat copy2 = frame.clone();
-    cv::resize(blend_image, copy1, frame.size());
+    ac_resize(blend_image, copy1, frame.size());
     ParticleRelease(copy1);
     AlphaBlend(copy1, copy2, frame, 0.5);
     MedianBlend(frame);
@@ -904,7 +904,7 @@ void ac::ParticleReleaseImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || ac::draw_strings[subfilter] == "ParticleReleaseImageSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     ParticleRelease(frame);
@@ -936,7 +936,7 @@ void ac::ImageDistortion(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), copy2;
-    cv::resize(blend_image, copy2, frame.size());
+    ac_resize(blend_image, copy2, frame.size());
     pushSubFilter(ac::filter_map["SmoothImageAlphaBlend"]);
     EnergizeSubFilter(copy1);
     popSubFilter();
@@ -952,7 +952,7 @@ void ac::ImageDistortionSubFilter(cv::Mat &frame) {
         return;
     cv::Mat copy1 = frame.clone();
     cv::Mat copy2;
-    cv::resize(blend_image,copy2,frame.size());
+    ac_resize(blend_image,copy2,frame.size());
     CallFilter(subfilter, copy1);
     pushSubFilter(filter_map["ExactImage"]);
     SmoothImageAlphaBlend(copy2);
@@ -992,7 +992,7 @@ void ac::SmoothImageAlphaBlendMedian(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     SmoothImageAlphaBlend(reimage);
     MedianBlend(copy1);
     MedianBlend(reimage);
@@ -1017,7 +1017,7 @@ void ac::XorReverseImageSmooth(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     Xor(copy1, reimage);
     Reverse(reimage);
     Xor(copy2, reimage);
@@ -1055,7 +1055,7 @@ void ac::ImageReverseSubFilter(cv::Mat &frame) {
         return;
     
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     cv::Mat all_frames[3];
     cv::flip(frame, all_frames[0], -1);
     cv::flip(frame, all_frames[1], 0);

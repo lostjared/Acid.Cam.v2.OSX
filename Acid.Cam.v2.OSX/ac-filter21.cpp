@@ -142,7 +142,7 @@ void ac::RandomImageSquares(cv::Mat &frame) {
     cv::Vec3b color(rand()%255, rand()%255, rand()%255);
     int num_values = 10+(rand()%frame.rows/10);
     cv::Mat reimage;
-    cv::resize(blend_image, reimage, frame.size());
+    ac_resize(blend_image, reimage, frame.size());
     for(int j = 0; j < num_values; ++j) {
         ac::Rect rc(5+(rand()%frame.cols-10), 5+(rand()%frame.rows-10),75+(rand()%200), 20+(rand()%25));
         for(int i = rc.x; i < rc.x+rc.w; ++i) {
@@ -405,4 +405,15 @@ void ac::VideoTwitch(cv::Mat &frame) {
         frame = stored.clone();
     }
     AddInvert(frame);
+    
+}
+
+
+
+void ac::TestFilter101x(cv::Mat &frame) {
+    cv::UMat value = frame.getUMat(cv::ACCESS_FAST);
+    cv::UMat output;
+   // ac_resize(value, output, cv::Size(1920, 1080));
+    cv::Mat cframe = output.getMat(cv::ACCESS_FAST);
+    
 }
