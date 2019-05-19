@@ -869,11 +869,8 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
     static constexpr int row_size_h = 1080, row_size_w = 1920;
     static MatrixCollection<row_size_h> collection;
     cv::Mat reframe, reimage;
-    cv::UMat reframe_temp, reimage_temp;
-    cv::resize(frame.getUMat(cv::ACCESS_FAST), reframe_temp, cv::Size(row_size_w, row_size_h));
-    reframe_temp.copyTo(reframe);
-    cv::resize(blend_image.getUMat(cv::ACCESS_FAST), reimage_temp, reframe.size());
-    reimage_temp.copyTo(reimage);
+    cv::resize(frame, reframe, cv::Size(row_size_w, row_size_h));
+    cv::resize(blend_image, reimage, reframe.size());
     collection.shiftFrames(reframe);
     int index = 1;
     static int size_value = 1;
@@ -910,11 +907,7 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
             index = 1;
         }
     }
-    
-    cv::UMat reframe1, frame1;
-    reframe1 = frame.getUMat(cv::ACCESS_FAST);
-    cv::resize(reframe1, frame1, orig_size);
-    frame1.copyTo(frame);
+    cv::resize(reframe, frame, orig_size);
     BlendWithImage(frame);
     BlendWithSource(frame);
     AddInvert(frame);

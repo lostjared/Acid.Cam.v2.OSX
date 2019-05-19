@@ -46,7 +46,6 @@
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
 #include<opencv2/highgui.hpp>
-#include<opencv2/core/ocl.hpp>
 #else
 #include<opencv2/opencv.hpp>
 #endif
@@ -74,7 +73,9 @@
 #define ASSERT(X)
 #endif
 
+// comment if you do not want to use OpenCL
 #define OPENCL_ON
+
 #ifdef OPENCL_ON
 #define ac_resize(frame, outframe, scalef) ac::fast_resize(frame, outframe, scalef)
 #else
