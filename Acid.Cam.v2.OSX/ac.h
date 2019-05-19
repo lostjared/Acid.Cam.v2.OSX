@@ -1355,7 +1355,6 @@ namespace ac {
     int getThreadCount();
     void ac_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale);
     void ac_resize(const cv::UMat &src, cv::Mat &dst, cv::Size scale);
-    
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
