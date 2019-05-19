@@ -18,6 +18,8 @@ I call the art that I create with Acid Cam an Acid Glitch, but you can call it w
 
 Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting results. The project currently has over 700 filters to mix and match. 
 
+NOTE: Some of the filters that contain either a 720 or 1080 at the end require a lot of ram if you do not have enough the program will exit.
+
 View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
 
 OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  version switch to oldmacosx branch
