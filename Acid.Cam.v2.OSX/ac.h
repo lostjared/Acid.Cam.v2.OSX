@@ -49,7 +49,7 @@
 #include<opencv2/core/ocl.hpp>
 #else
 #include<opencv2/opencv.hpp>
-#include<opencv2/core/cocl.hpp>
+#include<opencv2/core/ocl.hpp>
 #endif
 #include<iostream>
 #include<fstream>
