@@ -44,7 +44,6 @@
 #include"ac.h"
 #include<cctype>
 #include<cstdlib>
-
 namespace ac {
     
    	std::unordered_map<std::string, FilterItem> filter_menu_map;
@@ -59,6 +58,11 @@ namespace ac {
     }
     
     void init_filter_menu_map() {
+        
+#ifdef OPENCL_ON
+        cv::ocl::setUseOpenCL(true);
+#endif
+        
         for(int i = 0; i < draw_max-5; ++i) {
             svAll.push_back(ac::draw_strings[i]);
             svAllSorted.push_back(ac::draw_strings[i]);
