@@ -74,19 +74,6 @@
 #else
 #define ASSERT(X)
 #endif
-
-// comment if you do not want to use OpenCL
-#define OPENCL_ON
-
-#ifdef OPENCL_ON
-#define ac_resize(frame, outframe, scalef) ac::fast_resize(frame, outframe, scalef)
-#else
-#define ac_resize(frame, outframe, scalef) ac::resize(frame, output, scalef)
-#endif
-
-
-
-
 /*
  *
  * Be sure to call fill_filter_map
@@ -1366,8 +1353,9 @@ namespace ac {
     unsigned char size_reset(long val);
     void setThreadCount(const int &threads);
     int getThreadCount();
-    void fast_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale);
-    void fast_resize(const cv::UMat &src, cv::Mat &dst, cv::Size scale);
+    void ac_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale);
+    void ac_resize(const cv::UMat &src, cv::Mat &dst, cv::Size scale);
+    
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
