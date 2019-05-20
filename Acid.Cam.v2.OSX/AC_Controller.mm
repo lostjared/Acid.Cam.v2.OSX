@@ -1777,7 +1777,7 @@ void setEnabledProg() {
         [stretch_scr setState: NSOffState];
     } else {
         [stretch_scr setState: NSOnState];
-        //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
 }
 
