@@ -916,10 +916,10 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
 
 void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
     cv::Vec3b rand_color(rand()%255, rand()%255, rand()%255);
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = pixel[j]^rand_color[j];
             }
@@ -932,10 +932,10 @@ void ac::RandomXorMultiThreadTest(cv::Mat &frame) {
 void ac::SelfAlphaBlendMultiThread(cv::Mat &frame) {
     static double alpha = 1.0;
     static int dir = 1;
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = pixel[j]*alpha;
             }
@@ -952,7 +952,7 @@ void ac::MedianBlendMultiThread(cv::Mat &frame) {
     for(int i = 0; i < r; ++i)
         MedianBlur(frame);
     collection.shiftFrames(frame);
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Scalar value;
@@ -962,7 +962,7 @@ void ac::MedianBlendMultiThread(cv::Mat &frame) {
                         value[q] += pixel[q];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     int val = 1+static_cast<int>(value[j]);
                     pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
@@ -975,17 +975,17 @@ void ac::MedianBlendMultiThread(cv::Mat &frame) {
 }
 
 void ac::BytePixelSort(cv::Mat &frame) {
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             std::vector<unsigned char> bytes;
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     bytes.push_back(pixel[j]);
             }
             std::sort(bytes.begin(), bytes.end());
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = bytes[i+j];
             }
@@ -1003,11 +1003,11 @@ void ac::SortedImageColorVariable(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     static double alpha1 = 1.0, alpha2 = 3.0;
     static int dir1 = 1, dir2 = 0;
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             std::vector<unsigned char> bytes;
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b pixel1 = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b pixel1 = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel2 = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     bytes.push_back(pixel1[j]);
@@ -1015,8 +1015,8 @@ void ac::SortedImageColorVariable(cv::Mat &frame) {
                 }
             }
             std::sort(bytes.begin(), bytes.end());
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0;j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1)+(alpha2*bytes[i+j]);
                 }
@@ -1045,10 +1045,10 @@ void ac::BlendChannelXor(cv::Mat &frame) {
     static double alpha1 = 1.0;
     static int dir1 = 1;
     static int index = 0;
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1) ^ (cur_color[j]);
                 }

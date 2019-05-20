@@ -43,9 +43,9 @@
 
 /*
  //Basic Multithreaded Filter
- auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+ auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
  for(int z = offset; z <  offset+size; ++z) {
-    for(int i = 0; i < frame.cols; ++i) {
+    for(int i = 0; i < frame->cols; ++i) {
         }
     }
  };
@@ -60,10 +60,10 @@ void ac::ColorShiftXor(cv::Mat &frame) {
     static int dir[3] = {1,1,1};
     static int speed = 6;
     static int speed_dir[3] = {1,1,1};
-    static auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] -= (pixel[j]^rgb_value[j]);
                 }
@@ -180,10 +180,10 @@ void ac::XorMultiply(cv::Mat &frame) {
     static double alpha = 1.0;
     static int dir = 1;
     MedianBlur(frame);
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 unsigned int value = pixel[0]^pixel[1]^pixel[2];
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = pixel[j]^static_cast<unsigned char>(value*alpha);
@@ -206,11 +206,11 @@ void ac::Grayscale(cv::Mat &frame) {
 void ac::ColorShadowBlend(cv::Mat &frame) {
     MedianBlur(frame);
     MedianBlur(frame);
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             cv::Vec3b value;
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     value[j] +=  pixel[j];
                     value[j] /= 2;
@@ -232,10 +232,10 @@ void ac::FlashMatrixTrails(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
     int cur_frame = collection.size()-1;
-    auto callback = [&](cv::Mat frame, int offset, int cols, int size) {
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b old_pixel = collection.frames[cur_frame].at<cv::Vec3b>(z, i);
                     if(pixel == old_pixel)
                         continue;

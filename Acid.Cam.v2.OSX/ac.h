@@ -1446,7 +1446,7 @@ namespace ac {
         int size = frame.rows/cores;
         std::vector<std::thread> values;
         for(int i = 0; i < cores; ++i) {
-            values.push_back(std::thread(func, frame, i*size, frame.cols, size));
+            values.push_back(std::thread(func, &frame, i*size, frame.cols, size));
         }
         for(unsigned int i = 0; i < values.size(); ++i) {
             values[i].join();

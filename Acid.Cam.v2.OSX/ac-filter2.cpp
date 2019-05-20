@@ -831,7 +831,7 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
-    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
+    cv::bitwise_xor(frame.getUMat(cv::ACCESS_FAST), initial, output); // OpenCV function bitwise_and
     initial = start.clone();// set initial to start
     frame = output.clone(); // set frame to output
     AddInvert(frame);
@@ -846,7 +846,7 @@ void ac::Bitwise_AND(cv::Mat &frame) {
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
-    cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
+    cv::bitwise_and(frame.getUMat(cv::ACCESS_FAST), initial, output); // OpenCV function bitwise_and
     initial = start.clone();// set initial to start
     frame = output.clone(); // set frame to output
     AddInvert(frame);
@@ -860,7 +860,7 @@ void ac::Bitwise_OR(cv::Mat &frame) {
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
-    cv::bitwise_or(frame, initial, output); // OpenCV function bitwise_and
+    cv::bitwise_or(frame.getUMat(cv::ACCESS_FAST), initial, output); // OpenCV function bitwise_and
     initial = start.clone();// set initial to start
     frame = output.clone(); // set frame to output
     AddInvert(frame);
@@ -888,21 +888,26 @@ void ac::ChannelSort(cv::Mat &frame) {
     cv::sort(v[0], channels[0],cv::SORT_ASCENDING); // sort each matrix
     cv::sort(v[1], channels[1],cv::SORT_ASCENDING);
     cv::sort(v[2], channels[2],cv::SORT_ASCENDING);
+    
     cv::merge(channels, 3, output); // combine the matrices
-    for(int z = 0; z < frame.rows; ++z) { // top to bottom
-        for(int i = 0; i < frame.cols; ++i) { // left to right
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // get reference to pixel
-            cv::Vec3b &ch_pixel = output.at<cv::Vec3b>(z, i); // get reference to pixel
-            // add and multiply components to channels
-            pixel[0] += static_cast<unsigned char>(ch_pixel[0]*pos);
-            pixel[1] += static_cast<unsigned char>(ch_pixel[1]*pos);
-            pixel[2] += static_cast<unsigned char>(ch_pixel[2]*pos);
-            // swap colors
-            swapColors(frame, z, i);
-            // if isNegative true invert pixel
-            if(isNegative) invert(frame, z, i);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < frame->cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i); // get reference to pixel
+                cv::Vec3b &ch_pixel = output.at<cv::Vec3b>(z, i); // get reference to pixel
+                // add and multiply components to channels
+                pixel[0] += static_cast<unsigned char>(ch_pixel[0]*pos);
+                pixel[1] += static_cast<unsigned char>(ch_pixel[1]*pos);
+                pixel[2] += static_cast<unsigned char>(ch_pixel[2]*pos);
+                // swap colors
+                swapColors(*frame, z, i);
+                // if isNegative true invert pixel
+                if(isNegative) invert(*frame, z, i);
+            }
         }
-    }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
     // pos max
     static double pos_max = 7.0;
     static int direction = 1;
