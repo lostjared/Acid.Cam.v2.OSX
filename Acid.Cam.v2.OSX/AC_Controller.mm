@@ -2106,7 +2106,14 @@ void setEnabledProg() {
         [syphon_window orderOut:self];
         syphon_enabled = NO;
         stream << "Disabled Syphon Output...\n";
-        if(programRunning == true) cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+        if(programRunning == true) {
+            cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL);
+            if(!ac::orig_frame.empty()) {
+                cv::resizeWindow("Acid Cam v2", ac::orig_frame.size().width, ac::orig_frame.size().height);
+            } else {
+                cv::resizeWindow("Acid Cam v2", 1920, 1080);
+            }
+        }
     } else {
         [syphon_enable setState: NSOnState];
         [syphon_window orderFront:self];
