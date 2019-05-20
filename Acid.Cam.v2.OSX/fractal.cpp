@@ -120,7 +120,6 @@ void frac::FractalLogic() {
     }
     // std::cout << paramA << ": " << paramB << " :" << " dir: " << dir << "\n";
 }
-
 void frac::DrawFractal(cv::Mat &frame, bool)
 {
     float x1=mod_x-1.0f*zoom_x;
@@ -154,4 +153,3 @@ void frac::DrawFractal(cv::Mat &frame, bool)
         if(x > frame.size().width) break;
     }
 }
-

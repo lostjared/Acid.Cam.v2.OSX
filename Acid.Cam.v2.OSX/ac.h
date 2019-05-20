@@ -1431,7 +1431,6 @@ namespace ac {
             }
             return true;
         }
-        
         bool valid() const { return (w != 0 && h != 0); }
         int size() const { return ArraySize; }
         int completed() { return completedRows; }
@@ -1439,8 +1438,8 @@ namespace ac {
     };
     extern void release_all_objects();
     extern bool testSize(cv::Mat &frame);
-    
-    //
+    // pass function pointer, functor or lambda with prototype
+    // void filter(cv::Mat *frame, int offset, int cols, int size)
     template<typename F>
     void UseMultipleThreads(cv::Mat &frame, int cores, F func) {
         int size = frame.rows/cores;
