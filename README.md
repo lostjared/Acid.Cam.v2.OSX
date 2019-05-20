@@ -2,9 +2,7 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
-5.20.19: Upgraded the program to OpenCV 3.4.6 and some of it has changed. The OpenCV header file included now has a warning from possible misuse of a comma,
-also I am on Mojave and it scales windows up and down while still having a resolution of 5K. OpenCV also resizes the window incorrectly. I will work on fixing
-these issues but version of OpenCV I compiled contain OpenCL support.
+5.20.19: I upgraded the program's OpenCV library files to version 3.4.6, and some of it has changed. The OpenCV header files included now have a warning from possible misuse of a comma. Also, I am on Mojave, and the GUI scales windows up and down automatically while still having a resolution of 5K.  Problem is OpenCV has code that resizes the window, and it is not sized correctly. I will work on fixing these issues, but the version of OpenCV I compiled contains OpenCL support. Just on my computer with the new libraries, it moves much faster.
 
 To watch all the videos I have created with this project checkout my YouTube playlist:
 https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
