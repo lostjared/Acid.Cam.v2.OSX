@@ -939,7 +939,7 @@ void setEnabledProg() {
                 if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
             } else {
                 if(syphon_enabled == NO) {
-                    //cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+                    cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
                     cv::imshow("Acid Cam v2", frame);
                 }
             }

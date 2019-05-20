@@ -112,17 +112,20 @@ bool colorkey_set = false;
 bool colorkey_bg = false;
 bool colorkey_replace = false;
 bool colorkey_filter = false;
+bool cl_init = false;
+
+bool ac::OpenCL_Enabled() {
+    return cl_init;
+}
+
+
 // return version info
 std::string ac::getVersion() {
     return version;
 }
 // be sure to call this on startup
 void ac::fill_filter_map() {
-    if(cv::ocl::useOpenCL() == true) {
-        std::cout << "OpenCL Initialized.\n";
-    } else {
-        std::cout << "OpenCL Did not Initiallize.\n";
-    }
+    cl_init = cv::ocl::useOpenCL();
     for(int i = 0; i < ac::draw_max; ++i)
         filter_map[draw_strings[i]] = i;
     for(int i = 0; i < ac::draw_max-3; ++i)

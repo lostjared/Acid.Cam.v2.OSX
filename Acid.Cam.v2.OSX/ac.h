@@ -127,6 +127,7 @@ namespace ac {
     extern bool color_map_set;
     extern int GetFX(cv::Mat &frame, int x, int nw);
     extern int GetFY(cv::Mat &frame, int y, int nh);
+    extern bool OpenCL_Enabled();
     extern bool reset_alpha;
     void invert(cv::Mat &frame, int x, int y);
     /* filter typedef */
