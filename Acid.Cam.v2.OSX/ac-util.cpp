@@ -427,17 +427,13 @@ void ac::ac_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale) {
     if(dst.empty())
         dst.create(src.rows, src.cols, CV_8UC3);
     cv::UMat copy1 = src.getUMat(cv::ACCESS_FAST);
-    cv::Mat reimage;
-    cv::resize(copy1, reimage, scale);
-    reimage.copyTo(dst);
+    cv::resize(copy1, dst, scale);
 }
 
 void ac::ac_resize(const cv::UMat &copy1, cv::Mat &dst, cv::Size scale) {
     if(dst.empty())
         dst.create(copy1.rows, copy1.cols, CV_8UC3);
-    cv::Mat copyval;
-    cv::resize(copy1, copyval, scale);
-    copyval.copyTo(dst);
+    cv::resize(copy1, dst, scale);
 }
 
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
