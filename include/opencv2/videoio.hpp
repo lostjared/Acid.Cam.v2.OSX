@@ -59,6 +59,7 @@
     @defgroup videoio_c C API for video I/O
     @defgroup videoio_ios iOS glue for video I/O
     @defgroup videoio_winrt WinRT glue for video I/O
+    @defgroup videoio_registry Query I/O API backends registry
   @}
 */
 
@@ -116,7 +117,8 @@ enum VideoCaptureAPIs {
        CAP_IMAGES       = 2000,         //!< OpenCV Image Sequence (e.g. img_%02d.jpg)
        CAP_ARAVIS       = 2100,         //!< Aravis SDK
        CAP_OPENCV_MJPEG = 2200,         //!< Built-in OpenCV MotionJPEG codec
-       CAP_INTEL_MFX    = 2300          //!< Intel MediaSDK
+       CAP_INTEL_MFX    = 2300,         //!< Intel MediaSDK
+       CAP_XINE         = 2400,         //!< XINE engine (Linux)
      };
 
 /** @brief %VideoCapture generic properties identifier.
@@ -167,6 +169,10 @@ enum VideoCaptureProperties {
        CAP_PROP_AUTOFOCUS     =39,
        CAP_PROP_SAR_NUM       =40, //!< Sample aspect ratio: num/den (num)
        CAP_PROP_SAR_DEN       =41, //!< Sample aspect ratio: num/den (den)
+       CAP_PROP_BACKEND       =42, //!< Current backend (enum VideoCaptureAPIs). Read-only property
+       CAP_PROP_CHANNEL       =43, //!< Video input or Channel Number (only for those cameras that support)
+       CAP_PROP_AUTO_WB       =44, //!< enable/ disable auto white-balance
+       CAP_PROP_WB_TEMPERATURE=45, //!< white-balance color temperature
 #ifndef CV_DOXYGEN
        CV__CAP_PROP_LATEST
 #endif
@@ -646,6 +652,18 @@ public:
     */
     CV_WRAP VideoCapture(int index);
 
+    /** @overload
+    @brief  Opens a camera for video capturing
+
+    @param index id of the video capturing device to open. To open default camera using default backend just pass 0.
+    (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)
+    @param apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+    implementation if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L2.
+
+    @sa The list of supported API backends cv::VideoCaptureAPIs
+    */
+    CV_WRAP VideoCapture(int index, int apiPreference);
+
     /** @brief Default destructor
 
     The method first calls VideoCapture::release to close the already opened file or camera.
@@ -735,7 +753,7 @@ public:
 
     @note In @ref videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
-    :ocvcvCloneImage and then do whatever you want with the copy.
+    cvCloneImage and then do whatever you want with the copy.
      */
     CV_WRAP virtual bool retrieve(OutputArray image, int flag = 0);
 
@@ -761,7 +779,7 @@ public:
 
     @note In @ref videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
-    :ocvcvCloneImage and then do whatever you want with the copy.
+    cvCloneImage and then do whatever you want with the copy.
      */
     CV_WRAP virtual bool read(OutputArray image);
 
@@ -806,6 +824,12 @@ public:
     */
     CV_WRAP virtual bool open(const String& filename, int apiPreference);
 
+    /** @brief Returns used backend API name
+
+     @note Stream should be opened.
+     */
+    CV_WRAP String getBackendName() const;
+
 protected:
     Ptr<CvCapture> cap;
     Ptr<IVideoCapture> icap;
@@ -813,13 +837,18 @@ protected:
 
 class IVideoWriter;
 
-/** @example videowriter_basic.cpp
+/** @example samples/cpp/tutorial_code/videoio/video-write/video-write.cpp
+Check @ref tutorial_video_write "the corresponding tutorial" for more details
+*/
+
+/** @example samples/cpp/videowriter_basic.cpp
 An example using VideoCapture and VideoWriter class
- */
+*/
+
 /** @brief Video writer class.
 
 The class provides C++ API for writing video files or image sequences.
- */
+*/
 class CV_EXPORTS_W VideoWriter
 {
 public:
@@ -903,7 +932,7 @@ public:
 
     /** @brief Writes the next video frame
 
-    @param image The written frame
+    @param image The written frame. In general, color images are expected in BGR format.
 
     The function/method writes the specified image to video file. It must have the same size as has
     been specified when opening the video writer.
@@ -938,6 +967,12 @@ public:
     VideoWriter::VideoWriter or VideoWriter::open.
      */
     CV_WRAP static int fourcc(char c1, char c2, char c3, char c4);
+
+    /** @brief Returns used backend API name
+
+     @note Stream should be opened.
+     */
+    CV_WRAP String getBackendName() const;
 
 protected:
     Ptr<CvVideoWriter> writer;

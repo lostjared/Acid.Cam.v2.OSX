@@ -199,14 +199,24 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             sout << "Recording disabled ..\n";
         
         // create the window and show initial frame
-        
         NSRect screen = [[NSScreen mainScreen] frame];
-        cv::namedWindow("Acid Cam v2",cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+        cv::namedWindow("Acid Cam v2", cv::WINDOW_NORMAL | cv::WINDOW_GUI_EXPANDED);
+        int size_val_w = capture_width;
+        int size_val_h = capture_height;
+        if(screen.size.width <= size_val_w || screen.size.height <= size_val_h) {
+            size_val_w = screen.size.width;
+            size_val_h = screen.size.height;
+        }
+        cv::resizeWindow("Acid Cam v2", size_val_w, size_val_h);
+        /*
         if(u4k && capture_width >= screen.size.width && capture_height >= screen.size.height) {
             rc.size.width = screen.size.width;
             rc.size.height = screen.size.height;
             resize_value = true;
             cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        } else {
+            rc.size.width = aw;
+            rc.size.height = ah;
         }
         else if(u4k == false && frameSize.width > screen.size.width && frameSize.height > screen.size.height) {
             rc.size.width = screen.size.width;
@@ -223,8 +233,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
                 rc.size.height = ah;
                 resize_value = false;
             }
-        }
-        
+        }*/
         if(show == NO) {
             cv::Mat _bg;
             _bg.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);

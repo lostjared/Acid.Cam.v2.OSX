@@ -939,7 +939,7 @@ void setEnabledProg() {
                 if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
             } else {
                 if(syphon_enabled == NO) {
-                    cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
+                    //cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
                     cv::imshow("Acid Cam v2", frame);
                 }
             }
@@ -1044,7 +1044,7 @@ void setEnabledProg() {
     
     if([up4k state] == NSOnState || frame.size() == cv::Size((int)cap_width, (int)cap_height)) {
         [stretch_scr setState: NSOnState];
-        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
     if(capture->isOpened() && frame_read == false) {
         ++frame_proc;
@@ -1777,7 +1777,7 @@ void setEnabledProg() {
         [stretch_scr setState: NSOffState];
     } else {
         [stretch_scr setState: NSOnState];
-        cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
+        //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
 }
 
