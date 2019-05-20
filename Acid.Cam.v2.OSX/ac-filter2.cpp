@@ -892,7 +892,7 @@ void ac::ChannelSort(cv::Mat &frame) {
     cv::merge(channels, 3, output); // combine the matrices
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
-            for(int i = 0; i < frame->cols; ++i) {
+            for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i); // get reference to pixel
                 cv::Vec3b &ch_pixel = output.at<cv::Vec3b>(z, i); // get reference to pixel
                 // add and multiply components to channels
