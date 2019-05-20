@@ -118,6 +118,12 @@ std::string ac::getVersion() {
 }
 // be sure to call this on startup
 void ac::fill_filter_map() {
+    if(cv::ocl::useOpenCL() == true) {
+        std::cout << "OpenCL Initialized.\n";
+    } else {
+        std::cout << "OpenCL Did not Initiallize.\n";
+    }
+    cv::ocl::setUseOpenCL(true);
     for(int i = 0; i < ac::draw_max; ++i)
         filter_map[draw_strings[i]] = i;
     for(int i = 0; i < ac::draw_max-3; ++i)

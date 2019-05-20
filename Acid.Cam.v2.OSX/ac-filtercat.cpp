@@ -59,7 +59,6 @@ namespace ac {
     }
     
     void init_filter_menu_map() {
-        cv::ocl::setUseOpenCL(true);
         for(int i = 0; i < draw_max-5; ++i) {
             svAll.push_back(ac::draw_strings[i]);
             svAllSorted.push_back(ac::draw_strings[i]);
