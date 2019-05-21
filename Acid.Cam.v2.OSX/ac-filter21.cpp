@@ -408,12 +408,34 @@ void ac::VideoTwitch(cv::Mat &frame) {
     
 }
 
+void ac::ErodeFilter(cv::Mat &frame) {
+    static int erosion_size = 2, dir = 1;
+    cv::UMat copy1 = frame.getUMat(cv::ACCESS_FAST);
+    cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size( 2*erosion_size + 1, 2*erosion_size+1 ),cv::Point(erosion_size, erosion_size) );
+    cv::erode(copy1, frame, element );
+    if(dir == 1) {
+        ++erosion_size;
+        if(erosion_size >= 21)
+            dir = 0;;
+    } else {
+        --erosion_size;
+        if(erosion_size <= 2)
+            dir = 1;
+    }
+}
 
-
-void ac::TestFilter101x(cv::Mat &frame) {
-    cv::UMat value = frame.getUMat(cv::ACCESS_FAST);
-    cv::UMat output;
-   // ac_resize(value, output, cv::Size(1920, 1080));
-    cv::Mat cframe = output.getMat(cv::ACCESS_FAST);
-    
+void ac::DilateFilter(cv::Mat &frame) {
+    static int dilation_size = 2, dir = 1;
+    cv::UMat copy1 = frame.getUMat(cv::ACCESS_FAST);
+    cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),cv::Point( dilation_size, dilation_size ) );
+    dilate( copy1, frame, element );
+    if(dir == 1) {
+        ++dilation_size;
+        if(dilation_size >= 21)
+            dir = 0;;
+    } else {
+        --dilation_size;
+        if(dilation_size <= 2)
+            dir = 1;
+    }
 }

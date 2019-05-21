@@ -1300,7 +1300,8 @@ namespace ac {
     void Mirror_Rainbow_Blur(cv::Mat &frame);
     void MirrorMedianBlur(cv::Mat &frame);
     void VideoTwitch(cv::Mat &frame);
-    void TestFilter101x(cv::Mat &frame);
+    void ErodeFilter(cv::Mat &frame);
+    void DilateFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
