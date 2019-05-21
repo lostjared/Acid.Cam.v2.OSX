@@ -422,6 +422,7 @@ void ac::ErodeFilter(cv::Mat &frame) {
         if(erosion_size <= 2)
             dir = 1;
     }
+    AddInvert(frame);
 }
 
 void ac::DilateFilter(cv::Mat &frame) {
@@ -438,4 +439,11 @@ void ac::DilateFilter(cv::Mat &frame) {
         if(dilation_size <= 2)
             dir = 1;
     }
+    AddInvert(frame);
+}
+
+void ac::MirrorLeftBottomToTop(cv::Mat &frame) {
+    MirrorLeft(frame);
+    MirrorBottomToTop(frame);
+    AddInvert(frame);
 }

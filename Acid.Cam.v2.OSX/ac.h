@@ -1302,6 +1302,7 @@ namespace ac {
     void VideoTwitch(cv::Mat &frame);
     void ErodeFilter(cv::Mat &frame);
     void DilateFilter(cv::Mat &frame);
+    void MirrorLeftBottomToTop(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
