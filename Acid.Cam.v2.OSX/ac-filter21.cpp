@@ -459,3 +459,24 @@ void ac::BilateralFilter(cv::Mat &frame) {
     cv::UMat value = copy1.getUMat(cv::ACCESS_FAST);
     bilateralFilter (value, frame, 15, 80, 80 );
 }
+
+void ac::BilateralFilterFade(cv::Mat &frame) {
+    static const int max = 200, min = 4;
+    static int offset = min, dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::UMat value = copy1.getUMat(cv::ACCESS_FAST);
+    bilateralFilter(value, frame, 15, offset, offset);
+    if(dir == 1) {
+        ++offset;
+        if(offset > max) {
+            offset = max;
+            dir = 0;
+        }
+    } else {
+        --offset;
+        if(offset <= min) {
+            offset = min;
+            dir = 1;
+        }
+    }
+}

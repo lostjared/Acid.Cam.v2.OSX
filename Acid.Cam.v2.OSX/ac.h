@@ -1305,6 +1305,7 @@ namespace ac {
     void MirrorLeftBottomToTop(cv::Mat &frame);
     void MirrorRightTopToBottom(cv::Mat &frame);
     void BilateralFilter(cv::Mat &frame);
+    void BilateralFilterFade(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
