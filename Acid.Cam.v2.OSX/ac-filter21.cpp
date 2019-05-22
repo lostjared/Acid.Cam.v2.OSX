@@ -410,7 +410,8 @@ void ac::VideoTwitch(cv::Mat &frame) {
 
 void ac::ErodeFilter(cv::Mat &frame) {
     static int erosion_size = 2, dir = 1;
-    cv::UMat copy1 = frame.getUMat(cv::ACCESS_FAST);
+    cv::Mat frame_cp = frame.clone();
+    cv::UMat copy1 = frame_cp.getUMat(cv::ACCESS_FAST);
     cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size( 2*erosion_size + 1, 2*erosion_size+1 ),cv::Point(erosion_size, erosion_size) );
     cv::erode(copy1, frame, element );
     if(dir == 1) {
@@ -427,7 +428,8 @@ void ac::ErodeFilter(cv::Mat &frame) {
 
 void ac::DilateFilter(cv::Mat &frame) {
     static int dilation_size = 2, dir = 1;
-    cv::UMat copy1 = frame.getUMat(cv::ACCESS_FAST);
+    cv::Mat frame_cp = frame.clone();
+    cv::UMat copy1 = frame_cp.getUMat(cv::ACCESS_FAST);
     cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),cv::Point( dilation_size, dilation_size ) );
     dilate( copy1, frame, element );
     if(dir == 1) {
