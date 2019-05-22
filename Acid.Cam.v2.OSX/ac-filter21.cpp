@@ -453,3 +453,9 @@ void ac::MirrorRightTopToBottom(cv::Mat &frame) {
     MirrorTopToBottom(frame);
 }
 
+
+void ac::BilateralFilter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    //cv::UMat copy1 = frame.getUMat(cv::ACCESS_FAST);
+    bilateralFilter (copy1, frame, 15, 80, 80 );
+}
