@@ -463,7 +463,7 @@ void ac::BilateralFilter(cv::Mat &frame) {
 }
 
 void ac::BilateralFilterFade(cv::Mat &frame) {
-    static const int max = 200, min = 4;
+    static const int max = 150, min = 4;
     static int offset = min, dir = 1;
     cv::Mat copy1 = frame.clone();
     cv::UMat value = copy1.getUMat(cv::ACCESS_FAST);
@@ -486,6 +486,32 @@ void ac::BilateralFilterFade(cv::Mat &frame) {
 void ac::BilateralBlend(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     BilateralFilter(frame);
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Scalar value;
+                for(int j = 0; j < collection.size(); ++j) {
+                    cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        value[q] += pixel[q];
+                    }
+                }
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val = 1+static_cast<int>(value[j]);
+                    pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::BilateralBlendFade(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    BilateralFilterFade(frame);
     collection.shiftFrames(frame);
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
