@@ -555,8 +555,7 @@ void ac::BilateralFilterScale(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     int val = 1+static_cast<int>(value[j]);
-                    //pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
-                    pixel[j] = static_cast<unsigned char>(alpha*pixel[j]) ^ val;
+                     pixel[j] = static_cast<unsigned char>(alpha*pixel[j]) ^ val;
                 }
             }
         }
