@@ -564,3 +564,51 @@ void ac::BilateralFilterScale(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01,2.0,1.0);
 }
+
+void ac::ColorRGB_IncDec(cv::Mat &frame) {
+    static int scale[] = {rand()%255,rand()%255,rand()%255};
+    static int dir[3] = {1,1,1};
+    static int dir_a = 1, max = 25, max_dir = 1;
+    static double alpha = 1.0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j]^scale[j])*alpha);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir_a, 0.01, 3.0, 1.0);
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            scale[j] += rand()%25;
+            if(scale[j] > max) {
+                dir[j] = 0;
+                scale[j] = max;
+            }
+        } else {
+            scale[j] -= rand()%25;
+            if(scale[j] <= 1) {
+                dir[j] = 1;
+                scale[j] = 1;
+                if(max_dir == 1) {
+                    ++max;
+                    if(max >= 255) {
+                        max = 255;
+                        max_dir = 0;
+                    }
+                } else {
+                    --max;
+                    if(max <= 25) {
+                        max = 25;
+                        max_dir = 1;
+                    }
+                }
+            }
+        }
+    }
+}

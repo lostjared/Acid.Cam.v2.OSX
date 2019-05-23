@@ -1309,6 +1309,7 @@ namespace ac {
     void BilateralBlend(cv::Mat &frame);
     void BilateralBlendFade(cv::Mat &frame);
     void BilateralFilterScale(cv::Mat &frame);
+    void ColorRGB_IncDec(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
