@@ -730,9 +730,9 @@ void ac::ColorCollectionRandom_Filter(cv::Mat &frame) {
                         strobe[2] = 0;
                         break;
                     case 2:
-                        strobe[0] = 2;
-                        strobe[1] = 1;
-                        strobe[2] = 0;
+                        strobe[0] = 0;
+                        strobe[1] = 2;
+                        strobe[2] = 1;
                         break;
                 }
                 for(int j = 0; j < 3; ++j) {
@@ -822,4 +822,94 @@ void ac::CollectionEnergy(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
     MedianBlendMultiThread(frame);
+}
+
+void ac::ColorCollectionInterlace(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[4];
+    static int index = 0;
+    frames[0] = collection.frames[1];
+    frames[1] = collection.frames[3];
+    frames[2] = collection.frames[7];
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int strobe[3];
+                switch(index) {
+                    case 0: {
+                        strobe[0] = 0;
+                        strobe[1] = 1;
+                        strobe[2] = 2;
+                    }
+                        break;
+                    case 1:
+                        strobe[0] = 2;
+                        strobe[1] = 1;
+                        strobe[2] = 0;
+                        break;
+                    case 2:
+                        strobe[0] = 0;
+                        strobe[1] = 2;
+                        strobe[2] = 1;
+                        break;
+                }
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b value = frames[strobe[j]].at<cv::Vec3b>(z, i);
+                    pixel[j] = value[j];
+                }
+            }
+            ++index;
+            if(index > 2)
+                index = 0;
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::ColorCollectionStrobeShake(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[4];
+    static int index = 0;
+    frames[0] = collection.frames[1];
+    frames[1] = collection.frames[3];
+    frames[2] = collection.frames[7];
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int strobe[3];
+                switch(index) {
+                    case 0: {
+                        strobe[0] = 0;
+                        strobe[1] = 1;
+                        strobe[2] = 2;
+                    }
+                        break;
+                    case 1:
+                        strobe[0] = 2;
+                        strobe[1] = 1;
+                        strobe[2] = 0;
+                        break;
+                    case 2:
+                        strobe[0] = 0;
+                        strobe[1] = 2;
+                        strobe[2] = 1;
+                        break;
+                }
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b value = frames[strobe[j]].at<cv::Vec3b>(z, i);
+                    pixel[j] = value[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > 2)
+        index = 0;
 }
