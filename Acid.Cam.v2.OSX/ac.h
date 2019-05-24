@@ -1314,6 +1314,8 @@ namespace ac {
     void ColorCollectionRandom(cv::Mat &frame);
     void ColorCollectionStrobeShift(cv::Mat &frame);
     void ColorCollectionRandom_Filter(cv::Mat &frame);
+    void ColorCollectionShift(cv::Mat &frame);
+    void CollectionEnergy(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

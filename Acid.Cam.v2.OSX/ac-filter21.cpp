@@ -751,3 +751,75 @@ void ac::ColorCollectionRandom_Filter(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::ColorCollectionShift(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset_index = 0;
+    cv::Mat values[3];
+    values[0] = collection.frames[offset_index];
+    values[1] = collection.frames[offset_index+1];
+    values[2] = collection.frames[offset_index+2];
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b colors[3];
+                colors[0] = values[0].at<cv::Vec3b>(z, i);
+                colors[1] = values[1].at<cv::Vec3b>(z, i);
+                colors[2] = values[2].at<cv::Vec3b>(z, i);
+                pixel[0] = pixel[0]^colors[0][0];
+                pixel[1] = pixel[1]^colors[1][1];
+                pixel[2] = pixel[2]^colors[2][2];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        ++offset_index;
+        if(offset_index > collection.size()-4) {
+            offset_index = collection.size()-4;
+            dir = 0;
+        }
+    } else {
+        --offset_index;
+        if(offset_index <= 0) {
+            offset_index = 0;
+            dir = 1;
+        }
+    }
+}
+
+void ac::CollectionEnergy(cv::Mat &frame) {
+    DarkenFilter(frame);
+    DarkenFilter(frame);
+    DarkenFilter(frame);
+    static MatrixCollection<32> collection;
+    BilateralBlend(frame);
+    collection.shiftFrames(frame);
+    cv::Mat values[3];
+    values[0] = collection.frames[2];
+    values[1] = collection.frames[16];
+    values[2] = collection.frames[31];
+    static int index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            cv::Mat &val = values[index];
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel_value = val.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pixel_value[j];
+                }
+            }
+            ++index;
+            if(index > 2)
+                index = 0;
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    MedianBlendMultiThread(frame);
+}
