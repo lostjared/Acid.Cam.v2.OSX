@@ -980,3 +980,52 @@ void ac::ColorCollectionSubFilter(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::ColorCollectionShiftSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "ColorCollectionShiftSubFIlter")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    collection.shiftFrames(copy1);
+    cv::Mat frames[4];
+    static int index = 0;
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[3].clone();
+    frames[2] = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int strobe[3];
+                switch(index) {
+                    case 0: {
+                        strobe[0] = 0;
+                        strobe[1] = 1;
+                        strobe[2] = 2;
+                    }
+                        break;
+                    case 1:
+                        strobe[0] = 2;
+                        strobe[1] = 1;
+                        strobe[2] = 0;
+                        break;
+                    case 2:
+                        strobe[0] = 2;
+                        strobe[1] = 1;
+                        strobe[2] = 0;
+                        break;
+                }
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b value = frames[strobe[j]].at<cv::Vec3b>(z, i);
+                    pixel[j] = value[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > 2)
+        index = 0;
+}
