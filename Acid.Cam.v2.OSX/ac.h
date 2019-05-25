@@ -1320,6 +1320,7 @@ namespace ac {
     void ColorCollectionStrobeShake(cv::Mat &frame);
     void ColorCollectionSubFilter(cv::Mat &frame);
     void ColorCollectionShiftSubFilter(cv::Mat &frame);
+    void DizzyFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
