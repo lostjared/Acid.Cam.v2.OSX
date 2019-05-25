@@ -1318,6 +1318,7 @@ namespace ac {
     void CollectionEnergy(cv::Mat &frame);
     void ColorCollectionInterlace(cv::Mat &frame);
     void ColorCollectionStrobeShake(cv::Mat &frame);
+    void ColorCollectionSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
