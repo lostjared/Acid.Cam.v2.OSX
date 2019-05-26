@@ -1321,6 +1321,7 @@ namespace ac {
     void ColorCollectionSubFilter(cv::Mat &frame);
     void ColorCollectionShiftSubFilter(cv::Mat &frame);
     void ColorCollectionSubtle(cv::Mat &frame);
+    void ColorCollection64(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
