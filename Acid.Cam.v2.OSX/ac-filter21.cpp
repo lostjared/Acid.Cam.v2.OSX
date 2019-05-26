@@ -1062,7 +1062,7 @@ void ac::ColorCollection64(cv::Mat &frame) {
     collection.shiftFrames(frame);
     cv::Mat frames[4];
     for(int i = 0; i < 3; ++i)
-        frames[i] = collection.frames[rand()%(collection.size()-1)];
+        frames[i] = collection.frames[rand()%(collection.size()-1)].clone();
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
