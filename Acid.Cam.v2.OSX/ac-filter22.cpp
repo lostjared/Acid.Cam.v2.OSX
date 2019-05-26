@@ -56,6 +56,31 @@
 #include "ac.h"
 
 
-void ac::ColorCollectionTest(cv::Mat &frame) {
-    
+void ac::ColorCollectionSubtleStrobe(cv::Mat &frame) {
+    static bool image_on = true;
+    if(image_on == true) {
+        image_on = false;
+        return;
+    } else {
+        image_on = true;
+    }
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat values[3];
+    values[0] = collection.frames[1].clone();
+    values[1] = collection.frames[3].clone();
+    values[2] = collection.frames[6].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = values[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
 }
