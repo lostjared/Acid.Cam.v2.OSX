@@ -1030,7 +1030,7 @@ void ac::ColorCollectionShiftSubFilter(cv::Mat &frame) {
         index = 0;
 }
 
-void ac::DizzyFilter(cv::Mat &frame) {
+void ac::ColorCollectionSubtle(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     MedianBlur(frame);
     collection.shiftFrames(frame);
