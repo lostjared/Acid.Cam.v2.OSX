@@ -84,3 +84,11 @@ void ac::ColorCollectionSubtleStrobe(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::CollectionRandom(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    unsigned int value = rand()%(collection.size()-1);
+    frame = collection.frames[value].clone();
+    AddInvert(frame);
+}
