@@ -1325,6 +1325,8 @@ namespace ac {
     void ColorCollectionSubtleStrobe(cv::Mat &frame);
     void CollectionRandom(cv::Mat &frame);
     void CollectionRandomSubFilter(cv::Mat &frame);
+    void CollectionImage(cv::Mat &frame);
+    void CollectionAlphaXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
