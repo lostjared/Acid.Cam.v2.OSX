@@ -92,3 +92,32 @@ void ac::CollectionRandom(cv::Mat &frame) {
     frame = collection.frames[value].clone();
     AddInvert(frame);
 }
+
+void ac::CollectionRandomSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "CollectionRandomSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static int index1 = 0, dir1= 1;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = collection.frames[index1].clone().clone();
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaMovementMaxMin(alpha, dir, 0.005, 2.0, 1.0);
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1, copy2, frame, alpha);
+    AddInvert(frame);
+    if(dir1 == 1) {
+        ++index1;
+        if(index1 > 6) {
+            dir = 0;
+            index1 = 6;
+        }
+    } else {
+        --index1;
+        if(index1 <= 1) {
+            dir = 1;
+            index1 = 1;
+        }
+    }
+}
