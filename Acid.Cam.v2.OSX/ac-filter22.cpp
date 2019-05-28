@@ -156,8 +156,6 @@ void ac::CollectionImage(cv::Mat &frame) {
 
 void ac::CollectionAlphaXor(cv::Mat &frame) {
     static MatrixCollection<8> collection;
-    static double alpha = 1.0;
-    static int dir = 1;
     collection.shiftFrames(frame);
     cv::Mat frames[4];
     frames[0] = collection.frames[1].clone();
@@ -176,5 +174,4 @@ void ac::CollectionAlphaXor(cv::Mat &frame) {
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
-    AlphaMovementMaxMin(alpha, dir, 0.005, 2.0, 1.0);
 }
