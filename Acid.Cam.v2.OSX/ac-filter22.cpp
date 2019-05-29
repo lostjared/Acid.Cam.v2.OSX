@@ -175,3 +175,39 @@ void ac::CollectionAlphaXor(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorCollection64X(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    static int index = 0, dir = 1;
+    cv::Mat frames[4];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[(collection.size()-1)/2].clone();
+    frames[2] = collection.frames[index].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(dir == 1) {
+        ++index;
+        if(index > 60) {
+            index = 60;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 1) {
+            index = 1;
+            dir = 1;
+        }
+    }
+}
