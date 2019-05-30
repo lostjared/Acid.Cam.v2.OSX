@@ -295,3 +295,63 @@ void ac::ColorCollectionRGB_Index(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ColorCollectionRGBStrobeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "ColorCollectionRGBStrobeSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    static int index = 0, dir = 1;
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[3].clone();
+    frames[2] = collection.frames[7].clone();
+    CallFilter(subfilter, frames[index]);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = frames[index].at<cv::Vec3b>(z, i);
+                pixel[index] = pix[index];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(dir == 1) {
+        ++index;
+        if(index > 2) {
+            index = 2;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 0) {
+            index = 0;
+            dir = 1;
+        }
+    }
+}
+
+void ac::ColorCollectionGhostTrails(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[8].clone();
+    frames[2] = collection.frames[15].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    GhostTrails(frame);
+    AddInvert(frame);
+}
