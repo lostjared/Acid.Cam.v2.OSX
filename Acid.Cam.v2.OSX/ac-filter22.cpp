@@ -211,3 +211,53 @@ void ac::ColorCollection64X(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ColorCollectionSwitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int index = 0, dir = 1;
+    cv::Mat frames[4];
+    switch(index) {
+        case 0:
+            frames[0] = collection.frames[1].clone();
+            frames[1] = collection.frames[collection.size()/2].clone();
+            frames[2] = collection.frames[collection.size()-1].clone();
+            break;
+        case 1:
+            frames[0] = collection.frames[collection.size()-1].clone();
+            frames[1] = collection.frames[1].clone();
+            frames[2] = collection.frames[collection.size()/2].clone();
+            break;
+        case 2:
+            frames[0] = collection.frames[collection.size()/2].clone();
+            frames[1] = collection.frames[collection.size()-1].clone();
+            frames[2] = collection.frames[1].clone();
+            break;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b color = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = color[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(dir == 1) {
+        ++index;
+        if(index > 2) {
+            index = 2;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 0) {
+            index = 0;
+            dir = 1;
+        }
+    }
+}
