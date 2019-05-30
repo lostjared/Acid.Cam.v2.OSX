@@ -1329,6 +1329,7 @@ namespace ac {
     void CollectionAlphaXor(cv::Mat &frame);
     void ColorCollection64X(cv::Mat &frame);
     void ColorCollectionSwitch(cv::Mat &frame);
+    void ColorCollectionRGB_Index(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
