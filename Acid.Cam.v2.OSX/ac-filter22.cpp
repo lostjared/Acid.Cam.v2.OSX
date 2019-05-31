@@ -464,3 +464,35 @@ void ac::ColorCollectionXorPixel(cv::Mat &frame) {
     ++index_on;
     AlphaMovementMaxMin(alpha,dir,0.005,2.0,1.0);
 }
+
+void ac::BlendWithSource25(cv::Mat &frame) {
+    if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(copy1, orig_frame, frame, 0.25, .75);
+        AddInvert(frame);
+    }
+}
+
+void ac::BlendWithSource50(cv::Mat &frame) {
+    if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(copy1, orig_frame, frame, 0.50, 0.50);
+        AddInvert(frame);
+    }
+}
+
+void ac::BlendWithSource75(cv::Mat &frame) {
+    if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(copy1, orig_frame, frame, 0.75, 0.25);
+        AddInvert(frame);
+    }
+}
+
+void ac::BlendWithSource100(cv::Mat &frame) {
+    if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
+        cv::Mat copy1 = frame.clone();
+        AlphaBlend(copy1, orig_frame, frame, 1.0);
+        AddInvert(frame);
+    }
+}

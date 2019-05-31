@@ -1336,6 +1336,10 @@ namespace ac {
     void ColorCollectionReverseStrobe(cv::Mat &frame);
     void CollectionAlphaBlend_SubFilter(cv::Mat &frame);
     void ColorCollectionXorPixel(cv::Mat &frame);
+    void BlendWithSource25(cv::Mat &frame);
+    void BlendWithSource50(cv::Mat &frame);
+    void BlendWithSource75(cv::Mat &frame);
+    void BlendWithSource100(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
