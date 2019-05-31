@@ -387,3 +387,35 @@ void ac::ColorCollectionScale(cv::Mat &frame) {
     }
 
 }
+
+void ac::ColorCollectionReverseStrobe(cv::Mat &frame) {
+    static int index_on = 1;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b value;
+                    if(index_on == 0)
+                        value = frames[3-j-1].at<cv::Vec3b>(z, i);
+                    else
+                        value = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = value[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(index_on == 1) {
+        index_on = 0;
+    } else {
+        index_on = 1;
+    }
+}

@@ -1333,6 +1333,7 @@ namespace ac {
     void ColorCollectionRGBStrobeSubFilter(cv::Mat &frame);
     void ColorCollectionGhostTrails(cv::Mat &frame);
     void ColorCollectionScale(cv::Mat &frame);
+    void ColorCollectionReverseStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
