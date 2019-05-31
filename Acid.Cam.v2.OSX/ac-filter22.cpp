@@ -419,3 +419,16 @@ void ac::ColorCollectionReverseStrobe(cv::Mat &frame) {
         index_on = 1;
     }
 }
+
+void ac::CollectionAlphaBlend_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "TestFilter101x")
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    collection.shiftFrames(copy1);
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    AddInvert(frame);
+    
+}
