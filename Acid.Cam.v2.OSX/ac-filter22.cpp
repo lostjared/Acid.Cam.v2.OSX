@@ -432,3 +432,35 @@ void ac::CollectionAlphaBlend_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
     
 }
+
+void ac::ColorCollectionXorPixel(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    static int index_on = 0, dir = 1;
+    static double alpha = 1.0;
+    
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b value;
+                    if((index_on%2) == 0)
+                        value = frames[3-j-1].at<cv::Vec3b>(z, i);
+                    else
+                        value = frames[j].at<cv::Vec3b>(z, i);
+                    
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) ^ static_cast<unsigned char>(value[j]*alpha);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index_on;
+    AlphaMovementMaxMin(alpha,dir,0.005,2.0,1.0);
+}
