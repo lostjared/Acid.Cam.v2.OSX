@@ -355,3 +355,35 @@ void ac::ColorCollectionGhostTrails(cv::Mat &frame) {
     GhostTrails(frame);
     AddInvert(frame);
 }
+
+void ac::ColorCollectionScale(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int dir = 1;
+    static double alpha = 1.0;
+    static int index = 0;
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[8].clone();
+    frames[2] = collection.frames[15].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+                pixel[index] = static_cast<unsigned char>(pixel[index]*alpha);
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 2.0, 1.0);
+    AddInvert(frame);
+    ++index;
+    if(index > 2) {
+        index = 0;
+    }
+
+}
