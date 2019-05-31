@@ -78,7 +78,7 @@ namespace ac {
     std::string *draw_strings = draw_strings_value;
     // filter callback functions
     // number of filters
-    int draw_max = 1163;
+    int draw_max = 1162;
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function
