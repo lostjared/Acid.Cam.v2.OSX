@@ -421,7 +421,7 @@ void ac::ColorCollectionReverseStrobe(cv::Mat &frame) {
 }
 
 void ac::CollectionAlphaBlend_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || draw_strings[subfilter] == "TestFilter101x")
+    if(subfilter == -1 || draw_strings[subfilter] == "ColorCollectionXorOffsetFlash")
         return;
     static MatrixCollection<8> collection;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
@@ -495,4 +495,36 @@ void ac::BlendWithSource100(cv::Mat &frame) {
         AlphaBlend(copy1, orig_frame, frame, 1.0);
         AddInvert(frame);
     }
+}
+
+void ac::ColorCollectionXorOffsetFlash(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int offset_value = 0;
+    cv::Mat frames[4];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[7].clone();
+    frames[2] = collection.frames[14].clone();
+    
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b copy_pix = pixel;
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    if(offset_value == j)
+                        pixel[j] = pixel[j]^pix[offset_value];
+                    else
+                        pixel[j] = pix[j];
+                }
+            
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++offset_value;
+    if(offset_value > 2)
+        offset_value = 0;
 }
