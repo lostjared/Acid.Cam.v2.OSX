@@ -1341,6 +1341,7 @@ namespace ac {
     void BlendWithSource75(cv::Mat &frame);
     void BlendWithSource100(cv::Mat &frame);
     void ColorCollectionXorOffsetFlash(cv::Mat &frame);
+    void ColorCollectionMatrixGhost(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
