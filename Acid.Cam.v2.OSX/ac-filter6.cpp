@@ -1250,10 +1250,11 @@ void ac::NoFilter(cv::Mat &frame) {
 }
 // Alpha Blend with Original Frame
 void ac::BlendWithSource(cv::Mat &frame) {
-    cv::Mat copyf = frame.clone();
-    ac::pass2_alpha = blend_percentage; // set to 50%
-    Pass2Blend(copyf);// call Pass2 function
-    frame = copyf.clone();
+    if(!orig_frame.empty()) {
+        cv::Mat copyf = frame.clone(), copyo;
+        ac::pass2_alpha = blend_percentage; // set to 50%
+        AlphaBlendDouble(copyf, orig_frame, frame, blend_percentage, 1.0-blend_percentage);
+    }
 }
 
 void ac::setBlendPercentage(const double &value) {
