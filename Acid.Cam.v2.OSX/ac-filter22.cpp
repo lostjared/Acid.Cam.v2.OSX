@@ -603,3 +603,9 @@ void ac::MildStrobe(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::ReduceBy50(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    AlphaBlend(copy1, copy2, frame, 0.25);
+    AddInvert(frame);
+}
