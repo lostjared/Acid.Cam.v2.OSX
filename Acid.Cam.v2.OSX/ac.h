@@ -1,5 +1,5 @@
 /*
- * Acid Cam Functions for OpenCV
+ * Acid Cam Filters for OpenCV
  * written by Jared Bruni https://github.com/lostjared
  
  This software is dedicated to all the people that experience mental illness.
@@ -1342,6 +1342,7 @@ namespace ac {
     void BlendWithSource100(cv::Mat &frame);
     void ColorCollectionXorOffsetFlash(cv::Mat &frame);
     void ColorCollectionMatrixGhost(cv::Mat &frame);
+    void MildStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

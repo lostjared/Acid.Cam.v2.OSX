@@ -163,10 +163,6 @@ void setEnabledProg() {
     [stop_prog_i setEnabled: NO];
 }
 
-
-
-
-
 // Objective-C implemtation of class AC_Controller
 @implementation AC_Controller
 

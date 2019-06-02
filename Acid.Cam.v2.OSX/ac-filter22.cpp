@@ -559,3 +559,47 @@ void ac::ColorCollectionMatrixGhost(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::MildStrobe(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[0].clone();
+    frames[1] = collection.frames[3].clone();
+    frames[2] = collection.frames[6].clone();
+    static int index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                int values[3] = {0,0,0};
+                switch(index) {
+                    case 0:
+                        values[0] = 0;
+                        values[1] = 1;
+                        values[2] = 2;
+                        break;
+                    case 1:
+                        values[0] = 1;
+                        values[1] = 2;
+                        values[2] = 0;
+                        break;
+                    case 2:
+                        values[0] = 0;
+                        values[1] = 2;
+                        values[2] = 1;
+                        break;
+                }
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[values[j]];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > 2)
+        index = 0;
+}
