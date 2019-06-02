@@ -609,3 +609,13 @@ void ac::ReduceBy50(cv::Mat &frame) {
     AlphaBlend(copy1, copy2, frame, 0.25);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendWithSourceScale(cv::Mat &frame) {
+    if(orig_frame.empty()) return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = orig_frame.clone();
+    AlphaBlendDouble(copy1, copy2, frame, alpha, 1.0-alpha);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha,dir, 0.01, 0.5, 0.1);
+}

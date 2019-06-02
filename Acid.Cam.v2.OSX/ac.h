@@ -1344,6 +1344,7 @@ namespace ac {
     void ColorCollectionMatrixGhost(cv::Mat &frame);
     void MildStrobe(cv::Mat &frame);
     void ReduceBy50(cv::Mat &frame);
+    void AlphaBlendWithSourceScale(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
