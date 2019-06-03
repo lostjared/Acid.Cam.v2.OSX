@@ -652,3 +652,47 @@ void ac::ColorPositionAverageXor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorPositionXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    std::vector<cv::Vec3b> pixels;
+    int value = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            if(i == value) {
+                pixels.push_back(frame.at<cv::Vec3b>(z, i));
+                ++value;
+                break;
+            }
+        }
+    }
+    cv::Scalar combined;
+    int values[3] = {0,0,0};
+    for(int q = 0; q < pixels.size(); ++q) {
+        for(int j = 0; j < 3; ++j) {
+            combined[j] += pixels[q][j];
+        }
+    }
+    values[0] = static_cast<int>(combined[0]/pixels.size());
+    values[1] = static_cast<int>(combined[1]/pixels.size());
+    values[2] = static_cast<int>(combined[2]/pixels.size());
+    
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pix = collection.frames[7].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+               pixel[j] = cv::saturate_cast<unsigned char>((pixel[j]^pix[j])^values[j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ColorPositionXorMedianBlend(cv::Mat &frame) {
+    ColorPositionXor(frame);
+    DarkenFilter(frame);
+    MedianBlendMultiThread(frame);
+}
