@@ -619,3 +619,36 @@ void ac::AlphaBlendWithSourceScale(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha,dir, 0.01, 0.5, 0.1);
 }
+
+void ac::ColorPositionAverageXor(cv::Mat &frame) {
+    std::vector<cv::Vec3b> pixels;
+    int value = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            if(i == value) {
+                pixels.push_back(frame.at<cv::Vec3b>(z, i));
+                ++value;
+                break;
+            }
+        }
+    }
+    cv::Scalar combined;
+    int values[3] = {0,0,0};
+    for(int q = 0; q < pixels.size(); ++q) {
+        for(int j = 0; j < 3; ++j) {
+            combined[j] += pixels[q][j];
+        }
+    }
+    values[0] = static_cast<int>(combined[0]/pixels.size());
+    values[1] = static_cast<int>(combined[1]/pixels.size());
+    values[2] = static_cast<int>(combined[2]/pixels.size());
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^values[j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
