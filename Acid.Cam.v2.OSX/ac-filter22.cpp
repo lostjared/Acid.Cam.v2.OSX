@@ -698,12 +698,13 @@ void ac::ColorPositionXorMedianBlend(cv::Mat &frame) {
 }
 
 void ac::CannyStrobe(cv::Mat &frame) {
-    cv::Mat out;
     static double x = 250, y = 250;
     static int dir1 = 1, dir2 = 1;
     AlphaMovementMaxMin(x,dir1,1.0, 250.0, 200.0);
     AlphaMovementMaxMin(y,dir2,1.0, 250.0, 200.0);
-    cv::Canny(frame, out, x, y);
+    cv::UMat copy1 = frame.getUMat(cv::ACCESS_FAST);
+    cv::UMat out;
+    cv::Canny(copy1, out, x, y);
     cv::Mat converted;
     cv::cvtColor(out, frame, cv::COLOR_GRAY2BGR);
     AddInvert(frame);
