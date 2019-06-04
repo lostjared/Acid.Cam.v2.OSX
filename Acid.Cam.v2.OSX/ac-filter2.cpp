@@ -225,15 +225,17 @@ int AC_GetFZ(int oldh, int y, int nh) {
 
 // preform GaussianBlur
 void ac::GaussianBlur(cv::Mat &frame) {
-    cv::Mat out;
-    cv::GaussianBlur(frame, out, cv::Size(5, 5), 0, 0);
-    frame = out.clone();
+    cv::UMat blur, out;
+    blur = frame.getUMat(cv::ACCESS_FAST);
+    cv::GaussianBlur(blur, out, cv::Size(5, 5), 0, 0);
+    out.copyTo(frame);
 }
 // preform MedianBlur
 void ac::MedianBlur(cv::Mat &frame) {
-    cv::Mat out;
-    cv::medianBlur(frame, out, 5);
-    frame = out.clone();
+    cv::UMat blur, out;
+    blur = frame.getUMat(cv::ACCESS_FAST);
+    cv::medianBlur(blur, out, 5);
+    out.copyTo(frame);
 }
 // Increase / Decrease GaussianBlur
 // takes cv::Mat reference
