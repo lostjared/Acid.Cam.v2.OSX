@@ -710,3 +710,8 @@ void ac::CannyStrobe(cv::Mat &frame) {
     AddInvert(frame);
     ColorCollectionReverseStrobe(frame);
 }
+
+void ac::LaplacianStrobe(cv::Mat &frame) {
+    ac::Laplacian(frame);
+    ac::ColorCollectionReverseStrobe(frame);
+}

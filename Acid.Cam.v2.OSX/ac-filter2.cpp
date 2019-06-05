@@ -818,9 +818,9 @@ void ac::Mean(cv::Mat &frame) {
 
 // Laplacian - takes cv::Mat reference
 void ac::Laplacian(cv::Mat &frame) {
-    cv::Mat out;
-    cv::Laplacian(frame, out, CV_8U);
-    frame = out.clone();
+    cv::UMat uout, f = frame.getUMat(cv::ACCESS_FAST);
+    cv::Laplacian(f,uout, CV_8U);
+    uout.copyTo(frame);
     AddInvert(frame);
 }
 

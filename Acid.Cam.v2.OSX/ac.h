@@ -1349,6 +1349,8 @@ namespace ac {
     void ColorPositionXor(cv::Mat &frame);
     void ColorPositionXorMedianBlend(cv::Mat &frame);
     void CannyStrobe(cv::Mat &frame);
+    void LaplacianStrobe(cv::Mat &frame);
+    
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
