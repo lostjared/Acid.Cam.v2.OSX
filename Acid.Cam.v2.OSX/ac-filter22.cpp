@@ -715,3 +715,14 @@ void ac::LaplacianStrobe(cv::Mat &frame) {
     ac::Laplacian(frame);
     ac::ColorCollectionReverseStrobe(frame);
 }
+
+void ac::LaplacianStrobeOnOff(cv::Mat &frame) {
+    static int flash = 0;
+    if(flash == 0) {
+        flash = 1;
+        LaplacianStrobe(frame);
+    } else {
+        ac::Laplacian(frame);
+        flash = 0;
+    }
+}

@@ -1350,6 +1350,7 @@ namespace ac {
     void ColorPositionXorMedianBlend(cv::Mat &frame);
     void CannyStrobe(cv::Mat &frame);
     void LaplacianStrobe(cv::Mat &frame);
+    void LaplacianStrobeOnOff(cv::Mat &frame);
     
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
