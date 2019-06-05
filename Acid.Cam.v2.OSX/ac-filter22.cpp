@@ -714,6 +714,7 @@ void ac::CannyStrobe(cv::Mat &frame) {
 void ac::LaplacianStrobe(cv::Mat &frame) {
     ac::Laplacian(frame);
     ac::ColorCollectionReverseStrobe(frame);
+    AddInvert(frame);
 }
 
 void ac::LaplacianStrobeOnOff(cv::Mat &frame) {
@@ -724,5 +725,27 @@ void ac::LaplacianStrobeOnOff(cv::Mat &frame) {
     } else {
         ac::Laplacian(frame);
         flash = 0;
+    }
+    AddInvert(frame);
+}
+
+void ac::ColorCollectionPixelXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar value;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    value[j] += pix[j];
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                value[j] /= collection.size();
+                int ival = static_cast<int>(value[j]);
+                pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^ival);
+            }
+        }
     }
 }
