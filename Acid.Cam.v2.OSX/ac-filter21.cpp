@@ -458,16 +458,18 @@ void ac::MirrorRightTopToBottom(cv::Mat &frame) {
 
 void ac::BilateralFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
-    cv::UMat value = copy1.getUMat(cv::ACCESS_FAST);
-    bilateralFilter (value, frame, 15, 80, 80 );
+    cv::UMat value = copy1.getUMat(cv::ACCESS_FAST), out;
+    bilateralFilter (value, out, 15, 80, 80 );
+    out.copyTo(frame);
 }
 
 void ac::BilateralFilterFade(cv::Mat &frame) {
     static const int max = 150, min = 4;
     static int offset = min, dir = 1;
     cv::Mat copy1 = frame.clone();
-    cv::UMat value = copy1.getUMat(cv::ACCESS_FAST);
-    bilateralFilter(value, frame, 15, offset, offset);
+    cv::UMat value = copy1.getUMat(cv::ACCESS_FAST), out;
+    bilateralFilter(value, out, 15, offset, offset);
+    out.copyTo(frame);
     if(dir == 1) {
         ++offset;
         if(offset > max) {
