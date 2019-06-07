@@ -749,3 +749,12 @@ void ac::ColorCollectionPixelXor(cv::Mat &frame) {
         }
     }
 }
+
+void ac::GrayStrobe(cv::Mat &frame) {
+    static bool on_off = true;
+    if(on_off == true) {
+        Grayscale(frame);
+        on_off = false;
+    } else
+        on_off = true;
+}

@@ -1352,7 +1352,7 @@ namespace ac {
     void LaplacianStrobe(cv::Mat &frame);
     void LaplacianStrobeOnOff(cv::Mat &frame);
     void ColorCollectionPixelXor(cv::Mat &frame);
-    
+    void GrayStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
