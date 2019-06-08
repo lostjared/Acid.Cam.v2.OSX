@@ -758,3 +758,25 @@ void ac::GrayStrobe(cv::Mat &frame) {
     } else
         on_off = true;
 }
+
+void ac::ColorStrobeXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Vec3b value(rand()%256, rand()%256, rand()%256);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Scalar sval;
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    sval[j] += pix[j];
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int bgr[3];
+            for(int j = 0; j < 3; ++j) {
+                bgr[j] = static_cast<int>(sval[j]/collection.size());
+                pixel[j] = pixel[j] ^ bgr[j] ^ value[j];
+            }
+        }
+    }
+}
