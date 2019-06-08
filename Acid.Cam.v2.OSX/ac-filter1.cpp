@@ -79,6 +79,10 @@ namespace ac {
     // filter callback functions
     // number of filters
     int draw_max = 1184;
+    
+    int getFilterCount() {
+        return draw_max-4;
+    }
     // variables
     double translation_variable = 0.001f, pass2_alpha = 0.75f;
     // swap colors inline function

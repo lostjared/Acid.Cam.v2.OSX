@@ -103,7 +103,7 @@ void stopCV() {
 // program function to start process
 int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
-    sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::draw_max-4 << " Filters Loaded...\n";
+    sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::getFilterCount() << " Filters Loaded...\n";
     sout << "OpenCL Enabled: " << ((ac::OpenCL_Enabled() == true) ? "Yes" : "No") << "\n";
     add_path="default";
     input_name = input_file;

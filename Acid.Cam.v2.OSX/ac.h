@@ -104,6 +104,7 @@ int AC_GetFZ(int oldh, int y, int nh);
 namespace ac {
     // get version string
     extern std::string getVersion();
+    extern int getFilterCount();
     // version string
     extern const std::string version;
     extern double translation_variable, pass2_alpha;
