@@ -1355,6 +1355,7 @@ namespace ac {
     void ColorCollectionPixelXor(cv::Mat &frame);
     void GrayStrobe(cv::Mat &frame);
     void ColorStrobeXor(cv::Mat &frame);
+    void ColorGhost(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
