@@ -730,7 +730,10 @@ void ac::LaplacianStrobeOnOff(cv::Mat &frame) {
 }
 
 void ac::ColorCollectionPixelXor(cv::Mat &frame) {
-    static MatrixCollection<8> collection;
+    static MatrixCollection<32> collection;
+    int max_blur = 3+(rand()%5);
+    for(int m = 0; m < max_blur; ++m)
+        MedianBlur(frame);
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -761,6 +764,9 @@ void ac::GrayStrobe(cv::Mat &frame) {
 
 void ac::ColorStrobeXor(cv::Mat &frame) {
     static MatrixCollection<8> collection;
+    int max_blur = 5+(rand()%5);
+    for(int m = 0; m < max_blur; ++m)
+        MedianBlur(frame);
     collection.shiftFrames(frame);
     cv::Vec3b value(rand()%256, rand()%256, rand()%256);
     for(int z = 0; z < frame.rows; ++z) {
