@@ -751,6 +751,7 @@ void ac::ColorCollectionPixelXor(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::GrayStrobe(cv::Mat &frame) {
@@ -760,6 +761,8 @@ void ac::GrayStrobe(cv::Mat &frame) {
         on_off = false;
     } else
         on_off = true;
+    
+    AddInvert(frame);
 }
 
 void ac::ColorStrobeXor(cv::Mat &frame) {
@@ -785,6 +788,7 @@ void ac::ColorStrobeXor(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ColorGhost(cv::Mat &frame) {
@@ -822,4 +826,20 @@ void ac::ColorGhost(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::ColorCollectionTwitchSubFilter(cv::Mat &frame) {
+    if(subfilter == -1)
+        return;
+    static MatrixCollection<8> collection;
+    int max_blur = 4;
+    for(int m = 0; m < max_blur; ++m)
+        MedianBlur(frame);
+    collection.shiftFrames(frame);
+    cv::Mat copy_frame = collection.frames[rand()%(collection.size()-1)].clone();
+    cv::Mat temp = frame.clone();
+    AlphaBlend(temp, copy_frame, frame, 0.5);
+    CallFilter(subfilter, frame);
+    AddInvert(frame);
 }
