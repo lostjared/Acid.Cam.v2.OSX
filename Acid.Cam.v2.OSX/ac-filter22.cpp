@@ -881,3 +881,25 @@ void ac::BlurredOutXor(cv::Mat &frame) {
         }
     }
 }
+
+void ac::BoxFilter(cv::Mat &frame) {
+    static int index = 1, dir = 1;
+    cv::UMat src, dst;
+    src = frame.getUMat(cv::ACCESS_FAST);
+    cv::boxFilter(src, dst, -1, cv::Size(index,index));
+    dst.copyTo(frame);
+    AddInvert(frame);
+    if(dir == 1) {
+        index += 2;
+        if(index > 13) {
+            index = 13;
+            dir = 0;
+        }
+    } else {
+        index -= 2;
+        if(index <= 3) {
+            index = 3;
+            dir = 1;
+        }
+    }
+}

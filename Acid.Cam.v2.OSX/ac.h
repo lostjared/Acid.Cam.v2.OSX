@@ -1358,6 +1358,7 @@ namespace ac {
     void ColorGhost(cv::Mat &frame);
     void ColorCollectionTwitchSubFilter(cv::Mat &frame);
     void BlurredOutXor(cv::Mat &frame);
+    void BoxFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
