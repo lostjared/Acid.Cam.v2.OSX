@@ -843,3 +843,41 @@ void ac::ColorCollectionTwitchSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame);
     AddInvert(frame);
 }
+
+void ac::BlurredOutXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static int index = 1, dir = 1;
+    cv::Mat copyf = frame.clone();
+    MedianBlur(copyf, index);
+    collection.shiftFrames(copyf);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1];
+    frames[1] = collection.frames[collection.size()/2];
+    frames[2] = collection.frames[collection.size()-1];
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pixel[j]^pix[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(dir == 1) {
+        index += 2;
+        if(index > 31) {
+            index = 31;
+            dir = 0;
+        }
+    } else {
+        index -= 2;
+        if(index <= 3) {
+            index = 3;
+            dir = 1;
+        }
+    }
+}

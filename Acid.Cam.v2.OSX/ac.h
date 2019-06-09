@@ -1357,6 +1357,7 @@ namespace ac {
     void ColorStrobeXor(cv::Mat &frame);
     void ColorGhost(cv::Mat &frame);
     void ColorCollectionTwitchSubFilter(cv::Mat &frame);
+    void BlurredOutXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1374,6 +1375,7 @@ namespace ac {
     void ApplyColorMap(cv::Mat &frame);
     void AddInvert(cv::Mat &frame);
     // color correction
+    void MedianBlur(cv::Mat &frame, unsigned int value);
     void setBlendPercentage(const double &value);
     void setBrightness(cv::Mat &frame, double alpha, int beta);
     void setGamma(cv::Mat &frame, cv::Mat &outframe, double gamma);
