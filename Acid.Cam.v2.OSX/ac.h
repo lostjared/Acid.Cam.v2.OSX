@@ -1360,6 +1360,7 @@ namespace ac {
     void BlurredOutXor(cv::Mat &frame);
     void BoxFilter(cv::Mat &frame);
     void DizzyFilter(cv::Mat &frame);
+    void Buzzed(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

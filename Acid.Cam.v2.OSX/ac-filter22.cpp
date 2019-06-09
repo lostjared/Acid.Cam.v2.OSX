@@ -925,3 +925,32 @@ void ac::DizzyFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::Buzzed(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            cv::Vec3b pix[8];
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < collection.size()-1; ++j) {
+                    pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
+                }
+                const double sep_value = 1.0/collection.size();
+                double value[3] = {0,0,0};
+                for(int j = 0; j < 3; ++j) {
+                    //value[j] = (pix[0][0j * sep)+
+                    for(int q = 0; q < collection.size()-1; ++q) {
+                        value[j] += (pix[q][j] * sep_value);
+                    }
+                }
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(value[j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
