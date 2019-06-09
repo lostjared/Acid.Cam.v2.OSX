@@ -903,3 +903,25 @@ void ac::BoxFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::DizzyFilter(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b pix[3];
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pix[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+                pix[1] = collection.frames[collection.size()/2].at<cv::Vec3b>(z, i);
+                pix[2] = collection.frames[collection.size()-1].at<cv::Vec3b>(z, i);
+                for(int q = 0; q < 3; ++q) {
+                    double value = (pix[0][q]*0.33)+(pix[1][q]*0.33)+(pix[2][q]*0.33);
+                    pixel[q] = static_cast<unsigned char>(value);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
