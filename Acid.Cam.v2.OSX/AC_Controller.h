@@ -192,7 +192,6 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) openWebcamDialog: (id) sender;
 - (IBAction) startVideoProgram: (id) sender;
 - (IBAction) selectFile: (id) sender;
-- (IBAction) takeSnopshot: (id) sender;
 - (IBAction) takeSnapshotPNG: (id) sender;
 - (IBAction) checkChanged: (id) sender;
 - (IBAction) disableFilters: (id) sender;

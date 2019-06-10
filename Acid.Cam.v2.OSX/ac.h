@@ -1361,6 +1361,9 @@ namespace ac {
     void BoxFilter(cv::Mat &frame);
     void DizzyFilter(cv::Mat &frame);
     void Buzzed(cv::Mat &frame);
+    void BlendWithImage25(cv::Mat &frame);
+    void BlendWithImage50(cv::Mat &frame);
+    void BlendWithImage75(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

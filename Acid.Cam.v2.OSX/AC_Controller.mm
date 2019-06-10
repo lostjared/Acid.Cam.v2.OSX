@@ -968,7 +968,7 @@ void setEnabledProg() {
             time_t t = time(0);
             struct tm *m;
             m = localtime(&t);
-            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec  << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec  << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ".png";
             imwrite(stream.str(), frame);
             sout << "Took snapshot: " << stream.str() << "\n";
             ac::snapShot = false;
@@ -1228,7 +1228,7 @@ void setEnabledProg() {
         time_t t = time(0);
         struct tm *m;
         m = localtime(&t);
-        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ((ac::snapshot_Type == 0) ? ".jpg" : ".png");
+        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ".png";
         imwrite(stream.str(), frame);
         sout << "Took snapshot: " << stream.str() << "\n";
         ac::snapShot = false;
@@ -1279,10 +1279,6 @@ void setEnabledProg() {
     }
 }
 
-- (IBAction) takeSnopshot: (id) sender {
-    ac::snapShot = true;
-    ac::snapshot_Type = 0;
-}
 
 - (IBAction) takeSnapshotPNG: (id) sender {
     ac::snapShot = true;
@@ -1590,7 +1586,7 @@ void setEnabledProg() {
     [panel setCanChooseDirectories:NO];
     [panel setCanChooseFiles: YES];
     [panel setAllowsMultipleSelection: YES];
-    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"bmp",@"jpg", @"png", nil]];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"png", nil]];
     if([panel runModal]) {
         NSArray *file_names = [panel URLs];
         if([file_names count] > 0) {

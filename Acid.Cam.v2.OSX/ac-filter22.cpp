@@ -940,8 +940,7 @@ void ac::Buzzed(cv::Mat &frame) {
                 const double sep_value = 1.0/collection.size();
                 double value[3] = {0,0,0};
                 for(int j = 0; j < 3; ++j) {
-                    //value[j] = (pix[0][0j * sep)+
-                    for(int q = 0; q < collection.size()-1; ++q) {
+                     for(int q = 0; q < collection.size()-1; ++q) {
                         value[j] += (pix[q][j] * sep_value);
                     }
                 }
@@ -953,4 +952,31 @@ void ac::Buzzed(cv::Mat &frame) {
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
+}
+
+void ac::BlendWithImage25(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat img;
+    ac_resize(blend_image, img, frame.size());
+    cv::Mat copy1 = frame.clone();
+    AlphaBlendDouble(copy1, img, frame, 0.75, 0.25);
+}
+
+void ac::BlendWithImage50(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat img;
+    ac_resize(blend_image, img, frame.size());
+    cv::Mat copy1 = frame.clone();
+    AlphaBlendDouble(copy1, img, frame, 0.5, 0.5);
+}
+
+void ac::BlendWithImage75(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat img;
+    ac_resize(blend_image, img, frame.size());
+    cv::Mat copy1 = frame.clone();
+    AlphaBlendDouble(copy1, img, frame, 0.25, 0.75);
 }
