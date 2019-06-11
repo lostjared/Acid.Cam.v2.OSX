@@ -1009,3 +1009,17 @@ void ac::BuzzedDark(cv::Mat &frame) {
     MedianBlendDark(frame);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendImageDownUp(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat img, copy1 = frame.clone();
+    cv::resize(blend_image, img, frame.size());
+    double alpha[2] = {1.0,1.0};
+    int dir[2] = {1,1};
+    AlphaBlendDouble(copy1, img, frame, alpha[0], alpha[1]);
+    for(int i = 0; i < 2; ++i) {
+        AlphaMovementMaxMin(alpha[i], dir[i], 0.01, 2.0, 1.0);
+    }
+    AddInvert(frame);
+}
