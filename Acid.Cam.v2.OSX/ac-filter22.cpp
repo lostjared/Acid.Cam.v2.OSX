@@ -1014,7 +1014,7 @@ void ac::AlphaBlendImageDownUp(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat img, copy1 = frame.clone();
-    cv::resize(blend_image, img, frame.size());
+    ac_resize(blend_image, img, frame.size());
     BlendWithSource25(copy1);
     double alpha = 1.0;
     int dir = 1;
@@ -1023,4 +1023,18 @@ void ac::AlphaBlendImageDownUp(cv::Mat &frame) {
         AlphaMovementMaxMin(alpha, dir, 0.005, 2.0, 1.0);
     }
     AddInvert(frame);
+}
+
+void ac::BlendWithImageAndSource(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static double alpha1 = 2.0, alpha2 = 1.0;
+    static int dir1 = 0, dir2 = 1;
+    cv::Mat copy1 = frame.clone(), reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    BlendWithImage25(copy1);
+    BlendWithSource25(reimage);
+    AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
+    AlphaMovementMaxMin(alpha1, dir1, 0.05, 2.0, 1.0);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 2.0, 1.0);
 }

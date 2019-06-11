@@ -1366,6 +1366,7 @@ namespace ac {
     void BlendWithImage75(cv::Mat &frame);
     void BuzzedDark(cv::Mat &frame);
     void AlphaBlendImageDownUp(cv::Mat &frame);
+    void BlendWithImageAndSource(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
