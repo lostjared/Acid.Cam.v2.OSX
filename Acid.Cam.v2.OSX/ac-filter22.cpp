@@ -934,13 +934,13 @@ void ac::Buzzed(cv::Mat &frame) {
             cv::Vec3b pix[8];
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                for(int j = 0; j < collection.size()-1; ++j) {
+                for(int j = 0; j < collection.size(); ++j) {
                     pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
                 }
                 const double sep_value = 1.0/collection.size();
                 double value[3] = {0,0,0};
                 for(int j = 0; j < 3; ++j) {
-                     for(int q = 0; q < collection.size()-1; ++q) {
+                     for(int q = 0; q < collection.size(); ++q) {
                         value[j] += (pix[q][j] * sep_value);
                     }
                 }
@@ -979,4 +979,33 @@ void ac::BlendWithImage75(cv::Mat &frame) {
     ac_resize(blend_image, img, frame.size());
     cv::Mat copy1 = frame.clone();
     AlphaBlendDouble(copy1, img, frame, 0.25, 0.75);
+}
+
+void ac::BuzzedDark(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            cv::Vec3b pix[8];
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < collection.size(); ++j) {
+                    pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
+                }
+                const double sep_value = 1.0/(collection.size()-1);
+                double value[3] = {0,0,0};
+                for(int j = 0; j < 3; ++j) {
+                    for(int q = 0; q < collection.size(); ++q) {
+                        value[j] += (pix[q][j] * sep_value);
+                    }
+                }
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(value[j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendDark(frame);
+    AddInvert(frame);
 }
