@@ -1043,18 +1043,41 @@ void ac::BlendWithImageAndSource(cv::Mat &frame) {
 void ac::PixelSourceFrameBlend256(cv::Mat &frame) {
     static MatrixCollection<256> collection;
     collection.shiftFrames(frame);
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            unsigned int rgb[3] = {pixel[0], pixel[1], pixel[2]};
-            cv::Vec3b pix[3];
-            for(int q = 0; q < 3; ++q) {
-                pix[q] = collection.frames[rgb[q]].at<cv::Vec3b>(z, i);
-            }
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = pix[j][j];
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                unsigned int rgb[3] = {pixel[0], pixel[1], pixel[2]};
+                cv::Vec3b pix[3];
+                for(int q = 0; q < 3; ++q) {
+                    pix[q] = collection.frames[rgb[q]].at<cv::Vec3b>(z, i);
+                }
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pix[j][j];
+                }
             }
         }
-    }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::SplitMatrixCollection(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    static int index = 0;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++index;
+                if(index > collection.size()-1)
+                    index = 0;
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
