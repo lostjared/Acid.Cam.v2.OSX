@@ -91,6 +91,9 @@
  *
  * ac::draw_strings[function_index];
  *
+ * When writing C++ do not call another Mulithreaded filter
+ * from within a mulithreaded filter within its loop callback
+ *
  */
 // exernal variables
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
@@ -1369,6 +1372,7 @@ namespace ac {
     void BlendWithImageAndSource(cv::Mat &frame);
     void PixelSourceFrameBlend256(cv::Mat &frame);
     void SplitMatrixCollection(cv::Mat &frame);
+    void ThreadTest(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
