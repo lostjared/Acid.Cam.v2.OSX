@@ -1037,4 +1037,24 @@ void ac::BlendWithImageAndSource(cv::Mat &frame) {
     AlphaBlendDouble(copy1, reimage, frame, alpha1, alpha2);
     AlphaMovementMaxMin(alpha1, dir1, 0.05, 2.0, 1.0);
     AlphaMovementMaxMin(alpha2, dir2, 0.05, 2.0, 1.0);
+    AddInvert(frame);
+}
+
+void ac::PixelSourceFrameBlend256(cv::Mat &frame) {
+    static MatrixCollection<256> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            unsigned int rgb[3] = {pixel[0], pixel[1], pixel[2]};
+            cv::Vec3b pix[3];
+            for(int q = 0; q < 3; ++q) {
+                pix[q] = collection.frames[rgb[q]].at<cv::Vec3b>(z, i);
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix[j][j];
+            }
+        }
+    }
+    AddInvert(frame);
 }
