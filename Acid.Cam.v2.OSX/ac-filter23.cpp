@@ -127,6 +127,34 @@ void ac::SplitMatrixCollection(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ThreadTest(cv::Mat &frame) {
+void ac::RectangleGlitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int index = 0, dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                
+                if(dir == 1) {
+                    ++index;
+                    if(index > collection.size()-1) {
+                        index = collection.size()-1;
+                        dir = 0;
+                    } else {
+                        --index;
+                        if(index <= 1) {
+                            index = 1;
+                            dir = 1;
+                        }
+                    }
+                }
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
     
 }

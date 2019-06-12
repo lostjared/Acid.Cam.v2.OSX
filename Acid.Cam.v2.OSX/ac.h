@@ -1372,7 +1372,7 @@ namespace ac {
     void BlendWithImageAndSource(cv::Mat &frame);
     void PixelSourceFrameBlend256(cv::Mat &frame);
     void SplitMatrixCollection(cv::Mat &frame);
-    void ThreadTest(cv::Mat &frame);
+    void RectangleGlitch(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
