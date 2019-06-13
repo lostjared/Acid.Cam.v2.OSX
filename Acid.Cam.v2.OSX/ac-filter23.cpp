@@ -190,24 +190,8 @@ void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int values[3] = {0,0,0};
-                switch(index) {
-                    case 0:
-                        values[0] = 0;
-                        values[1] = 1;
-                        values[2] = 2;
-                        break;
-                    case 1:
-                        values[0] = 2;
-                        values[1] = 0;
-                        values[2] = 1;
-                        break;
-                    case 2:
-                        values[0] = 1;
-                        values[1] = 2;
-                        values[2] = 0;
-                        break;
-                }
+                int values[3];
+                InitArrayPosition(values, index);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
                     pixel[j] = pix[values[j]];
@@ -246,23 +230,7 @@ void ac::Shake(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 int values[3];
-                switch(index) {
-                    case 0:
-                        values[0] = 0;
-                        values[1] = 1;
-                        values[2] = 2;
-                        break;
-                    case 1:
-                        values[0] = 2;
-                        values[1] = 0;
-                        values[2] = 1;
-                        break;
-                    case 2:
-                        values[0] = 1;
-                        values[1] = 2;
-                        values[2] = 0;
-                        break;
-                }
+                InitArrayPosition(values, index);
                 cv::Vec3b cpix = pixel;
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[values[j]].at<cv::Vec3b>(z, i);

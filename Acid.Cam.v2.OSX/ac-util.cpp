@@ -952,3 +952,23 @@ void ac::Pixelated::drawToMatrix(cv::Mat &frame) {
     }
 }
 
+void ac::InitArrayPosition(int *values, const int &index) {
+    switch(index) {
+        case 0:
+            values[0] = 0;
+            values[1] = 1;
+            values[2] = 2;
+            break;
+        case 1:
+            values[0] = 2;
+            values[1] = 0;
+            values[2] = 1;
+            break;
+        case 2:
+            values[0] = 1;
+            values[1] = 2;
+            values[2] = 0;
+            break;
+    }
+}
+

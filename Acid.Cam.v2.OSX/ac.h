@@ -1446,6 +1446,7 @@ namespace ac {
     void SwitchOrder(cv::Vec3b &frame, int order);
     void InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1);
     void InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_items);
+    void InitArrayPosition(int *arr, const int &dir);
     void pushSubFilter(int newsub);
     void popSubFilter();
     // todo: later
