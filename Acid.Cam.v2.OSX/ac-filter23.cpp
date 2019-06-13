@@ -135,7 +135,6 @@ void ac::RectangleGlitch(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                
                 if(dir == 1) {
                     ++index;
                     if(index > collection.size()-1) {
@@ -157,4 +156,24 @@ void ac::RectangleGlitch(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
     
+}
+
+void ac::PositionShift(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = collection.frames[7].clone();
+    int val_offset = rand()%(frame.cols-1);
+    for(int z = 0; z < frame.rows; ++z) {
+        int index = val_offset;
+        for(int i = 0; i < frame.cols; ++i) {
+            if(index < frame.cols-1) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, index);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++index;
+            } else
+                break;
+        }
+    }
+    AddInvert(frame);
 }
