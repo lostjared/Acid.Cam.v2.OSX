@@ -231,3 +231,54 @@ void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::HeartBeat(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int index = 0;
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[collection.size()/2].clone();
+    frames[2] = collection.frames[collection.size()-1].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        int counter = 0;
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int values[3];
+                switch(index) {
+                    case 0:
+                        values[0] = 0;
+                        values[1] = 1;
+                        values[2] = 2;
+                        break;
+                    case 1:
+                        values[0] = 2;
+                        values[1] = 0;
+                        values[2] = 1;
+                        break;
+                    case 2:
+                        values[0] = 1;
+                        values[1] = 2;
+                        values[2] = 0;
+                        break;
+                }
+                cv::Vec3b cpix = pixel;
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[values[j]].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+                pixel[values[counter]] = cpix[values[counter]];
+                ++counter;
+                if(counter > 2)
+                    counter = 0;
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > (collection.size()-1)) {
+        index = 0;
+    }
+}
