@@ -177,3 +177,57 @@ void ac::PositionShift(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[collection.size()/2].clone();
+    frames[2] = collection.frames[collection.size()-1].clone();
+    static int index = 0, dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int values[3] = {0,0,0};
+                switch(index) {
+                    case 0:
+                        values[0] = 0;
+                        values[1] = 1;
+                        values[2] = 2;
+                        break;
+                    case 1:
+                        values[0] = 2;
+                        values[1] = 0;
+                        values[2] = 1;
+                        break;
+                    case 2:
+                        values[0] = 1;
+                        values[1] = 2;
+                        values[2] = 0;
+                        break;
+                }
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[values[j]];
+                }
+                if(dir == 1) {
+                    ++index;
+                    if(index > 2) {
+                        index = 2;
+                        dir = 0;
+                    }
+                } else {
+                    --index;
+                    if(index <= 0) {
+                        index = 0;
+                        dir = 1;
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
