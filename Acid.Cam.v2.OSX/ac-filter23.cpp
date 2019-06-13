@@ -232,7 +232,7 @@ void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::HeartBeat(cv::Mat &frame) {
+void ac::Shake(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     static int index = 0;
@@ -241,7 +241,7 @@ void ac::HeartBeat(cv::Mat &frame) {
     frames[1] = collection.frames[collection.size()/2].clone();
     frames[2] = collection.frames[collection.size()-1].clone();
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
-        int counter = 0;
+        int counter = rand()%3;
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
@@ -278,7 +278,7 @@ void ac::HeartBeat(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
     ++index;
-    if(index > (collection.size()-1)) {
+    if(index > 2) {
         index = 0;
     }
 }
