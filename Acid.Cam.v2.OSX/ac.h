@@ -1378,6 +1378,7 @@ namespace ac {
     void Shake(cv::Mat &frame);
     void Disoriented(cv::Mat &frame);
     void ColorCollectionPositionStrobe(cv::Mat &frame);
+    void ColorCollectionStrobeBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

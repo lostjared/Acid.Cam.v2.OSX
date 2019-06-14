@@ -315,3 +315,31 @@ void ac::ColorCollectionPositionStrobe(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::ColorCollectionStrobeBlend(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int index = 0;
+    double alpha = 0.33;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+                pix[1] = collection.frames[7].at<cv::Vec3b>(z, i);
+                pix[2] = collection.frames[15].at<cv::Vec3b>(z, i);
+                int value[3];
+                InitArrayPosition(value, index);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pix[0][value[j]] * alpha) + (pix[1][value[j]] * alpha) + (pix[2][value[j]] * alpha));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > 2)
+        index = 0;
+}
