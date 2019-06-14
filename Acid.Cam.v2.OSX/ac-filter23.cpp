@@ -379,7 +379,6 @@ void ac::SplitMatrixSortChannel(cv::Mat &frame) {
     int value[3];
     InitArrayPosition(value, offset);
     std::vector<cv::Mat> v1, v2, v3;
-    CallFilter(subfilter, frame);
     cv::split(collection.frames[1], v1);
     cv::split(collection.frames[4], v2);
     cv::split(collection.frames[7], v3);
