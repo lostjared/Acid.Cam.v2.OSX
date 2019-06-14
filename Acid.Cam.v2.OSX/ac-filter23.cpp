@@ -250,3 +250,41 @@ void ac::Shake(cv::Mat &frame) {
         index = 0;
     }
 }
+
+void ac::Disoriented(cv::Mat &frame) {
+     static MatrixCollection<11> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1];
+    frames[1] = collection.frames[5];
+    frames[2] = collection.frames[10];
+    static int val_offset = 0;
+    double alpha = 0.33;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                unsigned int values[3] = {0,0,0};
+                for(int q = 1; q < collection.size(); ++q) {
+                    cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        values[j] += pix[j];
+                    }
+                }
+                int pix_values[3] = {0,0,0};
+                InitArrayPosition(pix_values, val_offset);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    values[j] /= collection.size();
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha) + static_cast<unsigned char>(values[j]*alpha) + static_cast<unsigned char>(pix[pix_values[j]]*alpha);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlur(frame, 5);
+    AddInvert(frame);
+    ++val_offset;
+    if(val_offset > 2)
+        val_offset = 0;
+}
