@@ -343,3 +343,55 @@ void ac::ColorCollectionStrobeBlend(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::AlphaBlendStoredFrames(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int index = 0;
+    double alpha = 0.33;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+                pix[1] = collection.frames[7].at<cv::Vec3b>(z, i);
+                pix[2] = collection.frames[15].at<cv::Vec3b>(z, i);
+                int value[3];
+                InitArrayPosition(value, index);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pix[0][j] * alpha) + (pix[1][j] * alpha) + (pix[2][j] * alpha));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > 2)
+        index = 0;
+}
+
+void ac::SplitMatrixSortChannel(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    int value[3];
+    InitArrayPosition(value, offset);
+    std::vector<cv::Mat> v1, v2, v3;
+    CallFilter(subfilter, frame);
+    cv::split(collection.frames[1], v1);
+    cv::split(collection.frames[4], v2);
+    cv::split(collection.frames[7], v3);
+    cv::Mat channels[3];
+    cv::sort(v1[0], channels[value[0]],cv::SORT_ASCENDING);
+    cv::sort(v2[1], channels[value[1]],cv::SORT_ASCENDING);
+    cv::sort(v3[2], channels[value[2]],cv::SORT_ASCENDING);
+    cv::merge(channels, 3, frame);
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+    AddInvert(frame);
+    BlendWithImage75(frame);
+    MedianBlendMultiThread(frame);
+}
