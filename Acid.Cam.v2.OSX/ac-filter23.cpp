@@ -391,6 +391,76 @@ void ac::SplitMatrixSortChannel(cv::Mat &frame) {
     if(offset > 2)
         offset = 0;
     AddInvert(frame);
+    MedianBlendMultiThread(frame);
+}
+
+void ac::SplitMatrixSortChannelArrayPosition(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    int value[3];
+    InitArrayPosition(value, offset);
+    std::vector<cv::Mat> v1, v2, v3;
+    cv::split(collection.frames[1], v1);
+    cv::split(collection.frames[4], v2);
+    cv::split(collection.frames[7], v3);
+    cv::Mat channels[3];
+    cv::sort(v1[value[0]], channels[0],cv::SORT_ASCENDING);
+    cv::sort(v2[value[1]], channels[1],cv::SORT_ASCENDING);
+    cv::sort(v3[value[2]], channels[2],cv::SORT_ASCENDING);
+    cv::merge(channels, 3, frame);
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+    AddInvert(frame);
+    BlendWithSource25(frame);
+    MedianBlendMultiThread(frame);
+}
+
+void ac::SplitMatrixSortChannelImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    int value[3];
+    InitArrayPosition(value, offset);
+    std::vector<cv::Mat> v1, v2, v3;
+    cv::split(collection.frames[1], v1);
+    cv::split(collection.frames[4], v2);
+    cv::split(collection.frames[7], v3);
+    cv::Mat channels[3];
+    cv::sort(v1[value[0]], channels[0],cv::SORT_ASCENDING);
+    cv::sort(v2[value[1]], channels[1],cv::SORT_ASCENDING);
+    cv::sort(v3[value[2]], channels[2],cv::SORT_ASCENDING);
+    cv::merge(channels, 3, frame);
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+    AddInvert(frame);
     BlendWithImage75(frame);
     MedianBlendMultiThread(frame);
+}
+
+void ac::ShiftColorLeft(cv::Mat &frame) {
+    //static MatrixCollection<8> collection;
+    //collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    //cv::Mat copy1 = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols-3; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = copy1.at<cv::Vec3b>((z+1), (i+1));
+                pix[1] = copy1.at<cv::Vec3b>((z+2), (i+2));
+                pix[2] = copy1.at<cv::Vec3b>((z+3), (i+3));
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pix[j][j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
 }

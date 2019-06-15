@@ -1381,6 +1381,9 @@ namespace ac {
     void ColorCollectionStrobeBlend(cv::Mat &frame);
     void AlphaBlendStoredFrames(cv::Mat &frame);
     void SplitMatrixSortChannel(cv::Mat &frame);
+    void SplitMatrixSortChannelArrayPosition(cv::Mat &frame);
+    void SplitMatrixSortChannelImage(cv::Mat &frame);
+    void ShiftColorLeft(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
