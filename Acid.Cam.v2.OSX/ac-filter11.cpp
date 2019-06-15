@@ -886,7 +886,7 @@ void ac::FlashMirror(cv::Mat &frame) {
 }
 
 void ac::CollectionXorSourceSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "CollectionXorSourceSubFilter")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "CollectionXorSourceSubFilter" || orig_frame.empty())
         return;
     static MatrixCollection<6> collection;
     static double alpha = 1.0, alpha_max = 4.0;

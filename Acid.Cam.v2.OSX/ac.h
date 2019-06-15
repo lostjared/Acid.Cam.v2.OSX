@@ -1458,6 +1458,7 @@ namespace ac {
     void InitArrayPosition(int *arr, const int &dir);
     void pushSubFilter(int newsub);
     void popSubFilter();
+    void setSourceFrame(const cv::Mat &frame);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

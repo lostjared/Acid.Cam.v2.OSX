@@ -271,6 +271,8 @@ void ac::ThoughtMode(cv::Mat &frame) {
 }
 // blend with original pixel
 void ac::Pass2Blend(cv::Mat &frame) {
+    if(orig_frame.empty())
+        return;
     for(int z = 0;  z < frame.rows; ++z) { // top to bottom
         for(int i = 0; i < frame.cols; ++i) { // left to right
             if(!frame.empty() && !orig_frame.empty()) {

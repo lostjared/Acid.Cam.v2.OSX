@@ -176,7 +176,7 @@ void ac::resizeImageAndFrameBlend(cv::Mat &frame) {
 }
 
 void ac::resizeImageWidthAndHeightSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "resizeImageWidthAndHeightSubFilter")
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "resizeImageWidthAndHeightSubFilter" || orig_frame.empty())
         return;
     cv::Mat copy1 = frame.clone(), reimage, copy3;
     ac_resize(blend_image, reimage, frame.size());

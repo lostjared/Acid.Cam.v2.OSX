@@ -977,3 +977,6 @@ void ac::InitArrayPosition(int *values, const int &index) {
     }
 }
 
+void ac::setSourceFrame(const cv::Mat &frame) {
+    orig_frame = frame.clone();
+}
