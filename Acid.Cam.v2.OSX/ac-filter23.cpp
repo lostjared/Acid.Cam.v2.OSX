@@ -452,9 +452,9 @@ void ac::ShiftColorLeft(cv::Mat &frame) {
             for(int i = 0; i < cols-3; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b pix[3];
-                pix[0] = copy1.at<cv::Vec3b>((z+1), (i+1));
-                pix[1] = copy1.at<cv::Vec3b>((z+2), (i+2));
-                pix[2] = copy1.at<cv::Vec3b>((z+3), (i+3));
+                pix[0] = copy1.at<cv::Vec3b>(z, (i+1));
+                pix[1] = copy1.at<cv::Vec3b>(z, (i+2));
+                pix[2] = copy1.at<cv::Vec3b>(z, (i+3));
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = pixel[j]^pix[j][j];
                 }
