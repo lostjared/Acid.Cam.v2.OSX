@@ -49,6 +49,11 @@ cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
 cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_colors;
 
+void ac::init() {
+    fill_filter_map();
+}
+
+
 void ac::MedianBlur(cv::Mat &frame, unsigned int value) {
     cv::UMat blur, out;
     blur = frame.getUMat(cv::ACCESS_FAST);

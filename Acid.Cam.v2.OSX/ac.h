@@ -159,6 +159,7 @@ namespace ac {
     
     enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
     extern std::vector<std::string> solo_filter;
+    void init();
     // be sure to call this when the application starts
     void fill_filter_map();
     // draw functions
