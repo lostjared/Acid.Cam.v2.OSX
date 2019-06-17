@@ -918,7 +918,7 @@ void ac::RotateAlphaBlendImage(cv::Mat &frame) {
 void ac::FlipShuffle(cv::Mat &frame) {
     static auto rng = std::default_random_engine{};
     static std::vector<int> flip_codes {-1, 0, 1};
-    static int offset = 0;
+    static unsigned int offset = 0;
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, flip_codes[offset]);
     ++offset;

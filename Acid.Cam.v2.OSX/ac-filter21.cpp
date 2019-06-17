@@ -671,7 +671,7 @@ void ac::ColorCollectionStrobeShift(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int strobe[3];
+                int strobe[3] = {0};
                 switch(index) {
                     case 0: {
                         strobe[0] = 0;
@@ -718,7 +718,7 @@ void ac::ColorCollectionRandom_Filter(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int strobe[3];
+                int strobe[3] = {0};
                 switch(index) {
                     case 0: {
                         strobe[0] = 0;
@@ -838,7 +838,7 @@ void ac::ColorCollectionInterlace(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int strobe[3];
+                int strobe[3] = {0};
                 switch(index) {
                     case 0: {
                         strobe[0] = 0;
@@ -883,7 +883,7 @@ void ac::ColorCollectionStrobeShake(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int strobe[3];
+                int strobe[3] = {0};
                 switch(index) {
                     case 0: {
                         strobe[0] = 0;
@@ -946,7 +946,7 @@ void ac::ColorCollectionSubFilter(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int strobe[3];
+                int strobe[3] = {0};
                 switch(index) {
                     case 0: {
                         strobe[0] = 0;
@@ -999,7 +999,7 @@ void ac::ColorCollectionShiftSubFilter(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int strobe[3];
+                int strobe[3] = {0};
                 switch(index) {
                     case 0: {
                         strobe[0] = 0;

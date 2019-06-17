@@ -1103,8 +1103,8 @@ void ac::IncDifference(cv::Mat &frame) {
     if(fcopy.size() != frame.size()) {
         fcopy = frame.clone();
     }
-    for(unsigned int z = 0; z < frame.rows; ++z) {
-        for(unsigned int i = 0; i < frame.cols; ++i) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b back = pixel;
             cv::Vec3b &pix_cp = fcopy.at<cv::Vec3b>(z, i);
@@ -1125,8 +1125,8 @@ void ac::IncDifferenceAlpha(cv::Mat &frame) {
     if(fcopy.size() != frame.size()) {
         fcopy = frame.clone();
     }
-    for(unsigned int z = 0; z < frame.rows; ++z) {
-        for(unsigned int i = 0; i < frame.cols; ++i) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b back = pixel;
             cv::Vec3b &pix_cp = fcopy.at<cv::Vec3b>(z, i);

@@ -314,7 +314,7 @@ void ac::ChangeImageEachSecond(cv::Mat &frame) {
     static std::vector<std::string> filter_array { "ImageXor", "ImageAlphaBlend", "ImageInter", "ImageX", "SmoothRandomImageBlend", "SmoothImageAlphaBlend", "BlendImageOnOff", "XorSelfAlphaImage", "ImageShiftUpLeft", "AlphaBlendImageXor", "BlendImageXor","BlendImageAround_Median","ImageBlendTransform","ImageXorAlpha","ImageAverageXor","DarkImageMedianBlend","MirrorAlphaBlendedImage","AlphaBlendXorImage","ImageXorFrame","ImageXorFunction","ImageXorAlphaBlend","ImageXorMirrorFilter","ImageSubtractMedianBlend","ImageDarkBlend","ImageAverageDark","ImageRemainderPixel","ParticleReleaseWithImage","ImageEnergy","ImageDistortion","SmoothExactImageXorAlpha","SmoothImageAlphaBlendMedian","ImageDarkenSmoothMedian","XorReverseImageSmooth","ImageSmoothMedianBlend","ImageAlphaXorMedianBlend","RotateImage","RotateBlendImage","RotateAlphaBlendImage","ImageXorScale","MatrixCollectionBlurImageXorAlpha", "BlurImageAlphaBlend", "MatrixCollectionSurroundingPixelsImage", "ImageTransparent", "ImageAlphaCollectionSmoothBlend", "ImageRandomColormap", "ImageRandomColormapAlphaBlend", "ImageRandomColormapAlphaScale", "ImageShuffle", "ImageFadeInOut", "ImageFadeBlackInOut", "ImageFadeFrameInOut", "ImageFadeDouble", "ImageStrobeOnOff", "FrameImageFadeInOut", "FrameImageFadeInOutDouble"};
     static unsigned int counter = 0;
     int fps_val = static_cast<unsigned int>(ac::fps);
-    static int index = 0;
+    static int unsigned index = 0;
     static auto rng = std::default_random_engine{};
     CallFilter(filter_array[index], frame);
     ++counter;
@@ -352,7 +352,7 @@ void ac::ChangeXorEachSecond(cv::Mat &frame) {
     }
     
     int fps_val = static_cast<unsigned int>(ac::fps);
-    static int index = 0;
+    static unsigned int index = 0;
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {
@@ -394,7 +394,7 @@ void ac::MirrorEachSecond(cv::Mat &frame) {
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
     int fps_val = static_cast<unsigned int>(ac::fps);
-    static int index = 0;
+    static unsigned int index = 0;
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {
@@ -460,7 +460,8 @@ void ac::MirrorFrameShuffle(cv::Mat &frame) {
     if(init == 0) {
         std::shuffle(filter_array.begin(), filter_array.end(), rng);
         init = 1;
-    }    static int index = 0;
+    }
+    static unsigned int index = 0;
     CallFilter(filter_array[index], frame);
     ++index;
     if(index > filter_array.size()-1) {
@@ -915,7 +916,7 @@ void ac::RandomChannels(cv::Mat &frame) {
     static auto rng = std::default_random_engine{};
     static std::vector<std::string> selection ({"Self AlphaBlend", "Blend #3", "RandTriBlend", "Rainbow Blend", "Rand Blend", "New Blend", "MirrorBlend", "Mirror No Blend", "Blend_Angle", "XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "TrailsBlend", "BlendThree", "BlendTrails", "GridFilter8xBlend", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend", "BlendRowCurvedSqrt", "CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend", "MedianBlendAnimation", "ParticleBlend", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend", "LagBlend", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "RandBlend", "StaticXorBlend", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "SilverBlend", "PixelXorBlend", "RainbowXorBlend", "FadeBlend", "SelfAlphaScaleBlend", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "RandomBlendFilter", "DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendWH", "FlipBlendH", "FlipBlendAll", "Blend_RedGreenBlue", "XorBlend_RedGreenBlue", "BlendIncrease_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "MirrorMedianBlend", "DarkenBlend", "ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "BlendBurred", "BlendCombinedValues", "AlphaBlendWithSource", "RGBMedianBlend", "MirrorRGBReverseBlend", "MedianBlend16", "BGRBlend", "RGBBlend", "MedianBlendDark", "AlphaBlendMirror", "SelfScaleSortBlend", "FlashMedianBlend", "FlipAlphaBlend", "SmoothCollectionAlphaBlend", "SmoothTrailsBlend", "ShuffleAlphaMedianBlend", "AverageLinesBlend", "AverageVerticalLinesBlend", "LinesMedianBlend", "MedianBlendSoft", "ParticleReleaseAlphaBlend", "MirrorAlphaBlend", "MatrixCollectionBlend", "SmoothMedianBlend", "CosSinMedianBlend", "Filter8_Blend", "RandomAlphaBlendFilter", "MirrorBlendFrame", "MirrorBlendVertical", "BlendFor360", "MatrixCollectionXorBlendAlphaBlend", "MedianBlendSelfBlend", "Bitwise_XOR_BlendFrame", "GaussianBlendEx", "SimpleMatrixBlend", "AlphaStrobeBlend", "XorMirrorBlendFrame", "ChannelSortMedianBlend", "MedianBlend64", "SplitFrameBlend"});
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone();
-    static int index = 0;
+    static unsigned int index = 0;
     if(index == 0) {
         std::shuffle(selection.begin(), selection.end(), rng);
     }

@@ -262,7 +262,6 @@ void ac::RGBBlend(cv::Mat &frame) {
                 }
             }
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = noblur.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = static_cast<int>(values[j]);
                 pixel[j] = pixel[j] ^ val;
@@ -284,10 +283,10 @@ void ac::RGBBlendSubFilter(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar values;
-            for(int q = 0; q < collection.size(); ++q) {
+            for(int q = 0; q < collection.size()-1; ++q) {
                 cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    values[j] += pixel[q];
+                    values[j] += pixel[j];
                     values[j] /= 1.5;
                 }
             }
@@ -666,7 +665,7 @@ void ac::GammaIncDecIncrease(cv::Mat &frame) {
 void ac::RandomSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomSubFilter")
         return;
-    static int index = 0;
+    static unsigned int index = 0;
     static std::vector<std::string> vSub { "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter","EnergizeSubFilter","PixelatedSubFilterSort","FilteredDifferenceSubFilter","ExpandSquareSubFilter","MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter","SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter","CollectionXorSourceSubFilter","BlendReverseSubFilter","SmoothBlendReverseSubFilter","MedianBlendBufferSubFilter","RGBBlendSubFilter","XorOppositeSubFilter", "BlendSmoothSubFilter", "BlurSmoothSubFilter", "BlurFlipSubFilter", "MedianBlendSubFilterEx", "ShiftFrameSmoothSubFilter", "ShiftFrameStaticXorSubFilter"};
     
     static auto rng = std::default_random_engine{};

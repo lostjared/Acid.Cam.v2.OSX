@@ -903,7 +903,7 @@ void ac::IntertwineShuffle(cv::Mat &frame) {
         std::shuffle(filter_array.begin(), filter_array.end(), rng);
         init = 1;
     }
-    static int index = 0;
+    static unsigned int index = 0;
     CallFilter(filter_array[index], frame);
     ++index;
     if(index > filter_array.size()-1) {

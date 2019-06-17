@@ -326,7 +326,7 @@ void ac::ColorsFilter(cv::Mat &frame) {
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
     int fps_val = static_cast<unsigned int>(ac::fps);
-    static int index = 0;
+    static unsigned int index = 0;
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {

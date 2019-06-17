@@ -509,7 +509,6 @@ void ac::ColorCollectionXorOffsetFlash(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                cv::Vec3b copy_pix = pixel;
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
                     if(offset_value == j)
@@ -634,7 +633,7 @@ void ac::ColorPositionAverageXor(cv::Mat &frame) {
     }
     cv::Scalar combined;
     int values[3] = {0,0,0};
-    for(int q = 0; q < pixels.size(); ++q) {
+    for(unsigned int q = 0; q < pixels.size(); ++q) {
         for(int j = 0; j < 3; ++j) {
             combined[j] += pixels[q][j];
         }
@@ -669,7 +668,7 @@ void ac::ColorPositionXor(cv::Mat &frame) {
     }
     cv::Scalar combined;
     int values[3] = {0,0,0};
-    for(int q = 0; q < pixels.size(); ++q) {
+    for(unsigned int q = 0; q < pixels.size(); ++q) {
         for(int j = 0; j < 3; ++j) {
             combined[j] += pixels[q][j];
         }
@@ -986,7 +985,7 @@ void ac::BuzzedDark(cv::Mat &frame) {
     collection.shiftFrames(frame);
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
-            cv::Vec3b pix[8];
+            cv::Vec3b pix[16];
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < collection.size(); ++j) {

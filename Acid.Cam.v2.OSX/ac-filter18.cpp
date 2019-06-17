@@ -113,7 +113,7 @@ void ac::SmoothFrame32(cv::Mat &frame) {
 void ac::MatrixCollectionMedianBlendFilter(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
-    static unsigned int increase = 2;
+    static int increase = 2;
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -917,7 +917,7 @@ void ac::IntertwineVideoShuffle(cv::Mat &frame) {
         std::shuffle(filter_array.begin(), filter_array.end(), rng);
         init = 1;
     }
-    static int index = 0;
+    static unsigned int index = 0;
     CallFilter(filter_array[index], frame);
     ++index;
     if(index > filter_array.size()-1) {
