@@ -85,7 +85,7 @@ std::vector<void *> ac::all_objects;
 bool ac::frames_released = false;
 
 void ac::release_all_objects() {
-    for(int i = 0; i < all_objects.size(); ++i) {
+    for(unsigned int i = 0; i < all_objects.size(); ++i) {
         cv::Mat *m = reinterpret_cast<cv::Mat *>(all_objects[i]);
         if(m != 0 && !m->empty()) {
             m->release();
@@ -112,7 +112,7 @@ void ac::HLine::createLines(int size, int width, int height) {
 }
 
 void ac::HLine::drawLines(cv::Mat &frame) {
-    for(int l = 0; l < lines.size(); ++l) {
+    for(unsigned int l = 0; l < lines.size(); ++l) {
         ac::Rect rc = lines[l].line_size;
         int num = rand()%50, skip = rand()%20;
         int count = 0, skip_count = 0;

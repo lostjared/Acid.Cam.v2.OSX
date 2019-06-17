@@ -759,7 +759,7 @@ void ac::ReinterpSelfScale(cv::Mat &frame) {
 void ac::AverageLines(cv::Mat &frame) {
     const int w = frame.cols;
     const int h = frame.rows;
-    unsigned char average[3];
+    unsigned char average[3] = {0};
     static double alpha = 1.0, alpha_max = 11;
     for(int z = 0; z < h; ++z) {
         cv::Scalar s(1,1,1);

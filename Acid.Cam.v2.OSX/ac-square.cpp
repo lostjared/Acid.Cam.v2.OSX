@@ -206,7 +206,7 @@ void ac::SquareVertical16(cv::Mat &frame) {
 
 void ShiftSquares(std::vector<ac::Square *> &s, int pos, bool direction=true) {
     if(direction == true) {
-        for(int i = 0; i < s.size(); ++i) {
+        for(unsigned int i = 0; i < s.size(); ++i) {
             int p = s[i]->getPos();
             if(p+1 > (int)s.size()-1) {
                 s[i]->setPos(0);
@@ -309,7 +309,7 @@ void ac::SquareVertical_RollReverse(cv::Mat &frame) {
 
 void ac::SquareSwapSort_RollReverse(cv::Mat &frame) {
     const int num_w = 16, num_h = 8;
-    static Square squares[num_w*num_h];
+    static Square squares[(num_w*num_h)+1];
     static int lazy = 0;
     if(lazy == 0) {
         int cpos = 0;

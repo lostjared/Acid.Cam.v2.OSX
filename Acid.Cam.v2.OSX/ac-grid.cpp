@@ -105,7 +105,7 @@ void ac::Grid::createGrid(cv::Mat &frame, int w, int h, int size) {
 
 
 void ac::Grid::fillGrid(cv::Mat &frame) {
-    if(current_offset < points.size())
+    if(static_cast<unsigned int>(current_offset) < points.size())
         return;
     
     for(int i = 0; i < g_w; ++i) {

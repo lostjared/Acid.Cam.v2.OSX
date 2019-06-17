@@ -80,11 +80,11 @@ namespace ac {
         add_filter(&svCustom_Spec, "Special");
         add_filter(&svUser, "User");
         auto lwr = [](std::string &s) {
-            for(int i = 0; i < s.size(); ++i) {
+            for(unsigned int i = 0; i < s.size(); ++i) {
                 s[i] = tolower(s[i]);
             }
         };
-        for(int i = 0; i < svAll.size(); ++i) {
+        for(unsigned int i = 0; i < svAll.size(); ++i) {
             std::string value = svAll[i];
             lwr(value);
             if(value.find("subfilter") == std::string::npos && value.find("image") == std::string::npos && value.find("random") == std::string::npos && value.find("fractal") == std::string::npos && value.find("feedback") == std::string::npos && value.find("1080p") == std::string::npos && value.find("720p") == std::string::npos && value.find("custom") == std::string::npos && value.find("plugin") == std::string::npos && value.find("1080") == std::string::npos && value.find("720") == std::string::npos) {

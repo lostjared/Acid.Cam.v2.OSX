@@ -217,7 +217,7 @@ bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec
 
 
 ac::SearchType ac::searchColors(const cv::Vec3b &color) {
-    for(int i = 0; i < blocked_colors.size(); ++i) {
+    for(unsigned int i = 0; i < blocked_colors.size(); ++i) {
         if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true) {
             if(blocked_colors[i].spill == true) {
                 return SEARCH_GRAY;
@@ -650,7 +650,7 @@ void ac::Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_ar
 }
 
 void ac::AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v) {
-    for(int i = 0; i < v.size(); ++i)
+    for(unsigned int i = 0; i < v.size(); ++i)
         Add(frame, v[i]);
 }
 
@@ -940,7 +940,7 @@ void ac::Pixelated::setPix() {
     cv::Vec3b &src_pixel = copy_val.at<cv::Vec3b>(index.y, index.x);
     src_pixel = pixel;
     ++x_offset;
-    if(x_offset > value_x.size()-1)
+    if(static_cast<unsigned int>(x_offset) > value_x.size()-1)
         reset_needed = true;
 }
 
