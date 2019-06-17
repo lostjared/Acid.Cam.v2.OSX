@@ -2,6 +2,8 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
+To be able to use all the filters in this app your system should have at lest 8 GB of ram.
+
 When writing C++ using libacidcam  do not call another mulithreaded filter
 
 from within a mulithreaded filter inside its loop callback
