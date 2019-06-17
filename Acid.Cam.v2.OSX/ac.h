@@ -1385,6 +1385,7 @@ namespace ac {
     void SplitMatrixSortChannelArrayPosition(cv::Mat &frame);
     void SplitMatrixSortChannelImage(cv::Mat &frame);
     void ShiftColorLeft(cv::Mat &frame);
+    void CycleInAndOutRepeat(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

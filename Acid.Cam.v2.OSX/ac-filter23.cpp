@@ -464,3 +464,27 @@ void ac::ShiftColorLeft(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::CycleInAndOutRepeat(cv::Mat &frame) {
+    static MatrixCollection<128> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    static int index = 0;
+    cv::Mat &cur_frame = collection.frames[index];
+    AlphaBlend(copy1, cur_frame, frame, 0.5);
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > collection.size()-1) {
+            index = collection.size()-1;
+            dir = 0;
+        }
+    }
+    else {
+        --index;
+        if(index <= 1) {
+            index = 1;
+            dir = 1;
+        }
+    }
+}
