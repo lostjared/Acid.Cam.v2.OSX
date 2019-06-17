@@ -96,10 +96,6 @@ namespace ac {
                 solo_filter.push_back(svAll[i]);
             }
         }
-        
-        for(auto &i : color_filter) {
-            std::cout << i << "\n";
-        }
     }
     
     const char *szCustom[] = {"Quality480", "Quality720", "Quality1080","Grayscale", "Negate","DarkNegate","DarkenFilter","FlipY_Axis", "FlipX_Axis", "FlipBoth", "Reverse","ReverseFrameBlend", "No Filter", "Blend with Source","BlendWithSource25", "BlendWithSource50", "BlendWithSource75", "BlendWithSource100","BlendWithImage","BlendWithImage25", "BlendWithImage50", "BlendWithImage75","AlphaBlendImageWithOrigSource", "BlendFor360","XorWithSource","AlphaBlendWithSource",  "GammaDarken5", "GammaDarken10","RestoreBlack","ReduceBy50","AlphaBlendWithSourceScale", "Plugin", "Custom",0};
