@@ -123,7 +123,7 @@ void ac::Grid::fillGrid(cv::Mat &frame) {
 
 void ac::Grid::updateGrid(int max) {
     int iter_max = current_offset+max;
-    while(current_offset < points.size() && current_offset < iter_max) {
+    while(static_cast<unsigned int>(current_offset) < points.size() && current_offset < iter_max) {
         const Point &p = points[current_offset];
         boxes[p.x][p.y].on = false;
         current_offset++;
