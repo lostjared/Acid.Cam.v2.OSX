@@ -159,6 +159,7 @@ namespace ac {
     
     enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
     extern std::vector<std::string> solo_filter;
+    extern std::vector<std::string> color_filter;
     void init();
     // be sure to call this when the application starts
     void fill_filter_map();
@@ -1386,6 +1387,7 @@ namespace ac {
     void SplitMatrixSortChannelImage(cv::Mat &frame);
     void ShiftColorLeft(cv::Mat &frame);
     void CycleInAndOutRepeat(cv::Mat &frame);
+    void ColorCollectionShuffle(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

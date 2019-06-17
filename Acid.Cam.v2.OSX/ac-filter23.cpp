@@ -477,3 +477,28 @@ void ac::CycleInAndOutRepeat(cv::Mat &frame) {
     AlphaBlend(copy1, cur_frame, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::ColorCollectionShuffle(cv::Mat &frame) {
+    static int init = 0;
+    static auto rng = std::default_random_engine{};
+    static std::vector<std::string> index_values;
+    if(init == 0) {
+        init = 1;
+        for(auto &i : color_filter) {
+            index_values.push_back(i);
+        }
+        std::shuffle(index_values.begin(), index_values.end(), rng);
+    }
+    static unsigned int index = 0;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(index_values[index], copy1);
+    Smooth(copy1, &collection);
+    AlphaBlend(copy1, copy2, frame, 0.5);
+    ++index;
+    if(index > index_values.size()-1) {
+        index = 0;
+        std::shuffle(index_values.begin(), index_values.end(), rng);
+    }
+}
+
