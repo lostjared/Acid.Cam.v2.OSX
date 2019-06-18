@@ -69,6 +69,7 @@
                 <outlet property="image_to_set" destination="h31-Wk-Aq4" id="aTH-eq-7xV"/>
                 <outlet property="key_range" destination="fnz-ND-Ko7" id="1w8-hL-rLO"/>
                 <outlet property="key_tolerance" destination="K8V-2K-bHz" id="Rkt-SD-Msh"/>
+                <outlet property="label_path" destination="FRG-kI-oe7" id="reW-DC-Rcg"/>
                 <outlet property="load_settings" destination="J8u-5o-7L8" id="vGj-C6-G6r"/>
                 <outlet property="menuPaused" destination="ZrZ-W4-LqE" id="fpr-lZ-Dwl"/>
                 <outlet property="menu_freeze" destination="J0h-Ug-VbD" id="KMF-EJ-A03"/>
@@ -500,7 +501,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="615">
-                        <rect key="frame" x="170" y="114" width="163" height="22"/>
+                        <rect key="frame" x="210" y="114" width="123" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="VideoAC_1" drawsBackground="YES" usesSingleLineMode="YES" id="616">
                             <font key="font" metaFont="system"/>
@@ -651,9 +652,20 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" id="sTu-Ua-S78">
+                        <rect key="frame" x="166" y="107" width="46" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wxb-xB-vTv">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="changePrefix:" target="630" id="utP-Uz-6SH"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-10" y="46"/>
+            <point key="canvasLocation" x="-10.5" y="46"/>
         </window>
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>

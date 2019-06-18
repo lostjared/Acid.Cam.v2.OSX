@@ -214,6 +214,7 @@ void setEnabledProg() {
 }
 
 - (void) awakeFromNib {
+    custom_path_prefix = nil;
     current_fade = 0;
     current_fade_alpha = 1.0;
     controller = self;
@@ -708,8 +709,16 @@ void setEnabledProg() {
             fname_stream << time_stream.str();
         
         filename = fname_stream.str();
-        NSArray* paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
-        std::string add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
+        std::string add_path;
+        NSArray* paths;
+        
+        if(custom_path_prefix == nil) {
+            paths = NSSearchPathForDirectoriesInDomains( NSMoviesDirectory, NSUserDomainMask, YES );
+            add_path = std::string([[paths objectAtIndex: 0] UTF8String])+std::string("/")+[[prefix_input stringValue] UTF8String];
+        } else {
+            add_path = std::string([custom_path_prefix UTF8String])+std::string("/") + [[prefix_input stringValue] UTF8String];
+        }
+    
         [menuPaused setEnabled: YES];
         [up4k setEnabled: NO];
         [record_op setEnabled: NO];
@@ -2842,6 +2851,23 @@ void setEnabledProg() {
             new_val = [NSNumber numberWithInt: 1];
         [filter_on setObject:new_val atIndexedSubscript:set_index];
         [table_view reloadData];
+    }
+}
+
+- (IBAction) changePrefix: (id) sender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:NO];
+    [panel setCanChooseDirectories:YES];
+    if([panel runModal]) {
+        NSString *value = [[panel URL] path];
+        NSString *new_value = [NSString stringWithFormat:@"Save Prefix: %@", value];
+        if(custom_path_prefix == nil) {
+            custom_path_prefix = [[NSString alloc] initWithFormat:@"%@", value];
+        } else {
+            [custom_path_prefix release];
+            custom_path_prefix = [[NSString alloc] initWithFormat:@"%@", value];
+        }
+        [label_path setStringValue:new_value];
     }
 }
 

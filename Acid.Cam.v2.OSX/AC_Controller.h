@@ -161,6 +161,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     IBOutlet NSImageView *view_image;
     IBOutlet NSImageView *cur_selected_image;
     IBOutlet NSTextField *num_threads;
+    IBOutlet NSTextField *label_path;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -181,6 +182,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
     bool set_frame_rate;
     double set_frame_rate_val;
     BOOL syphon_enabled;
+    NSString *custom_path_prefix;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -285,6 +287,7 @@ extern void jumptoFrame(BOOL showJump, long frame);
 - (IBAction) saveLogToFile: (id) sender;
 - (IBAction) changeImageSelected: (id) sender;
 - (IBAction) toggleFilterState: (id) sender;
+- (IBAction) changePrefix: (id) sender;
 @end
 
 extern AC_Controller *controller;
