@@ -502,3 +502,40 @@ void ac::ColorCollectionShuffle(cv::Mat &frame) {
     }
 }
 
+void ac::BlendFromXtoY(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static double alpha = 0.5;
+    static int x = 0, y = 15, dir1 = 1, dir2 = 0;
+    cv::Mat outframe;
+    AlphaBlend(collection.frames[x], collection.frames[y], outframe, alpha);
+    AlphaBlend(collection.frames[collection.size()/2], outframe, frame, alpha);
+    if(dir1 == 1) {
+        x += 2;
+        if(x > collection.size()-1) {
+            x = 15;
+            dir1 = 0;
+        }
+    } else if(dir1 == 0) {
+        x -= 2;
+        if(x <= 1) {
+            x = 0;
+            dir1 = 1;
+        }
+    }
+    if(dir2 == 1) {
+        y += 2;
+        if(y > collection.size()-1) {
+            y = 15;
+            dir2 = 0;
+        }
+    } else if(dir2 == 0) {
+        y -= 2;
+        if(y <= 1) {
+            y = 0;
+            dir2 = 1;
+        }
+    }
+    AddInvert(frame);
+}
+
