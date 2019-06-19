@@ -538,3 +538,55 @@ void ac::BlendFromXtoY(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::BlendImageXtoY(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    static int x = 0, y = 0, dir1 = 1, dir2 = 0;
+    static double alpha = 1.0/4;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[2];
+                pix[0] = collection.frames[x].at<cv::Vec3b>(z, i);
+                pix[1] = collection.frames[y].at<cv::Vec3b>(z, i);
+                cv::Vec3b image_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pix[0][j] * alpha) + (pix[1][j] * alpha) + (image_pix[j] * alpha) + (pixel[j] * alpha));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(dir1 == 1) {
+        x += 2;
+        if(x > collection.size()-1) {
+            x = 15;
+            dir1 = 0;
+        }
+    } else if(dir1 == 0) {
+        x -= 2;
+        if(x <= 1) {
+            x = 0;
+            dir1 = 1;
+        }
+    }
+    if(dir2 == 1) {
+        y += 2;
+        if(y > collection.size()-1) {
+            y = 15;
+            dir2 = 0;
+        }
+    } else if(dir2 == 0) {
+        y -= 2;
+        if(y <= 1) {
+            y = 0;
+            dir2 = 1;
+        }
+    }
+}
