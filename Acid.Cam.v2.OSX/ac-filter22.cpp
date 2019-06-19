@@ -468,7 +468,7 @@ void ac::ColorCollectionXorPixel(cv::Mat &frame) {
 void ac::BlendWithSource25(cv::Mat &frame) {
     if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
         cv::Mat copy1 = frame.clone();
-        AlphaBlendDouble(copy1, orig_frame, frame, 0.25, .75);
+        AlphaBlendDouble(copy1, orig_frame, frame, 0.75, .25);
         AddInvert(frame);
     }
 }
@@ -484,7 +484,7 @@ void ac::BlendWithSource50(cv::Mat &frame) {
 void ac::BlendWithSource75(cv::Mat &frame) {
     if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
         cv::Mat copy1 = frame.clone();
-        AlphaBlendDouble(copy1, orig_frame, frame, 0.75, 0.25);
+        AlphaBlendDouble(copy1, orig_frame, frame, 0.25, 0.75);
         AddInvert(frame);
     }
 }
