@@ -1392,6 +1392,7 @@ namespace ac {
     void BlendImageXtoY(cv::Mat &frame);
     void BlendColorImageStrobeSubFilter(cv::Mat &frame);
     void BlendByColsSubFilter(cv::Mat &frame);
+    void BlendByColsImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

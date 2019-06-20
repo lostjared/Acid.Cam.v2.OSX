@@ -640,3 +640,21 @@ void ac::BlendByColsSubFilter(cv::Mat &frame) {
         index = (index == 0) ? 1 : 0;
     }
 }
+
+void ac::BlendByColsImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    int index = 0;
+    cv::Mat copy1;
+    ac_resize(blend_image, copy1, frame.size());
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(index == 1) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        index = (index == 0) ? 1 : 0;
+    }
+}
