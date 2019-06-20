@@ -653,7 +653,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="sTu-Ua-S78">
-                        <rect key="frame" x="166" y="107" width="46" height="32"/>
+                        <rect key="frame" x="166" y="108" width="46" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wxb-xB-vTv">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
