@@ -622,3 +622,21 @@ void ac::BlendColorImageStrobeSubFilter(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::BlendByColsSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "BlendByColsSubFilter")
+        return;
+    int index = 0;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(index == 1) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        index = (index == 0) ? 1 : 0;
+    }
+}
