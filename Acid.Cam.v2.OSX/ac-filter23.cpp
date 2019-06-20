@@ -590,3 +590,35 @@ void ac::BlendImageXtoY(cv::Mat &frame) {
         }
     }
 }
+
+void ac::BlendColorImageStrobeSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "BlendColorImageStrobeSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), reimage;
+    cv::resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    static int index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b  &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = pixel[0];
+                pix[0] = reimage.at<cv::Vec3b>(z, i);
+                pix[1] = copy1.at<cv::Vec3b>(z, i);
+                int arr[3];
+                InitArrayPosition(arr, index);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j]= pix[arr[j]][j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(index > 2)
+        index = 0;
+}

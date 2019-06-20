@@ -1390,6 +1390,7 @@ namespace ac {
     void ColorCollectionShuffle(cv::Mat &frame);
     void BlendFromXtoY(cv::Mat &frame);
     void BlendImageXtoY(cv::Mat &frame);
+    void BlendColorImageStrobeSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
