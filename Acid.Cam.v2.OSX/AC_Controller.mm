@@ -282,6 +282,18 @@ void setEnabledProg() {
     std::ostringstream time_stream;
     time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At: " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
     flushToLog(time_stream);
+    std::ostringstream sout;
+    cv::ocl::Context context;
+    if(!context.create(cv::ocl::Device::TYPE_ALL)) {
+        sout << "Could not create OpenCL Context\n";
+    } else {
+        for(int i = 0; i < context.ndevices(); ++i) {
+            cv::ocl::Device device = context.device(i);
+            sout << "Name: " << device.name() << "\n"  << "OpenCL version: " << device.OpenCL_C_Version() << "\n";
+        }
+        cv::ocl::Device(context.device(0));
+    }
+    flushToLog(sout);
     ac::setThreadCount(4);
     /*
      
