@@ -1400,6 +1400,7 @@ namespace ac {
     void IntertwineSubFilterY(cv::Mat &frame);
     void IntertwineImageX(cv::Mat &frame);
     void IntertwineImageY(cv::Mat &frame);
+    void InertwineImageSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

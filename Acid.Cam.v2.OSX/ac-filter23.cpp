@@ -707,3 +707,13 @@ void ac::IntertwineImageY(cv::Mat &frame) {
     IntertwineFrames(IntertwineDir::VERTICAL, copy1, reimage, frame);
     AddInvert(frame);
 }
+
+void ac::InertwineImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "InertwineImageSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    IntertwineFrames(IntertwineDir::HORIZONTAL, copy1, reimage, frame);
+}
+
