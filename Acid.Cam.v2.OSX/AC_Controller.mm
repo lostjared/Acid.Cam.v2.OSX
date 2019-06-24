@@ -86,6 +86,7 @@ void plugin_callback(cv::Mat &frame);
 NSMutableArray *search_results;
 std::string set_filenames[4] = {"None", "None", "None", "None"};
 std::vector<ac::Keys> green_blocked;
+cv::ocl::Context context;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -283,11 +284,11 @@ void setEnabledProg() {
     time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At: " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
     flushToLog(time_stream);
     std::ostringstream sout;
-    cv::ocl::Context context;
+    
     if(!context.create(cv::ocl::Device::TYPE_ALL)) {
         sout << "Could not create OpenCL Context\n";
     } else {
-        for(int i = 0; i < context.ndevices(); ++i) {
+        for(unsigned int i = 0; i < context.ndevices(); ++i) {
             cv::ocl::Device device = context.device(i);
             sout << "Name: " << device.name() << "\n"  << "OpenCL version: " << device.OpenCL_C_Version() << "\n";
         }
@@ -1427,6 +1428,9 @@ void setEnabledProg() {
         [custom_subfilters removeObjectAtIndex: index];
         [filter_on removeObjectAtIndex:index];
         [table_view reloadData];
+        
+        //ac::draw_strings[[num integerValue]]
+        
         flushToLog(stream);
     }
 }

@@ -639,6 +639,7 @@ void ac::BlendByColsSubFilter(cv::Mat &frame) {
         }
         index = (index == 0) ? 1 : 0;
     }
+    AddInvert(frame);
 }
 
 void ac::BlendByColsImage(cv::Mat &frame) {
@@ -657,4 +658,16 @@ void ac::BlendByColsImage(cv::Mat &frame) {
         }
         index = (index == 0) ? 1 : 0;
     }
+    AddInvert(frame);
+}
+
+void ac::IntertwineX(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    IntertwineFrames(0, copy1, copy1, frame);
+    AddInvert(frame);
+}
+void ac::IntertwineY(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    IntertwineFrames(1, copy1, copy1, frame);
+    AddInvert(frame);
 }

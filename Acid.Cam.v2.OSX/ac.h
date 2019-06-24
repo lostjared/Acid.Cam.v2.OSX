@@ -1393,6 +1393,8 @@ namespace ac {
     void BlendColorImageStrobeSubFilter(cv::Mat &frame);
     void BlendByColsSubFilter(cv::Mat &frame);
     void BlendByColsImage(cv::Mat &frame);
+    void IntertwineX(cv::Mat &frame);
+    void IntertwineY(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1467,6 +1469,7 @@ namespace ac {
     void pushSubFilter(int newsub);
     void popSubFilter();
     void setSourceFrame(const cv::Mat &frame);
+    void IntertwineFrames(int type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

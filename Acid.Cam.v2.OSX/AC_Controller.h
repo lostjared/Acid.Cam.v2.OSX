@@ -85,7 +85,7 @@ extern void flushToLog(std::ostringstream &sout);
 extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(long frame_count);
 extern void jumptoFrame(BOOL showJump, long frame);
-
+extern cv::ocl::Context context;
 // Main controller class for the program
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     // interface builder cocoa
