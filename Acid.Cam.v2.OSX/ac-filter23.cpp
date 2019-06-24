@@ -739,3 +739,28 @@ void ac::IntertwineHorizontalImageSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::InterwtineHorizontalImageSubFilterByIndex(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "InterwtineHorizontalImageSubFilterByIndex")
+        return;
+    cv::Mat copy1 = frame.clone(), reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    cv::Mat frames[3];
+    frames[0] = frame.clone();
+    frames[1] = reimage.clone();
+    frames[2] = copy1.clone();
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix[j];
+            }
+            ++index;
+            if(index > 2)
+                index = 0;
+        }
+    }
+}
