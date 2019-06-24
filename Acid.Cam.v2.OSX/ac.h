@@ -1396,6 +1396,8 @@ namespace ac {
     void BlendByColsImage(cv::Mat &frame);
     void IntertwineX(cv::Mat &frame);
     void IntertwineY(cv::Mat &frame);
+    void IntertwineSubFilterX(cv::Mat &frame);
+    void IntertwineSubFilterY(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

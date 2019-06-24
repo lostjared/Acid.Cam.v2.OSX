@@ -666,8 +666,26 @@ void ac::IntertwineX(cv::Mat &frame) {
     IntertwineFrames(IntertwineDir::HORIZONTAL, copy1, copy1, frame);
     AddInvert(frame);
 }
+
 void ac::IntertwineY(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     IntertwineFrames(IntertwineDir::VERTICAL, copy1, copy1, frame);
     AddInvert(frame);
 }
+
+void ac::IntertwineSubFilterX(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineSubFilterX")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    IntertwineFrames(IntertwineDir::HORIZONTAL, copy1, copy2, frame);
+    AddInvert(frame);
+}
+
+void ac::IntertwineSubFilterY(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IntertwineSubFilterX")
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    IntertwineFrames(IntertwineDir::VERTICAL, copy1, copy2, frame);
+    AddInvert(frame);}
