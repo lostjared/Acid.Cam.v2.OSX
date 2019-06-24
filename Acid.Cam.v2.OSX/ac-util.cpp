@@ -981,11 +981,11 @@ void ac::setSourceFrame(const cv::Mat &frame) {
     orig_frame = frame.clone();
 }
 
-void ac::IntertwineFrames(int type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest) {
+void ac::IntertwineFrames(IntertwineDir type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest) {
     if(one.size() != two.size())
         return;
     dest = one.clone();
-    if(type == 0) {
+    if(type == IntertwineDir::VERTICAL) {
         for(int z = 0; z < one.rows; ++z) {
             for(int i = 0; i < one.cols; ++i) {
                 cv::Vec3b &pixel = dest.at<cv::Vec3b>(z, i);
@@ -996,7 +996,7 @@ void ac::IntertwineFrames(int type, const cv::Mat &one, const cv::Mat &two, cv::
                     
             }
         }
-    } else if(type == 1) {
+    } else if(type == IntertwineDir::HORIZONTAL) {
         for(int i = 0; i < one.cols; ++i) {
             for(int z = 0; z < one.rows; ++z) {
                 cv::Vec3b &pixel = dest.at<cv::Vec3b>(z, i);

@@ -663,11 +663,11 @@ void ac::BlendByColsImage(cv::Mat &frame) {
 
 void ac::IntertwineX(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
-    IntertwineFrames(0, copy1, copy1, frame);
+    IntertwineFrames(IntertwineDir::HORIZONTAL, copy1, copy1, frame);
     AddInvert(frame);
 }
 void ac::IntertwineY(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
-    IntertwineFrames(1, copy1, copy1, frame);
+    IntertwineFrames(IntertwineDir::VERTICAL, copy1, copy1, frame);
     AddInvert(frame);
 }

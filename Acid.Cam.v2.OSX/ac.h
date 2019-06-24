@@ -158,6 +158,7 @@ namespace ac {
     };
     
     enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
+    enum class IntertwineDir { HORIZONTAL, VERTICAL };
     extern std::vector<std::string> solo_filter;
     extern std::vector<std::string> color_filter;
     void init();
@@ -1469,7 +1470,7 @@ namespace ac {
     void pushSubFilter(int newsub);
     void popSubFilter();
     void setSourceFrame(const cv::Mat &frame);
-    void IntertwineFrames(int type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest);
+    void IntertwineFrames(IntertwineDir type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
