@@ -764,3 +764,31 @@ void ac::InterwtineHorizontalImageSubFilterByIndex(cv::Mat &frame) {
         }
     }
 }
+
+void ac::IntertwineHorizontalImageSubFilterMatrixCollection(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineHorizontalImageSubFilterMatrixCollection")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone(), reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat frames[10];
+    for(int i = 0; i < collection.size(); ++i){
+        frames[i] = collection.frames[i].clone();
+    }
+    CallFilter(subfilter, copy1);
+    frames[8] = copy1.clone();
+    frames[9] = reimage.clone();
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = frames[index].at<cv::Vec3b>(z, i)[j];
+                ++index;
+                if(index > 9)
+                    index = 0;
+            }
+        }
+    }
+}

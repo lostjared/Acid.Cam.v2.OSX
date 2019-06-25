@@ -1428,10 +1428,9 @@ void setEnabledProg() {
         [custom_subfilters removeObjectAtIndex: index];
         [filter_on removeObjectAtIndex:index];
         [table_view reloadData];
-        
-        //ac::draw_strings[[num integerValue]]
-        
         flushToLog(stream);
+        if([custom_array count] == 0)
+            [self releaseFrames:self];
     }
 }
 
