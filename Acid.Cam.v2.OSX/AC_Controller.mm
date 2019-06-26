@@ -331,6 +331,7 @@ void setEnabledProg() {
      }
      }
      std::cout << "\n"; */
+    [self checkForNewVersion:NO];
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -550,7 +551,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) downloadNewestVersion: (id) sender {
-    [self checkForNewVersion:self];
+    [self checkForNewVersion:YES];
 }
 
 - (IBAction) stopProgram: (id) sender {
@@ -2886,7 +2887,7 @@ void setEnabledProg() {
     }
 }
 
-- (IBAction) checkForNewVersion: (id) sender {
+- (void) checkForNewVersion: (BOOL) showMessage {
     //[VERSION: 2.33.0 (macOS)]
     NSString *download_url = @"https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/README.md";
     NSURL *URL = [NSURL URLWithString:download_url];
@@ -2904,6 +2905,12 @@ void setEnabledProg() {
                                                   if(index != 1000) {
                                                       [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
                                                   }
+                                          });
+                                      } else {
+                                          dispatch_sync(dispatch_get_main_queue(), ^{
+                                              if(showMessage == YES) {
+                                                  _NSRunAlertPanel(@"Acid Cam is Up to Date", @"No update available", @"Ok", nil, nil);
+                                              }
                                           });
                                       }
                                   }];

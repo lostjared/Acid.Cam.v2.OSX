@@ -293,7 +293,7 @@ extern cv::ocl::Context context;
 - (IBAction) changeImageSelected: (id) sender;
 - (IBAction) toggleFilterState: (id) sender;
 - (IBAction) changePrefix: (id) sender;
-- (IBAction) checkForNewVersion: (id) sender;
+- (void) checkForNewVersion: (BOOL) showMessage;
 @end
 
 extern AC_Controller *controller;
