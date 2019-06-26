@@ -792,3 +792,15 @@ void ac::IntertwineHorizontalImageSubFilterMatrixCollection(cv::Mat &frame) {
         }
     }
 }
+
+void ac::BlendForwardAndBack(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[8].clone();
+    frames[2] = collection.frames[15].clone();
+    cv::Mat out;
+    AlphaBlend(frames[0], frames[1], out, 0.33);
+    AlphaBlend(frames[2], out, frame, 0.33);
+}

@@ -1404,6 +1404,7 @@ namespace ac {
     void IntertwineHorizontalImageSubFilter(cv::Mat &frame);
     void InterwtineHorizontalImageSubFilterByIndex(cv::Mat &frame);
     void IntertwineHorizontalImageSubFilterMatrixCollection(cv::Mat &frame);
+    void BlendForwardAndBack(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
