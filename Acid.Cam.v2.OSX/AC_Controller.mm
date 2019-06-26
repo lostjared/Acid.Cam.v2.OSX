@@ -2898,7 +2898,14 @@ void setEnabledProg() {
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSString *value = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                       NSString *ver = [NSString stringWithFormat:@"[VERSION: %s]", ac::getVersion().c_str(), nil];
-                                      if([value containsString:ver] == NO) {
+                                      if([value length] == 0) {
+                                          dispatch_sync(dispatch_get_main_queue(), ^{
+                                              if(showMessage == YES) {
+                                                  _NSRunAlertPanel(@"No Internet Connection", @"Could Not Connect to the Internet", @"Ok", nil, nil);
+                                              }
+                                          });
+                                      }
+                                      else if([value containsString:ver] == NO) {
                                           std::cout << "Version not up to date...\n";
                                           dispatch_sync(dispatch_get_main_queue(), ^{
                                               NSInteger index = _NSRunAlertPanel(@"New Version...", @"New version available, Would you like to open the download page?", @"No", @"Yes", nil);
@@ -2913,6 +2920,7 @@ void setEnabledProg() {
                                               }
                                           });
                                       }
+                                      [value release];
                                   }];
 
     
