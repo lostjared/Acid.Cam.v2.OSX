@@ -86,6 +86,11 @@ extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(long frame_count);
 extern void jumptoFrame(BOOL showJump, long frame);
 extern cv::ocl::Context context;
+
+@interface Download : NSObject <NSApplicationDelegate,NSURLDownloadDelegate>
+@end
+
+
 // Main controller class for the program
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
     // interface builder cocoa
@@ -288,6 +293,7 @@ extern cv::ocl::Context context;
 - (IBAction) changeImageSelected: (id) sender;
 - (IBAction) toggleFilterState: (id) sender;
 - (IBAction) changePrefix: (id) sender;
+- (IBAction) checkForNewVersion: (id) sender;
 @end
 
 extern AC_Controller *controller;

@@ -550,7 +550,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) downloadNewestVersion: (id) sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
+    [self checkForNewVersion:self];
 }
 
 - (IBAction) stopProgram: (id) sender {
@@ -2884,6 +2884,32 @@ void setEnabledProg() {
         }
         [label_path setStringValue:new_value];
     }
+}
+
+- (IBAction) checkForNewVersion: (id) sender {
+    //[VERSION: 2.33.0 (macOS)]
+    NSString *download_url = @"https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/README.md";
+    NSURL *URL = [NSURL URLWithString:download_url];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:
+                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      NSString *value = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                      NSString *ver = [NSString stringWithFormat:@"[VERSION: %s]", ac::getVersion().c_str(), nil];
+                                      if([value containsString:ver] == NO) {
+                                          std::cout << "Version not up to date...\n";
+                                          dispatch_sync(dispatch_get_main_queue(), ^{
+                                              NSInteger index = _NSRunAlertPanel(@"New Version...", @"New version available, Would you like to open the download page?", @"No", @"Yes", nil);
+                                                  if(index != 1000) {
+                                                      [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
+                                                  }
+                                          });
+                                      }
+                                  }];
+
+    
+    [task resume];
 }
 
 @end
