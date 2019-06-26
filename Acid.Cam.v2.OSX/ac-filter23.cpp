@@ -793,14 +793,88 @@ void ac::IntertwineHorizontalImageSubFilterMatrixCollection(cv::Mat &frame) {
     }
 }
 
-void ac::BlendForwardAndBack(cv::Mat &frame) {
+void ac::BlendForwardAndBack16(cv::Mat &frame) {
     static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
     cv::Mat frames[3];
     frames[0] = collection.frames[1].clone();
     frames[1] = collection.frames[8].clone();
     frames[2] = collection.frames[15].clone();
-    cv::Mat out;
-    AlphaBlend(frames[0], frames[1], out, 0.33);
-    AlphaBlend(frames[2], out, frame, 0.33);
+    double alpha = 1.0/3;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b colors[3];
+                colors[0] = frames[0].at<cv::Vec3b>(z, i);
+                colors[1] = frames[1].at<cv::Vec3b>(z, i);
+                colors[2] = frames[2].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha*colors[0][j]) + (alpha*colors[1][j]) + (alpha*colors[2][j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::BlendForwardAndBack32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[4];
+    frames[0] = collection.frames[8].clone();
+    frames[1] = collection.frames[16].clone();
+    frames[2] = collection.frames[24].clone();
+    frames[3] = collection.frames[31].clone();
+    double alpha = 1.0/4;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b colors[4];
+                colors[0] = frames[0].at<cv::Vec3b>(z, i);
+                colors[1] = frames[1].at<cv::Vec3b>(z, i);
+                colors[2] = frames[2].at<cv::Vec3b>(z, i);
+                colors[3] = frames[3].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha*colors[0][j]) + (alpha*colors[1][j]) + (alpha*colors[2][j]) + (alpha*colors[3][j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::BlendForwardAndBack64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[6];
+    frames[0] = collection.frames[8].clone();
+    frames[1] = collection.frames[16].clone();
+    frames[2] = collection.frames[24].clone();
+    frames[3] = collection.frames[31].clone();
+    frames[4] = collection.frames[47].clone();;
+    frames[5] = collection.frames[63].clone();
+    double alpha = 1.0/6;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b colors[6];
+                colors[0] = frames[0].at<cv::Vec3b>(z, i);
+                colors[1] = frames[1].at<cv::Vec3b>(z, i);
+                colors[2] = frames[2].at<cv::Vec3b>(z, i);
+                colors[3] = frames[3].at<cv::Vec3b>(z, i);
+                colors[4] = frames[4].at<cv::Vec3b>(z, i);
+                colors[5] = frames[5].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha*colors[0][j]) + (alpha*colors[1][j]) + (alpha*colors[2][j]) + (alpha*colors[3][j]) + (alpha *colors[4][j]) + (alpha*colors[5][j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
 }
