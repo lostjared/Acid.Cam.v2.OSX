@@ -878,3 +878,30 @@ void ac::BlendForwardAndBack64(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::BlendForwardAndBack8_RandomStrobe(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[rand()%7].clone();
+    frames[1] = collection.frames[rand()%7].clone();
+    frames[2] = collection.frames[rand()%7].clone();
+    double alpha = 1.0/3;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b colors[3];
+                colors[0] = frames[0].at<cv::Vec3b>(z, i);
+                colors[1] = frames[1].at<cv::Vec3b>(z, i);
+                colors[2] = frames[2].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha*colors[0][j]) + (alpha*colors[1][j]) + (alpha*colors[2][j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ColorCollectionReverseStrobe(frame);
+}
