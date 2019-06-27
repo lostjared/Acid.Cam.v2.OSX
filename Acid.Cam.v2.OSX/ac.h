@@ -1410,6 +1410,7 @@ namespace ac {
     void BlendForwardAndBack8_RandomStrobe(cv::Mat &frame);
     void AlphaBlendWithThreeCollections(cv::Mat &frame);
     void AlphaBlendArrayRandom(cv::Mat &frame);
+    void AlphaBlendArrayTrailsFilters(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

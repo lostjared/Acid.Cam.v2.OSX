@@ -936,6 +936,7 @@ void ac::AlphaBlendWithThreeCollections(cv::Mat &frame) {
     if(index > 2)
         index = 0;
     AlphaBlendArray(frame, frames, 3);
+    AddInvert(frame);
 }
 
 void ac::AlphaBlendArrayRandom(cv::Mat &frame) {
@@ -946,4 +947,17 @@ void ac::AlphaBlendArrayRandom(cv::Mat &frame) {
         BlendWithSource25(frames[i]);
     }
     AlphaBlendArray(frame, frames, 4);
+    AddInvert(frame);
+}
+
+void ac::AlphaBlendArrayTrailsFilters(cv::Mat &frame) {
+    cv::Mat frames[4];
+    for(int i = 0; i < 4; ++i)
+        frames[i] = frame.clone();
+    ColorCollectionReverseStrobe(frames[0]);
+    GhostTrails(frames[1]);
+    BlendForwardAndBack16(frames[2]);
+    RGBTrailsDark(frames[3]);
+    AlphaBlendArray(frame, frames, 4);
+    AddInvert(frame);
 }
