@@ -694,6 +694,7 @@ void setEnabledProg() {
             input_file = [[video_file stringValue] UTF8String];
             if(input_file.length() == 0) {
                 _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
+                [videoFileInput setEnabled:YES];
                 return;
             }
             use_resized_res = true;
@@ -2919,7 +2920,6 @@ void setEnabledProg() {
         }
         [value release];
     }];
-
     [task resume];
 }
 
