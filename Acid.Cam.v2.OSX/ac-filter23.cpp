@@ -937,3 +937,13 @@ void ac::AlphaBlendWithThreeCollections(cv::Mat &frame) {
         index = 0;
     AlphaBlendArray(frame, frames, 3);
 }
+
+void ac::AlphaBlendArrayRandom(cv::Mat &frame) {
+    cv::Mat frames[4];
+    for(int i = 0; i < 4; ++i) {
+        frames[i] = frame.clone();
+        Random_Filter(frames[i]);
+        BlendWithSource25(frames[i]);
+    }
+    AlphaBlendArray(frame, frames, 4);
+}
