@@ -1408,6 +1408,7 @@ namespace ac {
     void BlendForwardAndBack32(cv::Mat &frame);
     void BlendForwardAndBack64(cv::Mat &frame);
     void BlendForwardAndBack8_RandomStrobe(cv::Mat &frame);
+    void AlphaBlendWithThreeCollections(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1439,6 +1440,7 @@ namespace ac {
     void StretchAlphaBlendSelf(cv::Mat &frame, int &dir, const int &speed_x, const int &speed_y, int &offset_x, int &offset_y, const int &size_x, const int &size_y);
     void AlphaMovement(double *alpha, int *dir, double inc);
     void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
+    void AlphaBlendArray(cv::Mat &src, cv::Mat *frame, unsigned int num_frames);
     void PixelScaleAlpha(cv::Mat &frame, double amt);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Pixelate(cv::Mat &frame, unsigned int size);

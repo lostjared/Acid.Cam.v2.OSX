@@ -905,3 +905,35 @@ void ac::BlendForwardAndBack8_RandomStrobe(cv::Mat &frame) {
     AddInvert(frame);
     ColorCollectionReverseStrobe(frame);
 }
+
+void ac::AlphaBlendWithThreeCollections(cv::Mat &frame) {
+    static MatrixCollection<8>  collection1;
+    static MatrixCollection<16> collection2;
+    static MatrixCollection<32> collection3;
+    collection1.shiftFrames(frame);
+    collection2.shiftFrames(frame);
+    collection3.shiftFrames(frame);
+    static int index = 0;
+    cv::Mat frames[3];
+    switch(index) {
+        case 0:
+            frames[0] = collection1.frames[1].clone();
+            frames[1] = collection1.frames[4].clone();
+            frames[2] = collection1.frames[7].clone();
+            break;
+        case 1:
+            frames[0] = collection2.frames[1].clone();
+            frames[1] = collection2.frames[7].clone();
+            frames[2] = collection2.frames[15].clone();
+            break;
+        case 2:
+            frames[0] = collection3.frames[1].clone();
+            frames[1] = collection3.frames[15].clone();
+            frames[2] = collection3.frames[31].clone();
+            break;
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    AlphaBlendArray(frame, frames, 3);
+}
