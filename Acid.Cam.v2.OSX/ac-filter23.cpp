@@ -961,3 +961,17 @@ void ac::AlphaBlendArrayTrailsFilters(cv::Mat &frame) {
     AlphaBlendArray(frame, frames, 4);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendMirrorChannelSort(cv::Mat &frame) {
+    cv::Mat frames[6];
+    for(int i = 0; i < 6; ++i)
+        frames[i] = frame.clone();
+    MirrorLeft(frames[0]);
+    MirrorRight(frames[1]);
+    GhostTrails(frames[2]);
+    ChannelSort(frames[3]);
+    SplitMatrixSortChannel(frames[4]);
+    SelfScale(frames[5]);
+    AlphaBlendArray(frame, frames, 6);
+    AddInvert(frame);
+}

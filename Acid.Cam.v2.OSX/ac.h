@@ -1411,6 +1411,7 @@ namespace ac {
     void AlphaBlendWithThreeCollections(cv::Mat &frame);
     void AlphaBlendArrayRandom(cv::Mat &frame);
     void AlphaBlendArrayTrailsFilters(cv::Mat &frame);
+    void AlphaBlendMirrorChannelSort(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
