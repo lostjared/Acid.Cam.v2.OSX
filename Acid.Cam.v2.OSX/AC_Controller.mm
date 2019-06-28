@@ -963,7 +963,7 @@ void setEnabledProg() {
                     cv::imshow("Acid Cam v2", frame);
                 }
             }
-            ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1024)/1024) << " MB";
+            ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1000)/1000) << " MB";
             if(camera_mode == 1) {
                 float val = frame_cnt;
                 float size = total_frames;
@@ -1076,7 +1076,7 @@ void setEnabledProg() {
         char cfps_s[1024];
         snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
         
-        ftext  << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
+        ftext  << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1000)/1000) << " MB";
         if(ac::noRecord == false) {
             struct stat buf;
             stat(ac::fileName.c_str(), &buf);
@@ -1228,7 +1228,7 @@ void setEnabledProg() {
     char cfps_s[1024];
     snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
     
-    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1024)/1024) << " MB";
+    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1000)/1000) << " MB";
     
     if(camera_mode == 1) {
         float val = frame_cnt;

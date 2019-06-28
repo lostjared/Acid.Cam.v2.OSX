@@ -938,8 +938,8 @@ void ac::newBlend(cv::Mat &frame) {
     static int dir = 1;// static direction equals 1
     if(dir == 1) {// dir equals 1
         pos += 25;// pos plus equal 25
-        if(pos > 1024) {// greater than 1024
-            pos = 1024;
+        if(pos > 1024) {// greater than 1000
+            pos = 1023;
             dir = 2;// set direction to 2
         }
     }
