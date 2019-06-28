@@ -1027,4 +1027,5 @@ void ac::AlphaBlendArrayExpand(cv::Mat &frame) {
         }
     }
     delete [] frames;
+    AddInvert(frame);
 }
