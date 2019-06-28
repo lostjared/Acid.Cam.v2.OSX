@@ -906,6 +906,8 @@ void setEnabledProg() {
         }
         ac::frames_released = false;
         ac::reset_alpha = false;
+        ac::image_matrix_reset = false;
+
         if(after == NSOnState)
             ac::ApplyColorMap(frame);
         
@@ -1145,6 +1147,7 @@ void setEnabledProg() {
         }
     }
     ac::frames_released = false;
+    ac::image_matrix_reset = false;
     ac::reset_alpha = false;
     NSInteger slide_value = [brightness integerValue];
     if(slide_value > 0)

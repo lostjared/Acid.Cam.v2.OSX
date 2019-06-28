@@ -1415,6 +1415,7 @@ namespace ac {
     void ColorCollectionAlphaBlendArray(cv::Mat &frame);
     void AlphaBlendArrayExpand(cv::Mat &frame);
     void ColorImageMatrixFade(cv::Mat &frame);
+    void ColorImageMastrixFadeFast(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
