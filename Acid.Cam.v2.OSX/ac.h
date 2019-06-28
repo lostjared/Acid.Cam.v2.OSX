@@ -1413,6 +1413,7 @@ namespace ac {
     void AlphaBlendArrayTrailsFilters(cv::Mat &frame);
     void AlphaBlendMirrorChannelSort(cv::Mat &frame);
     void ColorCollectionAlphaBlendArray(cv::Mat &frame);
+    void AlphaBlendArrayExpand(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

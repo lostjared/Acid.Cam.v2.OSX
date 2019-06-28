@@ -998,3 +998,33 @@ void ac::ColorCollectionAlphaBlendArray(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendArrayExpand(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static int num = 1, dir = 1;
+    static MatrixCollection<MAX> collection;
+    collection.shiftFrames(frame);
+    cv::Mat *frames;
+    frames = new cv::Mat[num];
+    
+    for(int i = 0; i < num; ++i) {
+        frames[i] = collection.frames[i].clone();
+    }
+    
+    AlphaBlendArray(frame, frames, num);
+    
+    if(dir == 1) {
+        ++num;
+        if(num >= MAX-1) {
+            dir = 0;
+            num = MAX-1;
+        }
+    } else {
+        --num;
+        if(num <= 1) {
+            dir = 1;
+            num = 1;
+        }
+    }
+    delete [] frames;
+}
