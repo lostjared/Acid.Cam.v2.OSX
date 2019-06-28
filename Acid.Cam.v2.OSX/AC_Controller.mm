@@ -2008,6 +2008,7 @@ void setEnabledProg() {
 - (IBAction) resetAllFrames:(id) sender {
     emiter.reset();
     ac::frames_released = true;
+    ac::image_matrix_reset = true;
     std::ostringstream stream;
     stream << "Reset All Frames...\n";
     flushToLog(stream);
@@ -2018,12 +2019,14 @@ void setEnabledProg() {
         stream << "Animation alpha and direction reset to 1.\n";
         flushToLog(stream);
         ac::reset_alpha = true;
+        ac::image_matrix_reset = true;
         emiter.reset();
     }
 }
 
 - (IBAction) releaseFrames:(id)sender {
     reset_memory = true;
+    ac::image_matrix_reset = true;
     std::ostringstream stream;
     stream << "Stored Frames Memory Released...\n";
     flushToLog(stream);

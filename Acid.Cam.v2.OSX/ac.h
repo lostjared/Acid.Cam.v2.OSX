@@ -1414,6 +1414,7 @@ namespace ac {
     void AlphaBlendMirrorChannelSort(cv::Mat &frame);
     void ColorCollectionAlphaBlendArray(cv::Mat &frame);
     void AlphaBlendArrayExpand(cv::Mat &frame);
+    void ColorImageMatrixFade(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2258,8 +2259,18 @@ namespace ac {
             }
         }
     }
-    
     extern Pixelated pix;
+    struct PixelValues {
+        int dir[3];
+        int col[3];
+        PixelValues() {
+            for(int i = 0; i< 3; ++i) {
+                dir[i] = rand()%1;
+                col[i] = rand()%25;
+            }
+        }
+    };
+    extern bool image_matrix_reset;
 }
 
 extern ac::ParticleEmiter emiter;
