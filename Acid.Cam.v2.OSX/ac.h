@@ -423,7 +423,6 @@ namespace ac {
     void GradientColors(cv::Mat &frame);
     void GradientColorsVertical(cv::Mat &frame);
     void Bitwise_XOR_Average(cv::Mat &frame);
-    void NotEqual(cv::Mat &frame);
     void ImageShiftUpLeft(cv::Mat &frame);
     void GradientXorSelfScale(cv::Mat &frame);
     void SmoothSourcePixel(cv::Mat &frame);

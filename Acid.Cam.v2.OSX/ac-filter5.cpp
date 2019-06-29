@@ -964,37 +964,6 @@ void ac::Bitwise_XOR_Average(cv::Mat &frame) {
     Bitwise_XOR(frame);
 }
 
-void ac::NotEqual(cv::Mat &frame) {
-    
-    static MatrixCollection<2> collection;
-    collection.shiftFrames(frame);
-    static double alpha = 1.0, alpha_max = 3.0;
-    
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            bool same_value =  true;
-            cv::Vec3b value;
-            for(int j = 0; j < collection.size(); ++j) {
-                value = collection.frames[j].at<cv::Vec3b>(z, i);
-                if(value != pixel) {
-                    same_value = false;
-                    break;
-                }
-            }
-            if(same_value == false) {
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha)) + (value[j] * alpha));
-                }
-            }
-            swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
-        }
-    }
-    static int dir = 1;
-    procPos(dir, alpha, alpha_max, 0.10);
-}
-
 void ac::GradientXorSelfScale(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int z = 0; z < frame.rows-1; ++z) {
