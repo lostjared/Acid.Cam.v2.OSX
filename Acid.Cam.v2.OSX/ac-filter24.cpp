@@ -307,7 +307,7 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ColorMatrixCollection(cv::Mat &frame) {
+void ac::ColorMatrixCollectionPixelation(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     static PixelValues **pix_values = 0;
