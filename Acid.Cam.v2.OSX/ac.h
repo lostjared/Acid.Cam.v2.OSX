@@ -1418,6 +1418,7 @@ namespace ac {
     void ColorImageMatrixFadeDirection(cv::Mat &frame);
     void ColorImageMatrixFadeDirectionBlend(cv::Mat &frame);
     void ColorMatrixCollectionPixelation(cv::Mat &frame);
+    void ColorMatrixColllectionImagePixelation(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
