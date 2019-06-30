@@ -409,3 +409,60 @@ void ac::ColorMatrixColllectionImagePixelation(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorMatrixCollectionImagePixelationSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ColorMatrixCollectionImagePixelationSubFilter")
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    static MatrixCollection<2> collection;
+    collection.shiftFrames(frame);
+    static PixelValues **pix_values = 0;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
+            // reset
+            for(int j = 0; j < pix_x; ++j) {
+                delete [] pix_values[j];
+            }
+            delete [] pix_values;
+            pix_values = 0;
+        }
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        pix_values = new PixelValues*[pix_x];
+        for(int i = 0; i < pix_x; ++i) {
+            pix_values[i] = new PixelValues[pix_y];
+        }
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pix_values[i][z].col[j] = pixel[j];
+                    pix_values[i][z].dir[j] = rand()%2;
+                }
+            }
+        }
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &pix_val = pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(pix_val.dir[j] >= 1) {
+                        cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                        pixel[j] = pix[j];
+                    }
+                    else {
+                        cv::Vec3b pix = collection.frames[pix_val.dir[j]].at<cv::Vec3b>(z, i);
+                        pixel[j] = pix[j];
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
