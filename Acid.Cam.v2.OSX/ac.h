@@ -1421,6 +1421,7 @@ namespace ac {
     void ColorMatrixColllectionImagePixelation(cv::Mat &frame);
     void ColorMatrixCollectionImagePixelationSubFilter(cv::Mat &frame);
     void ColorImageMatrixMedianBlend(cv::Mat &frame);
+    void ColorImageBlendPixelMedian(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
