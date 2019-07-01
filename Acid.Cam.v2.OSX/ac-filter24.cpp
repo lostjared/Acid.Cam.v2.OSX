@@ -63,7 +63,7 @@ void ac::ColorImageMatrixFade(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, 0);
@@ -106,7 +106,7 @@ void ac::ColorImageMatrixFadeFast(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
@@ -150,7 +150,7 @@ void ac::ColorImageMatrixFadeDirection(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, -1);
@@ -193,7 +193,7 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, -1);
@@ -234,7 +234,7 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
 void ac::ColorMatrixCollectionPixelation(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, -2);
@@ -265,7 +265,7 @@ void ac::ColorMatrixColllectionImagePixelation(cv::Mat &frame) {
     ColorTransition(reimage);
     static MatrixCollection<2> collection;
     collection.shiftFrames(frame);
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, -1);
@@ -302,7 +302,7 @@ void ac::ColorMatrixCollectionImagePixelationSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, reimage);
     static MatrixCollection<2> collection;
     collection.shiftFrames(frame);
-    static PixelContainer pix_container;
+    static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, -1);

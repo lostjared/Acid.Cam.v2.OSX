@@ -1032,3 +1032,47 @@ void ac::AlphaBlendArray(cv::Mat &src, cv::Mat *frames, unsigned int num_frames)
         }
     }
 }
+
+ac::PixelArray2D::~PixelArray2D() {
+    erase();
+}
+
+void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
+    if(pix_values != 0) {
+        erase();
+    }
+    pix_x = w;
+    pix_y = h;
+    pix_values = new PixelValues*[pix_x];
+    for(int i = 0; i < pix_x; ++i) {
+        pix_values[i] = new PixelValues[pix_y];
+    }
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pix_values[i][z].col[j] = pixel[j];
+                switch(dir) {
+                    case -1:
+                        pix_values[i][z].dir[j] = rand()%2;
+                        break;
+                    case -2:
+                        pix_values[i][z].dir[j] = rand()%8;
+                        break;
+                    default:
+                        pix_values[i][z].dir[j] = dir;
+                        break;
+                }
+            }
+        }
+    }
+}
+void ac::PixelArray2D::erase() {
+    if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
+        for(int j = 0; j < pix_x; ++j) {
+            delete [] pix_values[j];
+        }
+        delete [] pix_values;
+        pix_values = 0;
+    }
+}
