@@ -63,31 +63,12 @@ void ac::ColorImageMatrixFade(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelValues** pix_values = 0;
+    static PixelContainer pix_container;
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = 0;
-                }
-            }
-        }
     }
     static int speed = 1;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
@@ -96,8 +77,8 @@ void ac::ColorImageMatrixFade(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int &d = pix_values[i][z].dir[j];
-                    PixelValues &pix = pix_values[i][z];
+                    int &d = pix_container.pix_values[i][z].dir[j];
+                    PixelValues &pix = pix_container.pix_values[i][z];
                     if(d == 1) {
                         pix.col[j] += speed;
                         if(pix.col[j] >= 254) {
@@ -111,7 +92,7 @@ void ac::ColorImageMatrixFade(cv::Mat &frame) {
                             pix.dir[j] = 1;
                         }
                     }
-                    pixel[j] = pix_values[i][z].col[j];
+                    pixel[j] = pix_container.pix_values[i][z].col[j];
                 }
             }
         }
@@ -120,36 +101,18 @@ void ac::ColorImageMatrixFade(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ColorImageMastrixFadeFast(cv::Mat &frame) {
+void ac::ColorImageMatrixFadeFast(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelValues** pix_values = 0;
+    static PixelContainer pix_container;
+    
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = 0;
-                }
-            }
-        }
     }
     static int speed = 5;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
@@ -158,8 +121,8 @@ void ac::ColorImageMastrixFadeFast(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int &d = pix_values[i][z].dir[j];
-                    PixelValues &pix = pix_values[i][z];
+                    int &d = pix_container.pix_values[i][z].dir[j];
+                    PixelValues &pix = pix_container.pix_values[i][z];
                     if(d == 1) {
                         pix.col[j] += speed;
                         if(pix.col[j] >= 254) {
@@ -173,7 +136,7 @@ void ac::ColorImageMastrixFadeFast(cv::Mat &frame) {
                             pix.dir[j] = 1;
                         }
                     }
-                    pixel[j] = pix_values[i][z].col[j];
+                    pixel[j] = pix_container.pix_values[i][z].col[j];
                 }
             }
         }
@@ -187,31 +150,12 @@ void ac::ColorImageMatrixFadeDirection(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelValues** pix_values = 0;
+    static PixelContainer pix_container;
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = rand()%2;
-                }
-            }
-        }
     }
     static int speed = 5;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
@@ -220,8 +164,8 @@ void ac::ColorImageMatrixFadeDirection(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int &d = pix_values[i][z].dir[j];
-                    PixelValues &pix = pix_values[i][z];
+                    int &d = pix_container.pix_values[i][z].dir[j];
+                    PixelValues &pix = pix_container.pix_values[i][z];
                     if(d == 1) {
                         pix.col[j] += speed;
                         if(pix.col[j] >= 254) {
@@ -235,7 +179,7 @@ void ac::ColorImageMatrixFadeDirection(cv::Mat &frame) {
                             pix.dir[j] = rand()%2;
                         }
                     }
-                    pixel[j] = pix_values[i][z].col[j];
+                    pixel[j] = pix_container.pix_values[i][z].col[j];
                 }
             }
         }
@@ -249,32 +193,12 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
         return;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static PixelValues **pix_values = 0;
+    static PixelContainer pix_container;
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            // reset
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = rand()%2;
-                }
-            }
-        }
     }
     static int speed = 5;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
@@ -283,8 +207,8 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int &d = pix_values[i][z].dir[j];
-                    PixelValues &pix = pix_values[i][z];
+                    int &d = pix_container.pix_values[i][z].dir[j];
+                    PixelValues &pix = pix_container.pix_values[i][z];
                     if(d == 1) {
                         pix.col[j] += speed;
                         if(pix.col[j] >= 254) {
@@ -298,7 +222,7 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
                             pix.dir[j] = 1;
                         }
                     }
-                    pixel[j] = static_cast<unsigned char>(pixel[j] * 0.33) + static_cast<unsigned char>(0.33 * pix_values[i][z].col[j]) + static_cast<unsigned char>(img_pix[j] * 0.33);
+                    pixel[j] = static_cast<unsigned char>(pixel[j] * 0.33) + static_cast<unsigned char>(0.33 * pix_container.pix_values[i][z].col[j]) + static_cast<unsigned char>(img_pix[j] * 0.33);
                 }
             }
         }
@@ -310,38 +234,18 @@ void ac::ColorImageMatrixFadeDirectionBlend(cv::Mat &frame) {
 void ac::ColorMatrixCollectionPixelation(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    static PixelValues **pix_values = 0;
+    static PixelContainer pix_container;
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            // reset
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -2);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = rand()%8;
-                }
-            }
-        }
     }
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                PixelValues &pix_val = pix_values[i][z];
+                PixelValues &pix_val = pix_container.pix_values[i][z];
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = collection.frames[pix_val.dir[j]].at<cv::Vec3b>(z, i);
                     pixel[j] = pix[j];
@@ -361,38 +265,18 @@ void ac::ColorMatrixColllectionImagePixelation(cv::Mat &frame) {
     ColorTransition(reimage);
     static MatrixCollection<2> collection;
     collection.shiftFrames(frame);
-    static PixelValues **pix_values = 0;
+    static PixelContainer pix_container;
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            // reset
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = rand()%2;
-                }
-            }
-        }
     }
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                PixelValues &pix_val = pix_values[i][z];
+                PixelValues &pix_val = pix_container.pix_values[i][z];
                 for(int j = 0; j < 3; ++j) {
                     if(pix_val.dir[j] >= 1) {
                         cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
@@ -418,38 +302,18 @@ void ac::ColorMatrixCollectionImagePixelationSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, reimage);
     static MatrixCollection<2> collection;
     collection.shiftFrames(frame);
-    static PixelValues **pix_values = 0;
+    static PixelContainer pix_container;
     static int pix_x = 0, pix_y = 0;
-    if(image_matrix_reset == true || pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
-            // reset
-            for(int j = 0; j < pix_x; ++j) {
-                delete [] pix_values[j];
-            }
-            delete [] pix_values;
-            pix_values = 0;
-        }
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_values = new PixelValues*[pix_x];
-        for(int i = 0; i < pix_x; ++i) {
-            pix_values[i] = new PixelValues[pix_y];
-        }
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pix_values[i][z].col[j] = pixel[j];
-                    pix_values[i][z].dir[j] = rand()%2;
-                }
-            }
-        }
     }
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                PixelValues &pix_val = pix_values[i][z];
+                PixelValues &pix_val = pix_container.pix_values[i][z];
                 for(int j = 0; j < 3; ++j) {
                     if(pix_val.dir[j] >= 1) {
                         cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
