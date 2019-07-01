@@ -1053,6 +1053,9 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
             for(int j = 0; j < 3; ++j) {
                 pix_values[i][z].col[j] = pixel[j];
                 switch(dir) {
+                    case 0:
+                        pix_values[i][z].dir[j] = 0;
+                        break;
                     case -1:
                         pix_values[i][z].dir[j] = rand()%2;
                         break;
