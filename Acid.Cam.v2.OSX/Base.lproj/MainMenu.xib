@@ -670,7 +670,7 @@
         <window title="Activity Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6Ke-TD-3vc">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="594" y="154" width="756" height="374"/>
+            <rect key="contentRect" x="916" y="171" width="756" height="374"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="4gS-UV-fUL">
                 <rect key="frame" x="0.0" y="0.0" width="756" height="374"/>
@@ -987,7 +987,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-209" y="-781"/>
+            <point key="canvasLocation" x="-56" y="-779"/>
         </window>
         <window title="Custom Filter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="92I-tF-b7z">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
