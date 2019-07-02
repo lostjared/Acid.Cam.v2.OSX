@@ -1455,7 +1455,7 @@ namespace ac {
     void StretchAlphaBlendSelf(cv::Mat &frame, int &dir, const int &speed_x, const int &speed_y, int &offset_x, int &offset_y, const int &size_x, const int &size_y);
     void AlphaMovement(double *alpha, int *dir, double inc);
     void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
-    void AlphaBlendArray(cv::Mat &src, cv::Mat *frame, unsigned int num_frames);
+    void AlphaBlendArray(cv::Mat &src, cv::Mat *frame, int num_frames);
     void PixelScaleAlpha(cv::Mat &frame, double amt);
     void DarkenImage(cv::Mat &frame, unsigned int size);
     void Pixelate(cv::Mat &frame, unsigned int size);

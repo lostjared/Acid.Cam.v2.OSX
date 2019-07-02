@@ -1010,7 +1010,7 @@ void ac::IntertwineFrames(IntertwineDir type, const cv::Mat &one, const cv::Mat 
 }
 
 
-void ac::AlphaBlendArray(cv::Mat &src, cv::Mat *frames, unsigned int num_frames) {
+void ac::AlphaBlendArray(cv::Mat &src, cv::Mat *frames, int num_frames) {
     if(num_frames == 0)
         return;
     if(src.empty())
