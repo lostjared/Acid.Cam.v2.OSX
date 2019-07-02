@@ -502,7 +502,7 @@ void ac::ColorImageBlendSource(cv::Mat &frame) {
                             pix.dir[j] = 1;
                         }
                     }
-                    pixel[j] = static_cast<unsigned char>(pixel[j] * 0.40) + static_cast<unsigned char>(src_pix[j] * 0.40) + static_cast<unsigned char>(img_pix[j] * 0.10) + static_cast<unsigned char>(pix_container.pix_values[i][z].col[j] * 0.10);
+                    pixel[j] = static_cast<unsigned char>(pixel[j] * 0.40) + static_cast<unsigned char>(src_pix[j] * 0.30) + static_cast<unsigned char>(img_pix[j] * 0.20) + static_cast<unsigned char>(pix_container.pix_values[i][z].col[j] * 0.50);
                 }
             }
         }
