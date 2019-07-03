@@ -1047,6 +1047,7 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
     for(int i = 0; i < pix_x; ++i) {
         pix_values[i] = new PixelValues[pix_y];
     }
+    int offset = 0;
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -1062,9 +1063,16 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
                     case -2:
                         pix_values[i][z].dir[j] = rand()%8;
                         break;
+                    case -3:
+                        if((++offset)%2 == 0)
+                            pix_values[i][z].dir[j] = 1;
+                        else
+                            pix_values[i][z].dir[j] = 0;
+                        break;
                     default:
                         pix_values[i][z].dir[j] = dir;
                         break;
+                        
                 }
             }
         }

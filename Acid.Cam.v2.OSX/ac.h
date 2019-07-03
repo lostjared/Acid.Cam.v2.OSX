@@ -1424,6 +1424,7 @@ namespace ac {
     void ColorImageBlendPixelMedian(cv::Mat &frame);
     void ColorImageBlendOrigMedian(cv::Mat &frame);
     void ColorImageBlendSource(cv::Mat &frame);
+    void ColorImageMatrixFadeOnAndOff(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
