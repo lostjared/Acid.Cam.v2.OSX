@@ -1048,6 +1048,7 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
         pix_values[i] = new PixelValues[pix_y];
     }
     int offset = 0;
+    int rect = 0;
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -1069,6 +1070,12 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
                         else
                             pix_values[i][z].dir[j] = 0;
                         break;
+                    case -4:
+                        if((++rect)%25 == 0) {
+                            offset = (offset == 0) ? 1 : 0;
+                        }
+                         pix_values[i][z].dir[j] = offset;
+                        break;
                     default:
                         pix_values[i][z].dir[j] = dir;
                         break;
@@ -1087,3 +1094,4 @@ void ac::PixelArray2D::erase() {
         pix_values = 0;
     }
 }
+
