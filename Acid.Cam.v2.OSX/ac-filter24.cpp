@@ -689,3 +689,50 @@ void ac::ColorImageFadeReallyFast(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorImageSubFilterXor(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ColorImageSubFilterXor")
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    static PixelArray2D pix_container;
+    
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    static int speed = 25, dir = 0;
+    static double alpha = 1.0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int &d = pix_container.pix_values[i][z].dir[j];
+                    PixelValues &pix = pix_container.pix_values[i][z];
+                    if(d == 1) {
+                        pix.col[j] += speed;
+                        if(pix.col[j] >= 254) {
+                            pix.col[j] = static_cast<unsigned char>((img_pix[j] * 0.5) + (pixel[j] * 0.5));
+                            pix.dir[j] = 0;
+                        }
+                    } else {
+                        pix.col[j] -= speed;
+                        if(pix.col[j] <= 1) {
+                            pix.col[j] = 1;
+                            pix.dir[j] = 1;
+                        }
+                    }
+                    pixel[j] = static_cast<unsigned char>((img_pix[j]*alpha))^ static_cast<unsigned char>(pix_container.pix_values[i][z].col[j] * 1-alpha);
+                }
+            }
+        }
+    };
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

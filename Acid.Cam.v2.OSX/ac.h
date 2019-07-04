@@ -1428,6 +1428,7 @@ namespace ac {
     void ColorImageMatrixRect(cv::Mat &frame);
     void ColorImageBackAndForth(cv::Mat &frame);
     void ColorImageFadeReallyFast(cv::Mat &frame);
+    void ColorImageSubFilterXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
