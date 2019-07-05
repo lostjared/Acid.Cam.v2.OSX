@@ -1052,6 +1052,7 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pix_values[i][z].speed = 1+(rand()%4);
             for(int j = 0; j < 3; ++j) {
                 pix_values[i][z].col[j] = pixel[j];
                 switch(dir) {
