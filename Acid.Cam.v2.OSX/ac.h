@@ -1430,6 +1430,7 @@ namespace ac {
     void ColorImageFadeReallyFast(cv::Mat &frame);
     void ColorImageSubFilterXor(cv::Mat &frame);
     void ColorImageAllXor(cv::Mat &frame);
+    void ColorChannelIteration(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2278,11 +2279,13 @@ namespace ac {
     struct PixelValues {
         int dir[3];
         int col[3];
+        int speed;
         PixelValues() {
             for(int i = 0; i< 3; ++i) {
                 dir[i] = rand()%1;
                 col[i] = rand()%25;
             }
+            speed = rand()%10;
         }
     };
     
