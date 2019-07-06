@@ -757,12 +757,13 @@ void setEnabledProg() {
             ret_val = program_main(value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         
         if(ret_val == 0) {
-            if(camera_mode == 1)
+            if(camera_mode == 1) {
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
-            else
+            }
+            else {
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
-            
-            //[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+                [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
+            }
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
         if(ret_val != 0) {
