@@ -2288,14 +2288,27 @@ namespace ac {
             }
             speed = 1+(rand()%4);
         }
+        PixelValues(PixelValues &pv) {
+            this->operator=(pv);
+        }
+        PixelValues& operator=(const PixelValues &pv) {
+            for(int i =0; i < 3; ++i) {
+                dir[i] = pv.dir[i];
+                col[i] = pv.col[i];
+            }
+            speed = pv.speed;
+            return *this;
+        }
     };
     
     class PixelArray2D {
     public:
         PixelArray2D() : pix_values(0), pix_x(0), pix_y(0) {}
+        PixelArray2D(const PixelArray2D &) = delete;
         ~PixelArray2D();
         void create(cv::Mat &frame, int w, int h, int dir);
         void erase();
+        PixelArray2D &operator=(const PixelArray2D &) = delete;
         PixelValues **pix_values;
         int pix_x, pix_y;
     };
