@@ -919,3 +919,50 @@ void ac::ColorXorImageFade(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
+
+void ac::ColorFreezeBlend(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    static int speed = 5;
+    static double alpha = 1.0;
+    static int dir = 1;
+    static int offset = 0;
+    int colors[3] = {0};
+    InitArrayPosition(colors, offset);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int &d = pix_container.pix_values[i][z].dir[j];
+                    PixelValues &pix = pix_container.pix_values[i][z];
+                    if(d == 1) {
+                        pix.col[j] += speed;
+                        if(pix.col[j] >= 254) {
+                            pix.col[j] = pixel[j];
+                            pix.dir[j] = 0;
+                        }
+                    } else {
+                        pix.col[j] -= speed;
+                        if(pix.col[j] <= 1) {
+                            pix.col[j] = 1;
+                            pix.dir[j] = 1;
+                        }
+                    }
+                    pixel[j] = pix_container.pix_values[i][z].col[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.05, 2.0, 1.0);;
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+}

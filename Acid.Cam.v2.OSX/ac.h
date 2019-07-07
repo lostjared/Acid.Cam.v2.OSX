@@ -1433,6 +1433,7 @@ namespace ac {
     void ColorChannelIteration(cv::Mat &frame);
     void ColorImageMatrixFadeVariable(cv::Mat &frame);
     void ColorXorImageFade(cv::Mat &frame);
+    void ColorFreezeBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
