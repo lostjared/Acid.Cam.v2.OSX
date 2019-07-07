@@ -968,6 +968,7 @@ void ac::ColorFreezeBlend(cv::Mat &frame) {
 }
 
 void ac::ColorImageFill(cv::Mat &frame) {
+
     if(blend_set == false)
         return;
     static PixelArray2D pix_container;
@@ -1006,7 +1007,7 @@ void ac::ColorImageFill(cv::Mat &frame) {
                             pix.col[j] = 1;
                             pix.dir[j] = 1;
                         }
-                    }
+                    } 
                     pixel[j] = pix_container.pix_values[i][z].col[j];
                 }
             }
