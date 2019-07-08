@@ -1437,6 +1437,7 @@ namespace ac {
     void ColorImageFill(cv::Mat &frame);
     void ColorImageFillMatrix(cv::Mat &frame);
     void ColorImageFillSubFilter(cv::Mat &frame);
+    void ColorImagePixelsResetSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2286,12 +2287,14 @@ namespace ac {
         int dir[3];
         int col[3];
         int speed;
+        int position_x, position_y;
         PixelValues() {
             for(int i = 0; i< 3; ++i) {
                 dir[i] = rand()%1;
                 col[i] = rand()%25;
             }
             speed = 1+(rand()%4);
+            position_x = position_y = 0;
         }
         PixelValues(PixelValues &pv) {
             this->operator=(pv);
@@ -2311,13 +2314,20 @@ namespace ac {
         PixelArray2D() : pix_values(0), pix_x(0), pix_y(0) {}
         PixelArray2D(const PixelArray2D &) = delete;
         ~PixelArray2D();
-        void create(cv::Mat &frame, int w, int h, int dir);
+        void create(cv::Mat &frame, int w, int h, int dir, bool addvec = false);
         void erase();
         PixelArray2D &operator=(const PixelArray2D &) = delete;
         PixelValues **pix_values;
         int pix_x, pix_y;
+  
+        void set();
+        void shuffle();
+        
+        std::vector<PixelValues*> pixel_index;
+        std::default_random_engine rng;
     };
     extern bool image_matrix_reset;
+
 }
 
 extern ac::ParticleEmiter emiter;

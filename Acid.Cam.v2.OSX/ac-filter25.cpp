@@ -161,3 +161,63 @@ void ac::ColorImageFillSubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorImagePixelsResetSubFilter(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    static int count_index = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0, true);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        count_index = 0;
+        
+    }
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b cpix = reimage.at<cv::Vec3b>(z, i);
+            cv::Vec3b cfreeze = frame_copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                int &d = pix_container.pix_values[i][z].dir[j];
+                PixelValues &pix = pix_container.pix_values[i][z];
+                if(d == 1) {
+                    ++pix.col[j];
+                    if(pix.col[j] == cpix[j]) {
+                        pix.dir[j] = 2;
+                    }
+                    else if(pix.col[j] >= 255) {
+                        pix.col[j] = 255;
+                        pix.dir[j] = 0;
+                    }
+                } else if(d == 0) {
+                    --pix.col[j];
+                    if(pix.col[j] == cpix[j]) {
+                        pix.dir[j] = 2;
+                    } else if(pix.col[j] <= 1) {
+                        pix.col[j] = 0;
+                        pix.dir[j] = 1;
+                    }
+                } else if(d == 2) {
+                    pix.col[j] = cfreeze[j];
+                }
+                pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix_container.pix_values[i][z].col[j] * 0.5));
+            }
+        }
+    }
+    if(count_index+100 < pix_container.pixel_index.size()) {
+        for(int i = count_index; i < pix_container.pixel_index.size() && i < count_index+100; ++i) {
+            PixelValues *v = pix_container.pixel_index[i];
+            for(int j = 0; j < 3; ++j) {
+                pix_container.pix_values[v->position_x][v->position_y].dir[j] = 2;
+            }
+        }
+        count_index += 100;
+    }
+}

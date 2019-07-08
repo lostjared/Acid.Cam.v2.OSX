@@ -1037,7 +1037,7 @@ ac::PixelArray2D::~PixelArray2D() {
     erase();
 }
 
-void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
+void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir, bool addvec) {
     if(pix_values != 0) {
         erase();
     }
@@ -1053,6 +1053,8 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
         for(int i = 0; i < w; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pix_values[i][z].speed = 1+(rand()%4);
+            pix_values[i][z].position_x = i;
+            pix_values[i][z].position_y = z;
             for(int j = 0; j < 3; ++j) {
                 pix_values[i][z].col[j] = pixel[j];
                 switch(dir) {
@@ -1085,6 +1087,9 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir) {
             }
         }
     }
+    if(addvec == true) {
+        set();
+    }
 }
 void ac::PixelArray2D::erase() {
     if(pix_values != 0 && pix_x != 0 && pix_y != 0) {
@@ -1094,5 +1099,22 @@ void ac::PixelArray2D::erase() {
         delete [] pix_values;
         pix_values = 0;
     }
+}
+
+void ac::PixelArray2D::set() {
+   if(!pixel_index.empty()) {
+        pixel_index.erase(pixel_index.begin(), pixel_index.end());
+    }
+    
+    for(int z = 0; z < pix_y; ++z) {
+        for(int i = 0; i < pix_x; ++i) {
+            pixel_index.push_back(&pix_values[i][z]);
+        }
+    }
+    shuffle();
+}
+
+void ac::PixelArray2D::shuffle() {
+    std::shuffle(pixel_index.begin(), pixel_index.end(), rng);
 }
 
