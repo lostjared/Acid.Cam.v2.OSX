@@ -1438,6 +1438,7 @@ namespace ac {
     void ColorImageFillMatrix(cv::Mat &frame);
     void ColorImageFillSubFilter(cv::Mat &frame);
     void ColorImagePixelsResetSubFilter(cv::Mat &frame);
+    void ColorIncrementReset(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
