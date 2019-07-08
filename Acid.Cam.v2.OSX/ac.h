@@ -1436,6 +1436,7 @@ namespace ac {
     void ColorFreezeBlend(cv::Mat &frame);
     void ColorImageFill(cv::Mat &frame);
     void ColorImageFillMatrix(cv::Mat &frame);
+    void ColorImageFillSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
