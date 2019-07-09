@@ -368,3 +368,60 @@ void ac::ManualShell(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorIncrementRandomReset(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int pix_x = 0, pix_y = 0;
+    static const int speed = 1;
+    static int counter = 0;
+    static int frames = 0;
+    bool image_reset = false;
+    ++frames;
+    if(frames > static_cast<int>(ac::fps)) {
+        ++counter;
+        frames = 0;
+    }
+    if(counter > 10) {
+        image_reset = true;
+        counter = 0;
+        frames = 0;
+    }
+    ColorTransition(collection.frames[7]);
+    if(image_reset == true || image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b matpix = collection.frames[7].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    switch(p.dir[j]) {
+                        case 0:
+                            p.col[j] -= speed;
+                            if(p.col[j] <= 0) {
+                                p.col[j] = matpix[j];
+                            }
+                        break;
+                        case 1:
+                            p.col[j] += speed;
+                            if(p.col[j] >= 255) {
+                                p.col[j] = matpix[j];
+                            }
+                            break;
+                        case 2:
+                            break;
+                    }
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * p.col[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
