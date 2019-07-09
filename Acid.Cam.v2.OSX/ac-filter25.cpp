@@ -226,7 +226,7 @@ void ac::ColorIncrementReset(cv::Mat &frame) {
     static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
-        pix_container.create(frame, frame.cols, frame.rows, 0, true);
+        pix_container.create(frame, frame.cols, frame.rows, 0);
         pix_x = frame.cols;
         pix_y = frame.rows;
     }
@@ -252,5 +252,69 @@ void ac::ColorIncrementReset(cv::Mat &frame) {
     DarkenFilter(frame);
     MedianBlendMultiThread(frame);
     AddInvert(frame);
-    
 }
+
+void ac::ColorPixelArray2D(cv::Mat &frame) {
+    static PixelArray2D pix_container1, pix_container2;
+    static int pix_x = 0, pix_y = 0;
+    static int pix2_x = 0, pix2_y = 0;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = collection.frames[7].clone();
+    static bool reset_matrix = false;
+    if(reset_matrix == true || image_matrix_reset == true || pix_container1.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container1.create(frame, frame.cols, frame.rows, 0, true);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    if(reset_matrix == true || image_matrix_reset == true || pix_container2.pix_values == 0 || frame.size() != cv::Size(pix2_x, pix2_y)) {
+        pix_container2.create(copy1, frame.cols, frame.rows, 0);
+        pix2_x = frame.cols;
+        pix2_y = frame.rows;
+    }
+    reset_matrix = false;
+    static double alpha = 1.0;
+    static int dir = 1;
+    static int speed = 5;
+    static int count_index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container1.pix_values[i][z];
+                PixelValues &p2 = pix_container2.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[j] == 1) {
+                        p.col[j] += speed;
+                        if(p.col[j] >= 255) {
+                            p.dir[j] = 0;
+                        }
+                    } else if(p.dir[j] == 0) {
+                        p.col[j] -= speed;
+                        if(p.col[j] <= 0) {
+                            p.dir[j] = 1;
+                        }
+                    } else if(p.dir[j] == 2) {
+                        p.col[j] = p2.col[j];
+                    }
+                    pixel[j] = static_cast<unsigned char>(1-alpha * pixel[j]) + (alpha * pix_container1.pix_values[i][z].col[j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    if(count_index+100 < pix_container1.pixel_index.size()) {
+        for(int i = count_index; i < pix_container1.pixel_index.size() && i < count_index+100; ++i) {
+            PixelValues *v = pix_container1.pixel_index[i];
+            for(int j = 0; j < 3; ++j) {
+                pix_container1.pix_values[v->position_x][v->position_y].dir[j] = 2;
+            }
+        }
+        count_index += 100;
+    } else {
+        reset_matrix = true;
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.001, 1.0, 0.5);
+    AddInvert(frame);
+}
+
