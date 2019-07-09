@@ -318,3 +318,53 @@ void ac::ColorPixelArray2D(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+
+void ac::ManualShell(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int pix_x = 0, pix_y = 0;
+    static int speed = 1;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &pix = pix_container.pix_values[i][z];
+                cv::Vec3b colors[3];
+                colors[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+                colors[1][0] = pix.col[0];
+                colors[1][1] = pix.col[1];
+                colors[1][2] = pix.col[2];
+                colors[2] = collection.frames[7].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    switch(pix.dir[j]) {
+                        case 1:
+                            pix.col[j] += speed;
+                            if(pix.col[j] >= 255) {
+                                pix.dir[j] = 0;
+                                pix.col[j] = colors[j][j];
+                            }
+                            break;
+                        case 0:
+                            pix.col[j] -= speed;
+                            if(pix.col[j] <= 0) {
+                                pix.dir[j] = 1;
+                                pix.col[j] = colors[3-j-1][j];
+                            }
+                            break;
+                        case 2:
+                            break;
+                    }
+                    pixel[j] = colors[j][j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
