@@ -426,13 +426,19 @@ void ac::ColorIncrementRandomReset(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ColorIncrementResetCollection(cv::Mat &frame) {
+void ac::ColorImageIncrementResetCollection(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    
     static PixelArray2D pix_container;
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     static int pix_x = 0, pix_y = 0;
     static const int speed = 25;
     cv::Mat copy1 = collection.frames[7].clone();
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    
     if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, 0);
         pix_x = frame.cols;
@@ -446,12 +452,13 @@ void ac::ColorIncrementResetCollection(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 PixelValues &p = pix_container.pix_values[i][z];
                 cv::Vec3b matpix = copy1.at<cv::Vec3b>(z, i);
+                cv::Vec3b imgpix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     switch(p.dir[j]) {
                         case 0:
                             p.col[j] -= speed;
                             if(p.col[j] <= 0) {
-                                p.col[j] = static_cast<unsigned char>((pixel[j] * alpha) + (matpix[j] * (1-alpha)));
+                                p.col[j] = static_cast<unsigned char>((pixel[j] * 0.33) + (matpix[j] * 0.33) + (imgpix[j] * 0.33));
                                 p.dir[j] = 1;
                             }
                             break;
