@@ -425,3 +425,55 @@ void ac::ColorIncrementRandomReset(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorIncrementResetCollection(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int pix_x = 0, pix_y = 0;
+    static const int speed = 25;
+    cv::Mat copy1 = collection.frames[7].clone();
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b matpix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    switch(p.dir[j]) {
+                        case 0:
+                            p.col[j] -= speed;
+                            if(p.col[j] <= 0) {
+                                p.col[j] = static_cast<unsigned char>((pixel[j] * alpha) + (matpix[j] * (1-alpha)));
+                                p.dir[j] = 1;
+                            }
+                            break;
+                        case 1:
+                            p.col[j] += speed;
+                            if(p.col[j] >= 255) {
+                                p.col[j] = pixel[j];
+                                p.dir[j] = 0;
+                            }
+                            break;
+                        case 2:
+                            break;
+                    }
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * p.col[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlur(frame);
+    DarkenFilter(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha,dir,0.01,2.0,0.5);
+}
