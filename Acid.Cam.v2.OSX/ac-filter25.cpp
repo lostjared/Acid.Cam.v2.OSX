@@ -567,3 +567,51 @@ void ac::ColorMoveDownResetMedianBlend(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::ColorMoveDownSmoothMedianBlend(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int pix_x = 0, pix_y = 0;
+    static int speed = 5;
+    bool reset_value = false;
+    static int frame_counter = 0;
+    static int index = 0;
+    if(++frame_counter > static_cast<int>(ac::fps)) {
+        ++index;
+        frame_counter = 0;
+    }
+    if(index > 10) {
+        index = 0;
+        reset_value = true;
+        ++speed;
+        if(speed > 15) {
+            speed = 5;
+        }
+    }
+    if(reset_value == true || image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        cv::Mat copy1 = frame.clone();
+        Smooth(copy1, &collection);
+        pix_container.create(copy1, copy1.cols, copy1.rows, 0);
+        pix_x = copy1.cols;
+        pix_y = copy1.rows;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    p.col[j] -= speed;
+                    if(p.col[j] <= 0) {
+                        p.col[j] = 255;
+                    }
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * p.col[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}

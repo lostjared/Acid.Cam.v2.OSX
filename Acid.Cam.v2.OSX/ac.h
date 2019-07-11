@@ -1445,6 +1445,7 @@ namespace ac {
     void ColorImageIncrementResetCollection(cv::Mat &frame);
     void ColorMoveDown(cv::Mat &frame);
     void ColorMoveDownResetMedianBlend(cv::Mat &frame);
+    void ColorMoveDownSmoothMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
