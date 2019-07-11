@@ -541,8 +541,8 @@ void ac::ColorMoveDownResetMedianBlend(cv::Mat &frame) {
     if(reset_value == true || image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         cv::Mat copy1 = collection.frames[31].clone();
         pix_container.create(copy1, copy1.cols, copy1.rows, 0);
-        pix_x = frame.cols;
-        pix_y = frame.rows;
+        pix_x = copy1.cols;
+        pix_y = copy1.rows;
         ++speed;
         if(speed > 15) {
             speed = 1;
