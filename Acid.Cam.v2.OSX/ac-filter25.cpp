@@ -489,7 +489,20 @@ void ac::ColorMoveDown(cv::Mat &frame) {
     static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     static const int speed = 5;
-    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+    static int counter = 0;
+    static int frames = 0;
+    bool image_reset = false;
+    ++frames;
+    if(frames > static_cast<int>(ac::fps)) {
+        ++counter;
+        frames = 0;
+    }
+    if(counter > 5) {
+        image_reset = true;
+        counter = 0;
+        frames = 0;
+    }
+    if(image_reset == true || image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(frame, frame.cols, frame.rows, 0);
         pix_x = frame.cols;
         pix_y = frame.rows;
