@@ -570,7 +570,7 @@ void ac::ColorMoveDownResetMedianBlend(cv::Mat &frame) {
 
 void ac::ColorMoveDownSmoothMedianBlend(cv::Mat &frame) {
     static PixelArray2D pix_container;
-    static MatrixCollection<32> collection;
+    static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     static int pix_x = 0, pix_y = 0;
     static int speed = 5;
