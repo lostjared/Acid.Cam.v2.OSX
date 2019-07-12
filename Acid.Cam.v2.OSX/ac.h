@@ -423,7 +423,7 @@ namespace ac {
     void GradientColors(cv::Mat &frame);
     void GradientColorsVertical(cv::Mat &frame);
     void Bitwise_XOR_Average(cv::Mat &frame);
-    void ImageShiftUpLeft(cv::Mat &frame);
+    void ImageShiftMatrixLeft(cv::Mat &frame);
     void GradientXorSelfScale(cv::Mat &frame);
     void SmoothSourcePixel(cv::Mat &frame);
     void StrobeBlend(cv::Mat &frame);
@@ -1447,6 +1447,7 @@ namespace ac {
     void ColorMoveDownResetMedianBlend(cv::Mat &frame);
     void ColorMoveDownSmoothMedianBlend(cv::Mat &frame);
     void PixelRandom3(cv::Mat &frame);
+    void ShiftMatrixLeft(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -438,7 +438,7 @@ void ac::AlphaBlendImageXor(cv::Mat &frame) {
     }
 }
 
-void ac::ImageShiftUpLeft(cv::Mat &frame) {
+void ac::ImageShiftMatrixLeft(cv::Mat &frame) {
     if(blend_set) {
         static double alpha = 1.0, alpha_max = 3.0;
         static cv::Mat image = blend_image.clone();

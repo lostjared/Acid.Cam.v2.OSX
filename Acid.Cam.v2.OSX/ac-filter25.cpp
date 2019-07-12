@@ -648,4 +648,26 @@ void ac::PixelRandom3(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-// pixel moves up left
+// pixel moves left
+void ac::ShiftMatrixLeft(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            PixelValues &p = pix_container.pix_values[i][z];
+            if(i <= 0) {
+                pix_container.pix_values[frame.cols-1][z] = p;
+            }
+            pix_container.pix_values[i][z] = pix_container.pix_values[i+1][z];
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * p.col[j]));
+            }
+        }
+    }
+}
