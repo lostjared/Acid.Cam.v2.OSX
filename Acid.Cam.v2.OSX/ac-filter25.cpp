@@ -615,3 +615,32 @@ void ac::ColorMoveDownSmoothMedianBlend(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::PixelRandom3(cv::Mat &frame) {
+    cv::Mat frames[3];
+    for(int j = 0; j < 3; ++j) {
+        frames[j] = frame.clone();
+        Random_Filter(frames[j]);
+    }
+    static int index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b  &pixel = frame->at<cv::Vec3b>(z, i);
+                int col[3] = {0};
+                InitArrayPosition(col, index);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[col[j]].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+}
+
+// pixel moves up left
