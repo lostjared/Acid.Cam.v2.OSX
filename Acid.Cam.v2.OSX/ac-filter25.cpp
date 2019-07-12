@@ -622,24 +622,29 @@ void ac::PixelRandom3(cv::Mat &frame) {
         frames[j] = frame.clone();
         Random_Filter(frames[j]);
     }
-    static int index = 0;
+    static int index1 = 0;
+    static int index2 = rand()%3;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b  &pixel = frame->at<cv::Vec3b>(z, i);
-                int col[3] = {0};
-                InitArrayPosition(col, index);
+                int col1[3] = {0}, col2[3] = {0};
+                InitArrayPosition(col1, index1);
+                InitArrayPosition(col2, index2);
                 for(int j = 0; j < 3; ++j) {
-                    cv::Vec3b pix = frames[col[j]].at<cv::Vec3b>(z, i);
-                    pixel[j] = pix[j];
+                    cv::Vec3b pix = frames[col1[j]].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[col2[j]];
                 }
             }
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
-    ++index;
-    if(index > 2)
-        index = 0;
+    ++index1;
+    if(index1 > 2)
+        index1 = 0;
+    ++index2;
+    if(index2 > 2)
+        index2 = 0;
     AddInvert(frame);
 }
 
