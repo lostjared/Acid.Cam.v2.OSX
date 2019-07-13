@@ -1448,6 +1448,8 @@ namespace ac {
     void ColorMoveDownSmoothMedianBlend(cv::Mat &frame);
     void PixelRandom3(cv::Mat &frame);
     void ShiftMatrixLeft(cv::Mat &frame);
+    void ShiftMatrixLeftSubFilter(cv::Mat &frame);
+    void ShiftMatrixUpSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

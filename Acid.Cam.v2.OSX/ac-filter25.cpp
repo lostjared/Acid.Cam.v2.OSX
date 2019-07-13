@@ -671,3 +671,55 @@ void ac::ShiftMatrixLeft(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ShiftMatrixLeftSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "ShiftMatrixLeftSubFilter")
+        return;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            PixelValues &p = pix_container.pix_values[i][z];
+            if(i <= 0) {
+                pix_container.pix_values[frame.cols-1][z] = p;
+            }
+            pix_container.pix_values[i][z] = pix_container.pix_values[i+1][z];
+        }
+    }
+    cv::Mat pix_frame;
+    pix_container.generateMatrix(pix_frame);
+    CallFilter(subfilter, pix_frame);
+    cv::Mat frame_copy = frame.clone();
+    AlphaBlend(frame_copy, pix_frame, frame, 0.5);
+}
+
+void ac::ShiftMatrixUpSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "ShiftMatrixUpSubFilter")
+        return;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
+            PixelValues &p = pix_container.pix_values[i][z];
+            if(z <= 0) {
+                pix_container.pix_values[i][frame.rows-1] = p;
+            }
+            pix_container.pix_values[i][z] = pix_container.pix_values[i][z+1];
+        }
+    }
+    cv::Mat pix_frame;
+    pix_container.generateMatrix(pix_frame);
+    CallFilter(subfilter, pix_frame);
+    cv::Mat frame_copy = frame.clone();
+    AlphaBlend(frame_copy, pix_frame, frame, 0.5);
+}
