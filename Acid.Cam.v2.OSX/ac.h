@@ -2328,13 +2328,17 @@ namespace ac {
         void erase();
         PixelArray2D &operator=(const PixelArray2D &) = delete;
         PixelValues **pix_values;
-        int pix_x, pix_y;
-  
+        int getWidth() const { return pix_x; }
+        int getHeight() const { return pix_y; }
         void set();
         void shuffle();
-        
+        void generateMatrix(cv::Mat &frame);
         std::vector<PixelValues*> pixel_index;
+    protected:
         std::default_random_engine rng;
+        int pix_x, pix_y;
+        
+    
     };
     extern bool image_matrix_reset;
 

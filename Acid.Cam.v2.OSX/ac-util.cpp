@@ -1118,3 +1118,17 @@ void ac::PixelArray2D::shuffle() {
     std::shuffle(pixel_index.begin(), pixel_index.end(), rng);
 }
 
+
+void ac::PixelArray2D::generateMatrix(cv::Mat &frame) {
+    if(frame.empty() || frame.size() != cv::Size(pix_x, pix_y)) {
+        frame.create(cv::Size(pix_x, pix_y), CV_8UC3);
+    }
+    for(int z = 0; z < pix_y; ++z) {
+        for(int i = 0; i < pix_x; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix_values[i][z].col[j];
+            }
+        }
+    }
+}
