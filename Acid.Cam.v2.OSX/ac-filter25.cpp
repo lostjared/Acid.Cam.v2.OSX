@@ -723,3 +723,38 @@ void ac::ShiftMatrixUpSubFilter(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     AlphaBlend(frame_copy, pix_frame, frame, 0.5);
 }
+
+void ac::PixelatePixelValues(cv::Mat &frame) {
+    static PixelArray2D pix_container, pix_container2;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        pix_container2.create(frame, frame.cols, frame.rows, 0);
+    }
+    cv::Mat frame_copy = frame.clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p1 = pix_container.pix_values[i][z];
+                PixelValues &p2 = pix_container2.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(p1.col[j] < p2.col[j]) {
+                        p1.col[j] += 1;
+                    } else if(p1.col[j] > p2.col[j]) {
+                        p1.col[j] -= 1;
+                    } else if(p1.col[j] == p2.col[j]) {
+                        cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                        p2.col[j] = pix[j];
+                        p1.col[j] = (0.5 * pix[j]);
+                    }
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * p1.col[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

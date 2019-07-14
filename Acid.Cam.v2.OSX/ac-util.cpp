@@ -1079,6 +1079,9 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir, bool addvec
                         }
                          pix_values[i][z].dir[j] = offset;
                         break;
+                    case -5:
+                        pix_values[i][z].col[j] = rand()%255;
+                        break;
                     default:
                         pix_values[i][z].dir[j] = dir;
                         break;
