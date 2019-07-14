@@ -778,3 +778,23 @@ void ac::StretchCollection(cv::Mat &frame) {
     ac_resize(resized, frame, frame.size());
     AddInvert(frame);
 }
+
+void ac::SlitScanStretch(cv::Mat &frame) {
+    static MatrixCollection<720> collection;
+    cv::Mat resized;
+    ac_resize(frame, resized, cv::Size(1280, 720));
+    collection.shiftFrames(resized);
+    for(int z = 0; z < resized.rows; ++z) {
+        int max = 5+(rand()%20);
+        for(int q = 0; q < max && z+q < resized.rows; ++q) {
+            for(int i = 0; i < resized.cols; ++i) {
+                cv::Vec3b &pixel = resized.at<cv::Vec3b>(z+q, i);
+                cv::Vec3b value = collection.frames[z+q].at<cv::Vec3b>(z+q, i);
+                pixel = value;
+            }
+        }
+        z += max-1;
+    }
+    ac_resize(resized, frame, frame.size());
+    AddInvert(frame);
+}
