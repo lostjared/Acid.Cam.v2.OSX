@@ -1453,6 +1453,7 @@ namespace ac {
     void PixelatePixelValues(cv::Mat &frame);
     void StretchCollection(cv::Mat &frame);
     void PsychedelicSlitScan(cv::Mat &frame);
+    void SineValue(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

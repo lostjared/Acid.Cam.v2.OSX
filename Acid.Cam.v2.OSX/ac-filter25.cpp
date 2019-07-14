@@ -805,3 +805,25 @@ void ac::PsychedelicSlitScan(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.5);
 }
+
+void ac::SineValue(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                     pixel[j] = static_cast<unsigned char>(1+static_cast<int>((sin(alpha))*(i+z)));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    cv::Mat copy2 = frame.clone();
+    AlphaBlend(copy1, copy2, frame, alpha);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.01);
+}
