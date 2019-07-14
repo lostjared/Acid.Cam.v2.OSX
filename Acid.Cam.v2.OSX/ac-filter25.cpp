@@ -779,22 +779,29 @@ void ac::StretchCollection(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::IntertwineSlitScan(cv::Mat &frame) {
+void ac::PsychedelicSlitScan(cv::Mat &frame) {
     static MatrixCollection<720> collection;
     cv::Mat resized;
     ac_resize(frame, resized, cv::Size(1280, 720));
+    static double alpha = 1.0;
+    static int dir = 1;
     collection.shiftFrames(resized);
     for(int z = 0; z < resized.rows; ++z) {
         int max = 5+(rand()%50);
         for(int q = 0; q < max && z+q < resized.rows; ++q) {
             for(int i = 0; i < resized.cols; ++i) {
                 cv::Vec3b &pixel = resized.at<cv::Vec3b>(z+q, i);
-                cv::Vec3b value = collection.frames[q].at<cv::Vec3b>(z+q, i);
-                pixel = value;
+                cv::Vec3b value = collection.frames[z+q].at<cv::Vec3b>(z+q, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(value[j] * alpha);
+                }
             }
         }
         z += max-1;
     }
     ac_resize(resized, frame, frame.size());
+    ColorTransition(frame);
+    MedianBlendMultiThread(frame);
     AddInvert(frame);
+    AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.5);
 }
