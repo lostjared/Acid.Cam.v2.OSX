@@ -1452,7 +1452,7 @@ namespace ac {
     void ShiftMatrixUpSubFilter(cv::Mat &frame);
     void PixelatePixelValues(cv::Mat &frame);
     void StretchCollection(cv::Mat &frame);
-    void SlitScanStretch(cv::Mat &frame);
+    void IntertwineSlitScan(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
