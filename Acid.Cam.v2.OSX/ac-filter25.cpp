@@ -857,3 +857,34 @@ void ac::SineTransitionUpLeft(cv::Mat &frame) {
     SineValue(frame);
     AddInvert(frame);
 }
+
+void ac::TemporaryTrails(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    
+    cv::Mat copy1 = collection.frames[collection.size()-1].clone();
+    pix_container.insert(copy1);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    p.add[j]++;
+                    if(p.add[j] > 150)
+                        p.add[j] = pixel[j];
+                    pixel[j] = pixel[j]^p.add[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

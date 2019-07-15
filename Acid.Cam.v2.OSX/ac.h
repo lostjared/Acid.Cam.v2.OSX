@@ -1455,6 +1455,7 @@ namespace ac {
     void PsychedelicSlitScan(cv::Mat &frame);
     void SineValue(cv::Mat &frame);
     void SineTransitionUpLeft(cv::Mat &frame);
+    void TemporaryTrails(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2303,12 +2304,14 @@ namespace ac {
     struct PixelValues {
         int dir[3];
         int col[3];
+        int add[3];
         int speed;
         int position_x, position_y;
         PixelValues() {
             for(int i = 0; i< 3; ++i) {
                 dir[i] = rand()%1;
                 col[i] = rand()%25;
+                add[i] = 0;
             }
             speed = 1+(rand()%4);
             position_x = position_y = 0;
@@ -2320,6 +2323,7 @@ namespace ac {
             for(int i =0; i < 3; ++i) {
                 dir[i] = pv.dir[i];
                 col[i] = pv.col[i];
+                add[i] = pv.add[i];
             }
             speed = pv.speed;
             return *this;
@@ -2333,6 +2337,7 @@ namespace ac {
         ~PixelArray2D();
         void create(cv::Mat &frame, int w, int h, int dir, bool addvec = false);
         void erase();
+        void insert(cv::Mat &image);
         PixelArray2D &operator=(const PixelArray2D &) = delete;
         PixelValues **pix_values;
         int getWidth() const { return pix_x; }

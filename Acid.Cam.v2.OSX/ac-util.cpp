@@ -1057,6 +1057,7 @@ void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir, bool addvec
             pix_values[i][z].position_y = z;
             for(int j = 0; j < 3; ++j) {
                 pix_values[i][z].col[j] = pixel[j];
+                pix_values[i][z].add[j] = pixel[j];
                 switch(dir) {
                     case 0:
                         pix_values[i][z].dir[j] = 0;
@@ -1131,6 +1132,21 @@ void ac::PixelArray2D::generateMatrix(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pix_values[i][z].col[j];
+            }
+        }
+    }
+}
+
+void ac::PixelArray2D::insert(cv::Mat &image) {
+    if(image.empty() || image.size() != cv::Size(pix_x, pix_y)) {
+        std::cerr << "Invalid size for insert\n";
+        return;
+    }
+    for(int z = 0; z < pix_y; ++z) {
+        for(int i = 0; i < pix_x; ++i) {
+            cv::Vec3b pix = image.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pix_values[i][z].col[j] = pix[j];
             }
         }
     }
