@@ -827,3 +827,33 @@ void ac::SineValue(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.01);
 }
+
+void ac::SineTransitionUpLeft(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    MedianBlur(frame);
+    MedianBlur(frame);
+    cv::Mat copy1 = frame.clone();
+    Smooth(copy1, &collection);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                int col[3] = {0};
+                for(int q = 0; q < collection.size(); ++q) {
+                    cv::Vec3b vcol = collection.frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        col[j] += vcol[j];
+                    }
+                }
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (col[j] * 0.5));
+                }
+            }
+        }
+    };
+    ColorTransition(frame);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    SineValue(frame);
+    AddInvert(frame);
+}
