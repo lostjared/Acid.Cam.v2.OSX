@@ -188,6 +188,7 @@ extern cv::ocl::Context context;
     double set_frame_rate_val;
     BOOL syphon_enabled;
     NSString *custom_path_prefix;
+    BOOL restartFilter;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;

@@ -296,6 +296,7 @@ void setEnabledProg() {
     }
     flushToLog(sout);
     ac::setThreadCount(4);
+    restartFilter = NO;
     /*
      
      std::vector<std::string> valz;
@@ -766,6 +767,8 @@ void setEnabledProg() {
             }
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
+        
+        restartFilter = YES;
         if(ret_val != 0) {
             _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
             std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
@@ -908,7 +911,10 @@ void setEnabledProg() {
         ac::frames_released = false;
         ac::reset_alpha = false;
         ac::image_matrix_reset = false;
-
+        if(restartFilter == YES) {
+            ac::image_matrix_reset = true;
+            restartFilter = NO;
+        }
         if(after == NSOnState)
             ac::ApplyColorMap(frame);
         
@@ -1149,6 +1155,10 @@ void setEnabledProg() {
     }
     ac::frames_released = false;
     ac::image_matrix_reset = false;
+    if(restartFilter == YES) {
+        ac::image_matrix_reset = true;
+        restartFilter = NO;
+    }
     ac::reset_alpha = false;
     NSInteger slide_value = [brightness integerValue];
     if(slide_value > 0)

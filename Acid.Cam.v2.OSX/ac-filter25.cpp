@@ -916,10 +916,11 @@ void ac::StrobingPixelDissolve(cv::Mat &frame) {
                         p.col[j] += p.speed;
                         if(p.col[j] >= 255) {
                             p.add[j] = 0;
-                            p.col[j] = 0;
+                            p.col[j] = pixel[j];
                         }
                     }
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (p.col[j] * 0.5));
+                    if(p.add[j] == 1)
+                        pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (p.col[j] * 0.5));
                 }
             }
         }
