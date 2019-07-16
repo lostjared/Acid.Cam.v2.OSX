@@ -983,3 +983,36 @@ void ac::ImagePixelFrameBlend(cv::Mat &frame) {
     ColorCollectionReverseStrobe(frame);
     AddInvert(frame);
 }
+
+void ac::PreviewFilters(cv::Mat &frame) {
+    static int filter_num = 0;
+    static int frame_count = 0, seconds = 0;
+    if (++frame_count > static_cast<int>(fps)) {
+        frame_count = 0;
+        ++seconds;
+    }
+    if(seconds > 4) {
+        frame_count = 0;
+        seconds = 0;
+        if(filter_num > ac::getFilterCount()-2) {
+            filter_num = 0;
+        } else {
+            ++filter_num;
+        }
+    }
+    std::string filter_name = ac::draw_strings[filter_num];
+    if(filter_name == "PreviewFilters") {
+        if(filter_num < ac::getFilterCount()-2)
+            filter_name = ac::draw_strings[++filter_num];
+        else {
+            filter_num = 0;
+            filter_name = ac::draw_strings[filter_num];
+        }
+    }
+    //std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
+    pushSubFilter(filter_map["MedianBlendMultiThread"]);
+    CallFilter(filter_name, frame);
+    popSubFilter();
+}
+
+
