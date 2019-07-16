@@ -80,7 +80,7 @@ void ac::ColorImageFillMatrix(cv::Mat &frame) {
                 cv::Vec3b cfreeze = frame_copy.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     int &d = pix_container.pix_values[i][z].dir[j];
-                     PixelValues &pix = pix_container.pix_values[i][z];
+                    PixelValues &pix = pix_container.pix_values[i][z];
                     if(d == 1) {
                         ++pix.col[j];
                         if(pix.col[j] == cpix[j]) {
@@ -407,7 +407,7 @@ void ac::ColorIncrementRandomReset(cv::Mat &frame) {
                             if(p.col[j] <= 0) {
                                 p.col[j] = matpix[j];
                             }
-                        break;
+                            break;
                         case 1:
                             p.col[j] += speed;
                             if(p.col[j] >= 255) {
@@ -815,7 +815,7 @@ void ac::SineValue(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                     pixel[j] = static_cast<unsigned char>(1+static_cast<int>((sin(alpha))*(i+z)));
+                    pixel[j] = static_cast<unsigned char>(1+static_cast<int>((sin(alpha))*(i+z)));
                 }
             }
         }
@@ -921,6 +921,60 @@ void ac::StrobingPixelDissolve(cv::Mat &frame) {
                     }
                     if(p.add[j] == 1)
                         pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (p.col[j] * 0.5));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ColorCollectionReverseStrobe(frame);
+    AddInvert(frame);
+}
+
+void ac::ImagePixelFrameBlend(cv::Mat &frame) {
+    
+    if(blend_set == false)
+        return;
+    
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    cv::Mat copy1 = frame.clone();
+    const int max = 1+(rand()%4);
+    for(int j = 0; j < max; ++j)
+        MedianBlur(copy1);
+    
+    Smooth(copy1, &collection);
+    pix_container.insert(copy1);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[j] == 1) {
+                        p.add[j] += 10;
+                        if(p.add[j] > 150) {
+                            p.add[j] = img_pix[j];
+                            p.dir[j] = 0;
+                        }
+                    } else {
+                        p.add[j] -= 10;
+                        if(p.add[j] <= 25) {
+                            p.add[j] = img_pix[j];
+                            p.dir[j] = 1;
+                        }
+                    }
+                    int pix_val = p.col[j]^p.add[j];
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix_val));
                 }
             }
         }

@@ -1457,6 +1457,7 @@ namespace ac {
     void SineTransitionUpLeft(cv::Mat &frame);
     void TemporaryTrails(cv::Mat &frame);
     void StrobingPixelDissolve(cv::Mat &frame);
+    void ImagePixelFrameBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
