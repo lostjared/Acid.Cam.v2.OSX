@@ -908,14 +908,16 @@ void ac::StrobingPixelDissolve(cv::Mat &frame) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
                 PixelValues &p = pix_container.pix_values[i][z];
                 for(int j = 0; j < 3; ++j) {
-                    if(pix[j] >= pixel[j] && pix[j] <= pixel[j]) {
+                    if(pix[j] == pixel[j]) {
                         p.col[j] = pixel[j];
                         p.add[j] = 1;
                     }
                     if(p.add[j] == 1) {
-                        p.col[j]++;
-                        if(p.col[j] >= 255)
+                        p.col[j] += p.speed;
+                        if(p.col[j] >= 255) {
                             p.add[j] = 0;
+                            p.col[j] = 0;
+                        }
                     }
                     pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (p.col[j] * 0.5));
                 }

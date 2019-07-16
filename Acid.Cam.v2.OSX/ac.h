@@ -2314,7 +2314,7 @@ namespace ac {
                 col[i] = rand()%25;
                 add[i] = 0;
             }
-            speed = 1+(rand()%4);
+            speed = 1+(rand()%10);
             position_x = position_y = 0;
         }
         PixelValues(PixelValues &pv) {
