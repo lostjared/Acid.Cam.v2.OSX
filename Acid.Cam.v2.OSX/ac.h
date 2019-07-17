@@ -1460,6 +1460,7 @@ namespace ac {
     void ImagePixelFrameBlend(cv::Mat &frame);
     void PreviewFilters(cv::Mat &frame);
     void EachFilterSubFilter(cv::Mat &frame);
+    void EachFilterRandomStartSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
