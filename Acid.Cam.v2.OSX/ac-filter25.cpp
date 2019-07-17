@@ -984,6 +984,7 @@ void ac::ImagePixelFrameBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+// Requires a lot of RAM to load frames for each filter called
 void ac::PreviewFilters(cv::Mat &frame) {
     static int filter_num = 0;
     static int frame_count = 0, seconds = 0;
@@ -999,6 +1000,7 @@ void ac::PreviewFilters(cv::Mat &frame) {
         } else {
             ++filter_num;
         }
+        ac::release_all_objects();
     }
     std::string filter_name = ac::draw_strings[filter_num];
     if(filter_name == "PreviewFilters") {
@@ -1015,4 +1017,37 @@ void ac::PreviewFilters(cv::Mat &frame) {
     popSubFilter();
 }
 
+void ac::EachFilterSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "EachFilterSubFilter")
+        return;
+    static int filter_num = 0;
+    static int frame_count = 0, seconds = 0;
+    if (++frame_count > static_cast<int>(fps)) {
+        frame_count = 0;
+        ++seconds;
+    }
+    if(seconds > 4) {
+        frame_count = 0;
+        seconds = 0;
+        if(filter_num > ac::getFilterCount()-2) {
+            filter_num = 0;
+        } else {
+            ++filter_num;
+        }
+        ac::release_all_objects();
+    }
+    std::string filter_name = ac::draw_strings[filter_num];
+    if(filter_name == "PreviewFilters") {
+        if(filter_num < ac::getFilterCount()-2)
+            filter_name = ac::draw_strings[++filter_num];
+        else {
+            filter_num = 0;
+            filter_name = ac::draw_strings[filter_num];
+        }
+    }
+    //std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
+    pushSubFilter(subfilter);
+    CallFilter(filter_name, frame);
+    popSubFilter();
+}
 
