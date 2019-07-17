@@ -1037,7 +1037,7 @@ void ac::EachFilterSubFilter(cv::Mat &frame) {
         ac::release_all_objects();
     }
     std::string filter_name = ac::draw_strings[filter_num];
-    if(filter_name == "PreviewFilters") {
+    if(filter_name == "EachFilterSubFilter") {
         if(filter_num < ac::getFilterCount()-2)
             filter_name = ac::draw_strings[++filter_num];
         else {
@@ -1067,11 +1067,12 @@ void ac::EachFilterRandomStartSubFilter(cv::Mat &frame) {
             filter_num = 0;
         } else {
             ++filter_num;
+            std::cout << ac::draw_strings[filter_num] << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
         }
-        ac::release_all_objects();
+//        ac::release_all_objects();
     }
     std::string filter_name = ac::draw_strings[filter_num];
-    if(filter_name == "PreviewFilters") {
+    if(filter_name == "EachFilterRandomStartSubFilter") {
         if(filter_num < ac::getFilterCount()-2)
             filter_name = ac::draw_strings[++filter_num];
         else {
