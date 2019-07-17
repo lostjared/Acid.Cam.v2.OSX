@@ -1461,6 +1461,7 @@ namespace ac {
     void PreviewFilters(cv::Mat &frame);
     void EachFilterSubFilter(cv::Mat &frame);
     void EachFilterRandomStartSubFilter(cv::Mat &frame);
+    void PixelPsychosis(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2314,7 +2315,7 @@ namespace ac {
         int position_x, position_y;
         PixelValues() {
             for(int i = 0; i< 3; ++i) {
-                dir[i] = rand()%1;
+                dir[i] = rand()%2;
                 col[i] = rand()%25;
                 add[i] = 0;
             }
