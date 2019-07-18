@@ -1167,3 +1167,43 @@ void ac::PixelCloud(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::PiixelXorBlendFrame(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    Smooth(copy1, &collection);
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    pix_container.insert(copy1);
+    static const int speed = 5;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[j] == 1) {
+                        p.add[j] += speed;
+                        if(p.add[j] >= 255) {
+                            p.dir[j] = 0;
+                        }
+                    } else {
+                        p.add[j] -= speed;
+                        if(p.add[j] <= 0) {
+                            p.dir[j] = 1;
+                        }
+                    }
+                    int val = p.col[j]^p.add[j];
+                    pixel[j] = static_cast<unsigned char>((0.33 * pixel[j]) + (0.33 * val) + (0.33 * p.col[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

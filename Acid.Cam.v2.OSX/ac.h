@@ -1463,6 +1463,7 @@ namespace ac {
     void EachFilterRandomStartSubFilter(cv::Mat &frame);
     void PixelPsychosis(cv::Mat &frame);
     void PixelCloud(cv::Mat &frame);
+    void PiixelXorBlendFrame(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
