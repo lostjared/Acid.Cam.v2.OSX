@@ -2335,6 +2335,12 @@ namespace ac {
             speed = pv.speed;
             return *this;
         }
+        PixelValues &operator=(const cv::Vec3b &v) {
+            for(int j = 0; j < 3; ++j) {
+                col[j] = v[j];
+            }
+            return *this;
+        }
     };
     
     class PixelArray2D {
