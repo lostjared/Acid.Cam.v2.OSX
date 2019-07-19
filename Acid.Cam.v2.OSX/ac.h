@@ -1464,6 +1464,7 @@ namespace ac {
     void PixelPsychosis(cv::Mat &frame);
     void PixelCloud(cv::Mat &frame);
     void PiixelXorBlendFrame(cv::Mat &frame);
+    void PixelImageBlendFrame(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

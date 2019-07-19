@@ -1207,3 +1207,59 @@ void ac::PiixelXorBlendFrame(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::PixelImageBlendFrame(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static PixelArray2D pix_container;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    static const int speed = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b &ipix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[i] == 1) {
+                        p.col[j] += speed;
+                        if(p.col[j] == ipix[j]) {
+                            p.add[j] = p.col[j];
+                            p.col[j] = ipix[j];
+                        } else {
+                            if(p.col[j] >= 255) {
+                                p.dir[j] = 0;
+                            }
+                        }
+                    } else {
+                        if(p.col[j] == ipix[j]) {
+                            p.add[j] = p.col[j];
+                            p.col[j] = ipix[j];
+                        } else {
+                            p.col[j] -= speed;
+                            if(p.col[j] <= 1) {
+                                p.dir[j] = 1;
+                            }
+                        }
+                    }
+                    int val = p.col[j] ^ p.add[j];
+                    pixel[j] = static_cast<unsigned char>((0.25 * pixel[j]) + (0.25 * val) +  (0.50 * ipix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ColorTransition(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
