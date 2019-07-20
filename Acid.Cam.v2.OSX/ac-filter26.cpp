@@ -304,3 +304,22 @@ void ac::PixelImageBlendFrame(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::PixelCollectionRandom(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static MatrixCollection<MAX> collection;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b value = collection.frames[rand()%MAX].template at<cv::Vec3b>(z, i);
+                    pixel[j] = value[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

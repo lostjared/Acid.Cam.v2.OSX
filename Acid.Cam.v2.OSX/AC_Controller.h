@@ -167,6 +167,7 @@ extern cv::ocl::Context context;
     IBOutlet NSImageView *cur_selected_image;
     IBOutlet NSTextField *num_threads;
     IBOutlet NSTextField *label_path;
+    IBOutlet NSButton *chk_preview;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -295,6 +296,7 @@ extern cv::ocl::Context context;
 - (IBAction) toggleFilterState: (id) sender;
 - (IBAction) changePrefix: (id) sender;
 - (void) checkForNewVersion: (BOOL) showMessage;
+- (IBAction) checkboxClose: (id) sender;
 @end
 
 extern AC_Controller *controller;

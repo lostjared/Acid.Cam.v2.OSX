@@ -87,6 +87,7 @@ NSMutableArray *search_results;
 std::string set_filenames[4] = {"None", "None", "None", "None"};
 std::vector<ac::Keys> green_blocked;
 cv::ocl::Context context;
+cv::Mat test_image;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -297,6 +298,11 @@ void setEnabledProg() {
     flushToLog(sout);
     ac::setThreadCount(4);
     restartFilter = NO;
+    
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *str = [bundle pathForResource:@"clouds" ofType:@"tiff"];
+    test_image = cv::imread([str UTF8String]);
+    [bundle release];
     /*
      
      std::vector<std::string> valz;
@@ -1828,6 +1834,7 @@ void setEnabledProg() {
     NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
     NSString *title = [item title];
     std::string file_str = [title UTF8String];
+    
     if(file_str == "ParticleRelease" || file_str == "ParticleBlend" || file_str == "ParticleFlash" || file_str == "ParticleAlpha") {
         emiter.reset();
         strout.str("");
@@ -1859,6 +1866,19 @@ void setEnabledProg() {
         strout << "To use this filter, set a subfilter in Custom Window...\n";
         flushToLog(strout);
     }
+    if([chk_preview integerValue] == 1 && !test_image.empty()) {
+        cv::Mat copy1 = test_image.clone();
+        if(ac::filter_map_str.find(file_str) != ac::filter_map_str.end()) {
+            ac::CallFilter(file_str, copy1);
+            cv::namedWindow("Preview_Window", cv::WINDOW_NORMAL);
+            cv::imshow("Preview_Window", copy1);
+        }
+    }
+}
+
+- (IBAction) checkboxClose: (id) sender {
+    if([chk_preview integerValue] == 0)
+        cv::destroyWindow("Preview_Window");
 }
 
 - (IBAction) addSearchItem: (id) sender {
