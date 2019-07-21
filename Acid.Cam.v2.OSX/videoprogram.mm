@@ -173,12 +173,12 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             static unsigned int counter = 0;
             if(!noRecord) ++counter;
             if(outputType == 0) {
-                fs << ac::fileName << s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".mov";
+                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << static_cast<int>(ac::fps) << ".AC2.Output." << counter << ".mov";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
             else {
-                fs << ac::fileName <<  s4k.width << "x" << s4k.height << ".AC2.Output." << counter << ".avi";
+                fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << static_cast<int>(ac::fps) << ".AC2.Output." << counter << ".avi";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('X','V','I','D'),  ac::fps, s4k, true);
             }

@@ -1466,6 +1466,7 @@ namespace ac {
     void PiixelXorBlendFrame(cv::Mat &frame);
     void PixelImageBlendFrame(cv::Mat &frame);
     void PixelCollectionRandom(cv::Mat &frame);
+    void PixelCollectionSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
