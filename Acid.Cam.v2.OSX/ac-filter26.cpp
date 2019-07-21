@@ -350,3 +350,34 @@ void ac::PixelCollectionSubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::PixelAverageCollectionSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "PixelAverageCollectionSubFilter")
+        return;
+    static constexpr int MAX = 8;
+    static MatrixCollection<MAX> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    
+    
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int v = 1; v < collection.size() && !collection.frames[v].empty(); ++v) {
+                    cv::Vec3b value = collection.frames[v].at<cv::Vec3b>(z, i);
+                    cv::Vec3b sub = copyf.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        int off = pixel[j]-value[j];
+                        if(!(abs(off) <= 55)) {
+                            pixel[j] = sub[j];
+                        }
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

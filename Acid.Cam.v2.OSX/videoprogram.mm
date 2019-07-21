@@ -70,6 +70,8 @@ std::string input_name = "";
 void stopCV() {
     if(camera_active == true) {
         camera_active = false;
+        ac::release_all_objects();
+        sout << "Camera Mode: All stored frames released\n";
         return;
     }
     // if timer is valid
