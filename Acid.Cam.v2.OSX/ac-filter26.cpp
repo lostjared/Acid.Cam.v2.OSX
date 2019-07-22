@@ -351,16 +351,14 @@ void ac::PixelCollectionSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::PixelAverageCollectionSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || draw_strings[subfilter] == "PixelAverageCollectionSubFilter")
+void ac::PixelCollectionMatrixSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "PixelCollectionMatrixSubFilter")
         return;
     static constexpr int MAX = 8;
     static MatrixCollection<MAX> collection;
     collection.shiftFrames(frame);
     cv::Mat copyf = frame.clone();
     CallFilter(subfilter, copyf);
-    
-    
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
