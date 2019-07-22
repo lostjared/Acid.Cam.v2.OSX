@@ -211,8 +211,8 @@ void ac::ColorImagePixelsResetSubFilter(cv::Mat &frame) {
             }
         }
     }
-    if(count_index+100 < pix_container.pixel_index.size()) {
-        for(int i = count_index; i < pix_container.pixel_index.size() && i < count_index+100; ++i) {
+    if(count_index+100 < static_cast<int>(pix_container.pixel_index.size())) {
+        for(int i = count_index; i < static_cast<int>(pix_container.pixel_index.size()) && i < count_index+100; ++i) {
             PixelValues *v = pix_container.pixel_index[i];
             for(int j = 0; j < 3; ++j) {
                 pix_container.pix_values[v->position_x][v->position_y].dir[j] = 2;
@@ -303,8 +303,8 @@ void ac::ColorPixelArray2D(cv::Mat &frame) {
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
-    if(count_index+100 < pix_container1.pixel_index.size()) {
-        for(int i = count_index; i < pix_container1.pixel_index.size() && i < count_index+100; ++i) {
+    if(count_index+100 < static_cast<int>(pix_container1.pixel_index.size())) {
+        for(int i = count_index; i < static_cast<int>(pix_container1.pixel_index.size()) && i < count_index+100; ++i) {
             PixelValues *v = pix_container1.pixel_index[i];
             for(int j = 0; j < 3; ++j) {
                 pix_container1.pix_values[v->position_x][v->position_y].dir[j] = 2;
