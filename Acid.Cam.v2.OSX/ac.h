@@ -1470,6 +1470,7 @@ namespace ac {
     void PixelCollectionMatrixSubFilter(cv::Mat &frame);
     void PixelCollectionIncreaseSubFilter(cv::Mat &frame);
     void PixelCollectionImageBlend(cv::Mat &frame);
+    void ColorPulseIncrease(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1546,6 +1547,7 @@ namespace ac {
     void popSubFilter();
     void setSourceFrame(const cv::Mat &frame);
     void IntertwineFrames(IntertwineDir type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest);
+    void VariableScale(double *alpha,int *dir, double *start, double *start_init, double *start_max, double *stop, double *stop_init, double *stop_max, double inc);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

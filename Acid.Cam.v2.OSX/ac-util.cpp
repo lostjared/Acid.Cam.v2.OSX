@@ -902,6 +902,36 @@ void ac::setChannelToValue(cv::Mat &frame, unsigned int channel, unsigned char v
     }
 }
 
+void ac::VariableScale(double *alpha,int *dir, double *start, double *start_init, double *start_max, double *stop, double *stop_init, double *stop_max, double inc) {
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            alpha[j] += inc;
+            if(alpha[j] >= stop[j]) {
+                stop[j] += inc;
+                if(stop[j] >= stop_max[j]) {
+                    stop[j] = stop_init[j];
+                }
+                dir[j] = 0;
+            }
+        } else {
+            alpha[j] -= inc;
+            if(alpha[j] <= start[j]) {
+                start[j] -= inc;
+                if(start[j] <= start_max[j]) {
+                    start_max[j] = start_init[j];
+                }
+                dir[j] = 1;
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        ac::resetAlpha(alpha[j]);
+        
+    }
+}
+
+
+
 ac::Pixelated::Pixelated() : x_offset(0), reset_needed(false), is_init(false) {
     
 }
@@ -1151,3 +1181,5 @@ void ac::PixelArray2D::insert(cv::Mat &image) {
         }
     }
 }
+
+
