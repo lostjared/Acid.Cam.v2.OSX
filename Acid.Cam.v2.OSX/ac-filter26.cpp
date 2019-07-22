@@ -411,3 +411,36 @@ void ac::PixelCollectionIncreaseSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(increase, dir, 6.0, 70.0, 6.0);
     AddInvert(frame);
 }
+
+void ac::PixelCollectionImageBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static constexpr int MAX = 32;
+    static MatrixCollection<MAX> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat orig = frame.clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int v = 1; v < collection.size() && !collection.frames[v].empty(); ++v) {
+                    cv::Vec3b value = collection.frames[v].at<cv::Vec3b>(z, i);
+                    cv::Vec3b source = reimage.at<cv::Vec3b>(z, i);
+                    cv::Vec3b sub = reimage.template at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        int off = pixel[j]-value[j];
+                        if(!(abs(off) <= 55)) {
+                            pixel[j] = sub[j];
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * source[j]));
+
+                        }
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
