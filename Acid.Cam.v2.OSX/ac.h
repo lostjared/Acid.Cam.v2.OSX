@@ -1468,6 +1468,7 @@ namespace ac {
     void PixelCollectionRandom(cv::Mat &frame);
     void PixelCollectionSubFilter(cv::Mat &frame);
     void PixelCollectionMatrixSubFilter(cv::Mat &frame);
+    void PixelCollectionIncreaseSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
