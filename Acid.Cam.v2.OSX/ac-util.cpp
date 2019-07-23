@@ -926,7 +926,6 @@ void ac::VariableScale(double *alpha,int *dir, double *start, double *start_init
     }
     for(int j = 0; j < 3; ++j) {
         ac::resetAlpha(alpha[j]);
-        
     }
 }
 

@@ -446,13 +446,11 @@ void ac::PixelCollectionImageBlend(cv::Mat &frame) {
 }
 
 void ac::ColorPulseIncrease(cv::Mat &frame) {
-    
     static double alpha[3] = {0};
     static double start[3] = {0, 0, 0}, start_init[3] = {5, 5, 5}, start_max[3] = {25, 10, 5};
     static double stop[3] = {0,0,0}, stop_init[3] = {5, 5, 5}, stop_max[3] = {200, 210, 180};
     static double inc = 4.0;
     static int dir[3] = {1, 0, 1};
-    
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
@@ -463,8 +461,36 @@ void ac::ColorPulseIncrease(cv::Mat &frame) {
             }
         }
     };
-    
     UseMultipleThreads(frame, getThreadCount(), callback);
     VariableScale(alpha,dir,start, start_init, start_max, stop, stop_init, stop_max, inc);
+    AddInvert(frame);
+}
+
+void ac::PixelCollectionLongMatrixSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "PixelCollectionLongMatrixSubFilter")
+        return;
+    static constexpr int MAX = 32;
+    static MatrixCollection<MAX> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copyf = frame.clone();
+    CallFilter(subfilter, copyf);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int v = 1; v < collection.size() && !collection.frames[v].empty(); ++v) {
+                    cv::Vec3b value = collection.frames[v].at<cv::Vec3b>(z, i);
+                    cv::Vec3b sub = copyf.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        int off = pixel[j]-value[j];
+                        if(!(abs(off) <= 55)) {
+                            pixel[j] = sub[j];
+                        }
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
