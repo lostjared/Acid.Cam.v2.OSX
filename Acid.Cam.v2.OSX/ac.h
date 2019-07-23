@@ -1473,6 +1473,7 @@ namespace ac {
     void ColorPulseIncrease(cv::Mat &frame);
     void PixelCollectionLongMatrixSubFilter(cv::Mat &frame);
     void ColorPulseImageIncreaseSubFilter(cv::Mat &frame);
+    void ColorPulseRandom(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

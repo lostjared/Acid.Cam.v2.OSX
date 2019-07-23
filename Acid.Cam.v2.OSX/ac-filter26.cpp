@@ -521,3 +521,24 @@ void ac::ColorPulseImageIncreaseSubFilter(cv::Mat &frame) {
     VariableScale(alpha,dir,start, start_init, start_max, stop, stop_init, stop_max, inc);
     AddInvert(frame);
 }
+
+void ac::ColorPulseRandom(cv::Mat &frame) {
+    static double alpha[3] = {0};
+    static double start[3] = {0,0,0}, start_init[3] = {static_cast<double>(rand()%5), static_cast<double>(rand()%5), static_cast<double>(rand()%5)}, start_max[3] = {static_cast<double>(rand()%25), static_cast<double>(rand()%10), static_cast<double>(rand()%5)};
+    static double stop[3] = {0,0,0}, stop_init[3] = {static_cast<double>(rand()%5), static_cast<double>(rand()%5), static_cast<double>(rand()%5)}, stop_max[3] = {static_cast<double>(rand()%200), static_cast<double>(rand()%210), static_cast<double>(rand()%180)};
+    static double inc = static_cast<double>(rand()%4)+4.0;
+    static int dir[3] = {1, 0, 1};
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] =  static_cast<unsigned char>((pixel[j] * 0.5) + ((alpha[j] * 0.5)));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    VariableScale(alpha,dir,start, start_init, start_max, stop, stop_init, stop_max, inc);
+    AddInvert(frame);
+}
