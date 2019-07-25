@@ -571,3 +571,99 @@ void ac::ColorPulseImage(cv::Mat &frame) {
     AlphaMovementMaxMin(scale, dir1, 0.01,5.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::ColorPulseAlpha(cv::Mat &frame) {
+    static double alpha[3] = {0};
+    static double start[3] = {0, 0, 0}, start_init[3] = {5, 5, 5}, start_max[3] = {25, 10, 5};
+    static double stop[3] = {0,0,0}, stop_init[3] = {5, 5, 5}, stop_max[3] = {200, 210, 180};
+    static double inc = 4.0;
+    static int dir[3] = {1, 0, 1};
+    static int index = 0;
+    int colors[3] = {0};
+    static double scale = 1.0;
+    static int dir1 = 1;
+    InitArrayPosition(colors,index);
+    ++index;
+    if(index > 2)
+        index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[colors[j]] =  static_cast<unsigned char>((pixel[j] * scale) + ((alpha[j] * 1-scale)));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    VariableScale(alpha,dir,start, start_init, start_max, stop, stop_init, stop_max, inc);
+    AlphaMovementMaxMin(scale, dir1, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::ColorLower75(cv::Mat &frame) {
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(0.75 * pixel[j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::ColorImageMedianBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[3].clone();
+    frames[2] = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b cpix[3];
+                cpix[0] = frames[0].at<cv::Vec3b>(z, i);
+                cpix[1] = frames[1].at<cv::Vec3b>(z, i);
+                cpix[2] = frames[2].at<cv::Vec3b>(z, i);
+                cv::Vec3b img;
+                img = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.33) + (cpix[j][j] * 0.33) + (img[j] * 0.33));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
+
+void ac::ColorDullBlur(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    Smooth(copy1, &collection);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.3 * pixel[j]) + (0.7 * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
