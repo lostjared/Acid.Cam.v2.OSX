@@ -219,7 +219,7 @@ bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec
 ac::SearchType ac::searchColors(const cv::Vec3b &color) {
     for(unsigned int i = 0; i < blocked_colors.size(); ++i) {
         if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true) {
-            if(blocked_colors[i].spill == true) {
+           if(blocked_colors[i].spill == true) {
                 return SEARCH_GRAY;
             }
             else {

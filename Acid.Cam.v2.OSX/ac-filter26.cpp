@@ -691,3 +691,24 @@ void ac::ColorImageDull(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorImageBlendWithFrame(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    
+    static MatrixCollection<16> collection;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    ColorPulseIncrease(reimage);
+    ColorPulseIncrease(frame);
+    collection.shiftFrames(frame);
+    collection.shiftFrames(reimage);
+    cv::Mat copy1 = frame.clone();
+    Smooth(copy1, &collection);
+    MedianBlendMultiThread(copy1);
+    cv::Mat copy2 = frame.clone();
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaBlendDouble(copy1, copy2, frame, alpha, 1-alpha);
+    AlphaMovementMaxMin(alpha,dir,0.01,1.0, 0.1);
+}
