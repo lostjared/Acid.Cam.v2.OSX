@@ -434,7 +434,7 @@ void ac::PixelCollectionImageBlend(cv::Mat &frame) {
                         if(!(abs(off) <= 55)) {
                             pixel[j] = sub[j];
                             pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * source[j]));
-
+                            
                         }
                     }
                 }
@@ -695,7 +695,6 @@ void ac::ColorImageDull(cv::Mat &frame) {
 void ac::ColorImageBlendWithFrame(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    
     static MatrixCollection<16> collection;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
@@ -711,4 +710,29 @@ void ac::ColorImageBlendWithFrame(cv::Mat &frame) {
     static int dir = 1;
     AlphaBlendDouble(copy1, copy2, frame, alpha, 1-alpha);
     AlphaMovementMaxMin(alpha,dir,0.01,1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::ColorImageBlendSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == 1 || draw_strings[subfilter] == "ColorImageBlendSubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<32> collection;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone();
+    ColorPulseIncrease(copy1);
+    ColorPulseRandom(copy2);
+    collection.shiftFrames(reimage);
+    collection.shiftFrames(copy1);
+    collection.shiftFrames(copy2);
+    collection.shiftFrames(copy3);
+    cv::Mat copy_smooth = frame.clone();
+    Smooth(copy_smooth, &collection);
+    cv::Mat src_cp = frame.clone();
+    CallFilter(subfilter, src_cp);
+    AlphaBlendDouble(copy_smooth, src_cp, frame, alpha, 1-alpha);
+    AlphaMovementMaxMin(alpha,dir,0.005,1.0, 0.1);
+    AddInvert(frame);
 }
