@@ -76,7 +76,7 @@
 #endif
 /*
  *
- * Be sure to call fill_filter_map
+ * Be sure to call fill_filter_map or init
  * to use set appropriate variables, call the function
  *
  * ac::SelfAlphaBlend(mat);
@@ -1483,6 +1483,7 @@ namespace ac {
     void ColorImageBlendWithFrame(cv::Mat &frame);
     void ColorImageBlendSubFilter(cv::Mat &frame);
     void ColorMatrixImageFilter(cv::Mat &frame);
+    void ColorXorMatrixImage(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

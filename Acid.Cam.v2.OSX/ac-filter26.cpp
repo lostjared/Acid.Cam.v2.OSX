@@ -765,3 +765,36 @@ void ac::ColorMatrixImageFilter(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::ColorXorMatrixImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat reimage;
+    ac_resize(blend_image,reimage, frame.size());
+    ColorPulseIncrease(reimage);
+    collection.shiftFrames(reimage);
+    cv::Mat copy1 = frame.clone();
+    int r = 1+(rand()%4);
+    for(int i = 0; i < r; ++i)
+        MedianBlur(copy1);
+    Smooth(copy1, &collection);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pixblur = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int temp = static_cast<unsigned char>(alpha * pixel[j]) ^ static_cast<unsigned char>((1-alpha) * pixblur[j]);
+                    pixel[j] = pixel[j]^temp;
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.001, 1.0, 0.1);
+    AddInvert(frame);
+}
