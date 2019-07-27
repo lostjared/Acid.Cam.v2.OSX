@@ -798,3 +798,8 @@ void ac::ColorXorMatrixImage(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.001, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::MatrixColorBlur(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    Smooth(frame, &collection);
+}
