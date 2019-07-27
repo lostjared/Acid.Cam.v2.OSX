@@ -1482,6 +1482,7 @@ namespace ac {
     void ColorImageDull(cv::Mat &frame);
     void ColorImageBlendWithFrame(cv::Mat &frame);
     void ColorImageBlendSubFilter(cv::Mat &frame);
+    void ColorMatrixImageFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
