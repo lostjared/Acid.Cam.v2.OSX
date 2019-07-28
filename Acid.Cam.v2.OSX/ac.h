@@ -1488,6 +1488,7 @@ namespace ac {
     void ColorImageLower(cv::Mat &frame);
     void BlurSubFilter8(cv::Mat &frame);
     void LightBlend(cv::Mat &frame);
+    void LightBlendXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
