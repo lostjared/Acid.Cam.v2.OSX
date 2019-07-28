@@ -1485,6 +1485,7 @@ namespace ac {
     void ColorMatrixImageFilter(cv::Mat &frame);
     void ColorXorMatrixImage(cv::Mat &frame);
     void MatrixColorBlur(cv::Mat &frame);
+    void ColorImageLower(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
