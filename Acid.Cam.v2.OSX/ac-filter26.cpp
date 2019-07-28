@@ -825,3 +825,11 @@ void ac::ColorImageLower(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::BlurSubFilter8(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "BlurSubFilter8")
+        return;
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, frame);
+    Smooth(frame, &collection);
+}
