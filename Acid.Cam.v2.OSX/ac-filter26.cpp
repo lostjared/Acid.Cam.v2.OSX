@@ -861,7 +861,7 @@ void ac::LightBlend(cv::Mat &frame) {
 void ac::LightBlendXor(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     static double alpha = 1.0;
-    static double alpha1 = 1.0;
+    static double alpha1 = 0.5;
     static int dir = 1, dir1 = 1;
     for(int z = 0; z < frame.rows-2; ++z) {
         for(int i = 0; i < frame.cols-2; ++i) {
@@ -872,13 +872,14 @@ void ac::LightBlendXor(cv::Mat &frame) {
             pixels[2] = copy1.at<cv::Vec3b>(z+1, i+1);
             cv::Vec3b color;
             for(int j = 0; j < 3; ++j) {
-                color[j] = static_cast<unsigned char>((pixels[0][j] + pixels[1][j] + pixels[2][j]) * alpha);
+                color[j] = (pixels[0][j] + pixels[1][j] + pixels[2][j]);
                 color[j] /= 3;
-                pixel[j] ^= static_cast<unsigned char>((alpha1 * pixel[j]) + (1-alpha1 * color[j]));
+                color[j] *= alpha;
+                pixel[j] ^= static_cast<unsigned char>((alpha1 * pixel[j]) + (alpha1 * color[j]));
             }
         }
     }
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
-    AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha, dir1, 0.001, 1.0, 0.1);
 }
