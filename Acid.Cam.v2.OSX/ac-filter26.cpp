@@ -940,3 +940,36 @@ void ac::XorZeroImage(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::SlowDownFilterSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "SlowDownFilterSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    static cv::Mat stored;
+    if(stored.empty() || stored.size() != frame.size()) {
+        stored = copy1.clone();
+    }
+    static int frame_counter = 0;
+    static double seconds = 0;
+    static int first = -1;
+    static double alpha = 1.0;
+    static int dir1 = 1;
+    ++frame_counter;
+    if(frame_counter > static_cast<int>(ac::fps)) {
+        ++seconds;
+        frame_counter = 0;
+    }
+    if(seconds >= 1 || first == -1) {
+        seconds = 0;
+        frame_counter = 0;
+        first = 1;
+        CallFilter(subfilter, frame);
+        stored = frame.clone();
+    }
+    else {
+        frame = stored.clone();
+    }
+    AlphaBlendDouble(stored, copy1,frame,alpha,(1-alpha));
+    AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}

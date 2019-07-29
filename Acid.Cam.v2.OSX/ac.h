@@ -1491,6 +1491,7 @@ namespace ac {
     void LightBlendXor(cv::Mat &frame);
     void Source_ImageSubFilter(cv::Mat &frame);
     void XorZeroImage(cv::Mat &frame);
+    void SlowDownFilterSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
