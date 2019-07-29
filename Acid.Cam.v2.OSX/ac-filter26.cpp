@@ -927,8 +927,8 @@ void ac::XorZeroImage(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = collection.frames[7].at<cv::Vec3b>(z, i);
-                cv::Vec3b color = reimage.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[7].at<cv::Vec3b>(z, i); // use i, z for glitch (memory error)
+                cv::Vec3b color = reimage.at<cv::Vec3b>(z, i); // use i,z for glitch (memory error)
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = pixel[j]^pix[j];
                     if(pixel[j] == 0)
