@@ -883,3 +883,60 @@ void ac::LightBlendXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(alpha, dir1, 0.001, 1.0, 0.1);
 }
+
+void ac::Source_ImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "Source_ImageSubFilter")
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy2);
+    int colors[3] = {0};
+    static int index = 0;
+    InitArrayPosition(colors, index);
+    ++index;
+    if(index > 2)
+        index = 0;
+    cv::Mat frames[3];
+    frames[colors[0]] = reimage.clone();
+    frames[colors[1]] = copy1.clone();
+    frames[colors[2]] = copy2.clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b color_by_index = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = color_by_index[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::XorZeroImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image,reimage, frame.size());
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[7].at<cv::Vec3b>(z, i);
+                cv::Vec3b color = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pix[j];
+                    if(pixel[j] == 0)
+                        pixel[j] = color[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
