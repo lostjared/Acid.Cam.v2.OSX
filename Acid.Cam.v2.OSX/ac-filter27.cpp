@@ -78,3 +78,43 @@ void ac::SingleFrameGlitch(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::ColorFadeSlow(cv::Mat &frame) {
+    static double val[3] = {-1.0, -1.0, -1.0};
+    static int init = -1;
+    // lazy
+    if(init == -1) {
+        val[0] = rand()%255;
+        val[1] = rand()%255;
+        val[2] = rand()%255;
+        init = 0;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] += static_cast<unsigned char>(val[j]);
+            }
+        }
+    }
+    static int dir[3] = {1,1,1};
+    static double speed[3] = {0.33, 0.33, 0.33};
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            val[j] += speed[j];
+            if(val[j] >= 255) {
+                val[j] = rand()%255;
+                dir[j] = 0;
+                speed[j] += 0.33;
+                if(speed[j] > 5) speed[j] = 1;
+            }
+        } else if(dir[j] == 0) {
+            val[j] -= speed[j];
+            if(val[j] <= 1) {
+                val[j] = rand()%255;
+                dir[j] = 1;
+                speed[j] += 0.33;
+                if(speed[j] > 5) speed[j] = 1;
+            }
+        }
+    }
+}

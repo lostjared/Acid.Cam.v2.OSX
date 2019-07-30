@@ -1494,6 +1494,7 @@ namespace ac {
     void SlowDownFilterSubFilter(cv::Mat &frame);
     void VariableFilterSubFilter(cv::Mat &frame);
     void SingleFrameGlitch(cv::Mat &frame);
+    void ColorFadeSlow(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
