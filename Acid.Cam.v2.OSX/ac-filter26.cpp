@@ -1014,25 +1014,3 @@ void ac::VariableFilterSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(sec_increase, dir_wait, 0.1, 4.0, 1.0);
     AddInvert(frame);
 }
-
-void ac::SingleFrameGlitch(cv::Mat &frame) {
-    static MatrixCollection<8> collection;
-    cv::Mat copy1 = frame.clone();
-    if(collection.empty() || collection.bounds() != frame.size()) {
-        collection.resetFrame(frame);
-    }
-    static int frame_counter = 0;
-    static double seconds = 0;
-    ++frame_counter;
-    if(frame_counter > static_cast<int>(ac::fps)) {
-        ++seconds;
-        frame_counter = 0;
-    }
-    if(seconds >= 1) {
-        seconds = 0;
-        collection.shiftFrames(frame);
-        Smooth(frame, &collection);
-    }
-    AddInvert(frame);
-}
-
