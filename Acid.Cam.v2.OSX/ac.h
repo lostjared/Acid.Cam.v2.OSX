@@ -1492,6 +1492,8 @@ namespace ac {
     void Source_ImageSubFilter(cv::Mat &frame);
     void XorZeroImage(cv::Mat &frame);
     void SlowDownFilterSubFilter(cv::Mat &frame);
+    void VariableFilterSubFilter(cv::Mat &frame);
+    void SingleFrameGlitch(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1629,7 +1631,25 @@ namespace ac {
             }
             return true;
         }
-        bool valid() const { return (w != 0 && h != 0); }
+        
+        bool empty() {
+            for(unsigned int i = 0; i < size(); ++i) {
+                if(!frames[i].empty())
+                    return false;
+            }
+            return true;
+        }
+        
+        bool valid() const {
+            return (w != 0 && h != 0);
+        }
+        int width() const {
+            return w;
+        }
+        int height() const { return h; }
+        cv::Size bounds() const {
+            return cv::Size(w, h);
+        }
         int size() const { return ArraySize; }
         int completed() { return completedRows; }
         int completedRows;
