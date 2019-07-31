@@ -1634,7 +1634,7 @@ namespace ac {
         }
         
         bool empty() {
-            for(unsigned int i = 0; i < size(); ++i) {
+            for(int i = 0; i < size(); ++i) {
                 if(!frames[i].empty())
                     return false;
             }
