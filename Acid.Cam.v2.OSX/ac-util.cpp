@@ -727,20 +727,32 @@ void ac::AlphaMovement(double *alpha, int *dir, double inc) {
     }
 }
 
+
 void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min) {
     if(alpha_increase != 0) speed = alpha_increase;
-    if(dir == 1) {
-        alpha += speed;
-        if(alpha > max) {
-            alpha = max;
-            dir = 0;
-        }
-    } else {
-        alpha -= speed;
-        if(alpha < min) {
-            alpha = min;
-            dir = 1;
-        }
+    switch(getProcMode()) {
+        case MOVEINOUT_INC:
+        case MOVEINOUT:
+            if(dir == 1) {
+                alpha += speed;
+                if(alpha > max) {
+                    alpha = max;
+                    dir = 0;
+                }
+            } else {
+                alpha -= speed;
+                if(alpha < min) {
+                    alpha = min;
+                    dir = 1;
+                }
+            }
+            break;
+        case MOVERESET:
+            alpha += speed;
+            if(alpha >= max) {
+                alpha = min;
+            }
+            break;
     }
     resetAlpha(dir, alpha);
 }

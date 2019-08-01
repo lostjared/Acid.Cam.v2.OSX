@@ -1952,7 +1952,19 @@ void setEnabledProg() {
 
 - (void) updatePref: (BOOL)display_msg {
     NSInteger pos = [procMode indexOfSelectedItem];
-    ac::setProcMode(static_cast<unsigned int >(pos));
+    ac::PROC_MODE_TYPE move_type;
+    switch(pos) {
+        case 0:
+            move_type = ac::MOVEINOUT_INC;
+            break;
+        case 1:
+            move_type = ac::MOVEINOUT;
+            break;
+        case 2:
+            move_type = ac::MOVERESET;
+            break;
+    }
+    ac::setProcMode(move_type);
     std::ostringstream log;
     std::string str_val[] = {"Move Out Increase, Move in", "Move Out, Move in", "Move Out, Reset", ""};
     log << "Proccess Mode Set to: " << str_val[pos] << "\n";

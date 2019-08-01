@@ -158,6 +158,7 @@ namespace ac {
     };
     
     enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
+    enum PROC_MODE_TYPE { MOVEINOUT_INC, MOVEINOUT, MOVERESET };
     enum class IntertwineDir { HORIZONTAL, VERTICAL };
     extern std::vector<std::string> solo_filter;
     extern std::vector<std::string> color_filter;
@@ -1508,7 +1509,8 @@ namespace ac {
     // set Custom Filter callback function
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
-    void setProcMode(int value);
+    void setProcMode(PROC_MODE_TYPE value);
+    PROC_MODE_TYPE getProcMode();
     void setSubFilter(int value);
     void clearSubFilter();
     // color maps

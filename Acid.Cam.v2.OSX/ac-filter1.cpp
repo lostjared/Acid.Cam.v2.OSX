@@ -90,7 +90,7 @@ namespace ac {
     DrawFunction custom_callback = 0;
     DrawFunction plugin_func = 0;
     int colors[3] = {rand()%255, rand()%255, rand()%255};
-    int proc_mode = 0;
+    PROC_MODE_TYPE proc_mode = PROC_MODE_TYPE(0);
     bool reset_filter = false;
     double alpha_increase = 0;
     
@@ -225,11 +225,14 @@ void ac::invert(cv::Mat &frame, int y, int x) {
     cur[2] = ~cur[2];
 }
 
+//
+//enum PROC_MODE_TYPE { MOVEINOUT_INC, MOVEINOUT, MOVERESET };
+
 // proc position
 void ac::procPos(int &direction, double &pos, double &pos_max, const double max_size, double iter) {
     if(alpha_increase != 0) iter = alpha_increase;
-    switch(proc_mode) {
-        case 0: { // move in - increase move out movin - increase move out
+    switch(getProcMode()) {
+        case MOVEINOUT_INC: { // move in - increase move out movin - increase move out
             // static int direction
             // pos max
             // if direction equals 1
@@ -250,7 +253,7 @@ void ac::procPos(int &direction, double &pos, double &pos_max, const double max_
             }
         }
             break;
-        case 1: { // flat fade in fade out
+        case MOVEINOUT: { // flat fade in fade out
             if(direction == 1) {
                 pos += iter;
                 if(pos > max_size) direction = 0;
@@ -262,7 +265,7 @@ void ac::procPos(int &direction, double &pos, double &pos_max, const double max_
             
         }
             break;
-        case 2: {
+        case MOVERESET: {
             pos += iter;
             if(pos >= pos_max) {
                 pos = 1.0;
@@ -274,7 +277,10 @@ void ac::procPos(int &direction, double &pos, double &pos_max, const double max_
 }
 
 
-void ac::setProcMode(int value) {
+void ac::setProcMode(ac::PROC_MODE_TYPE value) {
     proc_mode = value;
 }
 
+ac::PROC_MODE_TYPE ac::getProcMode() {
+    return proc_mode;
+}
