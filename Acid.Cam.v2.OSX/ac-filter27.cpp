@@ -120,5 +120,21 @@ void ac::ColorFadeSlow(cv::Mat &frame) {
 }
 
 void ac::FadeBetweenSubFilter(cv::Mat &frame) {
-    
+    if(subfilter == -1 || draw_strings[subfilter] == "FadeBetweenSubFilter")
+        return;
+    static cv::Mat stored_copy = frame.clone();
+    cv::Mat copy1 = frame.clone();
+    if(stored_copy.empty() || (stored_copy.size() != frame.size())) {
+        stored_copy = frame.clone();
+        CallFilter(subfilter, stored_copy);
+    }
+    static double alpha1 = 1.0;
+    static int dir = 1;
+    if(alpha1 >= 0.9) {
+        stored_copy = frame.clone();
+        CallFilter(subfilter, stored_copy);
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AlphaBlendDouble(copy1, stored_copy, frame, alpha1, (1-alpha));
+    AddInvert(frame);
 }
