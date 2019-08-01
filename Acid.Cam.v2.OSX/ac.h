@@ -1496,6 +1496,7 @@ namespace ac {
     void SingleFrameGlitch(cv::Mat &frame);
     void ColorFadeSlow(cv::Mat &frame);
     void FadeBetweenSubFilter(cv::Mat &frame);
+    void FadeBetweenFrame(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

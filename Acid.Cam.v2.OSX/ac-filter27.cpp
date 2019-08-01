@@ -117,6 +117,7 @@ void ac::ColorFadeSlow(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::FadeBetweenSubFilter(cv::Mat &frame) {
@@ -136,5 +137,16 @@ void ac::FadeBetweenSubFilter(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AlphaBlendDouble(copy1, stored_copy, frame, alpha1, (1-alpha));
+    AddInvert(frame);
+}
+
+void ac::FadeBetweenFrame(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = collection.frames[15].clone();
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.1);
     AddInvert(frame);
 }
