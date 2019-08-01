@@ -170,3 +170,18 @@ void ac::TrailsTwitch(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.01);
     AddInvert(frame);
 }
+
+void ac::Tremors(cv::Mat &frame) {
+    static auto rng = std::default_random_engine{};
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int value_index = -1;
+    static std::vector<int> index({0,1,2,3,4,5,6,7});
+    if(value_index == -1 || value_index <= 7) {
+        std::shuffle(index.begin(), index.end(), rng);
+        value_index = 0;
+    }
+    int cur_val = index[value_index];
+    frame = collection.frames[cur_val].clone();
+    AddInvert(frame);
+}
