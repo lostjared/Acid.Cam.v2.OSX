@@ -150,3 +150,23 @@ void ac::FadeBetweenFrame(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::TrailsTwitch(cv::Mat &frame) {
+    static constexpr int Size = 8;
+    static double alpha = 1.0;
+    static int dir = 1;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    for(int i = 0; i < 3; ++i) {
+        frames[i] = collection.frames[rand()%Size].clone();
+    }
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    for(int i = 0; i < 3; ++i) {
+        AlphaBlendDouble(copy1, frames[i], copy2, alpha, (1-alpha));
+        copy1 = copy2.clone();
+    }
+    frame = copy1.clone();
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.01);
+    AddInvert(frame);
+}
