@@ -118,3 +118,7 @@ void ac::ColorFadeSlow(cv::Mat &frame) {
         }
     }
 }
+
+void ac::FadeBetweenSubFilter(cv::Mat &frame) {
+    
+}

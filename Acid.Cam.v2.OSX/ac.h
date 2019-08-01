@@ -1495,6 +1495,7 @@ namespace ac {
     void VariableFilterSubFilter(cv::Mat &frame);
     void SingleFrameGlitch(cv::Mat &frame);
     void ColorFadeSlow(cv::Mat &frame);
+    void FadeBetweenSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1585,7 +1586,7 @@ namespace ac {
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
     extern std::unordered_map<std::string, FilterType> filter_map_str;
-
+    
     extern bool frames_released;
     extern std::vector<void *> all_objects;
     // Matrix Collection template
@@ -1602,10 +1603,10 @@ namespace ac {
         int w, h;
         void shiftFrames(cv::Mat &frame) {
             if(resetFrame(frame)) {
-    	        for(int i = Size-1; i > 0; --i) {
-	                frames[i] = frames[i-1];
-            	}
-            	frames[0] = frame.clone();
+                for(int i = Size-1; i > 0; --i) {
+                    frames[i] = frames[i-1];
+                }
+                frames[0] = frame.clone();
                 if(completedRows < size()) ++completedRows;
             }
         }
@@ -1651,8 +1652,14 @@ namespace ac {
         cv::Size bounds() const {
             return cv::Size(w, h);
         }
-        int size() const { return ArraySize; }
-        int completed() { return completedRows; }
+        int size() const {
+            return ArraySize;
+            
+        }
+        int completed() {
+            return completedRows;
+            
+        }
         int completedRows;
     };
     extern void release_all_objects();
@@ -1891,7 +1898,7 @@ namespace ac {
     void IntertwineRows(cv::Mat &frame, MatrixCollection<row_size> *collection) {
         IntertwineRows(frame, collection, row_size);
     }
-
+    
     template<int row_size>
     void IntertwineRowsInter(cv::Mat &frame, MatrixCollection<row_size> *collection, const int height, bool hideRows = false) {
         collection->shiftFrames(frame);
@@ -1985,7 +1992,7 @@ namespace ac {
             }
         }
     }
-
+    
     template<int col_size>
     void IntertwineCols(cv::Mat &frame, MatrixCollection<col_size> *collection, int width) {
         collection->shiftFrames(frame);
@@ -2102,7 +2109,7 @@ namespace ac {
             --depth;
             if(depth <= 2)
                 dir = 1;
-    	}
+        }
     }
     
     template<int size_val>
@@ -2319,7 +2326,7 @@ namespace ac {
         bool reset_needed;
         bool is_init;
         void setPix();
-    };    
+    };
     
     // slow copy functions
     void copyMat(const cv::Mat &src,int src_x, int src_y, cv::Mat &target, const Rect &rc);
@@ -2404,8 +2411,12 @@ namespace ac {
         void insert(cv::Mat &image);
         PixelArray2D &operator=(const PixelArray2D &) = delete;
         PixelValues **pix_values;
-        int getWidth() const { return pix_x; }
-        int getHeight() const { return pix_y; }
+        int getWidth() const {
+            return pix_x;
+        }
+        int getHeight() const {
+            return pix_y;
+        }
         void set();
         void shuffle();
         void generateMatrix(cv::Mat &frame);
@@ -2414,10 +2425,10 @@ namespace ac {
         std::default_random_engine rng;
         int pix_x, pix_y;
         
-    
+        
     };
     extern bool image_matrix_reset;
-
+    
 }
 
 extern ac::ParticleEmiter emiter;
