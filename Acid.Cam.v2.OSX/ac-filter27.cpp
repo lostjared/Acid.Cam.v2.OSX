@@ -211,3 +211,33 @@ void ac::XorImageIndexPixel(cv::Mat &frame) {
         index = 0;
     AddInvert(frame);
 }
+
+void ac::ImageStrobeMedianBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    int arr[3] = {0};
+    static int index = 0;
+    InitArrayPosition(arr, index);
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b col = collection.frames[arr[j]].at<cv::Vec3b>(z, i);
+                    cv::Vec3b img_col = reimage.at<cv::Vec3b>(z, i);
+                    pixel[arr[j]] = static_cast<unsigned char>((0.33 * pixel[j]) + (0.33 * col[j]) + (0.33 * img_col[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++index;
+    if(index > 2)
+        index = 0;
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
