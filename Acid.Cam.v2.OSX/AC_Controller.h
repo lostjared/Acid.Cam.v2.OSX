@@ -50,6 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<unordered_map>
 #include<cstdlib>
 #include<cstdio>
+#include<iomanip>
 #include "AC_Renderer.h"
 #include "AC_SearchController.h"
 // type def
