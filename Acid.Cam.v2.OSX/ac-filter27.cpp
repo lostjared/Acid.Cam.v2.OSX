@@ -185,3 +185,29 @@ void ac::Tremors(cv::Mat &frame) {
     frame = collection.frames[cur_val].clone();
     AddInvert(frame);
 }
+
+void ac::XorImageIndexPixel(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int index = 0;
+    int arr[3];
+    InitArrayPosition(arr, index);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b col = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[arr[j]] = pixel[arr[j]]^col[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+}

@@ -1500,6 +1500,7 @@ namespace ac {
     void FadeBetweenFrame(cv::Mat &frame);
     void TrailsTwitch(cv::Mat &frame);
     void Tremors(cv::Mat &frame);
+    void XorImageIndexPixel(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
