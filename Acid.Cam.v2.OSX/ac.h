@@ -1502,6 +1502,7 @@ namespace ac {
     void Tremors(cv::Mat &frame);
     void XorImageIndexPixel(cv::Mat &frame);
     void ImageStrobeMedianBlend(cv::Mat &frame);
+    void StrobeImageArrayPosition(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

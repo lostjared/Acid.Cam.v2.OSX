@@ -241,3 +241,29 @@ void ac::ImageStrobeMedianBlend(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::StrobeImageArrayPosition(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    int col[3] = {0};
+    static int index = 0;
+    InitArrayPosition(col, index);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b img_col = reimage.at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * img_col[col[j]]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+}
