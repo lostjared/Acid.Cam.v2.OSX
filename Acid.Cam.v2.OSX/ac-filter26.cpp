@@ -340,7 +340,7 @@ void ac::PixelCollectionSubFilter(cv::Mat &frame) {
                 cv::Vec3b sub = copyf.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     int off = pixel[j]-value[j];
-                    if(!(abs(off) <= 55)) {
+                    if(!(abs(off) <= getPixelCollection())) {
                         pixel[j] = sub[j];
                     }
                 }
@@ -368,7 +368,7 @@ void ac::PixelCollectionMatrixSubFilter(cv::Mat &frame) {
                     cv::Vec3b sub = copyf.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
                         int off = pixel[j]-value[j];
-                        if(!(abs(off) <= 55)) {
+                        if(!(abs(off) <= getPixelCollection())) {
                             pixel[j] = sub[j];
                         }
                     }

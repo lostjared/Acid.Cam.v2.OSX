@@ -1522,6 +1522,8 @@ namespace ac {
     void Negate(cv::Mat &frame);
     void ApplyColorMap(cv::Mat &frame);
     void AddInvert(cv::Mat &frame);
+    void setPixelCollection(int value);
+    int  getPixelCollection();
     // color correction
     void MedianBlur(cv::Mat &frame, unsigned int value);
     void setBlendPercentage(const double &value);

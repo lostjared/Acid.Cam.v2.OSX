@@ -48,10 +48,19 @@
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
 cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_colors;
+int pixel_collection_value = 55;
 
 void ac::init() {
     fill_filter_map();
 }
+
+void ac::setPixelCollection(int value) {
+    pixel_collection_value = value;
+}
+int  ac::getPixelCollection() {
+    return pixel_collection_value;
+}
+
 
 
 void ac::MedianBlur(cv::Mat &frame, unsigned int value) {

@@ -168,6 +168,7 @@ extern cv::ocl::Context context;
     IBOutlet NSImageView *cur_selected_image;
     IBOutlet NSTextField *num_threads;
     IBOutlet NSTextField *label_path;
+    IBOutlet NSTextField *col_intense;
     IBOutlet NSButton *chk_preview;
     SearchController *search_controller;
     NSMenu *user_menu;

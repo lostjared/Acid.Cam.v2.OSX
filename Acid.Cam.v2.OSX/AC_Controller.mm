@@ -2013,7 +2013,6 @@ void setEnabledProg() {
     log << "ColorKey Low BGR Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
     log << "ColorKey High BGR Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
     
-    
     NSInteger szPtr = [sy_size indexOfSelectedItem];
     NSSize sz;
     switch(szPtr) {
@@ -2030,6 +2029,10 @@ void setEnabledProg() {
             sz.height = 1080;
             break;
     }
+    
+    
+    NSInteger intense = [col_intense integerValue];
+    ac::setPixelCollection(static_cast<int>(intense));
     log << "Syphon Output Set To: " << sz.width << "x" << sz.height << "\n";
     NSInteger thread_num = [num_threads integerValue];
     if(thread_num <= 0) {
@@ -2039,7 +2042,9 @@ void setEnabledProg() {
     ac::setThreadCount(static_cast<int>(thread_num));
     [syphon_window setContentSize: sz];
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
+    log << "Pixel Intensity Set At: " << static_cast<int>(intense) << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
+    
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
 }
