@@ -267,3 +267,33 @@ void ac::StrobeImageArrayPosition(cv::Mat &frame) {
         index = 0;
     AddInvert(frame);
 }
+
+void ac::OppositeImageArray(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    int arrayPos1[3] = {0}, arrayPos2[3] = {0};
+    static int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    InitArrayPosition(arrayPos1, index);
+    InitArrayPosition(arrayPos2,3-index-1);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b image_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[arrayPos1[j]]) + ((1-alpha) * image_pix[arrayPos2[j]]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha,dir,0.01,1.0, 0.1);
+}
