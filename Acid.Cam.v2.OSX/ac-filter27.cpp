@@ -346,3 +346,7 @@ void ac::NegateNoBlurMedian(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::PulseIncreaseVariableSpeed(cv::Mat &frame) {
+    
+}
