@@ -322,3 +322,27 @@ void ac::NoMedianBlurBlendMultiThread(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::NegateNoBlurMedian(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    cv::Mat frame_copy = frame.clone();
+    Negate(frame_copy);
+    collection.shiftFrames(frame_copy);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    NoMedianBlurBlendMultiThread(frame);
+    AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
