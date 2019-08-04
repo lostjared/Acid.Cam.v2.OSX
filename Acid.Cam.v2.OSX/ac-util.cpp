@@ -950,6 +950,32 @@ void ac::VariableScale(double *alpha,int *dir, double *start, double *start_init
     }
 }
 
+void ac::VariableScaleSpeed(double *alpha,int *dir, double *start, double *start_init, double *start_max, double *stop, double *stop_init, double *stop_max, double *inc) {
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            alpha[j] += inc[j];
+            if(alpha[j] >= stop[j]) {
+                stop[j] += inc[j];
+                if(stop[j] >= stop_max[j]) {
+                    stop[j] = stop_init[j];
+                }
+                dir[j] = 0;
+            }
+        } else {
+            alpha[j] -= inc[j];
+            if(alpha[j] <= start[j]) {
+                start[j] -= inc[j];
+                if(start[j] <= start_max[j]) {
+                    start_max[j] = start_init[j];
+                }
+                dir[j] = 1;
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        ac::resetAlpha(alpha[j]);
+    }
+}
 
 
 ac::Pixelated::Pixelated() : x_offset(0), reset_needed(false), is_init(false) {

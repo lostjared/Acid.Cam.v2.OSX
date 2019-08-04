@@ -1587,6 +1587,7 @@ namespace ac {
     void setSourceFrame(const cv::Mat &frame);
     void IntertwineFrames(IntertwineDir type, const cv::Mat &one, const cv::Mat &two, cv::Mat &dest);
     void VariableScale(double *alpha,int *dir, double *start, double *start_init, double *start_max, double *stop, double *stop_init, double *stop_max, double inc);
+    void VariableScaleSpeed(double *alpha,int *dir, double *start, double *start_init, double *start_max, double *stop, double *stop_init, double *stop_max, double *inc);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
