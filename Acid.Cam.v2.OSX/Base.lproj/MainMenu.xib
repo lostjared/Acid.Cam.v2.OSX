@@ -2003,15 +2003,15 @@ Gw
                     </imageView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-1197" y="-2552"/>
+            <point key="canvasLocation" x="-1446" y="-2552"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="192" y="507" width="291" height="464"/>
+            <rect key="contentRect" x="192" y="507" width="285" height="464"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ZQs-8e-2LN">
-                <rect key="frame" x="0.0" y="0.0" width="291" height="464"/>
+                <rect key="frame" x="0.0" y="0.0" width="285" height="464"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <popUpButton verticalHuggingPriority="750" id="3ED-56-zaU">
@@ -2314,7 +2314,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-3082.5" y="-2469"/>
+            <point key="canvasLocation" x="-3085.5" y="-2469"/>
         </window>
         <window title="Acid Cam - Syphon Server" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="ueZ-Gv-BFp">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>

@@ -61,8 +61,6 @@ int  ac::getPixelCollection() {
     return pixel_collection_value;
 }
 
-
-
 void ac::MedianBlur(cv::Mat &frame, unsigned int value) {
     cv::UMat blur, out;
     blur = frame.getUMat(cv::ACCESS_FAST);

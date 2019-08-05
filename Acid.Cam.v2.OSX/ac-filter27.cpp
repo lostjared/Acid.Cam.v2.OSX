@@ -370,3 +370,23 @@ void ac::PulseIncreaseVariableSpeed(cv::Mat &frame) {
     VariableScaleSpeed(alpha,dir,start, start_init, start_max, stop, stop_init, stop_max, inc);
     AddInvert(frame);
 }
+
+void ac::Source25_Image75(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix_color = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*0.25) + (pix_color[j] * 0.75));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

@@ -1507,6 +1507,7 @@ namespace ac {
     void NoMedianBlurBlendMultiThread(cv::Mat &frame);
     void NegateNoBlurMedian(cv::Mat &frame);
     void PulseIncreaseVariableSpeed(cv::Mat &frame);
+    void Source25_Image75(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2443,7 +2444,6 @@ namespace ac {
         
     };
     extern bool image_matrix_reset;
-    
 }
 
 extern ac::ParticleEmiter emiter;
