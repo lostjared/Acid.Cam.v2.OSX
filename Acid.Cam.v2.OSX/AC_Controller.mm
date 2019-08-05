@@ -2943,6 +2943,8 @@ void setEnabledProg() {
 }
 
 - (void) checkForNewVersion: (BOOL) showMessage {
+    
+#ifdef ENABLE_VERSION_UPDATE
     NSString *download_url = @"https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/README.md";
     NSURL *URL = [NSURL URLWithString:download_url];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -2975,6 +2977,7 @@ void setEnabledProg() {
         [value release];
     }];
     [task resume];
+#endif
 }
 
 @end

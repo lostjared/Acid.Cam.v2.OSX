@@ -53,6 +53,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<iomanip>
 #include "AC_Renderer.h"
 #include "AC_SearchController.h"
+
+
+//#define ENABLE_VERSION_UPDATE
+
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
