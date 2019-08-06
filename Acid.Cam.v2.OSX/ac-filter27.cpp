@@ -456,3 +456,28 @@ void ac::StrobeBlueChannel(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.08, 1.0, 0.1);
 }
+
+void ac::StrobeOnOffRandomChannel(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    static std::vector<int> random_vec({0, 1, 2});
+    static auto rng = std::default_random_engine{};
+    static int index = 0;
+    int channel = random_vec[index];
+    ++index;
+    if(index > 2) {
+        std::shuffle(random_vec.begin(), random_vec.end(), rng);
+        index = 0;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[channel] = static_cast<unsigned char>((pixel[channel] * alpha));
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.08, 1.0, 0.1);
+}
