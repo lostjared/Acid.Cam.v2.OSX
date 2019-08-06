@@ -1514,6 +1514,7 @@ namespace ac {
     void StrobeBlueChannel(cv::Mat &frame);
     void StrobeOnOffRandomChannel(cv::Mat &frame);
     void StrobeLightFlashRandomChannel(cv::Mat &frame);
+    void LostSideDeadImageSubFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
