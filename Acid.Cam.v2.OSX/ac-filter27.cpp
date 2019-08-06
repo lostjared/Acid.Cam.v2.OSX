@@ -481,3 +481,25 @@ void ac::StrobeOnOffRandomChannel(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.08, 1.0, 0.1);
 }
+
+void ac::StrobeLightFlashRandomChannel(cv::Mat &frame) {
+    static int index = 0;
+    if(index == 0) {
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    pixel[0] = 255;
+                    pixel[1] = 255;
+                    pixel[2] = 255;
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+        index = 1;
+    } else {
+        StrobeOnOffRandomChannel(frame);
+        index = 0;
+    }
+    AddInvert(frame);
+}
