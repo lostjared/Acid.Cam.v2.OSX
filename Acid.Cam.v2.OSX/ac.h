@@ -1509,6 +1509,9 @@ namespace ac {
     void PulseIncreaseVariableSpeed(cv::Mat &frame);
     void Source25_Image75(cv::Mat &frame);
     void LightStrobe(cv::Mat &frame);
+    void StrobeRedChannel(cv::Mat &frame);
+    void StrobeGreenChannel(cv::Mat &frame);
+    void StrobeBlueChannel(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
