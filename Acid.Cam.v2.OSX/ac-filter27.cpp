@@ -516,16 +516,14 @@ void ac::LostSideDeadImageSubFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
-    static double alpha[3] = {1.0, 0.7, 0.1};;
+    static double alpha[3] = {1.0, 0.7, 0.1};
     static int dir[3] = {1, 1, 1};
-    
     static int col[3];
     static int index = 0;
     InitArrayPosition(col, index);
     ++index;
     if(index > 2)
         index = 0;
-    
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
@@ -542,5 +540,40 @@ void ac::LostSideDeadImageSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha[0], dir[0], 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(alpha[1], dir[1], 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(alpha[2], dir[2], 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::SwapImageFrameSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "SwapImageFrameSubFilter")
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    static int index = 0;
+    int col[3] = {0};
+    InitArrayPosition(col, index);
+    ++index;
+    if(index > 2)
+        index = 0;
+    static double alpha[2] = {1.0, 0.1};
+    static int dir[2] = {0, 1};
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b colors[3];
+                colors[col[0]] = pixel;
+                colors[col[1]] = reimage.at<cv::Vec3b>(z, i);
+                colors[col[2]] = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha[0] * pixel[j]) + (alpha[1] * colors[j][j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha[0], dir[0], 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha[1], dir[1], 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
