@@ -506,15 +506,12 @@ void ac::StrobeLightFlashRandomChannel(cv::Mat &frame) {
 
 // Math Behind LostSideDead increasing Acronym.
 //             1 2 2 3 3  3
-
-// pixel[0] * scale
-// pix1[1]+pix2[1] * scale
-// pixel[2]+pix1[2]+pix2[2] * scale
-
+// pixel[0] = pixel[0] * scale[0]
+// pixel[1] = (pix1[1]+pix2[1] )* scale[1]
+// pixel[2] = (pixel[2]+pix1[2]+pix2[2]) * scale[2]
 void ac::LostSideDeadImageSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "LostSideDeadImageSubFilter")
         return;
-
     cv::Mat reimage;
     cv::Mat copy1 = frame.clone();
     ac_resize(blend_image, reimage, frame.size());
