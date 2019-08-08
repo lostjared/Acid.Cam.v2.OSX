@@ -1517,6 +1517,7 @@ namespace ac {
     void LostSideDeadImageSubFilter(cv::Mat &frame);
     void SwapImageFrameSubFilter(cv::Mat &frame);
     void PulseIncreaseFast(cv::Mat &frame);
+    void FibonacciXor(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -611,3 +611,36 @@ void ac::PulseIncreaseFast(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::FibonacciXor(cv::Mat &frame) {
+    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 0};
+    static int index = 0;
+    static double alpha = 1.0;
+    static int dir = 0;
+    static int fib_dir = 1;
+    if(fib_dir == 1) {
+        ++index;
+        if(fib_value[index] == 0) {
+            --index;
+            fib_dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 0) {
+            index = 1;
+            fib_dir = 1;
+        }
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]^fib_value[index]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
