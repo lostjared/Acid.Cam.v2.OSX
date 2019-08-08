@@ -644,3 +644,32 @@ void ac::FibonacciXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::ColorFibonacci(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 0};
+    static double alpha = 1.0;
+    static int dir = 1;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Scalar values;
+                for(int q = 0; q < collection.size(); ++q) {
+                    cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        values[j] += (pix[j]^fib_value[q]);
+                    }
+                }
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * values[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
