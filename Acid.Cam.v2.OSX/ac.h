@@ -1516,6 +1516,7 @@ namespace ac {
     void StrobeLightFlashRandomChannel(cv::Mat &frame);
     void LostSideDeadImageSubFilter(cv::Mat &frame);
     void SwapImageFrameSubFilter(cv::Mat &frame);
+    void PulseIncreaseFast(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
