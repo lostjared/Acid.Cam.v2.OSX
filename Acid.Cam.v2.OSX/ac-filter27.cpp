@@ -670,6 +670,5 @@ void ac::ColorFibonacci(cv::Mat &frame) {
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
-    MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
