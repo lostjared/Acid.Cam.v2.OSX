@@ -672,3 +672,34 @@ void ac::ColorFibonacci(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::ImageFibonacii(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 0};
+    static int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    ColorTransition(reimage);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + ((pixel[j]^pix[j]^fib_value[index])*alpha));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++index;
+    if(fib_value[index] == 0) {
+        index = 0;
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
+}
