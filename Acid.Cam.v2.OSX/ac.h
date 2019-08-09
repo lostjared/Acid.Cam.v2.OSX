@@ -1519,7 +1519,8 @@ namespace ac {
     void PulseIncreaseFast(cv::Mat &frame);
     void FibonacciXor(cv::Mat &frame);
     void ColorFibonacci(cv::Mat &frame);
-    void ImageFibonacii(cv::Mat &frame);
+    void ImageFibonacci(cv::Mat &frame);
+    void ImageFibonacciInAndOut(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
