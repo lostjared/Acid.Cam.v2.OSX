@@ -717,7 +717,7 @@ void ac::ImageFibonacciInAndOut(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(pixel[j] * 0.5) + (0.5 * static_cast<unsigned char>((0.5 * (pixel[j]^fib_value[index])) + (0.5 * (pix[j]^fib_value[index]))));
+                    pixel[j] = static_cast<unsigned char>(pixel[j] * 0.5) + static_cast<unsigned char>(0.5 * static_cast<unsigned char>((0.5 * (pixel[j]^fib_value[index])) + (0.5 * (pix[j]^fib_value[index]))));
                 }
             }
         }
