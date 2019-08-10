@@ -798,9 +798,14 @@ void ac::ImageFibonacciMedianBlend(cv::Mat &frame) {
     frames[2] = collection.frames[7].clone();
     static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377,0};
     static int index = 0;
-    ++index;
-    if(fib_value[index] == 0) {
-        index = 0;
+    static int frame_counter = 0;
+    ++frame_counter;
+    if(frame_counter >= static_cast<int>(ac::fps+1)) {
+        ++index;
+        if(fib_value[index] == 0) {
+            index = 0;
+        }
+        frame_counter = 0;
     }
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
