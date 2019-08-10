@@ -784,3 +784,39 @@ void ac::ImageFibonacciStrobe(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir_v, 0.005, 1.0, 0.1);
 }
+
+void ac::ImageFibonacciMedianBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    ColorPulseIncrease(copy1);
+    collection.shiftFrames(copy1);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377,0};
+    static int index = 0;
+    ++index;
+    if(fib_value[index] == 0) {
+        index = 0;
+    }
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * ((pix[j]+img_pix[j])^fib_value[index])));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
