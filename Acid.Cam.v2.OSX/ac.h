@@ -1521,6 +1521,7 @@ namespace ac {
     void ColorFibonacci(cv::Mat &frame);
     void ImageFibonacci(cv::Mat &frame);
     void ImageFibonacciInAndOut(cv::Mat &frame);
+    void ImageFibonacciStrobe(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

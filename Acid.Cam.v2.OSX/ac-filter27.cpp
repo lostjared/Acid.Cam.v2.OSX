@@ -739,3 +739,48 @@ void ac::ImageFibonacciInAndOut(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ImageFibonacciStrobe(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 0};
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static int index = 0;
+    static int dir = 1;
+    if(dir == 1) {
+        index += 3;
+        if(index+2 >= 22) {
+            dir = 0;
+            index = 21;
+        }
+    } else {
+        index -= 3;
+        if(index-2 <= 3) {
+            index = 0;
+            dir = 1;
+        }
+    }
+    int values[3] = {0};
+    if(index+3 <= 21) {
+        values[0] = fib_value[index];
+        values[1] = fib_value[index+1];
+        values[2] = fib_value[index+2];
+    }
+    static double alpha = 1.0;
+    static int dir_v = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (0.5 * ((pixel[j]^values[j])^pix[j])*alpha));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir_v, 0.005, 1.0, 0.1);
+}
