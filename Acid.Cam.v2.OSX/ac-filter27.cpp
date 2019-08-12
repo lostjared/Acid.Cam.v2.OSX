@@ -944,3 +944,61 @@ void ac::ImageMirrorLeftRight(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::ImageMirrorShiftUpLeftDownRight(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    ColorTransition(reimage);
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    static int index = 0;
+    switch(index) {
+        case 0:
+            MirrorLeft(copy1);
+            MirrorBottomToTop(copy2);
+            break;
+        case 1:
+            MirrorRight(copy1);
+            MirrorTopToBottom(copy2);
+            break;
+        case 2:
+            MirrorLeft(copy1);
+            MirrorTopToBottom(copy2);
+            break;
+        case 3:
+            MirrorRight(copy1);
+            MirrorTopToBottom(copy2);
+            break;
+    }
+    ++index;
+    if(index > 3)
+        index = 0;
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[16].clone();
+    frames[2] = collection.frames[31].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = reimage.at<cv::Vec3b>(z, i);
+                pix[1] = copy1.at<cv::Vec3b>(z, i);
+                pix[2] = copy2.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.25 * pixel[j]) + (0.25 * pix[0][j]) + (0.25 * pix[1][j]) + (0.25 * pix[2][j]));
+                    cv::Vec3b pix_v = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix_v[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MirrorLeftBottomToTop(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
