@@ -1525,6 +1525,7 @@ namespace ac {
     void ImageFibonacciMedianBlend(cv::Mat &frame);
     void ImageFibonacciInAndOutSubFilter(cv::Mat &frame);
     void ImageKaleidoscopeSubFilter(cv::Mat &frame);
+    void ImageMirrorLeftRight(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
