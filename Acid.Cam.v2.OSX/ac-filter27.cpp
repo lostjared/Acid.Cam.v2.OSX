@@ -862,3 +862,47 @@ void ac::ImageFibonacciInAndOutSubFilter(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ImageKaleidoscopeSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageKaleidoscopeSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 0};
+    static int index = 0;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    GaussianBlur(reimage);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    GaussianBlur(copy1);
+    GaussianBlur(frame);
+    ++index;
+    if(fib_value[index] == 0) {
+        index = 0;
+    }
+    cv::Mat frames[3];
+    frames[0] = collection.frames[5].clone();
+    frames[1] = collection.frames[6].clone();
+    frames[2] = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = pixel;
+                pix[1] = copy1.at<cv::Vec3b>(z, i);
+                pix[2] = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.33 * pix[0][j]) + (0.33 * pix[1][j]) + (0.33 * pix[2][j]));
+                    cv::Vec3b pix_v = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) +  (0.5 *pix_v[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+}
