@@ -1527,6 +1527,7 @@ namespace ac {
     void ImageKaleidoscopeSubFilter(cv::Mat &frame);
     void ImageMirrorLeftRight(cv::Mat &frame);
     void ImageMirrorShiftUpLeftDownRight(cv::Mat &frame);
+    void SelfScaleRefined(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

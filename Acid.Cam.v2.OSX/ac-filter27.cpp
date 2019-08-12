@@ -1002,3 +1002,22 @@ void ac::ImageMirrorShiftUpLeftDownRight(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::SelfScaleRefined(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int total_value = pixel[j] * alpha;
+                    pixel[j] = static_cast<unsigned char>((0.5 * total_value) + (0.5 * pixel[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 255/20, 1.0);
+}
