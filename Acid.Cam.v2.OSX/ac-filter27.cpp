@@ -1021,3 +1021,8 @@ void ac::SelfScaleRefined(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.1, 255/20, 1.0);
 }
+
+void ac::MetalMedianBlend(cv::Mat &frame) {
+    SelfScaleRefined(frame);
+    MedianBlendMultiThread(frame);
+}

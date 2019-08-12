@@ -1528,6 +1528,7 @@ namespace ac {
     void ImageMirrorLeftRight(cv::Mat &frame);
     void ImageMirrorShiftUpLeftDownRight(cv::Mat &frame);
     void SelfScaleRefined(cv::Mat &frame);
+    void MetalMedianBlend(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
