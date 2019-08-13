@@ -134,7 +134,7 @@ void ac::SelfScaleRefinedRGB(cv::Mat &frame) {
         AlphaMovementMaxMin(alpha[j], dir[j], 0.1, 255/20, 1.0);
 }
 
-void ac::ImageTsetVideo(cv::Mat &frame) {
+void ac::ImageFreezeReleaseRepeat(cv::Mat &frame) {
     if(blend_set == false)
         return;
     static PixelArray2D pix_container;
