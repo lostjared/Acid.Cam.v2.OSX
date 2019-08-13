@@ -1530,6 +1530,7 @@ namespace ac {
     void SelfScaleRefined(cv::Mat &frame);
     void MetalMedianBlend(cv::Mat &frame);
     void SelfScaleRefinedRGB(cv::Mat &frame);
+    void ImageTsetVideo(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -59,6 +59,7 @@
 #include"ac.h"
 
 void ac::SelfScaleRefined(cv::Mat &frame) {
+    static constexpr int SCALE_DEPTH=32;
     static double alpha = 1.0;
     static int dir = 1;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
@@ -67,14 +68,14 @@ void ac::SelfScaleRefined(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     int total_value = pixel[j] * alpha;
-                    pixel[j] = static_cast<unsigned char>((0.5 * total_value) + (0.5 * pixel[j]));
+                    pixel[j] = static_cast<unsigned char>((0.25 * total_value) + (0.75 * pixel[j]));
                 }
             }
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
-    AlphaMovementMaxMin(alpha, dir, 0.1, 255/20, 1.0);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 255/SCALE_DEPTH, 1.0);
 }
 
 void ac::MetalMedianBlend(cv::Mat &frame) {
@@ -131,4 +132,53 @@ void ac::SelfScaleRefinedRGB(cv::Mat &frame) {
     AddInvert(frame);
     for(int j = 0; j < 3; ++j)
         AlphaMovementMaxMin(alpha[j], dir[j], 0.1, 255/20, 1.0);
+}
+
+void ac::ImageTsetVideo(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    bool reset = false;
+    static int frame_counter = 0;
+    if(++frame_counter > static_cast<int>(ac::fps))  {
+        frame_counter = 0;
+        reset = true;
+    }
+    if(reset == true || image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    ColorPulseIncrease(reimage);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[j] == 1) {
+                        ++p.col[j];
+                        if(p.col[j] >= 255) {
+                            p.dir[j] = 0;
+                        }
+                    } else {
+                        --p.col[j];
+                        if(p.col[j] <= 1) {
+                            p.dir[j] = 1;
+                        }
+                    }
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * img_pix[j]));
+                    pixel[j] = pixel[j]^p.col[j];
+                }
+            }
+        }
+    };
+    
+    
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
 }
