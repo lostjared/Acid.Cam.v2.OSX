@@ -252,3 +252,65 @@ void ac::ImageReplaceColorIntensitySubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::ImageReplaceColorIntensitySubFilterInOut(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageReplaceColorIntensitySubFilterInOut")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    auto procPixel = [&](cv::Vec3b &pixel, int index, cv::Vec3b *pix) {
+        for(int j = 0; j < 3; ++j) {
+            switch(index) {
+                case 0:
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[1][j]));
+                    break;
+                case 1:
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[2][j]));
+                    break;
+                case 2:
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j][j]));
+                    break;
+            }
+        }
+    };
+    AlphaBlendDouble(copy1, reimage, copy2, alpha, 1-alpha);
+    static int pixel_index = 0;
+    int arr[3];
+    InitArrayPosition(arr, pixel_index);
+    
+    ++pixel_index;
+    if(pixel_index > 2)
+        pixel_index = 0;
+    
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix[3];
+                pix[0] = copy1.at<cv::Vec3b>(z, i);
+                pix[1] = copy2.at<cv::Vec3b>(z, i);
+                pix[2] = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(pixel[j] < 25) {
+                        continue;
+                    } else if(pixel[j] >= 25 && pixel[j] < 100) {
+                        procPixel(pixel, arr[0], pix);
+                        
+                    } else if(pixel[j] >= 100 && pixel[j] < 175) {
+                        procPixel(pixel, arr[1], pix);
+                        
+                    } else if(pixel[j] >= 175 && pixel[j] <= 255) {
+                        procPixel(pixel, arr[2], pix);
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
+    AddInvert(frame);
+}
