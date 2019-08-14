@@ -1531,6 +1531,7 @@ namespace ac {
     void MetalMedianBlend(cv::Mat &frame);
     void SelfScaleRefinedRGB(cv::Mat &frame);
     void ImageFreezeReleaseRepeat(cv::Mat &frame);
+    void ImageReplaceColorIntensity(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
