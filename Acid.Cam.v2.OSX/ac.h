@@ -1535,6 +1535,7 @@ namespace ac {
     void ImageReplaceColorIntensitySubFilter(cv::Mat &frame);
     void ImageReplaceColorIntensitySubFilterInOut(cv::Mat &frame);
     void ImageFillColor(cv::Mat &frame);
+    void MultiRandFilter(cv::Mat &frame);
     // No filter (do nothing)
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
