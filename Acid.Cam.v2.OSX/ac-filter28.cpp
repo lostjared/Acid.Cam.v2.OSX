@@ -314,3 +314,40 @@ void ac::ImageReplaceColorIntensitySubFilterInOut(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::ImageFillColor(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int col[3];
+    int index = 0;
+    InitArrayPosition(col, index);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    ++index;
+    if(index > 2)
+        index = 0;
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    if(pixel[j] <= (255/2)) {
+                        pixel[j] = pix[j];
+                    } else if(pixel[j] >= 255/2) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * img[col[j]]));
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
