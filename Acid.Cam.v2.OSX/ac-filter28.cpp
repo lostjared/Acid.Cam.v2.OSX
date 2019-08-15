@@ -321,7 +321,7 @@ void ac::ImageFillColor(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     int col[3];
-    int index = 0;
+    static int index = 0;
     InitArrayPosition(col, index);
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
