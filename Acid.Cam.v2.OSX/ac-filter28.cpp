@@ -382,3 +382,38 @@ void ac::MultiRandFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MultiFilter(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone();
+    ColorTransition(copy1);
+    MetalMedianBlend(copy2);
+    rainbowBlend(copy3);
+    static double alpha[4] = {1.0, 0.1, 0.5, 0.7};
+    static int dir[4] {rand()%2, rand()%2,rand()%2,rand()%2};
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b pix[3];
+                pix[0] = copy1.at<cv::Vec3b>(z, i);
+                pix[1] = copy2.at<cv::Vec3b>(z, i);
+                pix[2] = copy3.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(pixel[j] > 0 && pixel[j] < 50) {
+                        pixel[j] = static_cast<unsigned char>((alpha[0] * pixel[j]) + ((1-alpha[0]) * pix[0][j]));
+                    } else if(pixel[j] >= 50 && pixel[j] < 100) {
+                        pixel[j] = static_cast<unsigned char>(((1-alpha[1]) * pixel[j]) + (alpha[1] * pix[1][j]));
+                    } else if(pixel[j] >= 100 && pixel[j] < 150) {
+                        pixel[j] = static_cast<unsigned char>((alpha[2] * pixel[j]) + ((1-alpha[2]) * pix[2][j]));
+                    } else {
+                        pixel[j] = static_cast<unsigned char>((alpha[3] * pixel[j]) + ((1-alpha[3]) * pix[j][j]));
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    for(int i = 0; i < 4; ++i)
+        AlphaMovementMaxMin(alpha[i], dir[i], 0.1, 1.0, 0.1);
+    AddInvert(frame);
+}
