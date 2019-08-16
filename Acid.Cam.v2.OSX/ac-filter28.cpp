@@ -417,3 +417,46 @@ void ac::MultiFilter(cv::Mat &frame) {
         AlphaMovementMaxMin(alpha[i], dir[i], 0.1, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::GradientRandom(cv::Mat &frame) {
+    static int index = 0;
+    static unsigned char val = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    int inc = (frame.rows/255)+1;
+    for(int i = 0; i < frame.cols; ++i) {
+        val = 1;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] = static_cast<unsigned char>((alpha * pixel[index]) + (0.5 * val));
+            if((z%inc) == 0)
+                ++val;}
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
+}
+
+void ac::LineMedianBlend(cv::Mat &frame) {
+    static int index = 0;
+    static unsigned char val = 0;
+    int inc = (frame.rows/255)+1;
+    for(int i = 0; i < frame.cols; ++i) {
+        val = rand()%255;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[index] = static_cast<unsigned char>((0.5 * pixel[index]) + (0.5 * val));
+            if((z%inc) == 0)
+                ++val;}
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    MedianBlendMultiThread(frame);
+}
+
+void ac::PerfectMedianBlend(cv::Mat &frame) {
+    GradientRandom(frame);
+    MedianBlendMultiThread(frame);
+}

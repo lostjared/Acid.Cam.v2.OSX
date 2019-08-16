@@ -1537,7 +1537,9 @@ namespace ac {
     void ImageFillColor(cv::Mat &frame);
     void MultiRandFilter(cv::Mat &frame);
     void MultiFilter(cv::Mat &frame);
-    // No filter (do nothing)
+    void GradientRandom(cv::Mat &frame);
+    void LineMedianBlend(cv::Mat &frame);
+    void PerfectMedianBlend(cv::Mat &frame);
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
