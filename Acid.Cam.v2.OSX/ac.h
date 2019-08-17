@@ -1541,7 +1541,8 @@ namespace ac {
     void LineMedianBlend(cv::Mat &frame);
     void PerfectMedianBlend(cv::Mat &frame);
     void ImageRowAlphaSubFilter(cv::Mat &frame);
-    
+    void IndexPixelRowSubFilter(cv::Mat &frame);
+    void IndexSourceRowSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

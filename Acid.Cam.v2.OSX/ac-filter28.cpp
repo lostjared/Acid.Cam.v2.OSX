@@ -507,3 +507,40 @@ void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     MedianBlendMultiThread(frame);
 }
+
+void ac::IndexPixelRowSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IndexPixelRowSubFilter")
+        return;
+    static int index = 0;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b src = copy1.at<cv::Vec3b>(z, i);
+            src[index] = pixel[index];
+            pixel = src;
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+}
+
+void ac::IndexSourceRowSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IndexPixelRowSubFilter")
+        return;
+    static int index = 0;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b src = copy1.at<cv::Vec3b>(z, i);
+            pixel[index] = src[index];
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+}
