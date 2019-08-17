@@ -1540,6 +1540,9 @@ namespace ac {
     void GradientRandom(cv::Mat &frame);
     void LineMedianBlend(cv::Mat &frame);
     void PerfectMedianBlend(cv::Mat &frame);
+    void ImageRowAlphaSubFilter(cv::Mat &frame);
+    
+    // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);

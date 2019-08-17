@@ -468,7 +468,38 @@ void ac::PerfectMedianBlend(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel[index] = static_cast<unsigned char>((alpha * pixel[index]) + ((1-alpha) * val));
             if((z%inc) == 0)
-                ++val;}
+                ++val;
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
+    MedianBlendMultiThread(frame);
+}
+
+void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageRowAlphaSubFilter")
+        return;
+    static int index = 0;
+    static unsigned char val = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, copy1);
+    static int pos = 0;
+    pos = (pos == 0) ? 1 : 0;
+    for(int i = 0; i < frame.cols; ++i) {
+        val = 1;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix[2];
+            pix[0] = reimage.at<cv::Vec3b>(z, i);
+            pix[1] = copy1.at<cv::Vec3b>(z, i);
+            pixel[index] = static_cast<unsigned char>((alpha * ((pixel[index] * 0.25) + (0.25 * pix[pos][index]))) + ((1-alpha) * ((0.5 * pix[pos][index]))));
+        }
     }
     ++index;
     if(index > 2)
