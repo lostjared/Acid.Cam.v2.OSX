@@ -436,6 +436,7 @@ void ac::GradientRandom(cv::Mat &frame) {
     if(index > 2)
         index = 0;
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::LineMedianBlend(cv::Mat &frame) {
@@ -454,6 +455,7 @@ void ac::LineMedianBlend(cv::Mat &frame) {
     if(index > 2)
         index = 0;
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::PerfectMedianBlend(cv::Mat &frame) {
@@ -476,6 +478,7 @@ void ac::PerfectMedianBlend(cv::Mat &frame) {
         index = 0;
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
@@ -506,6 +509,7 @@ void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
         index = 0;
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::IndexPixelRowSubFilter(cv::Mat &frame) {
@@ -525,6 +529,8 @@ void ac::IndexPixelRowSubFilter(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
+    
+    AddInvert(frame);
 }
 
 void ac::IndexSourceRowSubFilter(cv::Mat &frame) {
@@ -543,6 +549,7 @@ void ac::IndexSourceRowSubFilter(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
+    AddInvert(frame);
 }
 
 void ac::IndexSourceBlendSubFilter(cv::Mat &frame) {
@@ -561,6 +568,7 @@ void ac::IndexSourceBlendSubFilter(cv::Mat &frame) {
     ++index;
     if(index > 2)
         index = 0;
+    AddInvert(frame);
 }
 
 void ac::BlendFilterWithSubFilter(cv::Mat &frame) {
