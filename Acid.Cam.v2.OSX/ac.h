@@ -1545,6 +1545,7 @@ namespace ac {
     void IndexSourceRowSubFilter(cv::Mat &frame);
     void IndexSourceBlendSubFilter(cv::Mat &frame);
     void BlendFilterWithSubFilter(cv::Mat &frame);
+    void FadeFilterWithSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
