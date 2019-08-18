@@ -544,3 +544,41 @@ void ac::IndexSourceRowSubFilter(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::IndexSourceBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "IndexPixelRowSubFilter")
+        return;
+    static int index = 0;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b src = copy1.at<cv::Vec3b>(z, i);
+            pixel[index] = static_cast<unsigned char>((0.5 * pixel[index]) + (0.5 * src[index]));
+        }
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+}
+
+void ac::BlendFilterWithSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "BlendFilterWithSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
