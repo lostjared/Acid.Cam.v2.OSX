@@ -1547,6 +1547,7 @@ namespace ac {
     void BlendFilterWithSubFilter(cv::Mat &frame);
     void FadeFilterWithSubFilter(cv::Mat &frame);
     void AlphaBlendByRowSubFilter(cv::Mat &frame);
+    void ColorMatrixTrailsSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
