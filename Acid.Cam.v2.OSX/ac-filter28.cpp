@@ -662,3 +662,27 @@ void ac::ColorMatrixTrailsSubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::LoFi_320x240_Interlaced(cv::Mat &frame) {
+    cv::Mat reframe;
+    ac_resize(frame, reframe, cv::Size(320, 240));
+    static int start_value = 0;
+    int offset = start_value;
+    for(int z = 0; z < reframe.rows; ++z) {
+        for(int i = 0; i < reframe.cols; ++i) {
+            cv::Vec3b &pixel = reframe.at<cv::Vec3b>(z, i);
+            if(offset == 0)
+                pixel[0] = pixel[1] = pixel[2] = 0;
+            
+        }
+        offset = (offset == 0) ? 1 : 0;
+    }
+    start_value = (start_value == 0) ? 1 : 0;
+    ac_resize(reframe, frame, frame.size());
+}
+
+void ac::LoFi_320x240(cv::Mat &frame) {
+    cv::Mat reframe;
+    ac_resize(frame, reframe, cv::Size(320, 240));
+    ac_resize(reframe, frame, frame.size());
+}

@@ -1548,6 +1548,8 @@ namespace ac {
     void FadeFilterWithSubFilter(cv::Mat &frame);
     void AlphaBlendByRowSubFilter(cv::Mat &frame);
     void ColorMatrixTrailsSubFilter(cv::Mat &frame);
+    void LoFi_320x240_Interlaced(cv::Mat &frame);
+    void LoFi_320x240(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
