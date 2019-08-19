@@ -613,3 +613,25 @@ void ac::FadeFilterWithSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendByRowSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "AlphaBlendByRowSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    static int index = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel[index] = static_cast<unsigned char>((0.5 * pixel[index]) + (0.5 * pix[index]));
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++index;
+    if(index > 2)
+        index = 0;
+    AddInvert(frame);
+}
