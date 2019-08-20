@@ -708,3 +708,28 @@ void ac::LoFi_320x240_SubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::LoFi_320x240_Alpha_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "LoFi_320x240_Alpha_SubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reframe = frame.clone(), copy1;
+    ac_resize(frame, reframe, cv::Size(320, 240));
+    CallFilter(subfilter, reframe);
+    ac_resize(reframe, copy1, frame.size());
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
+    AddInvert(frame);
+}
