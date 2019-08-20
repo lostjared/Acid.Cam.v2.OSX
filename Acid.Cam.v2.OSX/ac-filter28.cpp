@@ -733,3 +733,19 @@ void ac::LoFi_320x240_Alpha_SubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::LoFi_160x120_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "LoFi_160x120_SubFilter")
+        return;
+    cv::Mat reframe, copy1, frame_copy = frame.clone();
+    ac_resize(frame, reframe, cv::Size(160, 120));
+    CallFilter(subfilter, reframe);
+    ac_resize(reframe, copy1, frame.size());
+    AlphaBlend(frame_copy, copy1, frame, 0.5);
+}
+
+void ac::LoFi_Trails(cv::Mat &frame) {
+    pushSubFilter(ac::filter_map["ColorCollectionReverseStrobe"]);
+    LoFi_160x120_SubFilter(frame);
+    popSubFilter();
+}

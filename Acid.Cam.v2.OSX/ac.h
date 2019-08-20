@@ -1552,6 +1552,8 @@ namespace ac {
     void LoFi_320x240(cv::Mat &frame);
     void LoFi_320x240_SubFilter(cv::Mat &frame);
     void LoFi_320x240_Alpha_SubFilter(cv::Mat &frame);
+    void LoFi_160x120_SubFilter(cv::Mat &frame);
+    void LoFi_Trails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
