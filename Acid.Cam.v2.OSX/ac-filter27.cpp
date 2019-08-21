@@ -868,8 +868,6 @@ void ac::ImageKaleidoscopeSubFilter(cv::Mat &frame) {
         return;
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    static int fib_value[] = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 0};
-    static int index = 0;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     GaussianBlur(reimage);
@@ -877,10 +875,6 @@ void ac::ImageKaleidoscopeSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     GaussianBlur(copy1);
     GaussianBlur(frame);
-    ++index;
-    if(fib_value[index] == 0) {
-        index = 0;
-    }
     cv::Mat frames[3];
     frames[0] = collection.frames[5].clone();
     frames[1] = collection.frames[6].clone();
