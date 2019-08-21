@@ -786,3 +786,11 @@ void ac::MedianShift(cv::Mat &frame) {
     static int index = 0;
     Shuffle(index, frame, med);
 }
+
+void ac::ImageAlienKaleidoscope(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    pushSubFilter(ac::filter_map["MedianShift"]);
+    ImageKaleidoscopeSubFilter(frame);
+    popSubFilter();
+}
