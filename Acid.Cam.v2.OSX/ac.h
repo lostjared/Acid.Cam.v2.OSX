@@ -1557,6 +1557,10 @@ namespace ac {
     void LoFi_ImageScaleSubFilter(cv::Mat &frame);
     void MedianShift(cv::Mat &frame);
     void ImageAlienKaleidoscope(cv::Mat &frame);
+    void ImageMirror_Left(cv::Mat &frame);
+    void ImageMirror_Right(cv::Mat &frame);
+    void ImageMirror_Up(cv::Mat &frame);
+    void ImageMirror_Down(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

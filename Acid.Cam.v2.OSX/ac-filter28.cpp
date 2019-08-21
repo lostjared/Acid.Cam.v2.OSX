@@ -794,3 +794,129 @@ void ac::ImageAlienKaleidoscope(cv::Mat &frame) {
     ImageKaleidoscopeSubFilter(frame);
     popSubFilter();
 }
+
+
+
+void ac::ImageMirror_Left(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = reimage.clone(), copy2 = reimage.clone();
+    int halfway = (reimage.cols/2);
+    cv::Mat final_val = copy1.clone();
+    for(int z = 0; z < reimage.rows; ++z) {
+        int start = 0;
+        for(int i = halfway; i < reimage.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z,((halfway)-start));
+            ASSERT(halfway-start > 0);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            ++start;
+        }
+    }
+    for(int z = 0; z < reimage.rows; ++z) {
+        for(int i = 0; i < halfway; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ImageMirror_Right(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = reimage.clone();
+    int halfway = (frame.cols/2);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < halfway; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
+            ASSERT(frame.cols-i-1 > 0);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = halfway; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b src_frame = reimage.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ImageMirror_Up(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = reimage.clone();
+    int halfway = (frame.rows/2);
+    for(int i = 0; i < frame.cols; ++i) {
+        int start = 0;
+        for(int z = halfway; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(((halfway)-start), i);
+            ASSERT(halfway-start > 0);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix[j] * 0.5));
+            }
+            ++start;
+        }
+    }
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < halfway; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])  + (0.5 * pix[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ImageMirror_Down(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = reimage.clone();
+    int halfway = (frame.rows/2);
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < halfway; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+            ASSERT(frame.rows-z-1 > 0);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = halfway; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            ASSERT(frame.rows-z-1 > 0);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
