@@ -749,3 +749,33 @@ void ac::LoFi_Trails(cv::Mat &frame) {
     LoFi_160x120_SubFilter(frame);
     popSubFilter();
 }
+
+void ac::LoFi_ImageScaleSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "LoFi_ImageScaleSubFilter")
+        return;
+    cv::Mat reimage, reframe;
+    ac_resize(blend_image, reimage, cv::Size(320, 240));
+    ac_resize(frame, reframe, cv::Size(320, 240));
+    CallFilter(subfilter, reimage);
+    CallFilter(subfilter, reframe);
+    cv::Mat copy1, copy2;
+    ac_resize(reimage, copy1, frame.size());
+    ac_resize(reframe, copy2, frame.size());
+    AlphaBlend(copy1, copy2, reframe, 0.5);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
+    AddInvert(frame);
+}
