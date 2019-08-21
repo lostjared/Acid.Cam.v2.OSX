@@ -779,3 +779,10 @@ void ac::LoFi_ImageScaleSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
     AddInvert(frame);
 }
+
+// Use as SubFilter for ImageKaleidoscopeSubFilter
+void ac::MedianShift(cv::Mat &frame) {
+    static std::vector<std::string> med({"MedianBlendSoft","MedianBlendMultiThread", "MetalMedianBlend", "PerfectMedianBlend"});
+    static int index = 0;
+    Shuffle(index, frame, med);
+}

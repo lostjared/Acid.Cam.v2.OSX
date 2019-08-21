@@ -1555,6 +1555,7 @@ namespace ac {
     void LoFi_160x120_SubFilter(cv::Mat &frame);
     void LoFi_Trails(cv::Mat &frame);
     void LoFi_ImageScaleSubFilter(cv::Mat &frame);
+    void MedianShift(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
