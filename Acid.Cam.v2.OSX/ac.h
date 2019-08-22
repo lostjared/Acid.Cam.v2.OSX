@@ -1561,6 +1561,11 @@ namespace ac {
     void ImageMirror_Right(cv::Mat &frame);
     void ImageMirror_Up(cv::Mat &frame);
     void ImageMirror_Down(cv::Mat &frame);
+    void ImageMirror_LeftSubFilter(cv::Mat &frame);
+    void ImageMirror_RightSubFilter(cv::Mat &frame);
+    void ImageMirror_UpSubFilter(cv::Mat &frame);
+    void ImageMirror_DownSubFilter(cv::Mat &frame);
+    
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
