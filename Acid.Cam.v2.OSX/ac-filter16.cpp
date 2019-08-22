@@ -705,7 +705,7 @@ void ac::FrameNegateAlphaBlendImage(cv::Mat &frame) {
 }
 
 void ac::DarkTrailsEffect(cv::Mat &frame) {
-    pushSubFilter(filter_map["Rainbow Blend"]);
+    pushSubFilter(getFilterByName("Rainbow Blend"));
     TrailsSubFilter(frame);
     popSubFilter();
     Negate(frame);

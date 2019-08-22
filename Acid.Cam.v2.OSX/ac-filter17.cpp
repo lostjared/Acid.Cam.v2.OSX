@@ -532,7 +532,7 @@ void ac::PixelImageSubFilter(cv::Mat &frame) {
 void ac::PixelImageTex(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    pushSubFilter(ac::filter_map["ColorExpand"]);
+    pushSubFilter(getFilterByName("ColorExpand"));
     PixelImageSubFilter(frame);
     popSubFilter();
     BlendWithSource(frame);
@@ -922,7 +922,7 @@ void ac::InterwtineAlphaSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     AlphaMovementMaxMin(alpha,dir,0.005, 3.0, 1.0);
     AlphaBlend(copy1,copy2,frame,alpha);
-    pushSubFilter(filter_map["IntertwineShuffle"]);
+    pushSubFilter(getFilterByName("IntertwineShuffle"));
     SmoothSubFilter32(frame);
     popSubFilter();
     MedianBlend(frame);

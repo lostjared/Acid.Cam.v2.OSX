@@ -171,7 +171,7 @@ void ac::Random_FilterX2_SubFilter(cv::Mat &frame) {
 }
 
 void ac::FuzzyFilter(cv::Mat &frame) {
-    pushSubFilter(ac::filter_map["ColorVariableBlend"]);
+    pushSubFilter(getFilterByName("ColorVariableBlend"));
     Random_FilterX2_SubFilter(frame);
     popSubFilter();
 }

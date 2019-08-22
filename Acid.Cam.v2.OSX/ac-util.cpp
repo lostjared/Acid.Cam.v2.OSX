@@ -706,8 +706,15 @@ void ac::SwitchOrder(cv::Vec3b &cur, int color_order) {
 std::vector<int> subfilters;
 
 void ac::pushSubFilter(int newsub) {
-    subfilters.push_back(subfilter);
-    subfilter = newsub;
+    if(newsub >= 0 && newsub < getFilterCount()) {
+        subfilters.push_back(subfilter);
+        subfilter = newsub;
+    } else if(newsub == -1) {
+        std::cerr << "pushSubFIlter invalid filter requested...\n";
+    }
+    else {
+        std::cerr << "pushSubFIlter: Error index out of range...\n";
+    }
 }
 
 void ac::popSubFilter() {
@@ -717,6 +724,16 @@ void ac::popSubFilter() {
         subfilters.pop_back();
     }
 }
+
+int ac::getFilterByName(const std::string &n) {
+    auto it = filter_map.find(n);
+    if(it == filter_map.end()) {
+        std::cerr << "getFilterByName: Error invalid filter name...\n";
+        return -1;
+    }
+    return it->second;
+}
+
 
 void ac::AlphaMovement(double *alpha, int *dir, double inc) {
     if(alpha_increase != 0) inc = alpha_increase;

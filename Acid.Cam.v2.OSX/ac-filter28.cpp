@@ -745,7 +745,7 @@ void ac::LoFi_160x120_SubFilter(cv::Mat &frame) {
 }
 
 void ac::LoFi_Trails(cv::Mat &frame) {
-    pushSubFilter(ac::filter_map["ColorCollectionReverseStrobe"]);
+    pushSubFilter(getFilterByName("ColorCollectionReverseStrobe"));
     LoFi_160x120_SubFilter(frame);
     popSubFilter();
 }
@@ -790,12 +790,10 @@ void ac::MedianShift(cv::Mat &frame) {
 void ac::ImageAlienKaleidoscope(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    pushSubFilter(ac::filter_map["MedianShift"]);
+    pushSubFilter(getFilterByName("MedianShift"));
     ImageKaleidoscopeSubFilter(frame);
     popSubFilter();
 }
-
-
 
 void ac::ImageMirror_Left(cv::Mat &frame) {
     if(blend_set == false)
@@ -1045,3 +1043,15 @@ void ac::ImageMirror_DownSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::ImageMirrorKaleidoscope(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    pushSubFilter(getFilterByName("ColorPulseIncrease"));
+    ImageMirror_LeftSubFilter(frame);
+    popSubFilter();
+    pushSubFilter(getFilterByName("ColorTransition"));
+    ImageMirror_UpSubFilter(frame);
+    popSubFilter();
+    MirrorLeftBottomToTop(frame);
+    MedianBlendMultiThread(frame);
+}

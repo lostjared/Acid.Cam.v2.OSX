@@ -108,6 +108,7 @@ namespace ac {
     // get version string
     extern std::string getVersion();
     extern int getFilterCount();
+    extern int getFilterByName(const std::string &n);
     // version string
     extern const std::string version;
     extern double translation_variable, pass2_alpha;
@@ -1565,6 +1566,7 @@ namespace ac {
     void ImageMirror_RightSubFilter(cv::Mat &frame);
     void ImageMirror_UpSubFilter(cv::Mat &frame);
     void ImageMirror_DownSubFilter(cv::Mat &frame);
+    void ImageMirrorKaleidoscope(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);

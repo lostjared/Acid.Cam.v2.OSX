@@ -915,7 +915,7 @@ void ac::ParticleReleaseImageSubFilter(cv::Mat &frame) {
 void ac::ImageEnergy(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    pushSubFilter(filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothSubFilter32(frame);
     MedianBlend(frame);
     popSubFilter();
@@ -937,10 +937,10 @@ void ac::ImageDistortion(cv::Mat &frame) {
         return;
     cv::Mat copy1 = frame.clone(), copy2;
     ac_resize(blend_image, copy2, frame.size());
-    pushSubFilter(ac::filter_map["SmoothImageAlphaBlend"]);
+    pushSubFilter(getFilterByName("SmoothImageAlphaBlend"));
     EnergizeSubFilter(copy1);
     popSubFilter();
-    pushSubFilter(ac::filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothSubFilter(copy2);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
@@ -954,7 +954,7 @@ void ac::ImageDistortionSubFilter(cv::Mat &frame) {
     cv::Mat copy2;
     ac_resize(blend_image,copy2,frame.size());
     CallFilter(subfilter, copy1);
-    pushSubFilter(filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothImageAlphaBlend(copy2);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
@@ -965,10 +965,10 @@ void ac::SmoothExactImageXorAlpha(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    pushSubFilter(filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothSubFilter16(copy1);
     popSubFilter();
-    pushSubFilter(filter_map["XorAlpha"]);
+    pushSubFilter(getFilterByName("XorAlpha"));
     SmoothSubFilter16(copy2);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
@@ -980,7 +980,7 @@ void ac::FeedbackColormap(cv::Mat &frame) {
     pushSubFilter(-1);
     SoftFeedbackResizeSubFilter64(copy1);
     popSubFilter();
-    pushSubFilter(filter_map["StrobeSort"]);
+    pushSubFilter(getFilterByName("StrobeSort"));
     ColormapBlendSubFilter(copy2);
     popSubFilter();
     MedianBlend(copy2);
@@ -1005,7 +1005,7 @@ void ac::ImageDarkenSmoothMedian(cv::Mat &frame) {
         return;
     DarkenFilter(frame);
     SmoothImageAlphaBlendMedian(frame);
-    pushSubFilter(filter_map["RGBColorTrails"]);
+    pushSubFilter(getFilterByName("RGBColorTrails"));
     SmoothSubFilter32(frame);
     popSubFilter();
     MedianBlend(frame);
@@ -1021,7 +1021,7 @@ void ac::XorReverseImageSmooth(cv::Mat &frame) {
     Xor(copy1, reimage);
     Reverse(reimage);
     Xor(copy2, reimage);
-    pushSubFilter(filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothSubFilter32(copy1);
     popSubFilter();
     AlphaBlend(copy1, copy2, frame, 0.5);
@@ -1084,7 +1084,7 @@ void ac::ImageReverseSubFilter(cv::Mat &frame) {
 
 void ac::SmoothRainbowMedian(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
-    pushSubFilter(filter_map["RainbowXorBlend"]); // push new filter to stop of stack
+    pushSubFilter(getFilterByName("RainbowXorBlend")); // push new filter to stop of stack
     SmoothSubFilter32(frame);// Call function with SubFilter
     popSubFilter();// pop subfilter off of stack
     DarkenFilter(frame);

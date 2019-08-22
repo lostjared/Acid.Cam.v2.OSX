@@ -61,7 +61,7 @@ void ac::ImageSmoothMedianBlend(cv::Mat &frame) {
         return;
     
     rainbowBlend(frame);
-    pushSubFilter(filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothSubFilter32(frame);
     popSubFilter();
     DarkenFilter(frame);
@@ -74,7 +74,7 @@ void ac::ImageSmoothMedianSubFilter(cv::Mat &frame) {
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     rainbowBlend(copy1);
-    pushSubFilter(filter_map["ExactImage"]);
+    pushSubFilter(getFilterByName("ExactImage"));
     SmoothSubFilter32(copy1);
     popSubFilter();
     DarkenFilter(copy1);
@@ -363,7 +363,7 @@ void ac::CompareWithSubFilter(cv::Mat &frame) {
 
 void ac::MedianTrails(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    pushSubFilter(filter_map["RandomColorMap"]);
+    pushSubFilter(getFilterByName("RandomColorMap"));
     TrailsSubFilter(copy1);
     popSubFilter();
     MedianBlend(copy2);
@@ -372,7 +372,7 @@ void ac::MedianTrails(cv::Mat &frame) {
 }
 
 void ac::SmoothMedianBlend(cv::Mat &frame) {
-    pushSubFilter(filter_map["MatrixCollectionXor"]);
+    pushSubFilter(getFilterByName("MatrixCollectionXor"));
     SmoothSubFilter(frame);
     popSubFilter();
     MedianBlend(frame);
@@ -529,7 +529,7 @@ void ac::CurtainSubFilter(cv::Mat &frame) {
 
 
 void ac::RandomTrails(cv::Mat &frame) {
-    pushSubFilter(filter_map["Random Filter"]);
+    pushSubFilter(getFilterByName("Random Filter"));
     TrailsSubFilter(frame);
     popSubFilter();
     AddInvert(frame);
@@ -539,7 +539,7 @@ void ac::RandomTrailsSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomTrailsSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    pushSubFilter(filter_map["Random Filter"]);
+    pushSubFilter(getFilterByName("Random Filter"));
     TrailsSubFilter(copy1);
     popSubFilter();
     CallFilter(subfilter, copy2);
@@ -548,7 +548,7 @@ void ac::RandomTrailsSubFilter(cv::Mat &frame) {
 }
 
 void ac::CosSinMedianBlend(cv::Mat &frame) {
-    pushSubFilter(filter_map["CosSinMultiply"]);
+    pushSubFilter(getFilterByName("CosSinMultiply"));
     SmoothSubFilter(frame);
     popSubFilter();
     MedianBlend(frame);

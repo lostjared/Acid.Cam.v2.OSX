@@ -1012,7 +1012,7 @@ void ac::PreviewFilters(cv::Mat &frame) {
         }
     }
     //std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
-    pushSubFilter(filter_map["MedianBlendMultiThread"]);
+    pushSubFilter(getFilterByName("MedianBlendMultiThread"));
     CallFilter(filter_name, frame);
     popSubFilter();
 }
