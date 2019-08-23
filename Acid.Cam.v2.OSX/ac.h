@@ -1567,6 +1567,7 @@ namespace ac {
     void ImageMirror_UpSubFilter(cv::Mat &frame);
     void ImageMirror_DownSubFilter(cv::Mat &frame);
     void ImageMirrorKaleidoscope(cv::Mat &frame);
+    void ExactImageSubFilter(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);

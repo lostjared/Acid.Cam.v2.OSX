@@ -1055,3 +1055,10 @@ void ac::ImageMirrorKaleidoscope(cv::Mat &frame) {
     MirrorLeftBottomToTop(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::ExactImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ExactImageSubFilter")
+        return;
+    ExactImage(frame);
+    CallFilter(subfilter, frame);
+}
