@@ -157,3 +157,27 @@ void ac::GhostMirrorReversed(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
 }
+
+void ac::GhostMirrorFade(cv::Mat &frame) {
+    cv::Mat temp = frame.clone();
+    cv::Mat reimage;
+    cv::flip(temp, reimage, 1);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                cv::Vec3b opix = ac::orig_frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    BlendForwardAndBack64(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}

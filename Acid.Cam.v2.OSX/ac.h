@@ -1570,6 +1570,7 @@ namespace ac {
     void ExactImageSubFilter(cv::Mat &frame);
     void AlphaImageSourceScale(cv::Mat &frame);
     void GhostMirrorReversed(cv::Mat &frame);
+    void GhostMirrorFade(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
