@@ -1569,6 +1569,7 @@ namespace ac {
     void ImageMirrorKaleidoscope(cv::Mat &frame);
     void ExactImageSubFilter(cv::Mat &frame);
     void AlphaImageSourceScale(cv::Mat &frame);
+    void GhostMirrorReversed(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
