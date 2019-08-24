@@ -109,7 +109,7 @@ void ac::ExactImageSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame);
 }
 
-void ac::ExactImageScale(cv::Mat &frame) {
+void ac::AlphaImageSourceScale(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat reimage;
