@@ -328,3 +328,17 @@ void ac::BlendOppositesSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::AlphaBlendMirrorFade(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    AlphaBlendImageWithOrigSource(copy1);
+    MirrorLeft(copy1);
+    AlphaBlendWithSource(copy2);
+    AlphaBlendImageWithOrigSource(copy2);
+    MirrorRight(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    MedianBlendMultiThread(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.05, 1.0, 0.1);
+}

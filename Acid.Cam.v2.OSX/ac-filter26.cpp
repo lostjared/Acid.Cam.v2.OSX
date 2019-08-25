@@ -473,7 +473,6 @@ void ac::ColorPulseIncrease(cv::Mat &frame) {
         start_max[1] = 10;
         start_max[2] = 5;
     }
-    
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
