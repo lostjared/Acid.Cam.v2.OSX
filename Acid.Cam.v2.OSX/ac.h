@@ -1578,6 +1578,7 @@ namespace ac {
     void MirrorFadeAll(cv::Mat &frame);
     void KaleidoscopeMirrorSubFilter(cv::Mat &frame);
     void ImageKaleidoscopeMirrorAlphaSubFilter(cv::Mat &frame);
+    void BlendOppositesSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

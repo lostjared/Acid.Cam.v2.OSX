@@ -306,4 +306,25 @@ void ac::ImageKaleidoscopeMirrorAlphaSubFilter(cv::Mat &frame) {
     AlphaBlendDouble(ac::orig_frame, copy3, frame, alpha, (1-alpha));
     MedianBlendMultiThread(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::BlendOppositesSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "BlendOppositesSubFilter")
+        return;
+    
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    cv::Mat copy3, copy4;
+    MirrorLeft(copy1);
+    MirrorRight(copy2);
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaBlendDouble(copy1, copy2, copy3, alpha, (1-alpha));
+    AlphaBlendDouble(copy1, copy2, copy4, (1-alpha), alpha);
+    AlphaBlendDouble(copy3, copy4, frame, 0.5, 0.5);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
