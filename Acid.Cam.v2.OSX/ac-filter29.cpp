@@ -254,3 +254,10 @@ void ac::MirrorFadeUpDown(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
+
+void ac::DarkTrailsKaleidoscope(cv::Mat &frame) {
+    GhostMirrorFade(frame);
+    MirrorFadeLeftRight(frame);
+    MirrorFadeUpDown(frame);
+    MedianBlendDark(frame);
+}
