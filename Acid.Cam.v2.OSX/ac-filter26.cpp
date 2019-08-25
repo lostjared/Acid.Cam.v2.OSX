@@ -451,6 +451,29 @@ void ac::ColorPulseIncrease(cv::Mat &frame) {
     static double stop[3] = {0,0,0}, stop_init[3] = {5, 5, 5}, stop_max[3] = {200, 210, 180};
     static double inc = 4.0;
     static int dir[3] = {1, 0, 1};
+    
+    // reset to default
+    if(reset_alpha == true) {
+        for(int j = 0; j < 3; ++j) {
+            alpha[j] = 0;
+            start[j] = 0;
+            stop[j] = 0;
+        }
+        inc = 4.0;
+        dir[0] = 1;
+        dir[1] = 0;
+        dir[2] = 1;
+        start_init[0] = 5;
+        start_init[1] = 5;
+        start_init[2] = 5;
+        stop_max[0] = 200;
+        stop_max[1] = 210;
+        stop_max[2] = 100;
+        start_max[0] = 25;
+        start_max[1] = 10;
+        start_max[2] = 5;
+    }
+    
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
