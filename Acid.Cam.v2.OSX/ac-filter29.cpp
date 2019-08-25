@@ -261,3 +261,13 @@ void ac::DarkTrailsKaleidoscope(cv::Mat &frame) {
     MirrorFadeUpDown(frame);
     MedianBlendDark(frame);
 }
+
+void ac::MirrorFadeAll(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    static double alpha = 1.0;
+    static int dir = 1;
+    MirrorFadeLeftRight(copy1);
+    MirrorFadeUpDown(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}

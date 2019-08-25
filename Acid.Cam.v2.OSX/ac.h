@@ -1575,6 +1575,7 @@ namespace ac {
     void FadeMirrorSubFilter(cv::Mat &frame);
     void MirrorFadeUpDown(cv::Mat &frame);
     void DarkTrailsKaleidoscope(cv::Mat &frame);
+    void MirrorFadeAll(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
