@@ -1573,6 +1573,7 @@ namespace ac {
     void GhostMirrorFade(cv::Mat &frame);
     void MirrorFadeLeftRight(cv::Mat &frame);
     void FadeMirrorSubFilter(cv::Mat &frame);
+    void MirrorFadeUpDown(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
