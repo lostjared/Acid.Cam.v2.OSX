@@ -260,6 +260,7 @@ void ac::DarkTrailsKaleidoscope(cv::Mat &frame) {
     MirrorFadeLeftRight(frame);
     MirrorFadeUpDown(frame);
     MedianBlendDark(frame);
+    AddInvert(frame);
 }
 
 void ac::MirrorFadeAll(cv::Mat &frame) {
@@ -270,4 +271,21 @@ void ac::MirrorFadeAll(cv::Mat &frame) {
     MirrorFadeUpDown(copy2);
     AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::KaleidoscopeMirrorSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "KaleidoscopeMirrorSubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorRightTopToBottom(copy2);
+    MirrorLeftBottomToTop(copy1);
+    CallFilter(subfilter, copy1);
+    CallFilter(subfilter, copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    MedianBlendMultiThread(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
