@@ -340,5 +340,5 @@ void ac::AlphaBlendMirrorFade(cv::Mat &frame) {
     MirrorRight(copy2);
     AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
     MedianBlendMultiThread(frame);
-    AlphaMovementMaxMin(alpha, dir, 0.05, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
