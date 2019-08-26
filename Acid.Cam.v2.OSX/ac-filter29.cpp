@@ -347,3 +347,8 @@ void ac::DarkenMedianBlend(cv::Mat &frame) {
     DarkenFilter(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::ReduceMedianBlend(cv::Mat &frame) {
+    ReduceBy50(frame);
+    MedianBlendMultiThread(frame);
+}
