@@ -342,3 +342,8 @@ void ac::AlphaBlendMirrorFade(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
+
+void ac::DarkenMedianBlend(cv::Mat &frame) {
+    DarkenFilter(frame);
+    MedianBlendMultiThread(frame);
+}
