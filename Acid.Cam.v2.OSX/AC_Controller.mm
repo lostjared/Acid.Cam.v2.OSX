@@ -2024,6 +2024,8 @@ void setEnabledProg() {
 }
 
 - (IBAction) clearImageList: (id) sender {
+    blend_set = false;
+    [chk_rand_repeat setIntegerValue: 0];
     [image_combo removeAllItems];
 }
 
