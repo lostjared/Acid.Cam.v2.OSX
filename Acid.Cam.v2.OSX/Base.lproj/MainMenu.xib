@@ -32,6 +32,8 @@
                 <outlet property="chk_blocked_key" destination="eDN-3Q-DVn" id="Umv-DR-qEJ"/>
                 <outlet property="chk_blocked_replace" destination="MVv-NP-tao" id="If8-ZI-hbI"/>
                 <outlet property="chk_preview" destination="nRh-bL-T63" id="t2g-tL-JBZ"/>
+                <outlet property="chk_rand_frames" destination="7bU-hY-CVB" id="HeQ-6d-keU"/>
+                <outlet property="chk_rand_repeat" destination="A7q-vo-Dpo" id="Nwo-Cr-3Mk"/>
                 <outlet property="chk_repeat" destination="70r-gC-kLy" id="Sx6-el-yi4"/>
                 <outlet property="chk_replace" destination="tKw-I8-MIh" id="oNL-Sg-fHs"/>
                 <outlet property="chk_spill" destination="6e5-Kf-a0w" id="Lfv-Cq-HDk"/>
@@ -2001,9 +2003,27 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="1y1-4a-s9h"/>
                     </imageView>
+                    <textField verticalHuggingPriority="750" id="7bU-hY-CVB">
+                        <rect key="frame" x="376" y="12" width="62" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="320" drawsBackground="YES" id="jAa-OC-DgY">
+                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="fPY-yu-AMn"/>
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="A7q-vo-Dpo">
+                        <rect key="frame" x="171" y="14" width="199" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Cycle Random Every Frames:" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cwY-q6-iIr">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-1446" y="-2552"/>
+            <point key="canvasLocation" x="-1387.5" y="-2514.5"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>

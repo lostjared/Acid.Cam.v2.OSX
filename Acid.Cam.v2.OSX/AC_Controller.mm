@@ -871,7 +871,36 @@ void setEnabledProg() {
         __block NSInteger color_key_set = 0;
         __block cv::Vec3b well_color;
         __block NSInteger up4ki = 0;
-        
+        NSInteger stat_test = [chk_rand_repeat integerValue];
+        if(stat_test == NSOnState) {
+            [chk_rand_frames setEnabled: NO];
+            NSInteger val;
+            static NSInteger value_index = 0;
+            val = [image_combo numberOfItems];
+            if(val >= 2) {
+                NSInteger value_max = [chk_rand_frames integerValue];
+                if(value_max >= 2) {
+                    ++value_index;
+                    if(value_index > value_max) {
+                        NSString *str_value = [image_combo itemObjectValueAtIndex:rand()%val];
+                        value_index = 0;
+                        blend_image = cv::imread([str_value UTF8String]);
+                        if(!blend_image.empty()) {
+                            blend_set = true;
+                        } else {
+                            blend_set = false;
+                        }
+                        NSInteger combo_i = [image_combo indexOfSelectedItem];
+                        NSString *s = [image_combo itemObjectValueAtIndex:combo_i];
+                        NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
+                        [cur_selected_image setImage:img];
+                        [img release];
+                    }
+                }
+            }
+        } else {
+            [chk_rand_frames setEnabled:YES];
+        }
         dispatch_sync(dispatch_get_main_queue(), ^{
             if(reset_memory == true) {
                 ac::reset_filter = true;
@@ -1042,12 +1071,41 @@ void setEnabledProg() {
 }
 
 - (void) cvProc: (id) sender {
-    
     if(breakProgram == true || stopProgram == true) { stopCV(); return; }
     if(isPaused && pauseStepTrue == true) {
         pauseStepTrue = false;
     }
     else if(isPaused) return;
+    NSInteger stat_test = [chk_rand_repeat integerValue];
+    if(stat_test == NSOnState) {
+        [chk_rand_frames setEnabled: NO];
+        NSInteger val;
+        static NSInteger value_index = 0;
+        val = [image_combo numberOfItems];
+        if(val >= 2) {
+            NSInteger value_max = [chk_rand_frames integerValue];
+            if(value_max >= 2) {
+                ++value_index;
+                if(value_index > value_max) {
+                    NSString *str_value = [image_combo itemObjectValueAtIndex:rand()%val];
+                    value_index = 0;
+                    blend_image = cv::imread([str_value UTF8String]);
+                    if(!blend_image.empty()) {
+                        blend_set = true;
+                    } else {
+                        blend_set = false;
+                    }
+                    NSInteger combo_i = [image_combo indexOfSelectedItem];
+                    NSString *s = [image_combo itemObjectValueAtIndex:combo_i];
+                    NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
+                    [cur_selected_image setImage:img];
+                    [img release];
+                }
+            }
+        }
+    } else {
+        [chk_rand_frames setEnabled:YES];
+    }
     
     NSInteger cap_width = [video_width integerValue];
     NSInteger cap_height = [video_height integerValue];
