@@ -1731,6 +1731,8 @@ void setEnabledProg() {
 
 - (IBAction) changeImageSelected: (id) sender {
     NSInteger combo_i = [image_combo indexOfSelectedItem];
+    if(combo_i == -1)
+        return;
     NSString *s = [image_combo itemObjectValueAtIndex:combo_i];
     NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
     [cur_selected_image setImage:img];
