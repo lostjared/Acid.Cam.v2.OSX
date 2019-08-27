@@ -875,14 +875,23 @@ void setEnabledProg() {
         if(stat_test == NSOnState) {
             [chk_rand_frames setEnabled: NO];
             NSInteger val;
-            static NSInteger value_index = 0;
+            static NSInteger value_index = 0, frame_index = 0;
             val = [image_combo numberOfItems];
             if(val >= 2) {
                 NSInteger value_max = [chk_rand_frames integerValue];
                 if(value_max >= 2) {
+                    NSInteger next_index = 0;
+                    NSInteger mode = [chk_rand_mode indexOfSelectedItem];
                     ++value_index;
                     if(value_index > value_max) {
-                        NSString *str_value = [image_combo itemObjectValueAtIndex:rand()%val];
+                        if(mode == 0)
+                            next_index = rand()%val;
+                        else
+                            next_index = frame_index;
+                        ++frame_index;
+                        if(frame_index > val-1)
+                            frame_index = 0;
+                        NSString *str_value = [image_combo itemObjectValueAtIndex:next_index];
                         value_index = 0;
                         blend_image = cv::imread([str_value UTF8String]);
                         if(!blend_image.empty()) {
