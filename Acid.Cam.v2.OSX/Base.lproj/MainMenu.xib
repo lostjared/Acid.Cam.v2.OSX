@@ -33,6 +33,7 @@
                 <outlet property="chk_blocked_replace" destination="MVv-NP-tao" id="If8-ZI-hbI"/>
                 <outlet property="chk_preview" destination="nRh-bL-T63" id="t2g-tL-JBZ"/>
                 <outlet property="chk_rand_frames" destination="7bU-hY-CVB" id="HeQ-6d-keU"/>
+                <outlet property="chk_rand_mode" destination="Lm0-aY-1We" id="Ltr-eI-5pg"/>
                 <outlet property="chk_rand_repeat" destination="A7q-vo-Dpo" id="Nwo-Cr-3Mk"/>
                 <outlet property="chk_repeat" destination="70r-gC-kLy" id="Sx6-el-yi4"/>
                 <outlet property="chk_replace" destination="tKw-I8-MIh" id="oNL-Sg-fHs"/>
@@ -2003,14 +2004,16 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="1y1-4a-s9h"/>
                     </imageView>
-                    <button verticalHuggingPriority="750" id="A7q-vo-Dpo">
-                        <rect key="frame" x="160" y="18" width="199" height="18"/>
+                    <textField verticalHuggingPriority="750" id="7bU-hY-CVB">
+                        <rect key="frame" x="328" y="50" width="85" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Cycle Random Every Frames:" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cwY-q6-iIr">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="320" drawsBackground="YES" id="jAa-OC-DgY">
+                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="fPY-yu-AMn"/>
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <button verticalHuggingPriority="750" id="iFP-wj-Zd0">
                         <rect key="frame" x="436" y="207" width="98" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2022,16 +2025,28 @@ Gw
                             <action selector="clearImageList:" target="630" id="4EV-1d-d7Y"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="7bU-hY-CVB">
-                        <rect key="frame" x="365" y="16" width="62" height="22"/>
+                    <popUpButton verticalHuggingPriority="750" id="Lm0-aY-1We">
+                        <rect key="frame" x="167" y="17" width="249" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="320" drawsBackground="YES" id="jAa-OC-DgY">
-                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="fPY-yu-AMn"/>
+                        <popUpButtonCell key="cell" type="push" title="Random" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="3mZ-6i-Nmr" id="mJu-eW-SEG">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="9ha-sb-WNT">
+                                <items>
+                                    <menuItem title="Random" state="on" id="3mZ-6i-Nmr"/>
+                                    <menuItem title="In Order" id="Xoa-v6-lrE"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
+                    <button verticalHuggingPriority="750" id="A7q-vo-Dpo">
+                        <rect key="frame" x="167" y="52" width="145" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Cycle Every Frames:" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cwY-q6-iIr">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1387.5" y="-2514.5"/>
