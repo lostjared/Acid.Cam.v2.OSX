@@ -841,28 +841,10 @@ void setEnabledProg() {
 
 - (void) camThread: (id) sender {
     __block cv::Mat frame;
-    bool got_frame = true;
+    __block bool got_frame = true;
     while(camera_active && got_frame) {
         if(isPaused) continue;
-        cv::Mat temp_frame;
-        if([menu_freeze state] == NSOffState) {
-            got_frame = capture->retrieve(frame);
-            ac::orig_frame = frame.clone();
-            old_frame = frame.clone();
-        } else {
-            frame = old_frame.clone();
-        }
-        if([rotate_v state] == NSOnState) {
-            cv::flip(frame, temp_frame, 1);
-            frame = temp_frame.clone();
-        }
-        if([rotate_h state] == NSOnState) {
-            cv::flip(frame, temp_frame, 0);
-            frame = temp_frame.clone();
-        }
-        ac::orig_frame = frame.clone();
-        ++frame_cnt;
-        ++frame_proc;
+        
         __block NSInteger after = 0;
         __block NSInteger slide_value1 = 0;
         __block NSInteger slide_value2 = 0;
@@ -871,44 +853,65 @@ void setEnabledProg() {
         __block NSInteger color_key_set = 0;
         __block cv::Vec3b well_color;
         __block NSInteger up4ki = 0;
-        NSInteger stat_test = [chk_rand_repeat integerValue];
-        if(stat_test == NSOnState) {
-            [chk_rand_frames setEnabled: NO];
-            NSInteger val;
-            static NSInteger value_index = 0, frame_index = 0;
-            val = [image_combo numberOfItems];
-            if(val >= 2) {
-                NSInteger value_max = [chk_rand_frames integerValue];
-                if(value_max >= 2) {
-                    NSInteger next_index = 0;
-                    NSInteger mode = [chk_rand_mode indexOfSelectedItem];
-                    ++value_index;
-                    if(value_index > value_max) {
-                        if(mode == 0)
-                            next_index = rand()%val;
-                        else
-                            next_index = frame_index;
-                        ++frame_index;
-                        if(frame_index > val-1)
-                            frame_index = 0;
-                        NSString *str_value = [image_combo itemObjectValueAtIndex:next_index];
-                        value_index = 0;
-                        blend_image = cv::imread([str_value UTF8String]);
-                        if(!blend_image.empty()) {
-                            blend_set = true;
-                        } else {
-                            blend_set = false;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            cv::Mat temp_frame;
+            if([menu_freeze state] == NSOffState) {
+                got_frame = capture->retrieve(frame);
+                ac::orig_frame = frame.clone();
+                old_frame = frame.clone();
+            } else {
+                frame = old_frame.clone();
+            }
+            if([rotate_v state] == NSOnState) {
+                cv::flip(frame, temp_frame, 1);
+                frame = temp_frame.clone();
+            }
+            if([rotate_h state] == NSOnState) {
+                cv::flip(frame, temp_frame, 0);
+                frame = temp_frame.clone();
+            }
+            ac::orig_frame = frame.clone();
+            ++frame_cnt;
+            ++frame_proc;
+            
+            NSInteger stat_test = [chk_rand_repeat integerValue];
+            if(stat_test == NSOnState) {
+                [chk_rand_frames setEnabled: NO];
+                NSInteger val;
+                static NSInteger value_index = 0, frame_index = 0;
+                val = [image_combo numberOfItems];
+                if(val >= 2) {
+                    NSInteger value_max = [chk_rand_frames integerValue];
+                    if(value_max >= 2) {
+                        NSInteger next_index = 0;
+                        NSInteger mode = [chk_rand_mode indexOfSelectedItem];
+                        ++value_index;
+                        if(value_index > value_max) {
+                            if(mode == 0)
+                                next_index = rand()%val;
+                            else
+                                next_index = frame_index;
+                            ++frame_index;
+                            if(frame_index > val-1)
+                                frame_index = 0;
+                            NSString *str_value = [image_combo itemObjectValueAtIndex:next_index];
+                            value_index = 0;
+                            blend_image = cv::imread([str_value UTF8String]);
+                            if(!blend_image.empty()) {
+                                blend_set = true;
+                            } else {
+                                blend_set = false;
+                            }
+                            NSImage *img = [[NSImage alloc] initWithContentsOfFile:str_value];
+                            [cur_selected_image setImage:img];
+                            [img release];
                         }
-                        NSImage *img = [[NSImage alloc] initWithContentsOfFile:str_value];
-                        [cur_selected_image setImage:img];
-                        [img release];
                     }
                 }
+            } else {
+                [chk_rand_frames setEnabled:YES];
             }
-        } else {
-            [chk_rand_frames setEnabled:YES];
-        }
-        dispatch_sync(dispatch_get_main_queue(), ^{
             if(reset_memory == true) {
                 ac::reset_filter = true;
                 reset_memory = false;
