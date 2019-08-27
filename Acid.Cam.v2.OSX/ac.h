@@ -1582,6 +1582,7 @@ namespace ac {
     void AlphaBlendMirrorFade(cv::Mat &frame);
     void DarkenMedianBlend(cv::Mat &frame);
     void ReduceMedianBlend(cv::Mat &frame);
+    void DarkColors(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

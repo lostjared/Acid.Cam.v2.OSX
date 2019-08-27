@@ -341,14 +341,41 @@ void ac::AlphaBlendMirrorFade(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
     MedianBlendMultiThread(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::DarkenMedianBlend(cv::Mat &frame) {
     DarkenFilter(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::ReduceMedianBlend(cv::Mat &frame) {
     ReduceBy50(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
+
+void ac::DarkColors(cv::Mat &frame) {
+    static int offset = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Vec3b value(rand()%255, rand()%255, rand()%255);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ( (value[j]^pixel[j]) ));
+                    pixel[j] /= 3;
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+    ++offset;
+    if(offset > 2)
+        offset = 0;
 }
