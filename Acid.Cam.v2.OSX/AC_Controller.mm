@@ -890,9 +890,7 @@ void setEnabledProg() {
                         } else {
                             blend_set = false;
                         }
-                        NSInteger combo_i = [image_combo indexOfSelectedItem];
-                        NSString *s = [image_combo itemObjectValueAtIndex:combo_i];
-                        NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
+                        NSImage *img = [[NSImage alloc] initWithContentsOfFile:str_value];
                         [cur_selected_image setImage:img];
                         [img release];
                     }
@@ -1095,9 +1093,7 @@ void setEnabledProg() {
                     } else {
                         blend_set = false;
                     }
-                    NSInteger combo_i = [image_combo indexOfSelectedItem];
-                    NSString *s = [image_combo itemObjectValueAtIndex:combo_i];
-                    NSImage *img = [[NSImage alloc] initWithContentsOfFile:s];
+                    NSImage *img = [[NSImage alloc] initWithContentsOfFile:str_value];
                     [cur_selected_image setImage:img];
                     [img release];
                 }
