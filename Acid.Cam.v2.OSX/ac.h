@@ -1583,6 +1583,7 @@ namespace ac {
     void DarkenMedianBlend(cv::Mat &frame);
     void ReduceMedianBlend(cv::Mat &frame);
     void DarkColors(cv::Mat &frame);
+    void DarkenChannelXorNoMedian(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
