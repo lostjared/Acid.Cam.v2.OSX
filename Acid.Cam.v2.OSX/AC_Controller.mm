@@ -1994,7 +1994,6 @@ void setEnabledProg() {
             flushToLog(stream);
             break;
     }
-    [image_combo removeAllItems];
     NSInteger index = [image_to_set indexOfSelectedItem];
     if(index >= 0) {
         set_filenames[index] = "None";
@@ -2002,6 +2001,10 @@ void setEnabledProg() {
     }
     [cur_selected_image setImage:nil];
     [view_image setImage:nil];
+}
+
+- (IBAction) clearImageList: (id) sender {
+    [image_combo removeAllItems];
 }
 
 - (void) updatePref: (BOOL)display_msg {

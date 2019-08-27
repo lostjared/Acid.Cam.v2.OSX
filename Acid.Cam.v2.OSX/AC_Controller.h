@@ -306,6 +306,7 @@ extern cv::ocl::Context context;
 - (IBAction) changePrefix: (id) sender;
 - (void) checkForNewVersion: (BOOL) showMessage;
 - (IBAction) checkboxClose: (id) sender;
+- (IBAction) clearImageList: (id) sender;
 @end
 
 extern AC_Controller *controller;
