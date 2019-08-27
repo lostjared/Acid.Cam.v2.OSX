@@ -1994,7 +1994,7 @@ void setEnabledProg() {
             flushToLog(stream);
             break;
     }
-    
+    [image_combo removeAllItems];
     NSInteger index = [image_to_set indexOfSelectedItem];
     if(index >= 0) {
         set_filenames[index] = "None";
