@@ -357,7 +357,6 @@ void ac::ReduceMedianBlend(cv::Mat &frame) {
 }
 
 void ac::DarkColors(cv::Mat &frame) {
-    static int offset = 0;
     static double alpha = 1.0;
     static int dir = 1;
     cv::Vec3b value(rand()%255, rand()%255, rand()%255);
@@ -375,9 +374,6 @@ void ac::DarkColors(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
-    ++offset;
-    if(offset > 2)
-        offset = 0;
 }
 
 void ac::DarkenChannelXorNoMedian(cv::Mat &frame) {
