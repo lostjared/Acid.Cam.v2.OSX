@@ -1587,6 +1587,7 @@ namespace ac {
     void DarkenStrobeMedianBlend(cv::Mat &frame);
     void DarkenImageAlphaBlend(cv::Mat &frame);
     void MatrixStrobeTrails(cv::Mat &frame);
+    void MatrixStrobeMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

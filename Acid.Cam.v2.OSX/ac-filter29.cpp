@@ -471,3 +471,8 @@ void ac::MatrixStrobeTrails(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MatrixStrobeMedianBlend(cv::Mat &frame) {
+    MatrixStrobeTrails(frame);
+    NoMedianBlurBlendMultiThread(frame);
+}
