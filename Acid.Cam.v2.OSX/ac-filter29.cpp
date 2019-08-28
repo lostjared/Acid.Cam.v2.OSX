@@ -480,15 +480,12 @@ void ac::ImageEnergyKaleidoscopeSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
-    static int index = 1;
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     cv::Mat frames[3];
-    frames[0] = collection.frames[index].clone();
+    frames[0] = collection.frames[1].clone();
     frames[1] = reimage.clone();
     frames[2] = copy1.clone();
-    if(index > 6)
-        index = 1;
     static double alpha = 1.0;
     static int dir = 1;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
