@@ -472,3 +472,39 @@ void ac::MatrixStrobeMedianBlend(cv::Mat &frame) {
     MatrixStrobeTrails(frame);
     NoMedianBlurBlendMultiThread(frame);
 }
+
+void ac::ImageEnergyKaleidoscopeSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageEnergyKaleidoscopeSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static int index = 1;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[index].clone();
+    frames[1] = reimage.clone();
+    frames[2] = copy1.clone();
+    if(index > 6)
+        index = 1;
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MirrorLeftBottomToTop(frame);
+    MedianBlendMultiThread(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
