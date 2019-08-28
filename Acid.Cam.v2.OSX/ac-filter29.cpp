@@ -397,3 +397,25 @@ void ac::DarkenChannelXorNoMedian(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::DarkenStrobeMedianBlend(cv::Mat &frame) {
+    static int offset = 0;
+    int colors[3] = {0};
+    InitArrayPosition(colors, offset);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[colors[0]] /= 2;
+                pixel[colors[1]] /= 3;
+                pixel[colors[2]] /= 4;
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    ++offset;
+    if(offset > 2)
+        offset = 0;
+    NoMedianBlurBlendMultiThread(frame);
+    AddInvert(frame);
+}
