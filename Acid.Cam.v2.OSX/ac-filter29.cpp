@@ -542,3 +542,41 @@ void ac::ImageEnergyKaleidoscopeBlendSubFilter(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
 }
+
+void ac::ImageEnergyKaleidoscopeEvenSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageEnergyKaleidoscopeBlendSubFilter")
+        return;
+    
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[15].clone();
+    frames[2] = collection.frames[31].clone();
+    CallFilter(subfilter, reimage);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                cv::Vec3b cp_pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    double alpha_val = (alpha/2);
+                    pixel[j] = static_cast<unsigned char>(((pixel[j] * alpha_val) + (pix[j] * alpha_val)) + ((img_pix[j] * (1-alpha_val)) + (cp_pix[j] * (1-alpha_val))));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MirrorLeftBottomToTop(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.05, 1.0, 0.1);
+}
