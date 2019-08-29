@@ -172,7 +172,6 @@ void setEnabledProg() {
     [startProg setEnabled: YES];
     [record_op setEnabled: YES];
     [videoFileInput setEnabled:YES];
-    [chk_rand_repeat setIntegerValue: 0];
     [chk_rand_frames setEnabled:YES];
     if([videoFileInput state] == NSOnState) {
         [up4k setEnabled:YES];
