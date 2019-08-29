@@ -530,8 +530,8 @@ void ac::ImageEnergyKaleidoscopeBlendSubFilter(cv::Mat &frame) {
                 cv::Vec3b cp_pix = copy1.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
-                    double alpha_val = (alpha/2);
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha_val) + (pix[j] * alpha_val) + (img_pix[j] * (1-alpha_val)) + (cp_pix[j] * (1-alpha_val)));
+                    double alpha_val = (alpha/4);
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha_val) + (pix[j] * alpha_val) + (img_pix[j] * (alpha_val)) + (cp_pix[j] * (alpha_val)));
                 }
             }
         }
