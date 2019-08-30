@@ -172,7 +172,8 @@ void ac::TrailsTwitch(cv::Mat &frame) {
 }
 
 void ac::Tremors(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     static int value_index = -1;
@@ -461,7 +462,8 @@ void ac::StrobeOnOffRandomChannel(cv::Mat &frame) {
     static double alpha = 1.0;
     static int dir = 1;
     static std::vector<int> random_vec({0, 1, 2});
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static int index = 0;
     int channel = random_vec[index];
     ++index;

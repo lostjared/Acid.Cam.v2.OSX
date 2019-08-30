@@ -320,7 +320,8 @@ void ac::RandomFlip(cv::Mat &frame) {
 
 void ac::ColorsFilter(cv::Mat &frame) {
     static std::vector<std::string> filter_array({"ColorExpand", "ColorRange", "ColorTransition","ColorTransitionRandom","ColorXorScale", "Rainbow Blend", "RainbowXorBlend", "ColorChannelMoveUpAndDown"});
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static unsigned int counter = 0;
     if(counter == 0) {
         std::shuffle(filter_array.begin(), filter_array.end(),rng);

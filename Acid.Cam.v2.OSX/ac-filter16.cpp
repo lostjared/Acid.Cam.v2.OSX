@@ -315,7 +315,8 @@ void ac::ChangeImageEachSecond(cv::Mat &frame) {
     static unsigned int counter = 0;
     int fps_val = static_cast<unsigned int>(ac::fps);
     static int unsigned index = 0;
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     CallFilter(filter_array[index], frame);
     ++counter;
     if((counter%fps_val) == 0) {
@@ -343,7 +344,8 @@ void ac::ChangeImageFilterOnOff(cv::Mat &frame) {
 }
 
 void ac::ChangeXorEachSecond(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static std::vector<std::string> filter_array {"XorMultiBlend", "XorSine", "TrailsFilterXor","XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale", "BitwiseXorScale", "XorTrails", "BitwiseXorStrobe", "RandomXorFlash", "SoftXor", "SelfXorBlend", "SelfXorDoubleFlash","XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage","AndOrXorStrobe", "AndOrXorStrobeScale","MedianBlurXor", "StaticXorBlend", "XorScale", "PixelReverseXor", "PixelXorBlend", "RainbowXorBlend", "StrobeXor", "SelfScaleXorIncrease","PixelByPixelXor", "CopyXorAlpha", "AveragePixelsXor","StrobeXorAndOr"};
     static unsigned int counter = 0;
     
@@ -387,7 +389,9 @@ void ac::MorphXorWithSubFilter(cv::Mat &frame) {
 }
 
 void ac::MirrorEachSecond(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
+
     static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe","MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage","ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian","SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend","MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
     static unsigned int counter = 0;
     if(counter == 0) {
@@ -454,7 +458,8 @@ void ac::Mirror_Xor_Combined(cv::Mat &frame) {
 }
 
 void ac::MirrorFrameShuffle(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static std::vector<std::string> filter_array {"MirrorBlend", "Sideways Mirror", "Mirror No Blend", "Mirror Average", "Mirror Average Mix", "Soft_Mirror", "InterMirror", "InterFullMirror", "MirrorRGB", "RGBMirror", "MirrorStrobe","MirrorXor", "MirrorXorAll", "MirrorXorScale", "EnergyMirror", "MirrorXorAlpha", "IntertwinedMirror", "BlurredMirror", "MirrorMedianBlend", "FlipMirror", "FlipMirrorAverage","ReverseMirrorX", "MirrorXorAll_Reverse", "MirrorRGBReverse", "MirrorRGBReverseBlend", "MirrorBitwiseXor", "BlurMirrorGamma", "EnergyMirrorDark", "AlphaBlendMirror", "TwistedMirror", "MirrorMedian","SmoothMirrorBlurFlip", "MirrorOrder", "BlurMirrorOrder", "MirrorOrderAlpha", "SoftFeedbackMirror", "MirrorAlphaBlend","MirrorBlendFrame", "MirrorBlendVertical", "MirrorVerticalAndHorizontal", "MirrorSidesMedian"};
     static int init = 0;
     if(init == 0) {
@@ -495,7 +500,8 @@ void ac::Mirror_Xor_Smooth(cv::Mat &frame) {
 }
 
 void ac::XorFrameShuffle(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static std::vector<std::string> filter_array {"XorMultiBlend", "XorSine", "TrailsFilterXor","XorAddMul", "SurroundPixelXor", "BlendAlphaXor", "SelfXorScale", "BitwiseXorScale", "XorTrails", "SoftXor", "SelfXorBlend","XorBackwards", "MatrixXorAnd", "XorAlpha", "SelfXorAverage","AndOrXorStrobe", "AndOrXorStrobeScale","MedianBlurXor", "StaticXorBlend", "XorScale", "PixelReverseXor", "PixelXorBlend", "RainbowXorBlend", "StrobeXor", "SelfScaleXorIncrease","CopyXorAlpha","AveragePixelsXor","StrobeXorAndOr"};
     static unsigned int index = 0;
     static int init = 0;
@@ -913,7 +919,8 @@ void ac::SplitFrameMirror(cv::Mat &frame) {
 }
 
 void ac::RandomChannels(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static std::vector<std::string> selection ({"Self AlphaBlend", "Blend #3", "RandTriBlend", "Rainbow Blend", "Rand Blend", "New Blend", "MirrorBlend", "Mirror No Blend", "Blend_Angle", "XorMultiBlend", "BlendedScanLines", "FrameBlend", "FrameBlendRGB", "PrevFrameBlend", "HorizontalBlend", "VerticalBlend", "OppositeBlend", "BlendSwitch", "IncreaseBlendHorizontal", "BlendIncrease", "TrailsBlend", "BlendThree", "BlendTrails", "GridFilter8xBlend", "WeakBlend", "SmoothTrailsSelfAlphaBlend", "SmoothTrailsRainbowBlend", "MedianBlend", "RandomAlphaBlend", "RandomTwoFilterAlphaBlend", "AlphaBlendPosition", "BlendRowAlpha", "BlendRow", "BlendRowByVar", "BlendRowByDirection", "BlendAlphaXor", "AlphaBlendRandom", "ChannelSortAlphaBlend", "StrobeBlend", "GaussianBlend", "SelfXorBlend", "BlendRowCurvedSqrt", "CycleShiftRandomRGB_XorBlend", "CycleShiftRandomAlphaBlend", "MedianBlendAnimation", "ParticleBlend", "BlendInAndOut", "BlendScaleInAndOut", "RandomXorBlend", "InitBlend", "LagBlend", "RandomMirrorBlend", "RandomMirrorAlphaBlend", "RandBlend", "StaticXorBlend", "Bitwise_XOR_Blend", "Bitwise_OR_Blend", "Bitwise_AND_Blend", "SilverBlend", "PixelXorBlend", "RainbowXorBlend", "FadeBlend", "SelfAlphaScaleBlend", "ReverseFrameBlend", "ReverseFrameBlendSwitch", "RandomBlendFilter", "DoubleRandomBlendFilter", "FlipBlendW", "FlipBlendWH", "FlipBlendH", "FlipBlendAll", "Blend_RedGreenBlue", "XorBlend_RedGreenBlue", "BlendIncrease_RedGreenBlue", "Blend_RedReenBlue_Dark", "DarkModBlend", "MirrorMedianBlend", "DarkenBlend", "ChannelSort_NoBlend_Descending", "ChannelSort_NoBlend_Ascending", "BlendBurred", "BlendCombinedValues", "AlphaBlendWithSource", "RGBMedianBlend", "MirrorRGBReverseBlend", "MedianBlend16", "BGRBlend", "RGBBlend", "MedianBlendDark", "AlphaBlendMirror", "SelfScaleSortBlend", "FlashMedianBlend", "FlipAlphaBlend", "SmoothCollectionAlphaBlend", "SmoothTrailsBlend", "ShuffleAlphaMedianBlend", "AverageLinesBlend", "AverageVerticalLinesBlend", "LinesMedianBlend", "MedianBlendSoft", "ParticleReleaseAlphaBlend", "MirrorAlphaBlend", "MatrixCollectionBlend", "SmoothMedianBlend", "CosSinMedianBlend", "Filter8_Blend", "RandomAlphaBlendFilter", "MirrorBlendFrame", "MirrorBlendVertical", "BlendFor360", "MatrixCollectionXorBlendAlphaBlend", "MedianBlendSelfBlend", "Bitwise_XOR_BlendFrame", "GaussianBlendEx", "SimpleMatrixBlend", "AlphaStrobeBlend", "XorMirrorBlendFrame", "ChannelSortMedianBlend", "MedianBlend64", "SplitFrameBlend"});
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone();
     static unsigned int index = 0;

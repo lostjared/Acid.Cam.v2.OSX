@@ -668,7 +668,8 @@ void ac::RandomSubFilter(cv::Mat &frame) {
     static unsigned int index = 0;
     static std::vector<std::string> vSub { "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter","EnergizeSubFilter","PixelatedSubFilterSort","FilteredDifferenceSubFilter","ExpandSquareSubFilter","MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter","SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter","CollectionXorSourceSubFilter","BlendReverseSubFilter","SmoothBlendReverseSubFilter","MedianBlendBufferSubFilter","RGBBlendSubFilter","XorOppositeSubFilter", "BlendSmoothSubFilter", "BlurSmoothSubFilter", "BlurFlipSubFilter", "MedianBlendSubFilterEx", "ShiftFrameSmoothSubFilter", "ShiftFrameStaticXorSubFilter"};
     
-    static auto rng = std::default_random_engine{};
+    std::random_device r;
+    static auto rng = std::default_random_engine(r());
     CallFilter(vSub[index], frame);
     ++index;
     if(index > vSub.size()-1) {

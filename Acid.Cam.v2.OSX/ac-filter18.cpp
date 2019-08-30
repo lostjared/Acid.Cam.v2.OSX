@@ -910,7 +910,8 @@ void ac::IntertwineImageOnOff(cv::Mat &frame) {
 }
 
 void ac::IntertwineVideoShuffle(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static std::vector<std::string> filter_array({"IntertwineRows32", "IntertwineRows16", "IntertwineRows8","Intertwine64X", "IntertwineRowsReverse32", "IntertwineRowsReverse16", "IntertwineRowsReverse8", "IntertwineRowsReverse64X", "IntertwineRowsSwitch32", "IntertwineRowsSwitch16", "IntertwineRowsSwitch8", "IntertwineRows64"});
     static int init = 0;
     if(init == 0) {

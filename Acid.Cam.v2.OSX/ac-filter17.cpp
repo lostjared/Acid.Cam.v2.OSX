@@ -896,7 +896,8 @@ void ac::IntertwineRowsSwitch64(cv::Mat &frame) {
 }
 
 void ac::IntertwineShuffle(cv::Mat &frame) {
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static std::vector<std::string> filter_array({"IntertwineRows32","IntertwineRows16","IntertwineRows8","IntertwineRows4","Intertwine64x4","Intertwine64X","IntertwineColsX","IntertwineCols16","IntertwineCols32","IntertwineCols8","IntertwineRowsReverse32","IntertwineRowsReverse16","IntertwineRowsReverse8","IntertwineRowsReverse64X","IntertwineRowsSwitch32","IntertwineRowsSwitch16","IntertwineRowsSwitch8","IntertwineRows64","IntertwineRowsReverse64","IntertwineRowsSwitch64"});
     static int init = 0;
     if(init == 0) {

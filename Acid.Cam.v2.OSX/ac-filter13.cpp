@@ -163,7 +163,8 @@ void ac::ShuffleAlphaSubFilter(cv::Mat &frame) {
 void ac::ShuffleColorMap(cv::Mat &frame) {
     static unsigned int index = 0;
     static std::vector<int> v{0,1,2,3,4,5,6,7,8,9,10,11};
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     ac::setColorMap(v[index], frame);
     ++index;
     if(index > v.size()-1) {
@@ -231,7 +232,8 @@ void ac::RandomColorMapAlphaBlendSubFilter(cv::Mat &frame) {
 void ac::RandomOrder(cv::Mat &frame) {
     int color_order = 0;
     static std::vector<int> colors { 1,2,3,4 };
-    static auto rng = std::default_random_engine{};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     static unsigned int index = static_cast<int>(colors.size()+1);
     if(index > colors.size()) {
         std::shuffle(colors.begin(), colors.end(),rng);

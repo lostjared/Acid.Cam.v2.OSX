@@ -2035,6 +2035,7 @@ Gw
                                 <items>
                                     <menuItem title="Random" state="on" id="3mZ-6i-Nmr"/>
                                     <menuItem title="In Order" id="Xoa-v6-lrE"/>
+                                    <menuItem title="Shuffle" id="sqv-r0-Xdl"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>

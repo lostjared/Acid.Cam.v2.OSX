@@ -88,6 +88,10 @@ std::string set_filenames[4] = {"None", "None", "None", "None"};
 std::vector<ac::Keys> green_blocked;
 cv::ocl::Context context;
 cv::Mat test_image;
+std::vector<std::string> image_shuffle;
+int image_shuffle_index = 0;
+std::random_device r;
+std::default_random_engine img_rng;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -1711,10 +1715,16 @@ void setEnabledProg() {
     if([panel runModal]) {
         NSArray *file_names = [panel URLs];
         if([file_names count] > 0) {
+            if(!image_shuffle.empty())
+                image_shuffle.erase(image_shuffle.begin(), image_shuffle.end());
             for(int i = 0; i < [file_names count]; ++i) {
                 NSURL *file_n = [file_names objectAtIndex:i];
                 [image_combo addItemWithObjectValue: [file_n path]];
+                NSString *s = [file_n path];
+                image_shuffle.push_back([s UTF8String]);
             }
+            std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
+            image_shuffle_index = 0;
         }
     }
 }

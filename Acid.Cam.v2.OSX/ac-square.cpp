@@ -95,8 +95,8 @@ void Square_Swap(ac::Square *squares, int num_w, int num_h, cv::Mat &frame, bool
             ++pos;
         }
     }
-    
-    static auto rng = std::default_random_engine {};
+    static std::random_device r;
+    static auto rng = std::default_random_engine(r());
     // shuffle instead of randomize
     if(random == false) std::shuffle(square_vec.begin(), square_vec.end(),rng);
     for(int i = 0; i < pos; ++i) {
