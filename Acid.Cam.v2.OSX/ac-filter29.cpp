@@ -672,3 +672,33 @@ void ac::ImageEnergizeSubFilter(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.4);
 }
+
+void ac::MatrixCollectionSmoothedSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionSmoothedSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    collection.shiftFrames(copy1);
+    cv::Mat frames[3];
+    frames[2] = collection.frames[1];
+    frames[1] = collection.frames[4];
+    frames[0] = collection.frames[7];
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix_s = frames[j].at<cv::Vec3b>(z, i);
+                    int ival = static_cast<int>((pixel[j] * 0.5));
+                    int sval = static_cast<int>((pix_s[j] * 0.5));
+                    pixel[j] = static_cast<unsigned char>(ival ^ sval);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
+
