@@ -580,3 +580,33 @@ void ac::ImageEnergyKaleidoscopeEvenSubFilter(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.05, 1.0, 0.1);
 }
+
+void ac::ImageEnergyFadeSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageEnergyFadeSubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, reimage);
+    collection.shiftFrames(reimage);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] =  static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));;
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
