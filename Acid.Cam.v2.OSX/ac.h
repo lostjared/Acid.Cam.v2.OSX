@@ -1593,6 +1593,7 @@ namespace ac {
     void ImageEnergyKaleidoscopeEvenSubFilter(cv::Mat &frame);
     void ImageEnergyFadeSubFilter(cv::Mat &frame);
     void ImageEnergizeBlendFilter(cv::Mat &frame);
+    void ImageEnergizeSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
