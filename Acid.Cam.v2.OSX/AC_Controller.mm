@@ -88,7 +88,7 @@ std::string set_filenames[4] = {"None", "None", "None", "None"};
 std::vector<ac::Keys> green_blocked;
 cv::ocl::Context context;
 cv::Mat test_image;
-std::vector<std::string> image_shuffle;
+std::vector<int> image_shuffle;
 int image_shuffle_index = 0;
 std::random_device r;
 std::default_random_engine img_rng;
@@ -895,8 +895,16 @@ void setEnabledProg() {
                         if(value_index > value_max) {
                             if(mode == 0)
                                 next_index = rand()%val;
-                            else
+                            else if(mode == 1)
                                 next_index = frame_index;
+                            else if(mode == 2) {
+                                next_index = image_shuffle[image_shuffle_index];
+                                ++image_shuffle_index;
+                                if(image_shuffle_index > image_shuffle.size()-1) {
+                                    std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
+                                    image_shuffle_index = 0;
+                                }
+                            }
                             ++frame_index;
                             if(frame_index > val-1)
                                 frame_index = 0;
@@ -1106,8 +1114,16 @@ void setEnabledProg() {
                 if(value_index > value_max) {
                     if(mode == 0)
                         next_index = rand()%val;
-                    else
+                    else if(mode == 1)
                         next_index = frame_index;
+                    else if(mode == 2) {
+                        next_index = image_shuffle[image_shuffle_index];
+                        ++image_shuffle_index;
+                        if(image_shuffle_index > image_shuffle.size()-1) {
+                            std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
+                            image_shuffle_index = 0;
+                        }
+                    }
                     ++frame_index;
                     if(frame_index > val-1)
                         frame_index = 0;
@@ -1720,8 +1736,7 @@ void setEnabledProg() {
             for(int i = 0; i < [file_names count]; ++i) {
                 NSURL *file_n = [file_names objectAtIndex:i];
                 [image_combo addItemWithObjectValue: [file_n path]];
-                NSString *s = [file_n path];
-                image_shuffle.push_back([s UTF8String]);
+                image_shuffle.push_back(i);
             }
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
             image_shuffle_index = 0;
