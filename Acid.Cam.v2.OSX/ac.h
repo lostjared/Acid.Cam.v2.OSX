@@ -1598,6 +1598,7 @@ namespace ac {
     void MonoColorTrails(cv::Mat &frame);
     void TremorMonoColorTrails(cv::Mat &frame);
     void StrobeMonoColorTrails(cv::Mat &frame);
+    void StrobeEffectColorTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
