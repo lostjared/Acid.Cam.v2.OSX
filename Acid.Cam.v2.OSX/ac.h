@@ -1597,6 +1597,7 @@ namespace ac {
     void MatrixCollectionSmoothedSubFilter(cv::Mat &frame);
     void MonoColorTrails(cv::Mat &frame);
     void TremorMonoColorTrails(cv::Mat &frame);
+    void StrobeMonoColorTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
