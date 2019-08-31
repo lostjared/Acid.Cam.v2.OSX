@@ -1595,6 +1595,7 @@ namespace ac {
     void ImageEnergizeBlendFilter(cv::Mat &frame);
     void ImageEnergizeSubFilter(cv::Mat &frame);
     void MatrixCollectionSmoothedSubFilter(cv::Mat &frame);
+    void MonoColorTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
