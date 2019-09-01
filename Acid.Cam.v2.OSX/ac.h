@@ -1602,6 +1602,8 @@ namespace ac {
     void PixelStrobeColorTrails(cv::Mat &frame);
     void ElectricImageFilter(cv::Mat &frame);
     void ImageEnergyStrobeSubFilter(cv::Mat &frame);
+    void Twin(cv::Mat &frame);
+    void TwinKaleidoscope(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

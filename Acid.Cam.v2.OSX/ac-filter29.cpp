@@ -903,3 +903,44 @@ void ac::ImageEnergyStrobeSubFilter(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::Twin(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    static int index = 63;
+    static double alpha = 1.0;
+    static int dir = 1, dir_x = 0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b col_pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * col_pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    if(dir_x == 0) {
+        --index;
+        if(index < 1) {
+            index = 1;
+            dir_x = 1;
+        }
+    } else {
+        ++index;
+        if(index > 62) {
+            index = 62;
+            dir_x = 0;
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.4);
+}
+
+void ac::TwinKaleidoscope(cv::Mat &frame) {
+    Twin(frame);
+    MirrorRightTopToBottom(frame);
+    MedianBlendMultiThread(frame);
+}
