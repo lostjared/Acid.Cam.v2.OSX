@@ -835,3 +835,37 @@ void ac::PixelStrobeColorTrails(cv::Mat &frame) {
     if(index > 2)
         index = 0;
 }
+
+void ac::ElectricImageFilter(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[7].clone();
+    frames[2] = collection.frames[15].clone();
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    double alpha_s = alpha/3;
+                    pixel[j] = static_cast<unsigned char>(((alpha_s * pix[j])) - (alpha_s * pixel[j]) + ((1-alpha_s) * img_pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MirrorLeftBottomToTop(frame);
+    ColorTransition(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.4);
+}

@@ -1600,6 +1600,7 @@ namespace ac {
     void StrobeMonoColorTrails(cv::Mat &frame);
     void StrobeEffectColorTrails(cv::Mat &frame);
     void PixelStrobeColorTrails(cv::Mat &frame);
+    void ElectricImageFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
