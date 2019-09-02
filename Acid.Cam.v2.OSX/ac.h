@@ -1607,6 +1607,7 @@ namespace ac {
     void MedianBlendMultiThread_2160p(cv::Mat &frame);
     void MedianBlendMultiThreadByFour(cv::Mat &frame);
     void MedianBlendMultiThreadByEight(cv::Mat &frame);
+    void MedianBlendMultiThreadByTweleve(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
