@@ -1605,6 +1605,8 @@ namespace ac {
     void Twin(cv::Mat &frame);
     void TwinKaleidoscope(cv::Mat &frame);
     void MedianBlendMultiThread_2160p(cv::Mat &frame);
+    void MedianBlendMultiThreadByFour(cv::Mat &frame);
+    void MedianBlendMultiThreadByEight(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
