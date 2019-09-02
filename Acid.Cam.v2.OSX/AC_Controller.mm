@@ -676,6 +676,10 @@ void setEnabledProg() {
 -(IBAction) startProgram: (id) sender {
     
     if([[startProg title] isEqualToString: @"Start Session"]) {
+        if(!image_shuffle.empty()) {
+            std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
+            image_shuffle_index = 0;
+        }
         std::string input_file;
         NSInteger cap_width = [video_width integerValue];
         NSInteger cap_height = [video_height integerValue];
