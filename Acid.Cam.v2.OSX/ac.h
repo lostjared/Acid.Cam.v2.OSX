@@ -1608,6 +1608,7 @@ namespace ac {
     void MedianBlendMultiThreadByFour(cv::Mat &frame);
     void MedianBlendMultiThreadByEight(cv::Mat &frame);
     void MedianBlendMultiThreadByTweleve(cv::Mat &frame);
+    void MedianBlendMultiThreadByThree(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1794,6 +1795,36 @@ namespace ac {
         }
     }
     
+    //  MedianBlend
+    template<int Size>
+    void MedianBlendMultiThread(cv::Mat &frame, MatrixCollection<Size> *collection, int div_value) {
+        if(div_value == 0)
+            return;
+        int r = 3+rand()%7;
+        for(int i = 0; i < r; ++i)
+            MedianBlur(frame);
+        collection->shiftFrames(frame);
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Scalar value;
+                    for(int j = 0; j < collection->size(); ++j) {
+                        cv::Vec3b pixel = collection->frames[j].template at<cv::Vec3b>(z, i);
+                        for(int q = 0; q < 3; ++q) {
+                            value[q] += pixel[q];
+                        }
+                    }
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        int val = 1+static_cast<int>(value[j]/div_value);
+                        pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+                    }
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+        AddInvert(frame);
+    }
     // Trails function
     template<int Size>
     void Smooth(cv::Mat &frame, MatrixCollection<Size> *collection, bool addframe = true) {
