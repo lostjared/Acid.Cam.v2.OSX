@@ -1798,7 +1798,7 @@ namespace ac {
     //  MedianBlend
     template<int Size>
     void MedianBlendMultiThread(cv::Mat &frame, MatrixCollection<Size> *collection, int div_value) {
-        if(div_value == 0)
+        if(div_value <= 0)
             return;
         int r = 3+rand()%7;
         for(int i = 0; i < r; ++i)
