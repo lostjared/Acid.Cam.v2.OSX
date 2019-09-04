@@ -969,3 +969,22 @@ void ac::MedianBlendMultiThreadByThree(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlendMultiThread(frame, &collection, 3);
 }
+
+void ac::MedianBlendIncrease(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    static int index = 2, dir = 1;
+    MedianBlendMultiThread(frame, &collection, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 12) {
+            index = 12;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index < 2) {
+            index = 2;
+            dir = 1;
+        }
+    }
+}
