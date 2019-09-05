@@ -144,3 +144,35 @@ void ac::CollectionMatrixSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::CollectionMatrixRandomMedianBlend(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    static std::vector<std::string> array_filter({"ColorCollection","ColorCollectionRandom","ColorCollectionStrobeShift","ColorCollectionRandom_Filter","ColorCollectionShift","ColorCollectionStrobeShake","ColorCollectionSubFilter","ColorCollectionShiftSubFilter",
+        "ColorCollectionSubtle","ColorCollection64","CollectionSubtleStrobe","ColorCollection64X","ColorCollectionSwitch","ColorCollectionRGB_Index","ColorCollectionRGBStrobeSubFilter","ColorCollectionGhostTrails","ColorCollectionScale","ColorCollectionReverseStrobe",
+        "ColorCollectionXorPixel","ColorCollectionXorOffsetFlash","ColorCollectionMatrixGhost","ColorCollectionPixelXor","ColorCollectionTwitchSubFilter","ColorCollectionMovementIndex","ColorCollectionPositionStrobe","ColorCollectionStrobeBlend",
+        "ColorCollectionShuffle","ColorCollectionAlphaBlendArray"});
+    cv::Mat copy1 = frame.clone();
+    static int filter_index = 0;
+    Shuffle(filter_index, copy1, array_filter);
+    collection.shiftFrames(copy1);
+    static int index = 2, dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > 16) {
+            index = 16;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index < 2) {
+            index = 2;
+            dir = 1;
+        }
+    }
+    cv::Mat copy2 = frame.clone(), copy3 = frame.clone();
+    MedianBlendMultiThread(copy2, &collection, index);
+    static double alpha = 1.0;
+    static int dir1 = 1;
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
+    AlphaBlendDouble(copy2, copy3, frame, alpha, (1-alpha));
+}
