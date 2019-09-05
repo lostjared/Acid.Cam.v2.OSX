@@ -147,7 +147,7 @@ void ac::CollectionMatrixSubFilter(cv::Mat &frame) {
 void ac::CollectionMatrixRandomMedianBlend(cv::Mat &frame) {
     static MatrixCollection<4> collection;
     static std::vector<std::string> array_filter({"ColorCollection","ColorCollectionRandom","ColorCollectionStrobeShift","ColorCollectionRandom_Filter","ColorCollectionShift","ColorCollectionStrobeShake","ColorCollectionSubFilter","ColorCollectionShiftSubFilter",
-        "ColorCollectionSubtle","ColorCollection64","CollectionSubtleStrobe","ColorCollection64X","ColorCollectionSwitch","ColorCollectionRGB_Index","ColorCollectionRGBStrobeSubFilter","ColorCollectionGhostTrails","ColorCollectionScale","ColorCollectionReverseStrobe",
+        "ColorCollectionSubtle","ColorCollection64","ColorCollectionSubtleStrobe","ColorCollection64X","ColorCollectionSwitch","ColorCollectionRGB_Index","ColorCollectionRGBStrobeSubFilter","ColorCollectionGhostTrails","ColorCollectionScale","ColorCollectionReverseStrobe",
         "ColorCollectionXorPixel","ColorCollectionXorOffsetFlash","ColorCollectionMatrixGhost","ColorCollectionPixelXor","ColorCollectionTwitchSubFilter","ColorCollectionMovementIndex","ColorCollectionPositionStrobe","ColorCollectionStrobeBlend",
         "ColorCollectionShuffle","ColorCollectionAlphaBlendArray"});
     cv::Mat copy1 = frame.clone();
