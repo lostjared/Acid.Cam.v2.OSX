@@ -937,37 +937,44 @@ void ac::Twin(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.4);
+    AddInvert(frame);
 }
 
 void ac::TwinKaleidoscope(cv::Mat &frame) {
     Twin(frame);
     MirrorRightTopToBottom(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThread_2160p(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlendMultiThread(frame,&collection, 2);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadByFour(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlendMultiThread(frame, &collection, 4);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadByEight(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlendMultiThread(frame, &collection, 8);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadByTweleve(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlendMultiThread(frame, &collection, 12);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadByThree(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlendMultiThread(frame, &collection, 3);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendIncrease(cv::Mat &frame) {
@@ -987,6 +994,7 @@ void ac::MedianBlendIncrease(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
 }
 
 void ac::MedianBlendIncrease16(cv::Mat &frame) {
@@ -1006,4 +1014,63 @@ void ac::MedianBlendIncrease16(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::StrangeGlitch64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    for(int q = 0; q < collection.size(); ++q) {
+        cv::Mat &copy_frame = collection.frames[q];
+        for(int z = 0; z < copy_frame.rows; ++z) {
+            for(int i = 0; i < copy_frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+                if(colorBounds(pixel, pix, cv::Vec3b(30, 30, 30), cv::Vec3b(30, 30, 30))) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = pix[j];
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::StrangeGlitch16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    for(int q = 0; q < collection.size(); ++q) {
+        cv::Mat &copy_frame = collection.frames[q];
+        for(int z = 0; z < copy_frame.rows; ++z) {
+            for(int i = 0; i < copy_frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+                if(colorBounds(pixel, pix, cv::Vec3b(30, 30, 30), cv::Vec3b(30, 30, 30))) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = pix[j];
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::CollectionMatrixRandom(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[rand()%collection.size()].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
 }

@@ -1611,6 +1611,9 @@ namespace ac {
     void MedianBlendMultiThreadByThree(cv::Mat &frame);
     void MedianBlendIncrease(cv::Mat &frame);
     void MedianBlendIncrease16(cv::Mat &frame);
+    void StrangeGlitch64(cv::Mat &frame);
+    void StrangeGlitch16(cv::Mat &frame);
+    void CollectionMatrixRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
