@@ -1610,6 +1610,7 @@ namespace ac {
     void MedianBlendMultiThreadByTweleve(cv::Mat &frame);
     void MedianBlendMultiThreadByThree(cv::Mat &frame);
     void MedianBlendIncrease(cv::Mat &frame);
+    void MedianBlendIncrease16(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

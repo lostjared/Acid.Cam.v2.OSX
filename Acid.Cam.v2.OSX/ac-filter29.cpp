@@ -988,3 +988,22 @@ void ac::MedianBlendIncrease(cv::Mat &frame) {
         }
     }
 }
+
+void ac::MedianBlendIncrease16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    static int index = 2, dir = 1;
+    MedianBlendMultiThread(frame, &collection, index);
+    if(dir == 1) {
+        ++index;
+        if(index > 16) {
+            index = 16;
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index < 2) {
+            index = 2;
+            dir = 1;
+        }
+    }
+}
