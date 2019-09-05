@@ -1614,6 +1614,7 @@ namespace ac {
     void StrangeGlitch64(cv::Mat &frame);
     void StrangeGlitch16(cv::Mat &frame);
     void CollectionMatrixOutline(cv::Mat &frame);
+    void CollectionMatrixSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -1080,3 +1080,27 @@ void ac::CollectionMatrixOutline(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::CollectionMatrixSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "CollectionMatrixSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, frame);
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    MedianBlendIncrease(copy1);
+    static int val = 4;
+    cv::Mat &copy_frame = collection.frames[val];
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, cv::Vec3b(50, 50, 50), cv::Vec3b(50, 50, 50))) {
+                pixel = cv::Vec3b(0,0,0);
+            } else {
+                pixel = copy1.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+}
