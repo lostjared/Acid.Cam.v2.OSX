@@ -2060,6 +2060,7 @@ void setEnabledProg() {
     [chk_rand_repeat setIntegerValue: 0];
     [chk_rand_frames setEnabled:YES];
     [image_combo removeAllItems];
+    [image_combo setStringValue:@""];
 }
 
 - (void) updatePref: (BOOL)display_msg {
