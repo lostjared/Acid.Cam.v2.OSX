@@ -176,3 +176,80 @@ void ac::CollectionMatrixRandomMedianBlend(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
     AlphaBlendDouble(copy2, copy3, frame, alpha, (1-alpha));
 }
+
+void ac::ImageCollectionMatrixOutline(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat copy1;
+    ac_resize(blend_image, copy1, frame.size());
+    static MatrixCollection<8> collection;
+    ColorPulseIncrease(frame);
+    collection.shiftFrames(frame);
+    MedianBlendIncrease(copy1);
+    static constexpr int val = 4;
+    cv::Mat &copy_frame = collection.frames[val];
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, cv::Vec3b(50, 50, 50), cv::Vec3b(50, 50, 50))) {
+                pixel = cv::Vec3b(0,0,0);
+            } else {
+                pixel = copy1.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ImageCollectionMatrixOutlineSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixOutlineSubFilter")
+        return;
+    cv::Mat copy1;
+    ac_resize(blend_image, copy1, frame.size());
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, frame);
+    collection.shiftFrames(frame);
+    MedianBlendIncrease(copy1);
+    static constexpr int val = 4;
+    cv::Mat &copy_frame = collection.frames[val];
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, cv::Vec3b(50, 50, 50), cv::Vec3b(50, 50, 50))) {
+                pixel = cv::Vec3b(0,0,0);
+            } else {
+                pixel = copy1.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixOutlineSubFilter")
+        return;
+    cv::Mat copy1, reimage, copy2, output;
+    ac_resize(blend_image, reimage, frame.size());
+    copy1 = reimage.clone();
+    copy2 = frame.clone();
+    static MatrixCollection<8> collection;
+    CallFilter(subfilter, copy1);
+    AlphaBlend(copy1,copy2, output, 0.5);
+    collection.shiftFrames(frame);
+    static constexpr int val = 4;
+    cv::Mat &copy_frame = collection.frames[val];
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, cv::Vec3b(50, 50, 50), cv::Vec3b(50, 50, 50))) {
+                pixel = cv::Vec3b(0, 0, 0);
+            } else {
+                pixel = output.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+}

@@ -1616,7 +1616,10 @@ namespace ac {
     void CollectionMatrixOutline(cv::Mat &frame);
     void CollectionMatrixSubFilter(cv::Mat &frame);
     void CollectionMatrixRandomMedianBlend(cv::Mat &frame);
-    // #NoFilter
+    void ImageCollectionMatrixOutline(cv::Mat &frame);
+    void ImageCollectionMatrixOutlineSubFilter(cv::Mat &frame);
+    void ImageCollectionMatrixFillSubFilter(cv::Mat &frame);
+        // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
