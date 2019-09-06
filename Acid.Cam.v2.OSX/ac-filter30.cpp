@@ -253,3 +253,34 @@ void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageCollectionMatrixFadeInOutSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixOutlineSubFilter")
+        return;
+    cv::Mat copy1, reimage, copy2, output;
+    ac_resize(blend_image, reimage, frame.size());
+    copy1 = reimage.clone();
+    copy2 = frame.clone();
+    static MatrixCollection<8> collection;
+    AlphaBlend(copy1,copy2, output, 0.5);
+    collection.shiftFrames(frame);
+    CallFilter(subfilter, output);
+    static constexpr int val = 4;
+    static double detect_val = 10;
+    static int dir = 1;
+    cv::Mat &copy_frame = collection.frames[val];
+    int detect = static_cast<int>(detect_val);
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, cv::Vec3b(detect, detect, detect), cv::Vec3b(detect, detect, detect))) {
+                pixel = cv::Vec3b(0, 0, 0);
+            } else {
+                pixel = output.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(detect_val, dir, 0.1, 75.0, 10.0);
+}

@@ -1619,6 +1619,7 @@ namespace ac {
     void ImageCollectionMatrixOutline(cv::Mat &frame);
     void ImageCollectionMatrixOutlineSubFilter(cv::Mat &frame);
     void ImageCollectionMatrixFillSubFilter(cv::Mat &frame);
+    void ImageCollectionMatrixFadeInOutSubFilter(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
