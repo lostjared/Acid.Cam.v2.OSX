@@ -235,9 +235,9 @@ void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
     copy1 = reimage.clone();
     copy2 = frame.clone();
     static MatrixCollection<8> collection;
-    CallFilter(subfilter, copy1);
     AlphaBlend(copy1,copy2, output, 0.5);
     collection.shiftFrames(frame);
+    CallFilter(subfilter, output);
     static constexpr int val = 4;
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
