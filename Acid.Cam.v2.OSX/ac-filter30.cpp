@@ -230,7 +230,7 @@ void ac::ImageCollectionMatrixOutlineSubFilter(cv::Mat &frame) {
 }
 
 void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixOutlineSubFilter")
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixFillSubFilter")
         return;
     cv::Mat copy1, reimage, copy2, output;
     ac_resize(blend_image, reimage, frame.size());
@@ -258,7 +258,7 @@ void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
 }
 
 void ac::ImageCollectionMatrixFadeInOutSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixOutlineSubFilter")
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixFadeInOutSubFilter")
         return;
     cv::Mat copy1, reimage, copy2, output;
     ac_resize(blend_image, reimage, frame.size());
@@ -289,7 +289,7 @@ void ac::ImageCollectionMatrixFadeInOutSubFilter(cv::Mat &frame) {
 }
 
 void ac::ImageCollectionMatrixIntensitySubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixOutlineSubFilter")
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixIntensitySubFilter")
         return;
     cv::Mat copy1, reimage, copy2, output;
     ac_resize(blend_image, reimage, frame.size());
