@@ -187,7 +187,7 @@ void ac::ImageCollectionMatrixOutline(cv::Mat &frame) {
     collection.shiftFrames(frame);
     MedianBlendIncrease(copy1);
     static constexpr int val = 4;
-    static cv::Vec3b intensity(50, 50, 50);
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
@@ -213,7 +213,7 @@ void ac::ImageCollectionMatrixOutlineSubFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     MedianBlendIncrease(copy1);
     static constexpr int val = 4;
-    static cv::Vec3b intensity(50, 50, 50);
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
@@ -241,7 +241,7 @@ void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     CallFilter(subfilter, output);
     static constexpr int val = 4;
-    static cv::Vec3b intensity(50, 50, 50);
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
@@ -314,5 +314,4 @@ void ac::ImageCollectionMatrixIntensitySubFilter(cv::Mat &frame) {
         }
     }
     AddInvert(frame);
-
 }
