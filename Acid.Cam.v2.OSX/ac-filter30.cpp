@@ -106,11 +106,12 @@ void ac::CollectionMatrixOutline(cv::Mat &frame) {
     MedianBlendIncrease(copy1);
     static int val = 4;
     cv::Mat &copy_frame = collection.frames[val];
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
-            if(colorBounds(pixel, pix, cv::Vec3b(50, 50, 50), cv::Vec3b(50, 50, 50))) {
+            if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
                 pixel = copy1.at<cv::Vec3b>(z, i);
@@ -130,11 +131,12 @@ void ac::CollectionMatrixSubFilter(cv::Mat &frame) {
     MedianBlendIncrease(copy1);
     static int val = 4;
     cv::Mat &copy_frame = collection.frames[val];
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
-            if(colorBounds(pixel, pix, cv::Vec3b(50, 50, 50), cv::Vec3b(50, 50, 50))) {
+            if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
                 pixel = copy1.at<cv::Vec3b>(z, i);
@@ -344,6 +346,35 @@ void ac::ImageCollectionMatrixMedianSubFilter(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
+
+void ac::CollectionMatrxOutlineAlphaMedianBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    ColorTransition(frame);
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    MedianBlendIncrease(copy1);
+    static int val = 4;
+    cv::Mat &copy_frame = collection.frames[val];
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
+    cv::Mat copied_frame = frame.clone(), copy_val = frame.clone();
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = copied_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, intensity, intensity)) {
+                pixel = cv::Vec3b(0,0,0);
+            } else {
+                pixel = copy1.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaBlendDouble(copied_frame, copy_val, frame, alpha, (1-alpha));
+    MedianBlendMultiThread_2160p(frame);
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
