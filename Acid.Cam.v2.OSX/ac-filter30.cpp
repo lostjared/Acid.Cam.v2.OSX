@@ -315,3 +315,35 @@ void ac::ImageCollectionMatrixIntensitySubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageCollectionMatrixMedianSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCollectionMatrixMedianSubFilter")
+        return;
+    cv::Mat copy1, reimage, copy2, output;
+    ac_resize(blend_image, reimage, frame.size());
+    copy1 = reimage.clone();
+    copy2 = frame.clone();
+    static MatrixCollection<32> collection;
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaBlendDouble(copy1,copy2, output, alpha, (1-alpha));
+    collection.shiftFrames(frame);
+    CallFilter(subfilter, output);
+    MedianBlendIncrease(output);
+    static const int val = 4;
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
+    cv::Mat &copy_frame = collection.frames[val];
+    for(int z = 0; z < copy_frame.rows; ++z) {
+        for(int i = 0; i < copy_frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            if(colorBounds(pixel, pix, intensity, intensity)) {
+                pixel = cv::Vec3b(0, 0, 0);
+            } else {
+                pixel = output.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
