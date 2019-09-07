@@ -1623,6 +1623,7 @@ namespace ac {
     void ImageCollectionMatrixIntensitySubFilter(cv::Mat &frame);
     void ImageCollectionMatrixMedianSubFilter(cv::Mat &frame);
     void CollectionMatrxOutlineAlphaMedianBlend(cv::Mat &frame);
+    void ImageSourceOrigTest(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
