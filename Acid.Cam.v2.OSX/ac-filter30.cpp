@@ -426,3 +426,29 @@ void ac::MatrixCollectionAuraTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionAuraTrails32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    static int frame_counter = 0;
+    ++frame_counter;
+    if(frame_counter > 2 || collection.empty()) {
+        collection.shiftFrames(frame);
+        frame_counter = 0;
+    }
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    for(int q = 0; q < collection.size(); ++q) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

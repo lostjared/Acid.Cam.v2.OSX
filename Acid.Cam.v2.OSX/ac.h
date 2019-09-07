@@ -1625,6 +1625,7 @@ namespace ac {
     void CollectionMatrxOutlineAlphaMedianBlend(cv::Mat &frame);
     void ImageSourceOrigXor(cv::Mat &frame);
     void MatrixCollectionAuraTrails(cv::Mat &frame);
+    void MatrixCollectionAuraTrails32(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
