@@ -461,7 +461,7 @@
         <window title="Acid Cam v2 - Start New Session" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="538">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="107" y="1110" width="353" height="252"/>
+            <rect key="contentRect" x="60" y="1141" width="353" height="252"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="539">
                 <rect key="frame" x="0.0" y="0.0" width="353" height="252"/>
@@ -2055,7 +2055,7 @@ Gw
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="82" y="677" width="285" height="464"/>
+            <rect key="contentRect" x="49" y="614" width="285" height="464"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="ZQs-8e-2LN">
                 <rect key="frame" x="0.0" y="0.0" width="285" height="464"/>
