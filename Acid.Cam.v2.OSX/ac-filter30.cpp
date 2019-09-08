@@ -452,3 +452,39 @@ void ac::MatrixCollectionAuraTrails32(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PixelIntensityFillSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "PixelIntensityFillSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    CallFilter(subfilter, copy1);
+    cv::Mat copy3;
+    AlphaBlend(copy1, copy2, copy3, 0.5);
+    MedianBlendMultiThread(copy3);
+    cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
+    for(int q = 0; q < collection.size(); ++q) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixels[3];
+                pixels[0] = frames[0].at<cv::Vec3b>(z, i);
+                pixels[1] = frames[1].at<cv::Vec3b>(z, i);
+                pixels[2] = frames[2].at<cv::Vec3b>(z, i);
+                cv::Vec3b pix(pixels[0][0], pixels[1][1], pixels[2][2]);
+                if(colorBounds(pixel, pix, intensity, intensity)) {
+                    pixel = copy1.at<cv::Vec3b>(z, i);
+                } else {
+                    pixel = copy3.at<cv::Vec3b>(z, i);
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
