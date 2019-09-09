@@ -1027,11 +1027,11 @@ void setEnabledProg() {
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
                 dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-                if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
+                if(syphon_enabled == NO && dst.size().width > 0 && dst.size().height > 0) cv::imshow("Acid Cam v2", dst);
             } else {
                 if(syphon_enabled == NO) {
                     cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
-                    cv::imshow("Acid Cam v2", frame);
+                    if(frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
                 }
             }
             ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1000)/1000) << " MB";
@@ -1327,13 +1327,11 @@ void setEnabledProg() {
     if([stretch_scr state] == NSOnState) {
         cv::Mat dst;
         dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-        if(syphon_enabled == NO) cv::imshow("Acid Cam v2", dst);
+        if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", dst);
     } else {
         if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
             if(frame.ptr() != NULL) {
-                if(syphon_enabled == NO) {
-                    cv::imshow("Acid Cam v2", frame);
-                }
+                if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
             }
         }
     }
@@ -1977,7 +1975,7 @@ void setEnabledProg() {
         if(ac::filter_map_str.find(file_str) != ac::filter_map_str.end()) {
             ac::CallFilter(file_str, copy1);
             cv::namedWindow("Preview_Window", cv::WINDOW_NORMAL);
-            cv::imshow("Preview_Window", copy1);
+            if(copy1.size().width > 0 && copy1.size().height > 0) cv::imshow("Preview_Window", copy1);
         }
     }
 }

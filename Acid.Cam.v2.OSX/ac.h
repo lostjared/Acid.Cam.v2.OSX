@@ -1629,6 +1629,8 @@ namespace ac {
     void PixelIntensityFillSubFilter(cv::Mat &frame);
     void SmoothImageFrameSubFilter(cv::Mat &frame);
     void ImageCycleBlend(cv::Mat &frame);
+    void ImageCycleAlphaBlend(cv::Mat &frame);
+    void ImageCycleXor(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

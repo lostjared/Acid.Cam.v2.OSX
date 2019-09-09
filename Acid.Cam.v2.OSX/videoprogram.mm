@@ -231,7 +231,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             cv::Mat _bg;
             _bg.create(cv::Size(rc.size.width, rc.size.height), CV_8UC3);
             ac::fillRect(_bg,ac::Rect(0, 0, _bg.cols, _bg.rows), cv::Vec3b(0,0,0));
-            cv::imshow("Acid Cam v2", _bg);
+            if(_bg.size().width > 0 && _bg.size().height > 0) cv::imshow("Acid Cam v2", _bg);
         }
         // flush to log
         flushToLog(sout);
@@ -257,6 +257,14 @@ void jumptoFrame(BOOL showJump, long frame) {
     cv::Mat pos;
     capture->read(pos);
     capture->set(cv::CAP_PROP_POS_FRAMES,frame);
-    if(showJump == NO) cv::imshow("Acid Cam v2", pos);
+    if(showJump == NO) {
+        if(capture->isOpened() && pos.size().width > 0 && pos.size().height > 0) {
+                cv::imshow("Acid Cam v2", pos);
+        } else {
+            std::ostringstream stream;
+            stream << "Error: File format does not allow Skipping to frames. Video will now exit.\n";
+            flushToLog(stream);
+        }
+    }
     frame_cnt = frame;
 }

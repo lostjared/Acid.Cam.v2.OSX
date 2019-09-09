@@ -530,3 +530,43 @@ void ac::ImageCycleBlend(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
+
+void ac::ImageCycleAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    AlphaBlendDouble(copy1, reimage, frame, alpha, (1-alpha));
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
+
+void ac::ImageCycleXor(cv::Mat &frame) {
+   if(blend_set == false)
+       return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int q = 0; q < 3; ++q) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b cpix = collection.frames[q].at<cv::Vec3b>(z, i);
+                cv::Vec3b ipix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val1 = static_cast<int>(cpix[j] * alpha);
+                    int val2 = static_cast<int>(ipix[j] * (1-alpha));
+                    pixel[j] ^= static_cast<unsigned char>(val1 ^ val2);
+                    if(pixel[j] == 0)
+                        pixel[j] = ipix[j];
+                }
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
