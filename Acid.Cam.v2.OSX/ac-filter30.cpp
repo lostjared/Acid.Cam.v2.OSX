@@ -514,3 +514,19 @@ void ac::SmoothImageFrameSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     Smooth(frame, &collection);
 }
+
+void ac::ImageCycleBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = reimage.clone(), copy2 = frame.clone();
+    static MatrixCollection<8> collection1;
+    static MatrixCollection<8> collection2;
+    Smooth(copy1, &collection1);
+    Smooth(copy2, &collection2);
+    static double alpha = 1.0;
+    static int dir = 1;
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
