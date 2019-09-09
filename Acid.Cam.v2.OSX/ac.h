@@ -1627,6 +1627,7 @@ namespace ac {
     void MatrixCollectionAuraTrails(cv::Mat &frame);
     void MatrixCollectionAuraTrails32(cv::Mat &frame);
     void PixelIntensityFillSubFilter(cv::Mat &frame);
+    void SmoothImageFrameSubFilter(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

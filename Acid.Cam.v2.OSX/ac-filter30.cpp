@@ -498,3 +498,19 @@ void ac::PixelIntensityFillSubFilter(cv::Mat &frame) {
     MedianBlendMultiThread_2160p(frame);
     AddInvert(frame);
 }
+
+void ac::SmoothImageFrameSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "SmoothImageFrameSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat reimage, copy1, copy2;
+    ac_resize(blend_image, reimage, frame.size());
+    copy1 = frame.clone();
+    AlphaBlendDouble(copy1, reimage, copy2, alpha, (1-alpha));
+    CallFilter(subfilter, copy2);
+    collection.shiftFrames(copy2);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    Smooth(frame, &collection);
+}

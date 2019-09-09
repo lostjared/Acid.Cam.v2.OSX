@@ -1111,7 +1111,7 @@ void setEnabledProg() {
         val = [image_combo numberOfItems];
         if(val >= 2) {
             NSInteger value_max = [chk_rand_frames integerValue];
-            if(value_max >= 2) {
+            if(value_max >= 1) {
                 NSInteger next_index = 0;
                 NSInteger mode = [chk_rand_mode indexOfSelectedItem];
                 ++value_index;
