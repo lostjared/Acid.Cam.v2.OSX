@@ -1733,11 +1733,15 @@ void setEnabledProg() {
     if([panel runModal]) {
         NSArray *file_names = [panel URLs];
         if([file_names count] > 0) {
+            
             if(!image_shuffle.empty())
                 image_shuffle.erase(image_shuffle.begin(), image_shuffle.end());
+            
             for(int i = 0; i < [file_names count]; ++i) {
                 NSURL *file_n = [file_names objectAtIndex:i];
                 [image_combo addItemWithObjectValue: [file_n path]];
+            }
+            for(int i = 0; i < [image_combo numberOfItems]; ++i) {
                 image_shuffle.push_back(i);
             }
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
