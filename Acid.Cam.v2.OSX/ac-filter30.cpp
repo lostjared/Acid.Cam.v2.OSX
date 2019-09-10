@@ -513,6 +513,7 @@ void ac::SmoothImageFrameSubFilter(cv::Mat &frame) {
     collection.shiftFrames(copy2);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     Smooth(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::ImageCycleBlend(cv::Mat &frame) {
@@ -529,6 +530,7 @@ void ac::ImageCycleBlend(cv::Mat &frame) {
     static int dir = 1;
     AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::ImageCycleAlphaBlend(cv::Mat &frame) {
@@ -541,6 +543,7 @@ void ac::ImageCycleAlphaBlend(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     AlphaBlendDouble(copy1, reimage, frame, alpha, (1-alpha));
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::ImageCycleXor(cv::Mat &frame) {
@@ -569,4 +572,23 @@ void ac::ImageCycleXor(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+// works best with Image Cycle
+void ac::ImageCycleMedian(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    static int div_index = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    collection.shiftFrames(frame);
+    MedianBlendMultiThread(frame, &collection, div_index);
+    cv::Mat copy1 = frame.clone();
+    AlphaBlendDouble(copy1, reimage, frame, 0.5, 0.5);
+     ++div_index;
+    if(div_index > 7)
+        div_index = 1;
+    AddInvert(frame);
 }
