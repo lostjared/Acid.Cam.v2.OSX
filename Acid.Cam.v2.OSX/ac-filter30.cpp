@@ -592,3 +592,19 @@ void ac::ImageCycleMedian(cv::Mat &frame) {
         div_index = 1;
     AddInvert(frame);
 }
+
+void ac::ImageCycleAlphaSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageCycleAlphaSubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat temp1;
+    AlphaBlendDouble(copy1, reimage, temp1, alpha, (1-alpha));
+    CallFilter(subfilter, temp1);
+    AlphaBlendDouble(copy1, temp1, frame, (1-alpha), alpha);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}

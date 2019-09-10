@@ -1632,6 +1632,7 @@ namespace ac {
     void ImageCycleAlphaBlend(cv::Mat &frame);
     void ImageCycleXor(cv::Mat &frame);
     void ImageCycleMedian(cv::Mat &frame);
+    void ImageCycleAlphaSubFilter(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
