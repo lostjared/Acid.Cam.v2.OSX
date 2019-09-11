@@ -608,3 +608,16 @@ void ac::ImageCycleAlphaSubFilter(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }
+
+void ac::ImageCycleSmoothAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(reimage, copy1, frame, 0.5);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
