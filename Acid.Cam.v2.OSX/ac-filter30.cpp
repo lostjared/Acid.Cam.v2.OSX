@@ -604,7 +604,7 @@ void ac::ImageCycleAlphaSubFilter(cv::Mat &frame) {
     cv::Mat temp1;
     AlphaBlendDouble(copy1, reimage, temp1, alpha, (1-alpha));
     CallFilter(subfilter, temp1);
-    AlphaBlendDouble(copy1, temp1, frame, (1-alpha), alpha);
+    AlphaBlendDouble(copy1, temp1, frame, 0.5, 0.5);
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
 }

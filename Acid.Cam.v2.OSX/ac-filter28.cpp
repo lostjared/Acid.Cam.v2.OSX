@@ -485,7 +485,6 @@ void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
     if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageRowAlphaSubFilter")
         return;
     static int index = 0;
-    static unsigned char val = 0;
     static double alpha = 1.0;
     static int dir = 1;
     cv::Mat copy1 = frame.clone();
@@ -493,6 +492,7 @@ void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     static int pos = 0;
+    static unsigned char val = 0;
     pos = (pos == 0) ? 1 : 0;
     for(int i = 0; i < frame.cols; ++i) {
         val = 1;
@@ -847,7 +847,6 @@ void ac::ImageMirror_Right(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = halfway; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b src_frame = reimage.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -972,7 +971,6 @@ void ac::ImageMirror_RightSubFilter(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = halfway; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b src_frame = reimage.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
