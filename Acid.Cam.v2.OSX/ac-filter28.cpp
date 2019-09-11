@@ -492,10 +492,8 @@ void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, copy1);
     static int pos = 0;
-    static unsigned char val = 0;
     pos = (pos == 0) ? 1 : 0;
     for(int i = 0; i < frame.cols; ++i) {
-        val = 1;
         for(int z = 0; z < frame.rows; ++z) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix[2];
