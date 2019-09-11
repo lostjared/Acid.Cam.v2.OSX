@@ -617,7 +617,9 @@ void ac::ImageCycleSmoothAlphaBlend(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     cv::Mat copy1 = frame.clone();
     AlphaBlend(reimage, copy1, frame, 0.5);
-    collection.shiftFrames(frame);
-    Smooth(frame, &collection);
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    else
+        Smooth(frame, &collection);
     AddInvert(frame);
 }
