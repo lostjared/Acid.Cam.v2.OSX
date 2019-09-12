@@ -619,7 +619,20 @@ void ac::ImageCycleSmoothAlphaBlend(cv::Mat &frame) {
     AlphaBlend(reimage, copy1, frame, 0.5);
     if(collection.empty())
         collection.shiftFrames(frame);
-    else
-        Smooth(frame, &collection);
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::ImageCycleSmoothAlphaBlend32(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat copy1 = frame.clone();
+    AlphaBlend(reimage, copy1, frame, 0.5);
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    Smooth(frame, &collection);
     AddInvert(frame);
 }
