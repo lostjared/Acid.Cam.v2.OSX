@@ -642,3 +642,11 @@ void ac::BlendWithSourceMedianBlendMultiThreadEight(cv::Mat &frame) {
     MedianBlendMultiThreadByEight(frame);
     AddInvert(frame);
 }
+
+void ac::BlendWithImageMedianMutliThreadEight(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    BlendWithImage75(frame);
+    MedianBlendMultiThreadByEight(frame);
+    AddInvert(frame);
+}

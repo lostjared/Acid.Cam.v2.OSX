@@ -1636,6 +1636,7 @@ namespace ac {
     void ImageCycleSmoothAlphaBlend(cv::Mat &frame);
     void ImageCycleSmoothAlphaBlend32(cv::Mat &frame);
     void BlendWithSourceMedianBlendMultiThreadEight(cv::Mat &frame);
+    void BlendWithImageMedianMutliThreadEight(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
