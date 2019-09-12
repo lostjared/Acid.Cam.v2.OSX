@@ -636,3 +636,9 @@ void ac::ImageCycleSmoothAlphaBlend32(cv::Mat &frame) {
     Smooth(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::BlendWithSourceMedianBlendMultiThreadEight(cv::Mat &frame) {
+    BlendWithSource75(frame);
+    MedianBlendMultiThreadByEight(frame);
+    AddInvert(frame);
+}
