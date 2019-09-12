@@ -650,3 +650,15 @@ void ac::BlendWithImageMedianMutliThreadEight(cv::Mat &frame) {
     MedianBlendMultiThreadByEight(frame);
     AddInvert(frame);
 }
+
+void ac::GradientBlendWithImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+     cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    GradientColors(reimage);
+    cv::Mat copy1  = frame.clone();
+    GradientColors(copy1);
+    AlphaBlend(copy1, reimage, frame, 0.5);
+    AddInvert(frame);
+}
