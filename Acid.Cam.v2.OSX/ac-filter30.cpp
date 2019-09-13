@@ -662,3 +662,9 @@ void ac::GradientBlendWithImage(cv::Mat &frame) {
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
+
+void ac::DarkColorMovement(cv::Mat &frame) {
+    ColorPulseIncrease(frame);
+    ColorTransition(frame);
+    MedianBlendMultiThreadByEight(frame);
+}

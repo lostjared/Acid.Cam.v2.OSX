@@ -1638,6 +1638,7 @@ namespace ac {
     void BlendWithSourceMedianBlendMultiThreadEight(cv::Mat &frame);
     void BlendWithImageMedianMutliThreadEight(cv::Mat &frame);
     void GradientBlendWithImage(cv::Mat &frame);
+    void DarkColorMovement(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
