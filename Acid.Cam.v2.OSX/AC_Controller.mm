@@ -91,7 +91,7 @@ cv::Mat test_image;
 std::vector<int> image_shuffle;
 int image_shuffle_index = 0;
 std::random_device r;
-std::default_random_engine img_rng;
+std::default_random_engine img_rng(r());
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
