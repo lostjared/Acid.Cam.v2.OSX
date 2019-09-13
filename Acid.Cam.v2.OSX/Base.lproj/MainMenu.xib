@@ -57,6 +57,7 @@
                 <outlet property="device_index" destination="586" id="633"/>
                 <outlet property="disable_filters" destination="JLh-0m-Y5J" id="qRU-2U-dah"/>
                 <outlet property="fade_filter" destination="ybb-Ri-H7o" id="1sa-EL-6Va"/>
+                <outlet property="filename_textfield" destination="Hoq-bf-Eba" id="9EI-EP-0gx"/>
                 <outlet property="filter_search_window" destination="Z1m-Pb-5Gb" id="Quo-sn-3tX"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
                 <outlet property="find_table" destination="5zp-Ok-oBd" id="0hD-Fm-7Vy"/>
@@ -2048,6 +2049,15 @@ Gw
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Hoq-bf-Eba">
+                        <rect key="frame" x="167" y="76" width="248" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" id="1Ne-B3-ViS">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1387.5" y="-2514.5"/>
