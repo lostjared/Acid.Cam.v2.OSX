@@ -668,3 +668,9 @@ void ac::DarkColorMovement(cv::Mat &frame) {
     ColorTransition(frame);
     MedianBlendMultiThreadByEight(frame);
 }
+
+void ac::DarkColorFibonacci(cv::Mat &frame) {
+    ColorFibonacci(frame);
+    ColorTransition(frame);
+    MedianBlendMultiThreadByEight(frame);
+}
