@@ -920,14 +920,16 @@ void setEnabledProg() {
                             } else {
                                 blend_set = false;
                             }
-
                             std::string value = [str_value UTF8String];
-                            value = value.substr(value.rfind("/")+1, value.length());
-                            NSString *string_value = [NSString stringWithUTF8String: value.c_str()];
+                            auto pos = value.rfind("/");
+                            if(pos != std::string::npos) {
+                                value = value.substr(value.rfind("/")+1, value.length());
+                                NSString *string_value = [NSString stringWithUTF8String: value.c_str()];
+                                [filename_textfield setStringValue:string_value];
+                            }
                             NSImage *img = [[NSImage alloc] initWithContentsOfFile:str_value];
                             [cur_selected_image setImage:img];
                             [img release];
-                            [filename_textfield setStringValue:string_value];
                         }
                     }
                 }
@@ -1145,12 +1147,15 @@ void setEnabledProg() {
                         blend_set = false;
                     }
                     std::string value = [str_value UTF8String];
+                    auto pos = value.rfind("/");
+                    if(pos != std::string::npos) {
                     value = value.substr(value.rfind("/")+1, value.length());
-                    NSString *string_value = [NSString stringWithUTF8String: value.c_str()];
+                        NSString *string_value = [NSString stringWithUTF8String: value.c_str()];
+                        [filename_textfield setStringValue:string_value];
+                    }
                     NSImage *img = [[NSImage alloc] initWithContentsOfFile:str_value];
                     [cur_selected_image setImage:img];
                     [img release];
-                    [filename_textfield setStringValue:string_value];
                 }
             }
         }
