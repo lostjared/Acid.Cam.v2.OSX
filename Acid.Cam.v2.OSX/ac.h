@@ -1642,6 +1642,7 @@ namespace ac {
     void DarkColorMovement(cv::Mat &frame);
     void DarkColorFibonacci(cv::Mat &frame);
     void UseFilterOnAndOffSubFilter(cv::Mat &frame);
+    void UseFilterOnAndOffEachQuarterSecondSubFilter(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

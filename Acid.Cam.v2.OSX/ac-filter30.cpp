@@ -687,3 +687,17 @@ void ac::UseFilterOnAndOffSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::UseFilterOnAndOffEachQuarterSecondSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "UseFilterOnAndOffSubFilter")
+        return;
+    static int counter = 0;
+    int fps = static_cast<int>(ac::fps)/4;
+    ++counter;
+    if(counter > fps) {
+        counter = 0;
+        CallFilter(subfilter, frame);
+    }
+    AddInvert(frame);
+    
+}
