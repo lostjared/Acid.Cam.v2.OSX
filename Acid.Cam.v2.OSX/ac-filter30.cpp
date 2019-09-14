@@ -714,3 +714,17 @@ void ac::UseFilterOnAndOffByEightSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::UseImageOnAndOffByEight(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static int counter = 0;
+    int fps = static_cast<int>(ac::fps)/8;
+    ++counter;
+    if(counter > fps) {
+        counter = 0;
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
+        reimage.copyTo(frame);
+    }
+}
