@@ -667,10 +667,23 @@ void ac::DarkColorMovement(cv::Mat &frame) {
     ColorPulseIncrease(frame);
     ColorTransition(frame);
     MedianBlendMultiThreadByEight(frame);
+    AddInvert(frame);
 }
 
 void ac::DarkColorFibonacci(cv::Mat &frame) {
     ColorFibonacci(frame);
     ColorTransition(frame);
     MedianBlendMultiThreadByEight(frame);
+    AddInvert(frame);
+}
+
+void ac::UseFilterOnAndOffSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "UseFilterOnAndOffSubFilter")
+        return;
+    static int counter = 0;
+    ++counter;
+    if((counter%2) == 0) {
+        CallFilter(subfilter, frame);
+    }
+    AddInvert(frame);
 }
