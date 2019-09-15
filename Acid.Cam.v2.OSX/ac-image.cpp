@@ -49,13 +49,13 @@ void ac::imageBlend(cv::Mat &frame) {
     static double pos = 1.0f;// static pos set to 1
     if(blend_set == true) {// if image is set
         int i,z;
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         for(i = 0; i < frame.cols; ++i) { // top to bottom
             for(z = 0; z < frame.rows; ++z) {// left to right
                 // get resized x,y
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);// get current pixel
-                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);// get pixel to blend from resized x,y
+                cv::Vec3b im = reimage.at<cv::Vec3b>(z, i);// get pixel to blend from resized x,y
                 // set pixel values
                 current[0] = static_cast<unsigned char>(current[0]+(im[0]*pos));
                 current[1] = static_cast<unsigned char>(current[1]+(im[1]*pos));
@@ -73,15 +73,15 @@ void ac::imageBlend(cv::Mat &frame) {
 void ac::imageBlendTwo(cv::Mat &frame) {
     static double pos = 1.0f; // static pos equal 1.0
     if(blend_set == true) {// if image is set to blend with
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         int i,z;// loop variables
         for(i = 0; i < frame.cols; ++i) { // left to right
             for(z = 0; z < frame.rows; ++z) {// top to bottom
                 // resize x,y
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 // grab pixels
                 cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b im = reimage.at<cv::Vec3b>(z, i);
                 // set pixel values
                 current[0] = static_cast<unsigned char>(im[0]+(current[0]*pos));
                 current[1] = static_cast<unsigned char>(im[1]+(current[1]*pos));
@@ -99,23 +99,22 @@ void ac::imageBlendTwo(cv::Mat &frame) {
 // takes cv::Mat reference
 void ac::imageBlendThree(cv::Mat &frame) {
     if(blend_set == true) { // if blend_set is true (image selected)
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         static double pos = 1.0f;// static pos equals 1.0
         for(int i = 0; i < frame.cols; ++i) { // from top to bottom
             for(int z = 0; z < frame.rows; ++z) {// from left to right
                 // calculate x,y pixel position
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 // get pixel to manipulate reference
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 // get image pixel from calculated x,y positions
-                cv::Vec3b im = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b im = reimage.at<cv::Vec3b>(z, i);
                 // calculate pixel data
                 pixel[0] += (pixel[0]^im[0]);
                 pixel[1] += (pixel[1]^im[1]);
                 pixel[2] += static_cast<unsigned char>((pixel[2]^im[2])*pos);
                 swapColors(frame, z, i);//swap colors
                 if(isNegative) invert(frame, z, i);// if isNegative invert pixel
-                
             }
         }
         // static int directione quals 1
@@ -204,12 +203,12 @@ void ac::ImageFile(cv::Mat &frame) {
     if(blend_set == true) {
         const int w = frame.cols;
         const int h = frame.rows;
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 pixel[0] += add_i[0];
                 pixel[1] += add_i[1];
                 pixel[1] += add_i[2];
@@ -224,13 +223,13 @@ void ac::ImageXor(cv::Mat &frame) {
     if(blend_set == true) {
         const int w = frame.cols;
         const int h = frame.rows;
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         static double alpha = 1.0, alpha_max = 4.0;
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = cv::saturate_cast<unsigned char>((pixel[j]^add_i[j])*alpha);
                 swapColors(frame, z, i);// swap colors
@@ -270,12 +269,12 @@ void ac::ImageInter(cv::Mat &frame) {
         static int start = 0, restart = 0;
         const int w = frame.cols;
         const int h = frame.rows;
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 if(start == 0) {
                     pixel = add_i;
                 }
@@ -408,12 +407,12 @@ void ac::XorSelfAlphaImage(cv::Mat &frame) {
     if(blend_set == true) {
         static double alpha = 1.0, alpha_max = 2.0;
         static double alpha_r = 14.0;
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     //pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
                     pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha)) + (pix[j] * alpha_r));
@@ -482,13 +481,13 @@ void ac::ExactImage(cv::Mat &frame) {
 // Use this with other filters like MedianBlend
 void ac::BlendImageXor(cv::Mat &frame) {
     if(blend_set == true) {
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         static double alpha = 1.0, alpha_max = 7.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((pixel[j]^add_i[j])*alpha);
                 }
@@ -503,6 +502,8 @@ void ac::BlendImageXor(cv::Mat &frame) {
 
 void ac::BlendImageAround_Median(cv::Mat &frame) {
     if(blend_set == true) {
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         static double alpha = 1.0, alpha_max = 7.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
@@ -512,9 +513,7 @@ void ac::BlendImageAround_Median(cv::Mat &frame) {
                 pixel_data[1] = frame.at<cv::Vec3b>(frame.rows-z-1, i);
                 pixel_data[2] = frame.at<cv::Vec3b>(z, frame.cols-i-1);
                 pixel_data[3] = frame.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 cv::Scalar val;
                 for(int j = 0; j < 4; ++j) {
                     for(int q = 0; q < 3; ++q)
@@ -542,14 +541,13 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 4.0, speed = 0.1;
         static MatrixCollection<8> collection;
         collection.shiftFrames(frame);
-        
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b orig_pix = pixel;
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < collection.size(); ++j) {
                     cv::Vec3b color_v = collection.frames[j].at<cv::Vec3b>(z, i);
                     for(int q = 0; q < 3; ++q) {

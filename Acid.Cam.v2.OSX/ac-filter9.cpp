@@ -849,13 +849,13 @@ void ac::RandomPixelOrderSort(cv::Mat &frame) {
 
 void ac::ImageXorAlpha(cv::Mat &frame) {
     if(blend_set == true) {
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         static double alpha = 1.0, alpha_max = 3.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = (static_cast<unsigned char>((pixel[j]*(alpha+1))) ^ static_cast<unsigned char>((pix[j]*alpha)));
                 }
@@ -873,6 +873,8 @@ void ac::ImageAverageXor(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 3.0;
         collection.shiftFrames(frame);
         DarkenFilter(frame);
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -882,9 +884,7 @@ void ac::ImageAverageXor(cv::Mat &frame) {
                     for(int j = 0; j < 3; ++j)
                         values[j] += pix[j];
                 }
-                int cX = AC_GetFX(blend_image.cols, i, frame.cols);
-                int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
-                cv::Vec3b pix = blend_image.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     values[j] /= collection.size();
                     pixel[j] = (static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>((pix[j]*alpha)) ^ static_cast<unsigned char>((values[j]*alpha)));
