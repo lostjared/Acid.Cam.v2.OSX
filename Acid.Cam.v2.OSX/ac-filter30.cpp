@@ -728,3 +728,11 @@ void ac::UseImageOnAndOffByEight(cv::Mat &frame) {
         reimage.copyTo(frame);
     }
 }
+
+void ac::UseImageOnAndOff(cv::Mat &frame) {
+    static int counter = 0;
+    ++counter;
+    if((counter%2) == 0) {
+        ExactImage(frame);
+    }
+}
