@@ -1646,6 +1646,7 @@ namespace ac {
     void UseFilterOnAndOffByEightSubFilter(cv::Mat &frame);
     void UseImageOnAndOffByEight(cv::Mat &frame);
     void UseImageOnAndOff(cv::Mat &frame);
+    void SelfAlphaScale_Down(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

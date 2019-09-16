@@ -736,3 +736,44 @@ void ac::UseImageOnAndOff(cv::Mat &frame) {
         ExactImage(frame);
     }
 }
+
+void ac::SelfAlphaScale_Down(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    bool reset_values = false;
+    static int counter = 0;
+    int fps = static_cast<int>(ac::fps);
+    ++counter;
+    if((counter > (fps*3))) {
+        counter = 0;
+        reset_values = true;
+    }
+    if(reset_values == true|| image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    static int speed = 5;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pix_container.pix_values[i][z].col[j] -= speed;
+                    int value = pixel[j] - pix_container.pix_values[i][z].col[j];
+                    if(value <= 0) {
+                        pix_container.pix_values[i][z].col[j] = pixel[j];
+                        pixel[j] = 0;
+                    } else {
+                        pixel[j] = pixel[j] - pix_container.pix_values[i][z].col[j];
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 1.0, 255.0, 1.0);
+    AddInvert(frame);
+}
