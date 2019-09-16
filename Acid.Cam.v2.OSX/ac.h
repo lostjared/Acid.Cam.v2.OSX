@@ -1648,6 +1648,7 @@ namespace ac {
     void UseImageOnAndOff(cv::Mat &frame);
     void SelfAlphaScale_Down(cv::Mat &frame);
     void PsychoticVision(cv::Mat &frame);
+    void DarkPsychoticVision(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

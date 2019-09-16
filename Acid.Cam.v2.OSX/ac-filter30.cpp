@@ -820,3 +820,9 @@ void ac::PsychoticVision(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::DarkPsychoticVision(cv::Mat &frame) {
+    PsychoticVision(frame);
+    MedianBlendMultiThreadByEight(frame);
+    AddInvert(frame);
+}
