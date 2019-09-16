@@ -1647,6 +1647,7 @@ namespace ac {
     void UseImageOnAndOffByEight(cv::Mat &frame);
     void UseImageOnAndOff(cv::Mat &frame);
     void SelfAlphaScale_Down(cv::Mat &frame);
+    void PsychoticVision(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2584,15 +2585,28 @@ namespace ac {
             }
             return *this;
         }
+        
+        void clear() {
+            for(int i = 0; i < 3; ++i) {
+                dir[i] = 0;
+                col[i] = 0;
+                add[i] = 0;
+            }
+            speed = 1;
+            position_x = position_y = 0;
+        }
     };
     
     class PixelArray2D {
     public:
-        PixelArray2D() : pix_values(0), pix_x(0), pix_y(0) {}
+        PixelArray2D() : pix_values(0), pix_x(0), pix_y(0), rng(r()) {}
         PixelArray2D(const PixelArray2D &) = delete;
         ~PixelArray2D();
         void create(cv::Mat &frame, int w, int h, int dir, bool addvec = false);
+        void create_empty(int w, int h);
         void erase();
+        void setAll(const int &value);
+        void setAllDirection(const int &value);
         void insert(cv::Mat &image);
         PixelArray2D &operator=(const PixelArray2D &) = delete;
         PixelValues **pix_values;
@@ -2606,7 +2620,21 @@ namespace ac {
         void shuffle();
         void generateMatrix(cv::Mat &frame);
         std::vector<PixelValues*> pixel_index;
+        
+        template<typename Func>
+        void setColorValues(Func value) {
+            for(int z = 0; z < pix_y; ++z) {
+                for(int i = 0; i < pix_x; ++i) {
+                    PixelValues &p = pix_values[i][z];
+                    for(int j = 0; j < 3; ++j)  {
+                        p.col[j] = value(i, z);
+                    }
+                }
+            }
+        }
+
     protected:
+        std::random_device r;
         std::default_random_engine rng;
         int pix_x, pix_y;
         

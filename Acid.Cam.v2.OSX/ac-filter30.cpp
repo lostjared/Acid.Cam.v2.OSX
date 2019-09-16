@@ -746,7 +746,7 @@ void ac::SelfAlphaScale_Down(cv::Mat &frame) {
     static int counter = 0;
     int fps = static_cast<int>(ac::fps);
     ++counter;
-    if((counter > (fps*3))) {
+    if((counter > (fps*6))) {
         counter = 0;
         reset_values = true;
     }
@@ -775,5 +775,48 @@ void ac::SelfAlphaScale_Down(cv::Mat &frame) {
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
     AlphaMovementMaxMin(alpha, dir, 1.0, 255.0, 1.0);
+    AddInvert(frame);
+}
+
+void ac::PsychoticVision(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    bool reset_values = false;
+    if(reset_values == true|| image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create_empty(frame.cols, frame.rows);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        pix_container.setColorValues([](int x, int y) { return rand()%5; });
+    }
+    MedianBlendMultiThread_2160p(frame);
+    static int speed = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) - (0.3 * alpha) * p.col[j]);
+                    if(p.dir[j] == 0) {
+                        p.col[j] -= speed;
+                        if(p.col[j] <= 0) {
+                            p.dir[j] = 1;
+                            p.col[j] = 1;
+                        }
+                    } else if(p.dir[j] == 1) {
+                        p.col[j] += speed;
+                        if(p.col[j] > 200) {
+                            p.dir[j] = 0;
+                            p.col[j] = 200;
+                        }
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     AddInvert(frame);
 }

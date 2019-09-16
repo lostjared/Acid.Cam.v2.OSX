@@ -1129,6 +1129,26 @@ ac::PixelArray2D::~PixelArray2D() {
     erase();
 }
 
+void ac::PixelArray2D::create_empty(int w, int h) {
+    if(pix_values != 0) {
+        erase();
+    }
+    pix_x = w;
+    pix_y = h;
+    pix_values = new PixelValues*[pix_x];
+    for(int i = 0; i < pix_x; ++i) {
+        pix_values[i] = new PixelValues[pix_y];
+    }
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            pix_values[i][z].clear();
+            pix_values[i][z].speed = 1;
+            pix_values[i][z].position_x = i;
+            pix_values[i][z].position_y = z;
+        }
+    }
+}
+
 void ac::PixelArray2D::create(cv::Mat &frame, int w, int h, int dir, bool addvec) {
     if(pix_values != 0) {
         erase();
@@ -1244,4 +1264,25 @@ void ac::PixelArray2D::insert(cv::Mat &image) {
     }
 }
 
+void ac::PixelArray2D::setAll(const int &value) {
+    for(int z = 0; z < pix_y; ++z) {
+        for(int i = 0; i < pix_x; ++i) {
+            PixelValues &pix = pix_values[i][z];
+            for(int j = 0; j < 3; ++j) {
+                pix.col[j] = value;
+                pix.add[j] = value;
+            }
+        }
+    }
+}
 
+void ac::PixelArray2D::setAllDirection(const int &value) {
+    for(int z = 0; z < pix_y; ++z) {
+        for(int i = 0; i < pix_x; ++i) {
+            PixelValues &pix = pix_values[i][z];
+            for(int j = 0; j < 3; ++j) {
+                pix.dir[j] = value;
+            }
+        }
+    }
+}
