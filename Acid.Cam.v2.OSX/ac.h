@@ -1650,6 +1650,7 @@ namespace ac {
     void PsychoticVision(cv::Mat &frame);
     void DarkPsychoticVision(cv::Mat &frame);
     void Mirror_ReverseColor(cv::Mat &frame);
+    void ImageColorCycleMorph(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2630,11 +2631,11 @@ namespace ac {
                     PixelValues &p = pix_values[i][z];
                     for(int j = 0; j < 3; ++j)  {
                         p.col[j] = value(i, z);
+                        p.dir[j] = rand()%2;
                     }
                 }
             }
         }
-
     protected:
         std::random_device r;
         std::default_random_engine rng;

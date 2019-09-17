@@ -828,19 +828,67 @@ void ac::DarkPsychoticVision(cv::Mat &frame) {
 }
 
 void ac::Mirror_ReverseColor(cv::Mat &frame) {
-    cv::Mat copy1 = frame.clone();
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            int pos_x = (frame.cols-i-1);
-            int pos_y = (frame.rows-z-1);
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pixels[4];
-            pixels[0] = frame.at<cv::Vec3b>(pos_y, i);
-            pixels[1] = frame.at<cv::Vec3b>(pos_y, pos_x);
-            pixels[2] = frame.at<cv::Vec3b>(z, pos_x);
-            for(int j = 0; j < 3; ++j) {
-                pixel[3-j-1] = static_cast<unsigned char>((pixel[j] * 0.25) + (pixels[0][j] * 0.25) + (pixels[1][j] * 0.25) + (pixels[2][j] * 0.25));
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                int pos_x = (frame->cols-i-1);
+                int pos_y = (frame->rows-z-1);
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pixels[4];
+                pixels[0] = frame->at<cv::Vec3b>(pos_y, i);
+                pixels[1] = frame->at<cv::Vec3b>(pos_y, pos_x);
+                pixels[2] = frame->at<cv::Vec3b>(z, pos_x);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[3-j-1] = static_cast<unsigned char>((pixel[j] * 0.25) + (pixels[0][j] * 0.25) + (pixels[1][j] * 0.25) + (pixels[2][j] * 0.25));
+                }
             }
         }
-    }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::ImageColorCycleMorph(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static double alpha = 1.0;
+    static int dir = 1;
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    bool reset_values = false;
+    if(reset_values == true|| image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(reimage, reimage.cols, reimage.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    };
+    static int speed = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[j] == 1) {
+                        p.col[j] += speed;
+                        if(p.col[j] >= 255) {
+                            p.dir[j] = 0;
+                            p.col[j] = 255;
+                        }
+                    } else if(p.dir[j] == 0) {
+                        p.col[j] -= speed;
+                        if(p.col[j] <= 0) {
+                            p.col[j] = 0;
+                            p.dir[j] = 1;
+                        }
+                    }
+                    pixel[j] = pixel[j] ^ p.col[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
+    AddInvert(frame);
 }
