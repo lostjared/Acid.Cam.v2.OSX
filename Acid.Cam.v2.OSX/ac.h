@@ -1652,6 +1652,7 @@ namespace ac {
     void Mirror_ReverseColor(cv::Mat &frame);
     void ImageColorCycleMorph(cv::Mat &frame);
     void ImageBlendAndSubFilter(cv::Mat &frame);
+    void ImageSquareShrink(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
