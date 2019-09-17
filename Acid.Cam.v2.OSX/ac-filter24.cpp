@@ -56,7 +56,7 @@
  */
 #include "ac.h"
 
-bool ac::image_matrix_reset = false;
+bool ac::image_matrix_reset = false, ac::image_cycle_reset = false;
 
 void ac::ColorImageMatrixFade(cv::Mat &frame) {
     if(blend_set == false)

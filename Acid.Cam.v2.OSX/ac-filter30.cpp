@@ -857,8 +857,7 @@ void ac::ImageColorCycleMorph(cv::Mat &frame) {
     static int dir = 1;
     static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
-    bool reset_values = false;
-    if(reset_values == true|| image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+    if(image_cycle_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
         pix_container.create(reimage, reimage.cols, reimage.rows, 0);
         pix_x = frame.cols;
         pix_y = frame.rows;

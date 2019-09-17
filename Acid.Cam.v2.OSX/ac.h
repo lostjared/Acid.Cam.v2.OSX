@@ -2643,7 +2643,7 @@ namespace ac {
         
         
     };
-    extern bool image_matrix_reset;
+    extern bool image_matrix_reset, image_cycle_reset;
 }
 
 extern ac::ParticleEmiter emiter;

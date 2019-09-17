@@ -914,9 +914,11 @@ void setEnabledProg() {
                                 frame_index = 0;
                             NSString *str_value = [image_combo itemObjectValueAtIndex:next_index];
                             value_index = 0;
+                            
                             blend_image = cv::imread([str_value UTF8String]);
                             if(!blend_image.empty()) {
                                 blend_set = true;
+                                ac::image_cycle_reset = true;
                             } else {
                                 blend_set = false;
                             }
@@ -980,6 +982,7 @@ void setEnabledProg() {
         ac::frames_released = false;
         ac::reset_alpha = false;
         ac::image_matrix_reset = false;
+        ac::image_cycle_reset = false;
         if(restartFilter == YES) {
             ac::image_matrix_reset = true;
             restartFilter = NO;
@@ -1143,6 +1146,7 @@ void setEnabledProg() {
                     blend_image = cv::imread([str_value UTF8String]);
                     if(!blend_image.empty()) {
                         blend_set = true;
+                        ac::image_cycle_reset = true;
                     } else {
                         blend_set = false;
                     }
@@ -1274,6 +1278,7 @@ void setEnabledProg() {
     }
     ac::frames_released = false;
     ac::image_matrix_reset = false;
+    ac::image_cycle_reset = false;
     if(restartFilter == YES) {
         ac::image_matrix_reset = true;
         restartFilter = NO;
