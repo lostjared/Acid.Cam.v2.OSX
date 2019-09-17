@@ -1649,6 +1649,7 @@ namespace ac {
     void SelfAlphaScale_Down(cv::Mat &frame);
     void PsychoticVision(cv::Mat &frame);
     void DarkPsychoticVision(cv::Mat &frame);
+    void Mirror_ReverseColor(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -826,3 +826,21 @@ void ac::DarkPsychoticVision(cv::Mat &frame) {
     MedianBlendMultiThreadByEight(frame);
     AddInvert(frame);
 }
+
+void ac::Mirror_ReverseColor(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            int pos_x = (frame.cols-i-1);
+            int pos_y = (frame.rows-z-1);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pixels[4];
+            pixels[0] = frame.at<cv::Vec3b>(pos_y, i);
+            pixels[1] = frame.at<cv::Vec3b>(pos_y, pos_x);
+            pixels[2] = frame.at<cv::Vec3b>(z, pos_x);
+            for(int j = 0; j < 3; ++j) {
+                pixel[3-j-1] = static_cast<unsigned char>((pixel[j] * 0.25) + (pixels[0][j] * 0.25) + (pixels[1][j] * 0.25) + (pixels[2][j] * 0.25));
+            }
+        }
+    }
+}
