@@ -952,7 +952,7 @@ void ac::ImageSquareShrink(cv::Mat &frame) {
         return;
     static int frame_offset_z = 0, frame_offset_i = 0;
     static int dir = 1;
-    static int speed = 12;
+    static int speed = 32;
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
