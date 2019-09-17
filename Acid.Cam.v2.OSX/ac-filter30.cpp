@@ -891,3 +891,58 @@ void ac::ImageColorCycleMorph(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::ImageBlendAndSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageBlendAndSubFilter")
+        return;
+    static MatrixCollection<16> collection;
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+    }
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_cycle_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(reimage, reimage.cols, reimage.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    };
+    static int speed = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat images = reimage.clone();
+    CallFilter(subfilter, images);
+    Smooth(images, &collection);
+    CallFilter(subfilter, copy1);
+    Smooth(copy1, &collection);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                cv::Vec3b ipix = images.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(p.dir[j] == 1) {
+                        p.col[j] += speed;
+                        if(p.col[j] >= 255) {
+                            p.dir[j] = 0;
+                            p.col[j] = 255;
+                        }
+                    } else if(p.dir[j] == 0) {
+                        p.col[j] -= speed;
+                        if(p.col[j] <= 0) {
+                            p.col[j] = 0;
+                            p.dir[j] = 1;
+                        }
+                    }
+                    pixel[j] = static_cast<unsigned char>((0.5 * (pixel[j] ^ p.col[j])) +((0.25 * ipix[j] + (0.25 * pix[j]))));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    BlendWithSource75(frame);
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}

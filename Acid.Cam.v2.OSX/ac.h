@@ -1651,6 +1651,7 @@ namespace ac {
     void DarkPsychoticVision(cv::Mat &frame);
     void Mirror_ReverseColor(cv::Mat &frame);
     void ImageColorCycleMorph(cv::Mat &frame);
+    void ImageBlendAndSubFilter(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
