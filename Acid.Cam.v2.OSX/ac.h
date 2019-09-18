@@ -1653,6 +1653,9 @@ namespace ac {
     void ImageColorCycleMorph(cv::Mat &frame);
     void ImageBlendAndSubFilter(cv::Mat &frame);
     void ImageSquareShrink(cv::Mat &frame);
+    void ImageSquareShrinkFast(cv::Mat &frame);
+    void ImageSquareShrinkAlpha(cv::Mat &frame);
+    void ImageSquareExpand(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
