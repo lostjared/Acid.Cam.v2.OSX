@@ -50,6 +50,7 @@
 #undef check
 #include"videocapture.h"
 
+std::string input_, output_;
 // Variable definiton
 unsigned int int_Seed = (unsigned int)(time(0));
 bool breakProgram = false, programRunning = false, stopProgram = false;
@@ -65,6 +66,7 @@ std::unique_ptr<cv::VideoWriter> writer;
 unsigned long file_size;
 std::string add_path;
 std::string input_name = "";
+bool copy_sound = false;
 
 // Stop the OpenCV capture
 void stopCV() {
@@ -86,6 +88,20 @@ void stopCV() {
         if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
+            if(copy_sound == true && input_.length() > 0 && output_.length() > 0) {
+                std::stringstream stream;
+                auto pos = ac::fileName.rfind(".");
+                if(pos != std::string::npos) {
+                    std::string file_n = ac::fileName.substr(0, pos);
+                    stream << file_n << "_sound.mov";
+                    if(ac::CopyAudioStream(output_, input_, stream.str())) {
+                        sout << "Successfully Muxed Audio to: " << stream.str() << "\n";
+                        std::remove(ac::fileName.c_str());
+                    } else {
+                        sout << "Mux failed. Do you have FFMPEG installed? Use homebrew to install FFMPEG...\n";
+                    }
+                }
+            }
         }
         sout << frame_proc << " Total frames\n";
         sout << (frame_proc/ac::fps) << " Seconds\n";
@@ -105,6 +121,8 @@ void stopCV() {
 // program function to start process
 int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
+    input_ = "";
+    output_ = "";
     sout << "Acid Cam v" << ac::version << " Initialized ..\n" << ac::getFilterCount() << " Filters Loaded...\n";
     sout << "OpenCL Enabled: " << ((ac::OpenCL_Enabled() == true) ? "Yes" : "No") << "\n";
     add_path="default";
@@ -129,6 +147,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
         if(camera_mode == 0 /*&& capture->isOpened() == false*/) capture->open(capture_device);
         else if(camera_mode == 1)  {
             capture->open(input_file);
+            input_ = input_file;
             total_frames = capture->get(cv::CAP_PROP_FRAME_COUNT);
         }
         // check that it is opened
@@ -183,6 +202,9 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
                 fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << ".avi";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('X','V','I','D'),  ac::fps, s4k, true);
+            }
+            if(writer->isOpened()) {
+                output_ = ac::fileName;
             }
             // if writer is not opened exit
             if(writer->isOpened() == false || opened == false) {

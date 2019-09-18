@@ -71,4 +71,6 @@ inline std::string boolStr(bool b) { if(b) return "True"; return "False"; };
 extern void stopCV();
 extern void setEnabledProg();
 extern void stopRecord();
+extern std::string input_, output_;
+extern bool copy_sound;
 #endif

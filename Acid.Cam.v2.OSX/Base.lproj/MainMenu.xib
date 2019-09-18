@@ -49,6 +49,7 @@
                 <outlet property="colorkey_g_low" destination="LUP-VR-umd" id="MIN-Eg-7Ta"/>
                 <outlet property="colorkey_r_high" destination="vSC-6V-39r" id="SPx-KD-gvC"/>
                 <outlet property="colorkey_r_low" destination="jgn-a5-gut" id="tia-4T-EWU"/>
+                <outlet property="copy_audio" destination="EKQ-kn-86M" id="Utl-cs-eGd"/>
                 <outlet property="corder" destination="le2-WX-IhK" id="fFe-DS-KBm"/>
                 <outlet property="cur_selected_image" destination="cwj-zj-DM8" id="GfI-aK-l76"/>
                 <outlet property="current_filter" destination="fPc-yC-WAQ" id="QUm-mH-CSS"/>
@@ -575,14 +576,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button id="70r-gC-kLy">
-                        <rect key="frame" x="112" y="224" width="96" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Repeat" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NGJ-os-cWs">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <popUpButton verticalHuggingPriority="750" id="586">
                         <rect key="frame" x="168" y="168" width="168" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -668,6 +661,22 @@
                         <connections>
                             <action selector="changePrefix:" target="630" id="utP-Uz-6SH"/>
                         </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="EKQ-kn-86M">
+                        <rect key="frame" x="112" y="224" width="92" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Copy Audio" bezelStyle="regularSquare" imagePosition="left" inset="2" id="nx3-Jk-jGr">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button id="70r-gC-kLy">
+                        <rect key="frame" x="208" y="224" width="96" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Repeat" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NGJ-os-cWs">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
                     </button>
                 </subviews>
             </view>

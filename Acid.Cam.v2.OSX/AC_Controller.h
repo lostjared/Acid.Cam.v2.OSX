@@ -179,6 +179,7 @@ extern cv::ocl::Context context;
     IBOutlet NSTextField *chk_rand_frames;
     IBOutlet NSPopUpButton *chk_rand_mode;
     IBOutlet NSTextField *filename_textfield;
+    IBOutlet NSButton *copy_audio;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
