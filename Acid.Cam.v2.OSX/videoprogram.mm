@@ -86,21 +86,22 @@ void stopCV() {
         cv::destroyWindow("Controls");
         // if recording clean up and release the writer
         if(!ac::noRecord && writer->isOpened()) {
-            sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
-            if(copy_sound == true && output_Type == 0 && input_.length() > 0 && output_.length() > 0) {
+            if(camera_mode == 1 && copy_sound == true && output_Type == 0 && input_.length() > 0 && output_.length() > 0) {
                 std::stringstream stream;
                 auto pos = ac::fileName.rfind("_.");
                 if(pos != std::string::npos) {
                     std::string file_n = ac::fileName.substr(0, pos);
                     stream << file_n << ".mov";
                     if(ac::CopyAudioStream(output_, input_, stream.str())) {
-                        sout << "Successfully Wrote Final File to: " << stream.str() << "\n";
+                        sout << "Successfully Wrote Video File to: " << stream.str() << "\n";
                         std::remove(ac::fileName.c_str());
                     } else {
                         sout << "Mux failed. Do you have FFMPEG installed? Use homebrew to install FFMPEG...\n";
                     }
                 }
+            } else {
+                sout << "Wrote to Video File: " << ac::fileName << "\n";
             }
         }
         sout << frame_proc << " Total frames\n";
