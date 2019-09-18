@@ -73,4 +73,5 @@ extern void setEnabledProg();
 extern void stopRecord();
 extern std::string input_, output_;
 extern bool copy_sound;
+extern std::string ffmpeg_string_path;
 #endif

@@ -290,7 +290,8 @@ void setEnabledProg() {
     time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At: " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
     flushToLog(time_stream);
     std::ostringstream sout;
-    
+    // load from settings
+    ffmpeg_string_path = "/usr/local/bin/ffmpeg";
     if(!context.create(cv::ocl::Device::TYPE_ALL)) {
         sout << "Could not create OpenCL Context\n";
     } else {
@@ -674,7 +675,6 @@ void setEnabledProg() {
 }
 
 -(IBAction) startProgram: (id) sender {
-    
     if([[startProg title] isEqualToString: @"Start Session"]) {
         if(!image_shuffle.empty()) {
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
@@ -686,8 +686,8 @@ void setEnabledProg() {
         copy_sound = ([copy_audio integerValue] == 0) ? false : true;
         if(copy_sound == true) {
             std::fstream file;
-            file.open("/usr/local/bin/ffmpeg", std::ios::in);
-            if(!file.is_open() && file.good()) {
+            file.open(ffmpeg_string_path, std::ios::in);
+            if(!file.is_open() || !file.good()) {
                 _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
                 return;
             }
@@ -2172,8 +2172,6 @@ void setEnabledProg() {
             sz.height = 1080;
             break;
     }
-    
-    
     NSInteger intense = [col_intense integerValue];
     ac::setPixelCollection(static_cast<int>(intense));
     log << "Syphon Output Set To: " << sz.width << "x" << sz.height << "\n";
@@ -2182,10 +2180,12 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Invalid Thread Number", @"Must use at least one thread for filters that support threads", @"Ok", nil, nil);
         return;
     }
+    ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
     ac::setThreadCount(static_cast<int>(thread_num));
     [syphon_window setContentSize: sz];
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
     log << "Pixel Intensity Set At: " << static_cast<int>(intense) << "\n";
+    log << "FFMPEG Path Set to: " << ffmpeg_string_path << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);

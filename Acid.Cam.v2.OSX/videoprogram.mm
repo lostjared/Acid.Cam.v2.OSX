@@ -68,6 +68,7 @@ std::string add_path;
 std::string input_name = "";
 bool copy_sound = false;
 int output_Type = 0;
+std::string ffmpeg_string_path;
 // Stop the OpenCV capture
 void stopCV() {
     if(camera_active == true) {
@@ -93,7 +94,7 @@ void stopCV() {
                 if(pos != std::string::npos) {
                     std::string file_n = ac::fileName.substr(0, pos);
                     stream << file_n << ".mov";
-                    if(ac::CopyAudioStream(output_, input_, stream.str())) {
+                    if(ac::CopyAudioStream(ffmpeg_string_path, output_, input_, stream.str())) {
                         sout << "Successfully Wrote Video File to: " << stream.str() << "\n";
                         std::remove(ac::fileName.c_str());
                     } else {

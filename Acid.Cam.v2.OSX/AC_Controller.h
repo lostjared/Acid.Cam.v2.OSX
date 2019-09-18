@@ -180,6 +180,7 @@ extern cv::ocl::Context context;
     IBOutlet NSPopUpButton *chk_rand_mode;
     IBOutlet NSTextField *filename_textfield;
     IBOutlet NSButton *copy_audio;
+    IBOutlet NSTextField *ffmpeg_path;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
