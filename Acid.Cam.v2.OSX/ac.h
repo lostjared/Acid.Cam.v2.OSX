@@ -1839,12 +1839,12 @@ namespace ac {
     // void filter(cv::Mat *frame, int offset, int cols, int size)
     template<typename F>
     void UseMultipleThreads(cv::Mat &frame, int cores, F func) {
-        col_lock.lock();
         int size = frame.rows/cores;
         std::vector<std::thread> values;
         for(int i = 0; i < cores; ++i) {
             values.push_back(std::thread(func, &frame, i*size, frame.cols, size));
         }
+        col_lock.lock();
         for(unsigned int i = 0; i < values.size(); ++i) {
             values[i].join();
         }
