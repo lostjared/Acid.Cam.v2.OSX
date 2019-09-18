@@ -196,7 +196,9 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             static unsigned int counter = 0;
             if(!noRecord) ++counter;
             if(outputType == 0) {
-                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << "_.mov";
+                std::string sound_prefix;
+                if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
+                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mov";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
