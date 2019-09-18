@@ -1656,6 +1656,7 @@ namespace ac {
     void ImageSquareShrinkFast(cv::Mat &frame);
     void ImageSquareShrinkAlpha(cv::Mat &frame);
     void ImageSquareExpand(cv::Mat &frame);
+    void ImageKaleidoscopeNoBlur(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

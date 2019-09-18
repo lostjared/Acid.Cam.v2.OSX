@@ -124,3 +124,13 @@ void ac::ImageSquareExpand(cv::Mat &frame) {
     }
     
 }
+
+void ac::ImageKaleidoscopeNoBlur(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    ImageSquareShrinkFast(frame);
+    MedianBlendMultiThreadByEight(frame);
+    BlendWithSource75(frame);
+    Mirror_ReverseColor(frame);
+    MirrorRightTopToBottom(frame);
+}
