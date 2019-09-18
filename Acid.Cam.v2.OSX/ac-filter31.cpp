@@ -143,3 +143,39 @@ void ac::KaleidoscopeSubFilter(cv::Mat &frame) {
     Mirror_ReverseColor(frame);
     MirrorRightTopToBottom(frame);
 }
+
+void ac::ImageSquareShrinkSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageSquareShrinkSubFilter")
+        return;
+    static int frame_offset_z = 0, frame_offset_i = 0;
+    static int dir = 1;
+    static int speed = 32;
+    static double alpha = 1.0;
+    static int dir1 = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
+        for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+            }
+        }
+    }
+    if(dir == 1) {
+        frame_offset_z += speed;
+        frame_offset_i += speed;
+        if(frame_offset_z > ((frame.rows/2)-1) || frame_offset_i > ((frame.cols/2)-1)) {
+            dir = 0;
+        }
+    } else {
+        frame_offset_z -= speed;
+        frame_offset_i -= speed;
+        if(frame_offset_z <= 1 || frame_offset_i <= 1) {
+            dir = 1;
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
+}
