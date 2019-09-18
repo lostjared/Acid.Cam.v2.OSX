@@ -134,3 +134,12 @@ void ac::ImageKaleidoscopeNoBlur(cv::Mat &frame) {
     Mirror_ReverseColor(frame);
     MirrorRightTopToBottom(frame);
 }
+
+void ac::KaleidoscopeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "KaleidoscopeSubFilter")
+        return;
+    CallFilter(subfilter, frame);
+    BlendWithSource75(frame);
+    Mirror_ReverseColor(frame);
+    MirrorRightTopToBottom(frame);
+}
