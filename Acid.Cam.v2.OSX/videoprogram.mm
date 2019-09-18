@@ -67,7 +67,7 @@ unsigned long file_size;
 std::string add_path;
 std::string input_name = "";
 bool copy_sound = false;
-
+int output_Type = 0;
 // Stop the OpenCV capture
 void stopCV() {
     if(camera_active == true) {
@@ -88,14 +88,14 @@ void stopCV() {
         if(!ac::noRecord && writer->isOpened()) {
             sout << "Wrote to Video File: " << ac::fileName << "\n";
             writer->release();
-            if(copy_sound == true && input_.length() > 0 && output_.length() > 0) {
+            if(copy_sound == true && output_Type == 0 && input_.length() > 0 && output_.length() > 0) {
                 std::stringstream stream;
-                auto pos = ac::fileName.rfind(".");
+                auto pos = ac::fileName.rfind("_.");
                 if(pos != std::string::npos) {
                     std::string file_n = ac::fileName.substr(0, pos);
-                    stream << file_n << "_sound.mov";
+                    stream << file_n << ".mov";
                     if(ac::CopyAudioStream(output_, input_, stream.str())) {
-                        sout << "Successfully Muxed Audio to: " << stream.str() << "\n";
+                        sout << "Successfully Wrote Final File to: " << stream.str() << "\n";
                         std::remove(ac::fileName.c_str());
                     } else {
                         sout << "Mux failed. Do you have FFMPEG installed? Use homebrew to install FFMPEG...\n";
@@ -141,6 +141,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
     ac::fps = 29.97;
     file_size = 0;
     video_total_frames = 0;
+    output_Type = outputType;
     writer.reset(new cv::VideoWriter());
     try {
         // open either camera or video file
@@ -194,7 +195,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             static unsigned int counter = 0;
             if(!noRecord) ++counter;
             if(outputType == 0) {
-                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << ".mov";
+                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << "_.mov";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
