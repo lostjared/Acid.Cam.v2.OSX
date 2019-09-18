@@ -674,6 +674,7 @@ void setEnabledProg() {
 }
 
 -(IBAction) startProgram: (id) sender {
+    
     if([[startProg title] isEqualToString: @"Start Session"]) {
         if(!image_shuffle.empty()) {
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
@@ -683,6 +684,14 @@ void setEnabledProg() {
         NSInteger cap_width = [video_width integerValue];
         NSInteger cap_height = [video_height integerValue];
         copy_sound = ([copy_audio integerValue] == 0) ? false : true;
+        if(copy_sound == true) {
+            std::fstream file;
+            file.open("/usr/local/bin/ffmpeg", std::ios::in);
+            if(!file.is_open()) {
+                _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
+                return;
+            }
+        }
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
         [chk_stretch setEnabled:NO];
