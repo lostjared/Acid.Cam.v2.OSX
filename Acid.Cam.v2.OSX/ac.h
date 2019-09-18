@@ -110,6 +110,10 @@ namespace ac {
     extern std::string getVersion();
     extern int getFilterCount();
     extern int getFilterByName(const std::string &n);
+    
+    // mutex for threads
+    extern std::mutex col_lock;
+    
     // version string
     extern const std::string version;
     extern double translation_variable, pass2_alpha;
@@ -1835,6 +1839,7 @@ namespace ac {
     // void filter(cv::Mat *frame, int offset, int cols, int size)
     template<typename F>
     void UseMultipleThreads(cv::Mat &frame, int cores, F func) {
+        col_lock.lock();
         int size = frame.rows/cores;
         std::vector<std::thread> values;
         for(int i = 0; i < cores; ++i) {
@@ -1843,11 +1848,12 @@ namespace ac {
         for(unsigned int i = 0; i < values.size(); ++i) {
             values[i].join();
         }
+        col_lock.unlock();
     }
-    
     //  MedianBlend
     template<int Size>
     void MedianBlendMultiThread(cv::Mat &frame, MatrixCollection<Size> *collection, int div_value) {
+        
         if(div_value <= 0)
             return;
         int r = 3+rand()%7;

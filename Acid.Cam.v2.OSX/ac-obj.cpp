@@ -85,6 +85,7 @@ std::vector<void *> ac::all_objects;
 bool ac::frames_released = false;
 
 void ac::release_all_objects() {
+    col_lock.lock();
     for(unsigned int i = 0; i < all_objects.size(); ++i) {
         cv::Mat *m = reinterpret_cast<cv::Mat *>(all_objects[i]);
         if(m != 0 && !m->empty()) {
@@ -92,6 +93,7 @@ void ac::release_all_objects() {
         }
     }
     frames_released = true;
+    col_lock.unlock();
 }
 
 ac::HLine::HLine() : w(0), h(0) {
