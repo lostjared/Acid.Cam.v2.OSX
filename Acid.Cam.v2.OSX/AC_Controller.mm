@@ -687,7 +687,7 @@ void setEnabledProg() {
         if(copy_sound == true) {
             std::fstream file;
             file.open("/usr/local/bin/ffmpeg", std::ios::in);
-            if(!file.is_open()) {
+            if(!file.is_open() && file.good()) {
                 _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
                 return;
             }
