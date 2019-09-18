@@ -2643,10 +2643,8 @@ namespace ac {
         }
     protected:
         std::random_device r;
-        std::default_random_engine rng;
         int pix_x, pix_y;
-        
-        
+        std::default_random_engine rng;
     };
     extern bool image_matrix_reset, image_cycle_reset;
 }
