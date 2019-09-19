@@ -1664,6 +1664,7 @@ namespace ac {
     void KaleidoscopeSubFilter(cv::Mat &frame);
     void ImageSquareShrinkSubFilter(cv::Mat &frame);
     void DifferenceReplaceSubFilter(cv::Mat &frame);
+    void InvertedDifferenceReplaceSubFilter(cv::Mat &frame);
         // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
