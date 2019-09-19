@@ -179,3 +179,72 @@ void ac::ImageSquareShrinkSubFilter(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
 }
+
+void ac::DifferenceReplaceSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "DifferenceReplaceSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat value = collection.frames[7].clone();
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b rep = copy1.at<cv::Vec3b>(z, i);
+                for(int q = 0; q < collection.size(); ++q) {
+                    cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        int value = (pixel[j] - pix[j]);
+                        if(abs(value) > getPixelCollection()) {
+                            pixel[j] = rep[j];
+                        }
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+/*
+void ac::DifferenceReplaceSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ImageSquareShrinkSubFilter")
+        return;
+    static int frame_offset_z = 1, frame_offset_i = 1;
+    static int dir = 1;
+    static int speed = 32;
+    static double alpha = 1.0;
+    static int dir1 = 1;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, cv::Size(frame_offset_i, frame_offset_z));
+    CallFilter(subfilter, reimage);
+    int off_x = 0, off_y = 0;
+    for(int z = (frame.rows-1)-frame_offset_z, off_y = 0; z >= frame_offset_z; --z, ++off_y) {
+        for(int i = (frame.cols-1)-frame_offset_i, off_x = 0; i >= frame_offset_i; --i, ++off_x) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            // error memory
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(off_y, off_x);
+            for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix[j] * 0.5));
+            }
+        }
+    }
+    if(dir == 1) {
+        frame_offset_z += speed;
+        frame_offset_i += speed;
+        if(frame_offset_z > ((frame.rows/2)-1) || frame_offset_i > ((frame.cols/2)-1)) {
+            dir = 0;
+        }
+    } else {
+        frame_offset_z -= speed;
+        frame_offset_i -= speed;
+        if(frame_offset_z <= 1 || frame_offset_i <= 1) {
+            dir = 1;
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
+}
+*/

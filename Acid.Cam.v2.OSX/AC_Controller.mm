@@ -53,7 +53,6 @@
 #include<AVKit/AVKit.h>
 #include<fstream>
 #include"tokenize.hpp"
-
 // Global varaibles
 NSTextView *logView;
 NSTextField *frame_count;
@@ -92,7 +91,6 @@ std::vector<int> image_shuffle;
 int image_shuffle_index = 0;
 std::random_device r;
 std::default_random_engine img_rng(r());
-
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
