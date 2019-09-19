@@ -239,3 +239,38 @@ void ac::InvertedDifferenceReplaceSubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ImageInvertedDifferenceReplaceSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "DifferenceReplaceSubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat value = collection.frames[7].clone();
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b rep = copy1.at<cv::Vec3b>(z, i);
+                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                for(int q = 0; q < collection.size(); ++q) {
+                    cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        int value = (pixel[j] - pix[j]);
+                        if(abs(value) < getPixelCollection()) {
+                            pixel[j] = static_cast<unsigned char>((pixel[j] * 0.7) + (0.3 * rep[j]));
+                        } else {
+                            pixel[j] = static_cast<unsigned char>((pixel[j] * 0.7) + (0.3 * img_pix[j]));
+                        }
+                    }
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
