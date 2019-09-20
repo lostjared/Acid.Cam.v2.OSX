@@ -695,6 +695,10 @@ void setEnabledProg() {
                 _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
                 return;
             }
+            if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
+                _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
+                return;
+            }
         }
         [video_width setEnabled: NO];
         [video_height setEnabled: NO];
@@ -2205,6 +2209,11 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
         return;
     }
+    if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
+        _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
+        return;
+    }
+    
     file.close();
     ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
@@ -3152,6 +3161,11 @@ void setEnabledProg() {
     file.open(ffmpeg_string_path, std::ios::in);
     if(!file.is_open() || !file.good()) {
         _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
+        [copy_audio setState:NSOffState];
+        return;
+    }
+    if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
+        _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
         [copy_audio setState:NSOffState];
         return;
     }
