@@ -311,6 +311,7 @@ extern cv::ocl::Context context;
 - (void) checkForNewVersion: (BOOL) showMessage;
 - (IBAction) checkboxClose: (id) sender;
 - (IBAction) clearImageList: (id) sender;
+- (IBAction) checkForFFMPEG: (id) sender;
 @end
 
 extern AC_Controller *controller;

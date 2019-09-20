@@ -670,6 +670,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="checkForFFMPEG:" target="630" id="TPG-np-uju"/>
+                        </connections>
                     </button>
                     <button id="70r-gC-kLy">
                         <rect key="frame" x="208" y="224" width="96" height="18"/>

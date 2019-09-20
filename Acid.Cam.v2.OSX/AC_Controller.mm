@@ -2178,9 +2178,17 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Invalid Thread Number", @"Must use at least one thread for filters that support threads", @"Ok", nil, nil);
         return;
     }
-    ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
     ac::setThreadCount(static_cast<int>(thread_num));
     [syphon_window setContentSize: sz];
+    std::fstream file;
+    std::string temp_path = [[ffmpeg_path stringValue] UTF8String];
+    file.open(temp_path, std::ios::in);
+    if(!file.is_open() || !file.good()) {
+        _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
+        return;
+    }
+    file.close();
+    ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
     log << "Pixel Intensity Set At: " << static_cast<int>(intense) << "\n";
     log << "FFMPEG Path Set to: " << ffmpeg_string_path << "\n";
@@ -3120,6 +3128,17 @@ void setEnabledProg() {
     [task resume];
 #endif
 }
+
+- (IBAction) checkForFFMPEG: (id) sender {
+    std::fstream file;
+    file.open(ffmpeg_string_path, std::ios::in);
+    if(!file.is_open() || !file.good()) {
+        _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
+        [copy_audio setState:NSOffState];
+        return;
+    }
+}
+
 
 @end
 
