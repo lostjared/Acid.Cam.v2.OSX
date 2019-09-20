@@ -183,6 +183,7 @@ extern int elapsed_counter;
     IBOutlet NSButton *copy_audio;
     IBOutlet NSTextField *ffmpeg_path;
     IBOutlet NSMenuItem *speed_normal, *speed_fast, *speed_vfast;
+    IBOutlet NSButton *ffmpeg_support;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;

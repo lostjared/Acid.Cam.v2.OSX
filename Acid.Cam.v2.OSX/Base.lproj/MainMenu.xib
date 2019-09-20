@@ -59,6 +59,7 @@
                 <outlet property="disable_filters" destination="JLh-0m-Y5J" id="qRU-2U-dah"/>
                 <outlet property="fade_filter" destination="ybb-Ri-H7o" id="1sa-EL-6Va"/>
                 <outlet property="ffmpeg_path" destination="3ij-va-XEw" id="ItQ-E5-WZL"/>
+                <outlet property="ffmpeg_support" destination="L1P-rR-fnD" id="auF-pL-l4X"/>
                 <outlet property="filename_textfield" destination="Hoq-bf-Eba" id="9EI-EP-0gx"/>
                 <outlet property="filter_search_window" destination="Z1m-Pb-5Gb" id="Quo-sn-3tX"/>
                 <outlet property="filter_selector" destination="M7I-U1-nF4" id="qui-cr-pJB"/>
@@ -2377,7 +2378,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="HdS-hD-sK5">
-                        <rect key="frame" x="18" y="132" width="95" height="17"/>
+                        <rect key="frame" x="16" y="107" width="95" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="FFMPEG Path:" id="Juh-LC-BAQ">
                             <font key="font" metaFont="systemBold"/>
@@ -2386,7 +2387,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="3ij-va-XEw">
-                        <rect key="frame" x="121" y="129" width="144" height="22"/>
+                        <rect key="frame" x="119" y="104" width="144" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="/usr/local/bin/ffmpeg" drawsBackground="YES" id="F01-Vh-i7B">
                             <font key="font" metaFont="system"/>
@@ -2429,9 +2430,17 @@ Gw
                             <action selector="setPref:" target="630" id="hfK-Oq-YzD"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" id="L1P-rR-fnD">
+                        <rect key="frame" x="16" y="138" width="171" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Enable FFMPEG Support" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Bof-Zs-x7Q">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-3080" y="-2434"/>
+            <point key="canvasLocation" x="-3080.5" y="-2434"/>
         </window>
         <window title="Acid Cam - Syphon Server" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="ueZ-Gv-BFp">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>

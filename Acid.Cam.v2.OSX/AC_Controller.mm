@@ -2202,25 +2202,29 @@ void setEnabledProg() {
     }
     ac::setThreadCount(static_cast<int>(thread_num));
     [syphon_window setContentSize: sz];
-    std::fstream file;
-    std::string temp_path = [[ffmpeg_path stringValue] UTF8String];
-    file.open(temp_path, std::ios::in);
-    if(!file.is_open() || !file.good()) {
-        _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
-        return;
+    std::string output_path_ffmpeg;
+    if([ffmpeg_support integerValue] == 1) {
+        std::fstream file;
+        std::string temp_path = [[ffmpeg_path stringValue] UTF8String];
+        file.open(temp_path, std::ios::in);
+        if(!file.is_open() || !file.good()) {
+            _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
+            return;
+        }
+        file.close();
+        ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
+        if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
+            _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
+            return;
+        }
+        output_path_ffmpeg = ffmpeg_string_path;
+    } else {
+        output_path_ffmpeg = "Not Enabled.";
     }
-    if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
-        _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
-        return;
-    }
-    
-    file.close();
-    ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
     log << "Pixel Intensity Set At: " << static_cast<int>(intense) << "\n";
-    log << "FFMPEG Path Set to: " << ffmpeg_string_path << "\n";
+    log << "FFMPEG Path Set to: " << output_path_ffmpeg << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
-    
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
 }
@@ -3157,6 +3161,12 @@ void setEnabledProg() {
 }
 
 - (IBAction) checkForFFMPEG: (id) sender {
+    
+    if([ffmpeg_support integerValue] == 0) {
+        _NSRunAlertPanel(@"First Enable FFMPEG Support", @"FFMPEG Support is not Enabled.", @"Ok", nil, nil);
+        [copy_audio setState:NSOffState];
+        return;
+    }
     std::fstream file;
     file.open(ffmpeg_string_path, std::ios::in);
     if(!file.is_open() || !file.good()) {
