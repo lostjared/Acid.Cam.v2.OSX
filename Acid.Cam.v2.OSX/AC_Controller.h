@@ -92,7 +92,7 @@ extern void setFrameLabel(std::ostringstream &text);
 extern void setSliders(long frame_count);
 extern void jumptoFrame(BOOL showJump, long frame);
 extern cv::ocl::Context context;
-
+extern int p_s;
 @interface Download : NSObject <NSApplicationDelegate,NSURLDownloadDelegate>
 @end
 
@@ -181,6 +181,7 @@ extern cv::ocl::Context context;
     IBOutlet NSTextField *filename_textfield;
     IBOutlet NSButton *copy_audio;
     IBOutlet NSTextField *ffmpeg_path;
+    IBOutlet NSMenuItem *speed_normal, *speed_fast, *speed_vfast;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -203,6 +204,8 @@ extern cv::ocl::Context context;
     BOOL syphon_enabled;
     NSString *custom_path_prefix;
     BOOL restartFilter;
+    int program_speed;
+    int elapsed_counter;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -312,6 +315,9 @@ extern cv::ocl::Context context;
 - (IBAction) checkboxClose: (id) sender;
 - (IBAction) clearImageList: (id) sender;
 - (IBAction) checkForFFMPEG: (id) sender;
+- (IBAction) menuMoveNormal: (id) sender;
+- (IBAction) menuMoveFast: (id) sender;
+- (IBAction) menuMoveVeryFast: (id) sender;
 @end
 
 extern AC_Controller *controller;

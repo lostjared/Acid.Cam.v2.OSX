@@ -91,6 +91,7 @@ std::vector<int> image_shuffle;
 int image_shuffle_index = 0;
 std::random_device r;
 std::default_random_engine img_rng(r());
+int p_s = 1;
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
@@ -257,6 +258,7 @@ void setEnabledProg() {
     frame_slider = goto_f;
     ftext.setf(std::ios::fixed, std::ios::floatfield);
     ftext.precision(2);
+    p_s = 1;
     srand((unsigned int)time(0));
     pauseStepTrue = false;
     camera_mode = 0;
@@ -281,6 +283,7 @@ void setEnabledProg() {
     [video_width setEnabled:NO];
     [video_height setEnabled:NO];
     [chk_stretch setEnabled:NO];
+    elapsed_counter = 0;
     time_t t = time(0);
     struct tm *m;
     m = localtime(&t);
@@ -678,6 +681,8 @@ void setEnabledProg() {
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
             image_shuffle_index = 0;
         }
+        [self menuMoveNormal:self];
+        elapsed_counter = 0;
         std::string input_file;
         NSInteger cap_width = [video_width integerValue];
         NSInteger cap_height = [video_height integerValue];
@@ -1191,30 +1196,37 @@ void setEnabledProg() {
     values[2] = rf*255.99999f;
     values[1] = gf*255.99999f;
     values[0] = bf*255.99999f;
-    
     well_color[0] = values[0];
     well_color[1] = values[1];
     well_color[2] = values[2];
-    
     if(reset_memory == true) {
         ac::reset_filter = true;
         reset_memory = false;
     }
-    
     if([up4k state] == NSOnState || frame.size() == cv::Size((int)cap_width, (int)cap_height)) {
         [stretch_scr setState: NSOnState];
         //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
+    static int frame_counter_speed = 0;
+    if(program_speed == 0)
+        frame_counter_speed = 0;
+    else if(program_speed == 1) {
+        frame_counter_speed = (frame_counter_speed == 0) ? 1 : 0;
+    } else if(program_speed == 2) {
+        ++frame_counter_speed;
+        if(frame_counter_speed > 3)
+            frame_counter_speed = 0;
+    }
     if(capture->isOpened() && frame_read == false) {
         ++frame_proc;
-        double seconds = ((total_frames)/ac::fps);
-        double cfps = frame_cnt/ac::fps;;
-        double elapsed = (frame_proc/ac::fps);
+        if(frame_counter_speed == 0) ++elapsed_counter;
+        double seconds = (total_frames/ac::fps);
+        double cfps = (frame_cnt/ac::fps);
+        double elapsed = (elapsed_counter/ac::fps);
         char elapsed_s[1024];
         snprintf(elapsed_s, 1023, "%.2f", elapsed);
         char cfps_s[1024];
         snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
-        
         ftext  << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1000)/1000) << " MB";
         if(ac::noRecord == false) {
             struct stat buf;
@@ -1241,6 +1253,7 @@ void setEnabledProg() {
         notification.soundName = NSUserNotificationDefaultSoundName;
         [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
         [notification release];
+        frame_counter_speed = 0;
         return;
     }
     cv::Mat temp_frame;
@@ -1325,10 +1338,12 @@ void setEnabledProg() {
     if([menu_freeze state] == NSOffState) {
         ++frame_cnt;
         ++frame_proc;
+        if(frame_counter_speed == 0) ++elapsed_counter;
     }
-    else
-        ++frame_proc;
-    
+    else {
+         ++frame_proc;
+        if(frame_counter_speed == 0) ++elapsed_counter;
+    }
     if([corder indexOfSelectedItem] == 5) {
         cv::Mat change;
         cv::cvtColor(frame, change, cv::COLOR_BGR2GRAY);
@@ -1350,29 +1365,30 @@ void setEnabledProg() {
             rc = [main_w frame];
         }
     }
-    if([stretch_scr state] == NSOnState) {
-        cv::Mat dst;
-        dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-        if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", dst);
-    } else {
-        if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
-            if(frame.ptr() != NULL) {
-                if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
+    if(frame_counter_speed == 0) {
+        if([stretch_scr state] == NSOnState) {
+            cv::Mat dst;
+            dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
+            if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", dst);
+        } else {
+            if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
+                if(frame.ptr() != NULL) {
+                    if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
+                }
             }
         }
     }
     
     double seconds = ((total_frames)/ac::fps);
     //double cfps = (freeze_count+video_total_frames+frame_cnt)/ac::fps);
+
     double cfps = frame_cnt/ac::fps;
-    double elapsed = (frame_proc/ac::fps);
+    double elapsed = elapsed_counter/ac::fps;
     char elapsed_s[1024];
     snprintf(elapsed_s, 1023, "%.2f", elapsed);
     char cfps_s[1024];
     snprintf(cfps_s, 1023, "%.2f", (seconds-cfps));
-    
-    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << total_frames << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1000)/1000) << " MB";
-    
+    ftext << "(Frames/Total Frames/Remaining Sec/Length Sec/MB): " << frame_cnt << "/" << (total_frames) << "/" << cfps_s << "/" << elapsed_s << "/" << ((file_size/1000)/1000) << " MB";
     if(camera_mode == 1) {
         float val = frame_cnt;
         float size = total_frames;
@@ -1381,7 +1397,8 @@ void setEnabledProg() {
     }
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
-        if(writer->isOpened() )writer->write(frame);
+        
+        if(writer->isOpened() && frame_counter_speed == 0) writer->write(frame);
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;
@@ -3139,6 +3156,29 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) menuMoveNormal: (id) sender {
+    program_speed = 0;
+    [speed_normal setState:NSOnState];
+    [speed_fast setState:NSOffState];
+    [speed_vfast setState:NSOffState];
+    p_s = 1;
+}
+
+- (IBAction) menuMoveFast: (id) sender {
+    program_speed = 1;
+    [speed_normal setState:NSOffState];
+    [speed_fast setState:NSOnState];
+    [speed_vfast setState:NSOffState];
+    p_s = 2;
+}
+
+- (IBAction) menuMoveVeryFast: (id) sender {
+    program_speed = 2;
+    [speed_normal setState:NSOffState];
+    [speed_fast setState:NSOffState];
+    [speed_vfast setState:NSOnState];
+    p_s = 4;
+}
 
 @end
 

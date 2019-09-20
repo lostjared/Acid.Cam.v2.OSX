@@ -108,6 +108,9 @@
                 <outlet property="slider_green_pos" destination="JdX-or-gwM" id="wc2-jo-tm9"/>
                 <outlet property="slider_red" destination="mzX-pn-252" id="ruZ-J7-hWX"/>
                 <outlet property="slider_red_pos" destination="S4C-AA-haV" id="7Xg-vp-Wcc"/>
+                <outlet property="speed_fast" destination="yh2-We-FMs" id="Z0w-uA-sE2"/>
+                <outlet property="speed_normal" destination="yki-HJ-Gbn" id="SsO-5Z-f9B"/>
+                <outlet property="speed_vfast" destination="8YC-wz-3PR" id="7iT-af-rho"/>
                 <outlet property="startProg" destination="624" id="fSI-qU-vVv"/>
                 <outlet property="stop_prog" destination="ci8-G4-Am4" id="xTc-Q0-xVj"/>
                 <outlet property="stretch_scr" destination="KDy-87-FEf" id="dpI-bj-Wy9"/>
@@ -346,6 +349,32 @@
                                 <connections>
                                     <action selector="openGoto:" target="630" id="3dK-hB-FSq"/>
                                 </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="cm5-dY-T9I"/>
+                            <menuItem title="Speed" id="FbJ-Q3-Db8">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Speed" id="V7X-PE-b5n">
+                                    <items>
+                                        <menuItem title="Normal" state="on" id="yki-HJ-Gbn">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="menuMoveNormal:" target="630" id="C6U-w2-Sz4"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Fast" id="yh2-We-FMs">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="menuMoveFast:" target="630" id="Xqp-XX-pgy"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Very Fast" id="8YC-wz-3PR">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="menuMoveVeryFast:" target="630" id="8Dd-5x-zPU"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
                             </menuItem>
                         </items>
                     </menu>
