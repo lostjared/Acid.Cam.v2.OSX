@@ -93,6 +93,7 @@ extern void setSliders(long frame_count);
 extern void jumptoFrame(BOOL showJump, long frame);
 extern cv::ocl::Context context;
 extern int p_s;
+extern int elapsed_counter;
 @interface Download : NSObject <NSApplicationDelegate,NSURLDownloadDelegate>
 @end
 
@@ -205,7 +206,6 @@ extern int p_s;
     NSString *custom_path_prefix;
     BOOL restartFilter;
     int program_speed;
-    int elapsed_counter;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;

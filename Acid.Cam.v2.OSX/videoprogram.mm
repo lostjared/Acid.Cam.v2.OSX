@@ -106,7 +106,9 @@ void stopCV() {
             }
         }
         sout << frame_proc << " Total frames\n";
-        sout << (frame_proc/ac::fps) << " Seconds\n";
+        if(camera_mode == 1) sout << (elapsed_counter/ac::fps) << " Seconds\n";
+        else if(camera_mode == 0) sout << (frame_proc/ac::fps) << " Seconds\n";
+        
         // flush to log
         setEnabledProg();
         capture->release();
