@@ -1288,6 +1288,7 @@ void ac::PixelArray2D::setAllDirection(const int &value) {
 }
 
 bool ac::CopyAudioStream(std::string ffmpeg, std::string file1, std::string file2, std::string output) {
+#if defined(__APPLE__) || defined(__linux__)
     std::ostringstream stream;
     stream << ffmpeg << " -y -i \"" << file1 << "\" -i \"" << file2 << "\" -c copy -map 0:v:0 -map 1:a:0? -shortest \"" << output << "\"";
     FILE *fptr = popen(stream.str().c_str(), "r");
@@ -1305,6 +1306,8 @@ bool ac::CopyAudioStream(std::string ffmpeg, std::string file1, std::string file
     if(pclose(fptr) != 0)
         return false;
     return true;
+#endif
+    return false;
 }
 
 bool ac::FFMPEG_Installed(const std::string &ffmpeg) {
