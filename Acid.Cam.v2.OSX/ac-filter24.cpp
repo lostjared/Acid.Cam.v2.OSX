@@ -909,7 +909,7 @@ void ac::ColorXorImageFade(cv::Mat &frame) {
                             pix.dir[j] = 1;
                         }
                     }
-                    unsigned char ch = static_cast<unsigned char>(pixel[j] * alpha) + (img_pix[j] * 1.0-alpha);
+                    unsigned char ch = static_cast<unsigned char>(pixel[j] * alpha) + static_cast<unsigned char>(img_pix[j] * 1.0-alpha);
                     pixel[j] = ch ^ pix_container.pix_values[i][z].col[j];
                 }
             }

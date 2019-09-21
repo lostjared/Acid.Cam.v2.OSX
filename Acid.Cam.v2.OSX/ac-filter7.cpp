@@ -403,7 +403,7 @@ void ac::AcidGlitch(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix_copy = pixel;
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += (((pix_copy[3-j-1] ^ static_cast<unsigned char>(color[j]))) * alpha);
+                pixel[j] += static_cast<unsigned char>(((pix_copy[3-j-1] ^ static_cast<unsigned char>(color[j]))) * alpha);
             }
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);

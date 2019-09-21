@@ -938,7 +938,7 @@ void ac::SelfAlphaBlendMultiThread(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] = pixel[j]*alpha;
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha);
             }
         }
     };
@@ -1019,7 +1019,7 @@ void ac::SortedImageColorVariable(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0;j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1)+(alpha2*bytes[i+j]);
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*alpha1)+static_cast<unsigned char>((alpha2*bytes[i+j]));
                 }
             }
         }

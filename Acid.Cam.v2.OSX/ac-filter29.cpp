@@ -428,7 +428,7 @@ void ac::DarkenImageAlphaBlend(cv::Mat &frame) {
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pix[j] /= 3;
-                    pixel[j] = ((pixel[j] * alpha) + (pix[j] * (1-alpha)));
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pix[j] * (1-alpha)));
                 }
             }
         }

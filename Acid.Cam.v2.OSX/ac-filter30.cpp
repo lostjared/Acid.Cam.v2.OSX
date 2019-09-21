@@ -788,7 +788,7 @@ void ac::PsychoticVision(cv::Mat &frame) {
         pix_container.create_empty(frame.cols, frame.rows);
         pix_x = frame.cols;
         pix_y = frame.rows;
-        pix_container.setColorValues([](int x, int y) { return rand()%5; });
+        pix_container.setColorValues([](int , int) { return rand()%5; });
     }
     MedianBlendMultiThread_2160p(frame);
     static int speed = 1;

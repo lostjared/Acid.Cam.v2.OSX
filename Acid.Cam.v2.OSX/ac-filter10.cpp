@@ -360,7 +360,7 @@ void ac::InterRGB_SubFilter(cv::Mat &frame) {
         if(index > 2)
             index = 0;
     }
-    static int dir = 1.0;
+    static int dir = 1;
     procPos(dir, alpha, alpha_max, 4.1, 0.05);
     AddInvert(frame);
 }
@@ -932,7 +932,7 @@ void ac::Blend_RedGreenBlue(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += values[j];
+                pixel[j] += static_cast<unsigned char>(values[j]);
             }
         }
     }
@@ -1134,7 +1134,7 @@ void ac::IncDifferenceAlpha(cv::Mat &frame) {
                 if(pixel[j] == 0) pixel[j] = 1;
                 pixel[j] = pix_cp[j]%(1+(pixel[j]));
             }
-            pix_cp[index] = 255-(back[index]*alpha);
+            pix_cp[index] = static_cast<unsigned char>(255-(back[index]*alpha));
         }
     }
     ++index;

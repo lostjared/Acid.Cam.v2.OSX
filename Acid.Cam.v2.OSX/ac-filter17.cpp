@@ -62,7 +62,7 @@ void ac::IncreaseQuick(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] += pixel[j]*pixel_color[j];
+                pixel[j] += static_cast<unsigned char>(pixel[j]*pixel_color[j]);
             }
         }
     }

@@ -67,7 +67,7 @@ void ac::SelfScaleRefined(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int total_value = pixel[j] * alpha;
+                    int total_value = static_cast<unsigned char>(pixel[j] * alpha);
                     pixel[j] = static_cast<unsigned char>((0.25 * total_value) + (0.75 * pixel[j]));
                 }
             }
@@ -122,7 +122,7 @@ void ac::SelfScaleRefinedRGB(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int total_value = pixel[j] * alpha[j];
+                    int total_value = static_cast<int>(pixel[j] * alpha[j]);
                     pixel[j] = static_cast<unsigned char>((0.5 * total_value) + (0.5 * pixel[j]));
                 }
             }

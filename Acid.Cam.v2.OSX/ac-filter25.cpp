@@ -242,7 +242,7 @@ void ac::ColorIncrementReset(cv::Mat &frame) {
                     if(pix_container.pix_values[i][z].col[j] >= 255) {
                         pix_container.pix_values[i][z].col[j] = pixel[j];
                     }
-                    pixel[j] = static_cast<unsigned char>(1-alpha * pixel[j]) + (alpha * pix_container.pix_values[i][z].col[j]);
+                    pixel[j] = static_cast<unsigned char>(1-alpha * pixel[j]) + static_cast<unsigned char>(alpha * pix_container.pix_values[i][z].col[j]);
                 }
             }
         }
@@ -297,7 +297,7 @@ void ac::ColorPixelArray2D(cv::Mat &frame) {
                     } else if(p.dir[j] == 2) {
                         p.col[j] = p2.col[j];
                     }
-                    pixel[j] = static_cast<unsigned char>(1-alpha * pixel[j]) + (alpha * pix_container1.pix_values[i][z].col[j]);
+                    pixel[j] = static_cast<unsigned char>(1-alpha * pixel[j]) + static_cast<unsigned char>(alpha * pix_container1.pix_values[i][z].col[j]);
                 }
             }
         }
@@ -748,7 +748,7 @@ void ac::PixelatePixelValues(cv::Mat &frame) {
                     } else if(p1.col[j] == p2.col[j]) {
                         cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
                         p2.col[j] = pix[j];
-                        p1.col[j] = (0.5 * pix[j]);
+                        p1.col[j] = static_cast<int>(0.5 * pix[j]);
                     }
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * p1.col[j]));
                 }

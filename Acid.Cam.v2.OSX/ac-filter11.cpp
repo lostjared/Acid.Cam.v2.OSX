@@ -597,7 +597,7 @@ void ac::CopyXorAlpha(cv::Mat &frame) {
             cv::Vec3b color;
             for(int j = 0; j < 3; ++j) {
                 color[j] += pix[0][j] + pix[1][j] + pix[2][j];
-                color[j] /= 6.0;
+                color[j] /= 6;
                 pixel[j] = static_cast<unsigned char>(color[j] * alpha) ^ static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }

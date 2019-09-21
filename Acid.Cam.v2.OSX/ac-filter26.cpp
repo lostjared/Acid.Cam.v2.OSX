@@ -199,7 +199,7 @@ void ac::PixelCloud(cv::Mat &frame) {
                             p.col[j] = pixel[j];
                         }
                     }
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.33) + (p.col[j]) * 0.33) + (p.add[j] * 0.33);
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.33) + static_cast<unsigned char>(p.col[j]) * 0.33) + (p.add[j] * 0.33);
                 }
             }
         }
@@ -896,7 +896,7 @@ void ac::LightBlendXor(cv::Mat &frame) {
             for(int j = 0; j < 3; ++j) {
                 color[j] = (pixels[0][j] + pixels[1][j] + pixels[2][j]);
                 color[j] /= 3;
-                color[j] *= alpha;
+                color[j] *= static_cast<unsigned char>(alpha);
                 pixel[j] ^= static_cast<unsigned char>((alpha1 * pixel[j]) + (alpha1 * color[j]));
             }
         }
