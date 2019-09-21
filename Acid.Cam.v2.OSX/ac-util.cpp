@@ -1328,6 +1328,8 @@ bool ac::FFMPEG_Installed(const std::string &ffmpeg) {
     
     if(val != 0)
         return false;
+#else
+    std::cout << ffmpeg << ": Not supported on this platform...\n";
 #endif
     return false;
 }

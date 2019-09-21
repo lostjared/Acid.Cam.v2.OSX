@@ -608,7 +608,7 @@ void ac::ColorLines(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]^total[j])*alpha;
+                pixel[j] = static_cast<unsigned char>((pixel[j]^total[j])*alpha);
                 if((i%(diff+1))==0) {
                     ++total[j];
                 }

@@ -897,7 +897,7 @@ void ac::LightBlendXor(cv::Mat &frame) {
                 color[j] = (pixels[0][j] + pixels[1][j] + pixels[2][j]);
                 color[j] /= 3;
                 color[j] *= static_cast<unsigned char>(alpha);
-                pixel[j] ^= static_cast<unsigned char>((alpha1 * pixel[j]) + (alpha1 * color[j]));
+                pixel[j] ^= static_cast<unsigned char>((alpha1 * pixel[j]) + static_cast<unsigned char>(alpha1 * color[j]));
             }
         }
     }
