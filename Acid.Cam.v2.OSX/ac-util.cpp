@@ -665,12 +665,12 @@ void ac::AddMatVector(cv::Mat &frame, std::vector<cv::Mat> &v) {
 unsigned char ac::size_cast(long val) {
     if(val >= 255) return 255;
     if(val < 0) return 0;
-    return val;
+    return static_cast<unsigned char>(val);
 }
 
 unsigned char ac::size_reset(long val) {
     if(val >= 255 || val <= 0) return rand()%255;
-    return val;
+    return static_cast<unsigned char>(val);
 }
 
 void ac::blendFilterWithColorMap(int filter, int map, cv::Mat &frame) {
