@@ -319,6 +319,8 @@ extern int elapsed_counter;
 - (IBAction) menuMoveNormal: (id) sender;
 - (IBAction) menuMoveFast: (id) sender;
 - (IBAction) menuMoveVeryFast: (id) sender;
+- (IBAction) writeSettings: (id) sender;
+- (IBAction) readSettings: (id) sender;
 @end
 
 extern AC_Controller *controller;

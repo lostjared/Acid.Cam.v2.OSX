@@ -194,6 +194,7 @@ void setEnabledProg() {
         //camera_active = false;
     }
     else {
+        [self writeSettings:self];
         [NSApp terminate:nil];
     }
 }
@@ -306,11 +307,11 @@ void setEnabledProg() {
     flushToLog(sout);
     ac::setThreadCount(4);
     restartFilter = NO;
-    
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *str = [bundle pathForResource:@"clouds" ofType:@"tiff"];
     test_image = cv::imread([str UTF8String]);
     [bundle release];
+    [self readSettings:self];
     /*
      
      std::vector<std::string> valz;
@@ -1113,6 +1114,7 @@ void setEnabledProg() {
         flushToLog(sout);
         setEnabledProg();
         if(breakProgram == true) {
+            [self writeSettings:self];
             [NSApp terminate:nil];
         }
         programRunning = false;
@@ -2227,6 +2229,7 @@ void setEnabledProg() {
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
+    [self writeSettings: self];
 }
 
 - (IBAction) setPref: (id) sender {
@@ -3203,6 +3206,28 @@ void setEnabledProg() {
     [speed_fast setState:NSOffState];
     [speed_vfast setState:NSOnState];
     p_s = 4;
+}
+
+- (IBAction) writeSettings: (id) sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *m_path = [NSString stringWithUTF8String: ffmpeg_string_path.c_str()];
+    NSInteger chk_on = [ffmpeg_support integerValue];
+    [defaults setObject:m_path forKey:@"ffmpeg"];
+    [defaults setInteger:chk_on forKey:@"ffmpeg_on"];
+    [defaults synchronize];
+}
+
+- (IBAction) readSettings: (id) sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *ff_path = [defaults objectForKey:@"ffmpeg"];
+    NSInteger ff_support = [defaults integerForKey:@"ffmpeg_on"];
+    if(ff_path != nil) {
+        ffmpeg_string_path = [ff_path UTF8String];
+    } else {
+        ffmpeg_string_path = "/usr/local/bin/ffmpeg";
+    }
+    [ffmpeg_path setStringValue: [NSString stringWithUTF8String: ffmpeg_string_path.c_str()]];
+    [ffmpeg_support setIntegerValue:ff_support];
 }
 
 @end
