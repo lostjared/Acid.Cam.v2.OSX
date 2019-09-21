@@ -199,7 +199,7 @@ void ac::PixelCloud(cv::Mat &frame) {
                             p.col[j] = pixel[j];
                         }
                     }
-                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.33) + static_cast<unsigned char>(p.col[j]) * 0.33) + (p.add[j] * 0.33);
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.33) + static_cast<unsigned char>(p.col[j]) * 0.33) + static_cast<unsigned char>(p.add[j] * 0.33);
                 }
             }
         }
