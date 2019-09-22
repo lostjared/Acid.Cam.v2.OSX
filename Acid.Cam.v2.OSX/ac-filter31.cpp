@@ -470,3 +470,14 @@ void ac::GradientFilter(cv::Mat &frame) {
         index = 0;
     AddInvert(frame);
 }
+
+void ac::GradientFilterAlphaBlend(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    GradientFilter(copy1);
+    GradientFilter(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
+}
