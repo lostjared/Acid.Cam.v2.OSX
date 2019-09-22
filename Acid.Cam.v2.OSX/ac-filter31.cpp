@@ -442,7 +442,7 @@ void ac::GradientFilter(cv::Mat &frame) {
     static int val = 0;
     int inc = (frame.cols/255)+1;
     int dir = 1;
-    int increment_value = rand()%250;
+    int increment_value = 1+(rand()%250);
     for(int z = 0; z < frame.rows; ++z) {
         val = increment_value;
         for(int i = 0; i < frame.cols; ++i) {
