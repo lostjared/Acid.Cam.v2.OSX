@@ -481,3 +481,15 @@ void ac::GradientFilterAlphaBlend(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
 }
+
+void ac::MedianBlendGradientFilterMultiThread(cv::Mat &frame) {
+    GradientFilterAlphaBlend(frame);
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendGraidentFilterDarkMultiThread(cv::Mat &frame) {
+    GradientFilterAlphaBlend(frame);
+    MedianBlendMultiThreadByEight(frame);
+    AddInvert(frame);
+}
