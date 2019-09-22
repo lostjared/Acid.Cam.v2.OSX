@@ -442,7 +442,7 @@ void ac::GradientFilter(cv::Mat &frame) {
     static int val = 0;
     int inc = (frame.cols/255)+1;
     int dir = 1;
-    int increment_value = rand()%255;
+    int increment_value = rand()%250;
     for(int z = 0; z < frame.rows; ++z) {
         val = increment_value;
         for(int i = 0; i < frame.cols; ++i) {
@@ -451,9 +451,9 @@ void ac::GradientFilter(cv::Mat &frame) {
             if((i%inc) == 0) {
                 if(dir == 1) {
                     ++val;
-                    if(val >= 255) {
+                    if(val >= 250) {
                         dir = 0;
-                        val = 255;
+                        val = 250;
                     }
                 } else {
                     --val;
