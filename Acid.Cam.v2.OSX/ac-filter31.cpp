@@ -341,3 +341,60 @@ void ac::DifferenceReplaceSubFilterAlphaBlend(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
 }
+
+void ac::GradientGlitch(cv::Mat &frame) {
+    static unsigned char val = 0;
+    int inc = (frame.rows/255)+1;
+    for(int i = 0; i < frame.cols; ++i) {
+        val = 1;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[0] = static_cast<unsigned char>((pixel[0] * val) * 0.5);
+            pixel[2] = static_cast<unsigned char>((pixel[2] * ~val) * 0.5);
+            
+            if((z%inc) == 0)
+                ++val;
+            
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel */
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ImageGradientBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static unsigned char val = 0;
+    int inc = (frame.rows/255)+1;
+    static int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int i = 0; i < frame.cols; ++i) {
+        val = 1;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pix[j] * (1-alpha)));
+            }
+            pixel[index] = val;
+            if((z%inc) == 0)
+                ++val;
+        }
+    }
+    static int counter = 0;
+    ++counter;
+    int fps = static_cast<int>(ac::fps) * 3;
+    if(counter > fps) {
+        counter = 0;
+        ++index;
+        if(index > 2)
+            index = 0;
+    }
+    BlendWithSource50(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
+}

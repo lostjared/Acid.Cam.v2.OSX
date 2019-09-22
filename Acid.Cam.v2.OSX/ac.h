@@ -1669,7 +1669,9 @@ namespace ac {
     void ImageInvertedDifferenceReplaceSubFilter(cv::Mat &frame);
     void ImageDifferenceReplaceSubFilter(cv::Mat &frame);
     void DifferenceReplaceSubFilterAlphaBlend(cv::Mat &frame);
-        // #NoFilter
+    void GradientGlitch(cv::Mat &frame);
+    void ImageGradientBlend(cv::Mat &frame);
+    // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
