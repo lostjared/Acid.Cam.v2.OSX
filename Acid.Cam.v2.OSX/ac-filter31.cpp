@@ -398,3 +398,16 @@ void ac::ImageGradientBlend(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
 }
+
+void ac::MedianBlendGradientMultiThread(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = frame.clone();
+    GradientColors(copy1);
+    GradientColors(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
