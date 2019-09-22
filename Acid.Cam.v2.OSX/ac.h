@@ -1674,6 +1674,7 @@ namespace ac {
     void MedianBlendGradientMultiThread(cv::Mat &frame);
     void MedianBlendGradientDarkMultiThread(cv::Mat &frame);
     void GradientAlphaBlend(cv::Mat &frame);
+    void GradientFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
