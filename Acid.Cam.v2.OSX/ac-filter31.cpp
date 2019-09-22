@@ -493,3 +493,45 @@ void ac::MedianBlendGraidentFilterDarkMultiThread(cv::Mat &frame) {
     MedianBlendMultiThreadByEight(frame);
     AddInvert(frame);
 }
+
+void ac::ColorOrderSwap(cv::Mat &frame) {
+    static int color_order = 0;
+    if(color_order > 0) {
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b temp;
+                    temp = pixel;
+                    switch(color_order) {
+                        case 1: // RGB
+                            pixel[0] = temp[2];
+                            pixel[1] = temp[1];
+                            pixel[2] = temp[0];
+                            break;
+                        case 2:// GBR
+                            pixel[0] = temp[1];
+                            pixel[1] = temp[0];
+                            break;
+                        case 3:// BRG
+                            pixel[1] = temp[2];
+                            pixel[2] = temp[1];
+                            break;
+                        case 4: // GRB
+                            pixel[0] = temp[1];
+                            pixel[1] = temp[2];
+                            pixel[2] = temp[0];
+                            break;
+                    }
+                    
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+        AddInvert(frame);
+    }
+    ++color_order;
+    if(color_order > 4) {
+        color_order = 0;
+    }
+}
