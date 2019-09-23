@@ -535,3 +535,15 @@ void ac::ColorOrderSwap(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorOrderSwapMap(cv::Mat &frame) {
+    ShuffleColorMap(frame);
+    ColorOrderSwap(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendSwapMapMultiThread(cv::Mat &frame) {
+    ColorOrderSwapMap(frame);
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
