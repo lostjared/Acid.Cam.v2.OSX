@@ -528,10 +528,10 @@ void ac::ColorOrderSwap(cv::Mat &frame) {
             }
         };
         UseMultipleThreads(frame, getThreadCount(), callback);
-        AddInvert(frame);
     }
     ++color_order;
     if(color_order > 4) {
         color_order = 0;
     }
+    AddInvert(frame);
 }
