@@ -585,4 +585,5 @@ void ac::RandomGradientColors(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
