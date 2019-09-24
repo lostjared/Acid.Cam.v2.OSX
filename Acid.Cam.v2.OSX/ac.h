@@ -76,6 +76,9 @@
 #else
 #define ASSERT(X)
 #endif
+
+#define DEBUG_MODE
+
 /*
  *
  * Be sure to call fill_filter_map or init
@@ -1140,7 +1143,7 @@ namespace ac {
     void IntertwineGhostSubFilter(cv::Mat &frame);
     void BlendWithOldFrame(cv::Mat &frame);
     void BlendWith16thFrame(cv::Mat &frame);
-    void BlendTrailsFilter(cv::Mat &frame);
+    void BlendTrailsSubFilter(cv::Mat &frame);
     void LineMoveInOut(cv::Mat &frame);
     void MatrixCollectionTrails(cv::Mat &frame);
     void MatrixCollectionRandom(cv::Mat &frame);
@@ -1684,6 +1687,7 @@ namespace ac {
     void RandomGradientColors(cv::Mat &frame);
     void GradientColorMap(cv::Mat &frame);
     void GradientXor(cv::Mat &frame);
+    void RandomSub_Filter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -57,37 +57,52 @@
 
 #include"ac.h"
 
-
 void ac::EachFilterSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || draw_strings[subfilter] == "EachFilterSubFilter")
         return;
     static int filter_num = 0;
     static int frame_count = 0, seconds = 0;
+    static std::string temp_sub = solo_filter[rand()%(solo_filter.size()-1)];
+    
     if (++frame_count > static_cast<int>(fps)) {
         frame_count = 0;
         ++seconds;
     }
-    if(seconds > 4) {
+    if(seconds > 1) {
         frame_count = 0;
         seconds = 0;
         if(filter_num > ac::getFilterCount()-2) {
             filter_num = 0;
         } else {
             ++filter_num;
+            temp_sub = solo_filter[rand()%(solo_filter.size()-1)];
         }
         ac::release_all_objects();
     }
     std::string filter_name = ac::draw_strings[filter_num];
     if(filter_name == "EachFilterSubFilter") {
-        if(filter_num < ac::getFilterCount()-2)
+        if(filter_num < ac::getFilterCount()-2) {
             filter_name = ac::draw_strings[++filter_num];
+            temp_sub = solo_filter[rand()%(solo_filter.size()-1)];
+        }
         else {
             filter_num = 0;
             filter_name = ac::draw_strings[filter_num];
+            temp_sub = solo_filter[rand()%(solo_filter.size()-1)];
         }
     }
-    //std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
-    pushSubFilter(subfilter);
+#ifdef DEBUG_MODE
+    if(filter_name.find("SubFilter") == std::string::npos)
+        std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
+    else
+        std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << " SubFilter: " << temp_sub << "\n";
+#endif
+    int temp = getFilterByName(temp_sub);
+    int cur = getFilterByName(filter_name);
+    if(temp == cur) {
+        temp = getFilterByName("MedianBlendIncrease");
+    }
+    pushSubFilter(temp);
     CallFilter(filter_name, frame);
     popSubFilter();
 }

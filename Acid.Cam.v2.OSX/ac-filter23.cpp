@@ -162,7 +162,7 @@ void ac::PositionShift(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     cv::Mat copy1 = collection.frames[7].clone();
-    int val_offset = rand()%(frame.cols-1);
+    int val_offset = rand()%(1+(frame.cols-1));
     for(int z = 0; z < frame.rows; ++z) {
         int index = val_offset;
         for(int i = 0; i < frame.cols; ++i) {

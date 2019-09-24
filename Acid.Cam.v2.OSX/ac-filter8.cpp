@@ -596,7 +596,7 @@ void ac::SquareStretchRight(cv::Mat &frame) {
     cv::Mat out_frame;
     if(z > 0 && frame.rows > 0) {
         ac_resize(copy_frame, out_frame, cv::Size(z,frame.rows));
-        if(subfilter != -1 && ac::draw_strings[subfilter] != "SquarehStretcRight") {
+        if(subfilter != -1 && ac::draw_strings[subfilter] != "SquareStretchRight") {
             CallFilter(subfilter, out_frame);
         }
         copyMat(out_frame, 0, 0, frame, 0, 0, z,frame.rows);

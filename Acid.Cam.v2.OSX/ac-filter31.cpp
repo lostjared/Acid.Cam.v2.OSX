@@ -623,3 +623,23 @@ void ac::GradientXor(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::RandomSub_Filter(cv::Mat &frame) {
+    std::string filter_;
+    std::string subf;
+    filter_ = vSub[rand()%(vSub.size()-1)];
+    do {
+        subf = solo_filter[rand()%(solo_filter.size()-1)];
+    } while(filter_ == subf);
+    int sub_t = getFilterByName(subf);
+    if(sub_t == -1) {
+        std::cerr << "Error: Filter " << subf << " not found!";
+        return;
+    }
+#ifdef DEBUG_MODE
+    std::cout << filter_ << ":" << subf << "\n";
+#endif
+    pushSubFilter(sub_t);
+    CallFilter(filter_, frame);
+    popSubFilter();
+}

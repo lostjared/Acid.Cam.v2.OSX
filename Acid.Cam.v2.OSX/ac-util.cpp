@@ -442,6 +442,7 @@ int ac::getThreadCount() {
     return thread_count;
 }
 
+
 void ac::ac_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale) {
     if(dst.empty())
         dst.create(src.rows, src.cols, CV_8UC3);
@@ -710,10 +711,10 @@ void ac::pushSubFilter(int newsub) {
         subfilters.push_back(subfilter);
         subfilter = newsub;
     } else if(newsub == -1) {
-        std::cerr << "pushSubFIlter invalid filter requested...\n";
+        std::cerr << "pushSubFilter invalid filter (-1) requested...\n";
     }
     else {
-        std::cerr << "pushSubFIlter: Error index out of range...\n";
+        std::cerr << "pushSubFilter: Error index out of range...\n";
     }
 }
 

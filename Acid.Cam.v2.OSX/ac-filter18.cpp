@@ -364,7 +364,9 @@ void ac::BlendWith16thFrame(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::BlendTrailsFilter(cv::Mat &frame) {
+void ac::BlendTrailsSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "BlendTrailsSubFilter")
+        return;
     static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
     cv::Mat copy1 = frame.clone(), output;
