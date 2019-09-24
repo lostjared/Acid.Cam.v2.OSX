@@ -2637,7 +2637,7 @@ namespace ac {
     
     class PixelArray2D {
     public:
-        PixelArray2D() : pix_values(0), pix_x(0), pix_y(0), rng(r()) {}
+        PixelArray2D() : pix_values(0), pix_x(0), pix_y(0), rng(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count())) {}
         PixelArray2D(const PixelArray2D &) = delete;
         ~PixelArray2D();
         void create(cv::Mat &frame, int w, int h, int dir, bool addvec = false);
@@ -2672,7 +2672,6 @@ namespace ac {
             }
         }
     protected:
-        std::random_device r;
         int pix_x, pix_y;
         std::default_random_engine rng;
     };

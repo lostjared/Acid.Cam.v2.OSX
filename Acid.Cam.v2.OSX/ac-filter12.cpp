@@ -668,8 +668,7 @@ void ac::RandomSubFilter(cv::Mat &frame) {
     static unsigned int index = 0;
     static std::vector<std::string> vSub { "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter","EnergizeSubFilter","PixelatedSubFilterSort","FilteredDifferenceSubFilter","ExpandSquareSubFilter","MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter","SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter","CollectionXorSourceSubFilter","BlendReverseSubFilter","SmoothBlendReverseSubFilter","MedianBlendBufferSubFilter","RGBBlendSubFilter","XorOppositeSubFilter", "BlendSmoothSubFilter", "BlurSmoothSubFilter", "BlurFlipSubFilter", "MedianBlendSubFilterEx", "ShiftFrameSmoothSubFilter", "ShiftFrameStaticXorSubFilter"};
     
-    std::random_device r;
-    static auto rng = std::default_random_engine(r());
+    static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     CallFilter(vSub[index], frame);
     ++index;
     if(index > vSub.size()-1) {
@@ -678,6 +677,8 @@ void ac::RandomSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+
 
 void ac::TwistedVision(cv::Mat &frame) {
     static int pos[3] = {2,frame.cols-1,2};

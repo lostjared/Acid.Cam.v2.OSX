@@ -480,8 +480,7 @@ void ac::CycleInAndOutRepeat(cv::Mat &frame) {
 
 void ac::ColorCollectionShuffle(cv::Mat &frame) {
     static int init = 0;
-    static std::random_device r;
-    static auto rng = std::default_random_engine(r());
+    static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     static std::vector<std::string> index_values;
     if(init == 0) {
         init = 1;

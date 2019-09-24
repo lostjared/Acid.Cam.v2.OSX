@@ -89,8 +89,8 @@ cv::ocl::Context context;
 cv::Mat test_image;
 std::vector<int> image_shuffle;
 int image_shuffle_index = 0;
-std::random_device r;
-std::default_random_engine img_rng(r());
+std::default_random_engine img_rng(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
+
 int p_s = 1;
 int elapsed_counter = 0;
 //  Function below from Stack Overflow

@@ -647,8 +647,7 @@ void ac::FillRow(cv::Mat &frame, unsigned int row, unsigned char value) {
 }
 
 void ac::Shuffle(int &index, cv::Mat &frame, std::vector<std::string> &filter_array) {
-    static std::random_device r;
-    static auto rng = std::default_random_engine(r());
+    static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     CallFilter(filter_array[index], frame);
     ++index;
     if(static_cast<unsigned int>(index) > filter_array.size()-1) {

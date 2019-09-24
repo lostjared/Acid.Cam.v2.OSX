@@ -549,8 +549,7 @@ void ac::MedianBlendSwapMapMultiThread(cv::Mat &frame) {
 }
 
 void ac::RandomGradientColors(cv::Mat &frame) {
-    static std::random_device r;
-    static std::default_random_engine rgen(r());
+    static std::default_random_engine rgen(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     int ch_value[3];
     ch_value[0] = rgen()%255;
     ch_value[1] = rgen()%255;
