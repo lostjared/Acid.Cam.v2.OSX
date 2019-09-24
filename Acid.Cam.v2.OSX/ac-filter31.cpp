@@ -587,3 +587,17 @@ void ac::RandomGradientColors(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+
+void ac::GradientColorMap(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone(), copy3 = frame.clone(), temp;
+    RandomGradientColors(copy1);
+    RandomGradientColors(copy2);
+    ShuffleColorMap(copy3);
+    AlphaBlend(copy1, copy2, temp, 0.5);
+    AlphaBlendDouble(copy3, temp, frame, alpha, (1-alpha));
+    AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.1);
+    AddInvert(frame);
+}

@@ -1682,6 +1682,7 @@ namespace ac {
     void ColorOrderSwapMap(cv::Mat &frame);
     void MedianBlendSwapMapMultiThread(cv::Mat &frame);
     void RandomGradientColors(cv::Mat &frame);
+    void GradientColorMap(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
