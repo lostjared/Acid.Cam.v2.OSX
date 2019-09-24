@@ -547,3 +547,43 @@ void ac::MedianBlendSwapMapMultiThread(cv::Mat &frame) {
     MedianBlendMultiThread_2160p(frame);
     AddInvert(frame);
 }
+
+void ac::RandomGradientColors(cv::Mat &frame) {
+    static std::random_device r;
+    static std::default_random_engine rgen(r());
+    int ch_value[3];
+    ch_value[0] = rgen()%255;
+    ch_value[1] = rgen()%255;
+    ch_value[2] = rgen()%255;
+    int dir[] = {0, 1, 0};
+    int slice = frame.cols/255;
+    int cols[3] = {0};
+    for(int z = 0; z < frame.rows; ++z) {
+        cols[0] = ch_value[0];
+        cols[1] = ch_value[1];
+        cols[2] = ch_value[2];
+        for(int i = 0; i < frame.cols; ++i) {
+            if((i%slice) == 0) {
+                for(int j = 0; j < 3; ++j) {
+                    if(dir[j] == 1) {
+                        ++cols[j];
+                        if(cols[j] > 255) {
+                            cols[j] = 255;
+                            dir[j] = 0;
+                        }
+                    } else if(dir[j] == 0) {
+                        --cols[j];
+                        if(cols[j] <= ch_value[j]) {
+                            cols[j] = ch_value[j];
+                            dir[j] = 1;
+                        }
+                    }
+                }
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * cols[j]));
+            }
+        }
+    }
+}
