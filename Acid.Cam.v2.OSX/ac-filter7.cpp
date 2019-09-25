@@ -151,11 +151,8 @@ void ac::SlideUpDownRandom(cv::Mat &frame) {
         return;
     
     DrawFunction f1, f2;
-    static int index[2];
-    f1 = getRandomFilter(index[0]);
-    f2 = getRandomFilter(index[1]);
-    if(ac::draw_strings[index[0]] == "SlideUpDownRandom") return;
-    if(ac::draw_strings[index[1]] == "SlideUpDownRandom") return;
+    f1 = getRandomFilter();
+    f2 = getRandomFilter();
     cv::Mat frames[2];
     frames[0] = frame.clone();
     frames[1] = frame.clone();

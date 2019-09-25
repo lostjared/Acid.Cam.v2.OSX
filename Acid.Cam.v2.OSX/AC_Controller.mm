@@ -2226,6 +2226,14 @@ void setEnabledProg() {
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
     log << "Pixel Intensity Set At: " << static_cast<int>(intense) << "\n";
     log << "FFMPEG Path Set to: " << output_path_ffmpeg << "\n";
+    
+    NSInteger max = [max_frames integerValue];
+    if(max <= 300) {
+        _NSRunAlertPanel(@"Invalid Maximum Stored Frames (based on your systems memory.)", @"Invalid Maximum Stored Frames. Requires a value of 300 or greater.", @"Ok", nil, nil);
+        return;
+    }
+    log << "Maximum Stored Frames: " << max << "\n";
+    ac::setMaxAllocated(static_cast<int>(max));
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

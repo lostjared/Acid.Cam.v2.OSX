@@ -176,7 +176,7 @@ namespace ac {
     // be sure to call this when the application starts
     void fill_filter_map();
     // draw functions
-    DrawFunction getRandomFilter(int &index);
+    DrawFunction getRandomFilter();
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe);
     void DrawFilter(int index, cv::Mat &frame);
@@ -1689,6 +1689,7 @@ namespace ac {
     void GradientXor(cv::Mat &frame);
     void RandomSub_Filter(cv::Mat &frame);
     void ShuffleSub_Filter(cv::Mat &frame);
+    void Shuffle_Filter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1772,6 +1773,7 @@ namespace ac {
     void VariableScaleSpeed(double *alpha,int *dir, double *start, double *start_init, double *start_max, double *stop, double *stop_init, double *stop_max, double *inc);
     bool CopyAudioStream(std::string ffmpeg, std::string file1, std::string file2, std::string output);
     bool FFMPEG_Installed(const std::string &ffmpeg);
+    void setMaxAllocated(const int &v);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
@@ -1785,9 +1787,11 @@ namespace ac {
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
     extern std::unordered_map<std::string, FilterType> filter_map_str;
-    
+    extern int allocated_frames;
+    extern int allocated_max;
     extern bool frames_released;
     extern std::vector<void *> all_objects;
+    extern void release_all_objects();
     // Matrix Collection template
     template<int Size>
     class MatrixCollection {
@@ -1813,11 +1817,16 @@ namespace ac {
         bool resetFrame(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
+            if(allocated_frames > allocated_max) {
+                ac::release_all_objects();
+                allocated_frames = 0;
+            }
             // check if any frames were released.
             bool check_released = false;
             for(int i = 0; i < Size; ++i) {
                 if(frames[i].empty()) {
                     check_released = true;
+                    allocated_frames += Size;
                     break;
                 }
             }
@@ -1861,7 +1870,6 @@ namespace ac {
         }
         int completedRows;
     };
-    extern void release_all_objects();
     extern bool testSize(cv::Mat &frame);
     // pass function pointer, functor or lambda with prototype
     // void filter(cv::Mat *frame, int offset, int cols, int size)

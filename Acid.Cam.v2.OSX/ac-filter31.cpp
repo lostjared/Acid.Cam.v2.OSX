@@ -627,13 +627,6 @@ void ac::GradientXor(cv::Mat &frame) {
 void ac::RandomSub_Filter(cv::Mat &frame) {
     std::string filter_;
     std::string subf;
-    static int counter = 0;
-    
-    ++counter;
-    if(counter > 200) {
-        ac::release_all_objects();
-    }
-    
     filter_ = vSub[rand()%(vSub.size()-1)];
     do {
         subf = solo_filter[rand()%(solo_filter.size()-1)];
@@ -662,13 +655,6 @@ void ac::ShuffleSub_Filter(cv::Mat &frame) {
         std::shuffle(shuffle_vec.begin(), shuffle_vec.end(), rng);
         lazy = 1;
     }
-    
-    static int frame_index = 0;
-    ++frame_index;
-    if(frame_index > 200) {
-        ac::release_all_objects();
-        frame_index = 0;
-    }
     std::string filter_;
     std::string subf;
     filter_ = shuffle_vec[index1];
@@ -695,3 +681,26 @@ void ac::ShuffleSub_Filter(cv::Mat &frame) {
     CallFilter(filter_, frame);
     popSubFilter();
 }
+
+void ac::Shuffle_Filter(cv::Mat &frame) {
+    static std::default_random_engine rng(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
+    static std::vector<std::string> shuffle_solo(solo_filter);
+    static int lazy = 0;
+    static int index = 0;
+    if(lazy == 0) {
+        std::shuffle(shuffle_solo.begin(), shuffle_solo.end(), rng);
+        lazy = 1;
+    }
+    std::string filter_name = shuffle_solo[index];
+    ++index;
+    if(index > shuffle_solo.size()-1) {
+        index = 0;
+        std::shuffle(shuffle_solo.begin(), shuffle_solo.end(), rng);
+    }
+#ifdef DEBUG_MODE
+    std::cout << "Filter: " << filter_name << "\n";
+#endif
+    CallFilter(filter_name, frame);
+}
+
+

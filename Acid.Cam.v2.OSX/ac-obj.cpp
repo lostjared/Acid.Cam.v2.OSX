@@ -94,12 +94,13 @@ void ac::release_all_objects() {
     }
     frames_released = true;
     col_lock.unlock();
-    std::cout << "acidcam: Released all Matrix objects...\n";
+#ifdef DEBUG_MODE
+    std::cout << "acidcam: Released: " << allocated_frames << " Matrix objects...\n";
+#endif
+    allocated_frames = 0;
 }
 
-ac::HLine::HLine() : w(0), h(0) {
-    
-}
+ac::HLine::HLine() : w(0), h(0) {}
 
 void ac::HLine::createLines(int size, int width, int height) {
     w = width;

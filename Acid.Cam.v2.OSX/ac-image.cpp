@@ -331,8 +331,7 @@ void ac::SmoothRandomImageBlend(cv::Mat &frame) {
             return;
         
         static MatrixCollection<8> collection;
-        int index = 0;
-        DrawFunction rfunc = getRandomFilter(index);
+        DrawFunction rfunc = getRandomFilter();
         cv::Mat temp_frame;
         ac_resize(blend_image, temp_frame, frame.size());
         rfunc(temp_frame);

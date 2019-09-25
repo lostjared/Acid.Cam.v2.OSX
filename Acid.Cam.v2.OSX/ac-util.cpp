@@ -48,10 +48,16 @@
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
 cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_colors;
+int ac::allocated_frames = 0;
+int ac::allocated_max = 1500;
 int pixel_collection_value = 55;
 
 void ac::init() {
     fill_filter_map();
+}
+
+void ac::setMaxAllocated(const int &v) {
+    allocated_max = v;
 }
 
 void ac::setPixelCollection(int value) {
@@ -586,11 +592,8 @@ bool ac::testSize(cv::Mat &frame) {
     return true;
 }
 
-ac::DrawFunction ac::getRandomFilter(int &index) {
-    static std::string values[] = {"ShuffleAlpha", "ShuffleSelf", "ShuffleMedian", "ShuffleRGB"};
-    int r = rand()%4;
-    index = filter_map[values[r]];
-    return filter_map_str[values[r]].second;
+ac::DrawFunction ac::getRandomFilter() {
+    return Random_Filter;
 }
 
 int ac::subfilter = -1;

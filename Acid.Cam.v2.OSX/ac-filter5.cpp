@@ -100,10 +100,9 @@ void ac::QuadRandomFilter(cv::Mat &frame) {
     
     cv::Mat frame_copy = frame.clone();
     cv::Size quarter(frame.cols/2, frame.rows/2);
-    int base_index = 0, index = 0;
-    DrawFunction baseFilter = getRandomFilter(base_index);
+    DrawFunction baseFilter = getRandomFilter();
     baseFilter(frame_copy);
-    DrawFunction procFunc = getRandomFilter(index);
+    DrawFunction procFunc = getRandomFilter();
     procFunc(frame_copy);
     ac::copyMat(frame_copy,0, 0, frame, ac::Rect(0, 0, quarter));
     procFunc(frame_copy);
@@ -120,16 +119,14 @@ void ac::RollRandom(cv::Mat &frame) {
         return;
     
     SquareVertical_Roll(frame);
-    int index = 0;
-    DrawFunction rand_func = getRandomFilter(index);
+    DrawFunction rand_func = getRandomFilter();
     rand_func(frame);
 }
 
 void ac::AverageRandom(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 8.0;
     cv::Mat frame_copy = frame.clone(), frame_copy2 = frame.clone();
-    int index = 0;
-    DrawFunction func = getRandomFilter(index);
+    DrawFunction func = getRandomFilter();
     func(frame_copy);
     func(frame_copy2);
     for(int z = 0; z < frame.rows; ++z) {
@@ -347,8 +344,7 @@ void ac::RandomCollectionAverage(cv::Mat &frame) {
         return;
     
     static MatrixCollection<8> collection;
-    int index = 0;
-    DrawFunction randF = getRandomFilter(index);
+    DrawFunction randF = getRandomFilter();
     randF(frame);
     Smooth(frame, &collection);
 }
@@ -359,8 +355,7 @@ void ac::RandomCollectionAverageMax(cv::Mat &frame) {
         return;
     
     static MatrixCollection<16> collection;
-    int index = 0;
-    DrawFunction randF = getRandomFilter(index);
+    DrawFunction randF = getRandomFilter();
     randF(frame);
     Smooth(frame, &collection);
 }
@@ -412,12 +407,9 @@ void ac::MedianBlend(cv::Mat &frame) {
 void ac::RandomAlphaBlend(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     double alpha = 1.0, alpha_max = 6.0;
-    int index = 0;
-    
     if(testSize(frame) == false)
         return;
-    
-    DrawFunction randFunc = getRandomFilter(index);
+    DrawFunction randFunc = getRandomFilter();
     cv::Mat temp = frame.clone(), rand_frame = frame.clone();
     randFunc(rand_frame);
     collection.shiftFrames(rand_frame);
@@ -815,10 +807,9 @@ void ac::AlphaBlendRandom(cv::Mat &frame) {
     
     static double val = 0.30;
     static int val_dir = 1;
-    int index = 0;
     DrawFunction func[2];
-    func[0] = getRandomFilter(index);
-    func[1] = getRandomFilter(index);
+    func[0] = getRandomFilter();
+    func[1] = getRandomFilter();
     cv::Mat copy[4];
     copy[0] = frame.clone();
     copy[1] = frame.clone();

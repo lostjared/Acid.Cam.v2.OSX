@@ -838,8 +838,7 @@ void ac::RandomCurtain(cv::Mat &frame) {
     static int start = 0;
     static int direction = 1;
     static double alpha = 1.0, alpha_max = 7.0;
-    int i = 0;
-    static DrawFunction rf = getRandomFilter(i);
+    static DrawFunction rf = getRandomFilter();
     cv::Mat frame_copy = frame.clone();
     rf(frame_copy);
     
@@ -867,15 +866,13 @@ void ac::RandomCurtain(cv::Mat &frame) {
         start += 40;
         if(start > frame.cols-1) {
             direction = 0;
-            int i = 0;
-            rf = getRandomFilter(i);
+            rf = getRandomFilter();
         }
     } else {
         start -= 40;
         if(start <= 1) {
             direction = 1;
-            int i = 0;
-            rf = getRandomFilter(i);
+            rf = getRandomFilter();
         }
     }
     static int dir = 1;
@@ -928,8 +925,7 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     static int start = 0;
     static int direction = 1;
     static double alpha = 1.0, alpha_max = 7.0;
-    int i = 0;
-    static DrawFunction rf = getRandomFilter(i);
+    static DrawFunction rf = getRandomFilter();
     cv::Mat frame_copy = frame.clone();
     rf(frame_copy);
     
@@ -956,13 +952,13 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
         start += 50;
         if(start > frame.rows-1) {
             direction = 0;
-            rf = getRandomFilter(i);
+            rf = getRandomFilter();
         }
     } else {
         start -= 50;
         if(start <= 1) {
             direction = 1;
-            rf = getRandomFilter(i);
+            rf = getRandomFilter();
         }
     }
     static int dir = 1;
@@ -1010,18 +1006,12 @@ void ac::DarkenFilter(cv::Mat &frame) {
 void ac::RandomFilterBySecond(cv::Mat &frame) {
     if(testSize(frame) == false)
         return;
-    
     static int frame_count = 0;
-    static int f = 0;
-    static DrawFunction func = getRandomFilter(f);
-    if(ac::draw_strings[f] == "RandomFilterBySecond") {
-        func = getRandomFilter(f);
-        return;
-    }
+    static DrawFunction func = getRandomFilter();
     func(frame);
     if(++frame_count >= ac::fps) {
         frame_count = 0;
-        func = getRandomFilter(f);
+        func = getRandomFilter();
     }
     AddInvert(frame);
 }
@@ -1032,10 +1022,8 @@ void ac::ThreeRandom(cv::Mat &frame) {
         return;
     
     for(int j = 0; j < 3; ++j) {
-        int f = 0;
-        ac::DrawFunction func = getRandomFilter(f);
-        if(ac::draw_strings[f] != "ThreeRandom")
-            func(frame);
+        ac::DrawFunction func = getRandomFilter();
+        func(frame);
     }
     AddInvert(frame);
 }
@@ -1178,20 +1166,15 @@ void ac::SlideFilterXor(cv::Mat &frame) {
 }
 
 void ac::RandomSlideFilter(cv::Mat &frame) {
-    
     if(testSize(frame) == false)
         return;
-    
     static const int speed = 40;
     static int start_1 = 0, start_2 = frame.cols-1;
     static int direction_1 = 1, direction_2 = 0;
     static double alpha = 1.0, alpha_max = 7.0;
-    static int index[2];
     DrawFunction f1, f2;
-    f1 = getRandomFilter(index[0]);
-    f2 = getRandomFilter(index[1]);
-    if(ac::draw_strings[index[0]] == "RandomSlideFilter") return;
-    if(ac::draw_strings[index[1]] == "RandomSlideFilter") return;
+    f1 = getRandomFilter();
+    f2 = getRandomFilter();
     cv::Mat frames[2];
     frames[0] = frame.clone();
     frames[1] = frame.clone();
