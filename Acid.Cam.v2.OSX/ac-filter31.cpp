@@ -627,6 +627,13 @@ void ac::GradientXor(cv::Mat &frame) {
 void ac::RandomSub_Filter(cv::Mat &frame) {
     std::string filter_;
     std::string subf;
+    static int counter = 0;
+    
+    ++counter;
+    if(counter > 200) {
+        ac::release_all_objects();
+    }
+    
     filter_ = vSub[rand()%(vSub.size()-1)];
     do {
         subf = solo_filter[rand()%(solo_filter.size()-1)];
@@ -654,6 +661,13 @@ void ac::ShuffleSub_Filter(cv::Mat &frame) {
         std::shuffle(solo_vec.begin(), solo_vec.end(), rng);
         std::shuffle(shuffle_vec.begin(), shuffle_vec.end(), rng);
         lazy = 1;
+    }
+    
+    static int frame_index = 0;
+    ++frame_index;
+    if(frame_index > 200) {
+        ac::release_all_objects();
+        frame_index = 0;
     }
     std::string filter_;
     std::string subf;

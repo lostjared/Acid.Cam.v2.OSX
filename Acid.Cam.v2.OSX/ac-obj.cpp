@@ -94,6 +94,7 @@ void ac::release_all_objects() {
     }
     frames_released = true;
     col_lock.unlock();
+    std::cout << "acidcam: Released all Matrix objects...\n";
 }
 
 ac::HLine::HLine() : w(0), h(0) {
