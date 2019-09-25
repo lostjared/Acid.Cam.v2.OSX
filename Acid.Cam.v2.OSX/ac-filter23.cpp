@@ -161,7 +161,6 @@ void ac::RectangleGlitch(cv::Mat &frame) {
 void ac::PositionShift(cv::Mat &frame) {
     if(frame.empty())
         return;
-    
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     cv::Mat copy1 = collection.frames[7].clone();

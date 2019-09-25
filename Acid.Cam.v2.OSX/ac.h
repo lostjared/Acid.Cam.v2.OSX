@@ -1688,6 +1688,7 @@ namespace ac {
     void GradientColorMap(cv::Mat &frame);
     void GradientXor(cv::Mat &frame);
     void RandomSub_Filter(cv::Mat &frame);
+    void ShuffleSub_Filter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

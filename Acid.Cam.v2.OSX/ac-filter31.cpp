@@ -643,3 +643,41 @@ void ac::RandomSub_Filter(cv::Mat &frame) {
     CallFilter(filter_, frame);
     popSubFilter();
 }
+
+void ac::ShuffleSub_Filter(cv::Mat &frame) {
+    static std::vector<std::string> solo_vec(solo_filter);
+    static std::vector<std::string> shuffle_vec(vSub);
+    static std::default_random_engine rng(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
+    static int index1 = 0, index2 = 0;
+    static int lazy = 0;
+    if(lazy == 0) {
+        std::shuffle(solo_vec.begin(), solo_vec.end(), rng);
+        std::shuffle(shuffle_vec.begin(), shuffle_vec.end(), rng);
+        lazy = 1;
+    }
+    std::string filter_;
+    std::string subf;
+    filter_ = shuffle_vec[index1];
+    ++index1;
+    if(index1 > shuffle_vec.size()-1) {
+        std::shuffle(shuffle_vec.begin(), shuffle_vec.end(), rng);
+        index1 = 0;
+    }
+    subf = solo_vec[index2];
+    ++index2;
+    if(index2 > solo_vec.size()-1) {
+        std::shuffle(solo_vec.begin(), solo_vec.end(), rng);
+        index2 = 0;
+    }
+    int sub_t = getFilterByName(subf);
+    if(sub_t == -1) {
+        std::cerr << "Error: Filter " << subf << " not found!";
+        return;
+    }
+#ifdef DEBUG_MODE
+    std::cout << filter_ << ":" << subf << "\n";
+#endif
+    pushSubFilter(sub_t);
+    CallFilter(filter_, frame);
+    popSubFilter();
+}
