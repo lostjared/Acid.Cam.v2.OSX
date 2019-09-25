@@ -321,11 +321,6 @@ void ac::Random_Filter(cv::Mat &frame) {
 #ifdef DEBUG_MODE
     std::cout << "Current Filter: " << value << "\n";
 #endif
-    static int counter = 0;
-    ++counter;
-    if(counter > 150) {
-        ac::release_all_objects();
-    }
     CallFilter(value, frame);
     AddInvert(frame);
 }
