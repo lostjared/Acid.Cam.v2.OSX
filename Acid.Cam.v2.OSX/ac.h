@@ -1832,12 +1832,14 @@ namespace ac {
                 }
             }
             if(check_released == true || (w != wx || h != wh) || reset_filter == true || frames_released == true) {
+                col_lock.lock();
                 for(int i = 0; i < Size; ++i)
                     frames[i] = frame.clone();
                 w = wx;
                 h = wh;
                 reset_filter = false;
                 completedRows = 0;
+                col_lock.unlock();
                 return false;
             }
             return true;

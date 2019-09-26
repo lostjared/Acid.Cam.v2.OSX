@@ -56,7 +56,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 // disable for development
-// #define ENABLE_VERSION_UPDATE
+//#define ENABLE_VERSION_UPDATE
 
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
