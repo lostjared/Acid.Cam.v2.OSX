@@ -642,6 +642,7 @@ void ac::RandomSub_Filter(cv::Mat &frame) {
     pushSubFilter(sub_t);
     CallFilter(filter_, frame);
     popSubFilter();
+    AddInvert(frame);
 }
 
 void ac::ShuffleSub_Filter(cv::Mat &frame) {
@@ -680,6 +681,7 @@ void ac::ShuffleSub_Filter(cv::Mat &frame) {
     pushSubFilter(sub_t);
     CallFilter(filter_, frame);
     popSubFilter();
+    AddInvert(frame);
 }
 
 void ac::Shuffle_Filter(cv::Mat &frame) {
@@ -701,6 +703,14 @@ void ac::Shuffle_Filter(cv::Mat &frame) {
     std::cout << "Filter: " << filter_name << "\n";
 #endif
     CallFilter(filter_name, frame);
+    AddInvert(frame);
 }
 
-
+void ac::RandomOrigFrame(cv::Mat &frame) {
+    static int counter = 0;
+    counter = rand()%10;
+    if(counter == 5) {
+        frame = ac::orig_frame.clone();
+    }
+    AddInvert(frame);
+}
