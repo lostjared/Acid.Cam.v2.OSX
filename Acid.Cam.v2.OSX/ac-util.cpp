@@ -51,6 +51,7 @@ std::vector<ac::Keys> blocked_colors;
 int ac::allocated_frames = 0;
 int ac::allocated_max = 1500;
 int pixel_collection_value = 55;
+bool ac::release_frames = false;
 
 void ac::init() {
     fill_filter_map();

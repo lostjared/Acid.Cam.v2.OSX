@@ -149,6 +149,7 @@ namespace ac {
     typedef std::pair<std::string,DrawFunction> FilterType;
     extern DrawFunction custom_callback;
     extern DrawFunction plugin_func;
+    extern bool release_frames;
     // ror/rol tempaltes
     template<typename T>
     inline T ror(T x, int m){
@@ -1819,8 +1820,7 @@ namespace ac {
             int wx = frame.cols;
             int wh = frame.rows;
             if(allocated_frames > allocated_max) {
-                ac::release_all_objects();
-                allocated_frames = 0;
+                release_frames = true;
             }
             // check if any frames were released.
             bool check_released = false;

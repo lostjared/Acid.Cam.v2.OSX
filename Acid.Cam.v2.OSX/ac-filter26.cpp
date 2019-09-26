@@ -77,7 +77,6 @@ void ac::EachFilterSubFilter(cv::Mat &frame) {
             ++filter_num;
             temp_sub = solo_filter[rand()%(solo_filter.size()-1)];
         }
-        ac::release_all_objects();
     }
     std::string filter_name = ac::draw_strings[filter_num];
     if(filter_name == "EachFilterSubFilter") {
@@ -125,7 +124,6 @@ void ac::EachFilterRandomStartSubFilter(cv::Mat &frame) {
             ++filter_num;
             std::cout << ac::draw_strings[filter_num] << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
         }
-        //        ac::release_all_objects();
     }
     std::string filter_name = ac::draw_strings[filter_num];
     if(filter_name == "EachFilterRandomStartSubFilter") {
@@ -136,7 +134,9 @@ void ac::EachFilterRandomStartSubFilter(cv::Mat &frame) {
             filter_name = ac::draw_strings[filter_num];
         }
     }
-    //std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
+#ifdef DEBUG_MODE
+    std::cout << filter_name << ": " << filter_num << "/" << getFilterCount()-2 << "\n";
+#endif
     pushSubFilter(subfilter);
     CallFilter(filter_name, frame);
     popSubFilter();

@@ -984,7 +984,6 @@ void ac::ImagePixelFrameBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-// Requires a lot of RAM to load frames for each filter called
 void ac::PreviewFilters(cv::Mat &frame) {
     static int filter_num = 0;
     static int frame_count = 0, seconds = 0;
@@ -1000,7 +999,7 @@ void ac::PreviewFilters(cv::Mat &frame) {
         } else {
             ++filter_num;
         }
-        ac::release_all_objects();
+        release_frames = true;
     }
     std::string filter_name = ac::draw_strings[filter_num];
     if(filter_name == "PreviewFilters") {

@@ -113,8 +113,9 @@ void stopCV() {
         setEnabledProg();
         capture->release();
         [controller stopCV_prog];
+        int allocated_ = ac::allocated_frames;
         ac::release_all_objects();
-        sout << "All stored frames released\n";
+        sout << allocated_ << " stored frames released\n";
         flushToLog(sout);
         if(breakProgram == true) {
             [NSApp terminate:nil];

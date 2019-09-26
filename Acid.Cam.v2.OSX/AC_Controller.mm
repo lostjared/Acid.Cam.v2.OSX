@@ -3269,6 +3269,10 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     }
     ac::in_custom = false;
     ac::clearSubFilter();
+    if(ac::release_frames) {
+        ac::release_all_objects();
+        ac::release_frames = false;
+    }
 }
 
 
