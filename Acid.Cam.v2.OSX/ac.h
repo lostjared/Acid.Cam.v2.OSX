@@ -1820,7 +1820,7 @@ namespace ac {
         bool resetFrame(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
-            if(allocated_frames > allocated_max) {
+            if(allocated_frames > getMaxAllocated()) {
                 release_frames = true;
             }
             // check if any frames were released.
