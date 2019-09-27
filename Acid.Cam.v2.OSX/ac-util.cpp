@@ -61,8 +61,16 @@ void ac::setMaxAllocated(const int &v) {
     allocated_max = v;
 }
 
+void ac::setAllocatedFrames(const int &v) {
+    allocated_frames = v;
+}
+
 int ac::getMaxAllocated() {
     return allocated_max;
+}
+
+int ac::getCurrentAllocatedFrames() {
+    return allocated_frames;
 }
 
 void ac::setPixelCollection(int value) {
