@@ -1822,7 +1822,7 @@ namespace ac {
         bool resetFrame(cv::Mat &frame) {
             int wx = frame.cols;
             int wh = frame.rows;
-            if(allocated_frames > getMaxAllocated()) {
+            if(getCurrentAllocatedFrames() > getMaxAllocated()) {
                 release_frames = true;
             }
             // check if any frames were released.
@@ -1830,7 +1830,8 @@ namespace ac {
             for(int i = 0; i < Size; ++i) {
                 if(frames[i].empty()) {
                     check_released = true;
-                    allocated_frames += Size;
+                    setAllocatedFrames(getCurrentAllocatedFrames()+Size);
+                    //allocated_frames += Size;
                     break;
                 }
             }

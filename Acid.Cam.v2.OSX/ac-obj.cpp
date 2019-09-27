@@ -94,9 +94,9 @@ void ac::release_all_objects() {
     }
     frames_released = true;
 #ifdef DEBUG_MODE
-    std::cout << "acidcam: Released: " << allocated_frames << " Matrix objects...\n";
+    std::cout << "acidcam: Released: " << getCurrentAllocatedFrames() << " Matrix objects...\n";
 #endif
-    allocated_frames = 0;
+    setAllocatedFrames(0);
     col_lock.unlock();
 }
 

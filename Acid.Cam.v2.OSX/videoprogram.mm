@@ -112,7 +112,7 @@ void stopCV() {
         setEnabledProg();
         capture->release();
         [controller stopCV_prog];
-        int allocated_ = ac::allocated_frames;
+        int allocated_ = ac::getCurrentAllocatedFrames();
         ac::release_all_objects();
         sout << allocated_ << " stored frames released\n";
         flushToLog(sout);
