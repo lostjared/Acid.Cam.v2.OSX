@@ -670,12 +670,14 @@ void ac::GradientAlphaXorHorizontal(cv::Mat &frame) {
 
 void ac::GradientAlphaXorVertical(cv::Mat &frame) {
     int iteration = frame.rows/255;
+    if(iteration <= 0)
+        return;
     static double alpha = 1.0, alpha_max = 4.0;
     for(int i = 0; i < frame.cols; ++i) {
         int index = 0, index_value = 0;
         for(int z = 0; z < frame.rows; ++z) {
             index ++;
-            if((index%iteration)==0) {
+            if((index%(1+(iteration)))==0) {
                 index = 0;
                 index_value ++;
             }

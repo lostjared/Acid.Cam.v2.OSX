@@ -44,14 +44,16 @@
 
 #include "ac.h"
 
-
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
 cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_colors;
-int ac::allocated_frames = 0;
-int ac::allocated_max = 1500;
 int pixel_collection_value = 55;
-bool ac::release_frames = false;
+
+namespace ac {
+    int allocated_frames = 0;
+    int allocated_max = 1500;
+    bool release_frames = false;
+}
 
 void ac::init() {
     fill_filter_map();

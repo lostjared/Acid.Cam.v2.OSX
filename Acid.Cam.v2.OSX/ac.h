@@ -1792,8 +1792,6 @@ namespace ac {
     extern double alpha_increase;
     extern std::unordered_map<std::string, int> filter_map;
     extern std::unordered_map<std::string, FilterType> filter_map_str;
-    extern int allocated_frames;
-    extern int allocated_max;
     extern bool frames_released;
     extern std::vector<void *> all_objects;
     extern void release_all_objects();
