@@ -55,8 +55,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "AC_SearchController.h"
 
 
-// disable for development
-//#define ENABLE_VERSION_UPDATE
+#ifndef DEBUG_MODE
+#define ENABLE_VERSION_UPDATE
+#endif
 
 // type def
 typedef void (*pixel)(int x, int y, unsigned char *pixels);

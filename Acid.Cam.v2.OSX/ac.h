@@ -1776,6 +1776,7 @@ namespace ac {
     bool CopyAudioStream(std::string ffmpeg, std::string file1, std::string file2, std::string output);
     bool FFMPEG_Installed(const std::string &ffmpeg);
     void setMaxAllocated(const int &v);
+    int getMaxAllocated();
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

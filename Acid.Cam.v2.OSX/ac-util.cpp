@@ -61,6 +61,10 @@ void ac::setMaxAllocated(const int &v) {
     allocated_max = v;
 }
 
+int ac::getMaxAllocated() {
+    return allocated_max;
+}
+
 void ac::setPixelCollection(int value) {
     pixel_collection_value = value;
 }
