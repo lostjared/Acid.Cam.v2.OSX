@@ -1696,6 +1696,7 @@ namespace ac {
     void VariableRectangles(cv::Mat &frame);
     void VariableRectanglesSimple(cv::Mat &frame);
     void VariableRectanglesExtra(cv::Mat &frame);
+    void VariableRectangleImageAlphaBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

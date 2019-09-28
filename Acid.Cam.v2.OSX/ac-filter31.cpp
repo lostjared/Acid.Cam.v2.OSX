@@ -813,3 +813,38 @@ void ac::VariableRectanglesExtra(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableRectangleImageAlphaBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    int total_lines = frame.rows-2;
+    int current_line = 0;
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static double alpha = 1.0;
+    static int dir = 1;
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%490;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        int rand_frame = rand()%(collection.size()-1);
+        for(int z = current_line; z < current_line+rand_height; ++z) {
+            if(current_line > total_lines)
+                break;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                //pixel = pix;
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pix[j]) + ((1-alpha) * img[j]));
+                }
+            }
+        }
+        current_line += rand_height;
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+}
