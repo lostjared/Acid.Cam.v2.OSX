@@ -848,3 +848,19 @@ void ac::VariableRectangleImageAlphaBlend(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
 }
+
+void ac::MirrorSwitchMode(cv::Mat &frame) {
+    static int mode = 0;
+    static int counter = 0;
+    int wait = static_cast<int>(ac::fps);
+    if(++counter > wait/2) {
+        counter = 0;
+        mode = (mode == 0) ? 1 : 0;
+    }
+    if(mode == 0) {
+        MirrorLeftBottomToTop(frame);
+    } else {
+        MirrorRightTopToBottom(frame);
+    }
+    AddInvert(frame);
+}

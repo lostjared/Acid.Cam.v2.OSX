@@ -1697,6 +1697,7 @@ namespace ac {
     void VariableRectanglesSimple(cv::Mat &frame);
     void VariableRectanglesExtra(cv::Mat &frame);
     void VariableRectangleImageAlphaBlend(cv::Mat &frame);
+    void MirrorSwitchMode(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
