@@ -1694,6 +1694,8 @@ namespace ac {
     void RandomOrigFrame(cv::Mat &frame);
     void ColorVariableRectangles(cv::Mat &frame);
     void VariableRectangles(cv::Mat &frame);
+    void VariableRectanglesSimple(cv::Mat &frame);
+    void VariableRectanglesExtra(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -745,8 +745,6 @@ void ac::ColorVariableRectangles(cv::Mat &frame) {
 void ac::VariableRectangles(cv::Mat &frame) {
     int total_lines = frame.rows-2;
     int current_line = 0;
-    static double alpha = 1.0;
-    static int dir = 1;
     int offset = 0;
     while(current_line < total_lines) {
         int rand_height = 10+rand()%490;
@@ -766,5 +764,52 @@ void ac::VariableRectangles(cv::Mat &frame) {
         offset = rand()%2;
     }
     AddInvert(frame);
-    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
+
+void ac::VariableRectanglesSimple(cv::Mat &frame) {
+    int total_lines = frame.rows-2;
+    int current_line = 0;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%390;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        int rand_frame = rand()%7;
+        for(int z = current_line; z < current_line+rand_height; ++z) {
+            if(current_line > total_lines)
+                break;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        current_line += rand_height;
+    }
+    AddInvert(frame);
+}
+
+void ac::VariableRectanglesExtra(cv::Mat &frame) {
+    int total_lines = frame.rows-2;
+    int current_line = 0;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%490;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        int rand_frame = rand()%(collection.size()-1);
+        for(int z = current_line; z < current_line+rand_height; ++z) {
+            if(current_line > total_lines)
+                break;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        current_line += rand_height;
+    }
+    AddInvert(frame);
 }
