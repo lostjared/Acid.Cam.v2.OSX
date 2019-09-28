@@ -714,3 +714,57 @@ void ac::RandomOrigFrame(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorVariableRectangles(cv::Mat &frame) {
+    int total_lines = frame.rows-1;
+    int current_line = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%490;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        
+        cv::Vec3b rand_color(rand()%255, rand()%255, rand()%255);
+        for(int z = current_line; z < current_line+rand_height; ++z) {
+            if(current_line >= total_lines)
+                break;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (rand_color[j]));
+                }
+            }
+        }
+        current_line += rand_height;
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
+
+void ac::VariableRectangles(cv::Mat &frame) {
+    int total_lines = frame.rows-1;
+    int current_line = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    int offset = 0;
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%490;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        
+        int rand_color = 55+(rand()%200);
+        for(int z = current_line; z < current_line+rand_height; ++z) {
+            if(current_line >= total_lines)
+                break;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel[offset] += rand_color;
+            }
+        }
+        current_line += rand_height;
+        offset = rand()%2;
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}

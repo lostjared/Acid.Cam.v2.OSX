@@ -1692,6 +1692,8 @@ namespace ac {
     void ShuffleSub_Filter(cv::Mat &frame);
     void Shuffle_Filter(cv::Mat &frame);
     void RandomOrigFrame(cv::Mat &frame);
+    void ColorVariableRectangles(cv::Mat &frame);
+    void VariableRectangles(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
