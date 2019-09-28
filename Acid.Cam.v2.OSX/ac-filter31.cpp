@@ -716,7 +716,7 @@ void ac::RandomOrigFrame(cv::Mat &frame) {
 }
 
 void ac::ColorVariableRectangles(cv::Mat &frame) {
-    int total_lines = frame.rows-1;
+    int total_lines = frame.rows-2;
     int current_line = 0;
     static double alpha = 1.0;
     static int dir = 1;
@@ -727,7 +727,7 @@ void ac::ColorVariableRectangles(cv::Mat &frame) {
         
         cv::Vec3b rand_color(rand()%255, rand()%255, rand()%255);
         for(int z = current_line; z < current_line+rand_height; ++z) {
-            if(current_line >= total_lines)
+            if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -743,7 +743,7 @@ void ac::ColorVariableRectangles(cv::Mat &frame) {
 }
 
 void ac::VariableRectangles(cv::Mat &frame) {
-    int total_lines = frame.rows-1;
+    int total_lines = frame.rows-2;
     int current_line = 0;
     static double alpha = 1.0;
     static int dir = 1;
@@ -755,7 +755,7 @@ void ac::VariableRectangles(cv::Mat &frame) {
         
         int rand_color = 55+(rand()%200);
         for(int z = current_line; z < current_line+rand_height; ++z) {
-            if(current_line >= total_lines)
+            if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
