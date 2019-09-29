@@ -850,7 +850,7 @@ void ac::VariableRectangleImageAlphaBlend(cv::Mat &frame) {
 }
 
 void ac::MirrorSwitchMode(cv::Mat &frame) {
-    static int mode = 0;
+    static int mode = rand()%2;
     static int counter = 0;
     int wait = static_cast<int>(ac::fps);
     if(++counter > wait/2) {
@@ -866,7 +866,7 @@ void ac::MirrorSwitchMode(cv::Mat &frame) {
 }
 
 void ac::MirrorSwitchLeftRight(cv::Mat &frame) {
-    static int mode = 0;
+    static int mode = rand()%2;
     static int counter = 0;
     int wait = static_cast<int>(ac::fps);
     if(++counter > wait/2) {
