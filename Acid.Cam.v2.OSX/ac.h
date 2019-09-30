@@ -1701,6 +1701,7 @@ namespace ac {
     void MirrorSwitchLeftRight(cv::Mat &frame);
     void VariableRectanglesSmall(cv::Mat &frame);
     void VariableRectanglesLarge(cv::Mat &frame);
+    void VariableRectanglesImageCollection(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

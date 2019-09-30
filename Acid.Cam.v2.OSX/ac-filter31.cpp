@@ -927,3 +927,34 @@ void ac::VariableRectanglesLarge(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableRectanglesImageCollection(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    int total_lines = frame.rows-2;
+    int current_line = 0;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%100;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        int rand_frame =  rand()%(collection.size()-1);
+        for(int z = current_line; z < current_line+rand_height; ++z) {
+            if(current_line > total_lines)
+                break;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.33) + (pix[j] * 0.33) + (img[j] * 0.33));
+                }
+            }
+        }
+        current_line += rand_height;
+    }
+    AddInvert(frame);
+}
