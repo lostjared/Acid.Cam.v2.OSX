@@ -1700,6 +1700,7 @@ namespace ac {
     void MirrorSwitchMode(cv::Mat &frame);
     void MirrorSwitchLeftRight(cv::Mat &frame);
     void VariableRectanglesSmall(cv::Mat &frame);
+    void VariableRectanglesLarge(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
