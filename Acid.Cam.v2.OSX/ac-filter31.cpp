@@ -970,6 +970,7 @@ void ac::VariableRectanglesVariableImageSubFilter(cv::Mat &frame) {
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     CallFilter(subfilter, reimage);
+    FlipRandom(reimage);
     image_collection.shiftFrames(reimage);
     while(current_line < total_lines) {
         int rand_height = 10+rand()%100;
