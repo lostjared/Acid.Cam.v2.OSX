@@ -660,13 +660,13 @@ void ac::ShuffleSub_Filter(cv::Mat &frame) {
     std::string subf;
     filter_ = shuffle_vec[index1];
     ++index1;
-    if(index1 > shuffle_vec.size()-1) {
+    if(index1 > static_cast<int>(shuffle_vec.size()-1)) {
         std::shuffle(shuffle_vec.begin(), shuffle_vec.end(), rng);
         index1 = 0;
     }
     subf = solo_vec[index2];
     ++index2;
-    if(index2 > solo_vec.size()-1) {
+    if(index2 > static_cast<int>(solo_vec.size()-1)) {
         std::shuffle(solo_vec.begin(), solo_vec.end(), rng);
         index2 = 0;
     }
@@ -695,7 +695,7 @@ void ac::Shuffle_Filter(cv::Mat &frame) {
     }
     std::string filter_name = shuffle_solo[index];
     ++index;
-    if(index > shuffle_solo.size()-1) {
+    if(index > static_cast<int>(shuffle_solo.size()-1)) {
         index = 0;
         std::shuffle(shuffle_solo.begin(), shuffle_solo.end(), rng);
     }
