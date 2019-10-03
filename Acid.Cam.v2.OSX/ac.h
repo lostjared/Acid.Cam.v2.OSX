@@ -1705,6 +1705,7 @@ namespace ac {
     void VariableRectanglesVariableImageSubFilter(cv::Mat &frame);
     void RainbowXorStrobeBlend(cv::Mat &frame);
     void IncreaseRainbowXorBlend(cv::Mat &frame);
+    void ColorStrobeIndexSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
