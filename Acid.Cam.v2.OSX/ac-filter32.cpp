@@ -135,3 +135,21 @@ void ac::MatrixCollectionRandomFrames(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionFrames(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    int p_x = 0, p_y = 0;
+    for(int index = 0; index < collection.size(); ++index) {
+        int p_w = frame.cols-p_x;
+        int p_h = frame.rows-p_y;
+        Rect rc(p_x, p_y, p_w, p_h);
+        copyMat(collection.frames[index], 0, 0, frame, rc);
+        p_x += 20;
+        p_y += 20;
+        if(p_x > frame.cols-20 || p_y > frame.rows-20)
+            break;
+    }
+    VariableRectanglesExtra(frame);
+    AddInvert(frame);
+}

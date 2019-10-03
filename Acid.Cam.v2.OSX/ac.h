@@ -1707,6 +1707,7 @@ namespace ac {
     void IncreaseRainbowXorBlend(cv::Mat &frame);
     void ColorStrobeIndexSubFilter(cv::Mat &frame);
     void MatrixCollectionRandomFrames(cv::Mat &frame);
+    void MatrixCollectionFrames(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
