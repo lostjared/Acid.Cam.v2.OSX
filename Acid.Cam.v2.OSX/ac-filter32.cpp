@@ -114,3 +114,24 @@ void ac::ColorStrobeIndexSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+//void copyMat(const cv::Mat &src, const Point &p, cv::Mat &target, const Rect &rc);
+
+void ac::MatrixCollectionRandomFrames(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    for(int index = 0; index < collection.size(); ++index) {
+        int p_x = rand()%(frame.cols-1);
+        int p_y = rand()%(frame.rows-1);
+        if(p_x < 25)
+            p_x = 25;
+        if(p_y < 25)
+            p_y = 25;
+        int w = rand()%(frame.cols-1);
+        int h = rand()%(frame.rows-1);
+        Point p(0, 0);
+        Rect rc(p_x, p_y, w-p_x, h-p_y);
+        copyMat(collection.frames[index], p, frame, rc);
+    }
+    AddInvert(frame);
+}
