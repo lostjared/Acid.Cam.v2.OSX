@@ -226,7 +226,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
         }
         // output wehther recording or not
         if(ac::noRecord == false)
-            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4 (Quicktime)" : "XvID") << " \n";
+            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4" : "XvID") << " \n";
         else
             sout << "Recording disabled ..\n";
         
