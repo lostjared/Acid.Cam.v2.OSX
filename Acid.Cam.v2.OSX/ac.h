@@ -1711,6 +1711,7 @@ namespace ac {
     void MatrixCollectionFramesLeft(cv::Mat &frame);
     void MatrixCollectionFramesMirrorLeft(cv::Mat &frame);
     void MatrixCollectionFramesTop(cv::Mat &frame);
+    void FrameSqueeze(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -191,3 +191,34 @@ void ac::MatrixCollectionFramesTop(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FrameSqueeze(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int off_z = 0;
+    static int index = 3;
+    int cnt = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix;
+            pix = copy1.at<cv::Vec3b>(off_z, i);
+            pixel = pix;
+        }
+        if(++cnt > index) {
+            cnt = 0;
+            off_z += index;
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > 16) {
+            dir = 0;
+        }
+    } else {
+        --index;
+        if(index <= 3) {
+            dir = 1;
+        }
+    }
+}
