@@ -284,3 +284,22 @@ void ac::MedianBlendMatrixCollection_2160p(cv::Mat &frame) {
     MedianBlendMultiThread_2160p(frame);
     AddInvert(frame);
 }
+
+void ac::MedianBlendMatrixCollection_2160p_X16(cv::Mat &frame) {
+    static constexpr int Size = 16;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                }
+            }
+        }
+    }
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
