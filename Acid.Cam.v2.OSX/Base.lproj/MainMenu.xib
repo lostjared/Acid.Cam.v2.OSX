@@ -86,6 +86,7 @@
                 <outlet property="negate_checked" destination="eDA-pn-7R7" id="5YZ-bW-ZMd"/>
                 <outlet property="num_threads" destination="eyk-lp-MdQ" id="xBV-aO-gAY"/>
                 <outlet property="output_Type" destination="rOk-Yh-mZb" id="D7G-rY-Zgn"/>
+                <outlet property="output_video" destination="9wr-hd-kiV" id="uix-Cd-ttF"/>
                 <outlet property="pause_step" destination="Ed5-ab-28I" id="Syv-Kz-xrX"/>
                 <outlet property="plugin_dir" destination="3tf-4d-aHN" id="PLv-dK-4Q1"/>
                 <outlet property="plugin_name" destination="WxG-7y-2je" id="NAO-mA-Xur"/>
@@ -325,6 +326,13 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Playback" id="6cA-YG-hbm">
                         <items>
+                            <menuItem title="Show Video" state="on" id="9wr-hd-kiV">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="toggleOutput:" target="630" id="7S0-Dy-w6D"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="uh4-uG-G3d"/>
                             <menuItem title="Pause" keyEquivalent="p" id="ZrZ-W4-LqE">
                                 <connections>
                                     <action selector="pauseProgram:" target="630" id="g4B-mq-QaB"/>

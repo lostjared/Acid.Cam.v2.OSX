@@ -285,6 +285,8 @@ void setEnabledProg() {
     [video_width setEnabled:NO];
     [video_height setEnabled:NO];
     [chk_stretch setEnabled:NO];
+    outputVideo = YES;
+    [output_video setState: NSOnState];
     elapsed_counter = 0;
     time_t t = time(0);
     struct tm *m;
@@ -1055,11 +1057,11 @@ void setEnabledProg() {
             if([stretch_scr state] == NSOnState) {
                 cv::Mat dst;
                 dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-                if(syphon_enabled == NO && dst.size().width > 0 && dst.size().height > 0) cv::imshow("Acid Cam v2", dst);
+                if(outputVideo == YES && syphon_enabled == NO && dst.size().width > 0 && dst.size().height > 0) cv::imshow("Acid Cam v2", dst);
             } else {
                 if(syphon_enabled == NO) {
                     cv::resizeWindow("Acid Cam v2", frame.cols, frame.rows);
-                    if(frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
+                    if(outputVideo == YES && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
                 }
             }
             ftext << "(Current Frame/Total Frames/Seconds/MB): " << frame_cnt << "/" << "0" << "/" << (frame_cnt/ac::fps) << "/" << ((file_size/1000)/1000) << " MB";
@@ -1376,11 +1378,11 @@ void setEnabledProg() {
         if([stretch_scr state] == NSOnState) {
             cv::Mat dst;
             dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
-            if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", dst);
+            if(outputVideo == YES && syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", dst);
         } else {
             if(!frame.empty() && frame.rows > 25 && frame.cols > 25) {
                 if(frame.ptr() != NULL) {
-                    if(syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
+                    if(outputVideo == YES && syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", frame);
                 }
             }
         }
@@ -3236,6 +3238,18 @@ void setEnabledProg() {
     }
     [ffmpeg_path setStringValue: [NSString stringWithUTF8String: ffmpeg_string_path.c_str()]];
     [ffmpeg_support setIntegerValue:ff_support];
+}
+
+- (IBAction) toggleOutput: (id) sender {
+    if([output_video state] == NSOnState) {
+        [output_video setState: NSOffState];
+        outputVideo = NO;
+        cv::destroyWindow("Acid Cam v2");
+    } else {
+        [output_video setState: NSOnState];
+        outputVideo = YES;
+        cv::namedWindow("Acid Cam v2", cv::WINDOW_NORMAL | cv::WINDOW_GUI_EXPANDED);
+    }
 }
 
 @end

@@ -186,6 +186,7 @@ extern int elapsed_counter;
     IBOutlet NSMenuItem *speed_normal, *speed_fast, *speed_vfast;
     IBOutlet NSButton *ffmpeg_support;
     IBOutlet NSTextField *max_frames;
+    IBOutlet NSMenuItem *output_video;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -209,6 +210,7 @@ extern int elapsed_counter;
     NSString *custom_path_prefix;
     BOOL restartFilter;
     int program_speed;
+    BOOL outputVideo;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -323,6 +325,7 @@ extern int elapsed_counter;
 - (IBAction) menuMoveVeryFast: (id) sender;
 - (IBAction) writeSettings: (id) sender;
 - (IBAction) readSettings: (id) sender;
+- (IBAction) toggleOutput: (id) sender;
 @end
 
 extern AC_Controller *controller;
