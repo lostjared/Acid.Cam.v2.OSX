@@ -1708,6 +1708,9 @@ namespace ac {
     void ColorStrobeIndexSubFilter(cv::Mat &frame);
     void MatrixCollectionRandomFrames(cv::Mat &frame);
     void MatrixCollectionFrames(cv::Mat &frame);
+    void MatrixCollectionFramesLeft(cv::Mat &frame);
+    void MatrixCollectionFramesMirrorLeft(cv::Mat &frame);
+    void MatrixCollectionFramesTop(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

@@ -137,7 +137,7 @@ void ac::MatrixCollectionRandomFrames(cv::Mat &frame) {
 }
 
 void ac::MatrixCollectionFrames(cv::Mat &frame) {
-    static MatrixCollection<64> collection;
+    static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
     int p_x = 0, p_y = 0;
     for(int index = 0; index < collection.size(); ++index) {
@@ -151,5 +151,43 @@ void ac::MatrixCollectionFrames(cv::Mat &frame) {
             break;
     }
     VariableRectanglesExtra(frame);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionFramesLeft(cv::Mat &frame) {
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    int s_x = 0;
+    int s_w = frame.cols/Size;
+    for(int index = 0; index < collection.size(); ++index) {
+        Rect rc(s_x, 0, s_w, frame.rows);
+        copyMat(collection.frames[index], 0, 0, frame, rc);
+        s_x += s_w;
+        if(s_x > frame.cols-s_w)
+            break;
+    }
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionFramesMirrorLeft(cv::Mat &frame) {
+    MatrixCollectionFramesLeft(frame);
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionFramesTop(cv::Mat &frame) {
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    int s_y = 0;
+    int s_h = frame.rows/Size;
+    for(int index = 0; index < collection.size(); ++index) {
+        Rect rc(0, s_y, frame.cols, s_h);
+        copyMat(collection.frames[index], 0, 0, frame, rc);
+        s_y += s_h;
+        if(s_y > frame.rows-s_h)
+            break;
+    }
     AddInvert(frame);
 }
