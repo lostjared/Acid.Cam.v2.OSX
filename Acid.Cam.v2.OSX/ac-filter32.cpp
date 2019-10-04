@@ -221,4 +221,28 @@ void ac::FrameSqueeze(cv::Mat &frame) {
             dir = 1;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionBlendLeftToRight(cv::Mat &frame) {
+    static constexpr int Size = 64;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    int s_x = 0;
+    int s_w = frame.cols/Size;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = s_x; i < frame.cols-s_x; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix[j] * 0.5));
+                }
+            }
+        }
+        s_x += s_w;
+        if(s_x > frame.cols-s_x)
+            break;
+    }
+    AddInvert(frame);
 }
