@@ -93,7 +93,7 @@ void stopCV() {
                 auto pos = ac::fileName.rfind("_.");
                 if(pos != std::string::npos) {
                     std::string file_n = ac::fileName.substr(0, pos);
-                    stream << file_n << ".mov";
+                    stream << file_n << ".mp4";
                     if(ac::CopyAudioStream(ffmpeg_string_path, output_, input_, stream.str())) {
                         sout << "Successfully Wrote Video File to: " << stream.str() << "\n";
                         std::remove(ac::fileName.c_str());
@@ -201,7 +201,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             if(outputType == 0) {
                 std::string sound_prefix;
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
-                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mov";
+                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }

@@ -578,12 +578,12 @@
                     <popUpButton verticalHuggingPriority="750" id="rOk-Yh-mZb">
                         <rect key="frame" x="170" y="79" width="166" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="MOV" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lcg-O8-BK7" id="Sy2-pe-2LX">
+                        <popUpButtonCell key="cell" type="push" title="MP4" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lcg-O8-BK7" id="Sy2-pe-2LX">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="Pb5-QB-20O">
                                 <items>
-                                    <menuItem title="MOV" state="on" id="lcg-O8-BK7"/>
+                                    <menuItem title="MP4" state="on" id="lcg-O8-BK7"/>
                                     <menuItem title="AVI" id="QUV-PM-UL8"/>
                                 </items>
                             </menu>
