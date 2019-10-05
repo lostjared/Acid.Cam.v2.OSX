@@ -1716,6 +1716,8 @@ namespace ac {
     void MedianBlendMatrixCollection(cv::Mat &frame);
     void MedianBlendMatrixCollection_2160p(cv::Mat &frame);
     void MedianBlendMatrixCollection_2160p_X16(cv::Mat &frame);
+    void MatrixCollectionAdd(cv::Mat &frame);
+    void MatrixCollection_Xor(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
