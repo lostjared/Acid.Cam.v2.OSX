@@ -77,7 +77,7 @@
 #define ASSERT(X)
 #endif
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 /*
  *
@@ -1721,6 +1721,8 @@ namespace ac {
     void ImageMatrixCollectionBlend(cv::Mat &frame);
     void MatrixCollectionNegateAdd(cv::Mat &frame);
     void MatrixCollectionFrameRect(cv::Mat &frame);
+    void MatrixCollectionRows8x1_SubFilter(cv::Mat &frame);
+    void MatrixCollectionRows8x8_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2727,10 +2729,13 @@ namespace ac {
     extern bool image_matrix_reset, image_cycle_reset;
     
     template<int Size>
-    void MatrixDrawFrames(cv::Mat &frame, MatrixCollection<Size> *collection, int w, int h) {
+    void MatrixDrawFrames(cv::Mat &frame, MatrixCollection<Size> *collection, int w, int h, int subfilter) {
         cv::Mat resized;
         cv::Size s(frame.cols/w, frame.rows/h);
         ac_resize(frame, resized, s);
+        if(subfilter != -1)
+            CallFilter(subfilter, resized);
+        
         collection->shiftFrames(resized);
         int index = 0;
         for(int x = 0; x < w; ++x) {

@@ -384,7 +384,26 @@ void ac::MatrixCollectionFrameRect(cv::Mat &frame) {
     static constexpr int width = 4;
     static constexpr int height = 2;
     static MatrixCollection<width * height> collection;
-    MatrixDrawFrames(frame, &collection, width, height);
+    MatrixDrawFrames(frame, &collection, width, height, -1);
     AddInvert(frame);
 }
 
+void ac::MatrixCollectionRows8x1_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionRows8x1_SubFilter")
+        return;
+    static constexpr int width = 8;
+    static constexpr int height = 1;
+    static MatrixCollection<width * height> collection;
+    MatrixDrawFrames(frame, &collection, width, height, subfilter);
+    AddInvert(frame);
+}
+
+void ac::MatrixCollectionRows8x8_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MatrixCollectionRows8x8_SubFilter")
+        return;
+    static constexpr int width = 8;
+    static constexpr int height = 8;
+    static MatrixCollection<width * height> collection;
+    MatrixDrawFrames(frame, &collection, width, height, subfilter);
+    AddInvert(frame);
+}
