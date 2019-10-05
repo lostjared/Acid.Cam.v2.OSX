@@ -88,7 +88,7 @@ void stopCV() {
         // if recording clean up and release the writer
         if(!ac::noRecord && writer->isOpened()) {
             writer->release();
-            if(camera_mode == 1 && copy_sound == true && output_Type == 0 && input_.length() > 0 && output_.length() > 0) {
+            if(camera_mode == 1 && copy_sound == true && (output_Type == 0 || output_Type == 1) && input_.length() > 0 && output_.length() > 0) {
                 std::stringstream stream;
                 auto pos = ac::fileName.rfind("_.");
                 if(pos != std::string::npos) {
@@ -198,17 +198,18 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
             std::ostringstream fs;
             static unsigned int counter = 0;
             if(!noRecord) ++counter;
+            std::string sound_prefix;
             if(outputType == 0) {
-                std::string sound_prefix;
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
                 fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
             else {
-                fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << ".mp4";
+                if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
+                fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
-                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','1'),  ac::fps, s4k, true);
+                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','3'),  ac::fps, s4k, true);
             }
             if(writer->isOpened()) {
                 output_ = ac::fileName;
@@ -226,7 +227,7 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
         }
         // output wehther recording or not
         if(ac::noRecord == false)
-            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4" : "XvID") << " \n";
+            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4" : "AVC") << " \n";
         else
             sout << "Recording disabled ..\n";
         
