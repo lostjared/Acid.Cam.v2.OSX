@@ -1723,6 +1723,8 @@ namespace ac {
     void MatrixCollectionFrameRect(cv::Mat &frame);
     void MatrixCollectionRows8x1_SubFilter(cv::Mat &frame);
     void MatrixCollectionRows8x8_SubFilter(cv::Mat &frame);
+    void MatrixCollectionRows2x2_SubFilter(cv::Mat &frame);
+    void MatrixCollectionRows4x4_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
