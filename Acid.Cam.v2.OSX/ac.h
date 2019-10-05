@@ -1719,6 +1719,7 @@ namespace ac {
     void MatrixCollectionAdd(cv::Mat &frame);
     void MatrixCollection_Xor(cv::Mat &frame);
     void ImageMatrixCollectionBlend(cv::Mat &frame);
+    void MatrixCollectionNegateAdd(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
