@@ -339,3 +339,25 @@ void ac::MatrixCollection_Xor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageMatrixCollectionBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] =  static_cast<unsigned char>((0.33 * pixel[j]) + (0.33 * pix[j]) + (0.33 * img[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
