@@ -1720,6 +1720,7 @@ namespace ac {
     void MatrixCollection_Xor(cv::Mat &frame);
     void ImageMatrixCollectionBlend(cv::Mat &frame);
     void MatrixCollectionNegateAdd(cv::Mat &frame);
+    void MatrixCollectionFrameRect(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2724,6 +2725,24 @@ namespace ac {
         std::default_random_engine rng;
     };
     extern bool image_matrix_reset, image_cycle_reset;
+    
+    template<int Size>
+    void MatrixDrawFrames(cv::Mat &frame, MatrixCollection<Size> *collection, int w, int h) {
+        cv::Mat resized;
+        cv::Size s(frame.cols/w, frame.rows/h);
+        ac_resize(frame, resized, s);
+        collection->shiftFrames(resized);
+        int index = 0;
+        for(int x = 0; x < w; ++x) {
+            for(int y = 0; y < h; ++y) {
+                Rect rc(x*s.width, y*s.height, s.width, s.height);
+                cv::Mat &cp = collection->frames[index];
+                copyMat(cp, 0, 0, frame, rc);
+                ++index;
+            }
+        }
+        AddInvert(frame);
+    }
 }
 
 extern ac::ParticleEmiter emiter;

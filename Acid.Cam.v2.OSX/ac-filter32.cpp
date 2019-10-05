@@ -379,3 +379,12 @@ void ac::MatrixCollectionNegateAdd(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionFrameRect(cv::Mat &frame) {
+    static constexpr int width = 4;
+    static constexpr int height = 2;
+    static MatrixCollection<width * height> collection;
+    MatrixDrawFrames(frame, &collection, width, height);
+    AddInvert(frame);
+}
+
