@@ -206,9 +206,9 @@ int program_main(int resize_w, int resize_h, BOOL show, bool fps_on, double fps_
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
             else {
-                fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << ".avi";
+                fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << ".mp4";
                 ac::fileName = fs.str();
-                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('X','V','I','D'),  ac::fps, s4k, true);
+                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','1'),  ac::fps, s4k, true);
             }
             if(writer->isOpened()) {
                 output_ = ac::fileName;
