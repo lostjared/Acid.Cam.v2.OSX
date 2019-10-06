@@ -585,6 +585,7 @@
                                 <items>
                                     <menuItem title="MP4 - MPEG-4" state="on" id="lcg-O8-BK7"/>
                                     <menuItem title="MP4 - AVC" id="QUV-PM-UL8"/>
+                                    <menuItem title="MP4 - HEVC" id="XQX-Vt-BD0"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>

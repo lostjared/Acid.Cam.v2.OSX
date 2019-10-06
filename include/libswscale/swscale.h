@@ -23,40 +23,22 @@
 
 /**
  * @file
+ * @ingroup libsws
  * @brief
  *     external api for the swscale stuff
  */
 
+#include <stdint.h>
+
 #include "libavutil/avutil.h"
 #include "libavutil/log.h"
 #include "libavutil/pixfmt.h"
-
-#define LIBSWSCALE_VERSION_MAJOR 2
-#define LIBSWSCALE_VERSION_MINOR 1
-#define LIBSWSCALE_VERSION_MICRO 0
-
-#define LIBSWSCALE_VERSION_INT  AV_VERSION_INT(LIBSWSCALE_VERSION_MAJOR, \
-                                               LIBSWSCALE_VERSION_MINOR, \
-                                               LIBSWSCALE_VERSION_MICRO)
-#define LIBSWSCALE_VERSION      AV_VERSION(LIBSWSCALE_VERSION_MAJOR, \
-                                           LIBSWSCALE_VERSION_MINOR, \
-                                           LIBSWSCALE_VERSION_MICRO)
-#define LIBSWSCALE_BUILD        LIBSWSCALE_VERSION_INT
-
-#define LIBSWSCALE_IDENT        "SwS" AV_STRINGIFY(LIBSWSCALE_VERSION)
+#include "version.h"
 
 /**
- * Those FF_API_* defines are not part of public API.
- * They may change, break or disappear at any time.
- */
-#ifndef FF_API_SWS_GETCONTEXT
-#define FF_API_SWS_GETCONTEXT  (LIBSWSCALE_VERSION_MAJOR < 3)
-#endif
-#ifndef FF_API_SWS_CPU_CAPS
-#define FF_API_SWS_CPU_CAPS    (LIBSWSCALE_VERSION_MAJOR < 3)
-#endif
-
-/**
+ * @defgroup libsws Color conversion and scaling
+ * @{
+ *
  * Return the LIBSWSCALE_VERSION_INT constant.
  */
 unsigned swscale_version(void);
@@ -92,26 +74,13 @@ const char *swscale_license(void);
 #define SWS_PRINT_INFO              0x1000
 
 //the following 3 flags are not completely implemented
-//internal chrominace subsampling info
+//internal chrominance subsampling info
 #define SWS_FULL_CHR_H_INT    0x2000
 //input subsampling info
 #define SWS_FULL_CHR_H_INP    0x4000
 #define SWS_DIRECT_BGR        0x8000
 #define SWS_ACCURATE_RND      0x40000
 #define SWS_BITEXACT          0x80000
-
-#if FF_API_SWS_CPU_CAPS
-/**
- * CPU caps are autodetected now, those flags
- * are only provided for API compatibility.
- */
-#define SWS_CPU_CAPS_MMX      0x80000000
-#define SWS_CPU_CAPS_MMX2     0x20000000
-#define SWS_CPU_CAPS_3DNOW    0x40000000
-#define SWS_CPU_CAPS_ALTIVEC  0x10000000
-#define SWS_CPU_CAPS_BFIN     0x01000000
-#define SWS_CPU_CAPS_SSE2     0x02000000
-#endif
 
 #define SWS_MAX_REDUCE_CUTOFF 0.002
 
@@ -134,13 +103,13 @@ const int *sws_getCoefficients(int colorspace);
 
 // when used for filters they must have an odd number of elements
 // coeffs cannot be shared between vectors
-typedef struct {
+typedef struct SwsVector {
     double *coeff;              ///< pointer to the list of coefficients
     int length;                 ///< number of coefficients in the vector
 } SwsVector;
 
 // vectors can be shared
-typedef struct {
+typedef struct SwsFilter {
     SwsVector *lumH;
     SwsVector *lumV;
     SwsVector *chrH;
@@ -153,13 +122,20 @@ struct SwsContext;
  * Return a positive value if pix_fmt is a supported input format, 0
  * otherwise.
  */
-int sws_isSupportedInput(enum PixelFormat pix_fmt);
+int sws_isSupportedInput(enum AVPixelFormat pix_fmt);
 
 /**
  * Return a positive value if pix_fmt is a supported output format, 0
  * otherwise.
  */
-int sws_isSupportedOutput(enum PixelFormat pix_fmt);
+int sws_isSupportedOutput(enum AVPixelFormat pix_fmt);
+
+/**
+ * @param[in]  pix_fmt the pixel format
+ * @return a positive value if an endianness conversion for pix_fmt is
+ * supported, 0 otherwise.
+ */
+int sws_isSupportedEndiannessConversion(enum AVPixelFormat pix_fmt);
 
 /**
  * Allocate an empty SwsContext. This must be filled and passed to
@@ -182,7 +158,6 @@ int sws_init_context(struct SwsContext *sws_context, SwsFilter *srcFilter, SwsFi
  */
 void sws_freeContext(struct SwsContext *swsContext);
 
-#if FF_API_SWS_GETCONTEXT
 /**
  * Allocate and return an SwsContext. You need it to perform
  * scaling/conversion operations using sws_scale().
@@ -197,13 +172,11 @@ void sws_freeContext(struct SwsContext *swsContext);
  * @return a pointer to an allocated context, or NULL in case of error
  * @note this function is to be removed after a saner alternative is
  *       written
- * @deprecated Use sws_getCachedContext() instead.
  */
-struct SwsContext *sws_getContext(int srcW, int srcH, enum PixelFormat srcFormat,
-                                  int dstW, int dstH, enum PixelFormat dstFormat,
+struct SwsContext *sws_getContext(int srcW, int srcH, enum AVPixelFormat srcFormat,
+                                  int dstW, int dstH, enum AVPixelFormat dstFormat,
                                   int flags, SwsFilter *srcFilter,
                                   SwsFilter *dstFilter, const double *param);
-#endif
 
 /**
  * Scale the image slice in srcSlice and put the resulting scaled
@@ -320,8 +293,8 @@ void sws_freeFilter(SwsFilter *filter);
  * are assumed to remain the same.
  */
 struct SwsContext *sws_getCachedContext(struct SwsContext *context,
-                                        int srcW, int srcH, enum PixelFormat srcFormat,
-                                        int dstW, int dstH, enum PixelFormat dstFormat,
+                                        int srcW, int srcH, enum AVPixelFormat srcFormat,
+                                        int dstW, int dstH, enum AVPixelFormat dstFormat,
                                         int flags, SwsFilter *srcFilter,
                                         SwsFilter *dstFilter, const double *param);
 
@@ -356,5 +329,9 @@ void sws_convertPalette8ToPacked24(const uint8_t *src, uint8_t *dst, int num_pix
  * @see av_opt_find().
  */
 const AVClass *sws_get_class(void);
+
+/**
+ * @}
+ */
 
 #endif /* SWSCALE_SWSCALE_H */
