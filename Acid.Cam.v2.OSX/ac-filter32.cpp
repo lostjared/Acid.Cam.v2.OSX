@@ -427,3 +427,29 @@ void ac::MatrixCollectionRows4x4_SubFilter(cv::Mat &frame) {
     MatrixDrawFrames(frame, &collection, width, height, subfilter);
     AddInvert(frame);
 }
+
+void ac::IntertwineBlock(cv::Mat &frame) {
+    static constexpr int Size = 256;
+    static int Rows = frame.rows/Size;
+    static MatrixCollection<Size+1> collection;
+    collection.shiftFrames(frame);
+    int z_offset = 0;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = z_offset; z < z_offset+Rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        z_offset += Rows;
+    }
+    for(int z = z_offset; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[collection.size()-1].at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
