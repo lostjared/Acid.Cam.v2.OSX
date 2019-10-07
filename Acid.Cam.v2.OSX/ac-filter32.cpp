@@ -453,3 +453,22 @@ void ac::IntertwineBlock(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::IntertwineVertical(cv::Mat &frame) {
+    static constexpr int Size = 96;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    static int Col = frame.cols/Size;
+    int off_x = 0;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int i = off_x; i < off_x+Col; ++i) {
+            for(int z = 0; z < frame.rows; ++z) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        off_x += Col;
+    }
+    AddInvert(frame);
+}
