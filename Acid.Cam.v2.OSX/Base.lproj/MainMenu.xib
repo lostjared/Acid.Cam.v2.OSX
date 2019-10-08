@@ -29,6 +29,7 @@
                 <outlet property="categories" destination="duQ-Gy-aeM" id="zBJ-Q2-JO2"/>
                 <outlet property="categories_custom" destination="pJA-QY-H3x" id="SoH-b2-a5i"/>
                 <outlet property="check_box" destination="0fN-gU-vpb" id="acF-X9-ngV"/>
+                <outlet property="check_update" destination="8Mk-JC-Mpy" id="dKh-hG-bBa"/>
                 <outlet property="chk_blocked_key" destination="eDN-3Q-DVn" id="Umv-DR-qEJ"/>
                 <outlet property="chk_blocked_replace" destination="MVv-NP-tao" id="If8-ZI-hbI"/>
                 <outlet property="chk_preview" destination="nRh-bL-T63" id="t2g-tL-JBZ"/>
@@ -160,6 +161,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="downloadNewestVersion:" target="630" id="ZeV-G4-vkK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Check for Update" state="on" id="8Mk-JC-Mpy">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="checkForUpdate:" target="630" id="eRr-Fq-lo8"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="236">

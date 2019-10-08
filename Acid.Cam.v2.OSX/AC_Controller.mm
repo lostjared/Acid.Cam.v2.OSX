@@ -314,6 +314,13 @@ void setEnabledProg() {
     test_image = cv::imread([str UTF8String]);
     [bundle release];
     [self readSettings:self];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger update_check_on = [defaults integerForKey:@"update_on"];
+    if(update_check_on == 0) {
+        [check_update setState: NSControlStateValueOff];
+    } else {
+        [check_update setState: NSControlStateValueOn];
+    }
     /*
      
      std::vector<std::string> valz;
@@ -3136,7 +3143,9 @@ void setEnabledProg() {
 }
 
 - (void) checkForNewVersion: (BOOL) showMessage {
-    
+    NSControlStateValue check = [check_update state];
+    if(check == NSControlStateValueOff)
+        return;
 #ifdef ENABLE_VERSION_UPDATE
     NSString *download_url = @"https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/README.md";
     NSURL *URL = [NSURL URLWithString:download_url];
@@ -3249,6 +3258,18 @@ void setEnabledProg() {
         [output_video setState: NSControlStateValueOn];
         outputVideo = YES;
         cv::namedWindow("Acid Cam v2", cv::WINDOW_NORMAL | cv::WINDOW_GUI_EXPANDED);
+    }
+}
+
+- (IBAction) checkForUpdate: (id) sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSControlStateValue value = [check_update state];
+    if(value == NSControlStateValueOn) {
+        [check_update setState: NSControlStateValueOff];
+        [defaults setInteger:0 forKey:@"update_on"];
+    } else {
+        [check_update setState: NSControlStateValueOn];
+        [defaults setInteger:1 forKey:@"update_on"];
     }
 }
 
