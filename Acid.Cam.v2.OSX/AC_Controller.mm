@@ -177,9 +177,9 @@ void setEnabledProg() {
     [record_op setEnabled: YES];
     [videoFileInput setEnabled:YES];
     [chk_rand_frames setEnabled:YES];
-    if([videoFileInput state] == NSOnState) {
+    if([videoFileInput state] == NSControlStateValueOn) {
         [up4k setEnabled:YES];
-        if([up4k state] == NSOnState) {
+        if([up4k state] == NSControlStateValueOn) {
             [video_width setEnabled:YES];
             [video_height setEnabled:YES];
             [chk_stretch setEnabled:YES];
@@ -286,7 +286,7 @@ void setEnabledProg() {
     [video_height setEnabled:NO];
     [chk_stretch setEnabled:NO];
     outputVideo = YES;
-    [output_video setState: NSOnState];
+    [output_video setState: NSControlStateValueOn];
     elapsed_counter = 0;
     time_t t = time(0);
     struct tm *m;
@@ -516,7 +516,7 @@ void setEnabledProg() {
     NSMenuItem *item = [menu_items[index] itemAtIndex:current];
     NSString *title = [item title];
     
-    if([fade_filter state] == NSOffState) {
+    if([fade_filter state] == NSControlStateValueOff) {
         ac::draw_offset = ac::filter_map[[title UTF8String]];
     } else {
         current_fade = ac::draw_offset;
@@ -527,7 +527,7 @@ void setEnabledProg() {
     strout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
     flushToLog(strout);
     if(ac::draw_strings[ac::draw_offset] == "Custom") {
-        [negate_checked setIntegerValue: NSOffState];
+        [negate_checked setIntegerValue: NSControlStateValueOff];
         [custom_window orderFront:self];
         [filter_search_window orderFront: self];
     }
@@ -707,18 +707,18 @@ void setEnabledProg() {
         [video_height setEnabled: NO];
         [chk_stretch setEnabled:NO];
         [videoFileInput setEnabled:NO];
-        if([up4k state] == NSOnState) {
+        if([up4k state] == NSControlStateValueOn) {
             if((cap_width < 320 || cap_height < 240) || (cap_width > 3840 || cap_height > 2160)) {
                 _NSRunAlertPanel(@"Invalid Screen Resolution...", @"Invalid", @"Ok", nil, nil);
                 return;
             }
         }
-        if([up4k state] == NSOffState && [chk_stretch state] == NSOnState) {
+        if([up4k state] == NSControlStateValueOff && [chk_stretch state] == NSControlStateValueOn) {
             _NSRunAlertPanel(@"Cannot Stretch", @"Please turn off Stretching as requires resize to be enabled", @"Ok", nil, nil);
             return;
         }
         
-        if([up4k state] == NSOnState && [videoFileInput state] == NSOffState) {
+        if([up4k state] == NSControlStateValueOn && [videoFileInput state] == NSControlStateValueOff) {
             _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
             return;
         }
@@ -726,7 +726,7 @@ void setEnabledProg() {
         int res_x[4] = { 640, 1280, 1920, 3840 };
         int res_y[4] = { 480, 720, 1080, 2160 };
         bool use_resized_res = false;
-        if([videoFileInput state] == NSOnState) {
+        if([videoFileInput state] == NSControlStateValueOn) {
             input_file = [[video_file stringValue] UTF8String];
             if(input_file.length() == 0) {
                 _NSRunAlertPanel(@"No Input file selected\n", @"No Input Selected", @"Ok", nil, nil);
@@ -745,7 +745,7 @@ void setEnabledProg() {
             r = true;
         frame_proc = 0;
         NSInteger checkedState = [menuPaused state];
-        isPaused = (checkedState == NSOnState) ? true : false;
+        isPaused = (checkedState == NSControlStateValueOn) ? true : false;
         std::ostringstream fname_stream;
         std::string filename;
         NSInteger popupType = [output_Type indexOfSelectedItem];
@@ -780,9 +780,9 @@ void setEnabledProg() {
         else
             capture = capture_camera.get();
         
-        bool u4k = ([up4k state] == NSOnState) ? true : false;
+        bool u4k = ([up4k state] == NSControlStateValueOn) ? true : false;
         int value_w = 0, value_h = 0;
-        if([up4k state] == NSOnState) {
+        if([up4k state] == NSControlStateValueOn) {
             value_w = (int)cap_width;
             value_h = (int)cap_height;
         }
@@ -813,19 +813,19 @@ void setEnabledProg() {
             [record_op setEnabled:YES];
             [videoFileInput setEnabled:YES];
         } else {
-            if([menu_freeze state] == NSOnState) {
+            if([menu_freeze state] == NSControlStateValueOn) {
                 capture->read(old_frame);
                 ++frame_cnt;
                 ++frame_proc;
             }
             if(resize_value == true) {
-                [stretch_scr setState: NSOnState];
+                [stretch_scr setState: NSControlStateValueOn];
             } else {
-                [stretch_scr setState: NSOffState];
+                [stretch_scr setState: NSControlStateValueOff];
             }
             if(camera_mode == 0) {
                 isPaused = false;
-                [menuPaused setState:NSOffState];
+                [menuPaused setState:NSControlStateValueOff];
                 frames_captured = 0;
                 background = [[NSThread alloc] initWithTarget:self selector:@selector(camThread:) object:nil];
                 [background start];
@@ -861,7 +861,7 @@ void setEnabledProg() {
     }
     else if(isPaused) return;
     if(capture_camera->isOpened() && camera_active == true) {
-        if([menu_freeze state] == NSOffState) {
+        if([menu_freeze state] == NSControlStateValueOff) {
             capture_camera->grab();
             frames_captured++;
         }
@@ -885,18 +885,18 @@ void setEnabledProg() {
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             cv::Mat temp_frame;
-            if([menu_freeze state] == NSOffState) {
+            if([menu_freeze state] == NSControlStateValueOff) {
                 got_frame = capture->retrieve(frame);
                 ac::orig_frame = frame.clone();
                 old_frame = frame.clone();
             } else {
                 frame = old_frame.clone();
             }
-            if([rotate_v state] == NSOnState) {
+            if([rotate_v state] == NSControlStateValueOn) {
                 cv::flip(frame, temp_frame, 1);
                 frame = temp_frame.clone();
             }
-            if([rotate_h state] == NSOnState) {
+            if([rotate_h state] == NSControlStateValueOn) {
                 cv::flip(frame, temp_frame, 0);
                 frame = temp_frame.clone();
             }
@@ -905,7 +905,7 @@ void setEnabledProg() {
             ++frame_proc;
             
             NSInteger stat_test = [chk_rand_repeat integerValue];
-            if(stat_test == NSOnState) {
+            if(stat_test == NSControlStateValueOn) {
                 [chk_rand_frames setEnabled: NO];
                 NSInteger val;
                 static NSInteger value_index = 0, frame_index = 0;
@@ -963,7 +963,7 @@ void setEnabledProg() {
                 reset_memory = false;
             }
             if(ac::draw_strings[ac::draw_offset] != "Custom") {
-                if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
+                if([negate_checked integerValue] == NSControlStateValueOff) ac::isNegative = false;
                 else ac::isNegative = true;
                 ac::color_order = (int) [corder indexOfSelectedItem];
             }
@@ -986,10 +986,10 @@ void setEnabledProg() {
             up4ki = [up4k state];
         });
         
-        if(after == NSOffState)
+        if(after == NSControlStateValueOff)
             ac::ApplyColorMap(frame);
         
-        if(fade_state == NSOffState) {
+        if(fade_state == NSControlStateValueOff) {
             if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame);
         } else {
             if(current_fade_alpha >= 0) {
@@ -1007,7 +1007,7 @@ void setEnabledProg() {
             ac::image_matrix_reset = true;
             restartFilter = NO;
         }
-        if(after == NSOnState)
+        if(after == NSControlStateValueOn)
             ac::ApplyColorMap(frame);
         
         if(slide_value1 > 0)
@@ -1021,16 +1021,16 @@ void setEnabledProg() {
             ac::setSaturation(frame, (int)slide_value3);
         }
         
-        if(color_key_set == NSOnState && (colorkey_set == true && !color_image.empty())) {
+        if(color_key_set == NSControlStateValueOn && (colorkey_set == true && !color_image.empty())) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-        } else if(color_key_set == NSOnState && colorkey_bg == true) {
+        } else if(color_key_set == NSControlStateValueOn && colorkey_bg == true) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-        } else if(color_key_set == NSOnState && colorkey_replace == true) {
+        } else if(color_key_set == NSControlStateValueOn && colorkey_replace == true) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-        } else if(color_key_set == NSOnState && colorkey_filter == true) {
+        } else if(color_key_set == NSControlStateValueOn && colorkey_filter == true) {
             cv::Mat cframe = frame.clone();
             ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
         }
@@ -1054,7 +1054,7 @@ void setEnabledProg() {
                     rc = [main_w frame];
                 }
             }
-            if([stretch_scr state] == NSOnState) {
+            if([stretch_scr state] == NSControlStateValueOn) {
                 cv::Mat dst;
                 dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
                 if(outputVideo == YES && syphon_enabled == NO && dst.size().width > 0 && dst.size().height > 0) cv::imshow("Acid Cam v2", dst);
@@ -1135,7 +1135,7 @@ void setEnabledProg() {
     }
     else if(isPaused) return;
     NSInteger stat_test = [chk_rand_repeat integerValue];
-    if(stat_test == NSOnState) {
+    if(stat_test == NSControlStateValueOn) {
         [chk_rand_frames setEnabled: NO];
         NSInteger val;
         static NSInteger value_index = 0, frame_index = 0;
@@ -1191,7 +1191,7 @@ void setEnabledProg() {
     NSInteger cap_height = [video_height integerValue];
     cv::Mat frame;
     bool frame_read = true;
-    if([menu_freeze state] == NSOffState) {
+    if([menu_freeze state] == NSControlStateValueOff) {
         frame_read = capture->read(frame);
         old_frame = frame.clone();
     } else {
@@ -1212,8 +1212,8 @@ void setEnabledProg() {
         ac::reset_filter = true;
         reset_memory = false;
     }
-    if([up4k state] == NSOnState || frame.size() == cv::Size((int)cap_width, (int)cap_height)) {
-        [stretch_scr setState: NSOnState];
+    if([up4k state] == NSControlStateValueOn || frame.size() == cv::Size((int)cap_width, (int)cap_height)) {
+        [stretch_scr setState: NSControlStateValueOn];
         //cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
     static int frame_counter_speed = 0;
@@ -1266,18 +1266,18 @@ void setEnabledProg() {
         return;
     }
     cv::Mat temp_frame;
-    if([rotate_v state] == NSOnState) {
+    if([rotate_v state] == NSControlStateValueOn) {
         cv::flip(frame, temp_frame, 1);
         frame = temp_frame.clone();
     }
-    if([rotate_h state] == NSOnState) {
+    if([rotate_h state] == NSControlStateValueOn) {
         cv::flip(frame, temp_frame, 0);
         frame = temp_frame.clone();
     }
     
     cv::Mat up;
-    if([up4k state] == NSOnState && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
-        if([chk_stretch state] == NSOffState) {
+    if([up4k state] == NSControlStateValueOn && frame.size() != cv::Size((int)cap_width, (int)cap_height)) {
+        if([chk_stretch state] == NSControlStateValueOff) {
             frame = resizeKeepAspectRatio(frame, cv::Size((int)cap_width, (int)cap_height), cv::Scalar(0, 0, 0));
         } else {
             cv::Mat copy1 = frame.clone();
@@ -1286,15 +1286,15 @@ void setEnabledProg() {
     }
     ac::orig_frame = frame.clone();
     if(ac::draw_strings[ac::draw_offset] != "Custom") {
-        if([negate_checked integerValue] == NSOffState) ac::isNegative = false;
+        if([negate_checked integerValue] == NSControlStateValueOff) ac::isNegative = false;
         else ac::isNegative = true;
         ac::color_order = (int) [corder indexOfSelectedItem];
     }
     NSInteger after = [apply_after integerValue];
-    if(after == NSOffState)
+    if(after == NSControlStateValueOff)
         ac::ApplyColorMap(frame);
     
-    if([fade_filter state] == NSOffState) {
+    if([fade_filter state] == NSControlStateValueOff) {
         if(disableFilter == false && ac::testSize(frame))
             ac::CallFilter(ac::draw_offset, frame);
     } else {
@@ -1328,23 +1328,23 @@ void setEnabledProg() {
         ac::setSaturation(frame, (int)slide_value);
     }
     
-    if(after == NSOnState)
+    if(after == NSControlStateValueOn)
         ac::ApplyColorMap(frame);
     
-    if([color_chk state] == NSOnState && colorkey_set == true && !color_image.empty()) {
+    if([color_chk state] == NSControlStateValueOn && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-    } else if([color_chk state] == NSOnState && colorkey_bg == true) {
+    } else if([color_chk state] == NSControlStateValueOn && colorkey_bg == true) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-    } else if([color_chk state] == NSOnState && colorkey_replace == true) {
+    } else if([color_chk state] == NSControlStateValueOn && colorkey_replace == true) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
-    } else if([color_chk state] == NSOnState && colorkey_filter == true) {
+    } else if([color_chk state] == NSControlStateValueOn && colorkey_filter == true) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
     }
-    if([menu_freeze state] == NSOffState) {
+    if([menu_freeze state] == NSControlStateValueOff) {
         ++frame_cnt;
         ++frame_proc;
         if(frame_counter_speed == 0) ++elapsed_counter;
@@ -1375,7 +1375,7 @@ void setEnabledProg() {
         }
     }
     if(frame_counter_speed == 0) {
-        if([stretch_scr state] == NSOnState) {
+        if([stretch_scr state] == NSControlStateValueOn) {
             cv::Mat dst;
             dst = resizeKeepAspectRatio(frame, cv::Size(rc.size.width, rc.size.height), cv::Scalar(0,0,0));
             if(outputVideo == YES && syphon_enabled == NO && frame.size().width > 0 && frame.size().height > 0) cv::imshow("Acid Cam v2", dst);
@@ -1456,19 +1456,19 @@ void setEnabledProg() {
 
 - (IBAction) setRotate_V:(id) sender {
     NSInteger state = [rotate_v state];
-    if(state == NSOffState) {
-        [rotate_v setState:NSOnState];
+    if(state == NSControlStateValueOff) {
+        [rotate_v setState:NSControlStateValueOn];
     } else {
-        [rotate_v setState:NSOffState];
+        [rotate_v setState:NSControlStateValueOff];
     }
     
 }
 - (IBAction) setRotate_H:(id) sender {
     NSInteger state = [rotate_h state];
-    if(state == NSOffState) {
-        [rotate_h setState:NSOnState];
+    if(state == NSControlStateValueOff) {
+        [rotate_h setState:NSControlStateValueOn];
     } else {
-        [rotate_h setState:NSOffState];
+        [rotate_h setState:NSControlStateValueOff];
     }
 }
 
@@ -1496,7 +1496,7 @@ void setEnabledProg() {
         [device_index setEnabled: NO];
         [selectVideoFile setEnabled: YES];
         [up4k setEnabled: YES];
-        if([up4k state] == NSOnState) {
+        if([up4k state] == NSControlStateValueOn) {
             [video_width setEnabled: YES];
             [video_height setEnabled: YES];
             [chk_stretch setEnabled: YES];
@@ -1666,7 +1666,7 @@ void setEnabledProg() {
 
 - (IBAction) pauseProgram: (id) sender {
     if(programRunning == true && camera_mode == 0) {
-        [menuPaused setState:NSOffState];
+        [menuPaused setState:NSControlStateValueOff];
         [pause_step setEnabled:NO];
         isPaused = false;
         _NSRunAlertPanel(@"Cannot pause in camera mode", @"Cannot pause", @"Ok", nil, nil);
@@ -1674,15 +1674,15 @@ void setEnabledProg() {
     }
     NSInteger checkedState = [menuPaused state];
     std::ostringstream stream;
-    if(checkedState == NSOnState) {
-        [menuPaused setState: NSOffState];
+    if(checkedState == NSControlStateValueOn) {
+        [menuPaused setState: NSControlStateValueOff];
         [pause_step setEnabled: NO];
         isPaused = false;
         stream << "Program unpaused.\n";
         flushToLog(stream);
         
     } else {
-        [menuPaused setState: NSOnState];
+        [menuPaused setState: NSControlStateValueOn];
         isPaused = true;
         [pause_step setEnabled: YES];
         stream << "Program paused.\n";
@@ -1693,14 +1693,14 @@ void setEnabledProg() {
 - (IBAction) disableFilters: (id) sender {
     NSInteger checkedState = [disable_filters state];
     std::ostringstream stream;
-    if(checkedState == NSOnState) {
-        [disable_filters setState: NSOffState];
+    if(checkedState == NSControlStateValueOn) {
+        [disable_filters setState: NSControlStateValueOff];
         // enable
         disableFilter = false;
         stream << "Filters enabled.\n";
         flushToLog(stream);
     } else {
-        [disable_filters setState: NSOnState];
+        [disable_filters setState: NSControlStateValueOn];
         // disable
         disableFilter = true;
         stream << "Filters disabled.\n";
@@ -1767,12 +1767,12 @@ void setEnabledProg() {
 }
 
 - (IBAction) changeNegate: (id) sender {
-    negate = [check_box state] == NSOffState ? false : true;
+    negate = [check_box state] == NSControlStateValueOff ? false : true;
 }
 
 - (IBAction) setNegative: (id) sender {
     NSInteger chkvalue = [negate_checked integerValue];
-    if(chkvalue == NSOnState) ac::isNegative = true;
+    if(chkvalue == NSControlStateValueOn) ac::isNegative = true;
     else ac::isNegative = false;
 }
 
@@ -1942,12 +1942,12 @@ void setEnabledProg() {
 
 - (IBAction) menuFreeze: (id) sender {
     std::ostringstream stream;
-    if([menu_freeze state] == NSOnState) {
-        [menu_freeze setState: NSOffState];
+    if([menu_freeze state] == NSControlStateValueOn) {
+        [menu_freeze setState: NSControlStateValueOff];
         stream << "Set Freeze Off.\n";
         
     } else {
-        [menu_freeze setState: NSOnState];
+        [menu_freeze setState: NSControlStateValueOn];
         stream << "Set Freeze On.\n";
     }
     flushToLog(stream);
@@ -1971,10 +1971,10 @@ void setEnabledProg() {
 }
 
 - (IBAction) setStretch: (id) sender {
-    if([stretch_scr state] == NSOnState) {
-        [stretch_scr setState: NSOffState];
+    if([stretch_scr state] == NSControlStateValueOn) {
+        [stretch_scr setState: NSControlStateValueOff];
     } else {
-        [stretch_scr setState: NSOnState];
+        [stretch_scr setState: NSControlStateValueOn];
         cv::resizeWindow("Acid Cam v2", rc.size.width, rc.size.height);
     }
 }
@@ -2135,7 +2135,7 @@ void setEnabledProg() {
     std::ostringstream log;
     std::string str_val[] = {"Move Out Increase, Move in", "Move Out, Move in", "Move Out, Reset", ""};
     log << "Proccess Mode Set to: " << str_val[pos] << "\n";
-    if([cam_frame_rate_chk state] == NSOnState) {
+    if([cam_frame_rate_chk state] == NSControlStateValueOn) {
         set_frame_rate = true;
         set_frame_rate_val = [cam_frame_rate floatValue];
         if(set_frame_rate_val <= 10 || set_frame_rate_val > 60) {
@@ -2366,8 +2366,8 @@ void setEnabledProg() {
 
 - (IBAction) enableSpyhon: (id) sender {
     std::ostringstream stream;
-    if([syphon_enable state] == NSOnState) {
-        [syphon_enable setState: NSOffState];
+    if([syphon_enable state] == NSControlStateValueOn) {
+        [syphon_enable setState: NSControlStateValueOff];
         [syphon_window orderOut:self];
         syphon_enabled = NO;
         stream << "Disabled Syphon Output...\n";
@@ -2380,7 +2380,7 @@ void setEnabledProg() {
             }
         }
     } else {
-        [syphon_enable setState: NSOnState];
+        [syphon_enable setState: NSControlStateValueOn];
         [syphon_window orderFront:self];
         syphon_enabled = YES;
         stream << "Enabled Syphon Output...\n";
@@ -2390,7 +2390,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) addToBlocked: (id) sender {
-    if([key_range state] == NSOnState) {
+    if([key_range state] == NSControlStateValueOn) {
         [self addToRange:self];
         return;
     } else {
@@ -2432,7 +2432,7 @@ void setEnabledProg() {
     cv::Vec3b well_color_low(color_low[0], color_low[1], color_low[2]);
     cv::Vec3b well_color_high(color_high[0], color_high[1], color_high[2]);
     ac::Keys keys;
-    if([chk_spill state] == NSOnState)
+    if([chk_spill state] == NSControlStateValueOn)
         keys.spill = true;
     else
         keys.spill = false;
@@ -2482,7 +2482,7 @@ void setEnabledProg() {
     high_val[1] = ac::size_type_cast<unsigned char>(well_color_low[1]+color_high[1]);
     high_val[2] = ac::size_type_cast<unsigned char>(well_color_low[2]+color_high[2]);
     ac::Keys keys;
-    if([chk_spill state] == NSOnState)
+    if([chk_spill state] == NSControlStateValueOn)
         keys.spill = true;
     else
         keys.spill = false;
@@ -2510,7 +2510,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) setColorValuesRange: (id) sender {
-    if([key_range state] == NSOnState) {
+    if([key_range state] == NSControlStateValueOn) {
         NSColor *color_value = [blocked_color_well color];
         double rf = 0, gf = 0, bf = 0;
         [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
@@ -2542,7 +2542,7 @@ void setEnabledProg() {
 
 - (IBAction) setRangeTolerance:(id) sender {
     NSInteger key_state = [key_range state];
-    if(key_state == NSOnState) {
+    if(key_state == NSControlStateValueOn) {
         [blocked_color_well_high setHidden:NO];
         [val_colorkey_b_high setSelectable:NO];
         [val_colorkey_g_high setSelectable:NO];
@@ -2587,7 +2587,7 @@ void setEnabledProg() {
     [color_chk setState: state2];
     [chk_replace setState: state1];
     
-    if([chk_replace state] == NSOnState)
+    if([chk_replace state] == NSControlStateValueOn)
         colorkey_filter = true;
     else
         colorkey_filter = false;
@@ -2600,7 +2600,7 @@ void setEnabledProg() {
     [chk_blocked_replace setState: state2];
     [chk_blocked_key setState: state1];
     
-    if([chk_replace state] == NSOnState)
+    if([chk_replace state] == NSControlStateValueOn)
         colorkey_filter = true;
     else
         colorkey_filter = false;
@@ -3065,11 +3065,11 @@ void setEnabledProg() {
 }
 
 - (IBAction) scaleToggle: (id) sender {
-    if([up4k state] == NSOffState) {
+    if([up4k state] == NSControlStateValueOff) {
         [video_width setEnabled:NO];
         [video_height setEnabled:NO];
         [chk_stretch setEnabled:NO];
-        [chk_stretch setState: NSOffState];
+        [chk_stretch setState: NSControlStateValueOff];
     } else {
         [video_width setEnabled:YES];
         [video_height setEnabled:YES];
@@ -3177,44 +3177,44 @@ void setEnabledProg() {
     
     if([ffmpeg_support integerValue] == 0) {
         _NSRunAlertPanel(@"First Enable FFMPEG Support", @"FFMPEG Support is not Enabled.", @"Ok", nil, nil);
-        [copy_audio setState:NSOffState];
+        [copy_audio setState:NSControlStateValueOff];
         return;
     }
     std::fstream file;
     file.open(ffmpeg_string_path, std::ios::in);
     if(!file.is_open() || !file.good()) {
         _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
-        [copy_audio setState:NSOffState];
+        [copy_audio setState:NSControlStateValueOff];
         return;
     }
     if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
         _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
-        [copy_audio setState:NSOffState];
+        [copy_audio setState:NSControlStateValueOff];
         return;
     }
 }
 
 - (IBAction) menuMoveNormal: (id) sender {
     program_speed = 0;
-    [speed_normal setState:NSOnState];
-    [speed_fast setState:NSOffState];
-    [speed_vfast setState:NSOffState];
+    [speed_normal setState:NSControlStateValueOn];
+    [speed_fast setState:NSControlStateValueOff];
+    [speed_vfast setState:NSControlStateValueOff];
     p_s = 1;
 }
 
 - (IBAction) menuMoveFast: (id) sender {
     program_speed = 1;
-    [speed_normal setState:NSOffState];
-    [speed_fast setState:NSOnState];
-    [speed_vfast setState:NSOffState];
+    [speed_normal setState:NSControlStateValueOff];
+    [speed_fast setState:NSControlStateValueOn];
+    [speed_vfast setState:NSControlStateValueOff];
     p_s = 2;
 }
 
 - (IBAction) menuMoveVeryFast: (id) sender {
     program_speed = 2;
-    [speed_normal setState:NSOffState];
-    [speed_fast setState:NSOffState];
-    [speed_vfast setState:NSOnState];
+    [speed_normal setState:NSControlStateValueOff];
+    [speed_fast setState:NSControlStateValueOff];
+    [speed_vfast setState:NSControlStateValueOn];
     p_s = 4;
 }
 
@@ -3241,12 +3241,12 @@ void setEnabledProg() {
 }
 
 - (IBAction) toggleOutput: (id) sender {
-    if([output_video state] == NSOnState) {
-        [output_video setState: NSOffState];
+    if([output_video state] == NSControlStateValueOn) {
+        [output_video setState: NSControlStateValueOff];
         outputVideo = NO;
         cv::destroyWindow("Acid Cam v2");
     } else {
-        [output_video setState: NSOnState];
+        [output_video setState: NSControlStateValueOn];
         outputVideo = YES;
         cv::namedWindow("Acid Cam v2", cv::WINDOW_NORMAL | cv::WINDOW_GUI_EXPANDED);
     }

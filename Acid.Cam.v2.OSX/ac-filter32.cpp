@@ -455,7 +455,7 @@ void ac::IntertwineBlock(cv::Mat &frame) {
 }
 
 void ac::IntertwineVertical(cv::Mat &frame) {
-    static constexpr int Size = 96;
+    static constexpr int Size = 256;
     static MatrixCollection<Size> collection;
     collection.shiftFrames(frame);
     static int Col = frame.cols/Size;
@@ -469,6 +469,14 @@ void ac::IntertwineVertical(cv::Mat &frame) {
             }
         }
         off_x += Col;
+    }
+    
+    for(int i = off_x; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[collection.size()-1].at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
     }
     AddInvert(frame);
 }
