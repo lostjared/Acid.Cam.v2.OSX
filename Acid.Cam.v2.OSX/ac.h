@@ -1730,6 +1730,7 @@ namespace ac {
     void IntertwineImageVerticalSubFilter(cv::Mat &frame);
     void MirrorDiamond(cv::Mat &frame);
     void MirrorDiamondRight(cv::Mat &frame);
+    void MirrorDiamondReverse(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
