@@ -624,3 +624,59 @@ void ac::MirrorDiamondBlend(cv::Mat &frame) {
     MirrorLeftBottomToTop(frame);
     AddInvert(frame);
 }
+
+void ac::StretchOutward(cv::Mat &frame) {
+    static int span = 2;
+    int counter1 = 0;
+    int counter2 = 0;
+    static int span_max = 10, span_min = 2;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        int pos1 = frame.cols/2;
+        for(int i = frame.cols/2; i > 0; --i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos1);
+            ++counter1;
+            if(counter1 > span) {
+                counter1 = 0;
+                --pos1;
+            }
+            pixel = pix;
+        }
+        int pos2 = frame.cols/2;
+        for(int i = frame.cols/2; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos2);
+            ++counter2;
+            if(counter2 > span) {
+                counter2 = 0;
+                pos2++;
+            }
+            pixel = pix;
+        }
+    }
+    static int dir = 1;
+    static int frame_counter = 0;
+    ++frame_counter;
+    static int fps = static_cast<int>(ac::fps)/4;
+    if(dir == 1) {
+        if(frame_counter > fps) {
+            ++span;
+            if(span > span_max) {
+                span = span_max;
+                dir = 0;
+            }
+            frame_counter = 0;
+        }
+    } else {
+        if(frame_counter > fps) {
+            --span;
+            if(span <= span_min) {
+                span = span_min;
+                dir = 1;
+            }
+            frame_counter = 0;
+        }
+    }
+    AddInvert(frame);
+}
