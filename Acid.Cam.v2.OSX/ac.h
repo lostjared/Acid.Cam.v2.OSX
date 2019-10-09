@@ -1731,6 +1731,7 @@ namespace ac {
     void MirrorDiamond(cv::Mat &frame);
     void MirrorDiamondRight(cv::Mat &frame);
     void MirrorDiamondReverse(cv::Mat &frame);
+    void MirrorDiamondBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
