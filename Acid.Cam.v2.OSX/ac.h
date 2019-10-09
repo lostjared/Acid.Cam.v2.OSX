@@ -1728,6 +1728,8 @@ namespace ac {
     void IntertwineBlock(cv::Mat &frame);
     void IntertwineVertical(cv::Mat &frame);
     void IntertwineImageVerticalSubFilter(cv::Mat &frame);
+    void MirrorDiamond(cv::Mat &frame);
+    void MirrorDiamondRight(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
