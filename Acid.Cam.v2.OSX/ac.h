@@ -1727,6 +1727,7 @@ namespace ac {
     void MatrixCollectionRows4x4_SubFilter(cv::Mat &frame);
     void IntertwineBlock(cv::Mat &frame);
     void IntertwineVertical(cv::Mat &frame);
+    void IntertwineImageVerticalSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

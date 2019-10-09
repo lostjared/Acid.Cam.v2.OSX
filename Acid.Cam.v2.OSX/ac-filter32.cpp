@@ -456,8 +456,40 @@ void ac::IntertwineBlock(cv::Mat &frame) {
 
 void ac::IntertwineVertical(cv::Mat &frame) {
     static constexpr int Size = 256;
-    static MatrixCollection<Size> collection;
+    static MatrixCollection<Size+1> collection;
     collection.shiftFrames(frame);
+    static int Col = frame.cols/Size;
+    int off_x = 0;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int i = off_x; i < off_x+Col; ++i) {
+            for(int z = 0; z < frame.rows; ++z) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        off_x += Col;
+    }
+    for(int i = off_x; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[collection.size()-1].at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::IntertwineImageVerticalSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "IntertwineImageVerticalSubFilter")
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    CallFilter(subfilter, reimage);
+    static constexpr int Size = 64;
+    static MatrixCollection<Size+1> collection;
+    collection.shiftFrames(frame);
+    collection.shiftFrames(reimage);
     static int Col = frame.cols/Size;
     int off_x = 0;
     for(int index = 0; index < collection.size(); ++index) {
