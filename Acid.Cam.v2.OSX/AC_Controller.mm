@@ -143,9 +143,6 @@ NSInteger _NSRunAlertPanel(NSString *msg1, NSString *msg2, NSString *button1, NS
     return rt_val;
 }
 
-// extern program init in another file
-extern int program_main(BOOL show, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, int frame_count, float pass2_alpha, std::string file_path);
-
 // flush string stream to output
 void flushToLog(std::ostringstream &sout) {
     NSTextView *sv = logView;
@@ -795,10 +792,9 @@ void setEnabledProg() {
         }
         int ret_val = 0;
         if(use_resized_res == false)
-            ret_val = program_main(0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+            ret_val = program_main(outputVideo, 0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         else
-            ret_val = program_main(value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
-        
+            ret_val = program_main(outputVideo, value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         if(ret_val == 0) {
             if(camera_mode == 1) {
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
@@ -809,7 +805,6 @@ void setEnabledProg() {
             }
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
-        
         restartFilter = YES;
         if(ret_val != 0) {
             _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
