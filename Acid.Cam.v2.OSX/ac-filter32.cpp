@@ -707,3 +707,36 @@ void ac::MirrorDiamondRandom(cv::Mat &frame) {
     MirrorLeftBottomToTop(frame);
     AddInvert(frame);
 }
+
+void ac::MatrixCollectionAlphaRow(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    int dir = 1;
+    static double alpha = 1.0;
+    static int dir1 = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+            }
+        }
+        if(dir == 1) {
+            ++index;
+            if(index > 31) {
+                index = 31;
+                dir = 0;
+            }
+        } else {
+            --index;
+            if(index <= 1) {
+                index = 1;
+                dir = 1;
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
+    AddInvert(frame);
+}
