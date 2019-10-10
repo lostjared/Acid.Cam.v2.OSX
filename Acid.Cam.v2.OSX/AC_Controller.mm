@@ -3258,6 +3258,8 @@ void setEnabledProg() {
         [output_video setState: NSControlStateValueOn];
         outputVideo = YES;
         cv::namedWindow("Acid Cam v2", cv::WINDOW_NORMAL | cv::WINDOW_GUI_EXPANDED);
+        if(ac::orig_frame.rows <= 1080)
+            cv::resizeWindow("Acid Cam v2", ac::orig_frame.cols, ac::orig_frame.rows);
     }
 }
 
