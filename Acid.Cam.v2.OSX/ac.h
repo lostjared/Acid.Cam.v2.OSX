@@ -1737,6 +1737,7 @@ namespace ac {
     void MatrixCollectionAlphaRow(cv::Mat &frame);
     void MedianBlendCollectionAlphaRow(cv::Mat &frame);
     void MedianBlendDoubleVision(cv::Mat &frame);
+    void MedianBlendMultiThreadScale(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

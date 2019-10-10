@@ -764,6 +764,8 @@ void ac::MedianBlendCollectionAlphaRow(cv::Mat &frame) {
 
 void ac::MedianBlendDoubleVision(cv::Mat &frame) {
     static MatrixCollection<32> collection;
+    static double alpha = 1.0;
+    static int dir = 1;
     cv::Scalar values;
     collection.shiftFrames(frame);
     static int index = 0;
@@ -776,7 +778,7 @@ void ac::MedianBlendDoubleVision(cv::Mat &frame) {
         }
     }
     for(int j = 0; j < 3; ++j)
-        values[j] /= ((frame.rows * frame.cols) * 3);
+        values[j] /= (frame.rows * frame.cols);
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -784,14 +786,34 @@ void ac::MedianBlendDoubleVision(cv::Mat &frame) {
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 char value = static_cast<unsigned char>(0.5 * values[j]);
-                pixel[j] = static_cast<unsigned char>((pixel[j]^value) + (pix[j] * 0.5));
+                pixel[j] = static_cast<unsigned char>(((pixel[j]^value)*alpha) + (pix[j] * (1-alpha)));
             }
         }
     }
-    ++index;
-    if(index > collection.size()-1)
-        index = 0;
-    
-    MedianBlendMultiThread_2160p(frame);
+    static int dir1 = 1;
+    if(dir1 == 1) {
+        ++index;
+        if(index > collection.size()-1) {
+            index = collection.size()-1;
+            dir1 = 0;
+        }
+    } else {
+        --index;
+        if(index <= 1) {
+            index = 1;
+            dir1 = 0;
+        }
+    }
+
+    MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+}
+
+void ac::MedianBlendMultiThreadScale(cv::Mat &frame) {
+    if(frame.rows > 1080)
+        MedianBlendMultiThread_2160p(frame);
+    else
+        MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
