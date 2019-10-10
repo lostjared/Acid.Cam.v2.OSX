@@ -744,7 +744,7 @@ void ac::MatrixCollectionAlphaRow(cv::Mat &frame) {
 void ac::MedianBlendCollectionAlphaRow(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
-    int index = 0;
+    static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         int off_row = rand()%(frame.cols-1);
         for(int i = 0; i < frame.cols; ++i) {
@@ -758,8 +758,40 @@ void ac::MedianBlendCollectionAlphaRow(cv::Mat &frame) {
     ++index;
     if(index > collection.size()-1)
         index = 0;
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendDoubleVision(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    cv::Scalar values;
+    collection.shiftFrames(frame);
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                values[j] += pixel[j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j)
+        values[j] /= ((frame.rows * frame.cols) * 3);
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                char value = static_cast<unsigned char>(0.5 * values[j]);
+                pixel[j] = static_cast<unsigned char>((pixel[j]^value) + (pix[j] * 0.5));
+            }
+        }
+    }
+    ++index;
+    if(index > collection.size()-1)
+        index = 0;
     
     MedianBlendMultiThread_2160p(frame);
     AddInvert(frame);
-    
 }
