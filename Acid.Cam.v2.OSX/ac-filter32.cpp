@@ -680,3 +680,30 @@ void ac::StretchOutward(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MirrorDiamondRandom(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = collection.frames[7].clone();
+    int start_x = 0;
+    int off_x = rand()%frame.cols;
+    for(int z = 0; z < frame.rows; ++z) {
+        start_x = off_x;
+        for(int i = 0; i < frame.cols; ++i) {
+            if(start_x > frame.cols-1) {
+                start_x = 0;
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, start_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            ++start_x;
+        }
+        ++off_x;
+        if(off_x > frame.cols)
+            off_x = 0;
+    }
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+}

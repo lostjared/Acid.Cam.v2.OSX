@@ -1733,6 +1733,7 @@ namespace ac {
     void MirrorDiamondReverse(cv::Mat &frame);
     void MirrorDiamondBlend(cv::Mat &frame);
     void StretchOutward(cv::Mat &frame);
+    void MirrorDiamondRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
