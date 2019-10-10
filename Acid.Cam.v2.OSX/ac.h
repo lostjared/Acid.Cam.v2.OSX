@@ -1735,6 +1735,7 @@ namespace ac {
     void StretchOutward(cv::Mat &frame);
     void MirrorDiamondRandom(cv::Mat &frame);
     void MatrixCollectionAlphaRow(cv::Mat &frame);
+    void MedianBlendCollectionAlphaRow(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

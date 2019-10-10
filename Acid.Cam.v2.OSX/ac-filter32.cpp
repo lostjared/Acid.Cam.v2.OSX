@@ -725,8 +725,8 @@ void ac::MatrixCollectionAlphaRow(cv::Mat &frame) {
         }
         if(dir == 1) {
             ++index;
-            if(index > 31) {
-                index = 31;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-2;
                 dir = 0;
             }
         } else {
@@ -739,4 +739,27 @@ void ac::MatrixCollectionAlphaRow(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.3);
     AddInvert(frame);
+}
+
+void ac::MedianBlendCollectionAlphaRow(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        int off_row = rand()%(frame.cols-1);
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, off_row);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    ++index;
+    if(index > collection.size()-1)
+        index = 0;
+    
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+    
 }
