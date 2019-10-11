@@ -817,3 +817,11 @@ void ac::MedianBlendMultiThreadScale(cv::Mat &frame) {
         MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::AcidShuffleMedian(cv::Mat &frame) {
+    static std::vector<std::string> median_blend(median);
+    static int index = 0;
+    Shuffle(index, frame, median_blend);
+    std::cout << median_blend[index] << "!\n";
+    AddInvert(frame);
+}

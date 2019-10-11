@@ -48,7 +48,6 @@
 #include<string>
 #include<unordered_map>
 namespace ac {
-    
     class FilterItem {
     public:
         FilterItem() = default;
@@ -62,7 +61,7 @@ namespace ac {
             return *this;
         }
     };
-    
+    extern std::default_random_engine random;
     extern std::vector<std::string> vzBlend;
     extern std::vector<std::string> svDistort;
     extern std::vector<std::string> svPattern;
@@ -82,6 +81,7 @@ namespace ac {
     extern const char *szCustom[];
     extern const char *szCustom_Spec[];
     extern std::unordered_map<std::string, FilterItem> filter_menu_map;
+    extern std::vector<std::string> median;
     extern void SortFilters();
     extern void init_filter_menu_map();
 }
