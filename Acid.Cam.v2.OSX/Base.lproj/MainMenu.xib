@@ -591,7 +591,7 @@
                             <menu key="menu" title="OtherViews" id="Pb5-QB-20O">
                                 <items>
                                     <menuItem title="MP4 - MPEG-4" state="on" id="lcg-O8-BK7"/>
-                                    <menuItem title="MP4 - AVC" id="QUV-PM-UL8"/>
+                                    <menuItem title="MP4 - AVC - H.264" id="QUV-PM-UL8"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>
@@ -746,7 +746,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="209"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="209"/>
