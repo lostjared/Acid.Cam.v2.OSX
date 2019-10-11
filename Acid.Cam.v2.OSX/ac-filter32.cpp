@@ -821,7 +821,23 @@ void ac::MedianBlendMultiThreadScale(cv::Mat &frame) {
 void ac::AcidShuffleMedian(cv::Mat &frame) {
     static std::vector<std::string> median_blend(median);
     static int index = 0;
-    Shuffle(index, frame, median_blend);
-    std::cout << median_blend[index] << "!\n";
+    if(index > median_blend.size()-1) {
+        index = 0;
+        std::shuffle(median_blend.begin(), median_blend.end(), random);
+    }
+    if(median_blend[index] == "AcidShuffleMedian") {
+        MedianBlendIncrease(frame);
+        return;
+    }
+    CallFilter(median_blend[index], frame);
+    ++index;
+    AddInvert(frame);
+}
+
+void ac::MedianBlendSmoothAlpha(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection, false);
+    MedianBlendMultiThreadScale(frame);
     AddInvert(frame);
 }

@@ -1739,6 +1739,7 @@ namespace ac {
     void MedianBlendDoubleVision(cv::Mat &frame);
     void MedianBlendMultiThreadScale(cv::Mat &frame);
     void AcidShuffleMedian(cv::Mat &frame);
+    void MedianBlendSmoothAlpha(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);
