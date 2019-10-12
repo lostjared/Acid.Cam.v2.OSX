@@ -841,3 +841,36 @@ void ac::MedianBlendSmoothAlpha(cv::Mat &frame) {
     MedianBlendMultiThreadScale(frame);
     AddInvert(frame);
 }
+
+void ac::MirrorDiamondSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "MirrorDiamondSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    static int index = 0;
+    int start_x = 0;
+    int off_x = index;
+    for(int z = 0; z < frame.rows; ++z) {
+        start_x = off_x;
+        for(int i = 0; i < frame.cols; ++i) {
+            if(start_x > frame.cols-1) {
+                start_x = 0;
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, start_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            ++start_x;
+        }
+        ++off_x;
+        if(off_x > frame.cols)
+            off_x = 0;
+    }
+    ++index;
+    if(index > frame.cols)
+        index = 0;
+    
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+}

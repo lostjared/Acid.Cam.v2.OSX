@@ -1740,7 +1740,7 @@ namespace ac {
     void MedianBlendMultiThreadScale(cv::Mat &frame);
     void AcidShuffleMedian(cv::Mat &frame);
     void MedianBlendSmoothAlpha(cv::Mat &frame);
-    
+    void MirrorDiamondSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
