@@ -907,6 +907,7 @@ void ac::ImageFadeTo(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.2);
+    AddInvert(frame);
 }
 
 void ac::ImageFadeToXor(cv::Mat &frame) {
@@ -941,4 +942,12 @@ void ac::ImageFadeToXor(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir1, 0.01, 1.0, 0.2);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendImageFadeTo(cv::Mat &frame) {
+    ColorTransition(frame);
+    ImageFadeToXor(frame);
+    MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
 }

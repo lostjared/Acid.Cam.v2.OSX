@@ -1744,6 +1744,7 @@ namespace ac {
     void MirrorDiamondSubFilter(cv::Mat &frame);
     void ImageFadeTo(cv::Mat &frame);
     void ImageFadeToXor(cv::Mat &frame);
+    void MedianBlendImageFadeTo(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
