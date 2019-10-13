@@ -3270,6 +3270,33 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) setVideoKey: (id) sender {
+    NSOpenPanel *panel;
+    panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:YES];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"mp4", @"mov", @"avi", nil]];
+    if([panel runModal]) {
+        NSString *val = [[panel URL] path];
+        ac::v_cap = cv::VideoCapture([val UTF8String]);
+        if(!ac::v_cap.isOpened()) {
+            std::cerr << "Error opening file...\n";
+            _NSRunAlertPanel(@"Error Could Open File", @"Error could not open file.", @"Ok", nil, nil);
+            return;
+        }
+        [video_value setStringValue:val];
+        colorkey_replace = true;
+        NSLog(@"Outputted %@\n", val);
+    }
+}
+
+- (IBAction) clrVideoKey: (id) sender {
+    if(ac::v_cap.isOpened())
+        ac::v_cap.release();
+    [video_value setStringValue:@""];
+    colorkey_replace = false;
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;

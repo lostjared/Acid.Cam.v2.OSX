@@ -187,6 +187,7 @@ extern int elapsed_counter;
     IBOutlet NSButton *ffmpeg_support;
     IBOutlet NSTextField *max_frames;
     IBOutlet NSMenuItem *output_video, *check_update;
+    IBOutlet NSTextField *video_value;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -327,6 +328,8 @@ extern int elapsed_counter;
 - (IBAction) readSettings: (id) sender;
 - (IBAction) toggleOutput: (id) sender;
 - (IBAction) checkForUpdate: (id) sender;
+- (IBAction) setVideoKey: (id) sender;
+- (IBAction) clrVideoKey: (id) sender;
 @end
 
 extern AC_Controller *controller;

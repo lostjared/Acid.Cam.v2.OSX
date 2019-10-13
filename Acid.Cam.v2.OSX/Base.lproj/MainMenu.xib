@@ -140,6 +140,7 @@
                 <outlet property="videoFileInput" destination="686" id="G3w-FB-gY4"/>
                 <outlet property="video_file" destination="553" id="639"/>
                 <outlet property="video_height" destination="p30-pX-yXw" id="2zk-wv-gGP"/>
+                <outlet property="video_value" destination="4I5-S0-AqS" id="eD3-T0-aRN"/>
                 <outlet property="video_width" destination="Dmu-BM-fnD" id="oPY-Fc-lds"/>
                 <outlet property="view_image" destination="33n-Sz-sZg" id="PvB-DN-eFT"/>
                 <outlet property="window1" destination="6Ke-TD-3vc" id="XNz-gM-AJN"/>
@@ -2112,6 +2113,37 @@ Gw
                         <rect key="frame" x="167" y="76" width="248" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" id="1Ne-B3-ViS">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="yaP-qf-qUO">
+                        <rect key="frame" x="325" y="104" width="61" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kzn-Kd-Oxm">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setVideoKey:" target="630" id="Zeu-F9-Sir"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="BBL-lG-MG7">
+                        <rect key="frame" x="376" y="104" width="58" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Clr" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="24P-jw-IEb">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clrVideoKey:" target="630" id="DrM-Vi-QiF"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4I5-S0-AqS">
+                        <rect key="frame" x="167" y="111" width="158" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Replace Video" id="nY6-kD-QMY">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

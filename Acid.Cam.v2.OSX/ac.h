@@ -117,7 +117,8 @@ namespace ac {
     
     // mutex for threads
     extern std::mutex col_lock;
-    
+    // video capture for key
+    extern cv::VideoCapture v_cap;
     // version string
     extern const std::string version;
     extern double translation_variable, pass2_alpha;

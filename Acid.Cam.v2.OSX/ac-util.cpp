@@ -53,6 +53,7 @@ namespace ac {
     int allocated_frames = 0;
     int allocated_max = 1500;
     bool release_frames = false;
+    cv::VideoCapture v_cap;
 }
 
 void ac::init() {
@@ -268,9 +269,35 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
         return;
     }
     output = orig.clone();
+    cv::Mat color_video;
+    if(colorkey_replace == true && v_cap.isOpened()) {
+        double pos = v_cap.get(cv::CAP_PROP_POS_FRAMES);
+        double total_frames = v_cap.get(cv::CAP_PROP_FRAME_COUNT);
+        if(pos > total_frames || v_cap.read(color_video) == false) {
+            v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
+            pos = 0;
+        }
+    }
     for(int z = 0; z < orig.rows; ++z) {
         for(int i = 0; i < orig.cols; ++i) {
-            if(colorkey_filter == true) {
+            if(colorkey_replace == true && v_cap.isOpened()) {
+                int cX = AC_GetFX(color_video.cols, i, orig.cols);
+                int cY = AC_GetFZ(color_video.rows, z, orig.rows);
+                cv::Vec3b add_i = color_video.at<cv::Vec3b>(cY, cX);
+                cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
+                cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
+                SearchType srch = searchColors(pixel);
+                if(colorBounds(color, pixel, range_low, range_high) || srch == SEARCH_PIXEL) {
+                    dst = add_i;
+                }
+                else if(srch == SEARCH_GRAY) {
+                    dst = gray_color;
+                } else {
+                    dst = fcolor;
+                }
+            }
+            else if(colorkey_filter == true) {
                 cv::Vec3b &dst = output.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixel = orig.at<cv::Vec3b>(z, i);
                 cv::Vec3b fcolor = filtered.at<cv::Vec3b>(z, i);
