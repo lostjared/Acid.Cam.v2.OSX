@@ -3286,7 +3286,6 @@ void setEnabledProg() {
         }
         [video_value setStringValue:val];
         colorkey_replace = true;
-        NSLog(@"Outputted %@\n", val);
     }
 }
 

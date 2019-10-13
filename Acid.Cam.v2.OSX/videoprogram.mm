@@ -199,15 +199,21 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
             static unsigned int counter = 0;
             if(!noRecord) ++counter;
             std::string sound_prefix;
+            std::string output_format;
+            if(outputType == 0)
+                output_format = "MPEG-4";
+            else
+                output_format = "AVC";
+            
             if(outputType == 0) {
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
-                fs << ac::fileName << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
+                fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps  << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('m','p','4','v'),  ac::fps, s4k, true);
             }
             else {
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
-                fs << ac::fileName <<  s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
+                fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','3'),  ac::fps, s4k, true);
             }
