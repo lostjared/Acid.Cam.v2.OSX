@@ -874,3 +874,35 @@ void ac::MirrorDiamondSubFilter(cv::Mat &frame) {
     MirrorLeftBottomToTop(frame);
     AddInvert(frame);
 }
+
+void ac::ImageFadeTo(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            PixelValues &pixc = pix_container.pix_values[i][z];
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                if(pixc.col[j] > pix[j]) {
+                    --pixc.col[j];
+                } else if(pixc.col[j] < pix[j]) {
+                    ++pixc.col[j];
+                } else if(pixc.col[j] == pix[j]) {
+                    pixc.col[j] = pixel[j];
+                }
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pixc.col[j]));
+            }
+        }
+    }
+}
