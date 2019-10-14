@@ -1746,6 +1746,7 @@ namespace ac {
     void ImageFadeToXor(cv::Mat &frame);
     void MedianBlendImageFadeTo(cv::Mat &frame);
     void MedianMirrorAllBlend(cv::Mat &frame);
+    void DigitalHaze(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
