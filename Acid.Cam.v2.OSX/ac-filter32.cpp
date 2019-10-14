@@ -951,3 +951,27 @@ void ac::MedianBlendImageFadeTo(cv::Mat &frame) {
     MedianBlendMultiThreadScale(frame);
     AddInvert(frame);
 }
+
+void ac::MedianMirrorAllBlend(cv::Mat &frame) {
+    cv::Mat copy1, copy2, copy3, copy4, frame1, frame2;
+    static double alpha1 = 0, alpha2 = 1, alpha3 = 0;
+    static int dir1 = 1, dir2 = 1, dir3 = 1;
+    static bool rev = true;
+    rev = rev == true ? false : true;
+    copy1 = frame.clone();
+    copy2 = frame.clone();
+    copy3 = frame.clone();
+    copy4 = frame.clone();
+    MirrorTopToBottom(copy1);
+    MirrorBottomToTop(copy2);
+    MirrorLeft(copy3);
+    MirrorRight(copy4);
+    AlphaBlendDouble(copy1, copy2, frame1, alpha1, (1-alpha));
+    AlphaBlendDouble(copy3, copy4, frame2, (1-alpha2), alpha2);
+    AlphaBlendDouble(frame1, frame2, frame, alpha3, (1-alpha3));
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha3, dir3, 0.01, 1.0, 0.1);
+    MedianBlendMultiThreadScale(frame);
+}
