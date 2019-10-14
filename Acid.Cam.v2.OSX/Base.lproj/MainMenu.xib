@@ -2065,16 +2065,6 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="1y1-4a-s9h"/>
                     </imageView>
-                    <textField verticalHuggingPriority="750" id="7bU-hY-CVB">
-                        <rect key="frame" x="328" y="50" width="85" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="320" drawsBackground="YES" id="jAa-OC-DgY">
-                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="fPY-yu-AMn"/>
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" id="iFP-wj-Zd0">
                         <rect key="frame" x="436" y="207" width="98" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2086,8 +2076,18 @@ Gw
                             <action selector="clearImageList:" target="630" id="4EV-1d-d7Y"/>
                         </connections>
                     </button>
+                    <textField verticalHuggingPriority="750" id="7bU-hY-CVB">
+                        <rect key="frame" x="337" y="50" width="85" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="320" drawsBackground="YES" id="jAa-OC-DgY">
+                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="fPY-yu-AMn"/>
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <popUpButton verticalHuggingPriority="750" id="Lm0-aY-1We">
-                        <rect key="frame" x="167" y="17" width="249" height="25"/>
+                        <rect key="frame" x="176" y="17" width="249" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Random" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="3mZ-6i-Nmr" id="mJu-eW-SEG">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -2102,7 +2102,7 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <button verticalHuggingPriority="750" id="A7q-vo-Dpo">
-                        <rect key="frame" x="167" y="52" width="145" height="18"/>
+                        <rect key="frame" x="176" y="52" width="145" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Cycle Every Frames:" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cwY-q6-iIr">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2110,7 +2110,7 @@ Gw
                         </buttonCell>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Hoq-bf-Eba">
-                        <rect key="frame" x="167" y="76" width="248" height="17"/>
+                        <rect key="frame" x="176" y="76" width="248" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" id="1Ne-B3-ViS">
                             <font key="font" metaFont="system"/>
@@ -2118,8 +2118,17 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4I5-S0-AqS">
+                        <rect key="frame" x="176" y="111" width="143" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Replace Video" id="nY6-kD-QMY">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <button verticalHuggingPriority="750" id="yaP-qf-qUO">
-                        <rect key="frame" x="325" y="104" width="61" height="32"/>
+                        <rect key="frame" x="319" y="102" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kzn-Kd-Oxm">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2130,7 +2139,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="BBL-lG-MG7">
-                        <rect key="frame" x="376" y="104" width="58" height="32"/>
+                        <rect key="frame" x="370" y="102" width="58" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Clr" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="24P-jw-IEb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2140,15 +2149,6 @@ Gw
                             <action selector="clrVideoKey:" target="630" id="DrM-Vi-QiF"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4I5-S0-AqS">
-                        <rect key="frame" x="167" y="111" width="158" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Replace Video" id="nY6-kD-QMY">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1387.5" y="-2514.5"/>
