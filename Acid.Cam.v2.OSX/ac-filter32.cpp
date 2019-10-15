@@ -1015,7 +1015,5 @@ void ac::BlendWithColor(cv::Mat &frame) {
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
-    swapColorState(false);
-    AddInvert(frame);
     swapColorState(true);
 }

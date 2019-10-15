@@ -1836,6 +1836,7 @@ namespace ac {
     int getMaxAllocated();
     int getCurrentAllocatedFrames();
     void swapColorState(const bool &b);
+    bool getColorState();
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

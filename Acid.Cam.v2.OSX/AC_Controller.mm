@@ -3302,8 +3302,9 @@ std::unordered_map<std::string, UserFilter> user_filter;
 
 void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     ac::in_custom = true;
+    ac::swapColorState(false);
     for(NSInteger i = 0; i < [listval count]; ++i) {
-        if(i == [listval count]-1)
+        if(i == [listval count]-1 && ac::getColorState() == false)
             ac::in_custom = false;
         NSNumber *num, *fval_, *f_on;
         @try {
@@ -3326,14 +3327,13 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
         }
     }
     ac::in_custom = false;
+    ac::swapColorState(false);
     ac::clearSubFilter();
     if(ac::release_frames) {
         ac::release_all_objects();
         ac::release_frames = false;
     }
 }
-
-
 
 void custom_filter(cv::Mat &frame) {
     CustomFilter(frame, custom_array, custom_subfilters, filter_on);
