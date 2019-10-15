@@ -1001,3 +1001,21 @@ void ac::DigitalHaze(cv::Mat &frame) {
         }
     }
 }
+
+void ac::BlendWithColor(cv::Mat &frame) {
+    cv::Vec3b color(swapColor_b, swapColor_g, swapColor_r);
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = (0.3 * pixel[j]) + (0.7 * color[j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    swapColorState(false);
+    AddInvert(frame);
+    swapColorState(true);
+}

@@ -1747,6 +1747,7 @@ namespace ac {
     void MedianBlendImageFadeTo(cv::Mat &frame);
     void MedianMirrorAllBlend(cv::Mat &frame);
     void DigitalHaze(cv::Mat &frame);
+    void BlendWithColor(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1834,6 +1835,7 @@ namespace ac {
     void setAllocatedFrames(const int &v);
     int getMaxAllocated();
     int getCurrentAllocatedFrames();
+    void swapColorState(const bool &b);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
@@ -1845,6 +1847,7 @@ namespace ac {
     extern bool snapShot;
     extern bool reset_filter;
     extern double alpha_increase;
+    extern bool swapColorOn;
     extern std::unordered_map<std::string, int> filter_map;
     extern std::unordered_map<std::string, FilterType> filter_map_str;
     extern bool frames_released;

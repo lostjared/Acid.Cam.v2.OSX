@@ -1378,3 +1378,7 @@ bool ac::FFMPEG_Installed(const std::string &ffmpeg) {
 #endif
     return false;
 }
+
+void ac::swapColorState(const bool &b) {
+    swapColorOn = b;
+}
