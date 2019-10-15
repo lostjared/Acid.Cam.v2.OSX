@@ -1009,7 +1009,7 @@ void ac::BlendWithColor(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = (0.3 * pixel[j]) + (0.7 * color[j]);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * color[j]));
                 }
             }
         }
