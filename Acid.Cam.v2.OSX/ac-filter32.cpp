@@ -969,11 +969,11 @@ void ac::MedianMirrorAllBlend(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy2, frame1, alpha1, (1-alpha));
     AlphaBlendDouble(copy3, copy4, frame2, (1-alpha2), alpha2);
     AlphaBlendDouble(frame1, frame2, frame, alpha3, (1-alpha3));
-    AddInvert(frame);
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(alpha2, dir2, 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(alpha3, dir3, 0.01, 1.0, 0.1);
     MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
 }
 
 void ac::DigitalHaze(cv::Mat &frame) {
@@ -1000,6 +1000,7 @@ void ac::DigitalHaze(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::BlendWithColor(cv::Mat &frame) {
