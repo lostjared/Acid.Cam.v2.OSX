@@ -274,7 +274,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="sBe-FG-dBw"/>
-                            <menuItem title="Set Blend Image/Color Key" id="127-AT-vbl">
+                            <menuItem title="Set Blend Video/Image/Color Key" id="127-AT-vbl">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showSelectImage:" target="630" id="Kv3-Tv-cWH"/>
@@ -425,7 +425,7 @@
                                     <action selector="viewSearchWindow:" target="630" id="hBj-HH-Pyw"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="View Select Image/Chroma Key" id="c0U-Q2-K7o">
+                            <menuItem title="View Select Video/Image/Chroma Key" id="c0U-Q2-K7o">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showSelectImage:" target="630" id="17c-9w-Uvo"/>
@@ -1917,7 +1917,7 @@ Gw
             </view>
             <point key="canvasLocation" x="1407" y="-397"/>
         </window>
-        <window title="Image Selector" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="qqF-Ru-guQ">
+        <window title="Video and Image Selector" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="qqF-Ru-guQ">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1779" y="1119" width="741" height="277"/>
