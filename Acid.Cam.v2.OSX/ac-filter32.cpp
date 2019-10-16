@@ -1018,3 +1018,30 @@ void ac::BlendWithColor(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     swapColorState(true);
 }
+
+void ac::DigitalHazeBlend(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    static int speed[3] = {1,3,5};
+    if(pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            PixelValues &pix = pix_container.pix_values[i][z];
+            for(int j = 0; j < 3; ++j) {
+                if(pix.col[j] > pixel[j])
+                    pix.col[j] -= speed[j];
+                else if(pix.col[j] < pixel[j])
+                    pix.col[j] += speed[j];
+                else
+                    pix.col[j] = pixel[j];
+                pixel[j] = cv::saturate_cast<unsigned char>((pixel[j] * 0.2) + (pix.col[j] * 0.8));
+            }
+        }
+    }
+    AddInvert(frame);
+}
