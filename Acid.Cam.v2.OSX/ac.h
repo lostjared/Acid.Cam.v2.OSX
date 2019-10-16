@@ -1750,6 +1750,7 @@ namespace ac {
     void BlendWithColor(cv::Mat &frame);
     void DigitalHazeBlend(cv::Mat &frame);
     void AlphaBlendWithVideo(cv::Mat &frame);
+    void VideoExactFrame(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1769,6 +1770,7 @@ namespace ac {
     void AddInvert(cv::Mat &frame);
     void setPixelCollection(int value);
     int  getPixelCollection();
+    bool VideoFrame(cv::Mat &frame);
     // color correction
     void MedianBlur(cv::Mat &frame, unsigned int value);
     void setBlendPercentage(const double &value);

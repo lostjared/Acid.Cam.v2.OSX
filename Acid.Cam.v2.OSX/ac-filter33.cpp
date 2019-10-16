@@ -101,5 +101,21 @@ void ac::DigitalHazeBlend(cv::Mat &frame) {
 }
 
 void ac::AlphaBlendWithVideo(cv::Mat &frame) {
-    
+    cv::Mat copy1 = frame.clone(), nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoExactFrame(cv::Mat &frame) {
+    cv::Mat temp;
+    if(VideoFrame(temp)) {
+        cv::Mat reframe;
+        ac_resize(temp, reframe, frame.size());
+        frame = reframe.clone();
+    }
+    AddInvert(frame);
 }

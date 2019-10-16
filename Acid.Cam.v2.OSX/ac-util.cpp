@@ -273,10 +273,11 @@ void ac::filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv:
     if(colorkey_replace == true && v_cap.isOpened()) {
         double pos = v_cap.get(cv::CAP_PROP_POS_FRAMES);
         double total_frames = v_cap.get(cv::CAP_PROP_FRAME_COUNT);
-        if(pos > total_frames || v_cap.read(color_video) == false) {
+        if(pos > total_frames-2) {
             v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
             pos = 0;
         }
+        v_cap >> color_video;
     }
     for(int z = 0; z < orig.rows; ++z) {
         for(int i = 0; i < orig.cols; ++i) {
@@ -1386,4 +1387,21 @@ void ac::swapColorState(const bool &b) {
 
 bool ac::getColorState() {
     return swapColorOn;
+}
+
+bool ac::VideoFrame(cv::Mat &frame) {
+    if(!v_cap.isOpened())
+        return false;
+    double pos = v_cap.get(cv::CAP_PROP_POS_FRAMES);
+    double total_frames = v_cap.get(cv::CAP_PROP_FRAME_COUNT);
+    if(pos > total_frames-2) {
+        v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
+        pos = 0;
+    }
+    cv::Mat reframe;
+    if(v_cap.read(reframe)) {
+        frame = reframe.clone();
+        return true;
+    }
+    return false;
 }
