@@ -1749,8 +1749,10 @@ namespace ac {
     void DigitalHaze(cv::Mat &frame);
     void BlendWithColor(cv::Mat &frame);
     void DigitalHazeBlend(cv::Mat &frame);
-    void AlphaBlendWithVideo(cv::Mat &frame);
+    void VideoAlphaBlend(cv::Mat &frame);
     void VideoExactFrame(cv::Mat &frame);
+    void VideoAlphaFade(cv::Mat &frame);
+    
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

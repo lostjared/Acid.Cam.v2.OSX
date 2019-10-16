@@ -558,7 +558,12 @@ void setEnabledProg() {
     }
     
     std::string filter_value = ac::draw_strings[ac::draw_offset];
-    if(filter_value.find("Image") != std::string::npos) {
+    if(filter_value.find("Video") != std::string::npos) {
+        [image_select orderFront:self];
+        strout.str("");
+        strout << "Select Secondary Video File...\n";
+        flushToLog(strout);
+    } else if(filter_value.find("Image") != std::string::npos) {
         [image_select orderFront: self];
         strout.str("");
         strout << "Image filter select use Select image window to set image...\n";
@@ -2017,6 +2022,12 @@ void setEnabledProg() {
         flushToLog(strout);
     }
     std::string filter_value = file_str;
+    if(filter_value.find("Video") != std::string::npos) {
+        [image_select orderFront:self];
+        strout.str("");
+        strout << "Select Secondary Video File...\n";
+        flushToLog(strout);
+    }
     if(filter_value.find("Image") != std::string::npos) {
         [image_select orderFront: self];
         strout.str("");
@@ -2267,6 +2278,9 @@ void setEnabledProg() {
         ac::reset_alpha = true;
         ac::image_matrix_reset = true;
         emiter.reset();
+        if(ac::v_cap.isOpened())
+            ac::v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
+        
     }
 }
 
