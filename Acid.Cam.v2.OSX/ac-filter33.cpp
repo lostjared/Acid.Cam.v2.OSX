@@ -152,3 +152,17 @@ void ac::VideoAlphaBlend75(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+
+void ac::VideoAlphaBlendSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "VideoAlphaBlendSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone(), copy_v;
+    if(VideoFrame(copy_v)) {
+        cv::Mat reframe;
+        ac_resize(copy_v, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        CallFilter(subfilter, copy1);
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+}
