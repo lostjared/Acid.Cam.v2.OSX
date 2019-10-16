@@ -100,7 +100,7 @@ void ac::DigitalHazeBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::VideoAlphaBlend(cv::Mat &frame) {
+void ac::VideoAlphaBlend50(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), nframe;
     if(VideoFrame(nframe)) {
         cv::Mat reframe;
@@ -131,4 +131,24 @@ void ac::VideoAlphaFade(cv::Mat &frame) {
     }
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
+
+void ac::VideoAlphaBlend25(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        AlphaBlendDouble(copy1, reframe, frame, 0.75, 0.25);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaBlend75(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        AlphaBlendDouble(copy1, reframe, frame, 0.25, 0.75);
+    }
+    AddInvert(frame);
 }
