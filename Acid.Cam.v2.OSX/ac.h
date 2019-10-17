@@ -1755,6 +1755,7 @@ namespace ac {
     void VideoExactFrame(cv::Mat &frame);
     void VideoAlphaFade(cv::Mat &frame);
     void VideoAlphaBlendSubFilter(cv::Mat &frame);
+    void VideoAlphaImage(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

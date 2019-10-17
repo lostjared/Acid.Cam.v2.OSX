@@ -165,4 +165,18 @@ void ac::VideoAlphaBlendSubFilter(cv::Mat &frame) {
         CallFilter(subfilter, copy1);
         AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
     }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaImage(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage, vframe;
+    ac_resize(blend_image, reimage, frame.size());
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        AlphaBlendDouble(reimage, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
 }
