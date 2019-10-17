@@ -180,3 +180,37 @@ void ac::VideoAlphaImage(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoAlphaImageFrame(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage, vframe;
+    cv::Mat copy1 = frame.clone();
+    ac_resize(blend_image, reimage, frame.size());
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        AlphaBlendDouble(reimage, reframe, vframe, 0.5, 0.5);
+        AlphaBlendDouble(copy1, vframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaImageScale(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    static double alpha1 = 0.1, alpha2 = 1.0;
+    static int dir1 = 1, dir2 = 0;
+    cv::Mat reimage, vframe;
+    cv::Mat copy1 = frame.clone();
+    ac_resize(blend_image, reimage, frame.size());
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        AlphaBlendDouble(reimage, reframe, vframe, alpha1,(1-alpha1));
+        AlphaBlendDouble(copy1, vframe, frame, alpha2,(1-alpha2));
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.0, 0.1);
+}
