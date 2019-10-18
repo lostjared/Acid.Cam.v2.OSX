@@ -1758,6 +1758,9 @@ namespace ac {
     void VideoAlphaImage(cv::Mat &frame);
     void VideoAlphaImageFrame(cv::Mat &frame);
     void VideoAlphaImageScale(cv::Mat &frame);
+    void VideoAlphaBlendImage25(cv::Mat &frame);
+    void VideoAlphaBlendImage50(cv::Mat &frame);
+    void VideoAlphaBlendImage75(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

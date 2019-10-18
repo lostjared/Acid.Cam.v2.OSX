@@ -214,3 +214,49 @@ void ac::VideoAlphaImageScale(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(alpha2, dir2, 0.05, 1.0, 0.1);
 }
+
+
+void ac::VideoAlphaBlendImage25(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage, nframe;
+    ac_resize(blend_image, reimage, frame.size());
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(copy1, reframe, nframe, 0.25, 0.75);
+        AlphaBlendDouble(nframe, reimage, frame, 0.25, 0.75);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaBlendImage50(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage, nframe;
+    ac_resize(blend_image, reimage, frame.size());
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(copy1, reframe, nframe, 0.50, 0.50);
+        AlphaBlendDouble(nframe, reimage, frame, 0.50, 0.50);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaBlendImage75(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage, nframe;
+    ac_resize(blend_image, reimage, frame.size());
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(copy1, reframe, nframe, 0.75, 0.25);
+        AlphaBlendDouble(nframe, reimage, frame, 0.75, 0.25);
+    }
+    AddInvert(frame);
+}
