@@ -778,12 +778,11 @@ void setEnabledProg() {
         } else {
             add_path = std::string([custom_path_prefix UTF8String])+std::string("/") + [[prefix_input stringValue] UTF8String];
         }
-    
         [menuPaused setEnabled: YES];
         [up4k setEnabled: NO];
         [record_op setEnabled: NO];
         ac::reset_filter = true;
-        
+    
         if(camera_mode == 1)
             capture = capture_video.get();
         else
@@ -811,6 +810,12 @@ void setEnabledProg() {
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
         restartFilter = YES;
+        if(ac::v_cap.isOpened()) {
+            ac::v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
+            std::ostringstream stream;
+            stream << "Reset Secondary Video...\n";
+            flushToLog(stream);
+        }
         if(ret_val != 0) {
             _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
             std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
