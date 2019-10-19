@@ -306,3 +306,38 @@ void ac::VideoAlphaSubFilter(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
 }
+
+void ac::VideoRoll(cv::Mat &frame) {
+    cv::Mat vframe;
+    int frame_size = frame.rows;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static int y = 0;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                if(z+y < frame_size-1) {
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(y+z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix[j] * 0.5));
+                    }
+                }
+            }
+        }
+        static int dir = 1;
+        if(dir == 1) {
+            y += 40;
+            if(y > frame.rows-40) {
+                y = frame.rows-40;
+                dir = 0;
+            }
+        } else {
+            y -= 40;
+            if(y < 40) {
+                y = 40;
+                dir = 1;
+            }
+        }
+    }
+}
