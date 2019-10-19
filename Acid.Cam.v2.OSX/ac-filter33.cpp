@@ -290,3 +290,19 @@ void ac::VideoFrameImageSubFilter(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.3);
 }
+
+void ac::VideoAlphaSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "VideoAlphaSubFilter")
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat copy2;
+        ac_resize(vframe, copy2, frame.size());
+        AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+        CallFilter(subfilter, frame);
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+}
