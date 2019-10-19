@@ -260,3 +260,16 @@ void ac::VideoAlphaBlendImage75(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoFrameFilterSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "VideoFrameFilterSubFilter" || v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        reframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}

@@ -77,6 +77,7 @@
 #define ASSERT(X)
 #endif
 
+// comment out below if making release
 #define DEBUG_MODE
 
 /*
@@ -1761,6 +1762,7 @@ namespace ac {
     void VideoAlphaBlendImage25(cv::Mat &frame);
     void VideoAlphaBlendImage50(cv::Mat &frame);
     void VideoAlphaBlendImage75(cv::Mat &frame);
+    void VideoFrameFilterSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
