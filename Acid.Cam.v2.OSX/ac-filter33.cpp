@@ -273,3 +273,20 @@ void ac::VideoFrameFilterSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoFrameImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "VideoFrameImageSubFilter" || v_cap.isOpened() == false)
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
+        CallFilter(subfilter, reframe);
+        AlphaBlendDouble(reframe, reimage, frame, alpha, (1-alpha));
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.3);
+}
