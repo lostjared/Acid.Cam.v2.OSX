@@ -387,7 +387,7 @@ void setEnabledProg() {
     [*cat addItemWithTitle:@"Mirror" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Strobe" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Blur" action:nil keyEquivalent:@""];
-    [*cat addItemWithTitle:@"Image" action:nil keyEquivalent:@""];
+    [*cat addItemWithTitle:@"Image/Video" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Square" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"Other" action:nil keyEquivalent:@""];
     [*cat addItemWithTitle:@"SubFilter" action: nil keyEquivalent:@""];
@@ -810,12 +810,7 @@ void setEnabledProg() {
             [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
         }
         restartFilter = YES;
-        if(ac::v_cap.isOpened()) {
-            ac::v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
-            std::ostringstream stream;
-            stream << "Reset Secondary Video...\n";
-            flushToLog(stream);
-        }
+        
         if(ret_val != 0) {
             _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
             std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
