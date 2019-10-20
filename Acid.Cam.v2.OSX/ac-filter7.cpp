@@ -972,18 +972,18 @@ void ac::StrobeTransform(cv::Mat &frame) {
         value -= speed;
     
     if(dir == 1) {
-    	if(value > (255)) {
+        if(value > (255)) {
             dir = 0;
             if(speed_dir == 1) {
-            	speed += speed_increase;
-            	if(speed > 25)
-                	speed_dir = 0;
+                speed += speed_increase;
+                if(speed > 25)
+                    speed_dir = 0;
             } else if(speed_dir == 0) {
                 speed -= speed_increase;
                 if(speed <= 1)
                     speed_dir = 1;
             }
-	    }
+        }
     } else if(dir == 0) {
         if(value <= 25) {
             dir = 1;

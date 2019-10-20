@@ -47,7 +47,7 @@
 
 namespace ac {
     
-   	std::unordered_map<std::string, FilterItem> filter_menu_map;
+    std::unordered_map<std::string, FilterItem> filter_menu_map;
     std::vector<std::string> svAll;
     std::vector<std::string> svAllSorted;
     std::vector<std::string> svUser;
@@ -55,7 +55,7 @@ namespace ac {
     std::vector<std::string> color_filter;
     std::vector<std::string> median;
     std::default_random_engine random(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
-
+    
     void add_filter(std::vector<std::string> *menu_list, std::string menu_name) {
         filter_menu_map[menu_name].menu_name = menu_name;
         filter_menu_map[menu_name].menu_list = menu_list;

@@ -547,8 +547,8 @@ void ac::ImageCycleAlphaBlend(cv::Mat &frame) {
 }
 
 void ac::ImageCycleXor(cv::Mat &frame) {
-   if(blend_set == false)
-       return;
+    if(blend_set == false)
+        return;
     static double alpha = 1.0;
     static int dir = 1;
     cv::Mat reimage;
@@ -587,7 +587,7 @@ void ac::ImageCycleMedian(cv::Mat &frame) {
     MedianBlendMultiThread(frame, &collection, div_index);
     cv::Mat copy1 = frame.clone();
     AlphaBlendDouble(copy1, reimage, frame, 0.5, 0.5);
-     ++div_index;
+    ++div_index;
     if(div_index > 7)
         div_index = 1;
     AddInvert(frame);
@@ -654,7 +654,7 @@ void ac::BlendWithImageMedianMutliThreadEight(cv::Mat &frame) {
 void ac::GradientBlendWithImage(cv::Mat &frame) {
     if(blend_set == false)
         return;
-     cv::Mat reimage;
+    cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     GradientColors(reimage);
     cv::Mat copy1  = frame.clone();

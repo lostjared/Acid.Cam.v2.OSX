@@ -101,7 +101,7 @@ namespace ac {
         
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"Blend With Image #1",blendWithImage}, {"TriBlend with Image", triBlendWithImage}, {"Image Strobe",imageStrobe}};
-      
+    
     FilterType *filter_array = filters;
     FilterType filterByIndex(const int &num) {
         return filter_array[num];
@@ -140,7 +140,7 @@ void ac::fill_filter_map() {
 }
 
 void ac::DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe) {
-   	outframe = frame.clone();
+    outframe = frame.clone();
     CallFilter(name, outframe);
 }
 
@@ -149,7 +149,7 @@ void ac::DrawFilter(int index, const cv::Mat &frame, cv::Mat &outframe) {
     CallFilter(index, outframe);
 }
 void ac::DrawFilter(int index, cv::Mat &frame) {
-        CallFilter(index, frame);
+    CallFilter(index, frame);
 }
 void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
     CallFilter(name, frame);

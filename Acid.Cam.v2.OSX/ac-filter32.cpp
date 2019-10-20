@@ -804,7 +804,7 @@ void ac::MedianBlendDoubleVision(cv::Mat &frame) {
             dir1 = 0;
         }
     }
-
+    
     MedianBlendMultiThreadScale(frame);
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
