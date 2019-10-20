@@ -1766,6 +1766,7 @@ namespace ac {
     void VideoFrameImageSubFilter(cv::Mat &frame);
     void VideoAlphaSubFilter(cv::Mat &frame);
     void VideoRoll(cv::Mat &frame);
+    void VideoRollReverse(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
