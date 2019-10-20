@@ -101,6 +101,9 @@ void ac::DigitalHazeBlend(cv::Mat &frame) {
 }
 
 void ac::VideoAlphaBlend50(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+
     cv::Mat copy1 = frame.clone(), nframe;
     if(VideoFrame(nframe)) {
         cv::Mat reframe;
@@ -111,6 +114,9 @@ void ac::VideoAlphaBlend50(cv::Mat &frame) {
 }
 
 void ac::VideoExactFrame(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+
     cv::Mat temp;
     if(VideoFrame(temp)) {
         cv::Mat reframe;
@@ -121,6 +127,9 @@ void ac::VideoExactFrame(cv::Mat &frame) {
 }
 
 void ac::VideoAlphaFade(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+
     static double alpha = 1.0;
     static int dir = 1;
     cv::Mat frame_copy,frame2 = frame.clone();
@@ -134,6 +143,9 @@ void ac::VideoAlphaFade(cv::Mat &frame) {
 }
 
 void ac::VideoAlphaBlend25(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+
     cv::Mat copy1 = frame.clone(), nframe;
     if(VideoFrame(nframe)) {
         cv::Mat reframe;
@@ -144,6 +156,10 @@ void ac::VideoAlphaBlend25(cv::Mat &frame) {
 }
 
 void ac::VideoAlphaBlend75(cv::Mat &frame) {
+    
+    if(v_cap.isOpened() == false)
+        return;
+    
     cv::Mat copy1 = frame.clone(), nframe;
     if(VideoFrame(nframe)) {
         cv::Mat reframe;
@@ -155,7 +171,7 @@ void ac::VideoAlphaBlend75(cv::Mat &frame) {
 
 
 void ac::VideoAlphaBlendSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || draw_strings[subfilter] == "VideoAlphaBlendSubFilter")
+    if(v_cap.isOpened() == false || subfilter == -1 || draw_strings[subfilter] == "VideoAlphaBlendSubFilter")
         return;
     cv::Mat copy1 = frame.clone(), copy_v;
     if(VideoFrame(copy_v)) {
@@ -289,10 +305,11 @@ void ac::VideoFrameImageSubFilter(cv::Mat &frame) {
         AlphaBlendDouble(reframe, reimage, frame, alpha, (1-alpha));
     }
     AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.3);
+    AddInvert(frame);
 }
 
 void ac::VideoAlphaSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || draw_strings[subfilter] == "VideoAlphaSubFilter")
+    if(v_cap.isOpened() == false || subfilter == -1 || draw_strings[subfilter] == "VideoAlphaSubFilter")
         return;
     static double alpha = 1.0;
     static int dir = 1;
@@ -305,9 +322,14 @@ void ac::VideoAlphaSubFilter(cv::Mat &frame) {
         CallFilter(subfilter, frame);
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+    AddInvert(frame);
 }
 
 void ac::VideoRoll(cv::Mat &frame) {
+    
+    if(v_cap.isOpened() == false)
+        return;
+    
     cv::Mat vframe;
     int frame_size = frame.rows;
     if(VideoFrame(vframe)) {
@@ -340,9 +362,14 @@ void ac::VideoRoll(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::VideoRollReverse(cv::Mat &frame) {
+    
+    if(v_cap.isOpened() == false)
+        return;
+    
     cv::Mat vframe;
     int frame_size = frame.rows;
     if(VideoFrame(vframe)) {
@@ -377,4 +404,16 @@ void ac::VideoRollReverse(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
+}
+
+void ac::VideoRollMedianBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    VideoRoll(copy1);
+    VideoRollReverse(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
+    MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
 }
