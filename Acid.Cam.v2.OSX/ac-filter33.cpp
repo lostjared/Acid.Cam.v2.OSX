@@ -326,12 +326,11 @@ void ac::VideoAlphaSubFilter(cv::Mat &frame) {
 }
 
 void ac::VideoRoll(cv::Mat &frame) {
-    
     if(v_cap.isOpened() == false)
         return;
-    
     cv::Mat vframe;
     int frame_size = frame.rows;
+    static constexpr int movement_size = 10;
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
         ac_resize(vframe, reframe, frame.size());
@@ -349,15 +348,15 @@ void ac::VideoRoll(cv::Mat &frame) {
         }
         static int dir = 1;
         if(dir == 1) {
-            y += 40;
-            if(y > frame.rows-40) {
-                y = frame.rows-40;
+            y += movement_size;
+            if(y > frame.rows-movement_size) {
+                y = frame.rows-movement_size;
                 dir = 0;
             }
         } else {
-            y -= 40;
-            if(y < 40) {
-                y = 40;
+            y -= movement_size;
+            if(y < movement_size) {
+                y = movement_size;
                 dir = 1;
             }
         }
@@ -366,12 +365,11 @@ void ac::VideoRoll(cv::Mat &frame) {
 }
 
 void ac::VideoRollReverse(cv::Mat &frame) {
-    
     if(v_cap.isOpened() == false)
         return;
-    
     cv::Mat vframe;
     int frame_size = frame.rows;
+    static constexpr int movement_size = 10;
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
         ac_resize(vframe, reframe, frame.size());
@@ -391,15 +389,15 @@ void ac::VideoRollReverse(cv::Mat &frame) {
         }
         static int dir = 1;
         if(dir == 1) {
-            y += 40;
-            if(y > frame.rows-40) {
-                y = frame.rows-40;
+            y += movement_size;
+            if(y > frame.rows-movement_size) {
+                y = frame.rows-movement_size;
                 dir = 0;
             }
         } else {
-            y -= 40;
-            if(y < 40) {
-                y = 40;
+            y -= movement_size;
+            if(y < movement_size) {
+                y = movement_size;
                 dir = 1;
             }
         }
@@ -416,4 +414,18 @@ void ac::VideoRollMedianBlend(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
     MedianBlendMultiThreadScale(frame);
     AddInvert(frame);
+}
+
+void ac::VideoRollScaleMedianBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static double alpha = 1.0;
+    static int dir = 1;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    VideoRoll(copy1);
+    VideoRollReverse(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, alpha, (1-alpha));
+    MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.08, 1.0, 0.1);
 }
