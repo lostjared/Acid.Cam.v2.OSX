@@ -429,3 +429,16 @@ void ac::VideoRollScaleMedianBlend(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.08, 1.0, 0.1);
 }
+
+void ac::VideoSubFilter(cv::Mat &frame) {
+    if(v_cap.isOpened() == false || subfilter == -1 || draw_strings[subfilter] == "VideoSubFilter")
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat copy1 = frame.clone();
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+}
