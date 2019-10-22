@@ -442,3 +442,8 @@ void ac::VideoSubFilter(cv::Mat &frame) {
         AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
     }
 }
+
+void ac::MedianBlendBlendWithColor(cv::Mat &frame) {
+    BlendWithColor(frame);
+    MedianBlendMultiThreadScale(frame);
+}
