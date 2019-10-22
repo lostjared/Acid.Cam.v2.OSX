@@ -444,7 +444,7 @@ void ac::VideoSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::MedianBlendBlendWithColor(cv::Mat &frame) {
+void ac::MedianBlendWithColor(cv::Mat &frame) {
     BlendWithColor(frame);
     MedianBlendMultiThreadScale(frame);
     AddInvert(frame);

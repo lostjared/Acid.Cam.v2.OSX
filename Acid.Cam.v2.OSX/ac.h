@@ -1770,7 +1770,7 @@ namespace ac {
     void VideoRollMedianBlend(cv::Mat &frame);
     void VideoRollScaleMedianBlend(cv::Mat &frame);
     void VideoSubFilter(cv::Mat &frame);
-    void MedianBlendBlendWithColor(cv::Mat &frame);
+    void MedianBlendWithColor(cv::Mat &frame);
     void VideoImage(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
