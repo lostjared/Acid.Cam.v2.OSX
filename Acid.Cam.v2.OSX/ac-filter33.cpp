@@ -463,3 +463,21 @@ void ac::VideoImage(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoImageFade(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        static double alpha = 1.0;
+        static int dir = 1;
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        AlphaBlendDouble(reimage, reframe, frame, alpha, (1-alpha));
+        AlphaMovementMaxMin(alpha,dir,0.01, 1.0, 0.1);
+    }
+    AddInvert(frame);
+}
+
