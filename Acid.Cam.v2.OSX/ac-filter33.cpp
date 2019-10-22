@@ -441,9 +441,25 @@ void ac::VideoSubFilter(cv::Mat &frame) {
         CallFilter(subfilter, reframe);
         AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
     }
+    AddInvert(frame);
 }
 
 void ac::MedianBlendBlendWithColor(cv::Mat &frame) {
     BlendWithColor(frame);
     MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
+}
+
+void ac::VideoImage(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        AlphaBlendDouble(reimage, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
 }
