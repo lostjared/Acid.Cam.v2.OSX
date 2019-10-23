@@ -481,3 +481,51 @@ void ac::VideoImageFade(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::ColorMovement(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    static int speed[3] = {1,1,1};
+    if(pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                ac::PixelValues &pix = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(pix.dir[j] == 1) {
+                        pix.col[j] += speed[j];
+                        if(pix.col[j] >= 255) {
+                            pix.col[j] = pixel[j];
+                            pix.dir[j] = 0;
+                        }
+                    } else {
+                        pix.col[j] -= speed[j];
+                        if(pix.col[j] <= 0) {
+                            pix.dir[j] = 1;
+                            pix.col[j] = pixel[j];
+                        }
+                    }
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix.col[j] * 0.5));
+                }
+                
+            }
+        }
+    };
+    int fps = static_cast<int>(ac::fps);
+    static int counter = 0;
+    ++counter;
+    if(counter >= (fps * 4)) {
+        counter = 1;
+        for(int j = 0; j < 3; ++j) {
+            if(speed[j] >= 10) {
+                speed[j] = 1;
+            } else ++speed[j];
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

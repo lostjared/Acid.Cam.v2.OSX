@@ -78,7 +78,7 @@
 #endif
 
 // comment out below if making release
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 /*
  *
@@ -1773,6 +1773,7 @@ namespace ac {
     void MedianBlendWithColor(cv::Mat &frame);
     void VideoImage(cv::Mat &frame);
     void VideoImageFade(cv::Mat &frame);
+    void ColorMovement(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
