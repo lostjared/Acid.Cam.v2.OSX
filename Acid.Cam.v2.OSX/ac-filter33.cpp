@@ -529,3 +529,8 @@ void ac::ColorMovement(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendColorMovement(cv::Mat &frame) {
+    ColorMovement(frame);
+    MedianBlendMultiThreadScale(frame);
+}
