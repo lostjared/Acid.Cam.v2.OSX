@@ -534,3 +534,49 @@ void ac::MedianBlendColorMovement(cv::Mat &frame) {
     ColorMovement(frame);
     MedianBlendMultiThreadScale(frame);
 }
+
+void ac::ColorMovementRange(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    static int speed[3] = {1,1,1};
+    
+    if(pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                ac::PixelValues &pix = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(pix.dir[j] == 1) {
+                        pix.col[j] += speed[j];
+                        if(pix.col[j] >= 255) {
+                            pix.dir[j] = 0;
+                            pix.col[j] = pixel[j];
+                        }
+                    } else {
+                        pix.col[j] -= speed[j];
+                        if(pix.col[j] <= 0) {
+                            pix.dir[j] = 1;
+                            pix.col[j] = pixel[j];
+                        }
+                    }
+                    pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pix.col[j] * (1-alpha)));
+                }
+            }
+        }
+    };
+    for(int q = 0; q < 3; ++q) {
+        ++speed[q];
+        if(speed[q] > 10)
+            speed[q] = rand()%5;
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ac::AlphaMovementMaxMin(alpha,dir, 0.01, 1.0, 0.3);
+}

@@ -1775,6 +1775,7 @@ namespace ac {
     void VideoImageFade(cv::Mat &frame);
     void ColorMovement(cv::Mat &frame);
     void MedianBlendColorMovement(cv::Mat &frame);
+    void ColorMovementRange(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
