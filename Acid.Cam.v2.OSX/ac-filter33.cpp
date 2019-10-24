@@ -580,3 +580,23 @@ void ac::ColorMovementRange(cv::Mat &frame) {
     AddInvert(frame);
     ac::AlphaMovementMaxMin(alpha,dir, 0.01, 1.0, 0.3);
 }
+
+void ac::ColorPixelOrder(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int r = rand()%(collection.size()-1);
+                    cv::Vec3b pix = collection.frames[r].at<cv::Vec3b>(z, i);
+                    pixel[j] = pix[j];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
