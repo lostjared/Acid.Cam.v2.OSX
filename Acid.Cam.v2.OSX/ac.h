@@ -1778,6 +1778,7 @@ namespace ac {
     void ColorMovementRange(cv::Mat &frame);
     void ColorPixelOrder(cv::Mat &frame);
     void ColorPixelOrder32(cv::Mat &frame);
+    void MedianBlendMuliThread_Pixelate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
