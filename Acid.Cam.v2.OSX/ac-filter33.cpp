@@ -671,3 +671,24 @@ void ac::MedianBlendMuliThread_Pixelate(cv::Mat &frame) {
     MedianBlendMultiThreadScale(frame);
     AddInvert(frame);
 }
+
+void ac::SelfScaleGlitch(cv::Mat &frame) {
+    static double value[3] = {1,1,1};
+    static int dir[3] = {0, 1, 0};
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pixel[j]/2) * 0.5) + (((pixel[j]/2) * value[j]) * 0.5);
+                }
+            }
+        }
+    };
+    AlphaMovementMaxMin(value[0], dir[0], 0.2, 127.0, 1.0);
+    AlphaMovementMaxMin(value[1], dir[1], 0.3, 127.0, 1.0);
+    AlphaMovementMaxMin(value[2], dir[2], 0.4, 127.0, 1.0);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThreadScale(frame);
+    AddInvert(frame);
+}
