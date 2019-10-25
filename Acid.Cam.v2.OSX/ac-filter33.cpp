@@ -730,3 +730,33 @@ void ac::PixelGlitch(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::VideoPixelOnOffSwitch(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static int start = 0;
+        int index = start;
+        start = (start == 0) ? 1 : 0;
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    if(index == 0) {
+                        index = 1;
+                        continue;
+                    } else {
+                        pixel = pix;
+                        index = 0;
+                    }
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+        AddInvert(frame);
+    }
+}
