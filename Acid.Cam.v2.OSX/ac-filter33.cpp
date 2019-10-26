@@ -787,3 +787,21 @@ void ac::VideoBlendImageSubFilter(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha_rev, dir_rev, 0.01, 1.0, 0.2);
     AddInvert(frame);
 }
+
+void ac::VideoAlphaImageSubFilter(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false || subfilter == -1 || draw_strings[subfilter] == "VideoAlphaImageSubFilter")
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        cv::Mat outf;
+        AlphaBlendDouble(reimage, reframe, outf, 0.5, 0.5);
+        AlphaBlendDouble(copy1, outf, frame, 0.5, 0.5);
+        CallFilter(subfilter, frame);
+    }
+    AddInvert(frame);
+}
