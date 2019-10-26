@@ -805,3 +805,17 @@ void ac::VideoAlphaImageSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MedianBlendVideo(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        MedianBlendMultiThreadScale(reframe);
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
