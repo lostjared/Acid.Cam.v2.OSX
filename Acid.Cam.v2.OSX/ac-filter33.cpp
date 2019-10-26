@@ -760,3 +760,30 @@ void ac::VideoPixelOnOffSwitch(cv::Mat &frame) {
         AddInvert(frame);
     }
 }
+
+void ac::VideoBlendImageSubFilter(cv::Mat &frame) {
+    
+    if(blend_set == false || v_cap.isOpened() == false || subfilter == -1 || draw_strings[subfilter] == "VideoBlendImageSubFilter")
+        return;
+    
+    cv::Mat copy1 = frame.clone();
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    static double alpha = 1.0;
+    static double alpha_rev = 0.1;
+    static int dir = 1;
+    static int dir_rev = 1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        CallFilter(subfilter, reimage);
+        cv::Mat reout;
+        AlphaBlendDouble(reframe, reimage, reout, alpha_rev, (1-alpha_rev));
+        AlphaBlendDouble(copy1, reout, frame, alpha, (1-alpha));
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
+    AlphaMovementMaxMin(alpha_rev, dir_rev, 0.01, 1.0, 0.2);
+    AddInvert(frame);
+}

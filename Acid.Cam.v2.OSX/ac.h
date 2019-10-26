@@ -1782,6 +1782,7 @@ namespace ac {
     void SelfScaleGlitch(cv::Mat &frame);
     void PixelGlitch(cv::Mat &frame);
     void VideoPixelOnOffSwitch(cv::Mat &frame);
+    void VideoBlendImageSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
