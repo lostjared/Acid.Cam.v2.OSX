@@ -2817,6 +2817,17 @@ namespace ac {
         }
         AddInvert(frame);
     }
+    
+    template<int Size>
+    void BlurVideoMatrix(cv::Mat &frame, MatrixCollection<Size> *collection) {
+        cv::Mat vframe;
+        if(VideoFrame(vframe)) {
+            cv::Mat reframe;
+            ac_resize(vframe, reframe, frame.size());
+            collection->shiftFrames(reframe);
+            Smooth(frame, collection, false);
+        }
+    }
 }
 
 extern ac::ParticleEmiter emiter;

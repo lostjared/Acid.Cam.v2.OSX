@@ -825,13 +825,7 @@ void ac::VideoFrameBlur8(cv::Mat &frame) {
         return;
     static constexpr int Size = 8;
     static MatrixCollection<Size> collection;
-    cv::Mat vframe;
-    if(VideoFrame(vframe)) {
-        cv::Mat reframe;
-        ac_resize(vframe, reframe, frame.size());
-        collection.shiftFrames(reframe);
-        Smooth(frame, &collection, false);
-    }
+    BlurVideoMatrix<Size>(frame, &collection);
     AddInvert(frame);
 }
 
@@ -840,13 +834,7 @@ void ac::VideoFrameBlur16(cv::Mat &frame) {
         return;
     static constexpr int Size = 16;
     static MatrixCollection<Size> collection;
-    cv::Mat vframe;
-    if(VideoFrame(vframe)) {
-        cv::Mat reframe;
-        ac_resize(vframe, reframe, frame.size());
-        collection.shiftFrames(reframe);
-        Smooth(frame, &collection, false);
-    }
+    BlurVideoMatrix<Size>(frame, &collection);
     AddInvert(frame);
 }
 
@@ -855,13 +843,7 @@ void ac::VideoFrameBlur32(cv::Mat &frame) {
         return;
     static constexpr int Size = 32;
     static MatrixCollection<Size> collection;
-    cv::Mat vframe;
-    if(VideoFrame(vframe)) {
-        cv::Mat reframe;
-        ac_resize(vframe, reframe, frame.size());
-        collection.shiftFrames(reframe);
-        Smooth(frame, &collection, false);
-    }
+    BlurVideoMatrix<Size>(frame, &collection);
     AddInvert(frame);
 }
 
