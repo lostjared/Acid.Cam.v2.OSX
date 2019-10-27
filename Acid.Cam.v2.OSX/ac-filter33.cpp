@@ -819,3 +819,17 @@ void ac::MedianBlendVideo(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoFrameBlur8(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<8> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(reframe);
+        Smooth(frame, &collection, false);
+    }
+    AddInvert(frame);
+}

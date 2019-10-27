@@ -1785,6 +1785,7 @@ namespace ac {
     void VideoBlendImageSubFilter(cv::Mat &frame);
     void VideoAlphaImageSubFilter(cv::Mat &frame);
     void MedianBlendVideo(cv::Mat &frame);
+    void VideoFrameBlur8(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
