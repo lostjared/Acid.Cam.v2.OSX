@@ -965,6 +965,15 @@ void setEnabledProg() {
             } else {
                 [chk_rand_frames setEnabled:YES];
             }
+            
+            if(ac::v_cap.isOpened()) {
+                double value = ac::v_cap.get(cv::CAP_PROP_POS_FRAMES);
+                double length = ac::v_cap.get(cv::CAP_PROP_FRAME_COUNT);
+                std::ostringstream s;
+                NSString *text = [NSString stringWithFormat:@"Video Frame Index: [%d/%d]", static_cast<int>(value), static_cast<int>(length)];
+                [video_position setStringValue: text];
+            }
+            
             if(reset_memory == true) {
                 ac::reset_filter = true;
                 reset_memory = false;
@@ -1194,6 +1203,15 @@ void setEnabledProg() {
     } else {
         [chk_rand_frames setEnabled:YES];
     }
+    
+    if(ac::v_cap.isOpened()) {
+        double value = ac::v_cap.get(cv::CAP_PROP_POS_FRAMES);
+        double length = ac::v_cap.get(cv::CAP_PROP_FRAME_COUNT);
+        std::ostringstream s;
+        NSString *text = [NSString stringWithFormat:@"Video Frame Index: [%d/%d]", static_cast<int>(value), static_cast<int>(length)];
+        [video_position setStringValue: text];
+    }
+    
     NSInteger cap_width = [video_width integerValue];
     NSInteger cap_height = [video_height integerValue];
     cv::Mat frame;
@@ -2280,7 +2298,7 @@ void setEnabledProg() {
         emiter.reset();
         if(ac::v_cap.isOpened())
             ac::v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
-        
+        [video_position setStringValue: @"Index: 0"];
     }
 }
 

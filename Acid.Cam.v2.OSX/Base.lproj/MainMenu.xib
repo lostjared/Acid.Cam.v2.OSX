@@ -140,6 +140,7 @@
                 <outlet property="videoFileInput" destination="686" id="G3w-FB-gY4"/>
                 <outlet property="video_file" destination="553" id="639"/>
                 <outlet property="video_height" destination="p30-pX-yXw" id="2zk-wv-gGP"/>
+                <outlet property="video_position" destination="rzG-vp-bWY" id="K9c-iV-hmp"/>
                 <outlet property="video_value" destination="4I5-S0-AqS" id="eD3-T0-aRN"/>
                 <outlet property="video_width" destination="Dmu-BM-fnD" id="oPY-Fc-lds"/>
                 <outlet property="view_image" destination="33n-Sz-sZg" id="PvB-DN-eFT"/>
@@ -2149,6 +2150,15 @@ Gw
                             <action selector="clrVideoKey:" target="630" id="DrM-Vi-QiF"/>
                         </connections>
                     </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rzG-vp-bWY">
+                        <rect key="frame" x="176" y="86" width="248" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Stats" id="bbw-fY-HDW">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1387.5" y="-2514.5"/>

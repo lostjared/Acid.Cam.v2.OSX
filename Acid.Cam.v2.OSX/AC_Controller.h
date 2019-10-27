@@ -188,6 +188,7 @@ extern int elapsed_counter;
     IBOutlet NSTextField *max_frames;
     IBOutlet NSMenuItem *output_video, *check_update;
     IBOutlet NSTextField *video_value;
+    IBOutlet NSTextField *video_position;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
