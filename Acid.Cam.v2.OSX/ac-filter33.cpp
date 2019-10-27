@@ -823,7 +823,8 @@ void ac::MedianBlendVideo(cv::Mat &frame) {
 void ac::VideoFrameBlur8(cv::Mat &frame) {
     if(v_cap.isOpened() == false)
         return;
-    static MatrixCollection<8> collection;
+    static constexpr int Size = 8;
+    static MatrixCollection<Size> collection;
     cv::Mat vframe;
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
@@ -833,3 +834,34 @@ void ac::VideoFrameBlur8(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoFrameBlur16(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static constexpr int Size = 16;
+    static MatrixCollection<Size> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(reframe);
+        Smooth(frame, &collection, false);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoFrameBlur32(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(reframe);
+        Smooth(frame, &collection, false);
+    }
+    AddInvert(frame);
+}
+
