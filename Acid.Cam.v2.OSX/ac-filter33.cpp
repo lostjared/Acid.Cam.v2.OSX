@@ -913,3 +913,93 @@ void ac::VideoImageSourceFrame(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
 }
+
+void ac::slowRed(cv::Mat &frame) {
+    static int col = 0;
+    static int dir = 1;
+    static int frame_counter = 0;
+    static int increase = 5;
+    ++frame_counter;
+    if(frame_counter > static_cast<int>(ac::fps)) {
+        frame_counter = 0;
+        if(dir == 1) {
+            col += increase;
+            if(col >= 255)
+                dir = 0;
+        } else {
+            col -= increase;
+            if(col <= 1)
+                dir = 1;
+        }
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[2] = cv::saturate_cast<unsigned char>(pixel[2]+col);
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::slowGreen(cv::Mat &frame) {
+    static int col = 0;
+    static int dir = 1;
+    static int frame_counter = 0;
+    static int increase = 5;
+    ++frame_counter;
+    if(frame_counter > static_cast<int>(ac::fps)) {
+        frame_counter = 0;
+        if(dir == 1) {
+            col += increase;
+            if(col >= 255)
+                dir = 0;
+        } else {
+            col -= increase;
+            if(col <= 1)
+                dir = 1;
+        }
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[1] = cv::saturate_cast<unsigned char>(pixel[1]+col);
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::slowBlue(cv::Mat &frame) {
+    static int col = 0;
+    static int dir = 1;
+    static int frame_counter = 0;
+    static int increase = 5;
+    ++frame_counter;
+    if(frame_counter > static_cast<int>(ac::fps)) {
+        frame_counter = 0;
+        if(dir == 1) {
+            col += increase;
+            if(col >= 255)
+                dir = 0;
+        } else {
+            col -= increase;
+            if(col <= 1)
+                dir = 1;
+        }
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[0] = cv::saturate_cast<unsigned char>(pixel[0]+col);
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

@@ -1792,6 +1792,9 @@ namespace ac {
     void VideoSourceFrameBlur16(cv::Mat &frame);
     void VideoSourceFrameBlur32(cv::Mat &frame);
     void VideoImageSourceFrame(cv::Mat &frame);
+    void slowRed(cv::Mat &frame);
+    void slowGreen(cv::Mat &frame);
+    void slowBlue(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
