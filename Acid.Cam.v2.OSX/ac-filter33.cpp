@@ -862,3 +862,35 @@ void ac::VideoSourceFrameBlur8(cv::Mat &frame) {
         AlphaBlendDouble(out1, out2, frame, 0.5, 0.5);
     }
 }
+
+void ac::VideoSourceFrameBlur16(cv::Mat &frame) {
+    static constexpr int Size = 16;
+    static MatrixCollection<Size> collection1, collection2;
+    collection1.shiftFrames(frame);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection2.shiftFrames(reframe);
+        cv::Mat out1 = frame.clone(), out2 = reframe.clone();
+        Smooth(out1, &collection1, false);
+        Smooth(out2, &collection2, false);
+        AlphaBlendDouble(out1, out2, frame, 0.5, 0.5);
+    }
+}
+
+void ac::VideoSourceFrameBlur32(cv::Mat &frame) {
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection1, collection2;
+    collection1.shiftFrames(frame);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection2.shiftFrames(reframe);
+        cv::Mat out1 = frame.clone(), out2 = reframe.clone();
+        Smooth(out1, &collection1, false);
+        Smooth(out2, &collection2, false);
+        AlphaBlendDouble(out1, out2, frame, 0.5, 0.5);
+    }
+}
