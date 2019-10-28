@@ -894,3 +894,22 @@ void ac::VideoSourceFrameBlur32(cv::Mat &frame) {
         AlphaBlendDouble(out1, out2, frame, 0.5, 0.5);
     }
 }
+
+void ac::VideoImageSourceFrame(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    static double alpha = 1.0;
+    static int dir = 1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat out;
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(reimage, reframe, out, alpha, (1-alpha));
+        AlphaBlendDouble(out, copy1, frame, alpha, (1-alpha));
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
+}
