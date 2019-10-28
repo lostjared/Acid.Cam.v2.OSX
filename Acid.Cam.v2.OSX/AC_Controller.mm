@@ -3307,7 +3307,7 @@ void setEnabledProg() {
     panel = [NSOpenPanel openPanel];
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
-    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"mp4", @"mov", @"avi", nil]];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects :@"mov", @"avi", @"mp4", @"mkv",@"m4v",@"webm",@"mts",@"m2ts", nil]];
     if([panel runModal]) {
         NSString *val = [[panel URL] path];
         ac::v_cap = cv::VideoCapture([val UTF8String]);
