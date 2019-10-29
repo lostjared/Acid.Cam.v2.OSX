@@ -1921,14 +1921,14 @@ Gw
         <window title="Video and Image Selector" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="qqF-Ru-guQ">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1779" y="1119" width="741" height="302"/>
+            <rect key="contentRect" x="1779" y="1119" width="741" height="328"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="WCu-HB-nbg">
-                <rect key="frame" x="0.0" y="0.0" width="741" height="302"/>
+                <rect key="frame" x="0.0" y="0.0" width="741" height="328"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <comboBox verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="Z6j-u7-bfW">
-                        <rect key="frame" x="20" y="267" width="584" height="26"/>
+                        <rect key="frame" x="20" y="293" width="584" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="fw1-FI-ZPC">
                             <font key="font" metaFont="system"/>
@@ -1940,7 +1940,7 @@ Gw
                         </connections>
                     </comboBox>
                     <button verticalHuggingPriority="750" id="rla-8T-wkf">
-                        <rect key="frame" x="666" y="232" width="61" height="32"/>
+                        <rect key="frame" x="666" y="258" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8EJ-eb-isV">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1951,7 +1951,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="RLf-qi-rMh">
-                        <rect key="frame" x="594" y="232" width="79" height="32"/>
+                        <rect key="frame" x="594" y="258" width="79" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Select" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NuI-nw-crL">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1962,7 +1962,7 @@ Gw
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="kxe-Ag-BED">
-                        <rect key="frame" x="18" y="241" width="220" height="17"/>
+                        <rect key="frame" x="18" y="267" width="220" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Add Images then Set desired Image" id="cfX-am-yjB">
                             <font key="font" metaFont="system"/>
@@ -1971,7 +1971,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="Gte-am-uqo">
-                        <rect key="frame" x="528" y="232" width="72" height="32"/>
+                        <rect key="frame" x="528" y="258" width="72" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rxv-kx-xiH">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1982,12 +1982,12 @@ Gw
                         </connections>
                     </button>
                     <colorWell id="yl0-is-M5l">
-                        <rect key="frame" x="219" y="199" width="44" height="23"/>
+                        <rect key="frame" x="219" y="225" width="44" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <color key="color" red="1" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </colorWell>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="hvA-W9-Xi5">
-                        <rect key="frame" x="18" y="174" width="49" height="17"/>
+                        <rect key="frame" x="18" y="200" width="49" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Image:" id="RXq-SZ-Tuq">
                             <font key="font" metaFont="systemBold"/>
@@ -1996,7 +1996,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="tKw-I8-MIh">
-                        <rect key="frame" x="18" y="203" width="78" height="18"/>
+                        <rect key="frame" x="18" y="229" width="78" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Replace" bezelStyle="regularSquare" imagePosition="left" inset="2" id="LZt-Cw-tZZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2007,7 +2007,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="tEK-oU-BBG">
-                        <rect key="frame" x="100" y="203" width="108" height="18"/>
+                        <rect key="frame" x="100" y="229" width="108" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Color Key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sr0-KV-FuN">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2018,7 +2018,7 @@ Gw
                         </connections>
                     </button>
                     <popUpButton verticalHuggingPriority="750" id="h31-Wk-Aq4">
-                        <rect key="frame" x="612" y="267" width="112" height="26"/>
+                        <rect key="frame" x="612" y="293" width="112" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Blend Image" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="r7U-WM-Amd" id="JqI-hf-gg6">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -2037,7 +2037,7 @@ Gw
                         </connections>
                     </popUpButton>
                     <button verticalHuggingPriority="750" id="bF2-pD-QrE">
-                        <rect key="frame" x="265" y="193" width="71" height="32"/>
+                        <rect key="frame" x="265" y="219" width="71" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="More" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dn0-Ub-AYk">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2048,7 +2048,7 @@ Gw
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jsK-GJ-Pei">
-                        <rect key="frame" x="80" y="173" width="344" height="17"/>
+                        <rect key="frame" x="80" y="199" width="344" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="None" id="OKC-Y9-Q1W">
                             <font key="font" metaFont="system"/>
@@ -2057,17 +2057,17 @@ Gw
                         </textFieldCell>
                     </textField>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="33n-Sz-sZg">
-                        <rect key="frame" x="443" y="17" width="281" height="208"/>
+                        <rect key="frame" x="443" y="17" width="281" height="234"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="Uh9-vw-Blg"/>
                     </imageView>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cwj-zj-DM8">
-                        <rect key="frame" x="17" y="17" width="150" height="145"/>
+                        <rect key="frame" x="17" y="17" width="150" height="167"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="1y1-4a-s9h"/>
                     </imageView>
                     <button verticalHuggingPriority="750" id="iFP-wj-Zd0">
-                        <rect key="frame" x="436" y="232" width="98" height="32"/>
+                        <rect key="frame" x="436" y="258" width="98" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Clear List" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="u6i-u2-GgF">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2111,7 +2111,7 @@ Gw
                         </buttonCell>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4I5-S0-AqS">
-                        <rect key="frame" x="176" y="138" width="248" height="17"/>
+                        <rect key="frame" x="176" y="135" width="248" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" id="nY6-kD-QMY">
                             <font key="font" metaFont="system"/>
@@ -2120,7 +2120,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="yaP-qf-qUO">
-                        <rect key="frame" x="317" y="102" width="61" height="32"/>
+                        <rect key="frame" x="317" y="153" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kzn-Kd-Oxm">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2131,7 +2131,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="BBL-lG-MG7">
-                        <rect key="frame" x="370" y="102" width="58" height="32"/>
+                        <rect key="frame" x="370" y="153" width="58" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Clr" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="24P-jw-IEb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2142,7 +2142,7 @@ Gw
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rzG-vp-bWY">
-                        <rect key="frame" x="176" y="81" width="248" height="17"/>
+                        <rect key="frame" x="176" y="110" width="248" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" id="bbw-fY-HDW">
                             <font key="font" metaFont="system"/>
@@ -2151,7 +2151,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="gH4-wk-MWw">
-                        <rect key="frame" x="241" y="102" width="84" height="32"/>
+                        <rect key="frame" x="241" y="153" width="84" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Restart" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0qe-yW-zAY">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2162,7 +2162,7 @@ Gw
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ze3-lp-qaV">
-                        <rect key="frame" x="176" y="111" width="71" height="17"/>
+                        <rect key="frame" x="176" y="162" width="71" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Replace" id="w9K-Lv-CgG">
                             <font key="font" metaFont="system"/>
@@ -2171,7 +2171,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Hoq-bf-Eba">
-                        <rect key="frame" x="176" y="76" width="248" height="17"/>
+                        <rect key="frame" x="176" y="85" width="248" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" id="1Ne-B3-ViS">
                             <font key="font" metaFont="system"/>
@@ -2181,7 +2181,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-1387.5" y="-2502"/>
+            <point key="canvasLocation" x="-1387.5" y="-2489"/>
         </window>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="duL-T4-rgT">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
