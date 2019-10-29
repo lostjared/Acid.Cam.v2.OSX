@@ -1394,7 +1394,7 @@ bool ac::VideoFrame(cv::Mat &frame) {
         return false;
     double pos = v_cap.get(cv::CAP_PROP_POS_FRAMES);
     double total_frames = v_cap.get(cv::CAP_PROP_FRAME_COUNT);
-    if(pos > total_frames-2) {
+    if(pos > total_frames-100) {
         v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
         pos = 0;
     }
