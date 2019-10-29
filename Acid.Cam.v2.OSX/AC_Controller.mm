@@ -716,6 +716,7 @@ void setEnabledProg() {
         [video_height setEnabled: NO];
         [chk_stretch setEnabled:NO];
         [videoFileInput setEnabled:NO];
+        [self videoRestart:self];
         if([up4k state] == NSControlStateValueOn) {
             if((cap_width < 320 || cap_height < 240) || (cap_width > 3840 || cap_height > 2160)) {
                 _NSRunAlertPanel(@"Invalid Screen Resolution...", @"Invalid", @"Ok", nil, nil);
