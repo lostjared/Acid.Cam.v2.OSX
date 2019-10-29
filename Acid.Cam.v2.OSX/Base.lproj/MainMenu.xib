@@ -2061,6 +2061,11 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="Uh9-vw-Blg"/>
                     </imageView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cwj-zj-DM8">
+                        <rect key="frame" x="17" y="17" width="150" height="145"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="1y1-4a-s9h"/>
+                    </imageView>
                     <button verticalHuggingPriority="750" id="iFP-wj-Zd0">
                         <rect key="frame" x="436" y="232" width="98" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2146,7 +2151,7 @@ Gw
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rzG-vp-bWY">
-                        <rect key="frame" x="176" y="61" width="248" height="17"/>
+                        <rect key="frame" x="176" y="81" width="248" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" id="bbw-fY-HDW">
                             <font key="font" metaFont="system"/>
@@ -2166,7 +2171,7 @@ Gw
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ze3-lp-qaV">
-                        <rect key="frame" x="176" y="86" width="248" height="17"/>
+                        <rect key="frame" x="176" y="111" width="71" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Replace" id="w9K-Lv-CgG">
                             <font key="font" metaFont="system"/>
@@ -2174,11 +2179,6 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cwj-zj-DM8">
-                        <rect key="frame" x="17" y="17" width="150" height="145"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="1y1-4a-s9h"/>
-                    </imageView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1387.5" y="-2502"/>
