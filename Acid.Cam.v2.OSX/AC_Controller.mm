@@ -3328,6 +3328,11 @@ void setEnabledProg() {
     colorkey_replace = false;
 }
 
+- (IBAction) videoRestart:(id) sender {
+    if(ac::v_cap.isOpened())
+        ac::v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;

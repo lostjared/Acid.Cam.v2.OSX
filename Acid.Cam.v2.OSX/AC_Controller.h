@@ -331,6 +331,7 @@ extern int elapsed_counter;
 - (IBAction) checkForUpdate: (id) sender;
 - (IBAction) setVideoKey: (id) sender;
 - (IBAction) clrVideoKey: (id) sender;
+- (IBAction) videoRestart:(id) sender;
 @end
 
 extern AC_Controller *controller;
