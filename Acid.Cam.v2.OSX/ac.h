@@ -1795,6 +1795,7 @@ namespace ac {
     void slowRed(cv::Mat &frame);
     void slowGreen(cv::Mat &frame);
     void slowBlue(cv::Mat &frame);
+    void VideoMirrorAlpha(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
