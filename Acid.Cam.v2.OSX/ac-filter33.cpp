@@ -1039,3 +1039,24 @@ void ac::VideoMirrorLeftRight(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoFlipFrames(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    cv::Mat copy1 = frame.clone();
+    static int index = 0;
+    if(VideoFrame(vframe)) {
+        cv::Mat flipped;
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        if(index == 0) {
+            cv::flip(reframe, flipped, 1);
+        } else {
+            cv::flip(copy1, flipped, 1);
+        }
+        index = (index == 0) ? 1 : 0;
+        AlphaBlendDouble(reframe, flipped, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
