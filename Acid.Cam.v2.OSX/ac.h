@@ -1798,6 +1798,7 @@ namespace ac {
     void VideoMirrorAlpha(cv::Mat &frame);
     void VideoMirrorLeftRight(cv::Mat &frame);
     void VideoFlipFrames(cv::Mat &frame);
+    void VideoImageBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

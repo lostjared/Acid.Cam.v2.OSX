@@ -1060,3 +1060,30 @@ void ac::VideoFlipFrames(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoImageBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false || blend_set == false)
+        return;
+    
+    cv::Mat vframe,reimage;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        ac_resize(blend_image, reimage, frame.size());
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix[3];
+                    pix[0] = reframe.at<cv::Vec3b>(z, i);
+                    pix[1] = reimage.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j)  {
+                        pixel[j] = static_cast<unsigned char>(((pixel[j]^pix[0][j]^pix[1][j])) * 0.8);
+                    }
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+        AddInvert(frame);
+    }
+}
