@@ -15,6 +15,7 @@
 		7F2D09982272969A00866EE3 /* ac-filter20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F2D09972272969A00866EE3 /* ac-filter20.cpp */; };
 		7F2EC02823322B6200DD586E /* ac-filter31.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F2EC02723322B6200DD586E /* ac-filter31.cpp */; };
 		7F3170D0225820DE0095C384 /* ac-filter19.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3170CF225820DE0095C384 /* ac-filter19.cpp */; };
+		7F32BB57236ACEF7008C93FE /* ac-filter34.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F32BB56236ACEF7008C93FE /* ac-filter34.cpp */; };
 		7F3B124523104DD30011C6DF /* ac-filter29.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B124423104DD30011C6DF /* ac-filter29.cpp */; };
 		7F418243229AF12A00528131 /* ac-filter22.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F418242229AF12A00528131 /* ac-filter22.cpp */; };
 		7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F47CB331C6D0549008689B9 /* AudioToolbox.framework */; };
@@ -128,6 +129,7 @@
 		7F2D09972272969A00866EE3 /* ac-filter20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter20.cpp"; path = "Acid.Cam.v2.OSX/ac-filter20.cpp"; sourceTree = "<group>"; };
 		7F2EC02723322B6200DD586E /* ac-filter31.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter31.cpp"; path = "Acid.Cam.v2.OSX/ac-filter31.cpp"; sourceTree = "<group>"; };
 		7F3170CF225820DE0095C384 /* ac-filter19.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter19.cpp"; path = "Acid.Cam.v2.OSX/ac-filter19.cpp"; sourceTree = "<group>"; };
+		7F32BB56236ACEF7008C93FE /* ac-filter34.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter34.cpp"; path = "Acid.Cam.v2.OSX/ac-filter34.cpp"; sourceTree = "<group>"; };
 		7F3B124423104DD30011C6DF /* ac-filter29.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter29.cpp"; path = "Acid.Cam.v2.OSX/ac-filter29.cpp"; sourceTree = "<group>"; };
 		7F3BFD26224BE19C00838B80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F418242229AF12A00528131 /* ac-filter22.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter22.cpp"; path = "Acid.Cam.v2.OSX/ac-filter22.cpp"; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				7F2EC02723322B6200DD586E /* ac-filter31.cpp */,
 				7FA763AC23460E9600BFDB50 /* ac-filter32.cpp */,
 				7F8F06882357421300F2D8F8 /* ac-filter33.cpp */,
+				7F32BB56236ACEF7008C93FE /* ac-filter34.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -573,6 +576,7 @@
 				7F418243229AF12A00528131 /* ac-filter22.cpp in Sources */,
 				7F8F06892357421300F2D8F8 /* ac-filter33.cpp in Sources */,
 				7F7346832145AD4700F1A327 /* ac-filter11.cpp in Sources */,
+				7F32BB57236ACEF7008C93FE /* ac-filter34.cpp in Sources */,
 				7F9CE204221B7A83009C544C /* ac-filter16.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
