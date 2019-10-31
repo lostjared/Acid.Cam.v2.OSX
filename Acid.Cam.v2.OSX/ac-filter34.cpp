@@ -116,7 +116,6 @@ void ac::VideoFlipFrames(cv::Mat &frame) {
 void ac::VideoImageBlend(cv::Mat &frame) {
     if(v_cap.isOpened() == false || blend_set == false)
         return;
-    
     cv::Mat vframe,reimage;
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
@@ -136,7 +135,7 @@ void ac::VideoImageBlend(cv::Mat &frame) {
             }
         };
         UseMultipleThreads(frame, getThreadCount(), callback);
-        AddInvert(frame);
     }
+    AddInvert(frame);
 }
 
