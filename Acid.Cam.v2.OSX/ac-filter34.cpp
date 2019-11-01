@@ -139,3 +139,16 @@ void ac::VideoImageBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::VideoCycleReverse(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(reframe, copy1, frame, 0.5, 0.5);
+        CycleShiftRGB(frame);
+        MirrorLeft(frame);
+    }
+    AddInvert(frame);
+}
+
