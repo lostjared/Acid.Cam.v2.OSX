@@ -188,4 +188,22 @@ void ac::VideoStrobeFrameOnOff(cv::Mat &frame) {
         }
     }
     index = (index == 0) ? 1 : 0;
+    AddInvert(frame);
+}
+
+void ac::VideoMirror(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        static double alpha = 1.0;
+        static int dir = 1;
+        cv::Mat reframe, copy1 = frame.clone();
+        ac_resize(vframe, reframe, frame.size());
+        MirrorLeftBottomToTop(reframe);
+        MirrorRightTopToBottom(copy1);
+        AlphaBlendDouble(reframe, copy1, frame, alpha, (1-alpha));
+        AlphaMovementMaxMin(alpha, dir, 0.005, 1.0, 0.5);
+    }
+    AddInvert(frame);
 }
