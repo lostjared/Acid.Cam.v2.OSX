@@ -140,6 +140,8 @@ void ac::VideoImageBlend(cv::Mat &frame) {
 }
 
 void ac::VideoCycleReverse(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
     cv::Mat vframe;
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
@@ -153,6 +155,8 @@ void ac::VideoCycleReverse(cv::Mat &frame) {
 }
 
 void ac::VideoCycleMedianReverse(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
     cv::Mat vframe;
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
