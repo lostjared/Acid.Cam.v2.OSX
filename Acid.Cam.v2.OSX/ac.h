@@ -1801,6 +1801,7 @@ namespace ac {
     void VideoImageBlend(cv::Mat &frame);
     void VideoCycleReverse(cv::Mat &frame);
     void VideoCycleMedianReverse(cv::Mat &frame);
+    void VideoStrobeFrameOnOff(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

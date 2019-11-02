@@ -169,3 +169,23 @@ void ac::VideoCycleMedianReverse(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoStrobeFrameOnOff(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static int index = 0;
+    if(index == 0) {
+        cv::Mat copy1 = frame.clone();
+        Negate(copy1);
+        copy1.copyTo(frame);
+    } else {
+        cv::Mat vframe;
+        if(VideoFrame(vframe)) {
+            cv::Mat reframe;
+            ac_resize(vframe, reframe, frame.size());
+            Negate(reframe);
+            reframe.copyTo(frame);
+        }
+    }
+    index = (index == 0) ? 1 : 0;
+}
