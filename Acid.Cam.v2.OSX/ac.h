@@ -1804,6 +1804,7 @@ namespace ac {
     void VideoStrobeFrameOnOff(cv::Mat &frame);
     void VideoMirror(cv::Mat &frame);
     void VideoMedianBlendScale(cv::Mat &frame);
+    void VideoMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

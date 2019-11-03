@@ -225,3 +225,22 @@ void ac::VideoMedianBlendScale(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoMedianBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat vframe;
+    static double alpha = 1.0;
+    static int dir = 1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        MedianBlendMultiThread(copy1);
+        MedianBlendMultiThread(reframe);
+        AlphaBlendDouble(reframe, copy1, frame, alpha, (1-alpha));
+        AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+    }
+    AddInvert(frame);
+
+}
