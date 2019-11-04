@@ -242,5 +242,22 @@ void ac::VideoMedianBlend(cv::Mat &frame) {
         AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
     }
     AddInvert(frame);
+}
 
+void ac::VideoBlendSubFilter(cv::Mat &frame) {
+    if(v_cap.isOpened() == false || subfilter == -1 || draw_strings[subfilter] == "VideoBlendSubFilter")
+        return;
+    cv::Mat vframe;
+    cv::Mat copy1 = frame.clone();
+    if(VideoFrame(vframe)) {
+        static double alpha = 1.0;
+        static int dir = 1;
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        CallFilter(subfilter, copy1);
+        AlphaBlendDouble(reframe, copy1, frame, alpha, (1-alpha));
+        AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.5);
+    }
+    AddInvert(frame);
 }
