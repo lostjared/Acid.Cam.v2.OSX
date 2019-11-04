@@ -289,3 +289,17 @@ void ac::VideoLoFiBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoLoFiSourceNormal(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe, cpframe;
+        ac_resize(vframe, reframe, cv::Size(320, 240));
+        ac_resize(reframe, cpframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(cpframe, copy1, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
