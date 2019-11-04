@@ -261,3 +261,15 @@ void ac::VideoBlendSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoLoFi(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, cv::Size(320, 240));
+        ac_resize(reframe, frame, frame.size());
+    }
+    AddInvert(frame);
+}
