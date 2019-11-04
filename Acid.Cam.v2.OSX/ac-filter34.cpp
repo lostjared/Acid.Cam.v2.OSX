@@ -273,3 +273,19 @@ void ac::VideoLoFi(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoLoFiBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, cv::Size(320, 240));
+        cv::Mat copy1;
+        ac_resize(frame, copy1, cv::Size(320, 240));
+        cv::Mat output;
+        AlphaBlendDouble(reframe, copy1, output, 0.5, 0.5);
+        ac_resize(output, frame, frame.size());
+    }
+    AddInvert(frame);
+}
