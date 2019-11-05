@@ -384,3 +384,57 @@ void ac::VideoDarkenBlend75(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoBlendSmooth8(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static constexpr int Size = 8;
+    static MatrixCollection<Size> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone(), outframe;
+        AlphaBlendDouble(reframe, copy1, outframe, 0.5, 0.5);
+        collection.shiftFrames(outframe);
+        Smooth(outframe, &collection, false);
+        outframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoBlendSmooth16(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static constexpr int Size = 16;
+    static MatrixCollection<Size> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone(), outframe;
+        AlphaBlendDouble(reframe, copy1, outframe, 0.5, 0.5);
+        collection.shiftFrames(outframe);
+        Smooth(outframe, &collection, false);
+        outframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoBlendSmooth32(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone(), outframe;
+        AlphaBlendDouble(reframe, copy1, outframe, 0.5, 0.5);
+        collection.shiftFrames(outframe);
+        Smooth(outframe, &collection, false);
+        outframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
