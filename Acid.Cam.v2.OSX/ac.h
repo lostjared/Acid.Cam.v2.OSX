@@ -1812,6 +1812,9 @@ namespace ac {
     void VideoDarken25(cv::Mat &frame);
     void VideoDarken50(cv::Mat &frame);
     void VideoDarken75(cv::Mat &frame);
+    void VideoDarkenBlend25(cv::Mat &frame);
+    void VideoDarkenBlend50(cv::Mat &frame);
+    void VideoDarkenBlend75(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

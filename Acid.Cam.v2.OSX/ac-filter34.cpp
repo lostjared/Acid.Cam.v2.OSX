@@ -337,8 +337,50 @@ void ac::VideoDarken75(cv::Mat &frame) {
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
         ac_resize(vframe, reframe, frame.size());
-        DarkenImage(reframe, 3);
+        DarkenImage(reframe, 6);
         reframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoDarkenBlend25(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        DarkenImage(reframe, 4);
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(reframe, copy1, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoDarkenBlend50(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        DarkenImage(reframe, 2);
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(reframe, copy1, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoDarkenBlend75(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        DarkenImage(reframe, 6);
+        cv::Mat copy1 = frame.clone();
+        AlphaBlendDouble(reframe, copy1, frame, 0.5, 0.5);
     }
     AddInvert(frame);
 }
