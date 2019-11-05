@@ -303,3 +303,42 @@ void ac::VideoLoFiSourceNormal(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoDarken25(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        DarkenImage(reframe, 4);
+        reframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoDarken50(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        DarkenImage(reframe, 2);
+        reframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoDarken75(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        DarkenImage(reframe, 3);
+        reframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}

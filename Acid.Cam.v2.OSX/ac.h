@@ -1809,6 +1809,9 @@ namespace ac {
     void VideoLoFi(cv::Mat &frame);
     void VideoLoFiBlend(cv::Mat &frame);
     void VideoLoFiSourceNormal(cv::Mat &frame);
+    void VideoDarken25(cv::Mat &frame);
+    void VideoDarken50(cv::Mat &frame);
+    void VideoDarken75(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
