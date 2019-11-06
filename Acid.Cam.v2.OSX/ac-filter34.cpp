@@ -488,3 +488,8 @@ void ac::VideoXorSelfScale(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::MedianBlendNoBlurWithColor(cv::Mat &frame) {
+    BlendWithColor(frame);
+    NoMedianBlurBlendMultiThread(frame);
+}

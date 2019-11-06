@@ -1820,6 +1820,7 @@ namespace ac {
     void VideoBlendSmooth32(cv::Mat &frame);
     void VideoXorSource(cv::Mat &frame);
     void VideoXorSelfScale(cv::Mat &frame);
+    void MedianBlendNoBlurWithColor(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
