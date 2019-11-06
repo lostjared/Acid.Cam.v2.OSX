@@ -438,3 +438,26 @@ void ac::VideoBlendSmooth32(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoXorSource(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = pixel[j]^pix[j];
+                    }
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+    }
+    AddInvert(frame);
+}
