@@ -461,3 +461,30 @@ void ac::VideoXorSource(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoXorSelfScale(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    static double alpha = 1.0;
+    static int dir = 1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((static_cast<int>(pixel[j] * alpha))^static_cast<int>(pix[j] * (1-alpha)));
+                    }
+                    
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
+}
