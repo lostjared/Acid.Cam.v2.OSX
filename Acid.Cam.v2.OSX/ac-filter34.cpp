@@ -493,3 +493,24 @@ void ac::MedianBlendNoBlurWithColor(cv::Mat &frame) {
     BlendWithColor(frame);
     NoMedianBlurBlendMultiThread(frame);
 }
+
+void ac::VideoImageSmooth(cv::Mat &frame) {
+    if(blend_set == false || v_cap.isOpened() == false)
+        return;
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(reframe);
+        collection.shiftFrames(reimage);
+        cv::Mat copy1 = frame.clone();
+        Smooth(copy1, &collection, false);
+        cv::Mat copy2 = frame.clone();
+        AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
