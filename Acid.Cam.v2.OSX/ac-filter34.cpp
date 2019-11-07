@@ -549,3 +549,29 @@ void ac::VideoColorMapAlphaBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ReduceColors(cv::Mat &frame) {
+    static int lazy = 0;
+    static unsigned char colors[255];
+    if(lazy == 0) {
+        unsigned char val = 75;
+        for(int z = 1; z < 255; ++z) {
+            if((z%75) == 0)
+                val += 75;
+            colors[z] = val;
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = colors[pixel[j]];
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

@@ -1825,6 +1825,7 @@ namespace ac {
     void ColorMapFilter(cv::Mat &frame);
     void VideoColorMap(cv::Mat &frame);
     void VideoColorMapAlphaBlend(cv::Mat &frame);
+    void ReduceColors(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
