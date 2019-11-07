@@ -2448,7 +2448,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cEl-OF-u4t">
-                        <rect key="frame" x="18" y="200" width="169" height="17"/>
+                        <rect key="frame" x="15" y="212" width="169" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Pixel Collection Intensity:" id="PCT-2o-Wgj">
                             <font key="font" metaFont="systemBold"/>
@@ -2457,7 +2457,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="HdS-hD-sK5">
-                        <rect key="frame" x="18" y="119" width="95" height="17"/>
+                        <rect key="frame" x="18" y="131" width="95" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="FFMPEG Path:" id="Juh-LC-BAQ">
                             <font key="font" metaFont="systemBold"/>
@@ -2466,21 +2466,12 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="3ij-va-XEw">
-                        <rect key="frame" x="121" y="117" width="144" height="22"/>
+                        <rect key="frame" x="121" y="128" width="144" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="/usr/local/bin/ffmpeg" drawsBackground="YES" id="F01-Vh-i7B">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="DVF-1W-PUb">
-                        <rect key="frame" x="20" y="106" width="106" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Syphon Output:" id="sbz-Fz-zif">
-                            <font key="font" metaFont="systemBold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" id="jCa-sP-gpI">
@@ -2499,7 +2490,7 @@ Gw
                         </popUpButtonCell>
                     </popUpButton>
                     <button verticalHuggingPriority="750" id="660-SV-BgH">
-                        <rect key="frame" x="154" y="13" width="113" height="32"/>
+                        <rect key="frame" x="158" y="13" width="113" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Save Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lIj-db-Mzb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2510,7 +2501,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="L1P-rR-fnD">
-                        <rect key="frame" x="18" y="161" width="171" height="18"/>
+                        <rect key="frame" x="18" y="157" width="171" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Enable FFMPEG Support" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Bof-Zs-x7Q">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2528,7 +2519,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Ktu-dN-RjQ">
-                        <rect key="frame" x="18" y="171" width="134" height="17"/>
+                        <rect key="frame" x="15" y="183" width="134" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Max Stored Frames:" id="P2U-9o-PKM">
                             <font key="font" metaFont="systemBold"/>
@@ -2585,7 +2576,7 @@ Gw
                         </connections>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="7Ik-N1-bfN">
-                        <rect key="frame" x="22" y="37" width="104" height="17"/>
+                        <rect key="frame" x="22" y="49" width="104" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Colormap Filter" id="Uig-6M-lya">
                             <font key="font" metaFont="systemBold"/>
@@ -2593,9 +2584,18 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="DVF-1W-PUb">
+                        <rect key="frame" x="18" y="103" width="106" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Syphon Output:" id="sbz-Fz-zif">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-3084.5" y="-2401"/>
+            <point key="canvasLocation" x="-3081.5" y="-2408"/>
         </window>
         <window title="Acid Cam - Syphon Server" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="ueZ-Gv-BFp">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
