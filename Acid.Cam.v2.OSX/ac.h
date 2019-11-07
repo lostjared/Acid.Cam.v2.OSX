@@ -1823,7 +1823,7 @@ namespace ac {
     void MedianBlendNoBlurWithColor(cv::Mat &frame);
     void VideoImageSmooth(cv::Mat &frame);
     void ColorMapFilter(cv::Mat &frame);
-    int  getColorMapFilter();
+    void VideoColorMap(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1915,6 +1915,7 @@ namespace ac {
     void swapColorState(const bool &b);
     bool getColorState();
     void setFilterColorMap(int color);
+    int  getColorMapFilter();
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

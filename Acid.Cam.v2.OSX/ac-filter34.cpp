@@ -522,3 +522,16 @@ void ac::ColorMapFilter(cv::Mat &frame) {
     setColorMap(val-1, frame);
     AddInvert(frame);
 }
+
+void ac::VideoColorMap(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        ColorMapFilter(reframe);
+        reframe.copyTo(frame);
+    }
+    AddInvert(frame);
+}
