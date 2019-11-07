@@ -575,3 +575,36 @@ void ac::ReduceColors(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ReduceColorsRandom(cv::Mat &frame) {
+    static int lazy = 0;
+    static unsigned char colors_r[255], colors_g[255], colors_b[255];
+    if(lazy == 0 || reset_alpha == true) {
+        unsigned char val_r = rand()%255;
+        unsigned char val_g = rand()%255;
+        unsigned char val_b = rand()%255;
+        for(int z = 1; z < 255; ++z) {
+            if((z%75) == 0) {
+                val_r = rand()%255;
+                val_g = rand()%255;
+                val_b = rand()%255;
+            }
+            colors_r[z] = val_r;
+            colors_g[z] = val_g;
+            colors_b[z] = val_b;
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[0] = colors_b[pixel[0]];
+                pixel[1] = colors_g[pixel[1]];
+                pixel[2] = colors_r[pixel[2]];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
