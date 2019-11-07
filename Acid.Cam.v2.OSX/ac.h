@@ -1824,6 +1824,7 @@ namespace ac {
     void VideoImageSmooth(cv::Mat &frame);
     void ColorMapFilter(cv::Mat &frame);
     void VideoColorMap(cv::Mat &frame);
+    void VideoColorMapAlphaBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
