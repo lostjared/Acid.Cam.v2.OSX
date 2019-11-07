@@ -1822,6 +1822,8 @@ namespace ac {
     void VideoXorSelfScale(cv::Mat &frame);
     void MedianBlendNoBlurWithColor(cv::Mat &frame);
     void VideoImageSmooth(cv::Mat &frame);
+    void ColorMapFilter(cv::Mat &frame);
+    int  getColorMapFilter();
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -1912,6 +1914,7 @@ namespace ac {
     int getCurrentAllocatedFrames();
     void swapColorState(const bool &b);
     bool getColorState();
+    void setFilterColorMap(int color);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

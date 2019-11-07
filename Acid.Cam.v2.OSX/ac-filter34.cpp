@@ -514,3 +514,11 @@ void ac::VideoImageSmooth(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorMapFilter(cv::Mat &frame) {
+    int val = getColorMapFilter();
+    if(val == -1 || val == 0)
+        return;
+    setColorMap(val-1, frame);
+    AddInvert(frame);
+}

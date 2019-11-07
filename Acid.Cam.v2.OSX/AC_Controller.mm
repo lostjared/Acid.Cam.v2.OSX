@@ -2266,6 +2266,10 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Invalid Maximum Stored Frames (based on your systems memory.)", @"Invalid Maximum Stored Frames. Requires a value of 300 or greater.", @"Ok", nil, nil);
         return;
     }
+    
+    NSInteger value = [set_color_map indexOfSelectedItem];
+    ac::setFilterColorMap(static_cast<int>(value));
+    
     log << "Maximum Stored Frames: " << max << "\n";
     ac::setMaxAllocated(static_cast<int>(max));
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];

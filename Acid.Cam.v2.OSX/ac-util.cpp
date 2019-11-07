@@ -54,6 +54,7 @@ namespace ac {
     int allocated_max = 1500;
     bool release_frames = false;
     cv::VideoCapture v_cap;
+    int color_map_color = 0;
 }
 
 void ac::init() {
@@ -1404,4 +1405,12 @@ bool ac::VideoFrame(cv::Mat &frame) {
         return true;
     }
     return false;
+}
+
+void ac::setFilterColorMap(int color) {
+    color_map_color = color;
+}
+
+int  ac::getColorMapFilter() {
+    return color_map_color;
 }
