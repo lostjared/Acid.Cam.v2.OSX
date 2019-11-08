@@ -1830,6 +1830,7 @@ namespace ac {
     void ReduceColorsRed(cv::Mat &frame);
     void ReduceColorsGreen(cv::Mat &frame);
     void ReduceColorsBlue(cv::Mat &frame);
+    void BlendRandomPixels(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
