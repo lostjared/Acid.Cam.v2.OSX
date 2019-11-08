@@ -608,3 +608,87 @@ void ac::ReduceColorsRandom(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ReduceColorsRed(cv::Mat &frame) {
+    static int lazy = 0;
+    static unsigned char colors_r[255] = {0};
+    if(lazy == 0 || reset_alpha == true) {
+        unsigned char val_r = 75;
+        static int index = 0;
+        for(int z = 1; z < 255; ++z) {
+            ++index;
+            if(index >  75) {
+                index = 0;
+                val_r += 75;
+            }
+            colors_r[z] = val_r;
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[2] = colors_r[pixel[2]];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::ReduceColorsGreen(cv::Mat &frame) {
+    static int lazy = 0;
+    static unsigned char colors_r[255] = {0};
+    if(lazy == 0 || reset_alpha == true) {
+        unsigned char val_r = 75;
+        static int index = 0;
+        for(int z = 1; z < 255; ++z) {
+            ++index;
+            if(index >  75) {
+                index = 0;
+                val_r += 75;
+            }
+            colors_r[z] = val_r;
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[1] = colors_r[pixel[1]];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
+
+void ac::ReduceColorsBlue(cv::Mat &frame) {
+    static int lazy = 0;
+    static unsigned char colors_r[255] = {0};
+    if(lazy == 0 || reset_alpha == true) {
+        unsigned char val_r = 75;
+        static int index = 0;
+        for(int z = 1; z < 255; ++z) {
+            ++index;
+            if(index >  75) {
+                index = 0;
+                val_r += 75;
+            }
+            colors_r[z] = val_r;
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                pixel[0] = colors_r[pixel[0]];
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
