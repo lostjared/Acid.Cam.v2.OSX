@@ -1831,6 +1831,8 @@ namespace ac {
     void ReduceColorsGreen(cv::Mat &frame);
     void ReduceColorsBlue(cv::Mat &frame);
     void BlendRandomPixels(cv::Mat &frame);
+    void MedianBlendMultiThread_LoFi(cv::Mat &frame);
+    void ExpandFrame(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
