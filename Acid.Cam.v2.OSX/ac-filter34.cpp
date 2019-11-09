@@ -765,6 +765,7 @@ void ac::ExpandFrame(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 
 void ac::ExpandImage(cv::Mat &frame) {
@@ -812,6 +813,60 @@ void ac::ExpandImage(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix = reframe.at<cv::Vec3b>(z+pos_y, i+pos_x);
                 pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ExpandVideo(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat reimage;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        ac_resize(vframe, reimage, frame.size());
+        static cv::Size start_size;
+        static int pos_x = 0, pos_y = 0;
+        static int size_w = 0, size_h = 0;
+        static int dir = 1;
+        static int speed = 8;
+        static constexpr int max_size = (3840 * 2);
+        if(start_size != frame.size()) {
+            start_size = frame.size();
+            size_w = start_size.width;
+            size_h = start_size.height;
+            pos_x = 0;
+            pos_y = 0;
+            dir = 1;
+            speed = 1;
+        }
+        cv::Mat reframe;
+        ac_resize(reimage, reframe, cv::Size(size_w, size_h));
+        if(dir == 1) {
+            size_w += speed;
+            size_h += speed;
+            pos_x += speed;
+            pos_y += speed;
+            if(size_w >= max_size) {
+                dir = 0;
+            }
+        } else if(dir == 0) {
+            size_w -= speed;
+            size_h -= speed;
+            pos_x -= speed;
+            pos_y -= speed;
+            if(size_w <= 640) {
+                dir = 0;
+            }
+        }
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z+pos_y, i+pos_x);
+                    pixel = pix;
+                }
             }
         }
     }

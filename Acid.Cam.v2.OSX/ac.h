@@ -1834,6 +1834,7 @@ namespace ac {
     void MedianBlendMultiThread_LoFi(cv::Mat &frame);
     void ExpandFrame(cv::Mat &frame);
     void ExpandImage(cv::Mat &frame);
+    void ExpandVideo(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
