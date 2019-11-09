@@ -918,5 +918,50 @@ void ac::ColorIncreaseFadeRGB(cv::Mat &frame) {
 }
 
 void ac::ColorIncreaseInOutRGB(cv::Mat &frame) {
-    
+    static double speed = 1;
+    static int speed_dir = 1;
+    static int stop[3] = {-1, -1, -1 };
+    static int end[3] = {-1, -1, -1};
+    static int start[3] = {-1, -1, -1};
+    static double alpha1 = 1.0;
+    static int dir1 = 1;
+    static int lazy = 0;
+    if(lazy == 0) {
+        for(int j = 0; j < 3; ++j) {
+            end[j] = rand()%255;
+            stop[j] = rand()%255;
+            start[j] = rand()%255;
+        }
+        lazy = 1;
+    }
+    static int dir[3] = {1, 1, 1};
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha1 * pixel[j]) + ((1-alpha1) * stop[j]));
+                }
+            }
+        }
+    };
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            stop[j] += static_cast<int>(speed);
+            if(stop[j] >= end[j]) {
+                dir[j] = 0;
+                end[j] = rand()%255;
+            }
+        } else {
+            stop[j] -= static_cast<int>(speed);
+            if(stop[j] <= start[j]) {
+                start[j] = rand()%255;
+                dir[j] = 1;
+            }
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(speed, speed_dir, 0.01, 25, 1);
 }
