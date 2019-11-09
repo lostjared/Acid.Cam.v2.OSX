@@ -926,12 +926,13 @@ void ac::ColorIncreaseInOutRGB(cv::Mat &frame) {
     static double alpha1 = 1.0;
     static int dir1 = 1;
     static int lazy = 0;
-    if(lazy == 0) {
+    if(reset_alpha == true || lazy == 0) {
         for(int j = 0; j < 3; ++j) {
             end[j] = rand()%255;
             stop[j] = rand()%255;
             start[j] = rand()%255;
         }
+        speed = 1;
         lazy = 1;
     }
     static int dir[3] = {1, 1, 1};
