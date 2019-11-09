@@ -916,3 +916,7 @@ void ac::ColorIncreaseFadeRGB(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::ColorIncreaseInOutRGB(cv::Mat &frame) {
+    
+}
