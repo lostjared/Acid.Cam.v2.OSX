@@ -872,3 +872,47 @@ void ac::ExpandVideo(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorIncreaseFadeRGB(cv::Mat &frame) {
+    static constexpr int speed = 1;
+    static int stop[3] = {-1, -1, -1 };
+    static int end[3] = {-1, -1, -1};
+    static int start[3] = {-1, -1, -1};
+    static int lazy = 0;
+    if(lazy == 0) {
+        for(int j = 0; j < 3; ++j) {
+            end[j] = rand()%255;
+            stop[j] = rand()%255;
+            start[j] = rand()%255;
+        }
+        lazy = 1;
+    }
+    static int dir[3] = {1, 1, 1};
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * stop[j]));
+                }
+            }
+        }
+    };
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            stop[j] += speed;
+            if(stop[j] >= end[j]) {
+                dir[j] = 0;
+                end[j] = rand()%255;
+            }
+        } else {
+            stop[j] -= speed;
+            if(stop[j] <= start[j]) {
+                start[j] = rand()%255;
+                dir[j] = 1;
+            }
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

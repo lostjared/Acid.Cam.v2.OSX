@@ -1835,6 +1835,7 @@ namespace ac {
     void ExpandFrame(cv::Mat &frame);
     void ExpandImage(cv::Mat &frame);
     void ExpandVideo(cv::Mat &frame);
+    void ColorIncreaseFadeRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
