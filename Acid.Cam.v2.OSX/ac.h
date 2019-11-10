@@ -1839,6 +1839,7 @@ namespace ac {
     void ColorIncreaseInOutRGB(cv::Mat &frame);
     void AlphaVideoXor(cv::Mat &frame);
     void DarkScaleNoBlur(cv::Mat &frame);
+    void LightBlur(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
