@@ -997,3 +997,22 @@ void ac::AlphaVideoXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir1, 0.01, 0.5, 0.1);
     AddInvert(frame);
 }
+
+void ac::DarkScaleNoBlur(cv::Mat &frame) {
+    static double alpha = 5.0;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = cv::saturate_cast<unsigned char>((pixel[j] * 0.5) + ((alpha * pixel[j]) * 0.5));
+                }
+            }
+        }
+    };
+    static int dir = 1;
+    AlphaMovementMaxMin(alpha, dir, 0.01, 10.0, 5.0);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    NoMedianBlurBlendMultiThread(frame);
+    AddInvert(frame);
+}

@@ -1838,6 +1838,7 @@ namespace ac {
     void ColorIncreaseFadeRGB(cv::Mat &frame);
     void ColorIncreaseInOutRGB(cv::Mat &frame);
     void AlphaVideoXor(cv::Mat &frame);
+    void DarkScaleNoBlur(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
