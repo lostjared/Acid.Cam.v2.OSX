@@ -966,3 +966,34 @@ void ac::ColorIncreaseInOutRGB(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 1.0, 0.1);
     AlphaMovementMaxMin(speed, speed_dir, 0.01, 25, 1);
 }
+
+void ac::AlphaVideoXor(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static double rgb_values[3] = {1,25,75};
+    static int dir[3] = {1, 0, 1};
+    static double alpha = 0.5;
+    static int dir1 = 1;
+    cv::Mat vframe;
+    cv::Mat reframe;
+    if(VideoFrame(vframe)) {
+        ac_resize(vframe, reframe, frame.size());
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>(alpha * pixel[j])+static_cast<unsigned char>(rgb_values[j])^pix[j];
+                    }
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+    }
+    for(int j = 0; j < 3; ++j) {
+        AlphaMovementMaxMin(rgb_values[j], dir[j], 0.2, 255.0, 1.0);
+    }
+    AlphaMovementMaxMin(alpha, dir1, 0.01, 0.5, 0.1);
+    AddInvert(frame);
+}
