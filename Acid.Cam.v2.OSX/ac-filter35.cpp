@@ -83,3 +83,12 @@ void ac::ColorFadeMedianBlendMultiThread(cv::Mat &frame) {
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::ColorFadeBlendMedianBlendMultiThread(cv::Mat &frame) {
+    ColorIncreaseFadeRGB(frame);
+    BlendWithColor(frame);
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    MatrixBlend(frame, &collection);
+    AddInvert(frame);
+}
