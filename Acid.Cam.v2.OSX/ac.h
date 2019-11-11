@@ -1840,6 +1840,8 @@ namespace ac {
     void AlphaVideoXor(cv::Mat &frame);
     void DarkScaleNoBlur(cv::Mat &frame);
     void LightBlur(cv::Mat &frame);
+    void LightMedianBlendMultiThread(cv::Mat &frame);
+    void ColorFadeMedianBlendMultiThread(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

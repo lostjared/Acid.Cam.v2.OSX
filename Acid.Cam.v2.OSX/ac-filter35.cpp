@@ -62,4 +62,24 @@ void ac::LightBlur(cv::Mat &frame) {
     blur = frame.getUMat(cv::ACCESS_FAST);
     cv::GaussianBlur(blur, out, cv::Size(3, 3), 0, 0);
     out.copyTo(frame);
+    AddInvert(frame);
+}
+
+void ac::LightMedianBlendMultiThread(cv::Mat &frame) {
+    int r = rand()%2;
+    for(int j = 0; j < r; ++j)
+        LightBlur(frame);
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    MatrixBlend(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::ColorFadeMedianBlendMultiThread(cv::Mat &frame) {
+    ColorIncreaseFadeRGB(frame);
+    MedianBlur(frame);
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    MatrixBlend(frame, &collection);
+    AddInvert(frame);
 }
