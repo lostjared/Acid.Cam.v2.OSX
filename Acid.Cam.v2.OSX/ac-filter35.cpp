@@ -66,10 +66,11 @@ void ac::LightBlur(cv::Mat &frame) {
 }
 
 void ac::LightMedianBlendMultiThread(cv::Mat &frame) {
+    static constexpr int Size = 8;
     int r = rand()%2;
     for(int j = 0; j < r; ++j)
         LightBlur(frame);
-    static MatrixCollection<8> collection;
+    static MatrixCollection<Size> collection;
     collection.shiftFrames(frame);
     MatrixBlend(frame, &collection);
     AddInvert(frame);
@@ -77,26 +78,38 @@ void ac::LightMedianBlendMultiThread(cv::Mat &frame) {
 
 void ac::ColorFadeMedianBlendMultiThread(cv::Mat &frame) {
     ColorIncreaseFadeRGB(frame);
+    static constexpr int Size = 8;
     MedianBlur(frame);
-    static MatrixCollection<8> collection;
+    static MatrixCollection<Size> collection;
     collection.shiftFrames(frame);
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
 
 void ac::ColorFadeBlendMedianBlendMultiThread(cv::Mat &frame) {
+    static constexpr int Size = 8;
     ColorIncreaseFadeRGB(frame);
     BlendWithColor(frame);
-    static MatrixCollection<8> collection;
+    static MatrixCollection<Size> collection;
     collection.shiftFrames(frame);
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThread32(cv::Mat &frame) {
-    static MatrixCollection<32> collection;
+    static constexpr int Size = 32;
+    static MatrixCollection<Size> collection;
     collection.shiftFrames(frame);
     MedianBlur(frame);
     MatrixBlend(frame, &collection, 4);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendMultiThread4(cv::Mat &frame) {
+    static constexpr int Size = 4;
+    static MatrixCollection<Size> collection;
+    collection.shiftFrames(frame);
+    MedianBlur(frame);
+    MatrixBlend(frame, &collection);
     AddInvert(frame);
 }

@@ -1844,6 +1844,7 @@ namespace ac {
     void ColorFadeMedianBlendMultiThread(cv::Mat &frame);
     void ColorFadeBlendMedianBlendMultiThread(cv::Mat &frame);
     void MedianBlendMultiThread32(cv::Mat &frame);
+    void MedianBlendMultiThread4(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
