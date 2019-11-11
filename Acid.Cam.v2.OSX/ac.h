@@ -1843,6 +1843,7 @@ namespace ac {
     void LightMedianBlendMultiThread(cv::Mat &frame);
     void ColorFadeMedianBlendMultiThread(cv::Mat &frame);
     void ColorFadeBlendMedianBlendMultiThread(cv::Mat &frame);
+    void MedianBlendMultiThread32(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2244,7 +2245,7 @@ namespace ac {
     }
     
     template<int Size>
-    void MatrixBlend(cv::Mat &frame, MatrixCollection<Size> *collection) {
+    void MatrixBlend(cv::Mat &frame, MatrixCollection<Size> *collection, int div_val = 1) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Scalar value;
@@ -2257,7 +2258,7 @@ namespace ac {
                 }
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    int val = 1+static_cast<int>(value[j]);
+                    int val = 1+static_cast<int>(value[j]/div_val);
                     pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
                 }
             }

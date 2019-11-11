@@ -92,3 +92,11 @@ void ac::ColorFadeBlendMedianBlendMultiThread(cv::Mat &frame) {
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::MedianBlendMultiThread32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    MedianBlur(frame);
+    MatrixBlend(frame, &collection, 4);
+    AddInvert(frame);
+}
