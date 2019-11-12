@@ -6,16 +6,7 @@
 
 To be able to use all the filters in this app your system should have at lest 8 GB of ram.
 
-When writing C++ using libacidcam  do not call another mulithreaded filter
-
-from within a mulithreaded filter inside its loop callback
-
-5.20.19: I upgraded the program's OpenCV library files to version 3.4.6, and some of it has changed. The OpenCV header files included now have a warning from possible misuse of a comma. Also, I am on Mojave, and the GUI scales windows up and down automatically while still having a resolution of 5K.  Problem is OpenCV has code that resizes the window, and it is not sized correctly. I will work on fixing these issues, but the version of OpenCV I compiled contains OpenCL support. Just on my computer with the new libraries, it moves much faster.
-
-To watch all the videos I have created with this project checkout my YouTube playlist:
-https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
-
-Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
+When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter inside its loop callback
 
 Acid Cam distorts video to create art. It is designed to bo used with other software (Syphon)  or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
 
@@ -26,7 +17,14 @@ starting image/video to use with other tools.
 
 I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
 
-Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting results. The project currently has over 1,400 filters to mix and match. 
+Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting effects. The project currently has over 1,600 filters to mix and match and supports output as MPEG-4 or H.264. 
+
+5.20.19: I upgraded the program's OpenCV library files to version 3.4.6, and some of it has changed. The OpenCV header files included now have a warning from possible misuse of a comma. Also, I am on Mojave, and the GUI scales windows up and down automatically while still having a resolution of 5K.  Problem is OpenCV has code that resizes the window, and it is not sized correctly. I will work on fixing these issues, but the version of OpenCV I compiled contains OpenCL support. Just on my computer with the new libraries, it moves much faster.
+
+To watch all the videos I have created with this project checkout my YouTube playlist:
+https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
+
+Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
 
 NOTE: Some of the filters that contain either a 720 or 1080 at the end require a lot of ram if you do not have enough the program will exit.
 
