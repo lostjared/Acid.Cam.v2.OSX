@@ -113,3 +113,9 @@ void ac::MedianBlendMultiThread4(cv::Mat &frame) {
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::MedianBlendFadeWithColor(cv::Mat &frame) {
+    ColorIncreaseFadeRGB(frame);
+    BlendWithColor(frame);
+    MedianBlendMultiThread4(frame);
+}
