@@ -119,3 +119,10 @@ void ac::MedianBlendFadeWithColor(cv::Mat &frame) {
     BlendWithColor(frame);
     MedianBlendMultiThread4(frame);
 }
+
+void ac::GaussianBlurMild(cv::Mat &frame) {
+    cv::UMat blur, out;
+    blur = frame.getUMat(cv::ACCESS_FAST);
+    cv::GaussianBlur(blur, out, cv::Size(3, 3), 0, 0);
+    out.copyTo(frame);
+}
