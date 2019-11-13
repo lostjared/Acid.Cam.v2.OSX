@@ -118,6 +118,7 @@ void ac::MedianBlendFadeWithColor(cv::Mat &frame) {
     ColorIncreaseFadeRGB(frame);
     BlendWithColor(frame);
     MedianBlendMultiThread4(frame);
+    AddInvert(frame);
 }
 
 void ac::GaussianBlurMild(cv::Mat &frame) {
@@ -125,4 +126,14 @@ void ac::GaussianBlurMild(cv::Mat &frame) {
     blur = frame.getUMat(cv::ACCESS_FAST);
     cv::GaussianBlur(blur, out, cv::Size(3, 3), 0, 0);
     out.copyTo(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendWithCollectionColor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    MedianBlur(frame);
+    ColorIncreaseFadeRGB(frame);
+    collection.shiftFrames(frame);
+    MatrixBlend(frame, &collection);
+    AddInvert(frame);
 }
