@@ -147,3 +147,15 @@ void ac::MedianBlendWithColorInOutRGB(cv::Mat &frame) {
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::MedianBlendWithCollection16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    cv::Mat copy1 = frame.clone();
+    BlendWithColor(copy1);
+    ColorIncreaseFadeRGB(copy1);
+    collection.shiftFrames(copy1);
+    Smooth(copy1, &collection);
+    MatrixBlend(copy1, &collection);
+    copy1.copyTo(frame);
+    AddInvert(frame);
+}

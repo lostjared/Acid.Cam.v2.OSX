@@ -1849,6 +1849,7 @@ namespace ac {
     void GaussianBlurMild(cv::Mat &frame);
     void MedianBlendWithColorValue(cv::Mat &frame);
     void MedianBlendWithColorInOutRGB(cv::Mat &frame);
+    void MedianBlendWithCollection16(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
