@@ -129,7 +129,7 @@ void ac::GaussianBlurMild(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::MedianBlendWithColorInOutRGBColor(cv::Mat &frame) {
+void ac::MedianBlendWithColorValue(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     MedianBlur(frame);
     ColorIncreaseFadeRGB(frame);

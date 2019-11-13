@@ -1847,7 +1847,7 @@ namespace ac {
     void MedianBlendMultiThread4(cv::Mat &frame);
     void MedianBlendFadeWithColor(cv::Mat &frame);
     void GaussianBlurMild(cv::Mat &frame);
-    void MedianBlendWithColorInOutRGBColor(cv::Mat &frame);
+    void MedianBlendWithColorValue(cv::Mat &frame);
     void MedianBlendWithColorInOutRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
