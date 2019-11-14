@@ -159,3 +159,42 @@ void ac::MedianBlendWithCollection16(cv::Mat &frame) {
     copy1.copyTo(frame);
     AddInvert(frame);
 }
+
+void ac::FadeRtoGtoB(cv::Mat &frame) {
+    static int rgb = 0;
+    static int colors[3] = { 0, 0, 0 };
+    static int dir[3] = {1,1,1};
+    static constexpr int speed = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] += colors[j];
+            }
+        }
+    };
+    for(int j = 0; j < 3; ++j) {
+        if(dir[j] == 1) {
+            colors[rgb] += speed;
+            if(colors[rgb] >= 255) {
+                colors[rgb] = rand()%255;
+                dir[j] = 0;
+                ++rgb;
+                if(rgb > 2)
+                    rgb = 0;
+            }
+        } else {
+            colors[rgb] -= speed;
+            if(colors[rgb] <= 0) {
+                colors[rgb] = rand()%255;
+                dir[j] = 1;
+                ++rgb;
+                if(rgb > 2)
+                    rgb = 0;
+            }
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
