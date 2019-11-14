@@ -1851,6 +1851,7 @@ namespace ac {
     void MedianBlendWithColorInOutRGB(cv::Mat &frame);
     void MedianBlendWithCollection16(cv::Mat &frame);
     void FadeRtoGtoB(cv::Mat &frame);
+    void MedianBlendFadeRtoGtoB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

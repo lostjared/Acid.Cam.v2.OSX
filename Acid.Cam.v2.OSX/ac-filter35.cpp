@@ -198,3 +198,12 @@ void ac::FadeRtoGtoB(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendFadeRtoGtoB(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    FadeRtoGtoB(frame);
+    collection.shiftFrames(frame);
+    GaussianBlur(frame);
+    MatrixBlend(frame, &collection);
+    AddInvert(frame);
+}
