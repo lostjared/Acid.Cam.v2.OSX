@@ -360,3 +360,11 @@ void ac::FadeRandomChannel_Increase(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendFadeRandomChannel(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    FadeRandomChannel_Increase(frame);
+    collection.shiftFrames(frame);
+    MatrixBlend(frame, &collection);
+    AddInvert(frame);
+}
