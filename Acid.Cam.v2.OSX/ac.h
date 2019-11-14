@@ -1855,6 +1855,7 @@ namespace ac {
     void FadeRtoGtoB_Increase(cv::Mat &frame);
     void MedianBlendFadeRtoGtoB_Increase(cv::Mat &frame);
     void FadeRandomChannel(cv::Mat &frame);
+    void FadeRandomChannel_Increase(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

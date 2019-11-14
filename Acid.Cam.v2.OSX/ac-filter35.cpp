@@ -297,3 +297,66 @@ void ac::FadeRandomChannel(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::FadeRandomChannel_Increase(cv::Mat &frame) {
+    static int rgb = rand()%frame.channels();
+    static int colors[3] = { 0, 0, 0 };
+    static int dir[3] = {1,1,1};
+    static int speed = 1;
+    const int num = frame.channels();
+    static int speed_dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < num; ++j)
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*0.5)+(0.5*colors[j]));
+            }
+        }
+    };
+    for(int j = 0; j < num; ++j) {
+        if(dir[j] == 1) {
+            colors[rgb] += speed;
+            if(colors[rgb] >= 255) {
+                colors[rgb] = rand()%255;
+                dir[j] = 0;
+                rgb = rand()%frame.channels();
+                if(speed_dir == 1) {
+                    speed += 1;
+                    if(speed > 25) {
+                        speed = 25;
+                        speed_dir = 0;
+                    }
+                } else {
+                    speed -= 1;
+                    if(speed <= 1) {
+                        speed = 1;
+                        speed_dir = 1;
+                    }
+                }
+            }
+        } else {
+            colors[rgb] -= speed;
+            if(colors[rgb] <= 0) {
+                colors[rgb] = rand()%255;
+                dir[j] = 1;
+                rgb = rand()%frame.channels();
+                if(speed_dir == 1) {
+                    speed += 1;
+                    if(speed > 25) {
+                        speed = 25;
+                        speed_dir = 0;
+                    }
+                } else {
+                    speed -= 1;
+                    if(speed <= 1) {
+                        speed = 1;
+                        speed_dir = 1;
+                    }
+                }
+            }
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
