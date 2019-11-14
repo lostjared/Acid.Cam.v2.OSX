@@ -254,3 +254,10 @@ void ac::FadeRtoGtoB_Increase(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+// cool combo
+void ac::MedianBlendFadeRtoGtoB_Increase(cv::Mat &frame) {
+    FadeRtoGtoB_Increase(frame);
+    MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
