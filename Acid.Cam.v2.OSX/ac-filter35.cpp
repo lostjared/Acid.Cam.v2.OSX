@@ -170,7 +170,7 @@ void ac::FadeRtoGtoB(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] += colors[j];
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*0.5)+(0.5*colors[j]));
             }
         }
     };
@@ -218,7 +218,7 @@ void ac::FadeRtoGtoB_Increase(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
-                    pixel[j] += colors[j];
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*0.5)+(0.5*colors[j]));
             }
         }
     };
@@ -259,5 +259,41 @@ void ac::FadeRtoGtoB_Increase(cv::Mat &frame) {
 void ac::MedianBlendFadeRtoGtoB_Increase(cv::Mat &frame) {
     FadeRtoGtoB_Increase(frame);
     MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
+
+void ac::FadeRandomChannel(cv::Mat &frame) {
+    static int rgb = rand()%frame.channels();
+    static int colors[3] = { 0, 0, 0 };
+    static int dir[3] = {1,1,1};
+    static constexpr int speed = 1;
+    const int num = frame.channels();
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < num; ++j)
+                    pixel[j] = static_cast<unsigned char>((pixel[j]*0.5)+(0.5*colors[j]));
+            }
+        }
+    };
+    for(int j = 0; j < num; ++j) {
+        if(dir[j] == 1) {
+            colors[rgb] += speed;
+            if(colors[rgb] >= 255) {
+                colors[rgb] = rand()%255;
+                dir[j] = 0;
+                rgb = rand()%frame.channels();
+            }
+        } else {
+            colors[rgb] -= speed;
+            if(colors[rgb] <= 0) {
+                colors[rgb] = rand()%255;
+                dir[j] = 1;
+                rgb = rand()%frame.channels();
+            }
+        }
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
