@@ -372,21 +372,30 @@ void ac::MedianBlendFadeRandomChannel(cv::Mat &frame) {
 void ac::GlitchyTrails(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
-    static int square_size = frame.rows/collection.size();
+    static int square_max = (frame.rows / collection.size());
+    static int square_size = 25 + (rand()% (square_max - 25));
     int row = 0;
     int off = 0;
-    for(int index = 0; index < collection.size(); ++index) {
+    int size_past = 0;
+    while(row < frame.rows-1) {
+        square_size = 25 + (rand()% (square_max - 25));
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                if(i < frame.cols && z < frame.rows) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
                 }
             }
         }
         row += square_size;
-        ++off;
+        size_past += square_size;
+        if(size_past > square_max-1) {
+            size_past = 0;
+            ++off;
+        }
     }
     AddInvert(frame);
 }
