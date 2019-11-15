@@ -368,3 +368,25 @@ void ac::MedianBlendFadeRandomChannel(cv::Mat &frame) {
     MatrixBlend(frame, &collection);
     AddInvert(frame);
 }
+
+void ac::GlitchyTrails(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int square_size = frame.rows/collection.size();
+    int row = 0;
+    int off = 0;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = row; z < row+square_size; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+        row += square_size;
+        ++off;
+    }
+    AddInvert(frame);
+}
