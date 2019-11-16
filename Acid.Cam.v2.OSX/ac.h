@@ -1859,6 +1859,7 @@ namespace ac {
     void MedianBlendFadeRandomChannel(cv::Mat &frame);
     void GlitchyTrails(cv::Mat &frame);
     void GlitchyXorTrails(cv::Mat &frame);
+    void GlitchedFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

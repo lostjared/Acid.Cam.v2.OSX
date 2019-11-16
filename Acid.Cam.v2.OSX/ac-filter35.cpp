@@ -434,3 +434,9 @@ void ac::GlitchyXorTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::GlitchedFilter(cv::Mat &frame) {
+    MatrixCollectionAuraTrails(frame);
+    GlitchyXorTrails(frame);
+    VariableRectanglesExtra(frame);
+}
