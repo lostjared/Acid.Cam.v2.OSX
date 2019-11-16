@@ -439,4 +439,14 @@ void ac::GlitchedFilter(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     GlitchyXorTrails(frame);
     VariableRectanglesExtra(frame);
+    AddInvert(frame);
+}
+
+void ac::DisplaySometimesSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "DisplaySometimesSubFilter")
+        return;
+    if((rand()%10) > 5) {
+        CallFilter(subfilter, frame);
+    }
+    AddInvert(frame);
 }
