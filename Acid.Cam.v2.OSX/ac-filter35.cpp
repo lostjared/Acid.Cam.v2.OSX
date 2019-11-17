@@ -499,3 +499,20 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::GltichedVideoFilter(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        GlitchyXorTrails(reframe);
+        VariableRectanglesExtra(reframe);
+        cv::Mat copy1 = frame.clone();
+        GlitchyTrails(copy1);
+        VariableRectanglesSmall(copy1);
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
