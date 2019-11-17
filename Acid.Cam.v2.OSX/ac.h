@@ -1861,6 +1861,7 @@ namespace ac {
     void GlitchyXorTrails(cv::Mat &frame);
     void GlitchedFilter(cv::Mat &frame);
     void DisplaySometimesSubFilter(cv::Mat &frame);
+    void GlitchyVideoXorTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
