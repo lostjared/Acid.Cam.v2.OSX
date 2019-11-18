@@ -502,3 +502,9 @@ void ac::DualGitchyVideoXorTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::StaticGlitch(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    GlitchyXorTrails(frame, &collection, true);
+    AddInvert(frame);
+}
