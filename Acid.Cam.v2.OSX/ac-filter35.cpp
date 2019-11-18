@@ -383,9 +383,11 @@ void ac::GlitchyTrails(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(off < collection.size()) {
+                        cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
@@ -445,19 +447,19 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
                  for(int i = 0; i < frame.cols; ++i) {
                     if(i < frame.cols && z < frame.rows) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                        cv::Vec3b pix[2];
-                        pix[0] = collection.frames[off].at<cv::Vec3b>(z, i);
-                        pix[1] = vcollection.frames[off].at<cv::Vec3b>(z, i);
-                        
-                        for(int j = 0; j < 3; ++j) {
-                            
-                            if((z%off_row)==0)
-                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ (pix[0][j]+pix[1][j]);
-                            else
-                                pixel[j] = static_cast<unsigned char>((0.3 * pixel[j]) + (0.3 * pix[0][j]) + (0.3 * pix[1][j]));
+                        if(off < collection.size()) {
+                            cv::Vec3b pix[2];
+                            pix[0] = collection.frames[off].at<cv::Vec3b>(z, i);
+                            pix[1] = vcollection.frames[off].at<cv::Vec3b>(z, i);
+                            for(int j = 0; j < 3; ++j) {
+                                if((z%off_row)==0)
+                                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ (pix[0][j]+pix[1][j]);
+                                else
+                                    pixel[j] = static_cast<unsigned char>((0.3 * pixel[j]) + (0.3 * pix[0][j]) + (0.3 * pix[1][j]));
+                            }
                         }
                     }
-                }
+                 }
             }
             row += square_size;
             size_past += square_size;
