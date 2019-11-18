@@ -429,7 +429,6 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
         ac_resize(vframe, reframe, frame.size());
-        
         static MatrixCollection<32> collection;
         static MatrixCollection<32> vcollection;
         collection.shiftFrames(frame);
@@ -489,5 +488,17 @@ void ac::GltichedVideoFilter(cv::Mat &frame) {
 }
 
 void ac::DualGitchyVideoXorTrails(cv::Mat &frame) {
-    
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe, copy1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        copy1 = frame.clone();
+        ac_resize(vframe, reframe, frame.size());
+        static MatrixCollection<8> collection1, collection2;
+        GlitchyXorTrails(copy1, &collection1);
+        GlitchyXorTrails(reframe, &collection2);
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
 }
