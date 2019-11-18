@@ -2924,16 +2924,19 @@ namespace ac {
                     if(i < frame.cols && z < frame.rows) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                         cv::Vec3b pix;
-                        if(random == false)
-                            pix = collection->frames[off].template at<cv::Vec3b>(z, i);
-                        else
-                            pix = collection->frames[rand()%(collection->size()-1)].template at<cv::Vec3b>(z, i);
-                        
-                        for(int j = 0; j < 3; ++j) {
-                            if((z%off_row)==0)
-                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ pix[j];
+                        int frame_index = (rand()%(collection->size()-1));
+                        if(off < collection->size()) {
+                            if(random == false)
+                                pix = collection->frames[off].template at<cv::Vec3b>(z, i);
                             else
-                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                                pix = collection->frames[frame_index].template at<cv::Vec3b>(z, i);;
+                            
+                            for(int j = 0; j < 3; ++j) {
+                                if((z%off_row)==0)
+                                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ pix[j];
+                                else
+                                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                            }
                         }
                     }
                 }
