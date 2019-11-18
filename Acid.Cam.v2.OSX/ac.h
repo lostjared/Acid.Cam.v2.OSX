@@ -1863,6 +1863,7 @@ namespace ac {
     void DisplaySometimesSubFilter(cv::Mat &frame);
     void GlitchyVideoXorTrails(cv::Mat &frame);
     void GltichedVideoFilter(cv::Mat &frame);
+    void DualGitchyVideoXorTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2903,6 +2904,40 @@ namespace ac {
             ac_resize(vframe, reframe, frame.size());
             collection->shiftFrames(reframe);
             Smooth(frame, collection, false);
+        }
+    }
+    
+    template<int Size>
+    void GlitchyXorTrails(cv::Mat &frame, MatrixCollection<Size> *collection) {
+        collection->shiftFrames(frame);
+        static int square_max = (frame.rows / collection->size());
+        static int square_size = 25 + (rand()% (square_max - 25));
+        int row = 0;
+        int off = 0;
+        int off_row = 1+rand()%25;
+        int size_past = 0;
+        while(row < frame.rows-1) {
+            square_size = 25 + (rand()% (square_max - 25));
+            for(int z = row; z < row+square_size; ++z) {
+                for(int i = 0; i < frame.cols; ++i) {
+                    if(i < frame.cols && z < frame.rows) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix = collection->frames[off].template at<cv::Vec3b>(z, i);
+                        for(int j = 0; j < 3; ++j) {
+                            if((z%off_row)==0)
+                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ pix[j];
+                            else
+                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
+                    }
+                }
+            }
+            row += square_size;
+            size_past += square_size;
+            if(size_past > square_max-1) {
+                size_past = 0;
+                ++off;
+            }
         }
     }
 }
