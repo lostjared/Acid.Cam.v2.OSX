@@ -510,3 +510,18 @@ void ac::StaticGlitch(cv::Mat &frame) {
     GlitchyXorTrails(frame, &collection, true);
     AddInvert(frame);
 }
+
+void ac::VideoMirrorMultiDirection(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat copy1 = frame.clone();
+        MirrorLeftBottomToTop(copy1);
+        MirrorRightTopToBottom(reframe);
+        AlphaBlendDouble(copy1, reframe, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
