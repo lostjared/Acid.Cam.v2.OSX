@@ -2934,7 +2934,7 @@ namespace ac {
                                 pix = collection->frames[frame_index].template at<cv::Vec3b>(z, i);;
                             
                             for(int j = 0; j < 3; ++j) {
-                                if((z%off_row)==0)
+                                if(off_row <= 5 && (z%off_row)==0)
                                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ pix[j];
                                 else
                                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
