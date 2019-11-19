@@ -1867,6 +1867,7 @@ namespace ac {
     void StaticGlitch(cv::Mat &frame);
     void VideoMirrorMultiDirection(cv::Mat &frame);
     void SoftwareGlitch_64(cv::Mat &frame);
+    void VideoMatrixBlendDouble(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2283,6 +2284,34 @@ namespace ac {
                 for(int j = 0; j < 3; ++j) {
                     int val = 1+static_cast<int>(value[j]/div_val);
                     pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+                }
+            }
+        }
+    }
+    
+    template<int Size>
+    void MatrixBlendDouble(cv::Mat &frame, MatrixCollection<Size> *collection1, MatrixCollection<Size> *collection2, int div_val = 1) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Scalar value1, value2;
+                for(int j = 0; j < collection1->size(); ++j) {
+                    cv::Mat &frame1 = collection1->frames[j];
+                    cv::Mat &frame2 = collection2->frames[j];
+                    cv::Vec3b pixel1 = frame1.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pixel2 = frame2.at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        value1[q] += pixel1[q];
+                        value2[q] += pixel2[q];
+                    }
+                }
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val1 = 1+static_cast<int>(value1[j]/div_val);
+                    int val2 = 1+static_cast<int>(value2[j]/div_val);
+                    unsigned char op1 = static_cast<unsigned char>(0.3 * pixel[j]);
+                    unsigned char op2 = static_cast<unsigned char>(val1 * 0.4);
+                    unsigned char op3 = static_cast<unsigned char>(val2 * 0.2);
+                    pixel[j] = (op1 ^ op2 ^ op3);
                 }
             }
         }

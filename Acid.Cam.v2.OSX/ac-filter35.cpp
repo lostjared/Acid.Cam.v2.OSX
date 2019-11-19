@@ -537,3 +537,25 @@ void ac::SoftwareGlitch_64(cv::Mat &frame) {
     VariableRectanglesLarge(frame);
     AddInvert(frame);
 }
+
+void ac::VideoMatrixBlendDouble(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone();
+    int r = rand()%3;
+    for(int q = 0; q < r; ++q)
+        MedianBlur(copy1);
+    collection1.shiftFrames(copy1);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        int r = rand()%3;
+        for(int q = 0; q < r; ++q)
+            MedianBlur(reframe);
+        collection2.shiftFrames(reframe);
+        MatrixBlendDouble(frame, &collection1, &collection2);
+    }
+    AddInvert(frame);
+}
