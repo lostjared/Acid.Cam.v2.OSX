@@ -2917,7 +2917,7 @@ namespace ac {
         static int square_size = 25 + (rand()% (square_max - 25));
         int row = 0;
         int off = 0;
-        int off_row = 1+rand()%25;
+        int off_row = 1+rand()%35;
         int size_past = 0;
         while(row < frame.rows-1) {
             square_size = 25 + (rand()% (square_max - 25));
@@ -2927,7 +2927,7 @@ namespace ac {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                         cv::Vec3b pix;
                         int frame_index = (rand()%(collection->size()-1));
-                        if(off < collection->size()) {
+                        if(off < (collection->size()-1)) {
                             if(random == false)
                                 pix = collection->frames[off].template at<cv::Vec3b>(z, i);
                             else
@@ -2948,6 +2948,8 @@ namespace ac {
             if(size_past > square_max-1) {
                 size_past = 0;
                 ++off;
+                if(off > (collection->size()-1))
+                    break;
             }
         }
     }

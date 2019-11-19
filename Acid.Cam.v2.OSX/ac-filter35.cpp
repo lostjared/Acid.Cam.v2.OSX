@@ -383,7 +383,7 @@ void ac::GlitchyTrails(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    if(off < collection.size()) {
+                    if(off < (collection.size()-1)) {
                         cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
                         for(int j = 0; j < 3; ++j) {
                             pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -397,6 +397,8 @@ void ac::GlitchyTrails(cv::Mat &frame) {
         if(size_past > square_max-1) {
             size_past = 0;
             ++off;
+            if(off > (collection.size()-1))
+                break;
         }
     }
     AddInvert(frame);
@@ -447,7 +449,7 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
                  for(int i = 0; i < frame.cols; ++i) {
                     if(i < frame.cols && z < frame.rows) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                        if(off < collection.size()) {
+                        if(off < (collection.size()-1)) {
                             cv::Vec3b pix[2];
                             pix[0] = collection.frames[off].at<cv::Vec3b>(z, i);
                             pix[1] = vcollection.frames[off].at<cv::Vec3b>(z, i);
@@ -466,6 +468,8 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
             if(size_past > square_max-1) {
                 size_past = 0;
                 ++off;
+                if(off > (collection.size()-1))
+                    break;
             }
         }
     }
