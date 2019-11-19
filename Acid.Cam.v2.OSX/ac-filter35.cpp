@@ -525,3 +525,11 @@ void ac::VideoMirrorMultiDirection(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SoftwareGlitch_64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    GlitchyXorTrails(frame, &collection);
+    VariableRectanglesLarge(frame);
+    AddInvert(frame);
+}

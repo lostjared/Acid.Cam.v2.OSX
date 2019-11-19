@@ -1866,6 +1866,7 @@ namespace ac {
     void DualGitchyVideoXorTrails(cv::Mat &frame);
     void StaticGlitch(cv::Mat &frame);
     void VideoMirrorMultiDirection(cv::Mat &frame);
+    void SoftwareGlitch_64(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
