@@ -6,7 +6,7 @@
 
 To be able to use all the filters in this app your system should have at lest 8 GB of ram.
 
-When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter inside its loop callback
+When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter from within its loop callback.
 
 Acid Cam distorts video to create art. It is designed to bo used with other software (Syphon)  or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
 
