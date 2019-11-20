@@ -559,3 +559,31 @@ void ac::VideoMatrixBlendDouble(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoMatrixFadeDouble(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<8> collection1, collection2;
+    cv::Mat copy1 = frame.clone();
+    int r = rand()%3;
+    for(int q = 0; q < r; ++q)
+        MedianBlur(copy1);
+    collection1.shiftFrames(copy1);
+    cv::Mat vframe;
+    
+    static double alpha1 = 0.4;
+    static int dir1 = 1;
+    
+    
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        int r = rand()%3;
+        for(int q = 0; q < r; ++q)
+            MedianBlur(reframe);
+        collection2.shiftFrames(reframe);
+        MatrixBlendDouble(frame, &collection1, &collection2, 1, alpha1, (0.4-alpha1));
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 0.4, 0.1);
+}
