@@ -1869,6 +1869,7 @@ namespace ac {
     void SoftwareGlitch_64(cv::Mat &frame);
     void VideoMatrixBlendDouble(cv::Mat &frame);
     void VideoMatrixFadeDouble(cv::Mat &frame);
+    void VideoMatrixColorSmooth(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

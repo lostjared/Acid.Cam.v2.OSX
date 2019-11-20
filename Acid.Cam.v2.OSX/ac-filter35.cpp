@@ -570,11 +570,8 @@ void ac::VideoMatrixFadeDouble(cv::Mat &frame) {
         MedianBlur(copy1);
     collection1.shiftFrames(copy1);
     cv::Mat vframe;
-    
     static double alpha1 = 0.4;
     static int dir1 = 1;
-    
-    
     if(VideoFrame(vframe)) {
         cv::Mat reframe;
         ac_resize(vframe, reframe, frame.size());
@@ -586,4 +583,16 @@ void ac::VideoMatrixFadeDouble(cv::Mat &frame) {
     }
     AddInvert(frame);
     AlphaMovementMaxMin(alpha1, dir1, 0.01, 0.4, 0.1);
+}
+
+void ac::VideoMatrixColorSmooth(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<8> collection;
+    ColorIncreaseFadeRGB(frame);
+    BlendWithColor(frame);
+    VideoMatrixFadeDouble(frame);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    MedianBlendMultiThread_2160p(frame);
 }
