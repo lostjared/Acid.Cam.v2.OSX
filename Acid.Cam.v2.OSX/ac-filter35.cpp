@@ -599,9 +599,28 @@ void ac::VideoMatrixColorSmooth(cv::Mat &frame) {
 }
 
 void ac::VideoMedianBlendShared8(cv::Mat &frame) {
+    static constexpr int SIZE = 8;
     if(v_cap.isOpened() == false)
         return;
-    static MatrixCollection<8> collection;
+    static MatrixCollection<SIZE> collection;
+    MedianBlur(frame, 3);
+    collection.shiftFrames(frame);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        MedianBlur(reframe, 3);
+        collection.shiftFrames(reframe);
+        MatrixBlend(frame, &collection);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoMedianBlendShared16(cv::Mat &frame) {
+    static constexpr int SIZE = 16;
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<SIZE> collection;
     MedianBlur(frame, 3);
     collection.shiftFrames(frame);
     cv::Mat vframe;
