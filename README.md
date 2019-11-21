@@ -8,7 +8,9 @@ To be able to use all the filters in this app your system should have at lest 8 
 
 When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter from within its loop callback.
 
+
 Acid Cam distorts video to create art. It is designed to bo used with other software (Syphon)  or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
+The program also has a live webcam feature. If you wish to use this feature you should use a lower resolution and not stack up to many filters. The majority of the time this program is more useful in video mode where it can process multiple filters in up to 2160p 4K resolution.
 
 This version shares some code with libacidcam, so sometimes when I update the parts that are shared show up in both projects. libacidcam uses C++/OpenCV and Autotools, and this macOS program uses Objective-C++/Cocoa/OpenCV and Xcode
 
