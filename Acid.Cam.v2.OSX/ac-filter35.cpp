@@ -595,4 +595,22 @@ void ac::VideoMatrixColorSmooth(cv::Mat &frame) {
     collection.shiftFrames(frame);
     Smooth(frame, &collection);
     MedianBlendMultiThread_2160p(frame);
+    AddInvert(frame);
+}
+
+void ac::VideoMedianBlendShared8(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<8> collection;
+    MedianBlur(frame, 3);
+    collection.shiftFrames(frame);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        MedianBlur(reframe, 3);
+        collection.shiftFrames(reframe);
+        MatrixBlend(frame, &collection);
+    }
+    AddInvert(frame);
 }

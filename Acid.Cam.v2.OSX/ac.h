@@ -1870,6 +1870,7 @@ namespace ac {
     void VideoMatrixBlendDouble(cv::Mat &frame);
     void VideoMatrixFadeDouble(cv::Mat &frame);
     void VideoMatrixColorSmooth(cv::Mat &frame);
+    void VideoMedianBlendShared8(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
