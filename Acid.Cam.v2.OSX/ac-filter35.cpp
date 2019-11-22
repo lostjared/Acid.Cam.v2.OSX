@@ -633,3 +633,11 @@ void ac::VideoMedianBlendShared16(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::GlitchedGrid(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(copy1);
+    GlitchyXorTrailsRandom(frame, &collection);
+    AddInvert(frame);
+}

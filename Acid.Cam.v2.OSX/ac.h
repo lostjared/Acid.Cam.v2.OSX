@@ -1872,6 +1872,7 @@ namespace ac {
     void VideoMatrixColorSmooth(cv::Mat &frame);
     void VideoMedianBlendShared8(cv::Mat &frame);
     void VideoMedianBlendShared16(cv::Mat &frame);
+    void GlitchedGrid(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -2965,6 +2966,47 @@ namespace ac {
                                 pix = collection->frames[off].template at<cv::Vec3b>(z, i);
                             else
                                 pix = collection->frames[frame_index].template at<cv::Vec3b>(z, i);;
+                            
+                            for(int j = 0; j < 3; ++j) {
+                                if(off_row <= 5 && (z%off_row)==0)
+                                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])) ^ pix[j];
+                                else
+                                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                            }
+                        }
+                    }
+                }
+            }
+            row += square_size;
+            size_past += square_size;
+            if(size_past > square_max-1) {
+                size_past = 0;
+                ++off;
+                if(off > (collection->size()-1))
+                    break;
+            }
+        }
+    }
+    
+    template<int Size>
+    void GlitchyXorTrailsRandom(cv::Mat &frame, MatrixCollection<Size> *collection) {
+        collection->shiftFrames(frame);
+        static int square_max = (frame.rows / collection->size());
+        static int square_size = 25 + (rand()% (square_max - 25));
+        int row = 0;
+        int off = 0;
+        int off_row = 1+rand()%35;
+        int size_past = 0;
+        while(row < frame.rows-1) {
+            square_size = 25 + (rand()% (square_max - 25));
+            int frame_index = (rand()%(collection->size()-1));
+            for(int z = row; z < row+square_size; ++z) {
+                for(int i = 0; i < frame.cols; ++i) {
+                    if(i < frame.cols && z < frame.rows) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix;
+                        if(off < (collection->size()-1)) {
+                            pix = collection->frames[frame_index].template at<cv::Vec3b>(z, i);
                             
                             for(int j = 0; j < 3; ++j) {
                                 if(off_row <= 5 && (z%off_row)==0)
