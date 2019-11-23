@@ -655,3 +655,20 @@ void ac::ShuffleVideoMatrix(cv::Mat &frame) {
     Shuffle(index, frame, filter_array);
     AddInvert(frame);
 }
+
+void ac::TruncateColor(cv::Mat &frame) {
+    static int max = 255/2;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(pixel[j] > max)
+                        pixel[j] = max;
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
