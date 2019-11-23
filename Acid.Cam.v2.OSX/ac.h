@@ -1876,6 +1876,8 @@ namespace ac {
     void ShuffleGlitch(cv::Mat &frame);
     void ShuffleVideoMatrix(cv::Mat &frame);
     void TruncateColor(cv::Mat &frame);
+    void TruncateColor75(cv::Mat &frame);
+    void TruncateColor25(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
