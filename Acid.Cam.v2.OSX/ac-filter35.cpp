@@ -706,3 +706,23 @@ void ac::TruncateColor25(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::TruncateVariable(cv::Mat &frame) {
+
+    static double index = 150;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(pixel[j] > static_cast<int>(index))
+                        pixel[j] = static_cast<int>(index);
+                }
+            }
+        }
+    };
+    AlphaMovementMaxMin(index, dir, 1.0, 255, 150);
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}

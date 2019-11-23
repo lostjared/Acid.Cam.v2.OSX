@@ -1878,6 +1878,7 @@ namespace ac {
     void TruncateColor(cv::Mat &frame);
     void TruncateColor75(cv::Mat &frame);
     void TruncateColor25(cv::Mat &frame);
+    void TruncateVariable(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
