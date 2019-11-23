@@ -642,7 +642,7 @@ void ac::GlitchedGrid(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ShiftGlitch(cv::Mat &frame) {
+void ac::ShuffleGlitch(cv::Mat &frame) {
     static std::vector<std::string> filter_array{"RectangleGlitch","SingleFrameGlitch","GlitchyTrails", "GlitchyXorTrails", "GlitchedFilter", "GlitchyVideoXorTrails", "StaticGlitch", "SoftwareGlitch_64", "GlitchedGrid"};
     static int index = 0;
     Shuffle(index, frame, filter_array);
