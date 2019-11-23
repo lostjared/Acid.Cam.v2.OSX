@@ -1873,6 +1873,7 @@ namespace ac {
     void VideoMedianBlendShared8(cv::Mat &frame);
     void VideoMedianBlendShared16(cv::Mat &frame);
     void GlitchedGrid(cv::Mat &frame);
+    void ShiftGlitch(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
