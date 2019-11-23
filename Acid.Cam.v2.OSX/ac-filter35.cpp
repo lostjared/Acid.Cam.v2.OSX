@@ -648,3 +648,10 @@ void ac::ShuffleGlitch(cv::Mat &frame) {
     Shuffle(index, frame, filter_array);
     AddInvert(frame);
 }
+
+void ac::ShuffleVideoMatrix(cv::Mat &frame) {
+    static std::vector<std::string> filter_array{"VideoMatrixBlendDouble", "VideoMatrixFadeDouble", "VideoMatrixColorSmooth"};
+    static int index = 0;
+    Shuffle(index, frame, filter_array);
+    AddInvert(frame);
+}
