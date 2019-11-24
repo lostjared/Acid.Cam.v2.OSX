@@ -680,7 +680,7 @@ void ac::SelfScaleGlitch(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((pixel[j]/2) * 0.5) + (((pixel[j]/2) * value[j]) * 0.5);
+                    pixel[j] = static_cast<unsigned char>((pixel[j]/2) * 0.5) + static_cast<unsigned char>(((pixel[j]/2) * value[j]) * 0.5);
                 }
             }
         }
