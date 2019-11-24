@@ -763,3 +763,9 @@ void ac::TruncateVariableScale(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendTruncate(cv::Mat &frame) {
+    TruncateVariableScale(frame);
+    ColorIncreaseFadeRGB(frame);
+    MedianBlendMultiThread4(frame);
+}
