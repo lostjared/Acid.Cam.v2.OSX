@@ -803,8 +803,10 @@ void ac::Variable_ColorScale(cv::Mat &frame) {
     static int lazy = 0;
     if(lazy == 0) {
         for(int j = 0; j < 3; ++j) {
-            if(colorz[j] == -1)
+            if(colorz[j] == -1) {
                 colorz[j] = rand()%255;
+                dirz[j] = rand()%2;
+            }
         }
         lazy = 1;
     }
