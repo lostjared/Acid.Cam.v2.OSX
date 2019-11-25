@@ -807,3 +807,8 @@ void ac::Variable_ColorScale(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendVariable_ColorScale(cv::Mat &frame) {
+    Variable_ColorScale(frame);
+    MedianBlendMultiThread(frame);
+}
