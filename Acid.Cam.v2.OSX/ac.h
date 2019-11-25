@@ -1883,6 +1883,7 @@ namespace ac {
     void TruncateVariableScale(cv::Mat &frame);
     void MedianBlendTruncate(cv::Mat &frame);
     void MedianBlendTruncateScale(cv::Mat &frame);
+    void Variable_ColorScale(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

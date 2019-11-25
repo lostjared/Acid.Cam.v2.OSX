@@ -796,3 +796,32 @@ void ac::MedianBlendTruncateScale(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::Variable_ColorScale(cv::Mat &frame) {
+    static double colorz[3] = { -1, -1, -1 };
+    static int dirz[3] = {1, 0, 1};
+    static int lazy = 0;
+    if(lazy == 0) {
+        for(int j = 0; j < 3; ++j) {
+            if(colorz[j] == -1)
+                colorz[j] = rand()%255;
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * colorz[j]));
+                }
+            }
+        }
+    };
+    for(int j = 0; j < 3; ++j)
+        AlphaMovementMaxMin(colorz[j], dirz[j], 1.0, 255.0, 1.0);
+    
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
