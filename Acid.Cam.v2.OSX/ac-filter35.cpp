@@ -859,3 +859,8 @@ void ac::CollectionTruncate(cv::Mat &frame) {
     AlphaMovementMaxMin(max_val, dir, 5.0, 255.0, 100.0);
     Smooth(frame, &collection);
 }
+
+void ac::MedianBlendCollectionTruncate(cv::Mat &frame) {
+    CollectionTruncate(frame);
+    MedianBlendMultiThread(frame);
+}
