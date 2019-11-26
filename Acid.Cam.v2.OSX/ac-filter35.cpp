@@ -812,3 +812,41 @@ void ac::MedianBlendVariable_ColorScale(cv::Mat &frame) {
     Variable_ColorScale(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::InOut_ColorScale(cv::Mat &frame) {
+    static double color_value[3] = { -1, -1, -1 };
+    static int color_dir[3] = { 0, 1, 0 };
+    static double alpha = 1.0;
+    static int dir = 1;
+    static int lazy = 0;
+    if(lazy == 0) {
+        for(int j = 0; j < 3; ++j) {
+            if(color_value[j] == -1) {
+                color_value[j] = rand()%255;
+                color_dir[j] = rand()%2;
+            }
+        }
+        lazy = 1;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * color_value[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.1, 1.0, 0.4);
+    for(int j = 0; j < 3; ++j) {
+        AlphaMovementMaxMin(color_value[j], color_dir[j], (rand()%25), 255.0, 0.0);
+    }
+}
+
+void ac::MedianBlendInOut_ColorScale(cv::Mat &frame) {
+    InOut_ColorScale(frame);
+    MedianBlendMultiThread(frame);
+}
