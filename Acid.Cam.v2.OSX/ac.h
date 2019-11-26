@@ -1887,6 +1887,7 @@ namespace ac {
     void MedianBlendVariable_ColorScale(cv::Mat &frame);
     void InOut_ColorScale(cv::Mat &frame);
     void MedianBlendInOut_ColorScale(cv::Mat &frame);
+    void CollectionTruncate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image
@@ -3041,6 +3042,20 @@ namespace ac {
                     break;
             }
         }
+    }
+    
+    template<int Size>
+    void MatrixCollectionTruncate(cv::Mat &frame, MatrixCollection<Size> *collection, int maxSize) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(pixel[j] > maxSize)
+                        pixel[j] = maxSize;
+                }
+            }
+        }
+        collection->shiftFrames(frame);
     }
 }
 

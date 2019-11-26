@@ -850,3 +850,12 @@ void ac::MedianBlendInOut_ColorScale(cv::Mat &frame) {
     InOut_ColorScale(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::CollectionTruncate(cv::Mat &frame) {
+    static double max_val = 100.0;
+    static int dir = 1;
+    static MatrixCollection<8> collection;
+    MatrixCollectionTruncate(frame, &collection, static_cast<int>(max_val));
+    AlphaMovementMaxMin(max_val, dir, 5.0, 255.0, 100.0);
+    Smooth(frame, &collection);
+}
