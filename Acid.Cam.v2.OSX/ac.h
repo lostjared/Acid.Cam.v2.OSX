@@ -1889,6 +1889,7 @@ namespace ac {
     void MedianBlendInOut_ColorScale(cv::Mat &frame);
     void CollectionTruncate(cv::Mat &frame);
     void MedianBlendCollectionTruncate(cv::Mat &frame);
+    void VideoBlendTruncate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     // Alpha blend with original image

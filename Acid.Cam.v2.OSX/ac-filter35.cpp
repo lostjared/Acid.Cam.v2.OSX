@@ -864,3 +864,36 @@ void ac::MedianBlendCollectionTruncate(cv::Mat &frame) {
     CollectionTruncate(frame);
     MedianBlendMultiThread(frame);
 }
+
+void ac::VideoBlendTruncate(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    static double max1 = 100+(rand()%50);
+    static int max1_dir = 1;
+    static double max2 = 100+(rand()%50);
+    static int max2_dir = 0;
+    static double alpha = 1.0;
+    static int alpha_d = 1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(pixel[j] > static_cast<int>(max1))
+                        pixel[j] = static_cast<int>(max1);
+                    if(repix[j] > static_cast<int>(max2))
+                        repix[j] = static_cast<int>(max2);
+                    pixel[j] = static_cast<unsigned char> ((0.5 * pixel[j]) + (repix[j] * 0.5));
+                }
+            }
+        }
+    }
+    AlphaMovementMaxMin(max1, max1_dir, 0.01, 255.0, 100.0);
+    AlphaMovementMaxMin(max2, max2_dir, 0.01, 255.0, 100.0);
+    AlphaMovementMaxMin(alpha, alpha_d, 0.01, 1.0, 1.0);
+    AddInvert(frame);
+}
