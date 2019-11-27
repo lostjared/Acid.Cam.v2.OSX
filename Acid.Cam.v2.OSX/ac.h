@@ -206,9 +206,6 @@ namespace ac {
     void Type(cv::Mat &frame);
     void NewOne(cv::Mat &frame);
     void blendWithImage(cv::Mat &frame);
-    void triBlendWithImage(cv::Mat &frame);
-    void imageStrobe(cv::Mat &frame);
-    void imageDistraction(cv::Mat &frame);
     void blendFractal(cv::Mat &frame);
     void blendFractalMood(cv::Mat &frame);
     void cossinMultiply(cv::Mat &frame);
