@@ -1892,6 +1892,7 @@ namespace ac {
     void VideoBlendTruncate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
+    void Empty(cv::Mat &frame);
     // Alpha blend with original image
     void BlendWithSource(cv::Mat &frame);
     // plugin must be implemented in project

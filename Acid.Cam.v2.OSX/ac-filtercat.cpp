@@ -153,4 +153,8 @@ namespace ac {
         std::sort(svSquare.begin(), svSquare.end());
         std::sort(vSub.begin(), vSub.end());
     }
+    
+    void Empty(cv::Mat &frame) {
+        
+    }
 }
