@@ -1887,6 +1887,8 @@ namespace ac {
     void CollectionTruncate(cv::Mat &frame);
     void MedianBlendCollectionTruncate(cv::Mat &frame);
     void VideoBlendTruncate(cv::Mat &frame);
+    void RandomTruncateFrame(cv::Mat &frame);
+    void RandomStrobeMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
