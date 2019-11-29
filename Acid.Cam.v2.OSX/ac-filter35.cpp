@@ -941,3 +941,8 @@ void ac::XorFade(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.001, 1.0, 0.1);
 }
+
+void ac::ColorIncreaseXorFade(cv::Mat &frame) {
+    ColorIncreaseFadeRGB(frame);
+    XorFade(frame);
+}

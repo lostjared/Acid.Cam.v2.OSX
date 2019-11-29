@@ -1890,6 +1890,7 @@ namespace ac {
     void RandomTruncateFrame(cv::Mat &frame);
     void RandomStrobeMedianBlend(cv::Mat &frame);
     void XorFade(cv::Mat &frame);
+    void ColorIncreaseXorFade(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
