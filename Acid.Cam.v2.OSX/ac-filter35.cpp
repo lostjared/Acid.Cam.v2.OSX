@@ -919,3 +919,25 @@ void ac::RandomStrobeMedianBlend(cv::Mat &frame) {
     RandomTruncateFrame(frame);
     MedianBlendMultiThread4(frame);
 }
+
+void ac::XorFade(cv::Mat &frame) {
+    int chan = frame.channels();
+    int r = rand()%(chan*2);
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    static double alpha = 1.0;
+    static int dir = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < chan; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(alpha * pixel[j]);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.001, 1.0, 0.1);
+}

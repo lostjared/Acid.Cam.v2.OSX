@@ -1889,6 +1889,7 @@ namespace ac {
     void VideoBlendTruncate(cv::Mat &frame);
     void RandomTruncateFrame(cv::Mat &frame);
     void RandomStrobeMedianBlend(cv::Mat &frame);
+    void XorFade(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
