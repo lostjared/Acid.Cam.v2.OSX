@@ -1892,7 +1892,7 @@ namespace ac {
     void XorFade(cv::Mat &frame);
     void ColorIncreaseXorFade(cv::Mat &frame);
     void Pixels_InOut(cv::Mat &frame);
-    void PixelCloud(cv::Mat &frame);
+    void PixelDistortionCloud(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

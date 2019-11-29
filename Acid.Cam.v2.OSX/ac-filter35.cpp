@@ -985,7 +985,7 @@ void ac::Pixels_InOut(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::PixelCloud(cv::Mat &frame) {
+void ac::PixelDistortionCloud(cv::Mat &frame) {
     static PixelArray2D pix_container;
     static int pix_x = 0, pix_y = 0;
     if(reset_alpha == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
