@@ -6,7 +6,9 @@
 
 To be able to use all the filters in this app your system should have at lest 8 GB of ram.
 
-When writing C++ using libacidcam  do not call another mulithreaded filter from within a mulithreaded filter from within its loop callback.
+An important note:
+
+When writing C++ code using libacidcam do not call a mulithreaded filter from within another mulithreaded filter from within it's loop callback. 
 
 
 Acid Cam distorts video to create art. It is designed to bo used with other software (Syphon)  or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
@@ -14,10 +16,10 @@ The program also has a live webcam feature. If you wish to use this feature you 
 
 This version shares some code with libacidcam, so sometimes when I update the parts that are shared show up in both projects. libacidcam uses C++/OpenCV and Autotools, and this macOS program uses Objective-C++/Cocoa/OpenCV and Xcode
 
-This project was created in hopes of providing some entertainment, or for the Glitch artist to give you a 
-starting image/video to use with other tools.
+This project was created in hopes of providing some entertainment, or for the Glitch artist to give you an 
+image/video to use with other tools.
 
-I call the art that I create with Acid Cam an Acid Glitch, but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
+I call the art that I create with Acid Cam "Acid Glitch", but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
 
 Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some interesting effects. The project currently has over 1,600 filters to mix and match and supports output as MPEG-4 or H.264. 
 
