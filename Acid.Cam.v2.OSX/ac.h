@@ -1891,6 +1891,7 @@ namespace ac {
     void RandomStrobeMedianBlend(cv::Mat &frame);
     void XorFade(cv::Mat &frame);
     void ColorIncreaseXorFade(cv::Mat &frame);
+    void Pixels_InOut(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

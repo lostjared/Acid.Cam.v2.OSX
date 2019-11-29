@@ -946,3 +946,41 @@ void ac::ColorIncreaseXorFade(cv::Mat &frame) {
     ColorIncreaseFadeRGB(frame);
     XorFade(frame);
 }
+
+void ac::Pixels_InOut(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(reset_alpha == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    int r = 1+(rand()%25);
+                    if(p.dir[j] == 0) {
+                        p.add[j] += rand()%r;
+                        if(p.add[j] > 255) {
+                            p.add[j] = 255;
+                            p.dir[j] = 1;
+                        }
+                    } else {
+                        p.add[j] -= rand()%r;
+                        if(p.add[j] <= 0) {
+                            p.add[j] = 0;
+                            p.dir[j] = 0;
+                        }
+                    }
+                    unsigned char val = pixel[j]^p.add[j];
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * val));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
