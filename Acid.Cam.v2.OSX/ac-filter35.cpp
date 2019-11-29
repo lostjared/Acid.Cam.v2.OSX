@@ -984,3 +984,45 @@ void ac::Pixels_InOut(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::PixelCloud(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(reset_alpha == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                for(int j = 0; j < 3; ++j) {
+                    if(p.add[j] == 0)
+                        p.add[j] = p.col[j];
+                    unsigned int val1 = pixel[j]/2;
+                    unsigned int val2 = p.col[j]^p.add[j];
+                    if(p.dir[j] == 1) {
+                        p.add[j] += 5;
+                        if(p.add[j] >= 255) {
+                            p.col[j] = pixel[j];
+                            p.add[j] = 255;
+                            p.dir[j] = 0;
+                        }
+                    } else {
+                        p.add[j] -= 5;
+                        if(p.add[j] <= 1) {
+                            p.col[j] = pixel[j];
+                            p.add[j] = 1;
+                            p.dir[j] = 1;
+                        }
+                    }
+                    pixel[j] = static_cast<unsigned char>((0.5 * val1) + (0.5 * val2));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
