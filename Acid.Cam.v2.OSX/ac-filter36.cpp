@@ -65,9 +65,11 @@ void ac::XorRow(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                if((z%static_cast<int>(num)) != 0) {
-                    for(int j = 0; j < 3; ++j) {
+                for(int j = 0; j < 3; ++j) {
+                    if((z%static_cast<int>(num)) == 0) {
                         pixel[j] ^= static_cast<unsigned char>(pixel[j]*alpha);
+                    } else {
+                        pixel[j] ^= static_cast<unsigned char>(0.5 * (pixel[j]*alpha));
                     }
                 }
             }
