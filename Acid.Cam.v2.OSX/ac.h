@@ -1894,6 +1894,7 @@ namespace ac {
     void Pixels_InOut(cv::Mat &frame);
     void PixelDistortionCloud(cv::Mat &frame);
     void XorRow(cv::Mat &frame);
+    void UseOldRow(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
