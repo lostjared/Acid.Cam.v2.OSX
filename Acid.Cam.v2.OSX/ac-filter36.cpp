@@ -87,6 +87,8 @@ void ac::UseOldRow(cv::Mat &frame) {
     collection1.shiftFrames(frame);
     if(collection2.empty()) collection2.shiftFrames(frame);
     
+    cv::Mat copy1 = frame.clone();
+    
     static int square_max = (frame.rows / collection1.size());
     static int square_size = 25 + (rand()% (square_max - 25));
     int row = 0;
@@ -130,7 +132,7 @@ void ac::UseOldRow(cv::Mat &frame) {
     static int counter = 0;
     if(++counter > 10) {
         counter = 0;
-        collection2.shiftFrames(frame);
+        collection2.shiftFrames(copy1);
     }
     AddInvert(frame);
 }
@@ -140,6 +142,8 @@ void ac::UseEveryOtherRow(cv::Mat &frame) {
     static MatrixCollection<32> collection2;
     collection1.shiftFrames(frame);
     if(collection2.empty()) collection2.shiftFrames(frame);
+    
+    cv::Mat copy1 = frame.clone();
     
     static int square_max = (frame.rows / collection1.size());
     static int square_size = 25 + (rand()% (square_max - 25));
@@ -182,7 +186,7 @@ void ac::UseEveryOtherRow(cv::Mat &frame) {
     static int counter = 0;
     if(++counter > 8) {
         counter = 0;
-        collection2.shiftFrames(frame);
+        collection2.shiftFrames(copy1);
     }
     AddInvert(frame);
 }
@@ -192,6 +196,8 @@ void ac::UseOffRow(cv::Mat &frame) {
     static MatrixCollection<32> collection2;
     collection1.shiftFrames(frame);
     if(collection2.empty()) collection2.shiftFrames(frame);
+    
+    cv::Mat copy1 = frame.clone();
     
     static int square_max = (frame.rows / collection1.size());
     static int square_size = 25 + (rand()% (square_max - 25));
@@ -234,7 +240,7 @@ void ac::UseOffRow(cv::Mat &frame) {
     static int counter = 0;
     if(++counter > 4) {
         counter = 0;
-        collection2.shiftFrames(frame);
+        collection2.shiftFrames(copy1);
     }
     AddInvert(frame);
 }
