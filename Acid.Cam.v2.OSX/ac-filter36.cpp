@@ -244,3 +244,57 @@ void ac::UseOffRow(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FrameJump(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int frame_counter = 0;
+    static int fps_ = static_cast<int>(ac::fps);
+    ++frame_counter;
+    if((frame_counter%(fps_/6)) == 0) {
+        frame = collection.frames[rand()%(collection.size()-1)].clone();
+    }
+}
+
+void ac::MedianBlendMultiThreadVariable(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    int r = 3+rand()%7;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    collection.shiftFrames(frame);
+    static int position = 2;
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Scalar value;
+                for(int j = 0; j < position; ++j) {
+                    cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                    for(int q = 0; q < 3; ++q) {
+                        value[q] += pixel[q];
+                    }
+                }
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int val = 1+static_cast<int>(value[j]);
+                    pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        ++position;
+        if(position > (collection.size()-1)) {
+            position = collection.size()-1;
+            dir = 0;
+        }
+    } else {
+        --position;
+        if(position <= 2) {
+            position = 2;
+            dir = 1;
+        }
+    }
+}

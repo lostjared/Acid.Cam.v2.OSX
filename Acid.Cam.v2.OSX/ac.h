@@ -1897,6 +1897,8 @@ namespace ac {
     void UseOldRow(cv::Mat &frame);
     void UseEveryOtherRow(cv::Mat &frame);
     void UseOffRow(cv::Mat &frame);
+    void FrameJump(cv::Mat &frame);
+    void MedianBlendMultiThreadVariable(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
