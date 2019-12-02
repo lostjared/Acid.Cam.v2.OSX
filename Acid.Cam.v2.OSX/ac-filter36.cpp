@@ -267,3 +267,9 @@ void ac::MedianBlendMultiThreadVariable32(cv::Mat &frame) {
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
 }
+
+void ac::MedianBlendMultiThreadVariable16(cv::Mat &frame) {
+    static constexpr int SIZE = 16;
+    static MatrixCollection<SIZE> collection;
+    MedianBlendMultiThreadVariable(frame, &collection);
+}
