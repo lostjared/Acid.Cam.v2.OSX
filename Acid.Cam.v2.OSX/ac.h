@@ -1899,6 +1899,7 @@ namespace ac {
     void UseOffRow(cv::Mat &frame);
     void FrameJump(cv::Mat &frame);
     void MedianBlendMultiThreadVariable(cv::Mat &frame);
+    void MedianBlendMultiThreadVariable32(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
