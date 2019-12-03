@@ -1902,6 +1902,7 @@ namespace ac {
     void MedianBlendMultiThreadVariable32(cv::Mat &frame);
     void MedianBlendMultiThreadVariable16(cv::Mat &frame);
     void MedianBlendMultiThreadSkip8(cv::Mat &frame);
+    void BlockyTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
