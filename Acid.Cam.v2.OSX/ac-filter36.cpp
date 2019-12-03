@@ -254,22 +254,40 @@ void ac::FrameJump(cv::Mat &frame) {
     if((frame_counter%(fps_/6)) == 0) {
         frame = collection.frames[rand()%(collection.size()-1)].clone();
     }
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadVariable(cv::Mat &frame) {
     static constexpr int SIZE = 8;
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadVariable32(cv::Mat &frame) {
     static constexpr int SIZE = 32;
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
+    AddInvert(frame);
 }
 
 void ac::MedianBlendMultiThreadVariable16(cv::Mat &frame) {
     static constexpr int SIZE = 16;
     static MatrixCollection<SIZE> collection;
     MedianBlendMultiThreadVariable(frame, &collection);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendMultiThreadSkip8(cv::Mat &frame) {
+    static constexpr int SIZE = 8;
+    static MatrixCollection<SIZE> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    static int counter = 0;
+    ++counter;
+    if((counter%8)==0) {
+        collection.shiftFrames(frame);
+    }
+    MedianBlendMultiThreadNoShift(frame, &collection, 1);
+    AddInvert(frame);
 }
