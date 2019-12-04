@@ -389,3 +389,48 @@ void ac::BlockyTrails32(cv::Mat &frame) {
     BlendWithSource25(frame);
     AddInvert(frame);
 }
+
+void ac::BlockyTrails64(cv::Mat &frame) {
+    static constexpr int SIZE = 64;
+    static MatrixCollection<SIZE> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    static int counter = 0;
+    ++counter;
+    if((counter%8)==0) {
+        collection.shiftFrames(frame);
+    }
+    cv::Mat frames[18];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    frames[3] = collection.frames[10].clone();
+    frames[4] = collection.frames[13].clone();
+    frames[5] = collection.frames[15].clone();
+    frames[6] = collection.frames[19].clone();
+    frames[7] = collection.frames[26].clone();
+    frames[8] = collection.frames[31].clone();
+    frames[9] = collection.frames[34].clone();
+    frames[10] = collection.frames[37].clone();
+    frames[11] = collection.frames[40].clone();
+    frames[12] = collection.frames[44].clone();
+    frames[13] = collection.frames[47].clone();
+    frames[14] = collection.frames[50].clone();
+    frames[15] = collection.frames[54].clone();
+    frames[16] = collection.frames[57].clone();
+    frames[17] = collection.frames[63].clone();
+    for(int q = 0; q < 18; ++q) {
+        int off = rand()%18;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    BlendWithSource25(frame);
+    AddInvert(frame);
+}
