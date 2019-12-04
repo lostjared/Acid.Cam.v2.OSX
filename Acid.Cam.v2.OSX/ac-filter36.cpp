@@ -320,3 +320,36 @@ void ac::BlockyTrails(cv::Mat &frame) {
     BlendWithSource25(frame);
     AddInvert(frame);
 }
+
+void ac::BlockyTrails16(cv::Mat &frame) {
+    static constexpr int SIZE = 16;
+    static MatrixCollection<SIZE> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    static int counter = 0;
+    ++counter;
+    if((counter%8)==0) {
+        collection.shiftFrames(frame);
+    }
+    cv::Mat frames[6];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    frames[3] = collection.frames[10].clone();
+    frames[4] = collection.frames[13].clone();
+    frames[5] = collection.frames[15].clone();
+    for(int q = 0; q < 6; ++q) {
+        int off = rand()%6;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    BlendWithSource25(frame);
+    AddInvert(frame);
+}
