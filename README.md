@@ -2,7 +2,7 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
-[VERSION: 2.47.0 (macOS)]
+[VERSION: 2.48.0 (macOS)]
 
 To be able to use all the filters in this app your system should have at lest 8 GB of ram.
 
