@@ -1910,6 +1910,8 @@ namespace ac {
     void UseOldRowVert(cv::Mat &frame);
     void UseEveryOtherRowVert(cv::Mat &frame);
     void UseOffRowDir(cv::Mat &frame);
+    void UseOldRowDir(cv::Mat &frame);
+    void UseEveryOtherRowDir(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

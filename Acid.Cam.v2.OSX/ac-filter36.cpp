@@ -598,3 +598,15 @@ void ac::UseOffRowDir(cv::Mat &frame) {
     UseOffRowVert(frame);
     AddInvert(frame);
 }
+
+void ac::UseOldRowDir(cv::Mat &frame) {
+    UseOldRow(frame);
+    UseOldRowVert(frame);
+    AddInvert(frame);
+}
+
+void ac::UseEveryOtherRowDir(cv::Mat &frame) {
+    UseEveryOtherRow(frame);
+    UseEveryOtherRowVert(frame);
+    AddInvert(frame);
+}
