@@ -1909,6 +1909,7 @@ namespace ac {
     void UseOffRowVert(cv::Mat &frame);
     void UseOldRowVert(cv::Mat &frame);
     void UseEveryOtherRowVert(cv::Mat &frame);
+    void UseOffRowDir(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
