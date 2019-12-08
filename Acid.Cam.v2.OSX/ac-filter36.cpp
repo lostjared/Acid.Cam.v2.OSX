@@ -615,3 +615,25 @@ void ac::SetCurrentFrameStateAsSource(cv::Mat &frame) {
     ac::orig_frame = frame.clone();
     AddInvert(frame);
 }
+
+void ac::RegularTrails(cv::Mat &frame) {
+    static MatrixCollection<12> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[4];
+    frames[0] = collection.frames[1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
+    frames[3] = collection.frames[11].clone();
+    for(int q = 0; q < 4; ++q) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix = frames[q].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
