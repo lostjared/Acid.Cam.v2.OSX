@@ -1912,6 +1912,7 @@ namespace ac {
     void UseOffRowDir(cv::Mat &frame);
     void UseOldRowDir(cv::Mat &frame);
     void UseEveryOtherRowDir(cv::Mat &frame);
+    void SetCurrentFrameStateAsSource(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

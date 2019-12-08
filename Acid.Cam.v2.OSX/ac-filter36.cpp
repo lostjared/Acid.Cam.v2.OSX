@@ -610,3 +610,8 @@ void ac::UseEveryOtherRowDir(cv::Mat &frame) {
     UseEveryOtherRowVert(frame);
     AddInvert(frame);
 }
+
+void ac::SetCurrentFrameStateAsSource(cv::Mat &frame) {
+    ac::orig_frame = frame.clone();
+    AddInvert(frame);
+}
