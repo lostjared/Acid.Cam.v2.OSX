@@ -1077,7 +1077,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="Kca-yO-0lq">
                             <rect key="frame" x="1" y="0.0" width="604" height="299"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="rNv-eJ-jDi" id="oR9-5h-21a">
                                     <rect key="frame" x="0.0" y="0.0" width="604" height="276"/>
@@ -1266,7 +1266,7 @@
                         </connections>
                     </popUpButton>
                     <comboBox verticalHuggingPriority="750" id="omF-QR-BCU">
-                        <rect key="frame" x="108" y="57" width="256" height="26"/>
+                        <rect key="frame" x="108" y="57" width="216" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="User Custom Name" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="gJj-Nv-s2n">
                             <font key="font" metaFont="system"/>
@@ -1275,7 +1275,7 @@
                         </comboBoxCell>
                     </comboBox>
                     <button verticalHuggingPriority="750" id="VMc-mf-IuJ">
-                        <rect key="frame" x="363" y="53" width="61" height="32"/>
+                        <rect key="frame" x="387" y="53" width="61" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Prp-Gw-sGO">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1308,7 +1308,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="kcY-Ry-Ubm">
-                        <rect key="frame" x="416" y="53" width="67" height="32"/>
+                        <rect key="frame" x="441" y="53" width="67" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G9z-3q-JTQ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1410,6 +1410,17 @@
                         </buttonCell>
                         <connections>
                             <action selector="checkboxClose:" target="630" id="SyM-bA-i92"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="AYi-Li-fBe">
+                        <rect key="frame" x="323" y="53" width="71" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Rand" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fKe-a5-e3P">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="selectRandomFilter:" target="630" id="g3k-bz-DB0"/>
                         </connections>
                     </button>
                 </subviews>

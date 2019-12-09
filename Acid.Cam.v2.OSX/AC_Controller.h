@@ -334,6 +334,7 @@ extern int elapsed_counter;
 - (IBAction) clrVideoKey: (id) sender;
 - (IBAction) videoRestart:(id) sender;
 - (IBAction) setRandomFilter:(id)sender;
+- (IBAction) selectRandomFilter:(id) sender;
 @end
 
 extern AC_Controller *controller;

@@ -3345,6 +3345,12 @@ void setEnabledProg() {
     [self changeFilter:self];
 }
 
+- (IBAction) selectRandomFilter:(id) sender {
+    [categories_custom selectItemAtIndex:0];
+    std::string filter_value = ac::solo_filter[rand()%(ac::solo_filter.size()-1)];
+    [current_filter_custom selectItemAtIndex:ac::filter_map[filter_value]];
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
