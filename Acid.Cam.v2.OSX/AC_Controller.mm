@@ -3340,14 +3340,18 @@ void setEnabledProg() {
 
 - (IBAction) setRandomFilter:(id)sender {
     [categories selectItemAtIndex:0];
-    std::string filter_value = ac::solo_filter[rand()%(ac::solo_filter.size()-1)];
+    [self menuSelected:self];
+    int rand_solo = rand()%ac::solo_filter.size();
+    std::string filter_value = ac::solo_filter[rand_solo];
     [current_filter selectItemAtIndex:ac::filter_map[filter_value]];
     [self changeFilter:self];
 }
 
 - (IBAction) selectRandomFilter:(id) sender {
     [categories_custom selectItemAtIndex:0];
-    std::string filter_value = ac::solo_filter[rand()%(ac::solo_filter.size()-1)];
+     [self customMenuSelected:self];
+    int value = rand()%ac::solo_filter.size();
+    std::string filter_value = ac::solo_filter[value];
     [current_filter_custom selectItemAtIndex:ac::filter_map[filter_value]];
 }
 
