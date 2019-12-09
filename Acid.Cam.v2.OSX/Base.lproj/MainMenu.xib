@@ -329,6 +329,12 @@
                                     <action selector="releaseFrames:" target="630" id="oiO-L2-QQc"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="UWk-e6-w5a"/>
+                            <menuItem title="Random Filter" keyEquivalent="x" id="53B-S9-GQt">
+                                <connections>
+                                    <action selector="setRandomFilter:" target="630" id="6BV-Fn-bPA"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
