@@ -3338,6 +3338,13 @@ void setEnabledProg() {
         ac::v_cap.set(cv::CAP_PROP_POS_FRAMES,0);
 }
 
+- (IBAction) setRandomFilter:(id)sender {
+    [categories selectItemAtIndex:0];
+    std::string filter_value = ac::solo_filter[rand()%(ac::solo_filter.size()-1)];
+    [current_filter selectItemAtIndex:ac::filter_map[filter_value]];
+    [self changeFilter:self];
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
