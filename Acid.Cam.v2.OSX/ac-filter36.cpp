@@ -690,3 +690,57 @@ void ac::UseOldRow64(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::UseOldRowVert64(cv::Mat &frame) {
+    static MatrixCollection<64> collection1;
+    static MatrixCollection<64> collection2;
+    collection1.shiftFrames(frame);
+    if(collection2.empty()) collection2.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    static int square_max = (frame.cols / collection1.size());
+    static int square_size = 25 + (rand()% (square_max - 25));
+    int row = 0;
+    int off = 0;
+    int size_past = 0;
+    while(row < frame.cols-1) {
+        square_size = 25 + (rand()% (square_max - 25));
+        for(int i = row; i < row+square_size; ++i) {
+            int val = (rand()%10);
+            for(int z = 0; z < frame.cols; ++z) {
+                if(i < frame.cols && z < frame.rows) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    if(val > 5) {
+                        if(off < (collection2.size()-1)) {
+                            cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
+                            for(int j = 0; j < 3; ++j) {
+                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                            }
+                        }
+                    } else {
+                        if(off < (collection1.size()-1)) {
+                            cv::Vec3b pix = collection1.frames[off].at<cv::Vec3b>(z, i);
+                            for(int j = 0; j < 3; ++j) {
+                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        row += square_size;
+        size_past += square_size;
+        if(size_past > square_max-1) {
+            size_past = 0;
+            ++off;
+            if(off > (collection1.size()-1))
+                break;
+        }
+    }
+    
+    static int counter = 0;
+    if(++counter > 5) {
+        counter = 0;
+        collection2.shiftFrames(copy1);
+    }
+    AddInvert(frame);
+}

@@ -1915,6 +1915,7 @@ namespace ac {
     void SetCurrentFrameStateAsSource(cv::Mat &frame);
     void RegularTrails(cv::Mat &frame);
     void UseOldRow64(cv::Mat &frame);
+    void UseOldRowVert64(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
