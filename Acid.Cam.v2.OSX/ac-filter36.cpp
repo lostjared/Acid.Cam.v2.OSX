@@ -736,11 +736,16 @@ void ac::UseOldRowVert64(cv::Mat &frame) {
                 break;
         }
     }
-    
     static int counter = 0;
     if(++counter > 5) {
         counter = 0;
         collection2.shiftFrames(copy1);
     }
+    AddInvert(frame);
+}
+
+void ac::UseOldRowDir64(cv::Mat &frame) {
+    UseOldRow64(frame);
+    UseOldRowVert64(frame);
     AddInvert(frame);
 }
