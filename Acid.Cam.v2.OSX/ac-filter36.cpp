@@ -911,3 +911,12 @@ void ac::GradientXBlue(cv::Mat &frame) {
     AlphaMovementMaxMin(r_color, r_dir, 5.0, 255.0, 1.0);
     AddInvert(frame);
 }
+
+void ac::GradientAll(cv::Mat &frame) {
+    GradientRedBlend(frame);
+    GradientXRed(frame);
+    GradientGreenBlend(frame);
+    GradientXGreen(frame);
+    GradientBlueBlend(frame);
+    GradientXBlue(frame);
+}
