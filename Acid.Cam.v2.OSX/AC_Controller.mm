@@ -41,6 +41,7 @@
  
  */
 #import "AC_Controller.h"
+#import<IOKit/IOKitLib.h>
 #include<iomanip>
 #include<string>
 #include<dlfcn.h>
@@ -294,6 +295,9 @@ void setEnabledProg() {
     std::ostringstream sout;
     // load from settings
     ffmpeg_string_path = "/usr/local/bin/ffmpeg";
+    std::string gfx_name;
+    [self getGraphicsInfo:&gfx_name];
+    sout << "GPU: " << gfx_name << "\n";
     if(!context.create(cv::ocl::Device::TYPE_ALL)) {
         sout << "Could not create OpenCL Context\n";
     } else {
@@ -303,6 +307,7 @@ void setEnabledProg() {
         }
         cv::ocl::Device(context.device(0));
     }
+  
     flushToLog(sout);
     ac::setThreadCount(4);
     restartFilter = NO;
@@ -319,7 +324,6 @@ void setEnabledProg() {
         [check_update setState: NSControlStateValueOn];
     }
     /*
-     
      std::vector<std::string> valz;
      token::tokenize<std::string>(values, ",", valz);
      
@@ -3351,6 +3355,44 @@ void setEnabledProg() {
     int value = rand()%ac::solo_filter.size();
     std::string filter_value = ac::solo_filter[value];
     [current_filter_custom selectItemAtIndex:ac::filter_map[filter_value]];
+}
+
+// from stackoverflow
+- (void)getGraphicsInfo:(std::string *)s 
+{
+    CFMutableDictionaryRef matchDict = IOServiceMatching("IOPCIDevice");
+    io_iterator_t iterator;
+    
+    if (IOServiceGetMatchingServices(kIOMasterPortDefault,matchDict,
+                                     &iterator) == kIOReturnSuccess)
+    {
+        io_registry_entry_t regEntry;
+        
+        while ((regEntry = IOIteratorNext(iterator))) {
+            CFMutableDictionaryRef serviceDictionary;
+            if (IORegistryEntryCreateCFProperties(regEntry,
+                                                  &serviceDictionary,
+                                                  kCFAllocatorDefault,
+                                                  kNilOptions) != kIOReturnSuccess)
+            {
+                IOObjectRelease(regEntry);
+                continue;
+            }
+            const void *GPUModel = CFDictionaryGetValue(serviceDictionary, @"model");
+            
+            if (GPUModel != nil) {
+                if (CFGetTypeID(GPUModel) == CFDataGetTypeID()) {
+                    NSString *modelName = [[NSString alloc] initWithData:
+                                           (NSData *)GPUModel encoding:NSASCIIStringEncoding];
+                    *s = [modelName UTF8String];
+                    [modelName release];
+                }
+            }
+            CFRelease(serviceDictionary);
+            IOObjectRelease(regEntry);
+        }
+        IOObjectRelease(iterator);
+    }
 }
 
 @end

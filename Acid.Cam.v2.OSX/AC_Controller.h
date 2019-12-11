@@ -335,6 +335,7 @@ extern int elapsed_counter;
 - (IBAction) videoRestart:(id) sender;
 - (IBAction) setRandomFilter:(id)sender;
 - (IBAction) selectRandomFilter:(id) sender;
+- (void)getGraphicsInfo:(std::string *)s;
 @end
 
 extern AC_Controller *controller;
