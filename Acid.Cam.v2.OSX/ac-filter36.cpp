@@ -749,3 +749,23 @@ void ac::UseOldRowDir64(cv::Mat &frame) {
     UseOldRowVert64(frame);
     AddInvert(frame);
 }
+
+void ac::GraidentColorBlend(cv::Mat &frame) {
+    double alpha[3] = {0};
+    static double r_color = rand()%255;
+    static int r_dir = 1;
+    double alpha_inc = 0.5/frame.rows;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (alpha[j] * r_color));
+            }
+        }
+        for(int j = 0; j < 3; ++j) {
+            alpha[j] += alpha_inc;
+        }
+    }
+    AlphaMovementMaxMin(r_color, r_dir, 5.0, 255.0, 1.0);
+    AddInvert(frame);
+}
