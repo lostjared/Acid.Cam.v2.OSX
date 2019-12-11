@@ -750,7 +750,7 @@ void ac::UseOldRowDir64(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::GraidentColorBlend(cv::Mat &frame) {
+void ac::GradientColorBlend(cv::Mat &frame) {
     double alpha[3] = {0};
     static double r_color = rand()%255;
     static int r_dir = 1;
@@ -771,7 +771,7 @@ void ac::GraidentColorBlend(cv::Mat &frame) {
 }
 
 void ac::MedianBlendMultiThreadGradientGray(cv::Mat &frame) {
-    GraidentColorBlend(frame);
+    GradientColorBlend(frame);
     MedianBlendMultiThread(frame);
 }
 
@@ -791,4 +791,9 @@ void ac::GradientRedBlend(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(r_color, r_dir, 5.0, 255.0, 1.0);
     AddInvert(frame);
+}
+
+void ac::MedianBlendMultiThreadGradientRed(cv::Mat &frame) {
+    GradientRedBlend(frame);
+    MedianBlendMultiThread(frame);
 }
