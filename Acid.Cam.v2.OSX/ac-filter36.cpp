@@ -927,3 +927,55 @@ void ac::MedianBlendMultiThreadAllGradients(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::StretchRowMatrix16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    int current = 0;
+    int counter = 0;
+    int rand_size = rand()%50;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        ++counter;
+        if(counter > rand_size) {
+            ++current;
+            counter = 0;
+            if(current > collection.size()-1) {
+                current = 0;
+                rand_size = rand()%50;
+            }
+        }
+    }
+}
+
+void ac::StretchRowMatrix32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int current = 0;
+    int counter = 0;
+    int rand_size = rand()%50;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        ++counter;
+        if(counter > rand_size) {
+            ++current;
+            counter = 0;
+            if(current > collection.size()-1) {
+                current = 0;
+                rand_size = rand()%50;
+            }
+        }
+    }
+}
