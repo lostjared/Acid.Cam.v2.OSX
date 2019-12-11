@@ -1931,6 +1931,7 @@ namespace ac {
     void GradientXGreen(cv::Mat &frame);
     void GradientXBlue(cv::Mat &frame);
     void GradientAll(cv::Mat &frame);
+    void MedianBlendMultiThreadAllGradients(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -919,4 +919,11 @@ void ac::GradientAll(cv::Mat &frame) {
     GradientXGreen(frame);
     GradientBlueBlend(frame);
     GradientXBlue(frame);
+    AddInvert(frame);
+}
+
+void ac::MedianBlendMultiThreadAllGradients(cv::Mat &frame) {
+    GradientAll(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
