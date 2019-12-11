@@ -773,6 +773,7 @@ void ac::GradientColorBlend(cv::Mat &frame) {
 void ac::MedianBlendMultiThreadGradientGray(cv::Mat &frame) {
     GradientColorBlend(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::GradientRedBlend(cv::Mat &frame) {
@@ -796,6 +797,7 @@ void ac::GradientRedBlend(cv::Mat &frame) {
 void ac::MedianBlendMultiThreadGradientRed(cv::Mat &frame) {
     GradientRedBlend(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::GradientGreenBlend(cv::Mat &frame) {
@@ -819,6 +821,7 @@ void ac::GradientGreenBlend(cv::Mat &frame) {
 void ac::MedianBlendMultiThreadGradientGreen(cv::Mat &frame) {
     GradientGreenBlend(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
 void ac::GradientBlueBlend(cv::Mat &frame) {
@@ -842,5 +845,17 @@ void ac::GradientBlueBlend(cv::Mat &frame) {
 void ac::MedianBlendMultiThreadGradientBlue(cv::Mat &frame) {
     GradientBlueBlend(frame);
     MedianBlendMultiThread(frame);
+    AddInvert(frame);
 }
 
+void ac::GradientColorBlendAll(cv::Mat &frame) {
+    GradientRedBlend(frame);
+    GradientGreenBlend(frame);
+    GradientBlueBlend(frame);
+    AddInvert(frame);
+}
+void ac::MedianBlendMultiThreadGradientAll(cv::Mat &frame) {
+    GradientColorBlendAll(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
