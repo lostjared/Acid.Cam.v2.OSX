@@ -1005,3 +1005,79 @@ void ac::StretchRowMatrix8(cv::Mat &frame) {
         }
     }
 }
+
+void ac::StretchColMatrix8(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int current = 0;
+    int counter = 0;
+    int rand_size = rand()%50;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        ++counter;
+        if(counter > rand_size) {
+            ++current;
+            counter = 0;
+            if(current > collection.size()-1) {
+                current = 0;
+                rand_size = rand()%50;
+            }
+        }
+    }
+}
+void ac::StretchColMatrix16(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    int current = 0;
+    int counter = 0;
+    int rand_size = rand()%50;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        ++counter;
+        if(counter > rand_size) {
+            ++current;
+            counter = 0;
+            if(current > collection.size()-1) {
+                current = 0;
+                rand_size = rand()%50;
+            }
+        }
+    }
+}
+void ac::StretchColMatrix32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int current = 0;
+    int counter = 0;
+    int rand_size = rand()%50;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        ++counter;
+        if(counter > rand_size) {
+            ++current;
+            counter = 0;
+            if(current > collection.size()-1) {
+                current = 0;
+                rand_size = rand()%50;
+            }
+        }
+    }
+}
