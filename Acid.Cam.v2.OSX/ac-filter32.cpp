@@ -821,7 +821,7 @@ void ac::MedianBlendMultiThreadScale(cv::Mat &frame) {
 void ac::AcidShuffleMedian(cv::Mat &frame) {
     static std::vector<std::string> median_blend(median);
     static int index = 0;
-    if(index > median_blend.size()-1) {
+    if(index > static_cast<int>(median_blend.size()-1)) {
         index = 0;
         std::shuffle(median_blend.begin(), median_blend.end(), random);
     }

@@ -984,7 +984,7 @@ void ac::AlphaVideoXor(cv::Mat &frame) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                     cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>(alpha * pixel[j])+static_cast<unsigned char>(rgb_values[j])^pix[j];
+                        pixel[j] = static_cast<unsigned char>(alpha * pixel[j])+(static_cast<unsigned char>(rgb_values[j])^pix[j]);
                     }
                 }
             }
