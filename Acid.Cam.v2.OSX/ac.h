@@ -1940,6 +1940,7 @@ namespace ac {
     void StretchColMatrix32(cv::Mat &frame);
     void GradientRandomSwitch(cv::Mat &frame);
     void GradientFlashColor(cv::Mat &frame);
+    void GradientFlashComponent(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
