@@ -80,6 +80,7 @@ void ac::StretchColMatrix8(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 void ac::StretchColMatrix16(cv::Mat &frame) {
     static MatrixCollection<16> collection;
@@ -105,6 +106,7 @@ void ac::StretchColMatrix16(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
 }
 void ac::StretchColMatrix32(cv::Mat &frame) {
     static MatrixCollection<32> collection;
@@ -130,4 +132,30 @@ void ac::StretchColMatrix32(cv::Mat &frame) {
             }
         }
     }
+    AddInvert(frame);
+}
+
+
+
+void ac::GradientRandomSwitch(cv::Mat &frame) {
+    static std::vector<std::string> gradient_filter {"GradientColorBlend", "GradientRedBlend", "GradientGreenBlend", "GradientBlueBlend", "GradientXRed", "GradientXGreen", "GradientXBlue"};
+    static std::default_random_engine random(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
+    static int index = 0, num_filter = 1+(rand()%3);
+    if(index == 0) {
+        std::shuffle(gradient_filter.begin(), gradient_filter.end(), random);
+        index = 1;
+        num_filter = 1+(rand()%4);
+    }
+    static int frame_counter = 0, frame_rand = 0, c_fps = static_cast<int>(ac::fps);
+    frame_rand = c_fps+(rand()%50);
+    ++frame_counter;
+    if(frame_counter > frame_rand) {
+        frame_counter = 0;
+        frame_rand = c_fps+(rand()%50);
+        index = 0;
+    }
+    for(int i = 0; i < num_filter; ++i) {
+        CallFilter(gradient_filter[i], frame);
+    }
+    AddInvert(frame);
 }
