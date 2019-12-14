@@ -1943,6 +1943,7 @@ namespace ac {
     void GradientFlashComponent(cv::Mat &frame);
     void GradientRandomShift(cv::Mat &frame);
     void MedianBlendMultiThreadGradientShift(cv::Mat &frame);
+    void MirrorIntertwineRows720(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);

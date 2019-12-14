@@ -210,3 +210,31 @@ void ac::MedianBlendMultiThreadGradientShift(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::MirrorIntertwineRows720(cv::Mat &frame) {
+    static constexpr int num_rows = 720;
+    static MatrixCollection<num_rows> collection;
+    cv::Mat resized;
+    ac_resize(frame, resized, cv::Size(1280, 720));
+    static int off = 1;
+    off = (off == 0) ? 1 : 0;
+    cv::Mat copy1 = resized.clone();
+    if(off == 1) {
+        MirrorLeft(copy1);
+    } else {
+        MirrorRight(copy1);
+    }
+    collection.shiftFrames(copy1);
+    for(int index = 0, pos = 0; index < copy1.rows; index ++, ++pos) {
+        cv::Mat &ref1 = collection.frames[pos];
+        for(int i = 0; i < frame.cols; ++i) {
+            if(index < frame.rows && i < frame.cols) {
+                cv::Vec3b &pixel = resized.at<cv::Vec3b>(index, i);
+                cv::Vec3b pix = ref1.at<cv::Vec3b>(index, i);
+                pixel = pix;
+            }
+        }
+    }
+    ac_resize(resized, frame, frame.size());
+    AddInvert(frame);
+}
