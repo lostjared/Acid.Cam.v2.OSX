@@ -1944,6 +1944,7 @@ namespace ac {
     void GradientRandomShift(cv::Mat &frame);
     void MedianBlendMultiThreadGradientShift(cv::Mat &frame);
     void MirrorIntertwineRows720(cv::Mat &frame);
+    void MirrorIntertwineRowsY(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
