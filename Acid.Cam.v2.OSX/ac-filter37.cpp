@@ -194,3 +194,12 @@ void ac::GradientFlashComponent(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::GradientRandomShift(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    GradientRandomSwitch(frame);
+    collection.shiftFrames(frame);
+    Smooth(frame, &collection);
+    BlendWithSource25(frame);
+    AddInvert(frame);
+}
