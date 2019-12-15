@@ -1947,6 +1947,7 @@ namespace ac {
     void MirrorIntertwineRowsY(cv::Mat &frame);
     void MirrorIntertwineRowsX_Y_Width_Height(cv::Mat &frame);
     void MirrorTrailsLeft(cv::Mat &frame);
+    void MirrorTrailsLeftRightTopBottom(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
