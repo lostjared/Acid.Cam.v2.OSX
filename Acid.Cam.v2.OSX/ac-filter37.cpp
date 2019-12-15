@@ -296,3 +296,30 @@ void ac::MirrorIntertwineRowsX_Y_Width_Height(cv::Mat &frame) {
     ac_resize(resized, frame, frame.size());
     AddInvert(frame);
 }
+
+void ac::MirrorTrailsLeft(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[0].clone();
+    frames[1] = collection.frames[3].clone();
+    frames[2] = collection.frames[7].clone();
+    MirrorLeft(frames[0]);
+    MirrorRight(frames[1]);
+    MirrorLeft(frames[1]);
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix;
+                    pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+}
