@@ -1945,6 +1945,7 @@ namespace ac {
     void MedianBlendMultiThreadGradientShift(cv::Mat &frame);
     void MirrorIntertwineRows720(cv::Mat &frame);
     void MirrorIntertwineRowsY(cv::Mat &frame);
+    void MirrorIntertwineRowsX_Y_Width_Height(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
