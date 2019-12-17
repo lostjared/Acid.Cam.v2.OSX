@@ -1953,6 +1953,7 @@ namespace ac {
     void MirrorLeftTopToBottom(cv::Mat &frame);
     void MirrorRightBottomToTop(cv::Mat &frame);
     void MirrorFlipLeft(cv::Mat &frame);
+    void MirrorFlipRight(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -450,3 +450,9 @@ void ac::MirrorFlipLeft(cv::Mat &frame) {
     MirrorLeftTopToBottom(frame);
     AddInvert(frame);
 }
+
+void ac::MirrorFlipRight(cv::Mat &frame) {
+    FlipBoth(frame);
+    MirrorRightTopToBottom(frame);
+    AddInvert(frame);
+}
