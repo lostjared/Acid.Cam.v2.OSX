@@ -322,6 +322,7 @@ void ac::MirrorTrailsLeft(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::MirrorTrailsLeftRightTopBottom(cv::Mat &frame) {
@@ -349,6 +350,7 @@ void ac::MirrorTrailsLeftRightTopBottom(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
 
 void ac::MirrorTrailsRightLeftBottomTop(cv::Mat &frame) {
@@ -376,4 +378,69 @@ void ac::MirrorTrailsRightLeftBottomTop(cv::Mat &frame) {
         }
     }
     AlphaMovementMaxMin(alpha, dir, 0.05, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::MirrorTrailsFlash(cv::Mat &frame) {
+    static double alpha = 1.0;
+    static int dir = 1;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat frames[3];
+    frames[0] = collection.frames[0].clone();
+    frames[1] = collection.frames[3].clone();
+    frames[2] = collection.frames[7].clone();
+    static int index = 0;
+    switch(index) {
+    case 0:
+        MirrorLeft(frames[0]);
+        MirrorRight(frames[1]);
+        MirrorTopToBottom(frames[2]);
+        break;
+    case 1:
+        MirrorRight(frames[0]);
+        MirrorLeft(frames[1]);
+        MirrorBottomToTop(frames[2]);
+        break;
+    case 2:
+        MirrorLeftBottomToTop(frames[0]);
+        MirrorRightTopToBottom(frames[1]);
+        MirrorLeft(frames[2]);
+        break;
+    case 3:
+        MirrorLeftBottomToTop(frames[1]);
+        MirrorRightTopToBottom(frames[0]);
+        MirrorRight(frames[2]);
+        break;
+    }
+    ++index;
+    if(index > 3)
+        index = 0;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix;
+                    pix = frames[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.05, 1.0, 0.1);
+    AddInvert(frame);
+}
+
+void ac::MirrorLeftTopToBottom(cv::Mat &frame) {
+    MirrorLeft(frame);
+    MirrorTopToBottom(frame);
+    AddInvert(frame);
+
+}
+
+void ac::MirrorRightBottomToTop(cv::Mat &frame) {
+    MirrorRight(frame);
+    MirrorBottomToTop(frame);
+    AddInvert(frame);
 }
