@@ -1952,6 +1952,7 @@ namespace ac {
     void MirrorTrailsFlash(cv::Mat &frame);
     void MirrorLeftTopToBottom(cv::Mat &frame);
     void MirrorRightBottomToTop(cv::Mat &frame);
+    void MirrorFlipLeft(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
