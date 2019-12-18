@@ -1968,6 +1968,7 @@ namespace ac {
     void MirrorFlipYLeftBottomToTop(cv::Mat &frame);
     void MirrorFlipYRightTopToBottom(cv::Mat &frame);
     void MirrorFlipYRightBottomToTop(cv::Mat &frame);
+    void Diagonal(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
