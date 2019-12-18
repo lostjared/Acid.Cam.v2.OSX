@@ -475,6 +475,18 @@ void ac::MirrorFlipXMirrorLeft(cv::Mat &frame) {
 }
 
 void ac::MirrorFlipXMirrorRight(cv::Mat &frame) {
+    FlipX_Axis(frame);
+    MirrorRight(frame);
+    AddInvert(frame);
+}
+
+void ac::MirrorFlipYMirrorLeft(cv::Mat &frame) {
+    FlipY_Axis(frame);
+    MirrorLeft(frame);
+    AddInvert(frame);
+}
+
+void ac::MirrorFlipYMirrorRight(cv::Mat &frame) {
     FlipY_Axis(frame);
     MirrorRight(frame);
     AddInvert(frame);
