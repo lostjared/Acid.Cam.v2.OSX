@@ -1960,6 +1960,14 @@ namespace ac {
     void MirrorFlipXMirrorRight(cv::Mat &frame);
     void MirrorFlipYMirrorLeft(cv::Mat &frame);
     void MirrorFlipYMirrorRight(cv::Mat &frame);
+    void MirrorFlipXLeftTopToBottom(cv::Mat &frame);
+    void MirrorFlipXLeftBottomToTop(cv::Mat &frame);
+    void MirrorFlipXRightTopToBottom(cv::Mat &frame);
+    void MirrorFlipXRightBottomToTop(cv::Mat &frame);
+    void MirrorFlipYLeftTopToBottom(cv::Mat &frame);
+    void MirrorFlipYLeftBottomToTop(cv::Mat &frame);
+    void MirrorFlipYRightTopToBottom(cv::Mat &frame);
+    void MirrorFlipYRightBottomToTop(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
