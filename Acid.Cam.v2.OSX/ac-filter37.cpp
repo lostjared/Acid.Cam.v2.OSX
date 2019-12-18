@@ -585,3 +585,29 @@ void ac::VerticalGlitch(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::HorizontalXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int pos = 0;
+    int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = pos; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j])) ^ static_cast<unsigned char>(((1-alpha) * pix[j]));
+            }
+        }
+        if((z%3) == 0) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            pos = rand()%(frame.cols-1);
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+    AddInvert(frame);
+}
