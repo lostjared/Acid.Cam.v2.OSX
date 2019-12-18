@@ -1972,6 +1972,7 @@ namespace ac {
     void VerticalGlitch(cv::Mat &frame);
     void HorizontalXor(cv::Mat &frame);
     void VerticalXor(cv::Mat &frame);
+    void Vertical_Horizontal_Glitch(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
