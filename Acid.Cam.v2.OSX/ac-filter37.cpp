@@ -540,7 +540,7 @@ void ac::MirrorFlipYRightBottomToTop(cv::Mat &frame) {
 
 }
 
-void ac::Diagonal(cv::Mat &frame) {
+void ac::HorizontalGlitch(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     int pos = 0;
@@ -560,4 +560,28 @@ void ac::Diagonal(cv::Mat &frame) {
             pos = rand()%(frame.cols-1);
         }
     }
+    AddInvert(frame);
+}
+
+void ac::VerticalGlitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int pos = 0;
+    int index = 0;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = pos; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        if((i%4) == 0) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            pos = rand()%(frame.rows-1);
+        }
+    }
+    AddInvert(frame);
 }
