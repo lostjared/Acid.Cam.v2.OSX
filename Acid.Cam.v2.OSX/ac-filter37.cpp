@@ -611,3 +611,29 @@ void ac::HorizontalXor(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
     AddInvert(frame);
 }
+
+void ac::VerticalXor(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int pos = 0;
+    int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = pos; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j])) ^ static_cast<unsigned char>(((1-alpha) * pix[j]));
+            }
+        }
+        if((i%4) == 0) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            pos = rand()%(frame.rows-1);
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+    AddInvert(frame);
+}
