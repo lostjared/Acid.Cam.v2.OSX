@@ -779,3 +779,33 @@ void ac::VerticalRandomLine(cv::Mat &frame) {
         }
     }
 }
+
+void ac::PixelInterlace(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    int index = 0, dir = 1;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            if(dir == 1) {
+                ++index;
+                if(index > (collection.size()-1)) {
+                    index = collection.size()-1;
+                    dir = 0;
+                }
+            } else {
+                --index;
+                if(index <= 0) {
+                    index = 0;
+                    dir = 1;
+                }
+            }
+        }
+    }
+    
+}
