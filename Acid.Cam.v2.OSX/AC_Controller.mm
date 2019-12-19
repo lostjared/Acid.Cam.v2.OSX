@@ -3323,7 +3323,10 @@ void setEnabledProg() {
             _NSRunAlertPanel(@"Error Could Open File", @"Error could not open file.", @"Ok", nil, nil);
             return;
         }
-        [video_value setStringValue:val];
+        std::string text_val = [val UTF8String];
+        text_val = text_val.substr(text_val.rfind("/")+1, text_val.length());
+        NSString *t = [NSString stringWithUTF8String:text_val.c_str()];
+        [video_value setStringValue:t];
         colorkey_replace = true;
     }
 }
