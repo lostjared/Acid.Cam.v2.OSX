@@ -1976,6 +1976,7 @@ namespace ac {
     void HorizontalSplitGlitch(cv::Mat &frame);
     void VerticalSplitGlitch(cv::Mat &frame);
     void HorizontalRandomLine(cv::Mat &frame);
+    void VerticalRandomLine(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
