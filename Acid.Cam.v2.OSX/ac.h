@@ -1978,6 +1978,7 @@ namespace ac {
     void HorizontalRandomLine(cv::Mat &frame);
     void VerticalRandomLine(cv::Mat &frame);
     void PixelInterlace(cv::Mat &frame);
+    void PixelInterlaceColSkip(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

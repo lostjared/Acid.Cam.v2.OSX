@@ -807,5 +807,43 @@ void ac::PixelInterlace(cv::Mat &frame) {
             }
         }
     }
-    
+}
+
+void ac::PixelInterlaceColSkip(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    int index = 0, dir = 1;
+    int skip = 1+(rand()%25);
+    int num = 0;
+    static double alpha = 1.0;
+    static int a_dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+            }
+            ++num;
+            if(num > skip) {
+                num = 0;
+                skip = 1+(rand()%25);;
+                if(dir == 1) {
+                    ++index;
+                    if(index > (collection.size()-1)) {
+                        index = collection.size()-1;
+                        dir = 0;
+                    }
+                } else {
+                    --index;
+                    if(index <= 0) {
+                        index = 0;
+                        dir = 1;
+                    }
+                }
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, a_dir, 0.01, 1.0, 0.1);
+    AddInvert(frame);
 }
