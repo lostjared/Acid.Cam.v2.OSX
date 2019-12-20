@@ -886,3 +886,24 @@ void ac::PixelInterlaceRowSkip(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, a_dir, 0.01, 1.0, 0.1);
     AddInvert(frame);
 }
+
+void ac::StartOffsetInterlace(cv::Mat &frame) {
+    static MatrixCollection<48> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = rand()%frame.cols; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            ++index;
+            if(index > (collection.size()-1)) {
+                index = 0;
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                
+            }
+        }
+    }
+    AddInvert(frame);
+}
