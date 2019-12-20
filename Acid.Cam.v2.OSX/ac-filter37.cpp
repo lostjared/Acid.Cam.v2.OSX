@@ -963,7 +963,7 @@ void ac::WaveTrailsAura(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ImageInterlace(cv::Mat &frame) {
+void ac::ImageInterlaceWave(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat reimage;

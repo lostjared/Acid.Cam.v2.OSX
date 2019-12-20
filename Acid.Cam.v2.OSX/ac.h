@@ -1983,7 +1983,7 @@ namespace ac {
     void StartOffsetInterlace(cv::Mat &frame);
     void WaveTrails(cv::Mat &frame);
     void WaveTrailsAura(cv::Mat &frame);
-    void ImageInterlace(cv::Mat &frame);
+    void ImageInterlaceWave(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
