@@ -962,3 +962,37 @@ void ac::WaveTrailsAura(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+void ac::ImageInterlace(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    static MatrixCollection<48> collection1;
+    collection1.shiftFrames(frame);
+    static int index1 = 0, dir1 = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = collection1.frames[index1].at<cv::Vec3b>(z, i);
+            cv::Vec3b pix2 = reimage.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.4 * pixel[j]) + (0.4 * pix1[j]) + (0.2 * pix2[j]));
+            }
+        }
+        if(dir1 == 1) {
+            ++index1;
+            if(index1 > (collection1.size()-1)) {
+                index1 = collection1.size()-1;
+                dir1 = 0;
+            }
+        } else {
+            --index1;
+            if(index1 <= 0) {
+                index1 = 0;
+                dir1 = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
