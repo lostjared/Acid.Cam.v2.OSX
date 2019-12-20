@@ -907,3 +907,58 @@ void ac::StartOffsetInterlace(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::WaveTrails(cv::Mat &frame) {
+    static MatrixCollection<48> collection1, collection2;
+    collection1.shiftFrames(frame);
+    if(collection2.empty())
+        collection2.shiftFrames(frame);
+    static int index1 = 0, index2 = 0, dir1 = 1, dir2 = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = collection1.frames[index1].at<cv::Vec3b>(z, i);
+            cv::Vec3b pix2 = collection2.frames[index2].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.33 * pixel[j]) + (0.33 * pix1[j]) + (0.33 * pix2[j]));
+            }
+            if(dir1 == 1) {
+                ++index2;
+                if(index2 > (collection2.size()-1)) {
+                    index2 = collection2.size()-1;
+                    dir1 = 0;
+                }
+            } else {
+                --index2;
+                if(index2 <= 0) {
+                    index2 = 0;
+                    dir1 = 1;
+                }
+            }
+        }
+        if(dir2 == 1) {
+            ++index1;
+            if(index1 > (collection2.size()-1)) {
+                index1 = collection2.size()-1;
+                dir2 = 0;
+            }
+        } else {
+            --index1;
+            if(index1 <= 0) {
+                index1 = 0;
+                dir2 = 1;
+            }
+        }
+    }
+    static int counter = 0;
+    if((++counter%3) == 0)
+        collection2.shiftFrames(frame);
+    
+    AddInvert(frame);
+}
+
+void ac::WaveTrailsAura(cv::Mat &frame) {
+    WaveTrails(frame);
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}
