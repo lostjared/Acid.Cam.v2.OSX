@@ -1027,3 +1027,37 @@ void ac::ColorWaveTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::StrobePixelTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    pushSubFilter(getFilterByName("RandomStrobeFlash"));
+    TrailsSubFilter(copy1);
+    popSubFilter();
+    collection.shiftFrames(copy1);
+    int index = 0, dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.4 * pixel[j]) + (pix[j] * 0.6));
+            }
+        }
+        if(dir == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-1;
+                dir = 0;
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = 0;
+                dir = 1;
+            }
+        }
+    }
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}
