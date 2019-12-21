@@ -1984,6 +1984,7 @@ namespace ac {
     void WaveTrails(cv::Mat &frame);
     void WaveTrailsAura(cv::Mat &frame);
     void ImageInterlaceWave(cv::Mat &frame);
+    void ColorWaveTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

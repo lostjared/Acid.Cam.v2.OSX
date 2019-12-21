@@ -161,6 +161,10 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
             return -1;
         } else
             sout << "Acid Cam Capture device [" << ((camera_mode == 0) ? "Camera" : "Video") << "] opened..\n";
+        
+        if(camera_mode == 1)
+            sout << "Opening Video File: " << input_file << "\n";
+        
         int aw = capture->get(cv::CAP_PROP_FRAME_WIDTH);
         int ah = capture->get(cv::CAP_PROP_FRAME_HEIGHT);
         if(u4k && aw != capture_width && ah != capture_height)
