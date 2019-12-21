@@ -1061,3 +1061,40 @@ void ac::StrobePixelTrails(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+void ac::RectangleTrails(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    int index = 0, dir = 1;
+    int y = 0;
+    int height = 25+(rand()%75);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.4 * pixel[j]) + (pix[j] * 0.6));
+            }
+        }
+        ++y;
+        if(y > height) {
+            y = 0;
+            height = 25+(rand()%75);
+            if(dir == 1) {
+                ++index;
+                if(index > (collection.size()-1)) {
+                    index = collection.size()-1;
+                    dir = 0;
+                }
+            } else {
+                --index;
+                if(index <= 0) {
+                    index = 0;
+                    dir = 1;
+                }
+            }
+        }
+    }
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}

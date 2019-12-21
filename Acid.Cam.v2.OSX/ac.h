@@ -1986,6 +1986,7 @@ namespace ac {
     void ImageInterlaceWave(cv::Mat &frame);
     void ColorWaveTrails(cv::Mat &frame);
     void StrobePixelTrails(cv::Mat &frame);
+    void RectangleTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
