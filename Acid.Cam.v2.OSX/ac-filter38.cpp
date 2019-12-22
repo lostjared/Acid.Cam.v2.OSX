@@ -195,3 +195,39 @@ void ac::RectangleXY_Trails(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+void ac::MedianBlendImage(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    static constexpr int SIZE=8;
+    static MatrixCollection<SIZE> collection;
+    collection.shiftFrames(frame);
+    int r = 3+rand()%4;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Scalar total;
+    for(int q = 0; q < collection.size(); ++q) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = collection.frames[q].at<cv::Vec3b>(z, i);
+                cv::Vec3b ipix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    total[j] += static_cast<unsigned char>((pixel[j] * 0.5) + (ipix[j] * 0.5));
+                }
+            }
+        }
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    int t = 1+static_cast<int>(total[j]);
+                    pixel[j] = static_cast<unsigned char>((pixel[j]^t)^img[j]);
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
