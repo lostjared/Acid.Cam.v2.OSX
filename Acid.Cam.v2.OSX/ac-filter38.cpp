@@ -628,3 +628,50 @@ void ac::DiamondWave(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RGBWave(cv::Mat &frame) {
+    static constexpr int SIZE=32;
+    static MatrixCollection<SIZE> collection;
+    static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
+    cv::Mat copy1 = frame.clone();
+    MatrixCollectionAuraTrails(copy1);
+    collection.shiftFrames(copy1);
+    int row = 0;
+    int size = frame.rows/SIZE;
+    std::vector<int> pos;
+    for(int j = 0; j < SIZE; ++j)
+        pos.push_back(j);
+    std::shuffle(pos.begin(), pos.end(), rng);
+    static int offset = 0, dir1 = 1;
+    for(int index = 0; index < collection.size(); ++index) {
+        for(int z = row; z < row+size; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                if(i < frame.cols && z < frame.rows) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.6 * pix[j]));
+                    }
+                }
+            }
+            if(dir1 == 1) {
+                ++offset;
+                if(offset > (collection.size()-1)) {
+                    offset = collection.size()-1;
+                    dir1 = 0;
+                }
+            } else {
+                --offset;
+                if(offset <= 0) {
+                    offset = 0;
+                    dir1 = 1;
+                }
+            }
+        }
+        row += size;
+        if(row > frame.rows-1)
+            break;
+    }
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}
