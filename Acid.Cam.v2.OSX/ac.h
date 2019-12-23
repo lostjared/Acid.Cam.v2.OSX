@@ -1993,6 +1993,8 @@ namespace ac {
     void VideoPixelFade(cv::Mat &frame);
     void ImagePixelFade(cv::Mat &frame);
     void CollectionPixelFade(cv::Mat &frame);
+    void CollectionPixelFadeSubFilter(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
