@@ -1990,6 +1990,7 @@ namespace ac {
     void RectangleXY_Trails(cv::Mat &frame);
     void MedianBlendImage(cv::Mat &frame);
     void GhostWaveTrails(cv::Mat &frame);
+    void VideoPixelFade(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
