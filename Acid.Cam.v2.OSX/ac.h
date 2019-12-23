@@ -1992,6 +1992,7 @@ namespace ac {
     void GhostWaveTrails(cv::Mat &frame);
     void VideoPixelFade(cv::Mat &frame);
     void ImagePixelFade(cv::Mat &frame);
+    void CollectionPixelFade(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
