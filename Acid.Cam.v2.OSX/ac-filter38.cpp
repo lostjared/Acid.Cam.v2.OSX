@@ -594,3 +594,37 @@ void ac::CollectionPixelFadeSubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::DiamondWave(cv::Mat &frame) {
+    for(int j = 0; j <3; ++j)
+        MedianBlur(frame);
+    cv::Mat copy1 = frame.clone();
+    DiamondPattern(copy1);
+    MirrorLeftBottomToTop(copy1);
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(copy1);
+    static int index = 0, dir1 = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        if(dir1 == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-1;
+                dir1 = 0;
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = 0;
+                dir1 = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}

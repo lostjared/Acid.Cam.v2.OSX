@@ -1994,6 +1994,7 @@ namespace ac {
     void ImagePixelFade(cv::Mat &frame);
     void CollectionPixelFade(cv::Mat &frame);
     void CollectionPixelFadeSubFilter(cv::Mat &frame);
+    void DiamondWave(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
