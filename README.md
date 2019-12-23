@@ -47,6 +47,10 @@ The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will n
 
 ![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
 
+or use FFMPEG like this:
+
+    $ ffmpeg -i "input.file.mp4" -c:v libx265 -tag:v hvc1 -crf 18 output.file.mp4
+
 This project contains the compiled static libraries / include files required to build the program.
 
 Project home page: http://lostsidedead.com/blog/?index=212
