@@ -345,3 +345,75 @@ void ac::VideoPixelFade(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImagePixelFade(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reframe;
+    ac_resize(blend_image, reframe, frame.size());
+    static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    static std::vector<FadeType> pos;
+    if(reset_alpha == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        if(!pos.empty()) {
+            pos.erase(pos.begin(), pos.end());
+        }
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                pos.push_back(FadeType(i, z, 1));
+                for(int j = 0; j < 3; ++j) {
+                    pix_container.pix_values[i][z].add[j] = 0;
+                }
+            }
+        }
+        std::shuffle(pos.begin(), pos.end(), rng);
+    }
+    int total = (frame.cols * frame.rows)/240;
+    static int dir = 1;
+    for(int i = 0; i < total; ++i) {
+        if(pos.size() > 0) {
+            FadeType &p = pos[pos.size()-1];
+            for(int j = 0; j < 3; ++j) {
+                pix_container.pix_values[p.x][p.y].add[j] = p.add;
+            }
+            pos.pop_back();
+        } else {
+            if(!pos.empty()) {
+                pos.erase(pos.begin(), pos.end());
+            }
+            for(int z = 0; z < frame.rows; ++z) {
+                for(int i = 0; i < frame.cols; ++i) {
+                    pos.push_back(FadeType(i, z, (dir == 0) ? 1 : 0));
+                    for(int j = 0; j < 3; ++j) {
+                        pix_container.pix_values[i][z].add[j] = dir;
+                        pix_container.pix_values[i][z].col[j] = rand()%2;
+                    }
+                    
+                }
+            }
+            std::shuffle(pos.begin(), pos.end(), rng);
+            dir = (dir == 0) ? 1 : 0;
+        }
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                PixelValues &p = pix_container.pix_values[i][z];
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(p.add[j] == 1 && p.col[j] == 0) {
+                        pixel[j] = static_cast<unsigned char>(pixel[j]^pix[j]);
+                    }
+                    p.col[j] = rand()%2;
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
