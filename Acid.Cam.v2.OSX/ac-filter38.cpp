@@ -644,7 +644,7 @@ void ac::RGBWave(cv::Mat &frame) {
     std::shuffle(pos.begin(), pos.end(), rng);
     static int offset = 0, dir1 = 1;
     for(int index = 0; index < collection.size(); ++index) {
-        for(int z = row; z < row+size; ++z) {
+        for(int z = row; z < (row+size) && (z < frame.rows); ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -669,8 +669,6 @@ void ac::RGBWave(cv::Mat &frame) {
             }
         }
         row += size;
-        if(row > frame.rows-1)
-            break;
     }
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
