@@ -723,3 +723,19 @@ void ac::VideoSaturateAdd(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoSmoothMedianBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        static MatrixCollection<8> collection;
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(frame);
+        collection.shiftFrames(reframe);
+        Smooth(frame, &collection);
+        MedianBlendMultiThread(frame);
+    }
+    AddInvert(frame);
+}

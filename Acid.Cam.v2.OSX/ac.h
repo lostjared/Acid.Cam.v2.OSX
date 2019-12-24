@@ -1998,6 +1998,7 @@ namespace ac {
     void RGBWave(cv::Mat &frame);
     void VideoCollectionOutline(cv::Mat &frame);
     void VideoSaturateAdd(cv::Mat &frame);
+    void VideoSmoothMedianBlend(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
