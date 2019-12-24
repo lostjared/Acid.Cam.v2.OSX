@@ -1996,6 +1996,7 @@ namespace ac {
     void CollectionPixelFadeSubFilter(cv::Mat &frame);
     void DiamondWave(cv::Mat &frame);
     void RGBWave(cv::Mat &frame);
+    void VideoCollectionOutline(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);

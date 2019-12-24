@@ -673,3 +673,32 @@ void ac::RGBWave(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+void ac::VideoCollectionOutline(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat copy1;
+        ac_resize(vframe, copy1, frame.size());
+        static MatrixCollection<8> collection;
+        ColorPulseIncrease(frame);
+        collection.shiftFrames(frame);
+        MedianBlendIncrease(copy1);
+        static constexpr int val = 4;
+        cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
+        cv::Mat &copy_frame = collection.frames[val];
+        for(int z = 0; z < copy_frame.rows; ++z) {
+            for(int i = 0; i < copy_frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+                if(colorBounds(pixel, pix, intensity, intensity)) {
+                    pixel = cv::Vec3b(0,0,0);
+                } else {
+                    pixel = copy1.at<cv::Vec3b>(z, i);
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
