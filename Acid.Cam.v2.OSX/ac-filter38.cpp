@@ -630,7 +630,7 @@ void ac::DiamondWave(cv::Mat &frame) {
 }
 
 void ac::RGBWave(cv::Mat &frame) {
-    static constexpr int SIZE=32;
+    static constexpr int SIZE=24;
     static MatrixCollection<SIZE> collection;
     static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     cv::Mat copy1 = frame.clone();
@@ -648,9 +648,9 @@ void ac::RGBWave(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = collection.frames[pos[offset]].at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.6 * pix[j]));
+                        pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.8 * pix[j]));
                     }
                 }
             }
