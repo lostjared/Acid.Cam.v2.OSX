@@ -1997,6 +1997,7 @@ namespace ac {
     void DiamondWave(cv::Mat &frame);
     void RGBWave(cv::Mat &frame);
     void VideoCollectionOutline(cv::Mat &frame);
+    void VideoSaturateAdd(cv::Mat &frame);
 
     // #NoFilter
     void NoFilter(cv::Mat &frame);
