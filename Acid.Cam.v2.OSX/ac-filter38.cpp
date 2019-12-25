@@ -739,3 +739,38 @@ void ac::VideoSmoothMedianBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::Square_Blocks(cv::Mat &frame) {
+    static MatrixCollection<24> collection;
+    collection.shiftFrames(frame);
+    int square_size = 16;
+    int index = 0;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; z += square_size) {
+        for(int i = 0; i < frame.cols; i += square_size) {
+            for(int y = 0; y < square_size; ++y) {
+                for(int x = 0; x < square_size; ++x) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
+            }
+            if(dir == 1) {
+                ++index;
+                if(index > (collection.size()-1)) {
+                    index = collection.size()-1;
+                    dir = 0;
+                }
+            } else {
+                --index;
+                if(index >= 0) {
+                    index = 0;
+                    dir = 1;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
