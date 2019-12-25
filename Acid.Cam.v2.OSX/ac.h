@@ -2001,7 +2001,7 @@ namespace ac {
     void VideoSmoothMedianBlend(cv::Mat &frame);
     void Square_Blocks(cv::Mat &frame);
     void Square_Block_Resize(cv::Mat &frame);
-
+    void Square_Block_Resize_Vertical(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
