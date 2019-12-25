@@ -1,3 +1,5 @@
+- Jared Bruni
+
 # Acid.Cam.v2.OSX
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
