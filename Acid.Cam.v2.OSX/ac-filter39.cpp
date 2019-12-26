@@ -148,3 +148,34 @@ void ac::VideoBlendGradient(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoMatrixBlend(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        static MatrixCollection<8> collection1, collection2;
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection1.shiftFrames(frame);
+        collection2.shiftFrames(reframe);
+        cv::Mat frame1[3], frame2[3];
+        frame1[0] = collection1.frames[0].clone();
+        frame1[1] = collection1.frames[3].clone();
+        frame1[2] = collection1.frames[7].clone();
+        frame2[0] = collection2.frames[0].clone();
+        frame2[1] = collection2.frames[3].clone();
+        frame2[2] = collection2.frames[7].clone();
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix1 = frame1[j].at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix2 = frame2[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>( (0.33 * pixel[j]) + (0.33 * pix1[j]) + (0.33 * pix2[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
