@@ -114,3 +114,8 @@ void ac::Square_Block_Resize_Vert_Video(cv::Mat &frame) {
 }
 
 
+void ac::Square_Block_Resize_Dir(cv::Mat &frame) {
+    Square_Block_Resize(frame);
+    Square_Block_Resize_Vertical(frame);
+    AddInvert(frame);
+}
