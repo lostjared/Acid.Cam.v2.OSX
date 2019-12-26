@@ -131,7 +131,7 @@ void ac::Square_Block_Resize_All(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::VideoTest(cv::Mat &frame) {
+void ac::VideoBlendGradient(cv::Mat &frame) {
     if(v_cap.isOpened() == false)
         return;
     cv::Mat vframe;
