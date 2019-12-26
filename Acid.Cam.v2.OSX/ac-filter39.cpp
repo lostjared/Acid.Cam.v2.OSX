@@ -142,6 +142,9 @@ void ac::VideoTest(cv::Mat &frame) {
         collection.shiftFrames(frame);
         collection.shiftFrames(reframe);
         Smooth(frame, &collection, false);
+        GradientColorBlend(frame);
+        GradientColorBlendAll(frame);
         MedianBlendMultiThread(frame);
     }
+    AddInvert(frame);
 }
