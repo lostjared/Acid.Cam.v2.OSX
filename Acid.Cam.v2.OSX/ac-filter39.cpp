@@ -119,3 +119,12 @@ void ac::Square_Block_Resize_Dir(cv::Mat &frame) {
     Square_Block_Resize_Vertical(frame);
     AddInvert(frame);
 }
+
+void ac::Square_Block_Resize_All(cv::Mat &frame) {
+    Square_Blocks(frame);
+    Square_Block_Resize(frame);
+    Square_Block_Resize_Vertical(frame);
+    Square_Block_Resize_Reset(frame);
+    Square_Block_Resize_Vert_Reset(frame);
+    AddInvert(frame);
+}

@@ -2007,6 +2007,7 @@ namespace ac {
     void Square_Block_Resize_Video(cv::Mat &frame);
     void Square_Block_Resize_Vert_Video(cv::Mat &frame);
     void Square_Block_Resize_Dir(cv::Mat &frame);
+    void Square_Block_Resize_All(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
