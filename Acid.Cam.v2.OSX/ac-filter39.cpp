@@ -128,3 +128,7 @@ void ac::Square_Block_Resize_All(cv::Mat &frame) {
     Square_Block_Resize_Vert_Reset(frame);
     AddInvert(frame);
 }
+
+void ac::VideoTest(cv::Mat &frame) {
+    
+}
