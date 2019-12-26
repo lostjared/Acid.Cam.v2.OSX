@@ -750,10 +750,12 @@ void ac::Square_Blocks(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
-                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
@@ -785,10 +787,12 @@ void ac::Square_Block_Resize(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
-                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
@@ -834,10 +838,12 @@ void ac::Square_Block_Resize_Vertical(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
-                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
@@ -881,10 +887,12 @@ void ac::Square_Block_Resize_Reset(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
-                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
@@ -919,10 +927,12 @@ void ac::Square_Block_Resize_Vert_Reset(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_size) {
             for(int y = 0; y < square_size; ++y) {
                 for(int x = 0; x < square_size; ++x) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
-                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
@@ -967,10 +977,12 @@ void ac::Square_Block_Resize_Video(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; i += square_size) {
                 for(int y = 0; y < square_size; ++y) {
                     for(int x = 0; x < square_size; ++x) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
-                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
-                        for(int j = 0; j < 3; ++j) {
-                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
+                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                            for(int j = 0; j < 3; ++j) {
+                                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                            }
                         }
                     }
                 }
