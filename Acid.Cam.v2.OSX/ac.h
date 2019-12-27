@@ -2013,6 +2013,7 @@ namespace ac {
     void VideoMatrixBlendAlpha(cv::Mat &frame);
     void VideoMatrixBlendAlphaRandom(cv::Mat &frame);
     void VideoMatrixSwitch(cv::Mat &frame);
+    void VideoCollectionWave(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
