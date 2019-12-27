@@ -384,3 +384,53 @@ void ac::CollectionWave(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::TremorShake(cv::Mat &frame) {
+    static MatrixCollection<24> collection;
+    collection.shiftFrames(frame);
+    int row_index = 0;
+    static int row_size = 10;
+    static int row_size_dir = 1;
+    int row_y = 0;
+    int row_dir = 1;
+    for(int q = 0; q < collection.size(); ++q) {
+        for(int z = row_y; z < frame.rows && z < row_y+row_size; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[row_index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+        if(row_dir == 1) {
+            ++row_index;
+            if(row_index > (collection.size()-1)) {
+                row_index = collection.size()-1;
+                row_dir = 0;
+            }
+        } else {
+            --row_index;
+            if(row_index <= 1) {
+                row_index = 1;
+                row_dir = 1;
+            }
+        }
+        row_y += row_size;
+        
+        if(row_size_dir == 1) {
+            row_size += 10;
+            if(row_size > 250) {
+                row_size = 250;
+                row_size_dir = 0;
+            }
+        } else {
+            row_size -= 10;
+            if(row_size <= 1) {
+                row_size = 0;
+                row_size_dir = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}

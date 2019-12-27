@@ -2015,6 +2015,7 @@ namespace ac {
     void VideoMatrixSwitch(cv::Mat &frame);
     void VideoCollectionWave(cv::Mat &frame);
     void CollectionWave(cv::Mat &frame);
+    void TremorShake(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
