@@ -259,3 +259,29 @@ void ac::VideoMatrixBlendAlphaRandom(cv::Mat &frame) {
     for(int j = 0; j < 3; ++j)
         AlphaMovementMaxMin(alpha[j], dir[j], 0.01, 0.33, 0.1);
 }
+
+void ac::VideoMatrixSwitch(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static int index = 0;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    pixel[index] = static_cast<unsigned char>((0.5 * pixel[index] + (0.5 * pix[index])));
+                }
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+    }
+    AddInvert(frame);
+    ++index;
+    if(index > 2) {
+        index  = 0;
+    }
+}
