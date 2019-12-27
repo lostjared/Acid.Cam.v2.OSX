@@ -2011,6 +2011,7 @@ namespace ac {
     void VideoBlendGradient(cv::Mat &frame);
     void VideoMatrixBlend(cv::Mat &frame);
     void VideoMatrixBlendAlpha(cv::Mat &frame);
+    void VideoMatrixBlendAlphaRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

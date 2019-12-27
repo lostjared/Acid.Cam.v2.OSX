@@ -216,3 +216,46 @@ void ac::VideoMatrixBlendAlpha(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir1, 0.01, 0.33, 0.1);
     AlphaMovementMaxMin(palpha, dir2, 0.01, 0.33, 0.1);
 }
+
+void ac::VideoMatrixBlendAlphaRandom(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static int lazy = 1;
+    static double alpha[3] = {0.33, 0.33, 0.33};
+    static int dir[3] = {1,1,1};
+    if(reset_alpha == true || lazy == 1) {
+        for(int j = 0; j < 3; ++j) {
+            alpha[j] = (0.01 * (rand()%33));
+            dir[j] = rand()%2;
+        }
+        lazy = 0;
+    }
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        static MatrixCollection<8> collection1, collection2;
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection1.shiftFrames(frame);
+        collection2.shiftFrames(reframe);
+        cv::Mat frame1[3], frame2[3];
+        frame1[0] = collection1.frames[0].clone();
+        frame1[1] = collection1.frames[3].clone();
+        frame1[2] = collection1.frames[7].clone();
+        frame2[0] = collection2.frames[0].clone();
+        frame2[1] = collection2.frames[3].clone();
+        frame2[2] = collection2.frames[7].clone();
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    cv::Vec3b pix1 = frame1[j].at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix2 = frame2[j].at<cv::Vec3b>(z, i);
+                    pixel[j] = static_cast<unsigned char>((alpha[0] * pixel[j]) + (alpha[1] * pix1[j]) + (alpha[2] * pix2[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+    for(int j = 0; j < 3; ++j)
+        AlphaMovementMaxMin(alpha[j], dir[j], 0.01, 0.33, 0.1);
+}
