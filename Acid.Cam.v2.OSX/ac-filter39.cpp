@@ -339,3 +339,48 @@ void ac::VideoCollectionWave(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::CollectionWave(cv::Mat &frame) {
+    static MatrixCollection<24> collection1;
+    collection1.shiftFrames(frame);
+    static int row_size = 10;
+    int row_index = 0;
+    int row_dir = 1, row_size_dir = 1;
+    for(int q = 0; q < frame.rows; q += row_size) {
+        for(int z = 0; z < q+row_size && z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = collection1.frames[row_index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix1[j]));
+                }
+            }
+            if(row_dir == 1) {
+                ++row_index;
+                if(row_index > (collection1.size()-1)) {
+                    row_index = collection1.size()-1;
+                    row_dir = 0;
+                }
+            } else {
+                --row_index;
+                if(row_index <= 1) {
+                    row_index = 1;
+                    row_dir = 1;
+                    if(row_size_dir == 1) {
+                        row_size += 20;
+                        if(row_size > 100) {
+                            row_size_dir = 0;
+                        }
+                    } else {
+                        row_size -= 20;
+                        if(row_size <= 10) {
+                            row_size = 50;
+                            row_size_dir = 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
