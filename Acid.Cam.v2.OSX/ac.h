@@ -2010,6 +2010,7 @@ namespace ac {
     void Square_Block_Resize_All(cv::Mat &frame);
     void VideoBlendGradient(cv::Mat &frame);
     void VideoMatrixBlend(cv::Mat &frame);
+    void VideoMatrixBlendAlpha(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
