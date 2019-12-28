@@ -2017,6 +2017,7 @@ namespace ac {
     void CollectionWave(cv::Mat &frame);
     void TremorShake(cv::Mat &frame);
     void PixelateSquares(cv::Mat &frame);
+    void ColorPixelDoubleXor(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -460,3 +460,28 @@ void ac::PixelateSquares(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorPixelDoubleXor(cv::Mat &frame) {
+    static double value[3] = {1,3,5};
+    if(reset_alpha == true) {
+        value[0] = 1;
+        value[1] = 3;
+        value[2] = 5;
+    }
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (static_cast<int>(pixel[j]^static_cast<int>(value[j]))));
+                }
+            }
+        }
+    };
+    for(int j = 0; j < 3; ++j) {
+        int r = rand()%100;
+        value[j] += 0.3 * r;
+    }
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+}
