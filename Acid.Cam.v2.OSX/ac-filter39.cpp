@@ -434,3 +434,29 @@ void ac::TremorShake(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PixelateSquares(cv::Mat &frame) {
+    int pix_size_w = 5+rand()%50, pix_size_h = 5+rand()%50;
+    int num_square_w = frame.cols/pix_size_w;
+    int num_square_h = frame.rows/pix_size_h;
+    static MatrixCollection<24> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    for(int z = 0; z < num_square_h; ++z) {
+        for(int i = 0; i < num_square_w; ++i) {
+            for(int p = (z*pix_size_h); p < (z*pix_size_h)+pix_size_h && p < frame.rows; ++p) {
+                for(int q = (i*pix_size_w); q < (i*pix_size_w)+pix_size_w && p < frame.cols; ++q) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(p, q);
+                    cv::Vec3b col = collection.frames[index].at<cv::Vec3b>(p, q);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * col[j]));
+                    }
+                }
+            }
+            ++index;
+            if(index > (collection.size()-1))
+                index = 0;
+        }
+    }
+    AddInvert(frame);
+}
