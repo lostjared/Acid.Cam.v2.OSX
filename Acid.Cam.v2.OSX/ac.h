@@ -2018,6 +2018,7 @@ namespace ac {
     void TremorShake(cv::Mat &frame);
     void PixelateSquares(cv::Mat &frame);
     void ColorPixelDoubleXor(cv::Mat &frame);
+    void VideoCollectionOffsetBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
