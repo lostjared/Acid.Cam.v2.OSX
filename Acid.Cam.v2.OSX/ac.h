@@ -2019,6 +2019,7 @@ namespace ac {
     void PixelateSquares(cv::Mat &frame);
     void ColorPixelDoubleXor(cv::Mat &frame);
     void VideoCollectionOffsetBlend(cv::Mat &frame);
+    void VideoTransparent(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

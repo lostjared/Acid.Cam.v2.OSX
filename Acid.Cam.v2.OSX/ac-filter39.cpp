@@ -528,3 +528,26 @@ void ac::VideoCollectionOffsetBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoTransparent(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(frame);
+        collection.shiftFrames(reframe);
+        cv::Mat copy1 = reframe.clone();
+        Smooth(copy1,&collection);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = (static_cast<unsigned char>(pixel[j] * 0.5) + static_cast<unsigned char>(pix[j] * 0.5));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
