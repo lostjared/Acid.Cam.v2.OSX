@@ -2020,6 +2020,7 @@ namespace ac {
     void ColorPixelDoubleXor(cv::Mat &frame);
     void VideoCollectionOffsetBlend(cv::Mat &frame);
     void VideoTransparent(cv::Mat &frame);
+    void VideoStripes(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
