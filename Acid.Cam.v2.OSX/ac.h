@@ -2022,6 +2022,7 @@ namespace ac {
     void VideoTransparent(cv::Mat &frame);
     void VideoStripes(cv::Mat &frame);
     void VideoSmoothGradient(cv::Mat &frame);
+    void SmoothSelfBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
