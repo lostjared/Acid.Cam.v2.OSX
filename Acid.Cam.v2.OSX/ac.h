@@ -2024,6 +2024,7 @@ namespace ac {
     void VideoSmoothGradient(cv::Mat &frame);
     void SmoothSelfBlend(cv::Mat &frame);
     void MedianBlendMultiThread_Half(cv::Mat &frame);
+    void MedianBlendMultiThread_Variable(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

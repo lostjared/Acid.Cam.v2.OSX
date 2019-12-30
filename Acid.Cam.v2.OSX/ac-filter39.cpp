@@ -637,3 +637,24 @@ void ac::MedianBlendMultiThread_Half(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::MedianBlendMultiThread_Variable(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    MedianBlendMultiThread(copy1);
+    static double alpha1 = 0.5;
+    static int dir1 = 1;
+    auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (alpha1 * pix[j]));
+                }
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AlphaMovementMaxMin(alpha1, dir1, 0.01, 0.5, 0.1);
+    AddInvert(frame);
+}
