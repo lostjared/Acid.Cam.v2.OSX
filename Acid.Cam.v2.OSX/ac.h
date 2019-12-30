@@ -2021,6 +2021,7 @@ namespace ac {
     void VideoCollectionOffsetBlend(cv::Mat &frame);
     void VideoTransparent(cv::Mat &frame);
     void VideoStripes(cv::Mat &frame);
+    void VideoSmoothGradient(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

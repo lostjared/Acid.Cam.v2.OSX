@@ -590,3 +590,12 @@ void ac::VideoStripes(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoSmoothGradient(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    VideoTransparent(frame);
+    GradientRandomShift(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
