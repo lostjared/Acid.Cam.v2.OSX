@@ -2023,6 +2023,7 @@ namespace ac {
     void VideoStripes(cv::Mat &frame);
     void VideoSmoothGradient(cv::Mat &frame);
     void SmoothSelfBlend(cv::Mat &frame);
+    void MedianBlendMultiThread_Half(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
