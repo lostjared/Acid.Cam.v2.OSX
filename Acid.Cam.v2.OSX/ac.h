@@ -2028,6 +2028,7 @@ namespace ac {
     void FiftyPercentSubFilter(cv::Mat &frame);
     void VariablePercentSubFilter(cv::Mat &frame);
     void TwentyFivePercentSubFilter(cv::Mat &frame);
+    void SeventyFivePercentSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
