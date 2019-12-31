@@ -743,6 +743,10 @@ void ac::SeventyFivePercentSubFilter(cv::Mat &frame) {
 }
 
 void ac::VideoRowGlitch(cv::Mat &frame) {
+    
+    if(v_cap.isOpened() == false)
+        return;
+    
     static MatrixCollection<8> collection1;
     static MatrixCollection<4> collection2;
     collection1.shiftFrames(frame);
@@ -772,6 +776,38 @@ void ac::VideoRowGlitch(cv::Mat &frame) {
         };
         UseMultipleThreads(frame, getThreadCount(), callback);
         AddInvert(frame);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoXor_Frame(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static MatrixCollection<8> collection;
+        collection.shiftFrames(reframe);
+        static int index = 0;
+        static double alpha = 0.5;
+        static int dir = 1;
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = (0.5 * pixel[j]) + (alpha*(static_cast<int>(pix[j]^pixel[j])));
+                    }
+                }
+            }
+        };
+        ++index;
+        if(index > (collection.size()-1))
+            index = 0;
+        AlphaMovementMaxMin(alpha, dir, 0.01, 0.5, 0.1);
+        UseMultipleThreads(frame, getThreadCount(), callback);
     }
     AddInvert(frame);
 }
