@@ -741,3 +741,37 @@ void ac::SeventyFivePercentSubFilter(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
 }
+
+void ac::VideoRowGlitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection1;
+    static MatrixCollection<4> collection2;
+    collection1.shiftFrames(frame);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection2.shiftFrames(reframe);
+        int index1 = 0, index2 = collection2.size()-2;
+        auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+            for(int z = offset; z <  offset+size; ++z) {
+                for(int i = 0; i < cols; ++i) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix1 = collection1.frames[index1].at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix2 = collection2.frames[index2].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.33 * pixel[j]) + (0.33 * pix1[j]) + (0.33 * pix2[j]));
+                    }
+                }
+                index1++;
+                if(index1 > (collection1.size()-1))
+                    index1 = 0;
+                ++index2;
+                if(index2 > (collection2.size()-1))
+                    index2 = 0;
+            }
+        };
+        UseMultipleThreads(frame, getThreadCount(), callback);
+        AddInvert(frame);
+    }
+    AddInvert(frame);
+}
