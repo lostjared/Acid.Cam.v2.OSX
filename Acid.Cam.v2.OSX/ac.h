@@ -2027,6 +2027,7 @@ namespace ac {
     void MedianBlendMultiThread_Variable(cv::Mat &frame);
     void FiftyPercentSubFilter(cv::Mat &frame);
     void VariablePercentSubFilter(cv::Mat &frame);
+    void TwentyFivePercentSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
