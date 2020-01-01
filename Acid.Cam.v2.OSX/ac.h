@@ -2037,6 +2037,7 @@ namespace ac {
     void VideoSlideOffsetX(cv::Mat &frame);
     void VideoSlideOffsetXRev(cv::Mat &frame);
     void VideoSlideOffsetRGB(cv::Mat &frame);
+    void VideoSlideOffsetRGBRev(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
