@@ -2032,6 +2032,7 @@ namespace ac {
     void VideoRowGlitch(cv::Mat &frame);
     void VideoXor_Frame(cv::Mat &frame);
     void VideoSlideRGB(cv::Mat &frame);
+    void VideoSlide(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
