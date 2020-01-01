@@ -2033,6 +2033,7 @@ namespace ac {
     void VideoXor_Frame(cv::Mat &frame);
     void VideoSlideRGB(cv::Mat &frame);
     void VideoSlide(cv::Mat &frame);
+    void VideoSlideOffset(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
