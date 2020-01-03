@@ -3460,6 +3460,17 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) randomUserDefined: (id) sender {
+    [categories_custom selectItemAtIndex: 14];
+    [self customMenuSelected:self];
+    NSInteger count = [current_filter_custom numberOfItems];
+    if(count > 1) {
+        NSInteger rand_index = rand()%(count-1);
+        [current_filter_custom selectItemAtIndex:rand_index];
+        [self selectedCustomFilter:self];
+    }
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;

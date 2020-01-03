@@ -348,6 +348,11 @@
                                     <action selector="setRandomFilter:" target="630" id="6BV-Fn-bPA"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Random User Defined Filter" keyEquivalent="u" id="3vt-PB-fwI">
+                                <connections>
+                                    <action selector="randomUserDefined:" target="630" id="IIp-pb-tjN"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

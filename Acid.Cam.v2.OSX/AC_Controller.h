@@ -338,6 +338,7 @@ extern int elapsed_counter;
 - (void)getGraphicsInfo:(std::string *)s;
 - (IBAction) saveKeys: (id) sender;
 - (IBAction) loadKeys: (id) sender;
+- (IBAction) randomUserDefined: (id) sender;
 @end
 
 extern AC_Controller *controller;
