@@ -3398,6 +3398,24 @@ void setEnabledProg() {
     }
 }
 
+- (void) saveKeys: (id) sender {
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setShowsHiddenFiles:YES];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];
+    if([panel runModal]) {
+        NSString *s = [[panel URL] path];
+    }
+}
+- (void) loadKeys: (id) sender {
+    
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];
+    if([panel runModal]) {
+        NSString *s = [[panel URL] path];
+    }
+    
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;

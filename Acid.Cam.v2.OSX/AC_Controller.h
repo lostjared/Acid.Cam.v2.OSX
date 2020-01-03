@@ -336,6 +336,8 @@ extern int elapsed_counter;
 - (IBAction) setRandomFilter:(id)sender;
 - (IBAction) selectRandomFilter:(id) sender;
 - (void)getGraphicsInfo:(std::string *)s;
+- (void) saveKeys: (id) sender;
+- (void) loadKeys: (id) sender;
 @end
 
 extern AC_Controller *controller;
