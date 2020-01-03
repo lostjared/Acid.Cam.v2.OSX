@@ -3398,7 +3398,7 @@ void setEnabledProg() {
     }
 }
 
-- (void) saveKeys: (id) sender {
+- (IBAction) saveKeys: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setShowsHiddenFiles:YES];
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];
@@ -3406,7 +3406,7 @@ void setEnabledProg() {
         NSString *s = [[panel URL] path];
     }
 }
-- (void) loadKeys: (id) sender {
+- (IBAction) loadKeys: (id) sender {
     
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];

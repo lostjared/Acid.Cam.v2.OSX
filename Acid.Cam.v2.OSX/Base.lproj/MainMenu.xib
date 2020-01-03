@@ -249,6 +249,19 @@
                                     <action selector="custom_Save:" target="630" id="sEH-2T-UVD"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="WQW-mS-kiX"/>
+                            <menuItem title="Load Chroma Keys" id="bgu-cv-uX6">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="loadKeys:" target="630" id="M0O-v0-wPI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Save Chroma Keys" id="UUH-4b-Pi0">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="saveKeys:" target="630" id="odN-Et-rHH"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="hWb-fv-rMN"/>
                             <menuItem title="Reload Camera Info" id="QqX-Fh-ztu">
                                 <modifierMask key="keyEquivalentModifierMask"/>
