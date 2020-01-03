@@ -3409,6 +3409,7 @@ void setEnabledProg() {
         if(!file.is_open()) {
             return;
         }
+        std::vector<ac::Keys> blocked_color_keys = green_blocked;
         for(NSInteger i = 0; i < blocked_color_keys.size(); ++i) {
             file << ((blocked_color_keys[i].key_type == ac::KeyValueType::KEY_RANGE) ? 0 : 1) << " = " << int(blocked_color_keys[i].low[0]) << ":" << int(blocked_color_keys[i].low[1]) << ":" << int(blocked_color_keys[i].low[2]) << " - " << int(blocked_color_keys[i].high[0]) << ":" << int(blocked_color_keys[i].high[1]) << ":" << int(blocked_color_keys[i].high[1]) << "\n";
         }
@@ -3416,7 +3417,6 @@ void setEnabledProg() {
     }
 }
 - (IBAction) loadKeys: (id) sender {
-    
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];
     if([panel runModal]) {
@@ -3433,13 +3433,27 @@ void setEnabledProg() {
                 char ch = 0;
                 in_stream >> key;
                 in_stream >> ch >> low[0] >> ch >> low[1] >> ch >> low[2] >> ch >> high[0] >> ch >> high[1] >> ch >> high[2];
-                cv::Vec3b v_low(static_cast<unsigned char>(low[0]), static_cast<unsigned char>(low[1]), static_cast<unsigned char>(low[2]));
-                cv::Vec3b v_high(static_cast<unsigned char>(high[0]), static_cast<unsigned char>(high[1]), static_cast<unsigned char>(high[2]));
+                cv::Vec3b well_color_low(static_cast<unsigned char>(low[0]), static_cast<unsigned char>(low[1]), static_cast<unsigned char>(low[2]));
+                cv::Vec3b well_color_high(static_cast<unsigned char>(high[0]), static_cast<unsigned char>(high[1]), static_cast<unsigned char>(high[2]));
                 ac::Keys key_value;
                 key_value.key_type = ((key == 0) ? ac::KeyValueType::KEY_RANGE : ac::KeyValueType::KEY_TOLERANCE);
-                key_value.low = v_low;
-                key_value.high = v_high;
-                blocked_color_keys.push_back(key_value);
+                key_value.low = well_color_low;
+                key_value.high = well_color_high;
+                if(key_value.key_type == ac::KeyValueType::KEY_RANGE) {
+                    green_blocked.push_back(key_value);
+                    NSString *s_color = [NSString stringWithFormat:@"Color BGR Range: (%d, %d, %d) - (%d, %d, %d)", well_color_low[0], well_color_low[1], well_color_low[2], well_color_high[0], well_color_high[1], well_color_high[2]];
+                    NSInteger count = [blocked_colors numberOfItems];
+                    [blocked_colors addItemWithObjectValue:s_color];
+                    [blocked_colors selectItemAtIndex:count];
+                } else {
+                    cv::Vec3b low_val = well_color_low;
+                    cv::Vec3b high_val = well_color_high;
+                    green_blocked.push_back(key_value);
+                    NSString *s_color = [NSString stringWithFormat:@"Color BGR Tolerance: (%d, %d, %d) - (%d, %d, %d)", low_val[0],low_val[1],low_val[2], high_val[0], high_val[1], high_val[2]];
+                    NSInteger count = [blocked_colors numberOfItems];
+                    [blocked_colors addItemWithObjectValue:s_color];
+                    [blocked_colors selectItemAtIndex:count];
+                }
             }
         }
         file.close();
