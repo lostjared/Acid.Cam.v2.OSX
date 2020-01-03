@@ -3404,6 +3404,16 @@ void setEnabledProg() {
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];
     if([panel runModal]) {
         NSString *s = [[panel URL] path];
+        std::fstream file;
+        file.open([s UTF8String], std::ios::out);
+        if(!file.is_open()) {
+            return;
+        }
+        for(NSInteger i = 0; i < [blocked_colors numberOfItems]; ++i) {
+            NSString *val = [blocked_colors itemObjectValueAtIndex:i];
+            file << [val UTF8String] << "\n";
+        }
+        file.close();
     }
 }
 - (IBAction) loadKeys: (id) sender {
