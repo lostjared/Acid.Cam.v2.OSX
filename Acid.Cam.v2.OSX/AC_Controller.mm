@@ -3421,8 +3421,29 @@ void setEnabledProg() {
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"ckey", nil]];
     if([panel runModal]) {
         NSString *s = [[panel URL] path];
+        std::fstream file;
+        file.open([s UTF8String], std::ios::in);
+        std::string value;
+        while(!file.eof()) {
+            std::getline(file, value);
+            if(value.length() > 0) {
+                std::istringstream in_stream(value);
+                int low[3], high[3];
+                int key = 0;
+                char ch = 0;
+                in_stream >> key;
+                in_stream >> ch >> low[0] >> ch >> low[1] >> ch >> low[2] >> ch >> high[0] >> ch >> high[1] >> ch >> high[2];
+                cv::Vec3b v_low(static_cast<unsigned char>(low[0]), static_cast<unsigned char>(low[1]), static_cast<unsigned char>(low[2]));
+                cv::Vec3b v_high(static_cast<unsigned char>(high[0]), static_cast<unsigned char>(high[1]), static_cast<unsigned char>(high[2]));
+                ac::Keys key_value;
+                key_value.key_type = ((key == 0) ? ac::KeyValueType::KEY_RANGE : ac::KeyValueType::KEY_TOLERANCE);
+                key_value.low = v_low;
+                key_value.high = v_high;
+                blocked_color_keys.push_back(key_value);
+            }
+        }
+        file.close();
     }
-    
 }
 
 @end
