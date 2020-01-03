@@ -105,7 +105,6 @@
 extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
 extern bool negate, blend_set, colorkey_set,colorkey_bg, colorkey_replace, colorkey_filter;
 extern cv::Mat blend_image,color_image,color_bg_image, color_replace_image, color_filter;
-
 int AC_GetFX(int oldw,int x, int nw);
 int AC_GetFZ(int oldh, int y, int nh);
 
@@ -3289,5 +3288,6 @@ namespace ac {
 
 extern ac::ParticleEmiter emiter;
 void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double pos, double *count);
+extern std::vector<ac::Keys> blocked_color_keys;
 
 #endif

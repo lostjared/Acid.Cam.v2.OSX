@@ -46,7 +46,7 @@
 
 cv::Vec3b range_low(40, 40, 40), range_high(40, 40, 40);
 cv::Vec3b gray_color(100, 100, 100);
-std::vector<ac::Keys> blocked_colors;
+std::vector<ac::Keys> blocked_color_keys;
 int pixel_collection_value = 55;
 
 namespace ac {
@@ -223,7 +223,7 @@ void ac::setColorKeyRange(cv::Vec3b low, cv::Vec3b high) {
 }
 
 void ac::setBlockedColorKeys(std::vector<ac::Keys> &blocked) {
-    blocked_colors = blocked;
+    blocked_color_keys = blocked;
 }
 
 
@@ -247,9 +247,9 @@ bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec
 
 
 ac::SearchType ac::searchColors(const cv::Vec3b &color) {
-    for(unsigned int i = 0; i < blocked_colors.size(); ++i) {
-        if(compareColor(color, blocked_colors[i].low, blocked_colors[i].high) == true) {
-           if(blocked_colors[i].spill == true) {
+    for(unsigned int i = 0; i < blocked_color_keys.size(); ++i) {
+        if(compareColor(color, blocked_color_keys[i].low, blocked_color_keys[i].high) == true) {
+           if(blocked_color_keys[i].spill == true) {
                 return SEARCH_GRAY;
             }
             else {

@@ -3409,9 +3409,8 @@ void setEnabledProg() {
         if(!file.is_open()) {
             return;
         }
-        for(NSInteger i = 0; i < [blocked_colors numberOfItems]; ++i) {
-            NSString *val = [blocked_colors itemObjectValueAtIndex:i];
-            file << [val UTF8String] << "\n";
+        for(NSInteger i = 0; i < blocked_color_keys.size(); ++i) {
+            file << ((blocked_color_keys[i].key_type == ac::KeyValueType::KEY_RANGE) ? 0 : 1) << " = " << int(blocked_color_keys[i].low[0]) << ":" << int(blocked_color_keys[i].low[1]) << ":" << int(blocked_color_keys[i].low[2]) << " - " << int(blocked_color_keys[i].high[0]) << ":" << int(blocked_color_keys[i].high[1]) << ":" << int(blocked_color_keys[i].high[1]) << "\n";
         }
         file.close();
     }
