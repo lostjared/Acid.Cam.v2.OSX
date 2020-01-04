@@ -415,7 +415,7 @@ void ac::RandomWave(cv::Mat &frame) {
         if(dir == 1) {
             ++index;
             if(index > (collection.size()-1)) {
-                dir = rand()%collection.size();
+                dir = rand()%2;
                 index = collection.size()-1;
             }
         } else {
@@ -423,6 +423,36 @@ void ac::RandomWave(cv::Mat &frame) {
             if(index <= 0) {
                 index = rand()%collection.size();
                 dir = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::RandomWaveStartStop(cv::Mat &frame) {
+    static MatrixCollection<12> collection;
+    static int index = rand()%collection.size();
+    static int dir = rand()%2;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        if(dir == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                dir = rand()%2;
+                index = rand()%collection.size();
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = rand()%collection.size();
+                dir = rand()%2;
             }
         }
     }
