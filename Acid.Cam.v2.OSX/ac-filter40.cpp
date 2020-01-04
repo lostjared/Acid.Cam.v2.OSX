@@ -338,7 +338,6 @@ void ac::MedianBlendMultiThreadStrobe(cv::Mat &frame) {
 }
 
 void ac::VideoXor_XY(cv::Mat &frame) {
-    
     if(v_cap.isOpened() == false)
         return;
     cv::Mat vframe;
@@ -356,6 +355,74 @@ void ac::VideoXor_XY(cv::Mat &frame) {
                     double op2 = (0.5 * pix[j]);
                     pixel[j] = (static_cast<unsigned char>(op1)^val1) + (static_cast<unsigned char>(op2)^val2);
                 }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoRandomWave(cv::Mat &frame) {
+    if(v_cap.isOpened() == false)
+        return;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static int index = rand()%collection.size();
+        static int dir = rand()%2;
+        collection.shiftFrames(reframe);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+            if(dir == 1) {
+                ++index;
+                if(index > (collection.size()-1)) {
+                    dir = rand()%collection.size();
+                    index = collection.size()-1;
+                }
+            } else {
+                --index;
+                if(index <= 0) {
+                    index = rand()%collection.size();
+                    dir = 1;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::RandomWave(cv::Mat &frame) {
+    static MatrixCollection<12> collection;
+    static int index = rand()%collection.size();
+    static int dir = rand()%2;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        if(dir == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                dir = rand()%collection.size();
+                index = collection.size()-1;
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = rand()%collection.size();
+                dir = 1;
             }
         }
     }

@@ -2042,6 +2042,8 @@ namespace ac {
     void SelfSlideOffsetRGB_X(cv::Mat &frame);
     void MedianBlendMultiThreadStrobe(cv::Mat &frame);
     void VideoXor_XY(cv::Mat &frame);
+    void VideoRandomWave(cv::Mat &frame);
+    void RandomWave(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
