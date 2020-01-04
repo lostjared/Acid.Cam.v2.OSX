@@ -314,3 +314,25 @@ void ac::SelfSlideOffsetRGB_X(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MedianBlendMultiThreadStrobe(cv::Mat &frame) {
+    static int index = 0;
+    switch(index) {
+        case 0:
+            MedianBlendMultiThread(frame);
+            break;
+        case 1:
+            MedianBlendMultiThread_2160p(frame);
+            break;
+        case 2:
+            MedianBlendMultiThreadByFour(frame);
+            break;
+        case 3:
+            MedianBlendMultiThreadByEight(frame);
+            break;
+    }
+    ++index;
+    if(index > 3)
+        index = 0;
+    AddInvert(frame);
+}
