@@ -483,7 +483,7 @@ void ac::RandomMedianFrame(cv::Mat &frame) {
 }
 
 void ac::VideoSmoothDoubleAlphaBlend(cv::Mat &frame) {
-    static MatrixCollection<8> collection1, collection2;
+    static MatrixCollection<16> collection1, collection2;
     cv::Mat vframe;
     if(VideoFrame(vframe)) {
         collection1.shiftFrames(frame);
