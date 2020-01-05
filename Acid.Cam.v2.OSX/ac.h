@@ -2047,6 +2047,7 @@ namespace ac {
     void RandomWaveStartStop(cv::Mat &frame);
     void RandomMedianFrame(cv::Mat &frame);
     void VideoSmoothDoubleAlphaBlend(cv::Mat &frame);
+    void VariableLines(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
