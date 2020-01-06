@@ -629,3 +629,38 @@ void ac::VariableLinesRectangleSource(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableLinesStartRectangle(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int i_dir = 1;
+    static int offset = rand()%frame.cols;
+    for(int z = 0; z < frame.rows; z++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.cols-1) {
+                offset = frame.cols-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        for(int i = 0; i < offset && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+    }
+    AddInvert(frame);
+}
