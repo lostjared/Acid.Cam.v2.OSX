@@ -2052,6 +2052,7 @@ namespace ac {
     void VaraibleLinesRectangle(cv::Mat &frame);
     void VariableLinesRectangleSource(cv::Mat &frame);
     void VariableLinesStartRectangle(cv::Mat &frame);
+    void VariableLinesStartRectangleBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
