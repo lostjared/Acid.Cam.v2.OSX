@@ -809,3 +809,95 @@ void ac::VariableCollectionLinesOffBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableDistortionWave(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int i_dir = 1;
+    static int offset = rand()%frame.cols;
+    static int index = 0, in_dir = 1;
+    for(int z = 0; z < frame.rows; z++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.cols-1) {
+                offset = frame.cols-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        for(int i = 0; i < offset && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        if(in_dir == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-1;
+                in_dir = 0;
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = 0;
+                in_dir = 1;
+            }
+        }
+        
+    }
+    AddInvert(frame);
+}
+
+void ac::VariableDistortionReset(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    static int i_dir = 1;
+    static int offset = rand()%frame.cols;
+    static int index = 0;
+    for(int z = 0; z < frame.rows; z++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.cols-1) {
+                offset = frame.cols-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        for(int i = 0; i < offset && pos < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        ++index;
+        if(index > (collection.size()-1)) {
+            index = 0;
+        }
+    }
+    AddInvert(frame);
+}
