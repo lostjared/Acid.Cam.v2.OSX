@@ -1026,3 +1026,23 @@ void ac::VariableLinesY_Wave(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableLinesXY_Interlaced(cv::Mat &frame) {
+    cv::Mat copy[2];
+    copy[0] = frame.clone();
+    copy[1] = frame.clone();
+    VariableLinesStartRectangle(copy[0]);
+    VariableLinesY(copy[1]);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+        ++index;
+        if(index > 1)
+            index = 0;
+    }
+    AddInvert(frame);
+}

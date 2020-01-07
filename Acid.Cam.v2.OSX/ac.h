@@ -2060,6 +2060,7 @@ namespace ac {
     void VariableLinesY(cv::Mat &frame);
     void VariableLinesY_Blend(cv::Mat &frame);
     void VariableLinesY_Wave(cv::Mat &frame);
+    void VariableLinesXY_Interlaced(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);
