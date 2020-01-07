@@ -975,3 +975,54 @@ void ac::VariableLinesY_Blend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableLinesY_Wave(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int index = 0, index_dir = 1;
+    static int i_dir = 1;
+    static int offset = rand()%frame.rows;
+    for(int i = 0; i < frame.cols; i++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.rows-1) {
+                offset = frame.rows-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        for(int z = 0; z < offset && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        if(index_dir == 1) {
+            index++;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-1;
+                index_dir = 0;
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = 0;
+                index_dir = 1;
+            }
+        }
+        
+    }
+    AddInvert(frame);
+}
