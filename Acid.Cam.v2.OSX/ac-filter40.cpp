@@ -901,3 +901,77 @@ void ac::VariableDistortionReset(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VariableLinesY(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int i_dir = 1;
+    static int offset = rand()%frame.rows;
+    for(int i = 0; i < frame.cols; i++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.rows-1) {
+                offset = frame.rows-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+        for(int z = 0; z < offset && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel = pix;
+            ++pos;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VariableLinesY_Blend(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int i_dir = 1;
+    static int offset = rand()%frame.rows;
+    for(int i = 0; i < frame.cols; i++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.rows-1) {
+                offset = frame.rows-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            ++pos;
+        }
+        for(int z = 0; z < offset && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            ++pos;
+        }
+    }
+    AddInvert(frame);
+}
