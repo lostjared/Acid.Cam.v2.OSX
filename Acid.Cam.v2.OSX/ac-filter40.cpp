@@ -1058,8 +1058,10 @@ void ac::VariableLinesExpand(cv::Mat &frame) {
     collection.shiftFrames(copy1);
     static int off_count = rand()%50;
     off_count += 20;
-    if(off_count > (frame.rows))
+    if(off_count > (frame.rows)) {
         off_count = rand()%50;
+        ++off_count;
+    }
     
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
@@ -1068,7 +1070,7 @@ void ac::VariableLinesExpand(cv::Mat &frame) {
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             pixel = pix;
         }
-        if((z%off_count) == 0) {
+        if((z%(off_count+1)) == 0) {
             ++index;
             if(index > (collection.size()-1))
                 index = 0;
@@ -1088,9 +1090,10 @@ void ac::VariableLinesExpandBlend(cv::Mat &frame) {
     collection.shiftFrames(copy1);
     static int off_count = rand()%50;
     off_count += 20;
-    if(off_count > (frame.rows))
+    if(off_count > (frame.rows)) {
         off_count = rand()%50;
-        
+        off_count ++;
+    }
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -1100,7 +1103,7 @@ void ac::VariableLinesExpandBlend(cv::Mat &frame) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
             }
         }
-        if((z%off_count) == 0) {
+        if((z%(off_count+1)) == 0) {
             ++index;
             if(index > (collection.size()-1))
                 index = 0;
