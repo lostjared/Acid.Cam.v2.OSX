@@ -2064,7 +2064,7 @@ namespace ac {
     void VariableLinesExpand(cv::Mat &frame);
     void VariableLinesExpandBlend(cv::Mat &frame);
     void CollectionXor4(cv::Mat &frame);
-    
+    void PixelateExpandDistort(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

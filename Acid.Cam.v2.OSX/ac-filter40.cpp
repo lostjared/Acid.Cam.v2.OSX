@@ -1145,3 +1145,53 @@ void ac::CollectionXor4(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, idir, 0.01, 1.0, 0.1);
 }
+
+void ac::PixelateExpandDistort(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int d_x = 1, d_y = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b val = copy1.at<cv::Vec3b>(z, i);
+            for(int x = 0; x < d_x && i+x < frame.cols; ++x) {
+                for(int y = 0; y < d_y && z+y < frame.rows; ++y) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(y+z, x+i);
+                    pixel = val;
+                }
+            }
+            i += d_x;
+        }
+        z += d_y;
+    }
+    AddInvert(frame);
+    static int dir1 = 1, dir2 = 1;
+    static int max_x_value = 5+(rand()%25);
+    static int max_y_value = 5+(rand()%25);
+    if(dir1 == 1) {
+        ++d_x;
+        if(d_x > max_x_value) {
+            d_x = max_x_value;
+            dir1 = 0;
+            max_x_value = 5+(rand()%25);
+        }
+    } else {
+        --d_x;
+        if(d_x <= 1) {
+            d_x = 1;
+            dir1 = 1;
+        }
+    }
+    if(dir2 == 1) {
+        ++d_y;
+        if(d_y > max_y_value) {
+            d_y = max_y_value;
+            dir2 = 0;
+            max_y_value = 5+(rand()%25);
+        }
+    } else {
+        --d_y;
+        if(d_y <= 1) {
+            d_y = 1;
+            dir2 = 1;
+        }
+    }
+}
