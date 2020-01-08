@@ -3522,6 +3522,10 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
 
 void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     NSNumber *num, *fval_, *f_on;
+    
+    if([listval count] == 0)
+        return;
+    
     static int i = 0;
     @try {
         num = [listval objectAtIndex:i];
