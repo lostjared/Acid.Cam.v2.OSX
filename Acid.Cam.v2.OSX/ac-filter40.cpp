@@ -1047,5 +1047,34 @@ void ac::VariableLinesXY_Interlaced(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-// todo: option to make custom filter work different.
+void ac::VariableLinesExpand(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    cv::Mat copy1 = frame.clone();
+    static int switch_offset = 0;
+    if(switch_offset == 0)
+        VariableLinesStartRectangle(copy1);
+    else
+        VariableLinesY(copy1);
+    collection.shiftFrames(copy1);
+    static int off_count = rand()%50;
+    off_count += 20;
+    if(off_count > (frame.rows))
+        off_count = rand()%50;
+        
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        if((z%off_count) == 0) {
+            ++index;
+            if(index > (collection.size()-1))
+                index = 0;
+        }
+    }
+}
 
