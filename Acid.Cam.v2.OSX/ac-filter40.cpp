@@ -1112,3 +1112,30 @@ void ac::VariableLinesExpandBlend(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::CollectionXor4(cv::Mat &frame) {
+    static MatrixCollection<4> collection;
+    collection.shiftFrames(frame);
+    static double colors[3] = {0};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int q = 0; q < collection.size(); ++q) {
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    colors[j] += pix[j];
+            }
+        }
+    }
+    
+    for(int j = 0; j < 3; ++j)
+        colors[j] /= (frame.rows * frame.cols);
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(0.5 * pixel[j]) + (pixel[j]^static_cast<int>(colors[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
