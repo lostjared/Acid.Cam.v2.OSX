@@ -1128,7 +1128,8 @@ void ac::CollectionXor4(cv::Mat &frame) {
         }
     }
     for(int j = 0; j < 3; ++j)
-        colors[j] /= (frame.rows * frame.cols);
+        colors[j] /= ((frame.rows * frame.cols) * collection.size());
+    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
