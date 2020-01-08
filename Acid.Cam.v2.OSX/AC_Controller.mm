@@ -91,9 +91,11 @@ cv::Mat test_image;
 std::vector<int> image_shuffle;
 int image_shuffle_index = 0;
 std::default_random_engine img_rng(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
-
 int p_s = 1;
 int elapsed_counter = 0;
+NSButton *cycle_chk_val;
+int delay_value = 60;
+
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
@@ -358,6 +360,7 @@ void setEnabledProg() {
      }
      std::cout << "\n"; */
     [self checkForNewVersion:NO];
+    cycle_chk_val = cycle_chk;
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -2273,6 +2276,13 @@ void setEnabledProg() {
     ac::setFilterColorMap(static_cast<int>(value));
     
     log << "Maximum Stored Frames: " << max << "\n";
+    
+    int temp_value = atoi([[custom_cycle_delay stringValue] UTF8String]);
+    if(temp_value > 0) {
+        delay_value = temp_value;
+        log << "Custom Cycle Delay set to: " << delay_value << "\n";
+    }
+    
     ac::setMaxAllocated(static_cast<int>(max));
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
@@ -3510,8 +3520,43 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     }
 }
 
+void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
+    NSNumber *num, *fval_, *f_on;
+    static int i = 0;
+    @try {
+        num = [listval objectAtIndex:i];
+        fval_ = [sublist objectAtIndex: i];
+        f_on = [filter_on objectAtIndex: i];
+        NSInteger index = [num integerValue];
+        if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
+            return;
+        
+        if(ac::testSize(frame) && i >= 0 && i < [listval count]) {
+            ac::setSubFilter(static_cast<int>([fval_ integerValue]));
+            ac::CallFilter(static_cast<int>(index), frame);
+        }
+        [num release];
+        [fval_ release];
+        [f_on release];
+    } @catch(NSException *e) {
+        NSLog(@"%@\n", [e reason]);
+    }
+    static int delay_counter = 0;
+    ++delay_counter;
+    if(delay_counter > (ac::fps * delay_value)) {
+        delay_counter = 0;
+        ++i;
+        if(i > [listval count]-1) {
+            i = 0;
+        }
+    }
+}
+
 void custom_filter(cv::Mat &frame) {
-    CustomFilter(frame, custom_array, custom_subfilters, filter_on);
+    if([cycle_chk_val integerValue] == 0)
+        CustomFilter(frame, custom_array, custom_subfilters, filter_on);
+    else
+        CustomCycle(frame, custom_array, custom_subfilters, filter_on);
 }
 
 void setSliders(long frame_count) {

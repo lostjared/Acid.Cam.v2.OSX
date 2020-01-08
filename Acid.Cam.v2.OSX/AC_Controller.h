@@ -95,6 +95,8 @@ extern void jumptoFrame(BOOL showJump, long frame);
 extern cv::ocl::Context context;
 extern int p_s;
 extern int elapsed_counter;
+extern NSButton *cycle_chk_val;
+extern int delay_value;
 @interface Download : NSObject <NSApplicationDelegate,NSURLDownloadDelegate>
 @end
 
@@ -190,6 +192,8 @@ extern int elapsed_counter;
     IBOutlet NSTextField *video_value;
     IBOutlet NSTextField *video_position;
     IBOutlet NSPopUpButton *set_color_map;
+    IBOutlet NSButton *cycle_chk;
+    IBOutlet NSTextField *custom_cycle_delay;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
