@@ -1046,3 +1046,6 @@ void ac::VariableLinesXY_Interlaced(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+// todo: option to make custom filter work different.
+
