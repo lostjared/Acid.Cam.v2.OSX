@@ -345,3 +345,7 @@ void ac::PixelateExpandDistortExtra(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ClipRectangle(cv::Mat &frame) {
+    
+}
