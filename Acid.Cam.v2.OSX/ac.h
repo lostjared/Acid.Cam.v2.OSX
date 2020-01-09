@@ -2067,6 +2067,7 @@ namespace ac {
     void PixelateExpandDistort(cv::Mat &frame);
     void PixelateExpandDistortX(cv::Mat &frame);
     void PixelateExpandDistortY(cv::Mat &frame);
+    void PixelateExpandDistortExtra(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
