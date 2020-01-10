@@ -362,3 +362,27 @@ void ac::RectangleSpin(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RectanglePlotXY(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    for(int q = 0; q < 200; ++q) {
+        int val_y = rand()%frame.rows;
+        int val_h = rand()%frame.rows;
+        int val_x = rand()%frame.cols;
+        int val_w = rand()%frame.cols;
+        int pos_x = 0, pos_y = 0;
+        for(int z = val_y; z < val_h; ++z) {
+            pos_x = 0;
+            for(int i = val_x; i < val_w; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(pos_y, pos_x);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = pixel[j]^pix[j];
+                }
+                ++pos_x;
+            }
+            ++pos_y;
+        }
+    }
+    AddInvert(frame);
+}
