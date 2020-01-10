@@ -386,3 +386,23 @@ void ac::RectanglePlotXY(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RectangleLines(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(copy1);
+    int index = 0;
+    int z_offset = 0;
+    for(int q = 0; q < frame.rows/2; ++q) {
+        z_offset = rand()%frame.rows;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z_offset, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z_offset, i);
+            pixel = pix;
+        }
+        ++index;
+        if(index > (collection.size()-1))
+            index = 0;
+    }
+    AddInvert(frame);
+}
