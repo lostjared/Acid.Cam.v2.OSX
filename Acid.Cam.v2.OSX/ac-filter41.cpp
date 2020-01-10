@@ -346,6 +346,19 @@ void ac::PixelateExpandDistortExtra(cv::Mat &frame) {
     }
 }
 
-void ac::ClipRectangle(cv::Mat &frame) {
-    
+void ac::RectangleSpin(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    for(int q = 0; q < 50; ++q) {
+        int val1 = rand()%frame.rows;
+        int val2 = rand()%frame.rows;
+        for(int z = val1; z < val2; ++z) {
+            int r_zval = rand()%frame.rows;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(r_zval, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
 }
