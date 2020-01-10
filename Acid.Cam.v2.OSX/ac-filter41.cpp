@@ -451,3 +451,25 @@ void ac::DistortPixelate(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+void ac::DistortPixelate64_Slow(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                if(pixel != pix) {
+                    for(int j = 0; j < 3; ++j) {
+                        if(abs(pixel[j]-pix[j]) > 30)
+                            pixel[j] = pixel[j]*rand()%255;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}
