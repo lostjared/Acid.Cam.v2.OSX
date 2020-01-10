@@ -2072,6 +2072,7 @@ namespace ac {
     void RectanglePlotXY(cv::Mat &frame);
     void RectangleLines(cv::Mat &frame);
     void RectangleLinesXor(cv::Mat &frame);
+    void DistortPixelate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
