@@ -484,17 +484,21 @@ void ac::DistortPixelate128_SubFilter(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            bool p_found = false;
             for(int index = 0; index < collection.size(); ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-                if(pixel != pix) {
-                    cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
-                    for(int j = 0; j < 3; ++j) {
-                        if(abs(pixel[j]-pix[j]) > 20) {
-                            pixel[j] = pixel[j]^pix1[j];
-                        }
+                for(int j = 0; j < 3; ++j) {
+                   if(abs(pixel[j]-pix[j]) > 30) {
+                        p_found = true;
+                        goto out_of_loop;
                     }
-                    break;
                 }
+            }
+        out_of_loop:
+            if(p_found == true) {
+                pixel = pix1;
+                break;
             }
         }
     }
