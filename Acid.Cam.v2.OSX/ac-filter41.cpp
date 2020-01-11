@@ -473,3 +473,31 @@ void ac::DistortPixelate64_Slow(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+void ac::DistortPixelate128_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "DistortPixelate128_SubFilter")
+        return;
+    static MatrixCollection<128> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                if(pixel != pix) {
+                    cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        if(abs(pixel[j]-pix[j]) > 20) {
+                            pixel[j] = pixel[j]^pix1[j];
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}

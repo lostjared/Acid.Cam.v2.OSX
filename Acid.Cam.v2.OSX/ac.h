@@ -2074,6 +2074,7 @@ namespace ac {
     void RectangleLinesXor(cv::Mat &frame);
     void DistortPixelate(cv::Mat &frame);
     void DistortPixelate64_Slow(cv::Mat &frame);
+    void DistortPixelate128_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
