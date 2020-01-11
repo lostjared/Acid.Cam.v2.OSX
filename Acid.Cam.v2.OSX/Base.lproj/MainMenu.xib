@@ -177,7 +177,7 @@
                             <menuItem isSeparatorItem="YES" id="236">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129">
+                            <menuItem title="Preferences…" keyEquivalent="h" id="129">
                                 <connections>
                                     <action selector="showPrefs:" target="630" id="n0B-AY-WNX"/>
                                 </connections>
@@ -345,6 +345,17 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="UWk-e6-w5a"/>
+                            <menuItem title="Next Filter" keyEquivalent="." id="vxP-AR-Aa7">
+                                <connections>
+                                    <action selector="nextFilter:" target="630" id="M5B-oX-wyZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Prev Filter" keyEquivalent="," id="68M-DB-V3z">
+                                <connections>
+                                    <action selector="prevFilter:" target="630" id="18P-cn-M86"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="HpP-9j-Xkn"/>
                             <menuItem title="Random Filter" keyEquivalent="x" id="53B-S9-GQt">
                                 <connections>
                                     <action selector="setRandomFilter:" target="630" id="6BV-Fn-bPA"/>

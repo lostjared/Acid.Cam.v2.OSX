@@ -343,6 +343,8 @@ extern int delay_value;
 - (IBAction) saveKeys: (id) sender;
 - (IBAction) loadKeys: (id) sender;
 - (IBAction) randomUserDefined: (id) sender;
+- (IBAction) nextFilter: (id) sender;
+- (IBAction) prevFilter: (id) sender;
 @end
 
 extern AC_Controller *controller;

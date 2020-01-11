@@ -3481,6 +3481,23 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) nextFilter: (id) sender {
+    NSInteger index = [current_filter indexOfSelectedItem];
+    NSInteger count = [current_filter numberOfItems];
+    if(index+1 < count) {
+        index ++;
+        [current_filter selectItemAtIndex:index];
+    }
+}
+- (IBAction) prevFilter: (id) sender {
+    NSInteger index = [current_filter indexOfSelectedItem];
+    if(index > 0) {
+        --index;
+        [current_filter selectItemAtIndex:index];
+    }
+}
+
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
