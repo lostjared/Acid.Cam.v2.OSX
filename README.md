@@ -63,9 +63,6 @@ Watch this video for a tutorial on how to create custom filter plugins: https://
 
 Information about the static build of OpenCV in this project:
 
-General configuration for OpenCV 3.4.6 =====================================
-  Version control:               unknown
-
   Platform:
     Timestamp:                   2019-05-20T20:32:42Z
     Host:                        Darwin 17.7.0 x86_64
@@ -153,8 +150,7 @@ General configuration for OpenCV 3.4.6 =====================================
     Link libraries:              -framework OpenCL
 
   Python (for build):            /usr/bin/python2.7
-
   Install to:                    /usr/local/opencv_3.4.6
------------------------------------------------------------------
+
 
 - Jared Bruni
