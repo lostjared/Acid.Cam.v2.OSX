@@ -523,6 +523,7 @@ void setEnabledProg() {
     if(prev_index != current) {
         prev_index = current;
         ac::reset_filter = true;
+        ac::release_all_objects();
     }
     
     NSMenuItem *item = [menu_items[index] itemAtIndex:current];
