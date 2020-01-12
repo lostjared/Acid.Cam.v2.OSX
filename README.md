@@ -63,94 +63,182 @@ Watch this video for a tutorial on how to create custom filter plugins: https://
 
 Information about the static build of OpenCV in this project:
 
-  Platform:
-    Timestamp:                   2019-05-20T20:32:42Z
-    Host:                        Darwin 17.7.0 x86_64
-    CMake:                       3.14.1
-    CMake generator:             Unix Makefiles
-    CMake build tool:            /usr/bin/make
-    Configuration:               Release
+General configuration for OpenCV 3.4.6 =====================================
 
-  CPU/HW features:
-    Baseline:
-    Dispatched code generation:  SSE4_1 SSE4_2 FP16 AVX AVX2 AVX512_SKX
-      requested:                 SSE4_1 SSE4_2 AVX FP16 AVX2 AVX512_SKX
-      SSE4_1 (12 files):         + SSE SSE2 SSE3 SSSE3 SSE4_1
-      SSE4_2 (1 files):          + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2
-      FP16 (0 files):            + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 FP16 AVX
-      AVX (5 files):             + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 AVX
-      AVX2 (26 files):           + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 FP16 FMA3 AVX AVX2
-      AVX512_SKX (2 files):      + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 FP16 FMA3 AVX AVX2 AVX_512F AVX512_SKX
+Version control:               unknown
 
-  C/C++:
-    Built as dynamic libs?:      NO
-    C++ Compiler:                /Library/Developer/CommandLineTools/usr/bin/c++  (ver 10.0.0.10001044)
-    C++ flags (Release):         -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -O3 -DNDEBUG  -DNDEBUG
-    C++ flags (Debug):           -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -g  -O0 -DDEBUG -D_DEBUG
-    C Compiler:                  /Library/Developer/CommandLineTools/usr/bin/cc
-    C flags (Release):           -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -O3 -DNDEBUG  -DNDEBUG
-    C flags (Debug):             -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -g  -O0 -DDEBUG -D_DEBUG
-    Linker flags (Release):      -Wl,-dead_strip  
-    Linker flags (Debug):        -Wl,-dead_strip  
-    ccache:                      NO
-    Precompiled headers:         NO
-    Extra dependencies:          avformat m z avcodec avresample swscale avutil -framework VideoDecodeAcceleration bz2 -framework Accelerate -framework AVFoundation -framework CoreGraphics -framework CoreMedia -framework CoreVideo -framework QuartzCore -framework Cocoa -framework OpenCL /System/Library/Frameworks/Accelerate.framework
-    3rdparty dependencies:       libprotobuf libjpeg-turbo libwebp libpng libtiff IlmImf zlib ittnotify quirc ippiw ippicv
 
-  OpenCV modules:
-    To be built:                 calib3d core dnn features2d flann highgui imgcodecs imgproc ml objdetect shape stitching superres ts video videoio world
-    Disabled:                    java_bindings_generator photo python2 python_bindings_generator
-    Disabled by dependency:      videostab
-    Unavailable:                 cudaarithm cudabgsegm cudacodec cudafeatures2d cudafilters cudaimgproc cudalegacy cudaobjdetect cudaoptflow cudastereo cudawarping cudev java js python3 python3 viz
-    Applications:                -
-    Documentation:               NO
-    Non-free algorithms:         NO
 
-  GUI: 
-    Cocoa:                       YES
-    VTK support:                 NO
+Platform:
 
-  Media I/O: 
-    ZLib:                        build (ver 1.2.11)
-    JPEG:                        build-libjpeg-turbo (ver 2.0.2-62)
-    WEBP:                        build (ver encoder: 0x020e)
-    PNG:                         build (ver 1.6.36)
-    TIFF:                        build (ver 42 - 4.0.10)
-    OpenEXR:                     build (ver 1.7.1)
-    HDR:                         YES
-    SUNRASTER:                   YES
-    PXM:                         YES
+Timestamp:                   2019-05-20T20:32:42Z
 
-  Video I/O:
-    DC1394:                      NO
-    FFMPEG:                      YES
-      avcodec:                   YES (ver 57.25.0)
-      avformat:                  YES (ver 57.7.2)
-      avutil:                    YES (ver 55.20.0)
-      swscale:                   YES (ver 4.0.0)
-      avresample:                YES (ver 3.0.0)
-    AVFoundation:                YES
+Host:                        Darwin 17.7.0 x86_64
 
-  Parallel framework:            GCD
+CMake:                       3.14.1
 
-  Trace:                         YES (with Intel ITT)
+CMake generator:             Unix Makefiles
 
-  Other third-party libraries:
-    Intel IPP:                   2019.0.0 Gold [2019.0.0]
-           at:                   /Volumes/LostSideDrive-2/Downloads/opencv3/3rdparty/ippicv/ippicv_mac/icv
-    Intel IPP IW:                sources (2019.0.0)
-              at:                /Volumes/LostSideDrive-2/Downloads/opencv3/3rdparty/ippicv/ippicv_mac/iw
-    Lapack:                      YES (/System/Library/Frameworks/Accelerate.framework)
-    Eigen:                       YES (ver 3.3.1)
-    Custom HAL:                  NO
-    Protobuf:                    build (3.5.1)
+CMake build tool:            /usr/bin/make
 
-  OpenCL:                        YES (no extra features)
-    Include path:                NO
-    Link libraries:              -framework OpenCL
+Configuration:               Release
 
-  Python (for build):            /usr/bin/python2.7
-  Install to:                    /usr/local/opencv_3.4.6
 
+
+CPU/HW features:
+
+Baseline:
+
+Dispatched code generation:  SSE4_1 SSE4_2 FP16 AVX AVX2 AVX512_SKX
+
+requested:                 SSE4_1 SSE4_2 AVX FP16 AVX2 AVX512_SKX
+
+SSE4_1 (12 files):         + SSE SSE2 SSE3 SSSE3 SSE4_1
+
+SSE4_2 (1 files):          + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2
+
+FP16 (0 files):            + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 FP16 AVX
+
+AVX (5 files):             + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 AVX
+
+AVX2 (26 files):           + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 FP16 FMA3 AVX AVX2
+
+AVX512_SKX (2 files):      + SSE SSE2 SSE3 SSSE3 SSE4_1 POPCNT SSE4_2 FP16 FMA3 AVX AVX2 AVX_512F AVX512_SKX
+
+
+
+C/C++:
+
+Built as dynamic libs?:      NO
+
+C++ Compiler:                /Library/Developer/CommandLineTools/usr/bin/c++  (ver 10.0.0.10001044)
+
+C++ flags (Release):         -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -O3 -DNDEBUG  -DNDEBUG
+
+C++ flags (Debug):           -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -g  -O0 -DDEBUG -D_DEBUG
+
+C Compiler:                  /Library/Developer/CommandLineTools/usr/bin/cc
+
+C flags (Release):           -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -O3 -DNDEBUG  -DNDEBUG
+
+C flags (Debug):             -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -g  -O0 -DDEBUG -D_DEBUG
+
+Linker flags (Release):      -Wl,-dead_strip  
+
+Linker flags (Debug):        -Wl,-dead_strip  
+
+ccache:                      NO
+
+Precompiled headers:         NO
+
+Extra dependencies:          avformat m z avcodec avresample swscale avutil -framework VideoDecodeAcceleration bz2 -framework Accelerate -framework AVFoundation -framework CoreGraphics -framework CoreMedia -framework CoreVideo -framework QuartzCore -framework Cocoa -framework OpenCL /System/Library/Frameworks/Accelerate.framework
+
+3rdparty dependencies:       libprotobuf libjpeg-turbo libwebp libpng libtiff IlmImf zlib ittnotify quirc ippiw ippicv
+
+
+
+OpenCV modules:
+
+To be built:                 calib3d core dnn features2d flann highgui imgcodecs imgproc ml objdetect shape stitching superres ts video videoio world
+
+Disabled:                    java_bindings_generator photo python2 python_bindings_generator
+
+Disabled by dependency:      videostab
+
+Unavailable:                 cudaarithm cudabgsegm cudacodec cudafeatures2d cudafilters cudaimgproc cudalegacy cudaobjdetect cudaoptflow cudastereo cudawarping cudev java js python3 python3 viz
+
+Applications:                -
+
+Documentation:               NO
+
+Non-free algorithms:         NO
+
+
+
+GUI: 
+
+Cocoa:                       YES
+
+VTK support:                 NO
+
+
+
+Media I/O: 
+
+ZLib:                        build (ver 1.2.11)
+
+JPEG:                        build-libjpeg-turbo (ver 2.0.2-62)
+
+WEBP:                        build (ver encoder: 0x020e)
+
+PNG:                         build (ver 1.6.36)
+
+TIFF:                        build (ver 42 - 4.0.10)
+
+OpenEXR:                     build (ver 1.7.1)
+
+HDR:                         YES
+
+SUNRASTER:                   YES
+
+PXM:                         YES
+
+
+
+Video I/O:
+
+DC1394:                      NO
+
+FFMPEG:                      YES
+
+avcodec:                   YES (ver 57.25.0)
+
+avformat:                  YES (ver 57.7.2)
+
+avutil:                    YES (ver 55.20.0)
+
+swscale:                   YES (ver 4.0.0)
+
+avresample:                YES (ver 3.0.0)
+
+AVFoundation:                YES
+
+
+
+Parallel framework:            GCD
+
+
+
+Trace:                         YES (with Intel ITT)
+
+
+
+Other third-party libraries:
+
+Intel IPP:                   2019.0.0 Gold [2019.0.0]
+
+at:                   /Volumes/LostSideDrive-2/Downloads/opencv3/3rdparty/ippicv/ippicv_mac/icv
+
+Intel IPP IW:                sources (2019.0.0)
+
+at:                /Volumes/LostSideDrive-2/Downloads/opencv3/3rdparty/ippicv/ippicv_mac/iw
+
+Lapack:                      YES (/System/Library/Frameworks/Accelerate.framework)
+
+Eigen:                       YES (ver 3.3.1)
+
+Custom HAL:                  NO
+
+Protobuf:                    build (3.5.1)
+
+OpenCL:                        YES (no extra features)
+
+Include path:                NO
+
+Link libraries:              -framework OpenCL
+
+Python (for build):            /usr/bin/python2.7
+
+Install to:                    /usr/local/opencv_3.4.6
 
 - Jared Bruni
