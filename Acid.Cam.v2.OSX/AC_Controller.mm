@@ -3488,6 +3488,7 @@ void setEnabledProg() {
     if(index+1 < count) {
         index ++;
         [current_filter selectItemAtIndex:index];
+        [self changeFilter:self];
     }
 }
 - (IBAction) prevFilter: (id) sender {
@@ -3495,6 +3496,7 @@ void setEnabledProg() {
     if(index > 0) {
         --index;
         [current_filter selectItemAtIndex:index];
+        [self changeFilter:self];
     }
 }
 
