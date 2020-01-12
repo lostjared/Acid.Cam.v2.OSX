@@ -361,6 +361,7 @@ void setEnabledProg() {
      std::cout << "\n"; */
     [self checkForNewVersion:NO];
     cycle_chk_val = cycle_chk;
+    //std::cout << cv::getBuildInformation() << "\n";
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -3482,6 +3483,9 @@ void setEnabledProg() {
 }
 
 - (IBAction) nextFilter: (id) sender {
+    
+   
+    
     NSInteger index = [current_filter indexOfSelectedItem];
     NSInteger count = [current_filter numberOfItems];
     if(index+1 < count) {
