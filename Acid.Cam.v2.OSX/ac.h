@@ -2071,7 +2071,7 @@ namespace ac {
     void RectangleSpin(cv::Mat &frame);
     void RectanglePlotXY(cv::Mat &frame);
     void RectangleLines(cv::Mat &frame);
-    void RectangleLinesXor(cv::Mat &frame);
+    void DifferenceFillLinesXor(cv::Mat &frame);
     void DistortPixelate(cv::Mat &frame);
     void DistortPixelate64_Slow(cv::Mat &frame);
     void DistortPixelate128_SubFilter(cv::Mat &frame);

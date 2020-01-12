@@ -406,7 +406,7 @@ void ac::RectangleLines(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::RectangleLinesXor(cv::Mat &frame) {
+void ac::DifferenceFillLinesXor(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
     int index = 0;
