@@ -534,3 +534,32 @@ void ac::DifferenceFillLines_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DifferenceFillLinesBlend_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || draw_strings[subfilter] == "DifferenceFillLinesBlend_SubFilter")
+        return;
+    static MatrixCollection<32> collection;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    collection.shiftFrames(frame);
+    int index = 0;
+    int z_offset = 0;
+    for(int q = 0; q < frame.rows; ++q) {
+        z_offset = rand()%frame.rows;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z_offset, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z_offset, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z_offset, i);
+            if(pixel != pix) {
+                for(int j = 0; j < 3; ++j) {
+                    if(abs(pixel[j]-pix[j]) > 75)
+                        pixel[j] = static_cast<unsigned int>((0.5 * pixel[j]) + (0.5 * pix1[j]));
+                }
+            }
+        }
+        ++index;
+        if(index > (collection.size()-1))
+            index = 0;
+    }
+    AddInvert(frame);
+}
