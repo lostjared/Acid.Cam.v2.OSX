@@ -96,6 +96,11 @@ int elapsed_counter = 0;
 NSButton *cycle_chk_val;
 int delay_value = 60;
 
+bool operator<(const UserArgType &o1, const UserArgType &o2) {
+    if(o1.index < o2.index) return true;
+    return false;
+}
+
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
@@ -242,7 +247,7 @@ void setEnabledProg() {
     [filter_search_window setLevel:NSStatusWindowLevel];
     [image_select setLevel: NSStatusWindowLevel];
     ac::fill_filter_map();
-    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO adduser:NO];
+    [self createMenu: &menu_cat menuAll:&menu_all items:menu_items custom:NO adduser:YES];
     [self createMenu: &menu_cat_custom menuAll: &menu_all_custom items:menu_items_custom custom:YES adduser:YES];
     [categories setMenu: menu_cat];
     [categories_custom setMenu:menu_cat_custom];
@@ -501,7 +506,13 @@ void setEnabledProg() {
 
 - (IBAction) menuSelected: (id) sender {
     NSInteger index = [categories indexOfSelectedItem];
+    if(index == 14) {
+        if([user_menu numberOfItems] > 0)
+            [current_filter setMenu: user_menu];
+    }
+    else
     [current_filter setMenu: menu_items[index]];
+    
 }
 
 - (IBAction) customMenuSelected:(id) sender {
@@ -518,17 +529,16 @@ void setEnabledProg() {
 - (IBAction) changeFilter: (id) sender {
     static NSInteger prev_index = [current_filter indexOfSelectedItem];
     NSInteger current = [current_filter indexOfSelectedItem];
-    NSInteger index = [categories indexOfSelectedItem];
-    
+    //NSInteger index = [categories indexOfSelectedItem];
     if(prev_index != current) {
         prev_index = current;
         ac::reset_filter = true;
         ac::release_all_objects();
     }
     
-    NSMenuItem *item = [menu_items[index] itemAtIndex:current];
+    //NSMenuItem *item = [menu_items[index] itemAtIndex:current];
+    NSMenuItem *item = [current_filter itemAtIndex:current];
     NSString *title = [item title];
-    
     if([fade_filter state] == NSControlStateValueOff) {
         ac::draw_offset = ac::filter_map[[title UTF8String]];
     } else {
@@ -2661,6 +2671,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) user_Set: (id) sender {
+    static int index_offset = 0;
     NSString *s = [user_filter_name stringValue];
     if([s length] == 0) {
         _NSRunAlertPanel(@"User defined requires a valid name", @"Error forgot to set name", @"Ok", nil, nil);
@@ -2696,6 +2707,8 @@ void setEnabledProg() {
     user_filter[fval_name].name = fval_name;
     user_filter[fval_name].other_name = fname;
     user_filter[fname].index = ac::filter_map[fval_name];
+    ++index_offset;
+    user_filter[fname].sort_num = index_offset;
     ac::filter_map[fname] = ac::filter_map[fval_name];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     [user_filter_name addItemWithObjectValue:sval];
@@ -2747,7 +2760,7 @@ void setEnabledProg() {
     flushToLog(stream);
 }
 
-- (void) loadFileData: (const char *)path {
+- (void) loadFileData: (const char *)path off: (int) index_offset {
     std::vector<std::string> comp;
     token::tokenize(std::string(path), std::string(":"), comp);
     if(comp.size()==0) return;
@@ -2756,7 +2769,7 @@ void setEnabledProg() {
     user_filter[filter_name].name = filter_name;
     user_filter[filter_name].index = index_value;
     user_filter[filter_name].other_name = comp[2];
-    
+    user_filter[filter_name].sort_num = index_offset;
     if(index_value == -1) {
         ac::filter_map[comp[2]] = ac::filter_map[comp[0]];
     }
@@ -2782,11 +2795,13 @@ void setEnabledProg() {
             return;
         }
         [self user_Clear:nil];
+        int index_offset = 0;
         while(!file.eof()) {
             std::string file_data;
             std::getline(file, file_data);
             if(file) {
-                [self loadFileData: file_data.c_str()];
+                [self loadFileData: file_data.c_str() off:index_offset];
+                ++index_offset;
             }
         }
         [self loadMenuList];
@@ -2802,15 +2817,27 @@ void setEnabledProg() {
         [user_menu release];
     
     NSInteger index_value = [categories_custom indexOfSelectedItem];
+    NSInteger index_value_ex = [categories indexOfSelectedItem];
     user_menu = [[NSMenu alloc] init];
     
+    std::vector<UserArgType> items;
+    
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-        if(i->second.index != -1)
-            [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->first.c_str()] action:nil keyEquivalent:@""];
+        if(i->second.index != -1) {
+            std::cout << "loaded menu item: " << i->first << ":" << i->second.sort_num << "\n";
+            items.push_back(UserArgType(i->second.sort_num, i->first.c_str()));
+        }
     }
+    std::sort(items.begin(), items.end());
+    
+    for(auto i = items.begin(); i != items.end(); ++i) {
+        [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->name.c_str()] action:nil keyEquivalent:@""];
+    }
+    
     [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
-    if(index_value == 14 && [user_menu numberOfItems] > 0) {
+    if((index_value == 14 || index_value_ex == 14) && [user_menu numberOfItems] > 0) {
         [current_filter_custom setMenu: user_menu];
+        [current_filter setMenu: user_menu];
     }
 }
 
@@ -3501,6 +3528,9 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) setAsPlayList:(id) sender {
+    
+}
 
 @end
 

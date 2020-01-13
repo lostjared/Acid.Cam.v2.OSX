@@ -66,6 +66,7 @@ typedef void (*drawn)();
 class UserFilter {
 public:
     int index, subfilter;
+    int sort_num;
     std::string name, other_name;
     UserFilter(): index(0), subfilter(-1) {}
 };
@@ -100,6 +101,16 @@ extern int delay_value;
 @interface Download : NSObject <NSApplicationDelegate,NSURLDownloadDelegate>
 @end
 
+
+class UserArgType {
+public:
+    int index;
+    std::string name;
+    UserArgType(int i, std::string n) : index{i}, name{n} {}
+    UserArgType() = default;
+};
+
+bool operator<(const UserArgType &o1, const UserArgType &o2);
 
 // Main controller class for the program
 @interface AC_Controller : NSObject<NSTableViewDataSource, NSTableViewDelegate>{
@@ -309,7 +320,7 @@ extern int delay_value;
 - (IBAction) user_Save: (id) sender;
 - (IBAction) user_Load: (id) sender;
 - (IBAction) user_Clear: (id) sender;
-- (void) loadFileData: (const char *)path;
+- (void) loadFileData: (const char *)path off: (int) index_offset;
 - (void) loadMenuList;
 - (IBAction) jumpToCustom: (id) sender;
 - (IBAction) custom_Save: (id) sender;
@@ -345,6 +356,7 @@ extern int delay_value;
 - (IBAction) randomUserDefined: (id) sender;
 - (IBAction) nextFilter: (id) sender;
 - (IBAction) prevFilter: (id) sender;
+- (IBAction) setAsPlayList:(id) sender;
 @end
 
 extern AC_Controller *controller;
