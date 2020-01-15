@@ -2170,7 +2170,6 @@ namespace ac {
     bool getColorState();
     void setFilterColorMap(int color);
     int  getColorMapFilter();
-    // later
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

@@ -2734,11 +2734,21 @@ void setEnabledProg() {
             _NSRunAlertPanel(@"Error could not save file. Do you have access rights?", @"Cannot save file", @"Ok", nil, nil);
             return;
         }
+        std::vector<UserArgType> items;
         for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+            if(i->second.index != -1) {
+                std::cout << "loaded menu item: " << i->first << ":" << i->second.sort_num << "\n";
+                UserArgType type = UserArgType(i->second.sort_num, i->first.c_str());
+                type.other = i->second.other_name;
+                items.push_back(type);
+            }
+        }
+        std::sort(items.begin(), items.end());
+        for(auto i = items.begin(); i != items.end(); ++i) {
             std::string other = "UserDefined";
-            if(i->second.other_name.length() > 0)
-                other = i->second.other_name;
-            file << i->first << ":" << i->second.index << ":" << other << "\n";
+            if(i->other.length() > 0)
+                other = i->other;
+            file << i->name << ":" << i->index << ":" << other << "\n";
         }
         file.close();
         std::ostringstream stream;

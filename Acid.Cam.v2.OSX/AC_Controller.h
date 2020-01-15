@@ -106,9 +106,11 @@ class UserArgType {
 public:
     int index;
     std::string name;
+    std::string other;
     UserArgType(int i, std::string n) : index{i}, name{n} {}
     UserArgType() = default;
 };
+
 
 bool operator<(const UserArgType &o1, const UserArgType &o2);
 
