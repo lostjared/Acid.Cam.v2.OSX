@@ -2736,9 +2736,7 @@ void setEnabledProg() {
         for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
             if(i->second.index != -1) {
                 std::cout << "loaded menu item: " << i->first << ":" << i->second.sort_num << "\n";
-                UserArgType type = UserArgType(i->second.sort_num, i->first.c_str());
-                type.other = i->second.other_name;
-                items.push_back(type);
+                items.push_back(UserArgType(i->second.sort_num, i->first.c_str(), i->second.other_name));
             }
         }
         std::sort(items.begin(), items.end());
@@ -2826,9 +2824,7 @@ void setEnabledProg() {
     NSInteger index_value = [categories_custom indexOfSelectedItem];
     NSInteger index_value_ex = [categories indexOfSelectedItem];
     user_menu = [[NSMenu alloc] init];
-    
     std::vector<UserArgType> items;
-    
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
         if(i->second.index != -1) {
             std::cout << "loaded menu item: " << i->first << ":" << i->second.sort_num << "\n";
@@ -2836,11 +2832,9 @@ void setEnabledProg() {
         }
     }
     std::sort(items.begin(), items.end());
-    
     for(auto i = items.begin(); i != items.end(); ++i) {
         [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->name.c_str()] action:nil keyEquivalent:@""];
     }
-    
     [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
     if((index_value == 14 || index_value_ex == 14) && [user_menu numberOfItems] > 0) {
         [current_filter_custom setMenu: user_menu];
