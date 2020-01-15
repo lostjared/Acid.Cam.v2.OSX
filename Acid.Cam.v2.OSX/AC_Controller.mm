@@ -2754,7 +2754,6 @@ void setEnabledProg() {
         std::ostringstream stream;
         stream << "User saved IDs to: " << [fname UTF8String] << "\n";
         flushToLog(stream);
-        
     }
 }
 
