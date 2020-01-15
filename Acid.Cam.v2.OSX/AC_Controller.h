@@ -108,6 +108,7 @@ public:
     std::string name;
     std::string other;
     UserArgType(int i, std::string n) : index{i}, name{n} {}
+    UserArgType(int i, std::string n1, std::string n2) : index{i}, name{n1}, other{n2} {}
     UserArgType() = default;
 };
 

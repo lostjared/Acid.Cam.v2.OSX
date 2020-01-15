@@ -2715,11 +2715,9 @@ void setEnabledProg() {
     [user_filter_name setStringValue:@""];
     [self loadMenuList];
     [table_view reloadData];
-    
     std::ostringstream stream;
     stream << "User set: " << fval_name << " to: " << fname << "\n";
     flushToLog(stream);
-    
 }
 - (IBAction) user_Save: (id) sender {
     NSSavePanel *panel = [NSSavePanel savePanel];
