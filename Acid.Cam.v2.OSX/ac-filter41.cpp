@@ -563,3 +563,35 @@ void ac::DifferenceFillLinesBlend_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DistortPixelate24_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "DistortPixelate24_SubFilter")
+        return;
+    static MatrixCollection<24> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            bool p_found = false;
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(abs(pixel[j]-pix[j]) > 30) {
+                        p_found = true;
+                        goto out_of_loop;
+                    }
+                }
+            }
+        out_of_loop:
+            if(p_found == true) {
+                pixel = pix1;
+                break;
+            }
+        }
+    }
+    MatrixCollectionAuraTrails(frame);
+    AddInvert(frame);
+}
