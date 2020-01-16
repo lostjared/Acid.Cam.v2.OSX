@@ -595,3 +595,5 @@ void ac::DistortPixelate24_SubFilter(cv::Mat &frame) {
     MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
+
+// 866 953 1002

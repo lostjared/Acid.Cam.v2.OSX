@@ -533,7 +533,6 @@ namespace ac {
     void OrStrobe(cv::Mat &frame);
     void LagBlend(cv::Mat &frame);
     void SubFilter(cv::Mat &frame);
-    void AddFilter(cv::Mat &frame);
     void BlendImageXor(cv::Mat &frame);
     void BlendImageAround_Median(cv::Mat &frame);
     void ImageBlendTransform(cv::Mat &frame);
