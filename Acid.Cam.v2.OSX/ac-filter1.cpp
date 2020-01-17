@@ -53,7 +53,6 @@ namespace ac {
 #else
     const std::string version="2.56.0 (Generic)";
 #endif
-    
     std::mutex col_lock;
     bool swapColorOn = true;
     // variables

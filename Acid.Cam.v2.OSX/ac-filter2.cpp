@@ -192,8 +192,11 @@ void ac::alphaFlame(cv::Mat &frame) {
             changePixel(frame, z, i, buffer, pos, &count);
         }
     }
+    
+    static int dir = 1;
+    AlphaMovementMaxMin(pos, dir, 0.1, 512, 1);
     // static direction set to 1
-    static int direction = 1;
+   /* static int direction = 1;
     if(direction == 1) {// if direction is equal to 1
         pos += 0.1f;// pos plus equal 0.1
         if(pos > 512) {// pos greater than 512
@@ -208,7 +211,7 @@ void ac::alphaFlame(cv::Mat &frame) {
             direction = 1;// direction set back to 1
         }
     }
-    resetAlpha(direction, pos);
+    resetAlpha(direction, pos); */
 }
 
 // Resize X variable
