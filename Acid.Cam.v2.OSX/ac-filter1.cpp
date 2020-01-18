@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.56.0 (macOS)";
+    const std::string version="2.57.0 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.56.0 (Linux)";
+    const std::string version="2.57.0 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.56.0 (Windows)";
+    const std::string version="2.57.0 (Windows)";
 #else
-    const std::string version="2.56.0 (Generic)";
+    const std::string version="2.57.0 (Generic)";
 #endif
     std::mutex col_lock;
     bool swapColorOn = true;
@@ -80,7 +80,7 @@ namespace ac {
     std::string *draw_strings = draw_strings_value;
     // filter callback functions
     // number of filters
-    int draw_max = 1891;
+    int draw_max = 1890;
     int getFilterCount() {
         return draw_max-5;
     }
