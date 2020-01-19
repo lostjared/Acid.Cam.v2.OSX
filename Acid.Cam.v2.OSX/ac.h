@@ -2185,19 +2185,45 @@ namespace ac {
     extern std::unordered_map<std::string, int> filter_map;
     extern std::unordered_map<std::string, FilterType> filter_map_str;
     extern bool frames_released;
-    extern std::vector<void *> all_objects;
     extern void release_all_objects();
     // Matrix Collection template
+    
+    class Frames {
+    public:
+        cv::Mat **frames;
+        int Size;
+        Frames(int size) : frames(0), Size(size) {
+            resizeFrames();
+        }
+        void resizeFrames() {
+            if(frames != 0)
+                delete [] frames;
+            frames = new cv::Mat*[Size+4];
+            for(int i = 0; i < Size; ++i) {
+                frames[i] = new cv::Mat();
+            }
+        }
+        
+        void setMat(int index, cv::Mat &frame) {
+            *frames[index] = frame;
+        }
+        
+        cv::Mat &operator[](size_t pos) {
+            return *frames[pos];
+        }
+    };
+    
+    extern std::vector<Frames *> all_objects;
+    
     template<int Size>
     class MatrixCollection {
     public:
         static constexpr int ArraySize = Size;
-        MatrixCollection() : w(0), h(0) {
-            for(int i = 0; i < Size; ++i)
-                all_objects.push_back(&frames[i]);
+        MatrixCollection() : frames(Size), w(0), h(0) {
+            all_objects.push_back(&frames);
             completedRows = 0;
         }
-        cv::Mat frames[Size+4];
+        Frames frames;
         int w, h;
         void shiftFrames(cv::Mat &frame) {
             if(resetFrame(frame)) {

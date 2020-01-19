@@ -81,16 +81,13 @@ void ac::Rect::setRect(int xx, int yy, int ww, int hh) {
     h = hh;
 }
 
-std::vector<void *> ac::all_objects;
+std::vector<ac::Frames *> ac::all_objects;
 bool ac::frames_released = false;
 
 void ac::release_all_objects() {
     col_lock.lock();
     for(unsigned int i = 0; i < all_objects.size(); ++i) {
-        cv::Mat *m = reinterpret_cast<cv::Mat *>(all_objects[i]);
-        if(m != 0 && !m->empty()) {
-            m->release();
-        }
+        all_objects[i]->resizeFrames();
     }
     frames_released = true;
 #ifdef DEBUG_MODE

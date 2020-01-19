@@ -3519,6 +3519,14 @@ void setEnabledProg() {
         [current_filter selectItemAtIndex:index];
         [self changeFilter:self];
     }
+    
+    std::cout << "FilterItem[] items = new FilterItem[" << ac::solo_filter.size() << "]\n";
+    std::cout << "for(int i = 0; i < " << ac::solo_filter.size() << "; ++i) {\n";
+    for(int i = 0; i < ac::solo_filter.size(); ++i) {
+            std::cout << "\titems[" << i << "] = new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << ");\n";
+    }
+    std::cout << "\n}\n";
+    
 }
 - (IBAction) prevFilter: (id) sender {
     NSInteger index = [current_filter indexOfSelectedItem];
