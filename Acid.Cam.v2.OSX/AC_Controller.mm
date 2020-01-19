@@ -2334,6 +2334,7 @@ void setEnabledProg() {
 - (IBAction) releaseFrames:(id)sender {
     reset_memory = true;
     ac::image_matrix_reset = true;
+    ac::release_frames = true;
     std::ostringstream stream;
     stream << "Stored Frames Memory Released...\n";
     flushToLog(stream);

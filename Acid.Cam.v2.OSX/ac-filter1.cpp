@@ -156,6 +156,10 @@ void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
 
 bool ac::CallFilter(int index, cv::Mat &frame) {
     if(index >= 0 && index < ac::draw_max) {
+        if(ac::release_frames) {
+            ac::release_all_objects();
+            ac::release_frames = false;
+        }
         DrawFilterUnordered(ac::draw_strings[index], frame);
         return true;
     }
@@ -165,6 +169,10 @@ bool ac::CallFilter(int index, cv::Mat &frame) {
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     int index = ac::filter_map[name];
     if(index >= 0 && index < ac::draw_max && index != subfilter) {
+        if(ac::release_frames) {
+            ac::release_all_objects();
+            ac::release_frames = false;
+        }
         DrawFilterUnordered(name, frame);
         return true;
     }

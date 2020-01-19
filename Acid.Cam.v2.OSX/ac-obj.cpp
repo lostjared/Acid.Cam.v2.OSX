@@ -90,9 +90,7 @@ void ac::release_all_objects() {
         all_objects[i]->resizeFrames();
     }
     frames_released = true;
-#ifdef DEBUG_MODE
     std::cout << "acidcam: Released: " << getCurrentAllocatedFrames() << " Matrix objects...\n";
-#endif
     setAllocatedFrames(0);
     col_lock.unlock();
 }
