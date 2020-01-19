@@ -2196,9 +2196,13 @@ namespace ac {
             resizeFrames();
         }
         void resizeFrames() {
-            if(frames != 0)
+            if(frames != 0) {
+                for(int i = 0; i < Size; ++i) {
+                    delete frames[i];
+                }
                 delete [] frames;
-            frames = new cv::Mat*[Size+4];
+            }
+            frames = new cv::Mat*[Size];
             for(int i = 0; i < Size; ++i) {
                 frames[i] = new cv::Mat();
             }
