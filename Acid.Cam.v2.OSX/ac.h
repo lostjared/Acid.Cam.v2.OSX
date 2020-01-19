@@ -2195,6 +2195,13 @@ namespace ac {
         Frames(int size) : frames(0), Size(size) {
             resizeFrames();
         }
+        
+        void releaseFrames() {
+            for(int i = 0; i < Size; ++i) {
+                frames[i]->release();
+            }
+        }
+        
         void resizeFrames() {
             if(frames != 0) {
                 for(int i = 0; i < Size; ++i) {
