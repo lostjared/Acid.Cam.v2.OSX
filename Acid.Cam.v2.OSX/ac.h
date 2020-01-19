@@ -2193,12 +2193,20 @@ namespace ac {
         cv::Mat **frames;
         int Size;
         Frames(int size) : frames(0), Size(size) {
-            resizeFrames();
+            
         }
-        
         void releaseFrames() {
             for(int i = 0; i < Size; ++i) {
                 frames[i]->release();
+            }
+        }
+        
+        void initFrames() {
+            if(frames == 0) {
+                frames = new cv::Mat*[Size];
+                for(int i = 0; i < Size; ++i) {
+                    frames[i] = new cv::Mat();
+                }
             }
         }
         
@@ -2220,6 +2228,11 @@ namespace ac {
         }
         
         cv::Mat &operator[](size_t pos) {
+            
+            if(frames == 0) {
+                initFrames();
+            }
+            
             return *frames[pos];
         }
     };
@@ -2237,6 +2250,7 @@ namespace ac {
         Frames frames;
         int w, h;
         void shiftFrames(cv::Mat &frame) {
+            frames.initFrames();
             if(resetFrame(frame)) {
                 for(int i = Size-1; i > 0; --i) {
                     frames[i] = frames[i-1];
