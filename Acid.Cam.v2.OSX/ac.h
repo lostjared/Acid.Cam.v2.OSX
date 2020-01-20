@@ -2210,6 +2210,13 @@ namespace ac {
             }
         }
         
+        void shiftFrames(cv::Mat &frame) {
+            for(int i = Size-1; i > 0; --i) {
+                frames[i] = frames[i-1];
+            }
+            *frames[0] = frame.clone();
+        }
+        
         void resizeFrames() {
             if(frames != 0) {
                 for(int i = 0; i < Size; ++i) {
@@ -2226,19 +2233,16 @@ namespace ac {
         void setMat(int index, cv::Mat &frame) {
             *frames[index] = frame;
         }
-        
+
         cv::Mat &operator[](size_t pos) {
-            
             if(frames == 0) {
                 initFrames();
             }
-            
             return *frames[pos];
         }
     };
     
     extern std::vector<Frames *> all_objects;
-    
     template<int Size>
     class MatrixCollection {
     public:
@@ -2252,10 +2256,7 @@ namespace ac {
         void shiftFrames(cv::Mat &frame) {
             frames.initFrames();
             if(resetFrame(frame)) {
-                for(int i = Size-1; i > 0; --i) {
-                    frames[i] = frames[i-1];
-                }
-                frames[0] = frame.clone();
+                frames.shiftFrames(frame);
                 if(completedRows < size()) ++completedRows;
             }
         }
