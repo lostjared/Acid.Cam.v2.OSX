@@ -2238,7 +2238,10 @@ namespace ac {
             if(frames == 0) {
                 initFrames();
             }
-            return *frames[pos];
+            if(pos >= 0 && pos < Size)
+                return *frames[pos];
+            else
+                return *frames[0];
         }
     };
     
@@ -2256,9 +2259,16 @@ namespace ac {
         void shiftFrames(cv::Mat &frame) {
             frames.initFrames();
             if(resetFrame(frame)) {
-                frames.shiftFrames(frame);
+                shiftEachFrame(frame);
                 if(completedRows < size()) ++completedRows;
             }
+        }
+        
+        void shiftEachFrame(cv::Mat &frame) {
+            for(int i = Size-1; i > 0; --i) {
+                frames[i] = frames[i-1];
+            }
+            frames[0] = frame.clone();
         }
         
         bool resetFrame(cv::Mat &frame) {
@@ -2274,6 +2284,7 @@ namespace ac {
                     check_released = true;
                     setAllocatedFrames(getCurrentAllocatedFrames()+Size);
                     //allocated_frames += Size;
+                    frames[i] = frame.clone();
                     break;
                 }
             }

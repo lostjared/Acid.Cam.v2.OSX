@@ -393,6 +393,7 @@ void ac::TremorShake(cv::Mat &frame) {
     static int row_size_dir = 1;
     int row_y = 0;
     int row_dir = 1;
+    
     for(int q = 0; q < collection.size(); ++q) {
         for(int z = row_y; z < frame.rows && z < row_y+row_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
