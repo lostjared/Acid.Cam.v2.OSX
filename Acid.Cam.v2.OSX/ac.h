@@ -2234,11 +2234,11 @@ namespace ac {
             *frames[index] = frame;
         }
 
-        cv::Mat &operator[](size_t pos) {
+        cv::Mat &operator[](int pos) {
             if(frames == 0) {
                 initFrames();
             }
-            if(pos >= 0 && static_cast<int>(pos) < Size)
+            if(pos >= 0 && pos < Size)
                 return *frames[pos];
             else
                 return *frames[0];
