@@ -2238,7 +2238,7 @@ namespace ac {
             if(frames == 0) {
                 initFrames();
             }
-            if(pos >= 0 && pos < Size)
+            if(pos >= 0 && static_cast<int>(pos) < Size)
                 return *frames[pos];
             else
                 return *frames[0];

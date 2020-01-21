@@ -3521,13 +3521,20 @@ void setEnabledProg() {
         [self changeFilter:self];
     }
     
-    std::cout << "FilterItem[] items = new FilterItem[" << ac::solo_filter.size() << "]\n";
+    /*
+    //std::cout << "FilterItem[] items = new FilterItem[" << ac::solo_filter.size() << "]\n";
+    std::cout << "private List<FilterItem> items, sorted_items;\n";
     std::cout << "for(int i = 0; i < " << ac::solo_filter.size() << "; ++i) {\n";
     for(int i = 0; i < ac::solo_filter.size(); ++i) {
-            std::cout << "\titems[" << i << "] = new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << ");\n";
+        //std::cout << "\titems[" << i << "] = new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << ");\n";
+        std::cout << "item.add(new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << "));\n";
     }
-    std::cout << "\n}\n";
-    
+    std::sort(ac::solo_filter.begin(), ac::solo_filter.end());
+    for(int i = 0; i < ac::solo_filter.size(); ++i) {
+        std::cout << "sorted_items.add(new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << "));\n";
+        //std::cout << "sorted_items[" << i << "] = new FilterItem(\"" << items[0].name << "\", " << items[i].value << ");\n";
+    }
+    std::cout << "\n}\n"; */
 }
 - (IBAction) prevFilter: (id) sender {
     NSInteger index = [current_filter indexOfSelectedItem];
