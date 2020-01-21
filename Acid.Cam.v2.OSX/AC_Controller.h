@@ -53,6 +53,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<iomanip>
 #include "AC_Renderer.h"
 #include "AC_SearchController.h"
+#include <GameController/GameController.h>
 
 
 #ifndef DEBUG_MODE
@@ -232,6 +233,9 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     BOOL restartFilter;
     int program_speed;
     BOOL outputVideo;
+    GCController *game_controller;
+    GCGamepad *profile;
+    GCMicroGamepad *micro;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -360,6 +364,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) nextFilter: (id) sender;
 - (IBAction) prevFilter: (id) sender;
 - (IBAction) setAsPlayList:(id) sender;
+- (IBAction) initControllers: (id) sender;
 @end
 
 extern AC_Controller *controller;

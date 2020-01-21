@@ -55,10 +55,13 @@
     NSUInteger FPS;
     NSTimeInterval fpsStart;
     NSUInteger fpsCount;
+    GCController *game_controller;
 }
 @property (assign, nonatomic) NSUInteger FPS;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet AC_ImageView* glView;
+@property (assign) GCController *game_controller;
+@property (assign) GCExtendedGamepad *profile;
 
 - (IBAction) open:(id)sender;
 @end

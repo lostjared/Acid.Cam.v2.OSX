@@ -41,6 +41,7 @@
  
  */
 #import "AC_Controller.h"
+#import "AC_AppDelegate.h"
 #import<IOKit/IOKitLib.h>
 #include<iomanip>
 #include<string>
@@ -364,6 +365,7 @@ void setEnabledProg() {
      }
      }
      std::cout << "\n"; */
+    [self initControllers:self];
     [self checkForNewVersion:NO];
     cycle_chk_val = cycle_chk;
     //std::cout << cv::getBuildInformation() << "\n";
@@ -3547,6 +3549,24 @@ void setEnabledProg() {
 
 - (IBAction) setAsPlayList:(id) sender {
     
+}
+
+- (IBAction) initControllers:(id)sender {
+    NSLog(@"Initalized Controllers");
+    AC_AppDelegate *appDelegate = (AC_AppDelegate*)[[NSApplication sharedApplication] delegate];
+    game_controller = appDelegate.game_controller;
+    profile = game_controller.gamepad;
+    profile.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
+    {
+        if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
+            [self nextFilter:self];
+            std::cout << "Next Filter\n";
+        }
+        if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
+            [self prevFilter:self];
+            std::cout << "Prev Filter...\n";
+        }
+    };
 }
 
 @end

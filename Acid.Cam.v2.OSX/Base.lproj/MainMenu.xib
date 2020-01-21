@@ -271,6 +271,12 @@
                                     <action selector="reloadCameraInfo:" target="630" id="0Xj-06-jIl"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Initialize Controlllers" id="btF-TM-Ea5">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="initControllers:" target="630" id="vHV-UV-CJC"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="jmw-rL-Oi4"/>
                             <menuItem title="Copy Custom Filter String" id="FYH-xq-UXa">
                                 <modifierMask key="keyEquivalentModifierMask"/>

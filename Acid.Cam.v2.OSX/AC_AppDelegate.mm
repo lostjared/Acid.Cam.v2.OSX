@@ -43,12 +43,14 @@
  */
 
 #import "AC_AppDelegate.h"
+#import <GameController/GameController.h>
 
 @implementation AC_AppDelegate
 
 @synthesize window;
 @synthesize glView;
-
+@synthesize profile;
+@synthesize game_controller;
 @synthesize FPS;
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
@@ -67,6 +69,13 @@
     lameRenderingTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(render:) userInfo:nil repeats:YES];
     [lameRenderingTimer retain];
     [[NSRunLoop currentRunLoop] addTimer:lameRenderingTimer forMode:NSRunLoopCommonModes];
+    
+    NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
+    [center addObserverForName: GCControllerDidConnectNotification object: nil queue: nil usingBlock: ^(NSNotification * note) {
+        game_controller = note.object;
+        NSLog(@"ATTACHED: %s\n", game_controller.vendorName.UTF8String );
+    }];
+   
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification

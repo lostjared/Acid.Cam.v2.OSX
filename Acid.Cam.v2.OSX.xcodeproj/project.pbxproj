@@ -18,6 +18,7 @@
 		7F3170D0225820DE0095C384 /* ac-filter19.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3170CF225820DE0095C384 /* ac-filter19.cpp */; };
 		7F32BB57236ACEF7008C93FE /* ac-filter34.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F32BB56236ACEF7008C93FE /* ac-filter34.cpp */; };
 		7F32C03223C6D99400AC885E /* ac-filter41.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F32C03123C6D99400AC885E /* ac-filter41.cpp */; };
+		7F32C03423D796DD00AC885E /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F32C03323D796DC00AC885E /* GameController.framework */; };
 		7F3B124523104DD30011C6DF /* ac-filter29.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B124423104DD30011C6DF /* ac-filter29.cpp */; };
 		7F3CF9D3237879A5004017A8 /* ac-filter35.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3CF9D2237879A4004017A8 /* ac-filter35.cpp */; };
 		7F418243229AF12A00528131 /* ac-filter22.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F418242229AF12A00528131 /* ac-filter22.cpp */; };
@@ -140,6 +141,7 @@
 		7F3170CF225820DE0095C384 /* ac-filter19.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter19.cpp"; path = "Acid.Cam.v2.OSX/ac-filter19.cpp"; sourceTree = "<group>"; };
 		7F32BB56236ACEF7008C93FE /* ac-filter34.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter34.cpp"; path = "Acid.Cam.v2.OSX/ac-filter34.cpp"; sourceTree = "<group>"; };
 		7F32C03123C6D99400AC885E /* ac-filter41.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter41.cpp"; path = "Acid.Cam.v2.OSX/ac-filter41.cpp"; sourceTree = "<group>"; };
+		7F32C03323D796DC00AC885E /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		7F3B124423104DD30011C6DF /* ac-filter29.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter29.cpp"; path = "Acid.Cam.v2.OSX/ac-filter29.cpp"; sourceTree = "<group>"; };
 		7F3BFD26224BE19C00838B80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F3CF9D2237879A4004017A8 /* ac-filter35.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter35.cpp"; path = "Acid.Cam.v2.OSX/ac-filter35.cpp"; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F32C03423D796DD00AC885E /* GameController.framework in Frameworks */,
 				7F9BFD5923A17C9900B36F9F /* IOKit.framework in Frameworks */,
 				7FEC38722130E97B00EE1A3E /* QuartzCore.framework in Frameworks */,
 				7FEC38732130E97B00EE1A3E /* Quartz.framework in Frameworks */,
@@ -389,6 +392,7 @@
 		7F9D709417DE4F35009C54DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7F32C03323D796DC00AC885E /* GameController.framework */,
 				7F9BFD5823A17C9900B36F9F /* IOKit.framework */,
 				7FC2B668213185D000E54B6E /* Syphon.framework */,
 				7FC2B666213185B800E54B6E /* Frameworks */,
