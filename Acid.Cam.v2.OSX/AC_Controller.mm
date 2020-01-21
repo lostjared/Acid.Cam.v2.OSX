@@ -64,7 +64,7 @@ NSMutableArray *filter_on;
 bool isPaused = false;
 NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
-AC_Controller *controller;
+AC_Controller *controller = nil;
 pixel pix;
 drawn d;
 bool plugin_loaded = false;
@@ -365,7 +365,6 @@ void setEnabledProg() {
      }
      }
      std::cout << "\n"; */
-    [self initControllers:self];
     [self checkForNewVersion:NO];
     cycle_chk_val = cycle_chk;
     //std::cout << cv::getBuildInformation() << "\n";

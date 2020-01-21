@@ -43,6 +43,7 @@
  */
 
 #import "AC_AppDelegate.h"
+#import "AC_Controller.h"
 #import <GameController/GameController.h>
 
 @implementation AC_AppDelegate
@@ -74,6 +75,9 @@
     [center addObserverForName: GCControllerDidConnectNotification object: nil queue: nil usingBlock: ^(NSNotification * note) {
         game_controller = note.object;
         NSLog(@"ATTACHED: %s\n", game_controller.vendorName.UTF8String );
+        if(controller != nil) {
+            [controller initControllers:self];
+        }
     }];
    
 }

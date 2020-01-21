@@ -46,6 +46,7 @@
 #import "AC_Renderer.h"
 #import "AC_ImageView.h"
 
+
 @interface AC_AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {
     NSWindow *window;
     AC_ImageView *glView;
