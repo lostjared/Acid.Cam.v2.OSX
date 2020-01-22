@@ -416,11 +416,9 @@ void ac::DifferenceFillLinesXor(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z_offset, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z_offset, i);
-            if(pixel != pix) {
-                for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > 75)
-                        pixel[j] = pixel[j]^pix[j];
-                }
+            for(int j = 0; j < 3; ++j) {
+                if(abs(pixel[j]-pix[j]) > 75)
+                    pixel[j] = pixel[j]^pix[j];
             }
         }
         ++index;
@@ -436,15 +434,17 @@ void ac::DistortPixelate(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            bool set_value = false;
             for(int index = 0; index < collection.size(); ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-                if(pixel != pix) {
-                    for(int j = 0; j < 3; ++j) {
-                        if(abs(pixel[j]-pix[j]) > 30)
-                            pixel[j] = pixel[j]*rand()%255;
+                for(int j = 0; j < 3; ++j) {
+                    if(abs(pixel[j]-pix[j]) > 30) {
+                        pixel[j] = pixel[j]*rand()%255;
+                        set_value = true;
                     }
-                    break;
                 }
+                if(set_value == true)
+                    break;
             }
         }
     }
@@ -458,15 +458,17 @@ void ac::DistortPixelate64_Slow(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            bool set_value = false;
             for(int index = 0; index < collection.size(); ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-                if(pixel != pix) {
-                    for(int j = 0; j < 3; ++j) {
-                        if(abs(pixel[j]-pix[j]) > getPixelCollection())
-                            pixel[j] = pixel[j]*rand()%255;
+                for(int j = 0; j < 3; ++j) {
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
+                        pixel[j] = pixel[j]*rand()%255;
+                        set_value = true;
                     }
-                    break;
                 }
+                if(set_value == true)
+                    break;
             }
         }
     }
@@ -519,11 +521,9 @@ void ac::DifferenceFillLines_SubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z_offset, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z_offset, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z_offset, i);
-            if(pixel != pix) {
-                for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > getPixelCollection())
-                        pixel[j] = pixel[j]^pix1[j];
-                }
+            for(int j = 0; j < 3; ++j) {
+                if(abs(pixel[j]-pix[j]) > getPixelCollection())
+                    pixel[j] = pixel[j]^pix1[j];
             }
         }
         ++index;
@@ -548,10 +548,9 @@ void ac::DifferenceFillLinesBlend_SubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z_offset, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z_offset, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z_offset, i);
-            if(pixel != pix) {
-                for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > getPixelCollection())
-                        pixel[j] = static_cast<unsigned int>((0.5 * pixel[j]) + (0.5 * pix1[j]));
+            for(int j = 0; j < 3; ++j) {
+                if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
+                    pixel[j] = static_cast<unsigned int>((0.5 * pixel[j]) + (0.5 * pix1[j]));
                 }
             }
         }

@@ -2191,7 +2191,6 @@ namespace ac {
     extern bool frames_released;
     extern void release_all_objects();
     // Matrix Collection template
-    
     class Frames {
     public:
         cv::Mat **frames;
