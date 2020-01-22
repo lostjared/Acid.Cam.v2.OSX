@@ -364,6 +364,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) prevFilter: (id) sender;
 - (IBAction) setAsPlayList:(id) sender;
 - (IBAction) initControllers: (id) sender;
+- (IBAction) releaseControllers: (id) sender;
+- (IBAction) pollJoystick: (id) sender;
 @property(retain) GCController *gameController;
 @property(retain) GCGamepad *theController;
 

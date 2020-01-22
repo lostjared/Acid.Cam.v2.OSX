@@ -712,6 +712,7 @@ void setEnabledProg() {
 }
 
 -(IBAction) startProgram: (id) sender {
+    
     if([[startProg title] isEqualToString: @"Start Session"]) {
         if(!image_shuffle.empty()) {
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
@@ -1172,6 +1173,9 @@ void setEnabledProg() {
         pauseStepTrue = false;
     }
     else if(isPaused) return;
+    
+    [self pollJoystick:self];
+    
     NSInteger stat_test = [chk_rand_repeat integerValue];
     if(stat_test == NSControlStateValueOn) {
         [chk_rand_frames setEnabled: NO];
@@ -3550,7 +3554,12 @@ void setEnabledProg() {
 }
 
 - (IBAction) setAsPlayList:(id) sender {
-    
+}
+
+- (IBAction) pollJoystick: (id) sender {
+    if(theController != nil) {
+        std::cout << theController.dpad.xAxis.value;
+    }
 }
 
 - (IBAction) initControllers:(id)sender {
@@ -3562,7 +3571,39 @@ void setEnabledProg() {
     for(int i = 0; i < [GCController controllers].count; ++i) {
         GCController *gp = [GCController controllers][i];
         GCGamepad *pad = [gp gamepad];
-        std::cout << "Mapped Buttons To: " << [[gp vendorName] UTF8String] << "\n";
+        if(pad != nil) {
+            std::cout << "Mapped Buttons To: " << [[gp vendorName] UTF8String] << "\n";
+            std::cout << (unsigned long) pad << "\n";
+            [self setTheController: pad];
+            [self.theController.buttonA setValueChangedHandler:^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                std::cout << "Pressed button A..\n";
+            }];
+            
+            GCControllerDirectionPadValueChangedHandler handler = ^(GCControllerDirectionPad *dpad, float xValue, float yValue) {
+                std::cout << "pressed...\n";
+            };
+            
+            if(theController.dpad) {
+                std::cout << [[[theController dpad] debugDescription] UTF8String] << "\n";
+                [[theController dpad] setValueChangedHandler:handler];
+            }
+            
+            if(theController.leftShoulder) {
+                theController.leftShoulder.pressedChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                    std::cout << "Left shoulder...\n";
+                };
+            }
+
+            if(theController.rightShoulder) {
+                theController.rightShoulder.pressedChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                    std::cout << "Right shoulder...\n";
+                };
+            }
+
+        } else {
+            NSLog(@"Controller not supported!");
+        }
+        /*
         pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
         {
             if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
@@ -3579,7 +3620,14 @@ void setEnabledProg() {
             if (gamepad.buttonB == element && gamepad.buttonB.isPressed) {
                 std::cout << "Button B\n";
             }
-        };
+        };*/
+    }
+}
+
+- (IBAction) releaseControllers: (id) sender {
+    if(theController != nil) {
+        [theController release];
+        theController = nil;
     }
 }
 

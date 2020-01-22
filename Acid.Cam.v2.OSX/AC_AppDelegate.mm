@@ -50,10 +50,8 @@
 
 @synthesize window;
 @synthesize glView;
-@synthesize profile;
-@synthesize game_controller;
 @synthesize FPS;
-
+@synthesize center;
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 {
     return YES;
@@ -71,12 +69,17 @@
     [lameRenderingTimer retain];
     [[NSRunLoop currentRunLoop] addTimer:lameRenderingTimer forMode:NSRunLoopCommonModes];
     
-    NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
+    center = [NSNotificationCenter defaultCenter];
     [center addObserverForName: GCControllerDidConnectNotification object: nil queue: nil usingBlock: ^(NSNotification * note) {
         GCController *control = note.object;
         NSLog(@"Connected: %s\n", control.vendorName.UTF8String );
         [controller initControllers:self];
     }];
+    
+    [center addObserverForName: GCControllerDidDisconnectNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [controller releaseControllers:self];
+    }];
+    
     [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
         NSLog(@"End...");
     }];
