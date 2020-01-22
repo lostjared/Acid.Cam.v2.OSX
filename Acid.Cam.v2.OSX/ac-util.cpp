@@ -512,7 +512,7 @@ void ac::ac_resize(const cv::UMat &copy1, cv::Mat &dst, cv::Size scale) {
 
 // Make two copies of the current frame, apply filter1 to one, filter2 to the other
 // then Alpha Blend them together
-void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
+void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha, int alpha_mode) {
     const int h = frame.rows; // frame height
     const int w = frame.cols;// framew idth
     // make copies of original frame
@@ -528,7 +528,11 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha) {
             cv::Vec3b frame2_pix = frame2.at<cv::Vec3b>(z, i); // frame2 pixel
             // loop through pixel components and set target pixel to alpha blended pixel of two frames
             for(int q = 0; q < 3; ++q)
-                pixel[q] = static_cast<unsigned char>(frame2_pix[q]+(frame1_pix[q]*alpha));
+                if(alpha_mode == 0)
+                    pixel[q] = static_cast<unsigned char>(frame2_pix[q]+(frame1_pix[q]*alpha));
+                else if(alpha_mode == 1)
+                    pixel[q] = static_cast<unsigned char>((frame2_pix[q] * (1-alpha)) +(frame1_pix[q]* alpha));
+                    
         }
     }
 }

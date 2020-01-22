@@ -646,3 +646,36 @@ void ac::MovementTrailsX_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FadeFromFrameToFrame(cv::Mat &frame) {
+    
+    
+    static int new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+    static int current_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+    static double current_fade_alpha = 1.0;
+    if(current_fade_alpha >= 0) {
+        ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
+        current_fade_alpha -= 0.08;
+    } else {
+        current_filter = new_filter;
+        new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+        ac::CallFilter(current_filter, frame);
+        if(current_fade_alpha == 0) current_fade_alpha = 1.0;
+    }
+}
+
+void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
+    static int new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+    static int current_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+    static double current_fade_alpha = 1.0;
+    if(current_fade_alpha >= 0) {
+        ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 0);
+        current_fade_alpha -= 0.08;
+    } else {
+        current_filter = new_filter;
+        new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+        ac::CallFilter(current_filter, frame);
+        if(current_fade_alpha == 0) current_fade_alpha = 1.0;
+    }
+
+}

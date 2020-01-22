@@ -2079,6 +2079,8 @@ namespace ac {
     void DistortPixelate24_SubFilter(cv::Mat &frame);
     void MovementTrails_SubFilter(cv::Mat &frame);
     void MovementTrailsX_SubFilter(cv::Mat &frame);
+    void FadeFromFrameToFrame(cv::Mat &frame);
+    void GlitchFadeFromFrameToFrame(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2142,7 +2144,7 @@ namespace ac {
     void ac_resize(const cv::Mat &src, cv::Mat &dst, cv::Size scale);
     void ac_resize(const cv::UMat &src, cv::Mat &dst, cv::Size scale);
     // Alpha Blend two filters and set to frame by alpha variable
-    void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha);
+    void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha, int alpha_mode = 0);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
     void resetAlpha(int &dir, double &alpha);
     void resetAlpha(double &alpha);
