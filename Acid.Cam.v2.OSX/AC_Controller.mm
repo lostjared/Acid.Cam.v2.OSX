@@ -3575,14 +3575,32 @@ void setEnabledProg() {
             std::cout << "Mapped Buttons To: " << [[gp vendorName] UTF8String] << "\n";
             std::cout << (unsigned long) pad << "\n";
             [self setTheController: pad];
+            [self.theController.buttonB setValueChangedHandler:^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                if(pressed) {
+                    [self prevFilter:self];
+                    std::cout << "Prev Filter..\n";
+                }
+            }];
             [self.theController.buttonA setValueChangedHandler:^(GCControllerButtonInput *button, float value, BOOL pressed) {
-                std::cout << "Pressed button A..\n";
+                if(pressed) {
+                    [self nextFilter:self];
+                    std::cout << "Next Filter..\n";
+                }
+            }];
+            [self.theController.buttonX setValueChangedHandler:^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                if(pressed) {
+                    std::cout << "Pressed button X..\n";
+                }
+            }];
+            [self.theController.buttonY setValueChangedHandler:^(GCControllerButtonInput *button, float value, BOOL pressed) {
+                if(pressed) {
+                    std::cout << "Pressed button Y..\n";
+                }
             }];
             
             GCControllerDirectionPadValueChangedHandler handler = ^(GCControllerDirectionPad *dpad, float xValue, float yValue) {
                 std::cout << "pressed...\n";
             };
-            
             if(theController.dpad) {
                 std::cout << [[[theController dpad] debugDescription] UTF8String] << "\n";
                 [[theController dpad] setValueChangedHandler:handler];
