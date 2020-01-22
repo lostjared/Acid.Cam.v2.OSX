@@ -71,15 +71,14 @@
     [lameRenderingTimer retain];
     [[NSRunLoop currentRunLoop] addTimer:lameRenderingTimer forMode:NSRunLoopCommonModes];
     
-    [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
-        NSLog(@"End...");
-    }];
-    
     NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
     [center addObserverForName: GCControllerDidConnectNotification object: nil queue: nil usingBlock: ^(NSNotification * note) {
         GCController *control = note.object;
         NSLog(@"Connected: %s\n", control.vendorName.UTF8String );
         [controller initControllers:self];
+    }];
+    [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
+        NSLog(@"End...");
     }];
 }
 

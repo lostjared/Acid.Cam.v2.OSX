@@ -3555,6 +3555,10 @@ void setEnabledProg() {
 
 - (IBAction) initControllers:(id)sender {
     
+    [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
+        NSLog(@"End...");
+    }];
+    
     for(int i = 0; i < [GCController controllers].count; ++i) {
         GCController *gp = [GCController controllers][i];
         GCGamepad *pad = [gp gamepad];
@@ -3568,6 +3572,12 @@ void setEnabledProg() {
             if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
                 [self prevFilter:self];
                 std::cout << "Prev Filter...\n";
+            }
+            if (gamepad.buttonX == element && gamepad.buttonX.isPressed) {
+                std::cout << "Button X\n";
+            }
+            if (gamepad.buttonB == element && gamepad.buttonB.isPressed) {
+                std::cout << "Button B\n";
             }
         };
     }
