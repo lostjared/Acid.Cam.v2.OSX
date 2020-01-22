@@ -3554,20 +3554,23 @@ void setEnabledProg() {
 }
 
 - (IBAction) initControllers:(id)sender {
-    GCController *gp = [GCController controllers][0];
-    GCGamepad *pad = [gp gamepad];
-    pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
-    {
-        if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
-            [controller nextFilter:self];
-            std::cout << "Next Filter\n";
-        }
-        if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
-            [controller prevFilter:self];
-            std::cout << "Prev Filter...\n";
-        }
-    };
     
+    for(int i = 0; i < [GCController controllers].count; ++i) {
+        GCController *gp = [GCController controllers][i];
+        GCGamepad *pad = [gp gamepad];
+        std::cout << "Mapped Buttons To: " << [[gp vendorName] UTF8String] << "\n";
+        pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
+        {
+            if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
+                [self nextFilter:self];
+                std::cout << "Next Filter\n";
+            }
+            if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
+                [self prevFilter:self];
+                std::cout << "Prev Filter...\n";
+            }
+        };
+    }
 }
 
 @end
