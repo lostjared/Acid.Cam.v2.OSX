@@ -178,6 +178,9 @@ void setEnabledProg() {
 // Objective-C implemtation of class AC_Controller
 @implementation AC_Controller
 
+@synthesize gameController;
+@synthesize theController;
+
 - (void) stopCV_prog {
     [startProg setEnabled: YES];
     [record_op setEnabled: YES];
@@ -3551,21 +3554,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) initControllers:(id)sender {
-    NSLog(@"Initalized Controllers");
-    AC_AppDelegate *appDelegate = (AC_AppDelegate*)[[NSApplication sharedApplication] delegate];
-    game_controller = appDelegate.game_controller;
-    profile = game_controller.gamepad;
-    profile.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
-    {
-        if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
-            [self nextFilter:self];
-            std::cout << "Next Filter\n";
-        }
-        if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
-            [self prevFilter:self];
-            std::cout << "Prev Filter...\n";
-        }
-    };
+    
 }
 
 @end

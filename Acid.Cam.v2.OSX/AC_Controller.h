@@ -233,8 +233,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     BOOL restartFilter;
     int program_speed;
     BOOL outputVideo;
-    GCController *game_controller;
-    GCGamepad *profile;
+    GCExtendedGamepad *profile;
     GCMicroGamepad *micro;
 }
 // classes messages
@@ -365,6 +364,9 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) prevFilter: (id) sender;
 - (IBAction) setAsPlayList:(id) sender;
 - (IBAction) initControllers: (id) sender;
+@property(retain) GCController *gameController;
+@property(retain) GCGamepad *theController;
+
 @end
 
 extern AC_Controller *controller;
