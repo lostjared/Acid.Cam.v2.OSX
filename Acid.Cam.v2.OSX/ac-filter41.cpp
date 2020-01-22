@@ -606,7 +606,35 @@ void ac::MovementTrails_SubFilter(cv::Mat &frame) {
             for(int index = 0; index < collection.size(); ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > 55) {
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
+                        pixel[j] = pix1[j];
+                        set_value = true;
+                    }
+                }
+                if(set_value == true)
+                    break;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::MovementTrailsX_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MovementTrailsX_SubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            bool set_value = false;
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
                         pixel[j] = pix1[j];
                         set_value = true;
                     }
