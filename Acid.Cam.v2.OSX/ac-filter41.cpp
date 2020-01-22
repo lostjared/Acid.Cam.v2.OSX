@@ -678,3 +678,8 @@ void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
     }
 
 }
+
+void ac::RandomSolo(cv::Mat &frame) {
+    int value = ac::filter_map[ac::solo_filter[rand()%solo_filter.size()]];
+    ac::CallFilter(value, frame);
+}

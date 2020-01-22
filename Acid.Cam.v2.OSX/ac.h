@@ -2081,6 +2081,7 @@ namespace ac {
     void MovementTrailsX_SubFilter(cv::Mat &frame);
     void FadeFromFrameToFrame(cv::Mat &frame);
     void GlitchFadeFromFrameToFrame(cv::Mat &frame);
+    void RandomSolo(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
