@@ -2077,6 +2077,7 @@ namespace ac {
     void DifferenceFillLines_SubFilter(cv::Mat &frame);
     void DifferenceFillLinesBlend_SubFilter(cv::Mat &frame);
     void DistortPixelate24_SubFilter(cv::Mat &frame);
+    void MovementTrails_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

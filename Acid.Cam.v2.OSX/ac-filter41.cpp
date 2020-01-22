@@ -462,7 +462,7 @@ void ac::DistortPixelate64_Slow(cv::Mat &frame) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 if(pixel != pix) {
                     for(int j = 0; j < 3; ++j) {
-                        if(abs(pixel[j]-pix[j]) > 30)
+                        if(abs(pixel[j]-pix[j]) > getPixelCollection())
                             pixel[j] = pixel[j]*rand()%255;
                     }
                     break;
@@ -485,24 +485,22 @@ void ac::DistortPixelate128_SubFilter(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
-            bool p_found = false;
+            bool set_value = false;
+            pix1 = cv::Vec3b(rand()%255, rand()%255, rand()%255);
             for(int index = 0; index < collection.size(); ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                   if(abs(pixel[j]-pix[j]) > 30) {
-                        p_found = true;
-                        goto out_of_loop;
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
+                        pixel[j] = pix1[j];
+                        set_value = true;
                     }
                 }
-            }
-        out_of_loop:
-            if(p_found == true) {
-                pixel = pix1;
-                break;
+                if(set_value == true)
+                    break;
             }
         }
     }
-    MatrixCollectionAuraTrails(frame);
+    //MatrixCollectionAuraTrails(frame);
     AddInvert(frame);
 }
 
@@ -523,7 +521,7 @@ void ac::DifferenceFillLines_SubFilter(cv::Mat &frame) {
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z_offset, i);
             if(pixel != pix) {
                 for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > 75)
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection())
                         pixel[j] = pixel[j]^pix1[j];
                 }
             }
@@ -552,7 +550,7 @@ void ac::DifferenceFillLinesBlend_SubFilter(cv::Mat &frame) {
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z_offset, i);
             if(pixel != pix) {
                 for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > 75)
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection())
                         pixel[j] = static_cast<unsigned int>((0.5 * pixel[j]) + (0.5 * pix1[j]));
                 }
             }
@@ -575,20 +573,17 @@ void ac::DistortPixelate24_SubFilter(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
-            bool p_found = false;
+            bool set_value = false;
             for(int index = 0; index < collection.size(); ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    if(abs(pixel[j]-pix[j]) > 30) {
-                        p_found = true;
-                        goto out_of_loop;
+                    if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
+                        pixel[j] = pix1[j];
+                        set_value = true;
                     }
                 }
-            }
-        out_of_loop:
-            if(p_found == true) {
-                pixel = pix1;
-                break;
+                if(set_value == true)
+                    break;
             }
         }
     }
@@ -596,4 +591,30 @@ void ac::DistortPixelate24_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-// 866 953 1002
+void ac::MovementTrails_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MovementTrails_SubFilter")
+        return;
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            bool set_value = false;
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    if(abs(pixel[j]-pix[j]) > 55) {
+                        pixel[j] = pix1[j];
+                        set_value = true;
+                    }
+                }
+                if(set_value == true)
+                    break;
+            }
+        }
+    }
+    AddInvert(frame);
+}

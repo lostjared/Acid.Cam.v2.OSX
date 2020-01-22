@@ -2502,9 +2502,9 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="cEl-OF-u4t">
-                        <rect key="frame" x="20" y="223" width="169" height="17"/>
+                        <rect key="frame" x="20" y="223" width="107" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Pixel Collection Intensity:" id="PCT-2o-Wgj">
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Pixel Difference" id="PCT-2o-Wgj">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
