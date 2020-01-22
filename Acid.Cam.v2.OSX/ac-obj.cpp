@@ -87,7 +87,7 @@ bool ac::frames_released = false;
 void ac::release_all_objects() {
     col_lock.lock();
     for(unsigned int i = 0; i < all_objects.size(); ++i) {
-        all_objects[i]->releaseFrames();
+        if(all_objects[i] != 0) all_objects[i]->releaseFrames();
     }
     frames_released = true;
     std::cout << "acidcam: Released: " << getCurrentAllocatedFrames() << " Matrix objects...\n";
