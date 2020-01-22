@@ -79,20 +79,7 @@
     [center addObserverForName: GCControllerDidConnectNotification object: nil queue: nil usingBlock: ^(NSNotification * note) {
         GCController *control = note.object;
         NSLog(@"Connected: %s\n", control.vendorName.UTF8String );
-        GCGamepad *gp = control.gamepad;
-        gp.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
-        {
-            if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
-                [controller nextFilter:self];
-                std::cout << "Next Filter\n";
-            }
-            if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
-                [controller prevFilter:self];
-                std::cout << "Prev Filter...\n";
-            }
-        };
-        [controller setGameController:control];
-        [controller setTheController:gp];
+        [controller initControllers:self];
     }];
 }
 

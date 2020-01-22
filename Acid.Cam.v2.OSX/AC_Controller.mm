@@ -3554,6 +3554,19 @@ void setEnabledProg() {
 }
 
 - (IBAction) initControllers:(id)sender {
+    GCController *gp = [GCController controllers][0];
+    GCGamepad *pad = [gp gamepad];
+    pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
+    {
+        if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
+            [controller nextFilter:self];
+            std::cout << "Next Filter\n";
+        }
+        if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
+            [controller prevFilter:self];
+            std::cout << "Prev Filter...\n";
+        }
+    };
     
 }
 
