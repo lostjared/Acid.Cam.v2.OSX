@@ -4,12 +4,13 @@
 
 [VERSION: 2.54.0 (macOS)]
 
-To be able to use all the filters in this app your system should have at lest 8 GB of ram.
 
-An important note:
+*** IMPORTANT NOTE ***
+
+To be able to use all the filters in this app your system should have at lest 8 GB of ram for 1080p video. For 4K higher Ram is recommended, but you can set the Max Stored Frames based on the resolution you are doing and when it is reached it will release the frames.
+On my system for 2160p video when using something like a Random filter I set it to 400 frames for my system with 32 GB ram. You can set it lower based on your system ram level It is in the preferences window.
 
 When writing C++ code using libacidcam do not call a mulithreaded filter from within another mulithreaded filter from within it's loop callback. 
-
 
 Acid Cam distorts video to create art. It is designed to bo used with other software (Syphon)  or on its own. There is multiple versions of the program for macOS, Linux, and Windows as well as a command line version of the program. 
 The program also has a live webcam feature. If you wish to use this feature you should use a lower resolution and not stack up to many filters. The majority of the time this program is more useful in video mode where it can process multiple filters in up to 2160p 4K resolution.
