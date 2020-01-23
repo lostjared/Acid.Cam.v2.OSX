@@ -94,8 +94,7 @@ AC_Renderer *render_;
     if(!frame.empty() && new_frame == YES) {
         cv::Mat outval;
         frame =  resizeKeepAspectRatio(frame, cv::Size(dimensions.width, dimensions.height), cv::Scalar(0,0,0));
-        outval = frame;
-        glDrawPixels(outval.cols, outval.rows, GL_BGR, GL_UNSIGNED_BYTE, (unsigned char *)outval.ptr());
+        glDrawPixels(frame.cols, frame.rows, GL_BGR, GL_UNSIGNED_BYTE, (unsigned char *)frame.ptr());
         new_frame = NO;
     }
     glMatrixMode(GL_MODELVIEW);
