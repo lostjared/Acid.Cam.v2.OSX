@@ -2083,6 +2083,7 @@ namespace ac {
     void GlitchFadeFromFrameToFrame(cv::Mat &frame);
     void RandomSolo(cv::Mat &frame);
     void PiecesOfFrames(cv::Mat &frame);
+    void XorScaleValue(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

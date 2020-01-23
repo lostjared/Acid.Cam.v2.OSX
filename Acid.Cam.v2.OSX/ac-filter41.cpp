@@ -718,3 +718,27 @@ void ac::PiecesOfFrames(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.5);
     AddInvert(frame);
 }
+
+void ac::XorScaleValue(cv::Mat &frame) {
+    static cv::Mat copy;
+    if(copy.size() != frame.size())
+        copy = frame.clone();
+    static int index = 0;
+    ++index;
+    if(index > 1) {
+        index = 0;
+        copy = frame.clone();
+    }
+    static double alpha = 0.8;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j] ^ static_cast<int>((alpha * pix[j]));
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 0.8, 0.5);
+}
