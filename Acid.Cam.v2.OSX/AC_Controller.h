@@ -367,6 +367,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) releaseControllers: (id) sender;
 - (IBAction) pollJoystick: (id) sender;
 - (IBAction) toggleFullScreenGL: (id) sender;
+- (IBAction) changedCameraDevice: (id) sender;
 @property(retain) GCController *gameController;
 @property(retain) GCGamepad *theController;
 

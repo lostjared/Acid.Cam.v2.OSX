@@ -393,6 +393,19 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) changedCameraDevice: (id) sender {
+    /*
+    NSInteger index = [device_index indexOfSelectedItem];
+    cv::VideoCapture cap(static_cast<int>(index));
+    std::vector<cv::Size> res;
+    if(ac::getSupportedResolutions(cap, res)) {
+        std::cout << "Resolution...\n";
+        for(int i = 0; i < res.size(); ++i) {
+            std::cout << "Supports resolution: " << res[i].width << "x" << res[i].height << "\n";
+        }
+    }*/
+}
+
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL)add_u{
     *cat = [[NSMenu alloc] init];
     [*cat addItemWithTitle:@"All" action:nil keyEquivalent:@""];
@@ -756,9 +769,7 @@ void setEnabledProg() {
             _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
             return;
         }
-        // test values
-        int res_x[4] = { 640, 1280, 1920, 3840 };
-        int res_y[4] = { 480, 720, 1080, 2160 };
+        cv::Size res_arr[] = { {320, 240}, {640, 480}, {800, 600}, {1024, 576}, {1280, 720}, {1920, 1080}, {2560, 1440}, {3840, 2160}, {0, 0}};
         bool use_resized_res = false;
         if([videoFileInput state] == NSControlStateValueOn) {
             input_file = [[video_file stringValue] UTF8String];
@@ -771,7 +782,6 @@ void setEnabledProg() {
             camera_mode = 1;
         } else camera_mode = 0;
         NSInteger res = [resolution indexOfSelectedItem];
-        
         bool r;
         if([record_op integerValue] == 1)
             r = false;
@@ -821,7 +831,7 @@ void setEnabledProg() {
         }
         int ret_val = 0;
         if(use_resized_res == false)
-            ret_val = program_main(outputVideo, 0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_x[res], res_y[res],(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+            ret_val = program_main(outputVideo, 0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_arr[res].width, res_arr[res].height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         else
             ret_val = program_main(outputVideo, value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         if(ret_val == 0) {
@@ -838,7 +848,7 @@ void setEnabledProg() {
         
         if(ret_val != 0) {
             _NSRunAlertPanel(@"Failed to initalize capture device\n", @"Init Failed\n", @"Ok", nil, nil);
-            std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_x[res] << "x" << res_y[res] << "\n";
+            std::cout << "DeviceIndex: " << (int)[device_index indexOfSelectedItem] << " input file: " << input_file << " filename: " << filename << " res: " << res_arr[res].width << "x" << res_arr[res].height << "\n";
             programRunning = false;
             [startProg setTitle:@"Start Session"];
             [window1 orderOut:self];

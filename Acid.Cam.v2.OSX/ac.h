@@ -189,6 +189,7 @@ namespace ac {
     FilterType filterByString(const std::string &num);
     bool CallFilter(int index, cv::Mat &frame);
     bool CallFilter(const std::string &name, cv::Mat &frame);
+    bool getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size> &res);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);
     void SelfScale(cv::Mat &frame);

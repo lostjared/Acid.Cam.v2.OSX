@@ -759,20 +759,29 @@
                     <popUpButton verticalHuggingPriority="750" id="540">
                         <rect key="frame" x="20" y="141" width="318" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="640x480 (SD)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="543" id="541">
+                        <popUpButtonCell key="cell" type="push" title="640x480" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="544" id="541">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="542">
                                 <items>
-                                    <menuItem title="640x480 (SD)" state="on" id="543"/>
-                                    <menuItem title="1280x720 (HD)" id="544"/>
-                                    <menuItem title="1920x1080 (Full HD)" id="545"/>
-                                    <menuItem title="3840x2160 (4K)" id="qCf-wU-ezo">
+                                    <menuItem title="320x240" id="543"/>
+                                    <menuItem title="640x480" state="on" id="544"/>
+                                    <menuItem title="800x600" id="545"/>
+                                    <menuItem title="1024x576" id="qCf-wU-ezo">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="1280x720" id="T9e-ta-TGa"/>
+                                    <menuItem title="1920x1080" id="kzj-ew-M4x"/>
+                                    <menuItem title="2560x1440" id="A3P-6l-Ork"/>
+                                    <menuItem title="3840x2160" id="BFJ-Kk-cY1">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <action selector="changedCameraDevice:" target="630" id="cJF-2s-dLO"/>
+                        </connections>
                     </popUpButton>
                 </subviews>
             </view>
