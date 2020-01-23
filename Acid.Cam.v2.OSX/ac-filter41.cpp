@@ -647,8 +647,6 @@ void ac::MovementTrailsX_SubFilter(cv::Mat &frame) {
 }
 
 void ac::FadeFromFrameToFrame(cv::Mat &frame) {
-    
-    
     static int new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
     static int current_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
     static double current_fade_alpha = 1.0;
@@ -661,6 +659,7 @@ void ac::FadeFromFrameToFrame(cv::Mat &frame) {
         ac::CallFilter(current_filter, frame);
         if(current_fade_alpha == 0) current_fade_alpha = 1.0;
     }
+    AddInvert(frame);
 }
 
 void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
@@ -676,10 +675,46 @@ void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
         ac::CallFilter(current_filter, frame);
         if(current_fade_alpha == 0) current_fade_alpha = 1.0;
     }
-
+    AddInvert(frame);
 }
 
 void ac::RandomSolo(cv::Mat &frame) {
     int value = ac::filter_map[ac::solo_filter[rand()%solo_filter.size()]];
     ac::CallFilter(value, frame);
+    AddInvert(frame);
+}
+
+void ac::PiecesOfFrames(cv::Mat &frame) {
+    static MatrixCollection<3> collection;
+    collection.shiftFrames(frame);
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, -1);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+    }
+    pix_container.reset();
+    for(int i = 0; i < collection.size(); ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b pix = collection.frames[i].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pix_container.pix_values[i][z].col[j] += pix[j];
+                }
+            }
+        }
+    }
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<int>(pixel[j]) ^ static_cast<int>((alpha) * pix_container.pix_values[i][z].col[j]);
+            }
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.5);
+    AddInvert(frame);
 }

@@ -2082,6 +2082,7 @@ namespace ac {
     void FadeFromFrameToFrame(cv::Mat &frame);
     void GlitchFadeFromFrameToFrame(cv::Mat &frame);
     void RandomSolo(cv::Mat &frame);
+    void PiecesOfFrames(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -3240,6 +3241,15 @@ namespace ac {
         void shuffle();
         void generateMatrix(cv::Mat &frame);
         std::vector<PixelValues*> pixel_index;
+        
+        void reset() {
+            for(int z = 0; z < pix_y; ++z) {
+                for(int i = 0; i < pix_x; ++i) {
+                    PixelValues &p = pix_values[i][z];
+                    p.clear();
+                }
+            }
+        }
         
         template<typename Func>
         void setColorValues(Func value) {
