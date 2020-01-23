@@ -2285,13 +2285,11 @@ void setEnabledProg() {
     log << "Thread Support Filters Count Set to: " << static_cast<int>(thread_num) << "\n";
     log << "Pixel Intensity Set At: " << static_cast<int>(intense) << "\n";
     log << "FFMPEG Path Set to: " << output_path_ffmpeg << "\n";
-    
     NSInteger max = [max_frames integerValue];
-    if(max <= 300) {
+    if(max <= 50) {
         _NSRunAlertPanel(@"Invalid Maximum Stored Frames (based on your systems memory.)", @"Invalid Maximum Stored Frames. Requires a value of 300 or greater.", @"Ok", nil, nil);
         return;
     }
-    
     NSInteger value = [set_color_map indexOfSelectedItem];
     ac::setFilterColorMap(static_cast<int>(value));
     
