@@ -64,6 +64,7 @@
     {
         // 10.7+
         [self setWantsBestResolutionOpenGLSurface:YES];
+        self.window.styleMask &= ~NSWindowStyleMaskResizable;
     }
 }
 
@@ -89,10 +90,17 @@
     else return [self bounds].size;
 }
 
+- (BOOL) inFullScreenMode {
+    NSApplicationPresentationOptions opts = [[NSApplication sharedApplication ] presentationOptions];
+    if ( opts & NSApplicationPresentationFullScreen) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-    
     NSSize frameSize = self.renderSize;
     
     if (self.needsReshape)

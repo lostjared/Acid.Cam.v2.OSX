@@ -3647,6 +3647,11 @@ void setEnabledProg() {
     }
 }
 
+- (IBAction) toggleFullScreenGL: (id) sender {
+    syphon_window.styleMask |= NSWindowStyleMaskResizable;
+    [syphon_window toggleFullScreen:self];
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
