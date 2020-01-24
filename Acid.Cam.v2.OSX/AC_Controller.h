@@ -209,6 +209,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSPopUpButton *set_color_map;
     IBOutlet NSButton *cycle_chk;
     IBOutlet NSTextField *custom_cycle_delay;
+    IBOutlet NSTextField *memory_text;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -368,6 +369,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) pollJoystick: (id) sender;
 - (IBAction) toggleFullScreenGL: (id) sender;
 - (IBAction) changedCameraDevice: (id) sender;
+- (NSTextField *)getMemoryText: (id) sender;
 @property(retain) GCController *gameController;
 @property(retain) GCGamepad *theController;
 

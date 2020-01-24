@@ -3662,6 +3662,10 @@ void setEnabledProg() {
     [syphon_window toggleFullScreen:self];
 }
 
+- (NSTextField *)getMemoryText: (id) sender {
+    return memory_text;
+}
+
 @end
 
 std::unordered_map<std::string, UserFilter> user_filter;
@@ -3695,6 +3699,11 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     ac::in_custom = false;
     ac::swapColorState(false);
     ac::clearSubFilter();
+    unsigned long mem = ac::calculateMemory();
+    std::ostringstream stream;
+    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+    [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:stream.str().c_str()]];
+    
     if(ac::release_frames) {
         ac::release_all_objects();
         ac::release_frames = false;

@@ -827,3 +827,30 @@ void ac::DiamondCollection(cv::Mat &frame) {
     procPos(direction, pos, pos_max);
     AddInvert(frame);
 }
+
+void ac::RandomFadeDelay(cv::Mat &frame) {
+    static int new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+    static int current_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+    static double current_fade_alpha = 1.0;
+    if(current_fade_alpha >= 0) {
+        ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
+        current_fade_alpha -= 0.06;
+    } else {
+        static int cnt = 0;
+        static int seconds = 0;
+        int fps = static_cast<int>(ac::fps);
+        ++cnt;
+        if(cnt > fps) {
+            cnt = 0;
+            ++seconds;
+            if(seconds > 15) {
+                current_filter = new_filter;
+                new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
+                if(current_fade_alpha == 0) current_fade_alpha = 1.0;
+                seconds = 0;
+            }
+        }
+        filterFade(frame, new_filter, current_filter, 1.0, 1);
+    }
+    AddInvert(frame);
+}

@@ -2086,6 +2086,7 @@ namespace ac {
     void PiecesOfFrames(cv::Mat &frame);
     void XorScaleValue(cv::Mat &frame);
     void DiamondCollection(cv::Mat &frame);
+    void RandomFadeDelay(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2225,6 +2226,15 @@ namespace ac {
             *frames[0] = frame.clone();
         }
         
+        unsigned long getSize() {
+            unsigned long total = 0;
+            for(int i = 0; i < Size; ++i) {
+                if(frames[i] != 0 && !frames[i]->empty())
+                total += frames[i]->rows * frames[i]->cols;
+            }
+            return total;
+        }
+        
         void resizeFrames() {
             if(frames != 0) {
                 for(int i = 0; i < Size; ++i) {
@@ -2254,6 +2264,7 @@ namespace ac {
     };
     
     extern std::vector<Frames *> all_objects;
+    extern unsigned long all_allocation;
     template<int Size>
     class MatrixCollection {
     public:
@@ -2338,6 +2349,9 @@ namespace ac {
         }
         int completedRows;
     };
+    
+    unsigned long calculateMemory();
+    
     extern bool testSize(cv::Mat &frame);
     // pass function pointer, functor or lambda with prototype
     // void filter(cv::Mat *frame, int offset, int cols, int size)

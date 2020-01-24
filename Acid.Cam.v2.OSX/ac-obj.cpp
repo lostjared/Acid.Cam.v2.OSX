@@ -85,12 +85,13 @@ std::vector<ac::Frames *> ac::all_objects;
 bool ac::frames_released = false;
 
 void ac::release_all_objects() {
+    int total = getCurrentAllocatedFrames();
     col_lock.lock();
     for(unsigned int i = 0; i < all_objects.size(); ++i) {
         if(all_objects[i] != 0) all_objects[i]->releaseFrames();
     }
     frames_released = true;
-    std::cout << "acidcam: Released: " << getCurrentAllocatedFrames() << " Matrix objects...\n";
+    std::cout << "acidcam: Released: " << total << " Matrix objects...\n";
     setAllocatedFrames(0);
     col_lock.unlock();
 }
