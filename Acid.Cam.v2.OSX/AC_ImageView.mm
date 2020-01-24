@@ -106,8 +106,7 @@
     if (self.needsReshape)
     {
         // Setup OpenGL states
-        glViewport(0, 0, frameSize.width, frameSize.height);
-        
+        glViewport(0, 0, frameSize.width, frameSize.height);        
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0.0, frameSize.width, 0.0, frameSize.height, -1, 1);

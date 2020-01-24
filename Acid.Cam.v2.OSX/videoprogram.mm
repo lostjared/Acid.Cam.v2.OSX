@@ -181,6 +181,8 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
         if(camera_mode == 0 && capture_width != 0 && capture_height != 0) {
             capture->set(cv::CAP_PROP_FRAME_WIDTH, capture_width);
             capture->set(cv::CAP_PROP_FRAME_HEIGHT, capture_height);
+            capture_width = capture->get(cv::CAP_PROP_FRAME_WIDTH);
+            capture_height = capture->get(cv::CAP_PROP_FRAME_HEIGHT);
             if(u4k)
                 sout << "Resolution upsacled to " << capture_width << "x" << capture_height << "\n";
             else
