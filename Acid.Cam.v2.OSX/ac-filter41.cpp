@@ -742,3 +742,94 @@ void ac::XorScaleValue(cv::Mat &frame) {
     }
     AlphaMovementMaxMin(alpha, dir, 0.01, 0.8, 0.5);
 }
+
+void ac::DiamondCollection(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    ShuffleMedian(frame);
+    collection.shiftFrames(frame);
+    int current_frame = 0;
+    static double pos = 1.0;// set pos to 1.0
+    int w = frame.cols;// frame width
+    int h = frame.rows;// frame height
+    static int offset = 1, offsetx = 0;
+    
+    for(int z = 0; z < h; ++z) {// from top to bottom
+        for(int i = 0; i < w; ++i) {// from left to right
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// get current pixel
+            cv::Vec3b index = collection.frames[current_frame].at<cv::Vec3b>(z, i);
+            // calculate the colors of the gradient diamonds
+            if((i%2) == 0) {// if i % 2 equals 0
+                if((z%2) == 0) {// if z % 2 equals 0
+                    // set pixel component values
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    buffer[0] = static_cast<unsigned char>(1-pos*index[0]);
+                    buffer[offset] = static_cast<unsigned char>((i+z)*pos);
+                } else {
+                    // set pixel coomponent values
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    buffer[0] = static_cast<unsigned char>(pos*index[1]-z);
+                    buffer[offset] = static_cast<unsigned char>((i-z)*pos);
+                }
+            } else {
+                if((z%2) == 0) {// if z % 2 equals 0
+                    // set pixel component values
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    switch(offset) {
+                        case 0:
+                            buffer[0] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[1] = static_cast<unsigned char>((i-z)*pos);
+                            break;
+                        case 1:
+                            buffer[1] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[0] = static_cast<unsigned char>((i-z)*pos);
+                        case 2:
+                            buffer[2] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[0] = static_cast<unsigned char>((i-z)*pos);
+                            break;
+                        case 3:
+                            buffer[1] = static_cast<unsigned char>(pos*index[2]-i);
+                            buffer[2] = static_cast<unsigned char>((i-z)*pos);
+                            break;
+                    }
+
+                } else {
+                    // set pixel component values
+                    cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
+                    switch(offset) {
+                        case 0:
+                            buffer[0] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[1] = static_cast<unsigned char>((i+z)*pos);
+                            break;
+                        case 1:
+                            buffer[1] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[0] = static_cast<unsigned char>((i+z)*pos);
+                        case 2:
+                            buffer[2] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[0] = static_cast<unsigned char>((i+z)*pos);
+                            break;
+                        case 3:
+                            buffer[1] = static_cast<unsigned char>(pos*index[0]-z);
+                            buffer[2] = static_cast<unsigned char>((i+z)*pos);
+                            break;
+                    }
+                }
+            }
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// if isNegative invert pixel
+        }
+    }
+    
+    ++offsetx;
+    if(offsetx > (collection.size()-1))
+        offsetx = rand()%collection.size();
+    
+    ++offset;
+    if(offset > 3)
+        offset = 0;
+    
+    // static direction starts off with 1
+    static double pos_max = 7.0f;// pos maximum
+    static int direction = 1;
+    procPos(direction, pos, pos_max);
+    AddInvert(frame);
+}
