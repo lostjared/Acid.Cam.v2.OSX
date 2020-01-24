@@ -4,6 +4,9 @@
 
 [VERSION: 2.54.0 (macOS)]
 
+I can confirm Acid Cam works with Elgate Camlink 4K. With this device you can use any HDMI device as as Webcam source for Acid Cam.
+Combined with OBS you can live stream your self filtering videos in real-time with audio.
+
 
 *** IMPORTANT NOTE ***
 
