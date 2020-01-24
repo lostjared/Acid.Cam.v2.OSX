@@ -748,31 +748,27 @@ void ac::DiamondCollection(cv::Mat &frame) {
     ShuffleMedian(frame);
     collection.shiftFrames(frame);
     int current_frame = 0;
-    static double pos = 1.0;// set pos to 1.0
-    int w = frame.cols;// frame width
-    int h = frame.rows;// frame height
+    static double pos = 1.0;
+    int w = frame.cols;
+    int h = frame.rows;
     static int offset = 1, offsetx = 0;
     
-    for(int z = 0; z < h; ++z) {// from top to bottom
-        for(int i = 0; i < w; ++i) {// from left to right
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// get current pixel
+    for(int z = 0; z < h; ++z) {
+        for(int i = 0; i < w; ++i) {
+            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b index = collection.frames[current_frame].at<cv::Vec3b>(z, i);
-            // calculate the colors of the gradient diamonds
-            if((i%2) == 0) {// if i % 2 equals 0
-                if((z%2) == 0) {// if z % 2 equals 0
-                    // set pixel component values
+            if((i%2) == 0) {
+                if((z%2) == 0) {
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
                     buffer[0] = static_cast<unsigned char>(1-pos*index[0]);
                     buffer[offset] = static_cast<unsigned char>((i+z)*pos);
                 } else {
-                    // set pixel coomponent values
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
                     buffer[0] = static_cast<unsigned char>(pos*index[1]-z);
                     buffer[offset] = static_cast<unsigned char>((i-z)*pos);
                 }
             } else {
-                if((z%2) == 0) {// if z % 2 equals 0
-                    // set pixel component values
+                if((z%2) == 0) {
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
                     switch(offset) {
                         case 0:
@@ -793,7 +789,6 @@ void ac::DiamondCollection(cv::Mat &frame) {
                     }
 
                 } else {
-                    // set pixel component values
                     cv::Vec3b index = collection.frames[offsetx].at<cv::Vec3b>(z, i);
                     switch(offset) {
                         case 0:
@@ -814,8 +809,8 @@ void ac::DiamondCollection(cv::Mat &frame) {
                     }
                 }
             }
-            swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// if isNegative invert pixel
+            swapColors(frame, z, i);
+            if(isNegative) invert(frame, z, i);
         }
     }
     
@@ -827,8 +822,7 @@ void ac::DiamondCollection(cv::Mat &frame) {
     if(offset > 3)
         offset = 0;
     
-    // static direction starts off with 1
-    static double pos_max = 7.0f;// pos maximum
+    static double pos_max = 7.0f;
     static int direction = 1;
     procPos(direction, pos, pos_max);
     AddInvert(frame);
