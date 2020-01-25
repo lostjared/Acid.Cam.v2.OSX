@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -25,6 +25,39 @@
 #include "avutil.h"
 #include "attributes.h"
 #include "version.h"
+
+typedef enum {
+    AV_CLASS_CATEGORY_NA = 0,
+    AV_CLASS_CATEGORY_INPUT,
+    AV_CLASS_CATEGORY_OUTPUT,
+    AV_CLASS_CATEGORY_MUXER,
+    AV_CLASS_CATEGORY_DEMUXER,
+    AV_CLASS_CATEGORY_ENCODER,
+    AV_CLASS_CATEGORY_DECODER,
+    AV_CLASS_CATEGORY_FILTER,
+    AV_CLASS_CATEGORY_BITSTREAM_FILTER,
+    AV_CLASS_CATEGORY_SWSCALER,
+    AV_CLASS_CATEGORY_SWRESAMPLER,
+    AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT = 40,
+    AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT,
+    AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT,
+    AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT,
+    AV_CLASS_CATEGORY_DEVICE_OUTPUT,
+    AV_CLASS_CATEGORY_DEVICE_INPUT,
+    AV_CLASS_CATEGORY_NB  ///< not part of ABI/API
+}AVClassCategory;
+
+#define AV_IS_INPUT_DEVICE(category) \
+    (((category) == AV_CLASS_CATEGORY_DEVICE_VIDEO_INPUT) || \
+     ((category) == AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT) || \
+     ((category) == AV_CLASS_CATEGORY_DEVICE_INPUT))
+
+#define AV_IS_OUTPUT_DEVICE(category) \
+    (((category) == AV_CLASS_CATEGORY_DEVICE_VIDEO_OUTPUT) || \
+     ((category) == AV_CLASS_CATEGORY_DEVICE_AUDIO_OUTPUT) || \
+     ((category) == AV_CLASS_CATEGORY_DEVICE_OUTPUT))
+
+struct AVOptionRanges;
 
 /**
  * Describe the class of an AVClass context structure. That is an
@@ -88,6 +121,25 @@ typedef struct AVClass {
      * child_class_next iterates over _all possible_ children.
      */
     const struct AVClass* (*child_class_next)(const struct AVClass *prev);
+
+    /**
+     * Category used for visualization (like color)
+     * This is only set if the category is equal for all objects using this class.
+     * available since version (51 << 16 | 56 << 8 | 100)
+     */
+    AVClassCategory category;
+
+    /**
+     * Callback to return the category.
+     * available since version (51 << 16 | 59 << 8 | 100)
+     */
+    AVClassCategory (*get_category)(void* ctx);
+
+    /**
+     * Callback to return the supported/allowed ranges.
+     * available since version (52.12)
+     */
+    int (*query_ranges)(struct AVOptionRanges **, void *obj, const char *key, int flags);
 } AVClass;
 
 /**
@@ -149,6 +201,8 @@ typedef struct AVClass {
  */
 #define AV_LOG_TRACE    56
 
+#define AV_LOG_MAX_OFFSET (AV_LOG_TRACE - AV_LOG_QUIET)
+
 /**
  * @}
  */
@@ -161,7 +215,7 @@ typedef struct AVClass {
  * Requires 256color terminal support. Uses outside debugging is not
  * recommended.
  */
-#define AV_LOG_C(x) (x << 8)
+#define AV_LOG_C(x) ((x) << 8)
 
 /**
  * Send the specified message to the log if the level is less than or equal
@@ -171,7 +225,7 @@ typedef struct AVClass {
  * @see av_log_set_callback
  *
  * @param avcl A pointer to an arbitrary struct of which the first field is a
- *        pointer to an AVClass struct.
+ *        pointer to an AVClass struct or NULL if general log.
  * @param level The importance level of the message expressed using a @ref
  *        lavu_log_constants "Logging Constant".
  * @param fmt The format string (printf-compatible) that specifies how
@@ -218,6 +272,9 @@ void av_log_set_level(int level);
 /**
  * Set the logging callback
  *
+ * @note The callback must be thread safe, even if the application does not use
+ *       threads itself as some codecs are multithreaded.
+ *
  * @see av_log_default_callback
  *
  * @param callback A logging function with a compatible signature.
@@ -248,20 +305,34 @@ void av_log_default_callback(void *avcl, int level, const char *fmt,
  * @return The AVClass class_name
  */
 const char* av_default_item_name(void* ctx);
+AVClassCategory av_default_get_category(void *ptr);
 
-#if FF_API_DLOG
 /**
- * av_dlog macros
- * @deprecated unused
- * Useful to print debug messages that shouldn't get compiled in normally.
+ * Format a line of log the same way as the default callback.
+ * @param line          buffer to receive the formatted line
+ * @param line_size     size of the buffer
+ * @param print_prefix  used to store whether the prefix must be printed;
+ *                      must point to a persistent integer initially set to 1
  */
+void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
+                        char *line, int line_size, int *print_prefix);
 
-#ifdef DEBUG
-#    define av_dlog(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
-#else
-#    define av_dlog(pctx, ...)
-#endif
-#endif /* FF_API_DLOG */
+/**
+ * Format a line of log the same way as the default callback.
+ * @param line          buffer to receive the formatted line;
+ *                      may be NULL if line_size is 0
+ * @param line_size     size of the buffer; at most line_size-1 characters will
+ *                      be written to the buffer, plus one null terminator
+ * @param print_prefix  used to store whether the prefix must be printed;
+ *                      must point to a persistent integer initially set to 1
+ * @return Returns a negative value if an error occurred, otherwise returns
+ *         the number of characters that would have been written for a
+ *         sufficiently large buffer, not including the terminating null
+ *         character. If the return value is not less than line_size, it means
+ *         that the log message was truncated to fit the buffer.
+ */
+int av_log_format_line2(void *ptr, int level, const char *fmt, va_list vl,
+                        char *line, int line_size, int *print_prefix);
 
 /**
  * Skip repeated messages, this requires the user app to use av_log() instead of
@@ -269,10 +340,20 @@ const char* av_default_item_name(void* ctx);
  * "Last message repeated x times" messages below (f)printf messages with some
  * bad luck.
  * Also to receive the last, "last repeated" line if any, the user app must
- * call av_log(NULL, AV_LOG_QUIET, ""); at the end
+ * call av_log(NULL, AV_LOG_QUIET, "%s", ""); at the end
  */
 #define AV_LOG_SKIP_REPEATED 1
+
+/**
+ * Include the log severity in messages originating from codecs.
+ *
+ * Results in messages such as:
+ * [rawvideo @ 0xDEADBEEF] [error] encode did not produce valid pts
+ */
+#define AV_LOG_PRINT_LEVEL 2
+
 void av_log_set_flags(int arg);
+int av_log_get_flags(void);
 
 /**
  * @}

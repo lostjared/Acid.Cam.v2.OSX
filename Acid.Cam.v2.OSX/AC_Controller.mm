@@ -733,6 +733,11 @@ void setEnabledProg() {
 -(IBAction) startProgram: (id) sender {
     
     if([[startProg title] isEqualToString: @"Start Session"]) {
+       if([videoFileInput integerValue] == 0 && [[[output_Type itemAtIndex:[output_Type indexOfSelectedItem]] title] isEqualToString:@"MOV - HEVC/H.265"]) {
+            _NSRunAlertPanel(@"You can only use HEVC in Video mode because it takes a long time to process", @"HEVC Requires Video File", @"Ok", nil, nil);
+            return ;
+        }
+        
         if(!image_shuffle.empty()) {
             std::shuffle(image_shuffle.begin(), image_shuffle.end(), img_rng);
             image_shuffle_index = 0;

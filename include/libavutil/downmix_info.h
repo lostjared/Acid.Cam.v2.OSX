@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2014 Tim Walker <tdskywalker@gmail.com>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -95,11 +95,12 @@ typedef struct AVDownmixInfo {
 /**
  * Get a frame's AV_FRAME_DATA_DOWNMIX_INFO side data for editing.
  *
- * The side data is created and added to the frame if it's absent.
+ * If the side data is absent, it is created and added to the frame.
  *
- * @param frame the frame for which the side data is to be obtained.
+ * @param frame the frame for which the side data is to be obtained or created
  *
- * @return the AVDownmixInfo structure to be edited by the caller.
+ * @return the AVDownmixInfo structure to be edited by the caller, or NULL if
+ *         the structure cannot be allocated.
  */
 AVDownmixInfo *av_downmix_info_update_side_data(AVFrame *frame);
 

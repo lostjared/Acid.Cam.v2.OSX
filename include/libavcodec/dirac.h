@@ -1,21 +1,22 @@
 /*
  * Copyright (C) 2007 Marco Gerards <marco@gnu.org>
  * Copyright (C) 2009 David Conrad
+ * Copyright (C) 2011 Jordi Ortiz
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -26,9 +27,56 @@
  * @file
  * Interface to Dirac Decoder/Encoder
  * @author Marco Gerards <marco@gnu.org>
+ * @author David Conrad
+ * @author Jordi Ortiz
  */
 
 #include "avcodec.h"
+
+/**
+ * The spec limits the number of wavelet decompositions to 4 for both
+ * level 1 (VC-2) and 128 (long-gop default).
+ * 5 decompositions is the maximum before >16-bit buffers are needed.
+ * Schroedinger allows this for DD 9,7 and 13,7 wavelets only, limiting
+ * the others to 4 decompositions (or 3 for the fidelity filter).
+ *
+ * We use this instead of MAX_DECOMPOSITIONS to save some memory.
+ */
+#define MAX_DWT_LEVELS 5
+
+/**
+ * Parse code values:
+ *
+ * Dirac Specification ->
+ * 9.6.1  Table 9.1
+ *
+ * VC-2 Specification  ->
+ * 10.4.1 Table 10.1
+ */
+
+enum DiracParseCodes {
+    DIRAC_PCODE_SEQ_HEADER      = 0x00,
+    DIRAC_PCODE_END_SEQ         = 0x10,
+    DIRAC_PCODE_AUX             = 0x20,
+    DIRAC_PCODE_PAD             = 0x30,
+    DIRAC_PCODE_PICTURE_CODED   = 0x08,
+    DIRAC_PCODE_PICTURE_RAW     = 0x48,
+    DIRAC_PCODE_PICTURE_LOW_DEL = 0xC8,
+    DIRAC_PCODE_PICTURE_HQ      = 0xE8,
+    DIRAC_PCODE_INTER_NOREF_CO1 = 0x0A,
+    DIRAC_PCODE_INTER_NOREF_CO2 = 0x09,
+    DIRAC_PCODE_INTER_REF_CO1   = 0x0D,
+    DIRAC_PCODE_INTER_REF_CO2   = 0x0E,
+    DIRAC_PCODE_INTRA_REF_CO    = 0x0C,
+    DIRAC_PCODE_INTRA_REF_RAW   = 0x4C,
+    DIRAC_PCODE_INTRA_REF_PICT  = 0xCC,
+    DIRAC_PCODE_MAGIC           = 0x42424344,
+};
+
+typedef struct DiracVersionInfo {
+    int major;
+    int minor;
+} DiracVersionInfo;
 
 typedef struct AVDiracSeqHeader {
     unsigned width;
@@ -60,6 +108,9 @@ typedef struct AVDiracSeqHeader {
     enum AVColorPrimaries color_primaries;
     enum AVColorTransferCharacteristic color_trc;
     enum AVColorSpace colorspace;
+
+    DiracVersionInfo version;
+    int bit_depth;
 } AVDiracSeqHeader;
 
 /**

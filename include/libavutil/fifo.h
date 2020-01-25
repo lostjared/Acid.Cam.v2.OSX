@@ -1,18 +1,18 @@
 /*
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -42,10 +42,24 @@ typedef struct AVFifoBuffer {
 AVFifoBuffer *av_fifo_alloc(unsigned int size);
 
 /**
+ * Initialize an AVFifoBuffer.
+ * @param nmemb number of elements
+ * @param size  size of the single element
+ * @return AVFifoBuffer or NULL in case of memory allocation failure
+ */
+AVFifoBuffer *av_fifo_alloc_array(size_t nmemb, size_t size);
+
+/**
  * Free an AVFifoBuffer.
  * @param f AVFifoBuffer to free
  */
 void av_fifo_free(AVFifoBuffer *f);
+
+/**
+ * Free an AVFifoBuffer and reset pointer to NULL.
+ * @param f AVFifoBuffer to free
+ */
+void av_fifo_freep(AVFifoBuffer **f);
 
 /**
  * Reset the AVFifoBuffer to the state right after av_fifo_alloc, in particular it is emptied.
@@ -59,7 +73,7 @@ void av_fifo_reset(AVFifoBuffer *f);
  * @param f AVFifoBuffer to read from
  * @return size
  */
-int av_fifo_size(AVFifoBuffer *f);
+int av_fifo_size(const AVFifoBuffer *f);
 
 /**
  * Return the amount of space in bytes in the AVFifoBuffer, that is the
@@ -67,7 +81,28 @@ int av_fifo_size(AVFifoBuffer *f);
  * @param f AVFifoBuffer to write into
  * @return size
  */
-int av_fifo_space(AVFifoBuffer *f);
+int av_fifo_space(const AVFifoBuffer *f);
+
+/**
+ * Feed data at specific position from an AVFifoBuffer to a user-supplied callback.
+ * Similar as av_fifo_gereric_read but without discarding data.
+ * @param f AVFifoBuffer to read from
+ * @param offset offset from current read position
+ * @param buf_size number of bytes to read
+ * @param func generic read function
+ * @param dest data destination
+ */
+int av_fifo_generic_peek_at(AVFifoBuffer *f, void *dest, int offset, int buf_size, void (*func)(void*, void*, int));
+
+/**
+ * Feed data from an AVFifoBuffer to a user-supplied callback.
+ * Similar as av_fifo_gereric_read but without discarding data.
+ * @param f AVFifoBuffer to read from
+ * @param buf_size number of bytes to read
+ * @param func generic read function
+ * @param dest data destination
+ */
+int av_fifo_generic_peek(AVFifoBuffer *f, void *dest, int buf_size, void (*func)(void*, void*, int));
 
 /**
  * Feed data from an AVFifoBuffer to a user-supplied callback.
@@ -95,11 +130,24 @@ int av_fifo_generic_write(AVFifoBuffer *f, void *src, int size, int (*func)(void
 
 /**
  * Resize an AVFifoBuffer.
+ * In case of reallocation failure, the old FIFO is kept unchanged.
+ *
  * @param f AVFifoBuffer to resize
  * @param size new AVFifoBuffer size in bytes
  * @return <0 for failure, >=0 otherwise
  */
 int av_fifo_realloc2(AVFifoBuffer *f, unsigned int size);
+
+/**
+ * Enlarge an AVFifoBuffer.
+ * In case of reallocation failure, the old FIFO is kept unchanged.
+ * The new fifo size may be larger than the requested size.
+ *
+ * @param f AVFifoBuffer to resize
+ * @param additional_space the amount of space in bytes to allocate in addition to av_fifo_size()
+ * @return <0 for failure, >=0 otherwise
+ */
+int av_fifo_grow(AVFifoBuffer *f, unsigned int additional_space);
 
 /**
  * Read and discard the specified amount of data from an AVFifoBuffer.

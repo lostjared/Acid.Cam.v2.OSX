@@ -1,20 +1,20 @@
 /*
  * Version macros.
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,9 +29,10 @@
 
 #include "libavutil/version.h"
 
-#define LIBAVFILTER_VERSION_MAJOR  6
-#define LIBAVFILTER_VERSION_MINOR  7
-#define LIBAVFILTER_VERSION_MICRO  0
+#define LIBAVFILTER_VERSION_MAJOR   7
+#define LIBAVFILTER_VERSION_MINOR  71
+#define LIBAVFILTER_VERSION_MICRO 100
+
 
 #define LIBAVFILTER_VERSION_INT AV_VERSION_INT(LIBAVFILTER_VERSION_MAJOR, \
                                                LIBAVFILTER_VERSION_MINOR, \
@@ -49,20 +50,20 @@
  * the public API and may change, break or disappear at any time.
  */
 
-#ifndef FF_API_OLD_FILTER_OPTS
-#define FF_API_OLD_FILTER_OPTS              (LIBAVFILTER_VERSION_MAJOR < 7)
+#ifndef FF_API_OLD_FILTER_OPTS_ERROR
+#define FF_API_OLD_FILTER_OPTS_ERROR        (LIBAVFILTER_VERSION_MAJOR < 8)
 #endif
-#ifndef FF_API_AVFILTER_OPEN
-#define FF_API_AVFILTER_OPEN                (LIBAVFILTER_VERSION_MAJOR < 7)
+#ifndef FF_API_LAVR_OPTS
+#define FF_API_LAVR_OPTS                    (LIBAVFILTER_VERSION_MAJOR < 8)
 #endif
-#ifndef FF_API_AVFILTER_INIT_FILTER
-#define FF_API_AVFILTER_INIT_FILTER         (LIBAVFILTER_VERSION_MAJOR < 7)
+#ifndef FF_API_FILTER_GET_SET
+#define FF_API_FILTER_GET_SET               (LIBAVFILTER_VERSION_MAJOR < 8)
 #endif
-#ifndef FF_API_OLD_FILTER_REGISTER
-#define FF_API_OLD_FILTER_REGISTER          (LIBAVFILTER_VERSION_MAJOR < 7)
+#ifndef FF_API_SWS_PARAM_OPTION
+#define FF_API_SWS_PARAM_OPTION             (LIBAVFILTER_VERSION_MAJOR < 8)
 #endif
-#ifndef FF_API_NOCONST_GET_NAME
-#define FF_API_NOCONST_GET_NAME             (LIBAVFILTER_VERSION_MAJOR < 7)
+#ifndef FF_API_NEXT
+#define FF_API_NEXT                         (LIBAVFILTER_VERSION_MAJOR < 8)
 #endif
 
 #endif /* AVFILTER_VERSION_H */

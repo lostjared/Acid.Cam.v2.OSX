@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2002 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -45,7 +45,7 @@ typedef struct AVExpr AVExpr;
  * @param funcs2 NULL terminated array of function pointers for functions which take 2 arguments
  * @param opaque a pointer which will be passed to all functions from funcs1 and funcs2
  * @param log_ctx parent logging context
- * @return 0 in case of success, a negative value corresponding to an
+ * @return >= 0 in case of success, a negative value corresponding to an
  * AVERROR code otherwise
  */
 int av_expr_parse_and_eval(double *res, const char *s,
@@ -68,7 +68,7 @@ int av_expr_parse_and_eval(double *res, const char *s,
  * @param func2_names NULL terminated array of zero terminated strings of funcs2 identifiers
  * @param funcs2 NULL terminated array of function pointers for functions which take 2 arguments
  * @param log_ctx parent logging context
- * @return 0 in case of success, a negative value corresponding to an
+ * @return >= 0 in case of success, a negative value corresponding to an
  * AVERROR code otherwise
  */
 int av_expr_parse(AVExpr **expr, const char *s,
@@ -87,6 +87,30 @@ int av_expr_parse(AVExpr **expr, const char *s,
 double av_expr_eval(AVExpr *e, const double *const_values, void *opaque);
 
 /**
+ * Track the presence of variables and their number of occurrences in a parsed expression
+ *
+ * @param counter a zero-initialized array where the count of each variable will be stored
+ * @param size size of array
+ * @return 0 on success, a negative value indicates that no expression or array was passed
+ * or size was zero
+ */
+int av_expr_count_vars(AVExpr *e, unsigned *counter, int size);
+
+/**
+ * Track the presence of user provided functions and their number of occurrences
+ * in a parsed expression.
+ *
+ * @param counter a zero-initialized array where the count of each function will be stored
+ *                if you passed 5 functions with 2 arguments to av_expr_parse()
+ *                then for arg=2 this will use upto 5 entries.
+ * @param size size of array
+ * @param arg number of arguments the counted functions have
+ * @return 0 on success, a negative value indicates that no expression or array was passed
+ * or size was zero
+ */
+int av_expr_count_func(AVExpr *e, unsigned *counter, int size, int arg);
+
+/**
  * Free a parsed expression previously created with av_expr_parse().
  */
 void av_expr_free(AVExpr *e);
@@ -102,7 +126,7 @@ void av_expr_free(AVExpr *e);
  * @param numstr a string representing a number, may contain one of
  * the International System number postfixes, for example 'K', 'M',
  * 'G'. If 'i' is appended after the postfix, powers of 2 are used
- * instead of powers of 10. The 'B' postfix multiplies the value for
+ * instead of powers of 10. The 'B' postfix multiplies the value by
  * 8, and can be appended after another postfix or used alone. This
  * allows using for example 'KB', 'MiB', 'G' and 'B' as postfix.
  * @param tail if non-NULL puts here the pointer to the char next

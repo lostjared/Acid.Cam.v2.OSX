@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -23,28 +23,30 @@
 
 /**
  * @file
- * external API header
+ * @ingroup lavu
+ * Convenience header that includes @ref lavu "libavutil"'s core.
  */
 
 /**
  * @mainpage
  *
- * @section libav_intro Introduction
+ * @section ffmpeg_intro Introduction
  *
  * This document describes the usage of the different libraries
- * provided by Libav.
+ * provided by FFmpeg.
  *
  * @li @ref libavc "libavcodec" encoding/decoding library
  * @li @ref lavfi "libavfilter" graph-based frame editing library
  * @li @ref libavf "libavformat" I/O and muxing/demuxing library
  * @li @ref lavd "libavdevice" special devices muxing/demuxing library
  * @li @ref lavu "libavutil" common utility library
- * @li @ref lavr "libavresample" audio resampling, format conversion and mixing
- * @li @ref libsws "libswscale"  color conversion and scaling library
+ * @li @ref lswr "libswresample" audio resampling, format conversion and mixing
+ * @li @ref lpp  "libpostproc" post processing library
+ * @li @ref libsws "libswscale" color conversion and scaling library
  *
- * @section libav_versioning Versioning and compatibility
+ * @section ffmpeg_versioning Versioning and compatibility
  *
- * Each of the Libav libraries contains a version.h header, which defines a
+ * Each of the FFmpeg libraries contains a version.h header, which defines a
  * major, minor and micro version number with the
  * <em>LIBRARYNAME_VERSION_{MAJOR,MINOR,MICRO}</em> macros. The major version
  * number is incremented with backward incompatible changes - e.g. removing
@@ -55,36 +57,37 @@
  * might still want to check for - e.g. changing behavior in a previously
  * unspecified situation.
  *
- * Libav guarantees backward API and ABI compatibility for each library as long
+ * FFmpeg guarantees backward API and ABI compatibility for each library as long
  * as its major version number is unchanged. This means that no public symbols
  * will be removed or renamed. Types and names of the public struct members and
  * values of public macros and enums will remain the same (unless they were
  * explicitly declared as not part of the public API). Documented behavior will
  * not change.
  *
- * In other words, any correct program that works with a given Libav snapshot
+ * In other words, any correct program that works with a given FFmpeg snapshot
  * should work just as well without any changes with any later snapshot with the
  * same major versions. This applies to both rebuilding the program against new
- * Libav versions or to replacing the dynamic Libav libraries that a program
+ * FFmpeg versions or to replacing the dynamic FFmpeg libraries that a program
  * links against.
  *
  * However, new public symbols may be added and new members may be appended to
  * public structs whose size is not part of public ABI (most public structs in
- * Libav). New macros and enum values may be added. Behavior in undocumented
+ * FFmpeg). New macros and enum values may be added. Behavior in undocumented
  * situations may change slightly (and be documented). All those are accompanied
  * by an entry in doc/APIchanges and incrementing either the minor or micro
  * version number.
  */
 
 /**
- * @defgroup lavu Common utility functions
+ * @defgroup lavu libavutil
+ * Common code shared across all FFmpeg libraries.
  *
- * @brief
- * libavutil contains the code shared across all the other Libav
- * libraries
- *
- * @note In order to use the functions provided by avutil you must include
- * the specific header.
+ * @note
+ * libavutil is designed to be modular. In most cases, in order to use the
+ * functions provided by one component of libavutil you must explicitly include
+ * the specific header containing that feature. If you are only using
+ * media-related components, you could simply include libavutil/avutil.h, which
+ * brings in most of the "core" components.
  *
  * @{
  *
@@ -93,7 +96,7 @@
  * @{
  * @}
  *
- * @defgroup lavu_math Maths
+ * @defgroup lavu_math Mathematics
  * @{
  *
  * @}
@@ -111,6 +114,12 @@
  * @}
  *
  * @defgroup lavu_data Data Structures
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_video Video related
+ *
  * @{
  *
  * @}
@@ -137,15 +146,13 @@
  *
  * @{
  *
- * @defgroup lavu_internal Internal
- *
- * Not exported functions, for internal usage only
+ * @defgroup preproc_misc Preprocessor String Macros
  *
  * @{
  *
  * @}
  *
- * @defgroup preproc_misc Preprocessor String Macros
+ * @defgroup version_utils Library Version Macros
  *
  * @{
  *
@@ -200,6 +207,12 @@ enum AVMediaType {
 };
 
 /**
+ * Return a string describing the media_type enum, NULL if media_type
+ * is unknown.
+ */
+const char *av_get_media_type_string(enum AVMediaType media_type);
+
+/**
  * @defgroup lavu_const Constants
  * @{
  *
@@ -220,7 +233,7 @@ enum AVMediaType {
  * @}
  * @defgroup lavu_time Timestamp specific
  *
- * Libav internal timebase and timestamp definitions
+ * FFmpeg internal timebase and timestamp definitions
  *
  * @{
  */
@@ -232,7 +245,7 @@ enum AVMediaType {
  * either pts or dts.
  */
 
-#define AV_NOPTS_VALUE          INT64_C(0x8000000000000000)
+#define AV_NOPTS_VALUE          ((int64_t)UINT64_C(0x8000000000000000))
 
 /**
  * Internal time base represented as integer
@@ -257,7 +270,8 @@ enum AVMediaType {
  */
 
 enum AVPictureType {
-    AV_PICTURE_TYPE_I = 1, ///< Intra
+    AV_PICTURE_TYPE_NONE = 0, ///< Undefined
+    AV_PICTURE_TYPE_I,     ///< Intra
     AV_PICTURE_TYPE_P,     ///< Predicted
     AV_PICTURE_TYPE_B,     ///< Bi-dir predicted
     AV_PICTURE_TYPE_S,     ///< S(GMC)-VOP MPEG-4
@@ -279,15 +293,69 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
  * @}
  */
 
+#include "common.h"
 #include "error.h"
 #include "rational.h"
 #include "version.h"
 #include "macros.h"
+#include "mathematics.h"
+#include "log.h"
+#include "pixfmt.h"
+
+/**
+ * Return x default pointer in case p is NULL.
+ */
+static inline void *av_x_if_null(const void *p, const void *x)
+{
+    return (void *)(intptr_t)(p ? p : x);
+}
+
+/**
+ * Compute the length of an integer list.
+ *
+ * @param elsize  size in bytes of each list element (only 1, 2, 4 or 8)
+ * @param term    list terminator (usually 0 or -1)
+ * @param list    pointer to the list
+ * @return  length of the list, in elements, not counting the terminator
+ */
+unsigned av_int_list_length_for_size(unsigned elsize,
+                                     const void *list, uint64_t term) av_pure;
+
+/**
+ * Compute the length of an integer list.
+ *
+ * @param term  list terminator (usually 0 or -1)
+ * @param list  pointer to the list
+ * @return  length of the list, in elements, not counting the terminator
+ */
+#define av_int_list_length(list, term) \
+    av_int_list_length_for_size(sizeof(*(list)), list, term)
+
+/**
+ * Open a file using a UTF-8 filename.
+ * The API of this function matches POSIX fopen(), errors are returned through
+ * errno.
+ */
+FILE *av_fopen_utf8(const char *path, const char *mode);
 
 /**
  * Return the fractional representation of the internal time base.
  */
 AVRational av_get_time_base_q(void);
+
+#define AV_FOURCC_MAX_STRING_SIZE 32
+
+#define av_fourcc2str(fourcc) av_fourcc_make_string((char[AV_FOURCC_MAX_STRING_SIZE]){0}, fourcc)
+
+/**
+ * Fill the provided buffer with a string containing a FourCC (four-character
+ * code) representation.
+ *
+ * @param buf    a buffer with size in bytes of at least AV_FOURCC_MAX_STRING_SIZE
+ * @param fourcc the fourcc to represent
+ * @return the buffer in input
+ */
+char *av_fourcc_make_string(char *buf, uint32_t fourcc);
 
 /**
  * @}

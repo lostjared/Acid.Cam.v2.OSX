@@ -1,18 +1,18 @@
 /*
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -32,6 +32,36 @@
  * @ingroup lavfi
  * @{
  */
+
+enum {
+
+    /**
+     * Do not check for format changes.
+     */
+    AV_BUFFERSRC_FLAG_NO_CHECK_FORMAT = 1,
+
+    /**
+     * Immediately push the frame to the output.
+     */
+    AV_BUFFERSRC_FLAG_PUSH = 4,
+
+    /**
+     * Keep a reference to the frame.
+     * If the frame if reference-counted, create a new reference; otherwise
+     * copy the frame data.
+     */
+    AV_BUFFERSRC_FLAG_KEEP_REF = 8,
+
+};
+
+/**
+ * Get the number of failed requests.
+ *
+ * A failed request is when the request_frame method is called while no
+ * frame is present in the buffer.
+ * The number is reset when a frame is added.
+ */
+unsigned av_buffersrc_get_nb_failed_requests(AVFilterContext *buffer_src);
 
 /**
  * This structure contains the parameters describing the frames that will be
@@ -76,7 +106,7 @@ typedef struct AVBufferSrcParameters {
     AVBufferRef *hw_frames_ctx;
 
     /**
-     * Audio only, the audio sampling rate in samples per secon.
+     * Audio only, the audio sampling rate in samples per second.
      */
     int sample_rate;
 
@@ -116,7 +146,11 @@ int av_buffersrc_parameters_set(AVFilterContext *ctx, AVBufferSrcParameters *par
  * copied.
  *
  * @return 0 on success, a negative AVERROR on error
+ *
+ * This function is equivalent to av_buffersrc_add_frame_flags() with the
+ * AV_BUFFERSRC_FLAG_KEEP_REF flag.
  */
+av_warn_unused_result
 int av_buffersrc_write_frame(AVFilterContext *ctx, const AVFrame *frame);
 
 /**
@@ -133,8 +167,40 @@ int av_buffersrc_write_frame(AVFilterContext *ctx, const AVFrame *frame);
  * @note the difference between this function and av_buffersrc_write_frame() is
  * that av_buffersrc_write_frame() creates a new reference to the input frame,
  * while this function takes ownership of the reference passed to it.
+ *
+ * This function is equivalent to av_buffersrc_add_frame_flags() without the
+ * AV_BUFFERSRC_FLAG_KEEP_REF flag.
  */
+av_warn_unused_result
 int av_buffersrc_add_frame(AVFilterContext *ctx, AVFrame *frame);
+
+/**
+ * Add a frame to the buffer source.
+ *
+ * By default, if the frame is reference-counted, this function will take
+ * ownership of the reference(s) and reset the frame. This can be controlled
+ * using the flags.
+ *
+ * If this function returns an error, the input frame is not touched.
+ *
+ * @param buffer_src  pointer to a buffer source context
+ * @param frame       a frame, or NULL to mark EOF
+ * @param flags       a combination of AV_BUFFERSRC_FLAG_*
+ * @return            >= 0 in case of success, a negative AVERROR code
+ *                    in case of failure
+ */
+av_warn_unused_result
+int av_buffersrc_add_frame_flags(AVFilterContext *buffer_src,
+                                 AVFrame *frame, int flags);
+
+/**
+ * Close the buffer source after EOF.
+ *
+ * This is similar to passing NULL to av_buffersrc_add_frame_flags()
+ * except it takes the timestamp of the EOF, i.e. the timestamp of the end
+ * of the last frame.
+ */
+int av_buffersrc_close(AVFilterContext *ctx, int64_t pts, unsigned flags);
 
 /**
  * @}

@@ -620,7 +620,8 @@
                             <menu key="menu" title="OtherViews" id="Pb5-QB-20O">
                                 <items>
                                     <menuItem title="MP4 - MPEG-4" state="on" id="lcg-O8-BK7"/>
-                                    <menuItem title="MP4 - AVC - H.264" id="QUV-PM-UL8"/>
+                                    <menuItem title="MP4 - AVC/H.264" id="QUV-PM-UL8"/>
+                                    <menuItem title="MOV - HEVC/H.265" id="SpJ-Al-oBm"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>
