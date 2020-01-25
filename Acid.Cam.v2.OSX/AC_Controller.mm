@@ -368,6 +368,12 @@ void setEnabledProg() {
      }
      }
      std::cout << "\n"; */
+    
+    unsigned long mem = ac::calculateMemory();
+    std::ostringstream stream;
+    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+    std::string name = stream.str();
+    [memory_text setStringValue: [NSString stringWithUTF8String:name.c_str()]];
     [self checkForNewVersion:NO];
     cycle_chk_val = cycle_chk;
     //std::cout << cv::getBuildInformation() << "\n";
@@ -623,7 +629,7 @@ void setEnabledProg() {
     [menu_freeze setEnabled: NO];
     [record_op setEnabled: YES];
     [videoFileInput setEnabled:YES];
-    if([videoFileInput integerValue] == 0) {
+    /*if([videoFileInput integerValue] == 0) {
         [up4k setEnabled: NO];
         [video_width setEnabled:NO];
         [video_height setEnabled:NO];
@@ -634,7 +640,7 @@ void setEnabledProg() {
         [video_width setEnabled:YES];
         [video_height setEnabled:YES];
         [chk_stretch setEnabled:YES];
-    }
+    }*/
     stopCV();
     [startProg setTitle:@"Start Session"];
 }
@@ -1287,6 +1293,11 @@ void setEnabledProg() {
         if(frame_counter_speed > 3)
             frame_counter_speed = 0;
     }
+    unsigned long mem = ac::calculateMemory();
+    std::ostringstream stream;
+    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+    std::string name = stream.str();
+    [memory_text setStringValue: [NSString stringWithUTF8String:name.c_str()]];
     if(capture->isOpened() && frame_read == false) {
         ++frame_proc;
         if(frame_counter_speed == 0) ++elapsed_counter;
@@ -3673,25 +3684,27 @@ std::unordered_map<std::string, UserFilter> user_filter;
 void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     ac::in_custom = true;
     ac::swapColorState(false);
+    
     for(NSInteger i = 0; i < [listval count]; ++i) {
         if(i == [listval count]-1 && ac::getColorState() == false)
             ac::in_custom = false;
+        
         NSNumber *num, *fval_, *f_on;
         @try {
-            num = [listval objectAtIndex:i];
-            fval_ = [sublist objectAtIndex: i];
-            f_on = [filter_on objectAtIndex: i];
-            NSInteger index = [num integerValue];
-            if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
-                continue;
-            
-            if(ac::testSize(frame)) {
-                ac::setSubFilter(static_cast<int>([fval_ integerValue]));
-                ac::CallFilter(static_cast<int>(index), frame);
-            }
-            [num release];
-            [fval_ release];
-            [f_on release];
+                num = [listval objectAtIndex:i];
+                fval_ = [sublist objectAtIndex: i];
+                f_on = [filter_on objectAtIndex: i];
+                NSInteger index = [num integerValue];
+                if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
+                    continue;
+                
+                if(ac::testSize(frame)) {
+                    ac::setSubFilter(static_cast<int>([fval_ integerValue]));
+                    ac::CallFilter(static_cast<int>(index), frame);
+                }
+                [num release];
+                [fval_ release];
+                [f_on release];
         } @catch(NSException *e) {
             NSLog(@"%@\n", [e reason]);
         }
@@ -3703,11 +3716,7 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     std::ostringstream stream;
     stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
     std::string name = stream.str();
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
-    });
-    
-    
+    [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
     if(ac::release_frames) {
         ac::release_all_objects();
         ac::release_frames = false;
@@ -3751,10 +3760,19 @@ void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublis
 }
 
 void custom_filter(cv::Mat &frame) {
-    if([cycle_chk_val integerValue] == 0)
-        CustomFilter(frame, custom_array, custom_subfilters, filter_on);
-    else
-        CustomCycle(frame, custom_array, custom_subfilters, filter_on);
+    if(camera_mode == 0) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+        if([cycle_chk_val integerValue] == 0)
+            CustomFilter(frame, custom_array, custom_subfilters, filter_on);
+        else
+            CustomCycle(frame, custom_array, custom_subfilters, filter_on);
+        });
+    } else {
+        if([cycle_chk_val integerValue] == 0)
+            CustomFilter(frame, custom_array, custom_subfilters, filter_on);
+        else
+            CustomCycle(frame, custom_array, custom_subfilters, filter_on);
+    }
 }
 
 void setSliders(long frame_count) {
