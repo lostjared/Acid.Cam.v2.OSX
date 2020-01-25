@@ -896,3 +896,39 @@ void ac::ColorRowShiftUp(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorRowShiftLeft(cv::Mat &frame) {
+    static int index = rand()%frame.rows;
+    if(index > frame.cols)
+        index = rand()%frame.cols;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame.at<cv::Vec3b>(z, index);
+            pixel = pix;
+            index += rand()%2;
+            if(index > frame.cols-1)
+                index = 0;
+            
+        }
+     }
+    AddInvert(frame);
+}
+void ac::ColorRowShiftRight(cv::Mat &frame) {
+    static int index = rand()%frame.rows;
+    if(index > frame.cols)
+        index = rand()%frame.cols;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame.at<cv::Vec3b>(z, index);
+            pixel = pix;
+            index -= rand()%2;
+            if(index <= 1)
+                index = frame.cols-1;
+        }
+    }
+    AddInvert(frame);
+}
