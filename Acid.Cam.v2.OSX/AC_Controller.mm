@@ -371,7 +371,7 @@ void setEnabledProg() {
     
     unsigned long mem = ac::calculateMemory();
     std::ostringstream stream;
-    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
     std::string name = stream.str();
     [memory_text setStringValue: [NSString stringWithUTF8String:name.c_str()]];
     [self checkForNewVersion:NO];
@@ -1129,7 +1129,7 @@ void setEnabledProg() {
             setFrameLabel(ftext);
             unsigned long mem = ac::calculateMemory();
             std::ostringstream stream;
-            stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+            stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
             std::string name = stream.str();
             [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
         });
@@ -1300,7 +1300,7 @@ void setEnabledProg() {
     }
     unsigned long mem = ac::calculateMemory();
     std::ostringstream stream;
-    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
     std::string name = stream.str();
     [memory_text setStringValue: [NSString stringWithUTF8String:name.c_str()]];
     if(capture->isOpened() && frame_read == false) {
@@ -3719,7 +3719,7 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     ac::clearSubFilter();
     unsigned long mem = ac::calculateMemory();
     std::ostringstream stream;
-    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+    stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
     std::string name = stream.str();
     [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
     if(ac::release_frames) {
