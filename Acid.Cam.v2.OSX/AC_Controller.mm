@@ -3704,6 +3704,7 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
     [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:stream.str().c_str()]];
     
+    
     if(ac::release_frames) {
         ac::release_all_objects();
         ac::release_frames = false;

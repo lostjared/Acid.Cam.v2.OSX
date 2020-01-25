@@ -2087,6 +2087,8 @@ namespace ac {
     void XorScaleValue(cv::Mat &frame);
     void DiamondCollection(cv::Mat &frame);
     void RandomFadeDelay(cv::Mat &frame);
+    void ColorRowShift(cv::Mat &frame);
+    void ColorRowShiftUp(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

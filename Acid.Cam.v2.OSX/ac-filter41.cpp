@@ -854,3 +854,45 @@ void ac::RandomFadeDelay(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ColorRowShift(cv::Mat &frame) {
+    
+    static int index = rand()%frame.rows;
+    if(index > frame.rows)
+        index = rand()%frame.rows;
+    
+    cv::Mat copy1 = frame.clone();
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame.at<cv::Vec3b>(index, i);
+            pixel = pix;
+        }
+        
+        index += rand()%4;
+        if(index > frame.rows-1)
+            index = 0;
+    }
+    AddInvert(frame);
+}
+
+void ac::ColorRowShiftUp(cv::Mat &frame) {
+    static int index = rand()%frame.rows;
+    if(index > frame.rows)
+        index = rand()%frame.rows;
+    
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame.at<cv::Vec3b>(index, i);
+            pixel = pix;
+        }
+        
+        index -= rand()%4;
+        if(index <= 1)
+            index = frame.rows-1;
+    }
+    AddInvert(frame);
+}
