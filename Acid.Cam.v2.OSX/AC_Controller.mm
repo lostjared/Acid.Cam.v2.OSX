@@ -3702,7 +3702,10 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     unsigned long mem = ac::calculateMemory();
     std::ostringstream stream;
     stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
-    [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:stream.str().c_str()]];
+    std::string name = stream.str();
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
+    });
     
     
     if(ac::release_frames) {
