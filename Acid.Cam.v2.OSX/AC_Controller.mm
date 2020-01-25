@@ -1127,6 +1127,11 @@ void setEnabledProg() {
                     ftext << " - " << (val/size)*100 << "% ";
             }
             setFrameLabel(ftext);
+            unsigned long mem = ac::calculateMemory();
+            std::ostringstream stream;
+            stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "filters initalized: " << ac::all_objects.size() << " - Frames allocated: " << ac::getCurrentAllocatedFrames() << "\n";
+            std::string name = stream.str();
+            [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
         });
         
         if(ac::noRecord == false) {
