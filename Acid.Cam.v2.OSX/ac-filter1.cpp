@@ -168,7 +168,7 @@ bool ac::CallFilter(int index, cv::Mat &frame) {
 
 unsigned long ac::calculateMemory() {
     unsigned long total = 0;
-    for(int i = 0; i < all_objects.size(); ++i) {
+    for(int i = 0; i < static_cast<int>(all_objects.size()); ++i) {
         if(all_objects[i] != 0) {
             total += all_objects[i]->getSize();
         }
