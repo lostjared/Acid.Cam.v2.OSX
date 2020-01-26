@@ -4,6 +4,8 @@
 
 [VERSION: 2.59.0 (macOS)]
 
+If you want to support the development of this software (not required) you can do so here: https://lostsidedead.com/showlove/anyamount.html
+
 I can confirm Acid Cam works with Elgato Camlink 4K. With this device you can use any HDMI device as as Webcam source for Acid Cam.
 Combined with OBS you can live stream your self filtering video games/yourself on your camcorder in real-time with audio.
 
