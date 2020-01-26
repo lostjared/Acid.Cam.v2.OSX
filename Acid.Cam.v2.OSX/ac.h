@@ -2096,6 +2096,8 @@ namespace ac {
     void ScanlineBlack(cv::Mat &frame);
     void ScanlineSubFilter(cv::Mat &frame);
     void VerticalYSubFilter(cv::Mat &frame);
+    void ScanlineLessSubFilter(cv::Mat &frame);
+    void VerticalYLessSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
