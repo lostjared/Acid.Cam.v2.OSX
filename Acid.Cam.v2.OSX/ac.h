@@ -2093,7 +2093,8 @@ namespace ac {
     void ColorRowShiftRight(cv::Mat &frame);
     void MirrorFadeDelay(cv::Mat &frame);
     void MirrorRandomNow(cv::Mat &frame);
-    //void TestFilter(cv::Mat &frame);
+    void ScanlineBlack(cv::Mat &frame);
+    void ScanlineSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

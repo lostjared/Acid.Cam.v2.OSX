@@ -969,3 +969,50 @@ void ac::MirrorRandomNow(cv::Mat &frame) {
     CallFilter(current_filter, frame);
     AddInvert(frame);
 }
+
+void ac::ScanlineBlack(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        int num_clr = rand()%frame.cols;
+        int index = 0;
+        bool on = true;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            ++index;
+            if(on == true && index < num_clr) {
+                pixel = cv::Vec3b(0, 0, 0);
+            }
+            if(index > num_clr) {
+                on = !on;
+                index = 0;
+                num_clr = rand()%frame.cols-i-1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::ScanlineSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ScanlineSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        int num_clr = rand()%frame.cols;
+        int index = 0;
+        bool on = true;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            ++index;
+            if(on == true && index < num_clr) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+            if(index > num_clr) {
+                on = !on;
+                index = 0;
+                num_clr = rand()%frame.cols-i-1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
