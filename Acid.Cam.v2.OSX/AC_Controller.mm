@@ -351,7 +351,16 @@ void setEnabledProg() {
      }
      }
      } */
-    
+    /*
+    std::cout << "std::string mirror_array[] = {";
+    for(auto i = ac::solo_filter.begin(); i != ac::solo_filter.end(); ++i) {
+        auto pos = i->find("Mirror");
+        if(pos != std::string::npos) {
+            std::cout << "\"" << *i << "\", ";
+        }
+    }
+    std::cout << "\n};\n";
+    */
     /*
      for(int i = 0; i < ac::draw_max; ++i) {
      std::string s;

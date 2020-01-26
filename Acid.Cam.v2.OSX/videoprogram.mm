@@ -189,6 +189,7 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
                 sout << "Resolution set to " << capture_width << "x" << capture_height << "\n";
             frameSize = cv::Size(capture_width, capture_height);
         }
+        std::string output_format;
         setSliders(total_frames);
         bool opened = false;
         // if recording open the writer object with desired codec
@@ -205,11 +206,12 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
             static unsigned int counter = 0;
             if(!noRecord) ++counter;
             std::string sound_prefix;
-            std::string output_format;
             if(outputType == 0)
                 output_format = "MPEG-4";
-            else
+            else if(outputType == 1)
                 output_format = "AVC";
+            else if(output_Type == 2)
+                output_format = "HEVC";
             
             if(outputType == 0) {
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
@@ -222,7 +224,7 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
                 fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
                 opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','1'),  ac::fps, s4k, true);
-            } else if(outputType == 2) {
+            } else if(outputType == 3) {
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
                 fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps  << ".AC2.Output." << counter << sound_prefix << ".mov";
                 ac::fileName = fs.str();
@@ -244,7 +246,7 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
         }
         // output wehther recording or not
         if(ac::noRecord == false)
-            sout << "Now recording .. format " << ((outputType == 0) ? "MPEG-4" : "MPEG-4 AVC") << " \n";
+            sout << "Now recording .. format " << output_format << " \n";
         else
             sout << "Recording disabled ..\n";
         

@@ -932,3 +932,40 @@ void ac::ColorRowShiftRight(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MirrorFadeDelay(cv::Mat &frame) {
+    static std::vector<std::string> mirror_array{"MirrorLeft", "MirrorRight", "MirrorTopToBottom", "MirrorBottomToTop", "MirrorSwitch", "MirrorSwitchFlip", "MirrorLeftMirrorRightBlend", "MirrorTopMirrorBottomBlend", "MirrorAll", "MirrorLeftBottomToTop", "MirrorRightTopToBottom", "MirrorFadeLeftRight", "MirrorFadeUpDown", "MirrorFadeAll", "MirrorSwitchMode", "MirrorSwitchLeftRight", "MatrixCollectionFramesMirrorLeft", "MirrorDiamond", "MirrorDiamondRight", "MirrorDiamondReverse", "MirrorLeftTopToBottom", "MirrorRightBottomToTop", "MirrorFlipLeft", "MirrorFlipRight", "MirrorFlipBottomLeft", "MirrorFlipBottomRight", "MirrorFlipXMirrorLeft", "MirrorFlipXMirrorRight", "MirrorFlipYMirrorLeft", "MirrorFlipYMirrorRight", "MirrorFlipXLeftTopToBottom", "MirrorFlipXLeftBottomToTop", "MirrorFlipXRightTopToBottom", "MirrorFlipXRightBottomToTop", "MirrorFlipYLeftTopToBottom", "MirrorFlipYLeftBottomToTop", "MirrorFlipYRightTopToBottom", "MirrorFlipYRightBottomToTop"
+    };
+    static int new_filter = ac::filter_map[mirror_array[rand()%mirror_array.size()]];
+    static int current_filter = ac::filter_map[mirror_array[rand()%mirror_array.size()]];
+    static double current_fade_alpha = 1.0;
+    if(current_fade_alpha >= 0) {
+        ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
+        current_fade_alpha -= 0.06;
+    } else {
+        static int cnt = 0;
+        static int seconds = 0;
+        int fps = static_cast<int>(ac::fps);
+        ++cnt;
+        if(cnt > fps) {
+            cnt = 0;
+            ++seconds;
+            if(seconds > 15) {
+                current_filter = new_filter;
+                new_filter = ac::filter_map[mirror_array[rand()%mirror_array.size()]];
+                if(current_fade_alpha == 0) current_fade_alpha = 1.0;
+                seconds = 0;
+            }
+        }
+        filterFade(frame, new_filter, current_filter, 1.0, 1);
+    }
+    AddInvert(frame);
+}
+
+void ac::MirrorRandomNow(cv::Mat &frame) {
+    static std::vector<std::string> mirror_array{"MirrorLeft", "MirrorRight", "MirrorTopToBottom", "MirrorBottomToTop", "MirrorSwitch", "MirrorSwitchFlip", "MirrorLeftMirrorRightBlend", "MirrorTopMirrorBottomBlend", "MirrorAll", "MirrorLeftBottomToTop", "MirrorRightTopToBottom", "MirrorFadeLeftRight", "MirrorFadeUpDown", "MirrorFadeAll", "MirrorSwitchMode", "MirrorSwitchLeftRight", "MatrixCollectionFramesMirrorLeft", "MirrorDiamond", "MirrorDiamondRight", "MirrorDiamondReverse", "MirrorLeftTopToBottom", "MirrorRightBottomToTop", "MirrorFlipLeft", "MirrorFlipRight", "MirrorFlipBottomLeft", "MirrorFlipBottomRight", "MirrorFlipXMirrorLeft", "MirrorFlipXMirrorRight", "MirrorFlipYMirrorLeft", "MirrorFlipYMirrorRight", "MirrorFlipXLeftTopToBottom", "MirrorFlipXLeftBottomToTop", "MirrorFlipXRightTopToBottom", "MirrorFlipXRightBottomToTop", "MirrorFlipYLeftTopToBottom", "MirrorFlipYLeftBottomToTop", "MirrorFlipYRightTopToBottom", "MirrorFlipYRightBottomToTop"
+    };
+    int current_filter = ac::filter_map[mirror_array[rand()%mirror_array.size()]];
+    CallFilter(current_filter, frame);
+    AddInvert(frame);
+}

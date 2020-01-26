@@ -2091,6 +2091,9 @@ namespace ac {
     void ColorRowShiftUp(cv::Mat &frame);
     void ColorRowShiftLeft(cv::Mat &frame);
     void ColorRowShiftRight(cv::Mat &frame);
+    void MirrorFadeDelay(cv::Mat &frame);
+    void MirrorRandomNow(cv::Mat &frame);
+    //void TestFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
