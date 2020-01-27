@@ -1096,3 +1096,110 @@ void ac::VerticalYLessSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::HorizontalColorOffset(cv::Mat &frame) {
+    static double color = 1.0;
+    cv::Mat frame_copy = frame.clone();
+    int offset = 0;
+    static int index = 0;
+    static int coffset = 0;
+    static int cdir = 1;
+    static double speed = 1.0/frame.cols;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        offset = rand()%frame.cols;
+        for(int i = offset; i < frame.cols; ++i) {
+            ++index;
+            if(index > frame.cols)
+                index = 0;
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            if(cdir == 1) {
+                color += speed;
+                if(color >= 1) {
+                    color = 1;
+                    cdir = 0;
+                }
+            } else {
+                color -= speed;
+                if(color <= 0.3) {
+                    color = 0.3;
+                    cdir = 1;
+                }
+            }
+            pixel[coffset] = static_cast<int>(pixel[coffset] * color);
+        }
+        for(int i = 0; i < offset; ++i) {
+            ++index;
+            if(index > frame.cols)
+                index = 0;
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+            if(cdir == 1) {
+                color += speed;
+                if(color >= 1) {
+                    color = 1;
+                    cdir = 0;
+                }
+            } else {
+                color -= speed;
+                if(color <= 0.3) {
+                    color = 0.3;
+                    cdir = 1;
+                }
+            }
+            pixel[coffset] = static_cast<int>(pixel[coffset] * color);
+        }
+        
+        if((z%50) == 0) {
+            static int cdir = 1;
+            if(cdir == 1) {
+                ++coffset;
+                if(coffset > 2) {
+                    coffset = 2;
+                    cdir = 0;
+                }
+            } else {
+                --offset;
+                if(offset <= 0) {
+                    coffset = 0;
+                    cdir = 1;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::HorizontalColorOffsetLargeSizeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "HorizontalColorOffsetLargeSizeSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    static int offset_y = (rand()%(frame.rows));
+    bool on = true;
+    static int counter = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on == true) {
+                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        ++counter;
+        if((counter%(offset_y+1)==0)) {
+            if(on == false && (rand()%100)==0) {
+                on = !on;
+            } else {
+                on = !on;
+            }
+            offset_y = rand()%(frame.rows);
+            counter = 0;
+        }
+    }
+    AddInvert(frame);
+}

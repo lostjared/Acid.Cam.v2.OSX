@@ -2098,6 +2098,8 @@ namespace ac {
     void VerticalYSubFilter(cv::Mat &frame);
     void ScanlineLessSubFilter(cv::Mat &frame);
     void VerticalYLessSubFilter(cv::Mat &frame);
+    void HorizontalColorOffset(cv::Mat &frame);
+    void HorizontalColorOffsetLargeSizeSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
