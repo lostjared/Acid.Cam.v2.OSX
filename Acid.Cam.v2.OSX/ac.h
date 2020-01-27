@@ -2100,6 +2100,12 @@ namespace ac {
     void VerticalYLessSubFilter(cv::Mat &frame);
     void HorizontalColorOffset(cv::Mat &frame);
     void HorizontalColorOffsetLargeSizeSubFilter(cv::Mat &frame);
+    void ErodeKernelSubFilter(cv::Mat &frame);
+    void DilateKernelSubFilter(cv::Mat &frame);
+    void ErodeKernelOffSubFilter(cv::Mat &frame);
+    void DilateKernelOffSubFilter(cv::Mat &frame);
+    void ColorKeySetOn(cv::Mat &frame);
+    void ColorKeySetOff(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
