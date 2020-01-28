@@ -371,3 +371,45 @@ void ac::ColorKeySetOffSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::WarpImage(cv::Mat &src) {
+    static cv::Point2f srcQuad[] = {
+        cv::Point2f(0, 0),
+        cv::Point2f(src.cols-1, 0),
+        cv::Point2f(src.cols-1, src.rows-1),
+        cv::Point2f(0, src.rows-1)
+    };
+    static float pos_x[4] = {0.1,0.9, 0.8, 0.2};
+    static float pos_y[4] = {0.1f, 0.25f, 0.9f, 0.7f};
+    static bool dir1[4] = {1, 0, 1, 0};
+    static bool dir2[4] = {1, 0, 1, 0};
+    cv::Point2f dstQuad[] = {
+        cv::Point2f(src.cols*pos_x[0], src.rows*pos_y[0]),
+        cv::Point2f(src.cols*pos_x[1], src.rows*pos_y[1]),
+        cv::Point2f(src.cols*pos_x[2], src.rows*pos_y[2]),
+        cv::Point2f(src.cols*pos_x[3], src.rows*pos_y[3])
+    };
+    cv::Mat warp_mat = cv::getPerspectiveTransform(srcQuad, dstQuad);
+    cv::Mat dst;
+    cv::warpPerspective(src, dst, warp_mat, src.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar());
+    for(int i = 0; i < 4; ++i) {
+        cv::circle(dst, dstQuad[i], 5, cv::Scalar(0,0,0), -1, cv::LINE_8);
+    }
+    for(int i = 0; i < 4; ++i) {
+        if(dir1[i] == true) pos_x[i] += (1+(rand()%10)) * 0.001f;
+        else pos_x[i] -= (1+(rand()%10)) * 0.001f;
+        if(dir2[i] == true) pos_y[i] += (1+(rand()%10)) * 0.001f;
+        else pos_y[i] -= (1+(rand()%10)) * 0.001f;
+        if(pos_x[i] >= 1) {
+            dir1[i] = false;
+        } else if(pos_x[i] <= 0.1) {
+            dir1[i] = true;
+        }
+        if(pos_y[i] >= 1) {
+            dir2[i] = false;
+        } else if(pos_y[i] <= 0.1) {
+            dir2[i] = true;
+        }
+    }
+    src = dst.clone();
+    AddInvert(src);
+}
