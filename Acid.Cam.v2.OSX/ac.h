@@ -2106,7 +2106,9 @@ namespace ac {
     void DilateKernelOffSubFilter(cv::Mat &frame);
     void ColorKeySetOnSubFilter(cv::Mat &frame);
     void ColorKeySetOffSubFilter(cv::Mat &frame);
-    void WarpImage(cv::Mat &frame);
+    void Warp(cv::Mat &frame);
+    void WarpDir(cv::Mat &frame);
+    void WarpTopLeft(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
