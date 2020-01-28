@@ -2760,11 +2760,6 @@ void setEnabledProg() {
     if(fval_name.find("Image") != std::string::npos) {
         fname += "_Image";
     }
-    
-    std::string sname;
-    if([self userSave:&sname] == NO) {
-        return;
-    }
     ac::draw_strings.push_back(fname);
     ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
     user_filter[fval_name].index = -1;
@@ -2773,7 +2768,6 @@ void setEnabledProg() {
     user_filter[fname].index = ac::filter_map[fval_name];
     ++index_offset;
     user_filter[fname].sort_num = index_offset;
-    user_filter[fname].filename = sname;
     ac::filter_map[fname] = ac::filter_map[fval_name];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     [user_filter_name addItemWithObjectValue:sval];
@@ -2782,12 +2776,16 @@ void setEnabledProg() {
     [table_view reloadData];
     std::ostringstream stream;
     stream << "User set: " << fval_name << " to: " << fname << "\n";
-    NSString *val = [self saveCustomFilter];
+    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()]];
+    std::string sname;
+    if([self userSave:&sname] == NO) {
+        return;
+    }
     user_filter[fname].filename = [val UTF8String];
     flushToLog(stream);
 }
 
-- (NSString *) saveCustomFilter {
+- (NSString *) saveCustomFilter: (NSString *)fname_ {
     if([custom_array count] == 0) {
         _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
         return nil;
@@ -2844,11 +2842,8 @@ void setEnabledProg() {
         stream << "Saved Custom Filter: " << [fileName UTF8String] << "\n";
         flushToLog(stream);
         file_n.close();
-        int index = 0;
-        if(ac::LoadFilterFile([fileName UTF8String], index)) {
-            if(index != -1) {
-                std::cout << "Filter loaded into Memory...\n";
-            }
+        if(ac::LoadFilterFile([fname_ UTF8String], [fileName UTF8String])) {
+            std::cout << "Filter loaded into Memory...\n";
         }
         return fileName;
     }
@@ -3028,7 +3023,7 @@ void setEnabledProg() {
 
 
 - (IBAction) custom_Save: (id) sender {
-    [self saveCustomFilter];
+    [self saveCustomFilter: @"User_default"];
 }
 
 - (void) setCustomValue: (NSString *)sid value: (NSString *)value {
@@ -3089,10 +3084,9 @@ void setEnabledProg() {
     [panel setCanChooseDirectories: NO];
     [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
     if([panel runModal]) {
-        int index = -1;
-        if(ac::LoadFilterFile([[[panel URL] path] UTF8String], index)) {
-            if(index != -1) {
-                for(auto v = ac::filter_files[index].options.begin(); v != ac::filter_files[index].options.end(); ++v) {
+        if(ac::LoadFilterFile("User_default", [[[panel URL] path] UTF8String])) {
+              auto type = user_filter["User_default"].custom_filter.options;
+                for(auto v = type.begin(); v != type.end(); ++v) {
                     [self setCustomValue:[NSString stringWithUTF8String:v->first.c_str()] value:[NSString stringWithUTF8String:v->second.c_str()]];
                 }
                 [self setRGB_Values:self];
@@ -3104,7 +3098,6 @@ void setEnabledProg() {
                 std::ostringstream stream_;
                 stream_ << "Loaded Custom Filter: " << [[[panel URL] path] UTF8String] << "\n";
                 flushToLog(stream_);
-            }
         }
     }
 }

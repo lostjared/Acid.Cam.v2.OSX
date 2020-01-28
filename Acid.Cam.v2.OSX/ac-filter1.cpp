@@ -198,7 +198,7 @@ bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
 void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
     if(user_filter.find(name) != user_filter.end()) {
         std::string fname = user_filter[name].other_name;
-        if(!ac::CallFilterFile(fname)) {
+        if(!ac::CallFilterFile(frame, fname)) {
             std::cerr << "CallFilterFile failed...\n";
         }
     }
@@ -223,16 +223,28 @@ bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size
     return false;
 }
 
-bool ac::CallFilterFile(std::string filename) {
-    std::cout << ":" << filename << "\n";
+bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
+    auto pos = user_filter.find(filtername);
+    if(pos != user_filter.end()) {
+        for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
+            FileT &type = pos->second.custom_filter;
+            int f = type.name[i];
+            int s = type.subname[i];
+            if(f >= 0 && f < ac::draw_strings.size()) {
+                if(s != -1) {
+                    ac::pushSubFilter(s);
+                    ac::CallFilter(f, frame);
+                    ac::popSubFilter();
+                } else
+                    CallFilter(f, frame);
+            }
+        }
+    }
     return true;
 }
 
-std::vector<ac::FileT> ac::filter_files;
-
-bool ac::LoadFilterFile(std::string filen, int &index) {
+bool ac::LoadFilterFile(std::string fname, std::string filen) {
     ac::FileT typev;
-    index = -1;
     std::fstream file;
     file.open(filen, std::ios::in);
     if(!file.is_open()) {
@@ -303,8 +315,7 @@ bool ac::LoadFilterFile(std::string filen, int &index) {
         }
     }
     std::cout << "Loaded file: " << filen << "\n";
-    ac::filter_files.push_back(typev);
-    index = static_cast<int>(ac::filter_files.size()-1);
+    user_filter[fname].custom_filter = typev;
     return true;
 }
 
