@@ -228,6 +228,86 @@ bool ac::CallFilterFile(std::string filename) {
     return true;
 }
 
+std::vector<ac::FileT> ac::filter_files;
+
+bool ac::LoadFilterFile(std::string filen, int &index) {
+    ac::FileT typev;
+    index = -1;
+    std::fstream file;
+    file.open(filen, std::ios::in);
+    if(!file.is_open()) {
+        return false;
+    }
+    std::vector<std::string> values;
+    while(!file.eof()) {
+        std::string item;
+        std::getline(file, item);
+        if(file)
+            values.push_back(item);
+    }
+    // check if data valid
+    for(int i = 0; i < values.size(); ++i ){
+        std::string item = values[i];
+        std::string s_left, s_right;
+        auto pos = item.find(":");
+        if(pos == std::string::npos) {
+            return false;
+        }
+        if(item[0] == '=')
+            continue;
+        
+        s_left = item.substr(0,pos);
+        s_right = item.substr(pos+1, item.length());
+        if(ac::filter_map.find(s_left) == ac::filter_map.end()) {
+            return false;
+        }
+        if(s_right != "None" && ac::filter_map.find(s_right) == ac::filter_map.end()) {
+            return false;
+        }
+        int val1 = ac::filter_map[s_left];
+        int val2 = 0;
+        if(s_right == "None")
+            val2 = -1;
+        else
+            val2 = ac::filter_map[s_right];
+        
+        if(!(val1 >= 0 && val1 < ac::draw_strings.size()-4)) {
+            return false;
+        }
+        if(!(val2 == -1 || (val2 >= 0 && val2 < ac::draw_max-4))) {
+            return false;
+        }
+    }
+    for(int i = 0; i < values.size(); ++i) {
+        std::string item = values[i];
+        std::string s_left, s_right;
+        s_left = item.substr(0, item.find(":"));
+        s_right = item.substr(item.find(":")+1, item.length());
+        int val1 = ac::filter_map[s_left];
+        int val2 = 0;
+        if(s_right == "None")
+            val2 = -1;
+        else
+            val2 = ac::filter_map[s_right];
+        if(item[0] == '=') {
+            std::string item = values[i];
+            std::string s_left, s_right;
+            s_left = item.substr(0, item.find(":"));
+            s_right = item.substr(item.find(":")+1, item.length());
+            typev.options[s_left] = s_right;
+        } else {
+            typev.name.push_back(val1);
+            typev.subname.push_back(val2);
+            typev.filter_on.push_back(1);
+            std::cout << "added: " << ac::draw_strings[val1] << ":" << ac::draw_strings[val2] << "\n";
+        }
+    }
+    std::cout << "Loaded file: " << filen << "\n";
+    ac::filter_files.push_back(typev);
+    index = static_cast<int>(ac::filter_files.size()-1);
+    return true;
+}
+
 void ac::swapColors(cv::Mat &frame, int y, int x) {
     if(in_custom == true) return;
     if(color_order == 0 && swapColor_r == 0 && swapColor_g == 0 && swapColor_b == 0) return; // if no swap needed return

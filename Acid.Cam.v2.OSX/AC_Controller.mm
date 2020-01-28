@@ -3013,6 +3013,12 @@ void setEnabledProg() {
         stream << "Saved Custom Filter: " << [fileName UTF8String] << "\n";
         flushToLog(stream);
         file_n.close();
+        int index = 0;
+        if(ac::LoadFilterFile([fileName UTF8String], index)) {
+            if(index != -1) {
+                std::cout << "Filter loaded into Memory...\n";
+            }
+        }
     }
 }
 
@@ -3074,93 +3080,23 @@ void setEnabledProg() {
     [panel setCanChooseDirectories: NO];
     [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
     if([panel runModal]) {
-        NSString *fileName = [[panel URL] path];
-        std::fstream file;
-        file.open([fileName UTF8String], std::ios::in);
-        if(!file.is_open()) {
-            _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
-            return;
-        }
-        std::vector<std::string> values;
-        while(!file.eof()) {
-            std::string item;
-            std::getline(file, item);
-            if(file)
-                values.push_back(item);
-        }
-        // check if data valid
-        for(int i = 0; i < values.size(); ++i ){
-            std::string item = values[i];
-            std::string s_left, s_right;
-            auto pos = item.find(":");
-            if(pos == std::string::npos) {
-                _NSRunAlertPanel(@"Incorrect File..\n", @"Values in file incorrect", @"Ok", nil, nil);
-                return;
-            }
-            if(item[0] == '=')
-                continue;
-            
-            s_left = item.substr(0,pos);
-            s_right = item.substr(pos+1, item.length());
-            if(ac::filter_map.find(s_left) == ac::filter_map.end()) {
-                _NSRunAlertPanel(@"Filter not in this version", [NSString stringWithFormat:@"This filter: %s is not found in this version maybe using older version try updating", s_left.c_str()], @"Ok", nil, nil);
-                return;
-            }
-            if(s_right != "None" && ac::filter_map.find(s_right) == ac::filter_map.end()) {
-                _NSRunAlertPanel(@"Filter not in this version", [NSString stringWithFormat:@"This filter: %s is not found in this version maybe using older version try updating", s_right.c_str()], @"Ok", nil, nil);
-                return;
-            }
-            int val1 = ac::filter_map[s_left];
-            int val2 = 0;
-            if(s_right == "None")
-                val2 = -1;
-            else
-                val2 = ac::filter_map[s_right];
-            
-            if(!(val1 >= 0 && val1 < ac::draw_max-4)) {
-                _NSRunAlertPanel(@"Unsupported Value", @"Filter value out of range... wrong program revision?", @"Ok", nil, nil);
-                return;
-            }
-            if(!(val2 == -1 || (val2 >= 0 && val2 < ac::draw_max-4))) {
-                _NSRunAlertPanel(@"Unsupported SubFilter value",@"Sub Filter value of range...", @"Ok", nil, nil);
-                return;
+        int index = -1;
+        if(ac::LoadFilterFile([[[panel URL] path] UTF8String], index)) {
+            if(index != -1) {
+                for(auto v = ac::filter_files[index].options.begin(); v != ac::filter_files[index].options.end(); ++v) {
+                    [self setCustomValue:[NSString stringWithUTF8String:v->first.c_str()] value:[NSString stringWithUTF8String:v->second.c_str()]];
+                }
+                [self setRGB_Values:self];
+                [self changeOrder:self];
+                [self setNegative:self];
+                [self setColorMap:self];
+                [self updatePref:NO];
+                [table_view reloadData];
+                std::ostringstream stream_;
+                stream_ << "Loaded Custom Filter: " << [[[panel URL] path] UTF8String] << "\n";
+                flushToLog(stream_);
             }
         }
-        [custom_array removeAllObjects];
-        [custom_subfilters removeAllObjects];
-        for(int i = 0; i < values.size(); ++i) {
-            std::string item = values[i];
-            std::string s_left, s_right;
-            s_left = item.substr(0, item.find(":"));
-            s_right = item.substr(item.find(":")+1, item.length());
-            if(item[0] == '=' && [load_settings integerValue] == 0)
-                continue;
-            if(item[0] == '=' && [load_settings integerValue] == 1) {
-                [self setCustomValue:[NSString stringWithUTF8String:s_left.c_str()] value: [NSString stringWithUTF8String:s_right.c_str()]];
-                continue;
-            }
-            int val1 = ac::filter_map[s_left];
-            int val2 = 0;
-            if(s_right == "None")
-                val2 = -1;
-            else
-                val2 = ac::filter_map[s_right];
-            NSNumber *num1 = [NSNumber numberWithInteger: val1];
-            NSNumber *num2 = [NSNumber numberWithInteger: val2];
-            [custom_array addObject:num1];
-            [custom_subfilters addObject:num2];
-            [filter_on addObject: [NSNumber numberWithInteger:1]];
-        }
-        [self setRGB_Values:self];
-        [self changeOrder:self];
-        [self setNegative:self];
-        [self setColorMap:self];
-        [self updatePref:NO];
-        [table_view reloadData];
-        file.close();
-        std::ostringstream stream_;
-        stream_ << "Loaded Custom Filter: " << [fileName UTF8String] << "\n";
-        flushToLog(stream_);
     }
 }
 
