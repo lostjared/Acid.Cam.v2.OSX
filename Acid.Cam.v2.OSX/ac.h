@@ -181,6 +181,7 @@ namespace ac {
     
     class FileT {
     public:
+        std::string fname;
         std::vector<int> name;
         std::vector<int> subname;
         std::vector<int> filter_on;

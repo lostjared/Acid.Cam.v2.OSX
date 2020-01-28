@@ -2765,7 +2765,6 @@ void setEnabledProg() {
     if([self userSave:&sname] == NO) {
         return;
     }
-    
     ac::draw_strings.push_back(fname);
     ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
     user_filter[fval_name].index = -1;
@@ -2783,7 +2782,77 @@ void setEnabledProg() {
     [table_view reloadData];
     std::ostringstream stream;
     stream << "User set: " << fval_name << " to: " << fname << "\n";
+    NSString *val = [self saveCustomFilter];
+    user_filter[fname].filename = [val UTF8String];
     flushToLog(stream);
+}
+
+- (NSString *) saveCustomFilter {
+    if([custom_array count] == 0) {
+        _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
+        return nil;
+    }
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setCanCreateDirectories:YES];
+    [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
+    if([panel runModal]) {
+        NSString *fileName = [[panel URL] path];
+        std::fstream file_n;
+        file_n.open([fileName UTF8String],std::ios::out);
+        if(!file_n.is_open()) {
+            _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
+            return nil;
+        }
+        if([load_settings integerValue] == 1) {
+            NSInteger rgb[] = {[red_slider integerValue], [green_slider integerValue], [blue_slider integerValue]};
+            file_n << "=red:" << (int)rgb[0] << "\n";
+            file_n << "=green:" << (int)rgb[1] << "\n";
+            file_n << "=blue:" << (int)rgb[2] << "\n";
+            NSInteger color_m = [color_map indexOfSelectedItem];
+            file_n << "=color_map:" << (int)color_m << "\n";
+            NSInteger bright = [brightness integerValue];
+            file_n << "=brightness:" << bright << "\n";
+            NSInteger gam = [gamma integerValue];
+            file_n << "=gamma:" << gam << "\n";
+            NSInteger sat = [saturation integerValue];
+            file_n << "=sat:" << sat << "\n";
+            NSInteger chkNegate = [negate_checked integerValue];
+            file_n << "=negate:" << chkNegate << "\n";
+            NSInteger cord = [corder indexOfSelectedItem];
+            file_n << "=color_order:" << cord << "\n";
+            NSInteger procM = [procMode indexOfSelectedItem];
+            file_n << "=proc:" << (int)procM << "\n";
+            NSInteger mvmnt = [proc_change indexOfSelectedItem];
+            file_n << "=mvmnt:"<< (int)mvmnt << "\n";
+            NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
+            file_n << "=bsrc:" << (int)src_amt << "\n";
+        }
+        for(int i = 0; i < [custom_array count]; ++i) {
+            NSNumber *nval = [custom_array objectAtIndex:i];
+            NSNumber *sval = [custom_subfilters objectAtIndex:i];
+            NSInteger value1 = [nval integerValue];
+            NSInteger value2 = [sval integerValue];
+            std::string value1s, value2s;
+            value1s = ac::draw_strings[value1];
+            if(value2 != -1)
+                value2s = ac::draw_strings[value2];
+            else
+                value2s = "None";
+            file_n << value1s << ":" << value2s << "\n";
+        }
+        std::ostringstream stream;
+        stream << "Saved Custom Filter: " << [fileName UTF8String] << "\n";
+        flushToLog(stream);
+        file_n.close();
+        int index = 0;
+        if(ac::LoadFilterFile([fileName UTF8String], index)) {
+            if(index != -1) {
+                std::cout << "Filter loaded into Memory...\n";
+            }
+        }
+        return fileName;
+    }
+    return nil;
 }
 
 - (void) updateDirPath: (std::string *)s {
@@ -2956,70 +3025,10 @@ void setEnabledProg() {
     flushToLog(stream);
 }
 
+
+
 - (IBAction) custom_Save: (id) sender {
-    if([custom_array count] == 0) {
-        _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
-        return;
-    }
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setCanCreateDirectories:YES];
-    [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
-    if([panel runModal]) {
-        NSString *fileName = [[panel URL] path];
-        std::fstream file_n;
-        file_n.open([fileName UTF8String],std::ios::out);
-        if(!file_n.is_open()) {
-            _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
-            return;
-        }
-        if([load_settings integerValue] == 1) {
-            NSInteger rgb[] = {[red_slider integerValue], [green_slider integerValue], [blue_slider integerValue]};
-            file_n << "=red:" << (int)rgb[0] << "\n";
-            file_n << "=green:" << (int)rgb[1] << "\n";
-            file_n << "=blue:" << (int)rgb[2] << "\n";
-            NSInteger color_m = [color_map indexOfSelectedItem];
-            file_n << "=color_map:" << (int)color_m << "\n";
-            NSInteger bright = [brightness integerValue];
-            file_n << "=brightness:" << bright << "\n";
-            NSInteger gam = [gamma integerValue];
-            file_n << "=gamma:" << gam << "\n";
-            NSInteger sat = [saturation integerValue];
-            file_n << "=sat:" << sat << "\n";
-            NSInteger chkNegate = [negate_checked integerValue];
-            file_n << "=negate:" << chkNegate << "\n";
-            NSInteger cord = [corder indexOfSelectedItem];
-            file_n << "=color_order:" << cord << "\n";
-            NSInteger procM = [procMode indexOfSelectedItem];
-            file_n << "=proc:" << (int)procM << "\n";
-            NSInteger mvmnt = [proc_change indexOfSelectedItem];
-            file_n << "=mvmnt:"<< (int)mvmnt << "\n";
-            NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
-            file_n << "=bsrc:" << (int)src_amt << "\n";
-        }
-        for(int i = 0; i < [custom_array count]; ++i) {
-            NSNumber *nval = [custom_array objectAtIndex:i];
-            NSNumber *sval = [custom_subfilters objectAtIndex:i];
-            NSInteger value1 = [nval integerValue];
-            NSInteger value2 = [sval integerValue];
-            std::string value1s, value2s;
-            value1s = ac::draw_strings[value1];
-            if(value2 != -1)
-                value2s = ac::draw_strings[value2];
-            else
-                value2s = "None";
-            file_n << value1s << ":" << value2s << "\n";
-        }
-        std::ostringstream stream;
-        stream << "Saved Custom Filter: " << [fileName UTF8String] << "\n";
-        flushToLog(stream);
-        file_n.close();
-        int index = 0;
-        if(ac::LoadFilterFile([fileName UTF8String], index)) {
-            if(index != -1) {
-                std::cout << "Filter loaded into Memory...\n";
-            }
-        }
-    }
+    [self saveCustomFilter];
 }
 
 - (void) setCustomValue: (NSString *)sid value: (NSString *)value {
