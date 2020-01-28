@@ -3773,12 +3773,6 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
             NSInteger index = [num integerValue];
             if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
                 continue;
-            
-            std::string name = ac::draw_strings[index];
-            if(user_filter.find(name) != user_filter.end()) {
-                NSString *s2 = [NSString stringWithUTF8String: user_filter[name].other_name.c_str()];
-                ac::CallFilterFile([s2 UTF8String]);
-            } else
             if(ac::testSize(frame)) {
                 ac::setSubFilter(static_cast<int>([fval_ integerValue]));
                 ac::CallFilter(static_cast<int>(index), frame);

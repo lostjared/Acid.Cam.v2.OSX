@@ -527,7 +527,6 @@ void ac::WarpRandom(cv::Mat &src) {
     static float pos_y[4] = {0, 0, 1.0, 1.0};
     static bool dir1[4] = {true, false, false, true};
     static bool dir2[4] = {true, true, false, false};
-    
     cv::Point2f dstQuad[] = {
         cv::Point2f(src.cols*pos_x[0], src.rows*pos_y[0]),
         cv::Point2f(src.cols*pos_x[1], src.rows*pos_y[1]),

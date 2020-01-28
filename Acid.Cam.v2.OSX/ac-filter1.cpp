@@ -157,7 +157,7 @@ void ac::DrawFilter(const std::string &name, cv::Mat &frame) {
 }
 
 bool ac::CallFilter(int index, cv::Mat &frame) {
-    if(index >= 0 && index < ac::draw_max) {
+    if(index >= 0 && index < ac::draw_strings.size()) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -180,7 +180,7 @@ unsigned long ac::calculateMemory() {
 
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     int index = ac::filter_map[name];
-    if(index >= 0 && index < ac::draw_max && index != subfilter) {
+    if(index >= 0 && index < ac::draw_strings.size() && index != subfilter) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -196,6 +196,13 @@ bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
 }
 
 void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
+    if(user_filter.find(name) != user_filter.end()) {
+        std::string fname = user_filter[name].other_name;
+        if(!ac::CallFilterFile(fname)) {
+            std::cerr << "CallFilterFile failed...\n";
+        }
+    }
+    else
     if(filter_map_str.find(name) != filter_map_str.end())
         filter_map_str[name].second(frame);
     else
@@ -216,8 +223,9 @@ bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size
     return false;
 }
 
-void ac::CallFilterFile(std::string filename) {
-    //std::cout << ":" << filename << "\n";
+bool ac::CallFilterFile(std::string filename) {
+    std::cout << ":" << filename << "\n";
+    return true;
 }
 
 void ac::swapColors(cv::Mat &frame, int y, int x) {
