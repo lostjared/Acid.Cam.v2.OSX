@@ -303,7 +303,7 @@ void ac::ErodeKernelOffSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b copy1 = temp.at<cv::Vec3b>(z, i);
             cv::Vec3b copyf = copyz.at<cv::Vec3b>(z, i);
-            if(searchColors(copy1) == SEARCH_NOTFOUND) {
+            if(searchColors(copy1) != SEARCH_PIXEL) {
                 pixel = copyf;
             }
         }
@@ -325,7 +325,7 @@ void ac::DilateKernelOffSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b copy1 = temp.at<cv::Vec3b>(z, i);
             cv::Vec3b copyf = copyz.at<cv::Vec3b>(z, i);
-            if(searchColors(copy1) == SEARCH_NOTFOUND) {
+            if(searchColors(copy1) != SEARCH_PIXEL) {
                 pixel = copyf;
             }
         }
@@ -363,10 +363,8 @@ void ac::ColorKeySetOffSubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b copy1 = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b copyf = copyz.at<cv::Vec3b>(z, i);
-            for(int i = 0; i < blocked_color_keys.size(); ++i) {
-                if(searchColors(copy1) == SEARCH_NOTFOUND) {
-                    pixel = copyf;
-                }
+            if(searchColors(copy1) != SEARCH_PIXEL) {
+                pixel = copyf;
             }
         }
     }
