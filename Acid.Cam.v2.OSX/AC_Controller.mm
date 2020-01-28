@@ -96,6 +96,8 @@ int p_s = 1;
 int elapsed_counter = 0;
 NSButton *cycle_chk_val;
 int delay_value = 60;
+using ac::user_filter;
+using ac::UserFilter;
 
 bool operator<(const UserArgType &o1, const UserArgType &o2) {
     if(o1.index < o2.index) return true;
@@ -298,6 +300,12 @@ void setEnabledProg() {
     [output_video setState: NSControlStateValueOn];
     elapsed_counter = 0;
     time_t t = time(0);
+    NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
+    NSString *def = [d objectForKey:@"directory_path"];
+    if(def != nil) {
+        directory_path = [def UTF8String];
+    }
+    std::cout << "Directory path: " << directory_path << "\n";
     struct tm *m;
     m = localtime(&t);
     std::ostringstream time_stream;
@@ -318,7 +326,7 @@ void setEnabledProg() {
         }
         cv::ocl::Device(context.device(0));
     }
-  
+    
     flushToLog(sout);
     ac::setThreadCount(4);
     restartFilter = NO;
@@ -352,15 +360,15 @@ void setEnabledProg() {
      }
      } */
     /*
-    std::cout << "std::string mirror_array[] = {";
-    for(auto i = ac::solo_filter.begin(); i != ac::solo_filter.end(); ++i) {
-        auto pos = i->find("Mirror");
-        if(pos != std::string::npos) {
-            std::cout << "\"" << *i << "\", ";
-        }
-    }
-    std::cout << "\n};\n";
-    */
+     std::cout << "std::string mirror_array[] = {";
+     for(auto i = ac::solo_filter.begin(); i != ac::solo_filter.end(); ++i) {
+     auto pos = i->find("Mirror");
+     if(pos != std::string::npos) {
+     std::cout << "\"" << *i << "\", ";
+     }
+     }
+     std::cout << "\n};\n";
+     */
     /*
      for(int i = 0; i < ac::draw_max; ++i) {
      std::string s;
@@ -410,15 +418,15 @@ void setEnabledProg() {
 
 - (IBAction) changedCameraDevice: (id) sender {
     /*
-    NSInteger index = [device_index indexOfSelectedItem];
-    cv::VideoCapture cap(static_cast<int>(index));
-    std::vector<cv::Size> res;
-    if(ac::getSupportedResolutions(cap, res)) {
-        std::cout << "Resolution...\n";
-        for(int i = 0; i < res.size(); ++i) {
-            std::cout << "Supports resolution: " << res[i].width << "x" << res[i].height << "\n";
-        }
-    }*/
+     NSInteger index = [device_index indexOfSelectedItem];
+     cv::VideoCapture cap(static_cast<int>(index));
+     std::vector<cv::Size> res;
+     if(ac::getSupportedResolutions(cap, res)) {
+     std::cout << "Resolution...\n";
+     for(int i = 0; i < res.size(); ++i) {
+     std::cout << "Supports resolution: " << res[i].width << "x" << res[i].height << "\n";
+     }
+     }*/
 }
 
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL)add_u{
@@ -543,7 +551,7 @@ void setEnabledProg() {
             [current_filter setMenu: user_menu];
     }
     else
-    [current_filter setMenu: menu_items[index]];
+        [current_filter setMenu: menu_items[index]];
     
 }
 
@@ -639,17 +647,17 @@ void setEnabledProg() {
     [record_op setEnabled: YES];
     [videoFileInput setEnabled:YES];
     /*if([videoFileInput integerValue] == 0) {
-        [up4k setEnabled: NO];
-        [video_width setEnabled:NO];
-        [video_height setEnabled:NO];
-        [chk_stretch setEnabled:NO];
-    }
-    else {
-        [up4k setEnabled: YES];
-        [video_width setEnabled:YES];
-        [video_height setEnabled:YES];
-        [chk_stretch setEnabled:YES];
-    }*/
+     [up4k setEnabled: NO];
+     [video_width setEnabled:NO];
+     [video_height setEnabled:NO];
+     [chk_stretch setEnabled:NO];
+     }
+     else {
+     [up4k setEnabled: YES];
+     [video_width setEnabled:YES];
+     [video_height setEnabled:YES];
+     [chk_stretch setEnabled:YES];
+     }*/
     stopCV();
     [startProg setTitle:@"Start Session"];
 }
@@ -742,7 +750,7 @@ void setEnabledProg() {
 -(IBAction) startProgram: (id) sender {
     
     if([[startProg title] isEqualToString: @"Start Session"]) {
-       if([videoFileInput integerValue] == 0 && [[[output_Type itemAtIndex:[output_Type indexOfSelectedItem]] title] isEqualToString:@"MOV - HEVC/H.265"]) {
+        if([videoFileInput integerValue] == 0 && [[[output_Type itemAtIndex:[output_Type indexOfSelectedItem]] title] isEqualToString:@"MOV - HEVC/H.265"]) {
             _NSRunAlertPanel(@"You can only use HEVC in Video mode because it takes a long time to process", @"HEVC Requires Video File", @"Ok", nil, nil);
             return ;
         }
@@ -837,7 +845,7 @@ void setEnabledProg() {
         [up4k setEnabled: NO];
         [record_op setEnabled: NO];
         ac::reset_filter = true;
-    
+        
         if(camera_mode == 1)
             capture = capture_video.get();
         else
@@ -1251,7 +1259,7 @@ void setEnabledProg() {
                     std::string value = [str_value UTF8String];
                     auto pos = value.rfind("/");
                     if(pos != std::string::npos) {
-                    value = value.substr(value.rfind("/")+1, value.length());
+                        value = value.substr(value.rfind("/")+1, value.length());
                         NSString *string_value = [NSString stringWithUTF8String: value.c_str()];
                         [filename_textfield setStringValue:string_value];
                     }
@@ -1441,7 +1449,7 @@ void setEnabledProg() {
         if(frame_counter_speed == 0) ++elapsed_counter;
     }
     else {
-         ++frame_proc;
+        ++frame_proc;
         if(frame_counter_speed == 0) ++elapsed_counter;
     }
     if([corder indexOfSelectedItem] == 5) {
@@ -1481,7 +1489,7 @@ void setEnabledProg() {
     
     double seconds = ((total_frames)/ac::fps);
     //double cfps = (freeze_count+video_total_frames+frame_cnt)/ac::fps);
-
+    
     double cfps = frame_cnt/ac::fps;
     double elapsed = elapsed_counter/ac::fps;
     char elapsed_s[1024];
@@ -2001,7 +2009,7 @@ void setEnabledProg() {
 
 - (IBAction) showActivityLog: (id) sender {
     [window1 orderFront: self];
- 
+    
 }
 
 - (IBAction) showSelectImage: (id) sender {
@@ -2724,8 +2732,11 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"User defined requires a valid name", @"Error forgot to set name", @"Ok", nil, nil);
         return;
     }
-    NSInteger index = [current_filter_custom indexOfSelectedItem];
-    if(index < 0) return;
+    NSInteger index = [table_view numberOfRows];
+    if(index <= 0) {
+        _NSRunAlertPanel(@"Requires at lesat one filter!", @"None Selected", @"Ok", nil, nil);
+        return;
+    }
     
     std::string ftext = [s UTF8String];
     auto fp = user_filter.find(ftext);
@@ -2733,7 +2744,6 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"You already set this value", @"You use this value already", @"Ok", nil, nil);
         return;
     }
-    
     NSMenuItem *item = [current_filter_custom itemAtIndex: index];
     std::string fval_name = [[item title] UTF8String];
     if(fval_name.find("User_") != std::string::npos) {
@@ -2750,12 +2760,21 @@ void setEnabledProg() {
     if(fval_name.find("Image") != std::string::npos) {
         fname += "_Image";
     }
+    
+    std::string sname;
+    if([self userSave:&sname] == NO) {
+        return;
+    }
+    
+    ac::draw_strings.push_back(fname);
+    ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
     user_filter[fval_name].index = -1;
     user_filter[fval_name].name = fval_name;
     user_filter[fval_name].other_name = fname;
     user_filter[fname].index = ac::filter_map[fval_name];
     ++index_offset;
     user_filter[fname].sort_num = index_offset;
+    user_filter[fname].filename = sname;
     ac::filter_map[fname] = ac::filter_map[fval_name];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     [user_filter_name addItemWithObjectValue:sval];
@@ -2766,18 +2785,40 @@ void setEnabledProg() {
     stream << "User set: " << fval_name << " to: " << fname << "\n";
     flushToLog(stream);
 }
-- (IBAction) user_Save: (id) sender {
+
+- (void) updateDirPath: (std::string *)s {
+    auto pos = s->rfind("/");
+    if(pos != std::string::npos) {
+        directory_path = *s;
+        //NSString *def = [defaults objectForKey:@"directory_path"];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *st = [NSString stringWithUTF8String: s->c_str()];
+        [defaults setObject:st forKey:@"directory_path"];
+    }
+}
+
+- (void) getNameFilter: (std::string *)str index:(int)value {
+    NSString *s = [custom_array objectAtIndex:value];
+    NSLog(@"%@\n",s);
+}
+
+- (BOOL) userSave: (std::string *)name {
+    if(directory_path.length()==0) {
+        _NSRunAlertPanel(@"Set Directory path", @"Set the Directory path", @"Ok", nil, nil);
+        return NO;
+    }
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setCanCreateDirectories:YES];
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"acl", nil]];
     if([panel runModal]) {
         NSString *fname = [[panel URL] path];
+        
         std::string textname = [fname UTF8String];
         std::fstream file;
         file.open(textname, std::ios::out);
         if(!file.is_open()) {
             _NSRunAlertPanel(@"Error could not save file. Do you have access rights?", @"Cannot save file", @"Ok", nil, nil);
-            return;
+            return NO;
         }
         std::vector<UserArgType> items;
         for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
@@ -2798,18 +2839,33 @@ void setEnabledProg() {
         stream << "User saved IDs to: " << [fname UTF8String] << "\n";
         flushToLog(stream);
     }
+    return YES;
+}
+
+- (IBAction) user_Save: (id) sender {
+    std::string s;
+    [self userSave:&s];
 }
 
 - (IBAction) user_Clear: (id) sender {
-    if(!user_filter.empty()) {
-        user_filter.erase(user_filter.begin(), user_filter.end());
-        [user_filter_name removeAllItems];
-        [self loadMenuList];
-        [table_view reloadData];
+    /*
+     if(!user_filter.empty()) {
+     user_filter.erase(user_filter.begin(), user_filter.end());
+     [user_filter_name removeAllItems];
+     [self loadMenuList];
+     [table_view reloadData];
+     }
+     std::ostringstream stream;
+     stream << "User Filters Cleared.\n";
+     flushToLog(stream); */
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:NO];
+    [panel setCanChooseDirectories:YES];
+    [panel setCanCreateDirectories:YES];
+    if([panel runModal]) {
+        std::string s = [[[panel URL] path] UTF8String];
+        [self updateDirPath:&s];
     }
-    std::ostringstream stream;
-    stream << "User Filters Cleared.\n";
-    flushToLog(stream);
 }
 
 - (void) loadFileData: (const char *)path off: (int) index_offset {
@@ -3273,25 +3329,25 @@ void setEnabledProg() {
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSString *value = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSString *ver = [NSString stringWithFormat:@"[VERSION: %s]", ac::getVersion().c_str(), nil];
-            if([value length] == 0) {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    if(showMessage == YES) {
-                        _NSRunAlertPanel(@"No Internet Connection", @"Could Not Connect to the Internet", @"Ok", nil, nil);
-                    }
-                });
-            }
-            else if([value containsString:ver] == NO) {
-                std::cout << "Version not up to date...\n";
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    NSInteger index = _NSRunAlertPanel(@"New Version...", @"New version available, Would you like to open the download page?", @"No", @"Yes", nil);
-                    if(index != 1000) {
-                        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
-                    }
-                });
-            } else {
-                dispatch_sync(dispatch_get_main_queue(), ^{
+        NSString *value = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSString *ver = [NSString stringWithFormat:@"[VERSION: %s]", ac::getVersion().c_str(), nil];
+        if([value length] == 0) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if(showMessage == YES) {
+                    _NSRunAlertPanel(@"No Internet Connection", @"Could Not Connect to the Internet", @"Ok", nil, nil);
+                }
+            });
+        }
+        else if([value containsString:ver] == NO) {
+            std::cout << "Version not up to date...\n";
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                NSInteger index = _NSRunAlertPanel(@"New Version...", @"New version available, Would you like to open the download page?", @"No", @"Yes", nil);
+                if(index != 1000) {
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
+                }
+            });
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 if(showMessage == YES) {
                     _NSRunAlertPanel(@"Acid Cam is Up to Date", @"No update available", @"Ok", nil, nil);
                 }
@@ -3441,7 +3497,7 @@ void setEnabledProg() {
 
 - (IBAction) selectRandomFilter:(id) sender {
     [categories_custom selectItemAtIndex:0];
-     [self customMenuSelected:self];
+    [self customMenuSelected:self];
     int value = rand()%ac::solo_filter.size();
     std::string filter_value = ac::solo_filter[value];
     [current_filter_custom selectItemAtIndex:ac::filter_map[filter_value]];
@@ -3568,19 +3624,19 @@ void setEnabledProg() {
     }
     
     /*
-    //std::cout << "FilterItem[] items = new FilterItem[" << ac::solo_filter.size() << "]\n";
-    std::cout << "private List<FilterItem> items, sorted_items;\n";
-    std::cout << "for(int i = 0; i < " << ac::solo_filter.size() << "; ++i) {\n";
-    for(int i = 0; i < ac::solo_filter.size(); ++i) {
-        //std::cout << "\titems[" << i << "] = new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << ");\n";
-        std::cout << "item.add(new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << "));\n";
-    }
-    std::sort(ac::solo_filter.begin(), ac::solo_filter.end());
-    for(int i = 0; i < ac::solo_filter.size(); ++i) {
-        std::cout << "sorted_items.add(new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << "));\n";
-        //std::cout << "sorted_items[" << i << "] = new FilterItem(\"" << items[0].name << "\", " << items[i].value << ");\n";
-    }
-    std::cout << "\n}\n"; */
+     //std::cout << "FilterItem[] items = new FilterItem[" << ac::solo_filter.size() << "]\n";
+     std::cout << "private List<FilterItem> items, sorted_items;\n";
+     std::cout << "for(int i = 0; i < " << ac::solo_filter.size() << "; ++i) {\n";
+     for(int i = 0; i < ac::solo_filter.size(); ++i) {
+     //std::cout << "\titems[" << i << "] = new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << ");\n";
+     std::cout << "item.add(new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << "));\n";
+     }
+     std::sort(ac::solo_filter.begin(), ac::solo_filter.end());
+     for(int i = 0; i < ac::solo_filter.size(); ++i) {
+     std::cout << "sorted_items.add(new FilterItem(\"" << ac::solo_filter[i] << "\", " << ac::filter_map[ac::solo_filter[i]] << "));\n";
+     //std::cout << "sorted_items[" << i << "] = new FilterItem(\"" << items[0].name << "\", " << items[i].value << ");\n";
+     }
+     std::cout << "\n}\n"; */
 }
 - (IBAction) prevFilter: (id) sender {
     NSInteger index = [current_filter indexOfSelectedItem];
@@ -3649,34 +3705,34 @@ void setEnabledProg() {
                     std::cout << "Left shoulder...\n";
                 };
             }
-
+            
             if(theController.rightShoulder) {
                 theController.rightShoulder.pressedChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
                     std::cout << "Right shoulder...\n";
                 };
             }
-
+            
         } else {
             NSLog(@"Controller not supported!");
         }
         /*
-        pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
-        {
-            if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
-                [self nextFilter:self];
-                std::cout << "Next Filter\n";
-            }
-            if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
-                [self prevFilter:self];
-                std::cout << "Prev Filter...\n";
-            }
-            if (gamepad.buttonX == element && gamepad.buttonX.isPressed) {
-                std::cout << "Button X\n";
-            }
-            if (gamepad.buttonB == element && gamepad.buttonB.isPressed) {
-                std::cout << "Button B\n";
-            }
-        };*/
+         pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
+         {
+         if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
+         [self nextFilter:self];
+         std::cout << "Next Filter\n";
+         }
+         if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
+         [self prevFilter:self];
+         std::cout << "Prev Filter...\n";
+         }
+         if (gamepad.buttonX == element && gamepad.buttonX.isPressed) {
+         std::cout << "Button X\n";
+         }
+         if (gamepad.buttonB == element && gamepad.buttonB.isPressed) {
+         std::cout << "Button B\n";
+         }
+         };*/
     }
 }
 
@@ -3698,7 +3754,7 @@ void setEnabledProg() {
 
 @end
 
-std::unordered_map<std::string, UserFilter> user_filter;
+
 
 void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     ac::in_custom = true;
@@ -3708,22 +3764,28 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
         if(i == [listval count]-1 && ac::getColorState() == false)
             ac::in_custom = false;
         
+        
         NSNumber *num, *fval_, *f_on;
         @try {
-                num = [listval objectAtIndex:i];
-                fval_ = [sublist objectAtIndex: i];
-                f_on = [filter_on objectAtIndex: i];
-                NSInteger index = [num integerValue];
-                if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
-                    continue;
-                
-                if(ac::testSize(frame)) {
-                    ac::setSubFilter(static_cast<int>([fval_ integerValue]));
-                    ac::CallFilter(static_cast<int>(index), frame);
-                }
-                [num release];
-                [fval_ release];
-                [f_on release];
+            num = [listval objectAtIndex:i];
+            fval_ = [sublist objectAtIndex: i];
+            f_on = [filter_on objectAtIndex: i];
+            NSInteger index = [num integerValue];
+            if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
+                continue;
+            
+            std::string name = ac::draw_strings[index];
+            if(user_filter.find(name) != user_filter.end()) {
+                NSString *s2 = [NSString stringWithUTF8String: user_filter[name].other_name.c_str()];
+                ac::CallFilterFile([s2 UTF8String]);
+            } else
+            if(ac::testSize(frame)) {
+                ac::setSubFilter(static_cast<int>([fval_ integerValue]));
+                ac::CallFilter(static_cast<int>(index), frame);
+            }
+            [num release];
+            [fval_ release];
+            [f_on release];
         } @catch(NSException *e) {
             NSLog(@"%@\n", [e reason]);
         }
@@ -3734,13 +3796,14 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
     unsigned long mem = ac::calculateMemory();
     std::ostringstream stream;
     stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
-    std::string name = stream.str();
-    [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:name.c_str()]];
+    std::string namex = stream.str();
+    [[controller getMemoryText:nil] setStringValue: [NSString stringWithUTF8String:namex.c_str()]];
     if(ac::release_frames) {
         ac::release_all_objects();
         ac::release_frames = false;
     }
 }
+
 
 void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     NSNumber *num, *fval_, *f_on;
@@ -3756,6 +3819,11 @@ void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublis
         NSInteger index = [num integerValue];
         if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
             return;
+        
+        std::string name = ac::draw_strings[index];
+        if(name.find("User") != std::string::npos) {
+            std::cout << "User function: " << name << "\n";
+        }
         
         if(ac::testSize(frame) && i >= 0 && i < [listval count]) {
             ac::setSubFilter(static_cast<int>([fval_ integerValue]));
@@ -3781,10 +3849,10 @@ void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublis
 void custom_filter(cv::Mat &frame) {
     if(camera_mode == 0) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-        if([cycle_chk_val integerValue] == 0)
-            CustomFilter(frame, custom_array, custom_subfilters, filter_on);
-        else
-            CustomCycle(frame, custom_array, custom_subfilters, filter_on);
+            if([cycle_chk_val integerValue] == 0)
+                CustomFilter(frame, custom_array, custom_subfilters, filter_on);
+            else
+                CustomCycle(frame, custom_array, custom_subfilters, filter_on);
         });
     } else {
         if([cycle_chk_val integerValue] == 0)

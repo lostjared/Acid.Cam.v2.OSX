@@ -64,13 +64,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef void (*pixel)(int x, int y, unsigned char *pixels);
 typedef void (*drawn)();
 // Filter Info type
-class UserFilter {
-public:
-    int index, subfilter;
-    int sort_num;
-    std::string name, other_name;
-    UserFilter(): index(0), subfilter(-1) {}
-};
+
 // global variables
 extern pixel pix;
 extern drawn d;
@@ -80,7 +74,7 @@ extern NSThread *background;
 extern  bool camera_active;
 extern unsigned long frame_proc;
 extern bool resize_value;
-extern std::unordered_map<std::string, UserFilter> user_filter;
+
 extern NSTimer *renderTimer, *validProc;
 extern cv::Mat old_frame;
 extern bool resize_frame;
@@ -236,6 +230,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     BOOL outputVideo;
     GCExtendedGamepad *profile;
     GCMicroGamepad *micro;
+    std::string directory_path;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -325,6 +320,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) setCheckBoxImage: (id) sender;
 - (IBAction) user_Set: (id) sender;
 - (IBAction) user_Save: (id) sender;
+- (BOOL) userSave: (std::string *)name;
 - (IBAction) user_Load: (id) sender;
 - (IBAction) user_Clear: (id) sender;
 - (void) loadFileData: (const char *)path off: (int) index_offset;
@@ -369,7 +365,9 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) pollJoystick: (id) sender;
 - (IBAction) toggleFullScreenGL: (id) sender;
 - (IBAction) changedCameraDevice: (id) sender;
+- (void) getNameFilter: (std::string *)str index:(int) value;
 - (NSTextField *)getMemoryText: (id) sender;
+- (void) updateDirPath: (std::string *)s;
 @property(retain) GCController *gameController;
 @property(retain) GCGamepad *theController;
 

@@ -110,6 +110,15 @@ int AC_GetFZ(int oldh, int y, int nh);
 
 // acid cam namespace
 namespace ac {
+    
+    class UserFilter {
+    public:
+        int index, subfilter;
+        int sort_num;
+        std::string name, other_name, filename;
+        UserFilter(): index(0), subfilter(-1) {}
+    };
+    
     // get version string
     extern std::string getVersion();
     extern int getFilterCount();
@@ -144,6 +153,7 @@ namespace ac {
     extern int GetFY(cv::Mat &frame, int y, int nh);
     extern bool OpenCL_Enabled();
     extern bool reset_alpha;
+    extern std::unordered_map<std::string, UserFilter> user_filter;
     void invert(cv::Mat &frame, int x, int y);
     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
@@ -2109,6 +2119,7 @@ namespace ac {
     void Warp(cv::Mat &frame);
     void WarpDir(cv::Mat &frame);
     void WarpTopLeft(cv::Mat &frame);
+    void WarpRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2130,6 +2141,7 @@ namespace ac {
     void setPixelCollection(int value);
     int  getPixelCollection();
     bool VideoFrame(cv::Mat &frame);
+    void CallFilterFile(std::string filename);
     // color correction
     void MedianBlur(cv::Mat &frame, unsigned int value);
     void setBlendPercentage(const double &value);
@@ -2202,10 +2214,12 @@ namespace ac {
     bool getColorState();
     void setFilterColorMap(int color);
     int  getColorMapFilter();
+    void User(cv::Mat &frame);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
-    extern std::string *draw_strings;
+    //extern std::string *draw_strings;
+    extern std::vector<std::string> draw_strings;
     extern DrawFunction plugin_func;
     extern DrawFunction *draw_func;
     extern FilterType *filter_array;
