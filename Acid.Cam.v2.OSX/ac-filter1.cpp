@@ -180,7 +180,7 @@ unsigned long ac::calculateMemory() {
 
 bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
     int index = ac::filter_map[name];
-    if(index >= 0 && index < ac::draw_strings.size() && index != subfilter) {
+    if(index >= 0 && index < ac::draw_strings.size()) {
         if(ac::release_frames) {
             ac::release_all_objects();
             ac::release_frames = false;
@@ -203,10 +203,11 @@ void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
         }
     }
     else
-    if(filter_map_str.find(name) != filter_map_str.end())
-        filter_map_str[name].second(frame);
-    else
-        std::cerr << "filter: " << name << " not found!\n";
+        if(filter_map_str.find(name) != filter_map_str.end()) {
+            filter_map_str[name].second(frame);
+        }
+        else
+            std::cerr << "filter: " << name << " not found!\n";
 }
 
 
@@ -249,11 +250,12 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
             int s = type.subname[i];
             if(f >= 0 && f < ac::draw_strings.size()) {
                 if(s != -1) {
-                    ac::pushSubFilter(s);
+                    ac::setSubFilter(s);
                     ac::CallFilter(f, frame);
-                    ac::popSubFilter();
-                } else
+                } else {
+                    std::cout << ac::draw_strings[s] << " as SubFilter.. not found\n";
                     CallFilter(f, frame);
+                }
             }
         }
     }

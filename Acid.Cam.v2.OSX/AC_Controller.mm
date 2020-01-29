@@ -2750,6 +2750,7 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
         return;
     }
+    
     std::string fname;
     fname = "User_";
     fname += [s UTF8String];
@@ -3791,7 +3792,6 @@ void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *subli
         if(i == [listval count]-1 && ac::getColorState() == false)
             ac::in_custom = false;
         
-        
         NSNumber *num, *fval_, *f_on;
         @try {
             num = [listval objectAtIndex:i];
@@ -3840,11 +3840,6 @@ void CustomCycle(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublis
         NSInteger index = [num integerValue];
         if([num integerValue] == [fval_ integerValue] || [f_on integerValue] == 0)
             return;
-        
-        std::string name = ac::draw_strings[index];
-        if(name.find("User") != std::string::npos) {
-            std::cout << "User function: " << name << "\n";
-        }
         
         if(ac::testSize(frame) && i >= 0 && i < [listval count]) {
             ac::setSubFilter(static_cast<int>([fval_ integerValue]));
