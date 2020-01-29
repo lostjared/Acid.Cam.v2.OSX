@@ -292,22 +292,6 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
         if(ac::filter_map.find(s_left) == ac::filter_map.end()) {
             return false;
         }
-        if(s_right != "None" && ac::filter_map.find(s_right) == ac::filter_map.end()) {
-            return false;
-        }
-        int val1 = ac::filter_map[s_left];
-        int val2 = 0;
-        if(s_right == "None")
-            val2 = -1;
-        else
-            val2 = ac::filter_map[s_right];
-        
-        if(!(val1 >= 0 && val1 < ac::draw_strings.size()-4)) {
-            return false;
-        }
-        if(!(val2 == -1 || (val2 >= 0 && val2 < ac::draw_max-4))) {
-            return false;
-        }
     }
     for(int i = 0; i < values.size(); ++i) {
         std::string item = values[i];
