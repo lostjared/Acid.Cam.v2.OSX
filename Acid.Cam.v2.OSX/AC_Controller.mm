@@ -2738,29 +2738,34 @@ void setEnabledProg() {
         return;
     }
     
-    std::string ftext = [s UTF8String];
+   /* std::string ftext = [s UTF8String];
     auto fp = user_filter.find(ftext);
     if(ftext.find("User_") != std::string::npos && fp != user_filter.end()) {
         _NSRunAlertPanel(@"You already set this value", @"You use this value already", @"Ok", nil, nil);
         return;
-    }
+    }*/
+    
     NSMenuItem *item = [current_filter_custom itemAtIndex: index];
     std::string fval_name = [[item title] UTF8String];
     if(fval_name.find("User_") != std::string::npos) {
         _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
         return;
     }
-    
     std::string fname;
-    fname = "User_";
-    fname += [s UTF8String];
-    
-    if(fval_name.find("SubFilter") != std::string::npos) {
-        fname += "_SubFilter";
-    }
-    if(fval_name.find("Image") != std::string::npos) {
-        fname += "_Image";
-    }
+    std::string oldname = [s UTF8String];
+    bool use_old = true;
+    if(oldname.find("User_") == std::string::npos) {
+        fname = "User_";
+        fname += oldname;
+        
+        if(fval_name.find("SubFilter") != std::string::npos) {
+            fname += "_SubFilter";
+        }
+        if(fval_name.find("Image") != std::string::npos) {
+            fname += "_Image";
+        }
+        use_old = false;
+    } else fname = oldname;
     ac::draw_strings.push_back(fname);
     ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
     user_filter[fval_name].index = -1;
@@ -2770,9 +2775,11 @@ void setEnabledProg() {
     ++index_offset;
     user_filter[fname].sort_num = index_offset;
     ac::filter_map[fname] = ac::filter_map[fval_name];
-    NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
-    [user_filter_name addItemWithObjectValue:sval];
-    [user_filter_name setStringValue:@""];
+    if(use_old == false) {
+        NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
+        [user_filter_name addItemWithObjectValue:sval];
+        [user_filter_name setStringValue:@""];
+    }
     [self loadMenuList];
     [table_view reloadData];
     std::ostringstream stream;
@@ -3779,6 +3786,35 @@ void setEnabledProg() {
 - (NSTextField *)getMemoryText: (id) sender {
     return memory_text;
 }
+
+- (IBAction) filterCollectionComboChanged:(id) sender {
+    ac::col_lock.lock();
+    NSString *text = [user_filter_name stringValue];
+    if ([text length] > 0) {
+        auto pos = user_filter.find([text UTF8String]);
+        if(pos == user_filter.end())
+            return;
+        if([custom_array count] > 0) {
+            [custom_array removeAllObjects];
+            [custom_subfilters removeAllObjects];
+            [filter_on removeAllObjects];
+        }
+        for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
+            std::string &n = pos->second.custom_filter.name[i];
+            std::string &s = pos->second.custom_filter.subname[i];
+            int pos_n = ac::filter_map[n];
+            int pos_s = -1;
+             if(s != "None")
+                pos_s = ac::filter_map[s];
+            [custom_array addObject: [NSNumber numberWithInt:pos_n]];
+            [custom_subfilters addObject: [NSNumber numberWithInt:pos_s]];
+            [filter_on addObject: [NSNumber numberWithInt:1]];
+        }
+        [table_view reloadData];
+    }
+    ac::col_lock.unlock();
+}
+
 
 @end
 

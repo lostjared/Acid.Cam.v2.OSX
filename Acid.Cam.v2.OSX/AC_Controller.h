@@ -372,6 +372,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (NSTextField *)getMemoryText: (id) sender;
 - (void) updateDirPath: (std::string *)s;
 - (NSString *) saveCustomFilter: (NSString *) name;
+- (IBAction) filterCollectionComboChanged:(id) sender;
 @property(retain) GCController *gameController;
 @property(retain) GCGamepad *theController;
 
