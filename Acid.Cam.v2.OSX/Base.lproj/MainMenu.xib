@@ -76,6 +76,8 @@
                 <outlet property="goto_fr" destination="7aN-7U-SI2" id="qdX-ci-snL"/>
                 <outlet property="goto_frame" destination="YSx-FJ-btb" id="PWP-GP-khd"/>
                 <outlet property="green_slider" destination="JcX-uF-t54" id="maa-mg-qAs"/>
+                <outlet property="group_text" destination="lnw-QT-EF5" id="VAh-t2-4ZZ"/>
+                <outlet property="group_window" destination="EhU-BH-Uxh" id="HgT-MY-40E"/>
                 <outlet property="image_combo" destination="Z6j-u7-bfW" id="9Gh-e4-VOI"/>
                 <outlet property="image_select" destination="qqF-Ru-guQ" id="2PJ-c6-NR0"/>
                 <outlet property="image_to_set" destination="h31-Wk-Aq4" id="aTH-eq-7xV"/>
@@ -803,7 +805,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="230"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="230"/>
@@ -2924,6 +2926,39 @@ Gw
                 </subviews>
             </view>
             <point key="canvasLocation" x="-1557" y="-2872"/>
+        </window>
+        <window title="Save Filer Group" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="EhU-BH-Uxh">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
+            <rect key="contentRect" x="1697" y="1565" width="387" height="108"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
+            <view key="contentView" id="OYC-YV-XVS">
+                <rect key="frame" x="0.0" y="0.0" width="387" height="108"/>
+                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" id="lnw-QT-EF5">
+                        <rect key="frame" x="11" y="52" width="280" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Filter_Group_Name" drawsBackground="YES" id="gQW-QP-dRy">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="pUq-tM-OqD">
+                        <rect key="frame" x="293" y="46" width="92" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3IC-I1-WRx">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="saveFilterGroup:" target="630" id="066-Jt-9Ps"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="824.5" y="-273"/>
         </window>
     </objects>
 </document>

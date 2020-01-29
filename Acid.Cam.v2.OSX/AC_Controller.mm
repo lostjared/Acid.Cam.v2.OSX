@@ -2786,6 +2786,20 @@ void setEnabledProg() {
     flushToLog(stream);
 }
 
+- (IBAction) saveFilterGroup:(id) sender {
+    NSString *text = [group_text stringValue];
+    if([text length] > 0) {
+        std::string sname = [text UTF8String];
+        sname += ".acl";
+        if([self userSave:&sname] == YES) {
+            _NSRunAlertPanel(@"Saved ACL file", @"File has been saved", @"Ok", nil, nil);
+        } else {
+            _NSRunAlertPanel(@"Could not save ACL file", @"File has not been saved", @"Ok", nil, nil);
+        }
+    }
+}
+
+
 - (NSString *) saveCustomFilter: (NSString *)fname_ {
     if([custom_array count] == 0) {
         _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
@@ -2901,7 +2915,7 @@ void setEnabledProg() {
     return YES;
 }
 
-- (IBAction) user_Save: (id) sender {
+- (IBAction) user_Save: (id) sender { /*
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setCanCreateDirectories:YES];
     [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"acl", nil]];
@@ -2932,7 +2946,8 @@ void setEnabledProg() {
         std::ostringstream stream;
         stream << "User saved IDs to: " << [fname UTF8String] << "\n";
         flushToLog(stream);
-    }
+    }*/
+    [group_window orderFront:self];
 }
 
 - (IBAction) user_Clear: (id) sender {
