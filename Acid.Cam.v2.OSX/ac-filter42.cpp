@@ -564,3 +564,55 @@ void ac::WarpRandom(cv::Mat &src) {
     }
     AddInvert(src);
 }
+
+void ac::WarpStretch(cv::Mat &src) {
+    static cv::Point2f srcQuad[] = {
+        cv::Point2f(0, 0),
+        cv::Point2f(src.cols-1, 0),
+        cv::Point2f(src.cols-1, src.rows-1),
+        cv::Point2f(0, src.rows-1)
+    };
+    static float pos_x[4] = {0 ,1.0, 1.0,0};
+    static float pos_y[4] = {0, 0, 1.0, 1.0};
+    static bool dir1[4] = {true, false, false, true};
+    static bool dir2[4] = {true, true, false, false};
+    cv::Point2f dstQuad[] = {
+        cv::Point2f(src.cols*pos_x[0], src.rows*pos_y[0]),
+        cv::Point2f(src.cols*pos_x[1], src.rows*pos_y[1]),
+        cv::Point2f(src.cols*pos_x[2], src.rows*pos_y[2]),
+        cv::Point2f(src.cols*pos_x[3], src.rows*pos_y[3])
+    };
+    cv::Mat warp_mat = cv::getPerspectiveTransform(srcQuad, dstQuad);
+    cv::Mat dst;
+    cv::warpPerspective(src, dst, warp_mat, src.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar());
+    for(int i = 0; i < 4; ++i) {
+        cv::circle(dst, dstQuad[i], 5, cv::Scalar(0,0,0), -1, cv::LINE_8);
+    }
+    src = dst.clone();
+    for(int i = 0; i < 4; ++i) {
+        
+        if(pos_x[i] <= 0.1) {
+            dir1[i] = true;
+        } else if(pos_x[i] >= 1) {
+            dir1[i] = false;
+        }
+        if(pos_y[i] <= 0.1) {
+            dir2[i] = true;
+        } else if(pos_y[i] >= 1) {
+            dir2[i] = false;
+        }
+        
+        if(dir1[i] == true) {
+            pos_x[i] += ((0.05 * (1+rand()%10)));
+        } else {
+            pos_x[i] -= ((0.05 * (1+rand()%10)));
+        }
+        
+        if(dir2[i] == true) {
+            pos_y[i] += ((0.05 * (1+rand()%10)));
+        } else {
+            pos_y[i] -= ((0.05 * (1+rand()%10)));
+        }
+    }
+    AddInvert(src);
+}
