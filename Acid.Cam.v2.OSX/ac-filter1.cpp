@@ -244,10 +244,14 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
 }
 
 bool ac::LoadFilterFile(std::string fname, std::string filen) {
+    std::cout << "attempting to load; " << fname << ":" << filen << "\n";
+    static int sort_index = 0;
+    
     ac::FileT typev;
     std::fstream file;
     file.open(filen, std::ios::in);
     if(!file.is_open()) {
+        std::cout << "LoadFilterFile: Error could not load file: " << filen << "\n";
         return false;
     }
     std::vector<std::string> values;
@@ -257,7 +261,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
         if(file)
             values.push_back(item);
     }
-    // check if data valid
+     // check if data valid
     for(int i = 0; i < values.size(); ++i ){
         std::string item = values[i];
         std::string s_left, s_right;
@@ -316,6 +320,23 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
     }
     std::cout << "Loaded file: " << filen << "\n";
     user_filter[fname].custom_filter = typev;
+    int found = -1;
+    for(int i = 0; i < draw_strings.size(); ++i) {
+        if(draw_strings[i] == fname) {
+            found = i;
+            break;
+        }
+    }
+    if(found == -1) {
+        draw_strings.push_back(fname);
+        user_filter[fname].index = static_cast<int>(draw_strings.size()-1);
+        ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
+    } else {
+        user_filter[fname].index = found;
+        ac::filter_map[fname] = found;
+    }
+    user_filter[fname].sort_num = ++sort_index;
+    user_filter[fname].other_name = fname;
     return true;
 }
 
