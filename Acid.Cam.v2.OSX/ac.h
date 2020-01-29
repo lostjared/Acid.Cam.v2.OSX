@@ -211,6 +211,7 @@ namespace ac {
     bool CallFilter(const std::string &name, cv::Mat &frame);
     bool CallFilterFile(cv::Mat &frame, std::string filename);
     bool LoadFilterFile(std::string name, std::string file);
+    void clearFilterFiles();
     bool getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size> &res);
     // Acid Cam Filter Function prototypes
     void SelfAlphaBlend(cv::Mat &frame);

@@ -209,6 +209,23 @@ void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
         std::cerr << "filter: " << name << " not found!\n";
 }
 
+
+
+
+void ac::clearFilterFiles() {
+    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+        int offset = i->second.index;
+        if(!draw_strings.empty()) {
+            auto pos = std::find(draw_strings.begin(), draw_strings.end(), i->first);
+            if(pos != draw_strings.end()) {
+                std::cout << "cleraed offset: " << offset << "\n";
+                draw_strings.erase(pos);
+                user_filter.erase(i);
+            }
+        }
+    }
+}
+
 bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size> &res) {
     static cv::Size size[] = {{320, 240}, {640,480}, {800,600}, {960,720}, {1024,768}, {1280,960}, {1400,1050}, {1440,1080}, {1600,1200}, {1856,1392}, {1920,1440}, {2048,1536}, {1280,800}, {1440,900}, {1680,1050}, {1920,1200}, {2560,1600}, {1024,576}, {1152,648}, {1280,720}, {1366,768}, {1600,900}, {1920,1080}, {2560,1440}, {3840,2160}, {7680,4320}, {0, 0} };
     for(int i = 0; size[i].width != 0; ++i) {

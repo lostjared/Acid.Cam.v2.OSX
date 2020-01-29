@@ -2980,7 +2980,7 @@ void setEnabledProg() {
             _NSRunAlertPanel(@"Could not open file..", [NSString stringWithFormat:@"Could not locate file: %s", fname.c_str()], @"Ok", nil, nil);
             return;
         }
-        [self user_Clear:nil];
+       ac::clearFilterFiles();
         int index_offset = 0;
         while(!file.eof()) {
             std::string file_data;
