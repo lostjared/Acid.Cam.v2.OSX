@@ -3791,7 +3791,6 @@ void setEnabledProg() {
 }
 
 - (IBAction) filterCollectionComboChanged:(id) sender {
-    ac::col_lock.lock();
     NSString *text = [user_filter_name stringValue];
     if ([text length] > 0) {
         auto pos = user_filter.find([text UTF8String]);
@@ -3813,7 +3812,6 @@ void setEnabledProg() {
         }
         [table_view reloadData];
     }
-    ac::col_lock.unlock();
 }
 
 
