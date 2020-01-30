@@ -590,7 +590,6 @@ void ac::WarpStretch(cv::Mat &src) {
     }
     src = dst.clone();
     for(int i = 0; i < 4; ++i) {
-        
         if(pos_x[i] <= 0.1) {
             dir1[i] = true;
         } else if(pos_x[i] >= 1) {
@@ -642,6 +641,36 @@ void ac::RandomLineGlitchSubFilter(cv::Mat &frame) {
                     i += 150;
                 }
             }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VerticalColorOffsetLargeSizeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "VerticalColorOffsetLargeSizeSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    static int offset_y = (rand()%(frame.rows));
+    bool on = true;
+    static int counter = 0;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on == true) {
+                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        ++counter;
+        if((counter%(offset_y+1)==0)) {
+            if(on == false && (rand()%100)==0) {
+                on = !on;
+            } else {
+                on = !on;
+            }
+            offset_y = rand()%(frame.rows);
+            counter = 0;
         }
     }
     AddInvert(frame);
