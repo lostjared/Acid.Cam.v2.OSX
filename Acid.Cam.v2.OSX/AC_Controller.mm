@@ -391,7 +391,7 @@ void setEnabledProg() {
     stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
     std::string name = stream.str();
     [memory_text setStringValue: [NSString stringWithUTF8String:name.c_str()]];
-    [self checkForNewVersion:NO];
+    [self checkForNewVersion:NO useVal:0];
     cycle_chk_val = cycle_chk;
     //std::cout << cv::getBuildInformation() << "\n";
 }
@@ -637,7 +637,10 @@ void setEnabledProg() {
 }
 
 - (IBAction) downloadNewestVersion: (id) sender {
-    [self checkForNewVersion:YES];
+    NSInteger value = [self checkForNewVersion:YES useVal:1];
+    if(value == NO) {
+        NSLog(@"Value is equal to %d\n", (int)value);
+    }
 }
 
 - (IBAction) stopProgram: (id) sender {
@@ -3352,10 +3355,11 @@ void setEnabledProg() {
     }
 }
 
-- (void) checkForNewVersion: (BOOL) showMessage {
+- (NSInteger) checkForNewVersion: (BOOL) showMessage useVal:(int)value {
     NSControlStateValue check = [check_update state];
-    if(check == NSControlStateValueOff)
-        return;
+    if(check == NSControlStateValueOff && value == 0)
+        return NO;
+    __block BOOL return_val;
 #ifdef ENABLE_VERSION_UPDATE
     NSString *download_url = @"https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/README.md";
     NSURL *URL = [NSURL URLWithString:download_url];
@@ -3370,6 +3374,7 @@ void setEnabledProg() {
                     _NSRunAlertPanel(@"No Internet Connection", @"Could Not Connect to the Internet", @"Ok", nil, nil);
                 }
             });
+            return_val = 1;
         }
         else if([value containsString:ver] == NO) {
             std::cout << "Version not up to date...\n";
@@ -3379,16 +3384,19 @@ void setEnabledProg() {
                     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/lostjared/Acid.Cam.v2.OSX/releases"]];
                 }
             });
+            return_val = 2;
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 if(showMessage == YES) {
                     _NSRunAlertPanel(@"Acid Cam is Up to Date", @"No update available", @"Ok", nil, nil);
                 }
             });
+            return_val = 3;
         }
         [value release];
     }];
     [task resume];
+    return return_val;
 #endif
 }
 

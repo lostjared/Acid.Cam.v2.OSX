@@ -165,13 +165,13 @@
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Download Newest Version" id="ycS-cK-PaE">
+                            <menuItem title="Check/Download Newest Version" id="ycS-cK-PaE">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="downloadNewestVersion:" target="630" id="ZeV-G4-vkK"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Check for Update" state="on" id="8Mk-JC-Mpy">
+                            <menuItem title="Check for Update On Startup" state="on" id="8Mk-JC-Mpy">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="checkForUpdate:" target="630" id="eRr-Fq-lo8"/>

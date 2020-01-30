@@ -339,7 +339,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) changeImageSelected: (id) sender;
 - (IBAction) toggleFilterState: (id) sender;
 - (IBAction) changePrefix: (id) sender;
-- (void) checkForNewVersion: (BOOL) showMessage;
+- (NSInteger) checkForNewVersion: (BOOL) showMessage useVal:(int)value;
 - (IBAction) checkboxClose: (id) sender;
 - (IBAction) clearImageList: (id) sender;
 - (IBAction) checkForFFMPEG: (id) sender;
