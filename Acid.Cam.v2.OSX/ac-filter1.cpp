@@ -244,10 +244,17 @@ bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size
 bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
     auto pos = user_filter.find(filtername);
     if(pos != user_filter.end()) {
+        
         for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
             FileT &type = pos->second.custom_filter;
             std::string f = type.name[i];
             std::string s = type.subname[i];
+            int f_id = ac::filter_map[f];
+            int fc_id = ac::filter_map[pos->first];
+            
+            if(f_id == fc_id)
+                continue;
+            
             if(s.length() > 0) {
                 ac::setSubFilter(ac::filter_map[s]);
                 ac::CallFilter(f, frame);
