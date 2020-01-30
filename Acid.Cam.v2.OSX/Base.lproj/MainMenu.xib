@@ -805,7 +805,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="230"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="230"/>
@@ -1878,7 +1878,7 @@ Gw
                     </progressIndicator>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="222" y="-445"/>
+            <point key="canvasLocation" x="615" y="-387"/>
         </window>
         <window title="Search Filters" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Z1m-Pb-5Gb">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
@@ -1906,7 +1906,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="t1A-tL-tG7">
                             <rect key="frame" x="1" y="0.0" width="544" height="365"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="8e0-Lb-s5B" id="5zp-Ok-oBd">
                                     <rect key="frame" x="0.0" y="0.0" width="544" height="342"/>

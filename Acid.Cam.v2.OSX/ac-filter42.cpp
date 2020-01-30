@@ -616,3 +616,33 @@ void ac::WarpStretch(cv::Mat &src) {
     }
     AddInvert(src);
 }
+
+void ac::RandomLineGlitchSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomLineGlitchSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    int max = 100;
+    bool on = false;
+    for(int z = 0;  z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            if(on == false && (rand()%max)==0)
+                on = true;
+            
+            static int index = 0;
+            
+            if(on == true) {
+                pixel = pix;
+                ++index;
+                if(index > 50) {
+                    index = 0;
+                    on = false;
+                    i += 150;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

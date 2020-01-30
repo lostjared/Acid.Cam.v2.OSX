@@ -2134,6 +2134,7 @@ namespace ac {
     void WarpTopLeft(cv::Mat &frame);
     void WarpRandom(cv::Mat &frame);
     void WarpStretch(cv::Mat &frame);
+    void RandomLineGlitchSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
