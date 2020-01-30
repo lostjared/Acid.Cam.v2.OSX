@@ -309,7 +309,7 @@ void setEnabledProg() {
     struct tm *m;
     m = localtime(&t);
     std::ostringstream time_stream;
-    time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At: " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
+    time_stream << "Acid Cam Opened On: " << (m->tm_year + 1900) << "." << std::setw(2) << std::setfill('0') << (m->tm_mon + 1) << "." << std::setw(2) << std::setfill('0') << m->tm_mday << " At: " << std::setw(2) << std::setfill('0') << m->tm_hour << ":" << std::setw(2) << std::setfill('0') << m->tm_min << ":" << std::setw(2) << std::setfill('0') << m->tm_sec <<  "\n";
     flushToLog(time_stream);
     std::ostringstream sout;
     // load from settings
@@ -828,7 +828,7 @@ void setEnabledProg() {
         struct tm *m;
         m = localtime(&t);
         std::ostringstream time_stream;
-        time_stream << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "_";
+        time_stream << "-" << (m->tm_year + 1900) << "." << std::setw(2) << std::setfill('0') << (m->tm_mon + 1) << "." << std::setw(2) << std::setfill('0') << m->tm_mday << "_" << std::setw(2) << std::setfill('0') << m->tm_hour << "." << std::setw(2) << std::setfill('0') << m->tm_min << "." << std::setw(2) << std::setfill('0') << m->tm_sec <<  "_";
         if(popupType == 0)
             fname_stream << time_stream.str();
         else
@@ -1178,7 +1178,7 @@ void setEnabledProg() {
             time_t t = time(0);
             struct tm *m;
             m = localtime(&t);
-            stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec  << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ".png";
+            stream << add_path << "-" << std::left << (m->tm_year + 1900) << "." << std::setw(2) << std::setfill('0') << (m->tm_mon + 1) << "." << std::setw(2) << std::setfill('0') << m->tm_mday << "_" << std::setw(2) << std::setfill('0') << m->tm_hour << "." << std::setw(2) << std::setfill('0') << m->tm_min << "." << std::setw(2) << std::setfill('0') << m->tm_sec  << "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ".png";
             imwrite(stream.str(), frame);
             sout << "Took snapshot: " << stream.str() << "\n";
             ac::snapShot = false;
@@ -1523,7 +1523,7 @@ void setEnabledProg() {
         time_t t = time(0);
         struct tm *m;
         m = localtime(&t);
-        stream << add_path << "-" << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << "_" << m->tm_hour << "." << m->tm_min << "." << m->tm_sec <<  "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ".png";
+        stream << add_path << "-" << (m->tm_year + 1900) << "." << std::setw(2) << std::setfill('0') << (m->tm_mon + 1) << "." << std::setw(2) << std::setfill('0') << m->tm_mday << "_" << std::setw(2) << std::setfill('0') << m->tm_hour << "." << std::setw(2) << std::setfill('0') << m->tm_min << "." << std::setw(2) << std::setfill('0') << m->tm_sec <<  "-" << frame.cols << "x" << frame.rows << ".Acid.Cam.Image." << ac::draw_strings[ac::draw_offset] << "." << (++index) << ".png";
         imwrite(stream.str(), frame);
         sout << "Took snapshot: " << stream.str() << "\n";
         ac::snapShot = false;
@@ -3314,7 +3314,7 @@ void setEnabledProg() {
         struct tm *m;
         m = localtime(&t);
         std::ostringstream time_stream;
-        time_stream << (m->tm_year + 1900) << "." << (m->tm_mon + 1) << "." << m->tm_mday << " At " << m->tm_hour << ":" << m->tm_min << ":" << m->tm_sec <<  "\n";
+        time_stream << (m->tm_year + 1900) << "." << std::setw(2) << std::setfill('0') << (m->tm_mon + 1) << "." << std::setw(2) << std::setfill('0') << m->tm_mday << " At " << std::setw(2) << std::setfill('0') << m->tm_hour << ":" << std::setw(2) << std::setfill('0') << m->tm_min << ":" << std::setw(2) << std::setfill('0') << m->tm_sec <<  "\n";
         file << "Log Output Generated On: " << time_stream.str() << "\n";
         file << [value UTF8String];
         file.close();
