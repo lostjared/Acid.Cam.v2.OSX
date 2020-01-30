@@ -2788,9 +2788,9 @@ void setEnabledProg() {
     NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()]];
     std::string sname;
     sname = fname + ".acl";
-    if([self userSave:&sname] == NO) {
-        return;
-    }
+    //if([self userSave:&sname] == NO) {
+      //  return;
+    //}
     user_filter[fname].filename = [val UTF8String];
     flushToLog(stream);
 }
