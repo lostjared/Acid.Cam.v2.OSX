@@ -675,3 +675,20 @@ void ac::VerticalColorOffsetLargeSizeSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PreviousFrameXor(cv::Mat &frame) {
+    static cv::Mat prev = frame.clone();
+    if(prev.size() != frame.size())
+        prev = frame.clone();
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = prev.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^pix[j];
+            }
+        }
+    }
+    prev = copy1.clone();
+}

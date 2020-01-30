@@ -2136,6 +2136,7 @@ namespace ac {
     void WarpStretch(cv::Mat &frame);
     void RandomLineGlitchSubFilter(cv::Mat &frame);
     void VerticalColorOffsetLargeSizeSubFilter(cv::Mat &frame);
+    void PreviousFrameXor(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
