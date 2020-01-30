@@ -1617,8 +1617,6 @@ void setEnabledProg() {
     int state_val = (int)[on_state integerValue];
     if( [str isEqualTo:@"Filter"] ) {
         std::string name = ac::draw_strings[value];
-        if(user_filter.find(name) != user_filter.end())
-            return [NSString stringWithUTF8String: user_filter[name].other_name.c_str()];
         NSString *s = [NSString stringWithFormat:@"%s", ac::draw_strings[value].c_str()];
         return s;
     }
@@ -1642,10 +1640,7 @@ void setEnabledProg() {
         
         std::string sval;
         sval = ac::draw_strings[rt_val];
-        if(user_filter.find(sval) != user_filter.end())
-            return [NSString stringWithUTF8String: user_filter[sval].other_name.c_str()];
-        else
-            return [NSString stringWithUTF8String: sval.c_str()];
+        return [NSString stringWithUTF8String: sval.c_str()];
     }
     NSString *s = [NSString stringWithFormat: @"%d", (int)[number integerValue]];
     return s;
@@ -2774,10 +2769,10 @@ void setEnabledProg() {
     user_filter[fval_name].index = -1;
     user_filter[fval_name].name = fval_name;
     user_filter[fval_name].other_name = fname;
-    user_filter[fname].index = ac::filter_map[fval_name];
+    user_filter[fname].index = ac::filter_map[fname];
     ++index_offset;
     user_filter[fname].sort_num = index_offset;
-    ac::filter_map[fname] = ac::filter_map[fval_name];
+   // ac::filter_map[fname] = ac::filter_map[fval_name];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     if(uname.find("User_") == std::string::npos) {
         [user_filter_name addItemWithObjectValue:sval];
@@ -2909,7 +2904,7 @@ void setEnabledProg() {
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
         if(i->second.index != -1) {
             std::cout << "loaded menu item: " << i->first << ":" << i->second.sort_num << "\n";
-            items.push_back(UserArgType(i->second.sort_num, i->first.c_str(), i->second.other_name));
+            items.push_back(UserArgType(i->second.sort_num, i->first.c_str(), i->second.name));
         }
     }
     std::sort(items.begin(), items.end());

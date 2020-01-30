@@ -197,7 +197,7 @@ bool ac::CallFilter(const std::string &name, cv::Mat &frame) {
 
 void ac::DrawFilterUnordered(const std::string &name, cv::Mat &frame) {
     if(user_filter.find(name) != user_filter.end()) {
-        std::string fname = user_filter[name].other_name;
+        std::string fname = name;
         if(!ac::CallFilterFile(frame, fname)) {
             std::cerr << "CallFilterFile failed...\n";
         }
@@ -244,17 +244,16 @@ bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size
 bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
     auto pos = user_filter.find(filtername);
     if(pos != user_filter.end()) {
-        
         for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
             FileT &type = pos->second.custom_filter;
             std::string f = type.name[i];
             std::string s = type.subname[i];
-            int f_id = ac::filter_map[f];
-            int fc_id = ac::filter_map[pos->first];
-            
-            if(f_id == fc_id)
-                continue;
-            
+            auto pos1 = ac::filter_map.find(f);
+            auto pos2 = ac::filter_map.find(pos->first);
+            if(pos2 != ac::filter_map.end()) {
+                if(*pos1 == *pos2)
+                    continue;
+            }
             if(s.length() > 0) {
                 ac::setSubFilter(ac::filter_map[s]);
                 ac::CallFilter(f, frame);
@@ -332,6 +331,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
     }
     if(found == -1) {
         draw_strings.push_back(fname);
+        user_filter[fname].name = fname;
         user_filter[fname].index = static_cast<int>(draw_strings.size()-1);
         ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
     } else {
