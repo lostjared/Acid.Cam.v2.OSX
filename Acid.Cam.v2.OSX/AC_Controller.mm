@@ -2693,19 +2693,10 @@ void setEnabledProg() {
         return;
     }
 
-    std::string fval_name =  [s UTF8String];
     std::string fname;
     std::string uname = [s UTF8String];
     fname = "User_";
     fname += [s UTF8String];
-    
-    if(fval_name.find("SubFilter") != std::string::npos) {
-        fname += "_SubFilter";
-    }
-    if(fval_name.find("Image") != std::string::npos) {
-        fname += "_Image";
-    }
-    
     if(uname.find("User_") != std::string::npos) {
         fname = uname;
     }
@@ -2747,9 +2738,8 @@ void setEnabledProg() {
         }
     }
     ac::filter_map[fname] = f;
-    user_filter[fval_name].index = -1;
-    user_filter[fval_name].name = fval_name;
-    user_filter[fval_name].other_name = fname;
+    user_filter[fname].name = fname;
+    user_filter[fname].other_name = fname;
     user_filter[fname].index = ac::filter_map[fname];
     ++index_offset;
     user_filter[fname].sort_num = index_offset;
@@ -2761,7 +2751,7 @@ void setEnabledProg() {
     [self loadMenuList];
     [table_view reloadData];
     std::ostringstream stream;
-    stream << "User set: " << fval_name << " to: " << fname << "\n";
+    stream << "User set: " << fname << " to: " << fname << "\n";
     NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()]];
     std::string sname;
     sname = fname + ".acl";
