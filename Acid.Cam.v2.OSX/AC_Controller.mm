@@ -2716,7 +2716,6 @@ void setEnabledProg() {
             break;
         }
     }
-    
     if(f == -1) {
         _NSRunAlertPanel(@"Error", @"Could not find filter error", @"Ok", nil, nil);
         return;
@@ -2736,6 +2735,10 @@ void setEnabledProg() {
         if(name1 == fname || name2  == fname) {
             _NSRunAlertPanel(@"Error a filter cannot contain itself...", @"Error: Cannot contain itself.", @"Ok", nil, nil);
             return;
+        } else {
+            if(ac::checkFilter(fname) == false) {
+                _NSRunAlertPanel(@"Error a filter cannot contain itself...", @"Error: Cannot contain itself.", @"Ok", nil, nil);
+            }
         }
     }
     ac::filter_map[fname] = f;
@@ -2915,6 +2918,7 @@ void setEnabledProg() {
     std::string fname_path = path;
     fname_path = fname_path.substr(0, fname_path.find(":"));
     fpath << directory_path << "/" << fname_path;
+
     if(ac::LoadFilterFile(fname_path, fpath.str())) {
         NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
         [user_filter_name addItemWithObjectValue:sval];
@@ -2959,9 +2963,7 @@ void setEnabledProg() {
 - (void) loadMenuList {
     if(user_menu != nil)
         [user_menu release];
-    
-    NSInteger index_value = [categories_custom indexOfSelectedItem];
-    NSInteger index_value_ex = [categories indexOfSelectedItem];
+
     user_menu = [[NSMenu alloc] init];
     std::vector<UserArgType> items;
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
@@ -2975,10 +2977,6 @@ void setEnabledProg() {
         [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->name.c_str()] action:nil keyEquivalent:@""];
     }
     [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
-    if((index_value == 14 || index_value_ex == 14) && [user_menu numberOfItems] > 0) {
-        [current_filter_custom setMenu: user_menu];
-        [current_filter setMenu: user_menu];
-    }
 }
 
 - (IBAction) jumpToCustom: (id) sender {
@@ -3626,6 +3624,9 @@ void setEnabledProg() {
 }
 
 - (IBAction) pollJoystick: (id) sender {
+    if(theController != nil) {
+        std::cout << theController.dpad.xAxis.value;
+    }
 }
 
 - (IBAction) initControllers:(id)sender {

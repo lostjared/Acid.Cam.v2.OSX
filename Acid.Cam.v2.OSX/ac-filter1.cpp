@@ -265,6 +265,21 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
     return true;
 }
 
+bool ac::checkFilter(std::string name) {
+    auto pos = user_filter.find(name);
+    if(pos == user_filter.end())
+        return true;
+    FileT &ft = pos->second.custom_filter;
+    for(int i = 0; i < ft.name.size(); i++) {
+        std::cout << ft.name[i] << ":" << name << "\n";
+        if(ft.name[i] == name) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 bool ac::LoadFilterFile(std::string fname, std::string filen) {
     std::cout << "attempting to load: " << fname << ":" << filen << "\n";
     static int sort_index = 0;

@@ -129,6 +129,8 @@ namespace ac {
         UserFilter(): index(0), subfilter(-1) {}
     };
     
+    bool checkFilter(std::string name);
+    
     // get version string
     extern std::string getVersion();
     extern int getFilterCount();
