@@ -533,61 +533,63 @@ void setEnabledProg() {
     }
     
     //NSMenuItem *item = [menu_items[index] itemAtIndex:current];
-    NSMenuItem *item = [current_filter itemAtIndex:current];
-    NSString *title = [item title];
-    if([fade_filter state] == NSControlStateValueOff) {
-        ac::draw_offset = ac::filter_map[[title UTF8String]];
-    } else {
-        current_fade = ac::draw_offset;
-        current_fade_alpha = 1.0;
-        ac::draw_offset = ac::filter_map[[title UTF8String]];
-    }
-    std::ostringstream strout;
-    strout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
-    flushToLog(strout);
-    if(ac::draw_strings[ac::draw_offset] == "Custom") {
-        [negate_checked setIntegerValue: NSControlStateValueOff];
-        [custom_window orderFront:self];
-        [filter_search_window orderFront: self];
-    }
-    if(ac::draw_strings[ac::draw_offset] == "ParticleRelease" || ac::draw_strings[ac::draw_offset] == "ParticleBlend" || ac::draw_strings[ac::draw_offset] == "ParticleFlash" || ac::draw_strings[ac::draw_offset] == "ParticleAlpha") {
-        emiter.reset();
-        strout.str("");
-        strout << "ParticleRelease Variables Reset\n";
-    }
-    
-    if(ac::draw_strings[ac::draw_offset] == "ColorRange") {
-        ac::colors[0] = rand()%255;
-        ac::colors[1] = rand()%255;
-        ac::colors[2] = rand()%255;
-        strout.str("");
-        strout << "ColorRange random pixels set to: " << ac::colors[0] << "," << ac::colors[1] << "," << ac::colors[2] << "\n";
+    if(current >= 0 && current < [current_filter numberOfItems]) {
+        NSMenuItem *item = [current_filter itemAtIndex:current];
+        NSString *title = [item title];
+        if([fade_filter state] == NSControlStateValueOff) {
+            ac::draw_offset = ac::filter_map[[title UTF8String]];
+        } else {
+            current_fade = ac::draw_offset;
+            current_fade_alpha = 1.0;
+            ac::draw_offset = ac::filter_map[[title UTF8String]];
+        }
+        std::ostringstream strout;
+        strout << "Filter set to: " << ac::draw_strings[ac::draw_offset] << "\n";
         flushToLog(strout);
-    }
-    
-    if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
-        [alpha_window orderFront:self];
-    }
-    if(ac::draw_strings[ac::draw_offset] == "Plugin") {
-        [plugin_window orderFront:self];
-    }
-    
-    std::string filter_value = ac::draw_strings[ac::draw_offset];
-    if(filter_value.find("Video") != std::string::npos) {
-        [image_select orderFront:self];
-        strout.str("");
-        strout << "Select Secondary Video File...\n";
-        flushToLog(strout);
-    } else if(filter_value.find("Image") != std::string::npos) {
-        [image_select orderFront: self];
-        strout.str("");
-        strout << "Image filter select use Select image window to set image...\n";
-        flushToLog(strout);
-    } else if(filter_value.find("SubFilter") != std::string::npos) {
-        strout.str("");
-        strout << "Filters that require SubFilter should be used in the Custom Filter Mode.\n";
-        [custom_window orderFront:self];
-        flushToLog(strout);
+        if(ac::draw_strings[ac::draw_offset] == "Custom") {
+            [negate_checked setIntegerValue: NSControlStateValueOff];
+            [custom_window orderFront:self];
+            [filter_search_window orderFront: self];
+        }
+        if(ac::draw_strings[ac::draw_offset] == "ParticleRelease" || ac::draw_strings[ac::draw_offset] == "ParticleBlend" || ac::draw_strings[ac::draw_offset] == "ParticleFlash" || ac::draw_strings[ac::draw_offset] == "ParticleAlpha") {
+            emiter.reset();
+            strout.str("");
+            strout << "ParticleRelease Variables Reset\n";
+        }
+        
+        if(ac::draw_strings[ac::draw_offset] == "ColorRange") {
+            ac::colors[0] = rand()%255;
+            ac::colors[1] = rand()%255;
+            ac::colors[2] = rand()%255;
+            strout.str("");
+            strout << "ColorRange random pixels set to: " << ac::colors[0] << "," << ac::colors[1] << "," << ac::colors[2] << "\n";
+            flushToLog(strout);
+        }
+        
+        if(ac::draw_strings[ac::draw_offset] == "Alpha Flame Filters") {
+            [alpha_window orderFront:self];
+        }
+        if(ac::draw_strings[ac::draw_offset] == "Plugin") {
+            [plugin_window orderFront:self];
+        }
+        
+        std::string filter_value = ac::draw_strings[ac::draw_offset];
+        if(filter_value.find("Video") != std::string::npos) {
+            [image_select orderFront:self];
+            strout.str("");
+            strout << "Select Secondary Video File...\n";
+            flushToLog(strout);
+        } else if(filter_value.find("Image") != std::string::npos) {
+            [image_select orderFront: self];
+            strout.str("");
+            strout << "Image filter select use Select image window to set image...\n";
+            flushToLog(strout);
+        } else if(filter_value.find("SubFilter") != std::string::npos) {
+            strout.str("");
+            strout << "Filters that require SubFilter should be used in the Custom Filter Mode.\n";
+            [custom_window orderFront:self];
+            flushToLog(strout);
+        }
     }
     ac::reset_filter = true;
 }
@@ -2043,53 +2045,54 @@ void setEnabledProg() {
     std::ostringstream strout;
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     NSInteger cate = [categories_custom indexOfSelectedItem];
-    NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
-    NSString *title = [item title];
-    std::string file_str = [title UTF8String];
-    
-    if(file_str == "ParticleRelease" || file_str == "ParticleBlend" || file_str == "ParticleFlash" || file_str == "ParticleAlpha") {
-        emiter.reset();
-        strout.str("");
-        strout << "ParticleRelease Variables Reset\n";
-    }
-    if(file_str == "Alpha Flame Filters") {
-        [alpha_window orderFront:self];
-    }
-    if(file_str == "Plugin") {
-        [plugin_window orderFront:self];
-    }
-    if(file_str == "ColorRange") {
-        ac::colors[0] = rand()%255;
-        ac::colors[1] = rand()%255;
-        ac::colors[2] = rand()%255;
-        strout.str("");
-        strout << "ColorRange random pixels set to: " << ac::colors[0] << "," << ac::colors[1] << "," << ac::colors[2] << "\n";
-        flushToLog(strout);
-    }
-    std::string filter_value = file_str;
-    if(filter_value.find("Video") != std::string::npos) {
-        [image_select orderFront:self];
-        strout.str("");
-        strout << "Select Secondary Video File...\n";
-        flushToLog(strout);
-    }
-    if(filter_value.find("Image") != std::string::npos) {
-        [image_select orderFront: self];
-        strout.str("");
-        strout << "Image filter select use Select image window to set image...\n";
-        flushToLog(strout);
-    }
-    if(filter_value.find("SubFilter") != std::string::npos) {
-        strout.str("");
-        strout << "To use this filter, set a subfilter in Custom Window...\n";
-        flushToLog(strout);
-    }
-    if([chk_preview integerValue] == 1 && !test_image.empty()) {
-        cv::Mat copy1 = test_image.clone();
-        if(ac::filter_map_str.find(file_str) != ac::filter_map_str.end()) {
-            ac::CallFilter(file_str, copy1);
-            cv::namedWindow("Preview_Window", cv::WINDOW_NORMAL);
-            if(copy1.size().width > 0 && copy1.size().height > 0) cv::imshow("Preview_Window", copy1);
+    if(index >= 0 && index < [menu_items_custom[cate] numberOfItems]) {
+        NSMenuItem *item = [menu_items_custom[cate] itemAtIndex: index];
+        NSString *title = [item title];
+        std::string file_str = [title UTF8String];
+        if(file_str == "ParticleRelease" || file_str == "ParticleBlend" || file_str == "ParticleFlash" || file_str == "ParticleAlpha") {
+            emiter.reset();
+            strout.str("");
+            strout << "ParticleRelease Variables Reset\n";
+        }
+        if(file_str == "Alpha Flame Filters") {
+            [alpha_window orderFront:self];
+        }
+        if(file_str == "Plugin") {
+            [plugin_window orderFront:self];
+        }
+        if(file_str == "ColorRange") {
+            ac::colors[0] = rand()%255;
+            ac::colors[1] = rand()%255;
+            ac::colors[2] = rand()%255;
+            strout.str("");
+            strout << "ColorRange random pixels set to: " << ac::colors[0] << "," << ac::colors[1] << "," << ac::colors[2] << "\n";
+            flushToLog(strout);
+        }
+        std::string filter_value = file_str;
+        if(filter_value.find("Video") != std::string::npos) {
+            [image_select orderFront:self];
+            strout.str("");
+            strout << "Select Secondary Video File...\n";
+            flushToLog(strout);
+        }
+        if(filter_value.find("Image") != std::string::npos) {
+            [image_select orderFront: self];
+            strout.str("");
+            strout << "Image filter select use Select image window to set image...\n";
+            flushToLog(strout);
+        }
+        if(filter_value.find("SubFilter") != std::string::npos) {
+            strout.str("");
+            strout << "To use this filter, set a subfilter in Custom Window...\n";
+            flushToLog(strout);
+        }
+        if([chk_preview integerValue] == 1 && !test_image.empty()) {
+            cv::Mat copy1 = test_image.clone();
+            if(ac::filter_map_str.find(file_str) != ac::filter_map_str.end()) {
+                ac::CallFilter(file_str, copy1);
+                cv::namedWindow("Preview_Window", cv::WINDOW_NORMAL);
+                if(copy1.size().width > 0 && copy1.size().height > 0) cv::imshow("Preview_Window", copy1);
+            }
         }
     }
 }
@@ -2346,38 +2349,40 @@ void setEnabledProg() {
 
 - (IBAction) setSubFilter:(id) sender {
     NSInteger index = [current_filter_custom indexOfSelectedItem];
-    NSMenuItem *m = [current_filter_custom itemAtIndex:index];
-    NSString *s = [m title];
-    std::string sub_chk = [s UTF8String];
-    NSInteger rowIndex = [table_view selectedRow];
-    if(rowIndex != -1) {
-        NSNumber *num = [custom_array objectAtIndex:rowIndex];
-        int val = static_cast<int>([num integerValue]);
-        std::ostringstream stream;
-        std::string sub_chk1= ac::draw_strings[val];
-        if(sub_chk.find("SubFilter") != std::string::npos) {
+    if(index >= 0 && index < [current_filter_custom numberOfItems]) {
+        NSMenuItem *m = [current_filter_custom itemAtIndex:index];
+        NSString *s = [m title];
+        std::string sub_chk = [s UTF8String];
+        NSInteger rowIndex = [table_view selectedRow];
+        if(rowIndex != -1) {
+            NSNumber *num = [custom_array objectAtIndex:rowIndex];
+            int val = static_cast<int>([num integerValue]);
             std::ostringstream stream;
-            stream << "Filter: " << sub_chk << " cannot be set to another function that requires SubFilter\n";
+            std::string sub_chk1= ac::draw_strings[val];
+            if(sub_chk.find("SubFilter") != std::string::npos) {
+                std::ostringstream stream;
+                stream << "Filter: " << sub_chk << " cannot be set to another function that requires SubFilter\n";
+                flushToLog(stream);
+                return;
+            } else if(sub_chk1.find("SubFilter") == std::string::npos) {
+                stream << "Filter: " << sub_chk1 << " must be a SubFilter to set one.\n";
+                flushToLog(stream);
+                return;
+            }
+            stream << "Filter " << ac::draw_strings[ac::filter_map[[s UTF8String]]] << " set as SubFilter for " << ac::draw_strings[val] << "\n";
+            if(val != -1) {
+                int filter_pos = ac::filter_map[[s UTF8String]];
+                NSNumber *fval = [NSNumber numberWithInt:filter_pos];
+                [custom_subfilters setObject:fval atIndexedSubscript: rowIndex];
+                flushToLog(stream);
+            }
+            [table_view reloadData];
+        } else {
+            std::ostringstream stream;
+            stream << "Please select row in Table that supports SubFilter to set the SubFilter\n";
             flushToLog(stream);
-            return;
-        } else if(sub_chk1.find("SubFilter") == std::string::npos) {
-            stream << "Filter: " << sub_chk1 << " must be a SubFilter to set one.\n";
-            flushToLog(stream);
-            return;
+            _NSRunAlertPanel(@"Select Item", @"Please select a filter in the list to assign SubFilter.", @"Ok", nil, nil);
         }
-        stream << "Filter " << ac::draw_strings[ac::filter_map[[s UTF8String]]] << " set as SubFilter for " << ac::draw_strings[val] << "\n";
-        if(val != -1) {
-            int filter_pos = ac::filter_map[[s UTF8String]];
-            NSNumber *fval = [NSNumber numberWithInt:filter_pos];
-            [custom_subfilters setObject:fval atIndexedSubscript: rowIndex];
-            flushToLog(stream);
-        }
-        [table_view reloadData];
-    } else {
-        std::ostringstream stream;
-        stream << "Please select row in Table that supports SubFilter to set the SubFilter\n";
-        flushToLog(stream);
-        _NSRunAlertPanel(@"Select Item", @"Please select a filter in the list to assign SubFilter.", @"Ok", nil, nil);
     }
 }
 
@@ -2687,8 +2692,8 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Requires at lesat one filter!", @"None Selected", @"Ok", nil, nil);
         return;
     }
-    NSMenuItem *item = [current_filter_custom itemAtIndex: index];
-    std::string fval_name = [[item title] UTF8String];
+
+    std::string fval_name =  [s UTF8String];
     std::string fname;
     std::string uname = [s UTF8String];
     fname = "User_";
