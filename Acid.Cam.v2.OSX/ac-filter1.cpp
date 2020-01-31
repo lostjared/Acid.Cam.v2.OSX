@@ -272,7 +272,7 @@ bool ac::checkFilter(std::string name) {
     FileT &ft = pos->second.custom_filter;
     for(int i = 0; i < ft.name.size(); i++) {
         std::cout << ft.name[i] << ":" << name << "\n";
-        if(ft.name[i] == name) {
+        if(ft.name[i] == name || (ft.name[i].find("User_") != std::string::npos && checkFilter(ft.name[i]) == false)) {
             return false;
         }
     }
