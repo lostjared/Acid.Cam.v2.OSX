@@ -2704,8 +2704,25 @@ void setEnabledProg() {
     if(uname.find("User_") != std::string::npos) {
         fname = uname;
     }
-    ac::draw_strings.push_back(fname);
-    ac::filter_map[fname] = static_cast<int>(ac::draw_strings.size()-1);
+
+    auto pos = std::find(ac::draw_strings.begin(), ac::draw_strings.end(), fname);
+    if(pos == ac::draw_strings.end())
+        ac::draw_strings.push_back(fname);
+    
+    int f = -1;
+    for(int p = 0; p < ac::draw_strings.size(); ++p) {
+        if(ac::draw_strings[p] == fname) {
+            f = p;
+            break;
+        }
+    }
+    
+    if(f == -1) {
+        _NSRunAlertPanel(@"Error", @"Could not find filter error", @"Ok", nil, nil);
+        return;
+    }
+    
+    ac::filter_map[fname] = f;
     user_filter[fval_name].index = -1;
     user_filter[fval_name].name = fval_name;
     user_filter[fval_name].other_name = fname;
