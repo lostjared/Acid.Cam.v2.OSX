@@ -2721,7 +2721,6 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Error", @"Could not find filter error", @"Ok", nil, nil);
         return;
     }
-    
     // check make sure value does not contain itself
     for(int i = 0; i < [custom_array count]; ++i) {
         NSNumber *nval = [custom_array objectAtIndex:i];
@@ -2739,7 +2738,6 @@ void setEnabledProg() {
             return;
         }
     }
-    
     ac::filter_map[fname] = f;
     user_filter[fval_name].index = -1;
     user_filter[fval_name].name = fval_name;
@@ -2917,7 +2915,6 @@ void setEnabledProg() {
     std::string fname_path = path;
     fname_path = fname_path.substr(0, fname_path.find(":"));
     fpath << directory_path << "/" << fname_path;
-    std::cout << fpath.str() << "\n";
     if(ac::LoadFilterFile(fname_path, fpath.str())) {
         NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
         [user_filter_name addItemWithObjectValue:sval];
@@ -3629,9 +3626,6 @@ void setEnabledProg() {
 }
 
 - (IBAction) pollJoystick: (id) sender {
-    if(theController != nil) {
-        std::cout << theController.dpad.xAxis.value;
-    }
 }
 
 - (IBAction) initControllers:(id)sender {
