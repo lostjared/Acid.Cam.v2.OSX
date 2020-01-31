@@ -2735,23 +2735,8 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Requires at lesat one filter!", @"None Selected", @"Ok", nil, nil);
         return;
     }
-    
-   /* std::string ftext = [s UTF8String];
-    auto fp = user_filter.find(ftext);
-    if(ftext.find("User_") != std::string::npos && fp != user_filter.end()) {
-        _NSRunAlertPanel(@"You already set this value", @"You use this value already", @"Ok", nil, nil);
-        return;
-    }*/
-    
     NSMenuItem *item = [current_filter_custom itemAtIndex: index];
     std::string fval_name = [[item title] UTF8String];
-    /*
-    if(fval_name.find("User_") != std::string::npos) {
-        _NSRunAlertPanel(@"You cannot set a custom name already user defined.",@"Cannot define value",@"Ok", nil, nil);
-        return;
-    }
-    */
-    
     std::string fname;
     std::string uname = [s UTF8String];
     fname = "User_";
@@ -2775,7 +2760,6 @@ void setEnabledProg() {
     user_filter[fname].index = ac::filter_map[fname];
     ++index_offset;
     user_filter[fname].sort_num = index_offset;
-   // ac::filter_map[fname] = ac::filter_map[fval_name];
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     if(uname.find("User_") == std::string::npos) {
         [user_filter_name addItemWithObjectValue:sval];
@@ -2788,9 +2772,6 @@ void setEnabledProg() {
     NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()]];
     std::string sname;
     sname = fname + ".acl";
-    //if([self userSave:&sname] == NO) {
-      //  return;
-    //}
     user_filter[fname].filename = [val UTF8String];
     flushToLog(stream);
 }
@@ -2924,38 +2905,7 @@ void setEnabledProg() {
     return YES;
 }
 
-- (IBAction) user_Save: (id) sender { /*
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setCanCreateDirectories:YES];
-    [panel setAllowedFileTypes: [NSArray arrayWithObjects: @"acl", nil]];
-    if([panel runModal]) {
-        NSString *fname = [[panel URL] path];
-        std::string textname = [fname UTF8String];
-        std::fstream file;
-        file.open(textname, std::ios::out);
-        if(!file.is_open()) {
-            _NSRunAlertPanel(@"Error could not save file. Do you have access rights?", @"Cannot save file", @"Ok", nil, nil);
-            return;
-        }
-        std::vector<UserArgType> items;
-        for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
-            if(i->second.index != -1) {
-                std::cout << "loaded menu item: " << i->first << ":" << i->second.sort_num << "\n";
-                items.push_back(UserArgType(i->second.sort_num, i->first.c_str(), i->second.other_name));
-            }
-        }
-        std::sort(items.begin(), items.end());
-        for(auto i = items.begin(); i != items.end(); ++i) {
-            std::string other = "UserDefined";
-            if(i->other.length() > 0)
-                other = i->other;
-            file << i->name << ":" << i->index << ":" << other << "\n";
-        }
-        file.close();
-        std::ostringstream stream;
-        stream << "User saved IDs to: " << [fname UTF8String] << "\n";
-        flushToLog(stream);
-    }*/
+- (IBAction) user_Save: (id) sender {
     [group_window orderFront:self];
 }
 
