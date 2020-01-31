@@ -2972,6 +2972,12 @@ void setEnabledProg() {
         [user_menu addItemWithTitle: [NSString stringWithUTF8String:i->name.c_str()] action:nil keyEquivalent:@""];
     }
     [user_menu addItemWithTitle: [NSString stringWithUTF8String:"No Filter"] action:nil keyEquivalent:@""];
+    NSInteger index_value = [categories_custom indexOfSelectedItem];
+    NSInteger index_value_ex = [categories indexOfSelectedItem];
+    if((index_value == 14 || index_value_ex == 14) && [user_menu numberOfItems] > 0) {
+        [current_filter_custom setMenu: user_menu];
+        [current_filter setMenu: user_menu];
+    }
 }
 
 - (IBAction) jumpToCustom: (id) sender {
@@ -3619,9 +3625,6 @@ void setEnabledProg() {
 }
 
 - (IBAction) pollJoystick: (id) sender {
-    if(theController != nil) {
-        std::cout << theController.dpad.xAxis.value;
-    }
 }
 
 - (IBAction) initControllers:(id)sender {
