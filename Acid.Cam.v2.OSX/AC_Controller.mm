@@ -342,50 +342,6 @@ void setEnabledProg() {
     } else {
         [check_update setState: NSControlStateValueOn];
     }
-    /*
-     std::vector<std::string> valz;
-     token::tokenize<std::string>(values, ",", valz);
-     
-     std::cout << "std::pair<std::string,DrawFunction> filters[] = {\n";
-     for(int i = 0; i < ac::draw_max; ++i) {
-     std::cout << "{\"" << ac::draw_strings[i] << "\"," << valz[i] << "}, ";
-     }
-     std::cout << "\n};\n";
-     
-     for(unsigned int i = 0; i < ac::draw_max; ++i) {
-     std::string s = ac::draw_strings[i];
-     if(s.find("Blend") != std::string::npos) {
-     std::cout << "\"" << s << "\", ";
-     }
-     }
-     } */
-    /*
-     std::cout << "std::string mirror_array[] = {";
-     for(auto i = ac::solo_filter.begin(); i != ac::solo_filter.end(); ++i) {
-     auto pos = i->find("Mirror");
-     if(pos != std::string::npos) {
-     std::cout << "\"" << *i << "\", ";
-     }
-     }
-     std::cout << "\n};\n";
-     */
-    /*
-     for(int i = 0; i < ac::draw_max; ++i) {
-     std::string s;
-     s = ac::draw_strings[i];
-     if(s.find("Strobe") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos)
-     std::cout << "\"" << s << "\", ";
-     }*/
-    
-    /*
-     for(int i = 0; i < ac::draw_max-4; ++i) {
-     std::string s = ac::draw_strings[i];
-     if(s.find("Intertwine") != std::string::npos && s.find("SubFilter") == std::string::npos && s.find("Image") == std::string::npos) {
-     std::cout << "\"" << ac::draw_strings[i] << "\", ";
-     }
-     }
-     std::cout << "\n"; */
-    
     unsigned long mem = ac::calculateMemory();
     std::ostringstream stream;
     stream << "Frame Memory Allocated: " << ((mem > 0) ? (mem/1024/1024) : 0) << " MB - " << "Filters Initalized: " << ac::all_objects.size() << " - Frames Allocated: " << ac::getCurrentAllocatedFrames() << "\n";
@@ -1922,7 +1878,6 @@ void setEnabledProg() {
     if([image_combo indexOfSelectedItem] >= 0) {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
         NSInteger index = [image_to_set indexOfSelectedItem];
-        
         if(index == 0) {
             blend_image = cv::imread([current UTF8String]);
             if(blend_image.empty()) {
@@ -2169,9 +2124,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) clearBlend: (id) sender {
-    
     std::ostringstream stream;
-    
     switch([image_to_set indexOfSelectedItem]) {
         case 0:
             blend_set = false;
@@ -2282,7 +2235,6 @@ void setEnabledProg() {
     int values_high[] = { color_high[0], color_high[1], color_high[2] };
     log << "ColorKey Low BGR Values Set: " << values_low[0] << "," << values_low[1] << "," << values_low[2] << "\n";
     log << "ColorKey High BGR Values Set: " << values_high[0] << "," << values_high[1] << "," << values_high[2] << "\n";
-    
     NSInteger szPtr = [sy_size indexOfSelectedItem];
     NSSize sz;
     switch(szPtr) {
