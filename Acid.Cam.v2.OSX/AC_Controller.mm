@@ -350,6 +350,9 @@ void setEnabledProg() {
     [self checkForNewVersion:NO useVal:0];
     cycle_chk_val = cycle_chk;
     //std::cout << cv::getBuildInformation() << "\n";
+    for(int i = 0; i < ac::draw_strings.size(); ++i) {
+        std::cout << "v.push_back(\"" << ac::draw_strings[i] << "\");\n";
+    }
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {

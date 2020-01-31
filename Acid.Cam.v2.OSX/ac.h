@@ -135,6 +135,7 @@ namespace ac {
     extern std::string getVersion();
     extern int getFilterCount();
     extern int getFilterByName(const std::string &n);
+    extern std::vector<std::string> buildDrawStrings();
     
     // mutex for threads
     extern std::mutex col_lock;

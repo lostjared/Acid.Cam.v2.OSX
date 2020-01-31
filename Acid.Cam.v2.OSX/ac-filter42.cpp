@@ -374,11 +374,11 @@ void ac::ColorKeySetOffSubFilter(cv::Mat &frame) {
 void ac::Warp(cv::Mat &src) {
     static cv::Point2f srcQuad[] = {
         cv::Point2f(0, 0),
-        cv::Point2f(src.cols-1, 0),
-        cv::Point2f(src.cols-1, src.rows-1),
-        cv::Point2f(0, src.rows-1)
+        cv::Point2f(float(src.cols-1), 0),
+        cv::Point2f(float(src.cols-1), float(src.rows-1)),
+        cv::Point2f(0, float(src.rows-1))
     };
-    static float pos_x[4] = {0.1,0.9, 0.8, 0.2};
+    static float pos_x[4] = {0.1f,0.9f, 0.8f, 0.2f};
     static float pos_y[4] = {0.1f, 0.25f, 0.9f, 0.7f};
     static bool dir1[4] = {1, 0, 1, 0};
     static bool dir2[4] = {1, 0, 1, 0};
@@ -417,9 +417,9 @@ void ac::Warp(cv::Mat &src) {
 void ac::WarpDir(cv::Mat &src) {
     static cv::Point2f srcQuad[] = {
         cv::Point2f(0, 0),
-        cv::Point2f(src.cols-1, 0),
-        cv::Point2f(src.cols-1, src.rows-1),
-        cv::Point2f(0, src.rows-1)
+        cv::Point2f(float(src.cols-1), 0),
+        cv::Point2f(float(src.cols-1), float(src.rows-1)),
+        cv::Point2f(0, float(src.rows-1))
     };
     static float pos_x[4] = {1.0,1.0, 1.0, 1.0};
     static float pos_y[4] = {1.0, 1.0, 1.0, 1.0};
@@ -460,9 +460,9 @@ void ac::WarpDir(cv::Mat &src) {
 void ac::WarpTopLeft(cv::Mat &src) {
     static cv::Point2f srcQuad[] = {
         cv::Point2f(0, 0),
-        cv::Point2f(src.cols-1, 0),
-        cv::Point2f(src.cols-1, src.rows-1),
-        cv::Point2f(0, src.rows-1)
+        cv::Point2f(float(src.cols-1), 0),
+        cv::Point2f(float(src.cols-1), float(src.rows-1)),
+        cv::Point2f(0, float(src.rows-1))
     };
     static float speed = 0.001f;
     static float pos_x[4] = {0.1f,0.2f, 0.4f, 0.1f};
@@ -488,9 +488,9 @@ void ac::WarpTopLeft(cv::Mat &src) {
             dir1[i] = true;
         }
         if(dir1[i] == true)
-            pos_x[i] += (1+(rand()%5) * 0.001);
+            pos_x[i] += float((1+(rand()%5) * 0.001));
         else
-            pos_x[i] -=  (1+(rand()%5) * 0.001);
+            pos_x[i] -=  float((1+(rand()%5) * 0.001));
         
         if(pos_y[i] >= 1) {
             dir2[i] = false;
@@ -501,10 +501,10 @@ void ac::WarpTopLeft(cv::Mat &src) {
             pos_y[i] += (1+(rand()%5) * speed);
         else
             pos_y[i] -=  (1+(rand()%5) * speed);
-
+        
     }
-    speed += 0.01;
-    if(speed > 0.01)
+    speed += 0.01f;
+    if(speed > 0.01f)
         speed = 0.001f;
     
     src = dst.clone();
@@ -512,19 +512,19 @@ void ac::WarpTopLeft(cv::Mat &src) {
 }
 
 
-void ac::User(cv::Mat &frame) {
+void ac::User(cv::Mat &) {
     
 }
 
 void ac::WarpRandom(cv::Mat &src) {
     static cv::Point2f srcQuad[] = {
         cv::Point2f(0, 0),
-        cv::Point2f(src.cols-1, 0),
-        cv::Point2f(src.cols-1, src.rows-1),
-        cv::Point2f(0, src.rows-1)
+        cv::Point2f(float(src.cols-1), 0),
+        cv::Point2f(float(src.cols-1), float(src.rows-1)),
+        cv::Point2f(0, float(src.rows-1))
     };
-    static float pos_x[4] = {0.1,1.0, 1.0,0.1};
-    static float pos_y[4] = {0, 0, 1.0, 1.0};
+    static float pos_x[4] = {0.1f,1.0f, 1.0f,0.1f};
+    static float pos_y[4] = {0, 0, 1.0f, 1.0f};
     static bool dir1[4] = {true, false, false, true};
     static bool dir2[4] = {true, true, false, false};
     cv::Point2f dstQuad[] = {
@@ -552,14 +552,14 @@ void ac::WarpRandom(cv::Mat &src) {
             dir2[i] = false;
         }
         if(dir1[i] == true) {
-            pos_x[i] += (1+rand()%10) * (0.001);
+            pos_x[i] += float((1+rand()%10) * (0.001));
         } else {
-            pos_x[i] -= (1+rand()%10) * (0.001);
+            pos_x[i] -= float((1+rand()%10) * (0.001));
         }
         if(dir2[i] == true) {
-            pos_y[i] += (1+rand()%10) * (0.001);
+            pos_y[i] += float((1+rand()%10) * (0.001));
         } else {
-            pos_y[i] -= (1+rand()%10) * (0.001);
+            pos_y[i] -= float((1+rand()%10) * (0.001));
         }
     }
     AddInvert(src);
@@ -568,12 +568,12 @@ void ac::WarpRandom(cv::Mat &src) {
 void ac::WarpStretch(cv::Mat &src) {
     static cv::Point2f srcQuad[] = {
         cv::Point2f(0, 0),
-        cv::Point2f(src.cols-1, 0),
-        cv::Point2f(src.cols-1, src.rows-1),
-        cv::Point2f(0, src.rows-1)
+        cv::Point2f(float(src.cols-1), 0),
+        cv::Point2f(float(src.cols-1), float(src.rows-1)),
+        cv::Point2f(0, float(src.rows-1))
     };
-    static float pos_x[4] = {0 ,1.0, 1.0,0};
-    static float pos_y[4] = {0, 0, 1.0, 1.0};
+    static float pos_x[4] = {0 ,1.0f, 1.0f,0};
+    static float pos_y[4] = {0, 0, 1.0f, 1.0f};
     static bool dir1[4] = {true, false, false, true};
     static bool dir2[4] = {true, true, false, false};
     cv::Point2f dstQuad[] = {
@@ -602,15 +602,15 @@ void ac::WarpStretch(cv::Mat &src) {
         }
         
         if(dir1[i] == true) {
-            pos_x[i] += ((0.05 * (1+rand()%10)));
+            pos_x[i] += float(((0.05 * (1+rand()%10))));
         } else {
-            pos_x[i] -= ((0.05 * (1+rand()%10)));
+            pos_x[i] -= float(((0.05 * (1+rand()%10))));
         }
         
         if(dir2[i] == true) {
-            pos_y[i] += ((0.05 * (1+rand()%10)));
+            pos_y[i] += float(((0.05 * (1+rand()%10))));
         } else {
-            pos_y[i] -= ((0.05 * (1+rand()%10)));
+            pos_y[i] -= float(((0.05 * (1+rand()%10))));
         }
     }
     AddInvert(src);
