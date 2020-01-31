@@ -691,4 +691,48 @@ void ac::PreviousFrameXor(cv::Mat &frame) {
         }
     }
     prev = copy1.clone();
+    AddInvert(frame);
+}
+
+void ac::LightScanlineSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "LightScanlineSubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    static int max_off_val = 100;
+    for(int z = 0; z < frame.rows; ++z) {
+        if(( rand()%10)==0) {
+            bool on = true;
+            int off = rand()%25;
+            int max_off = rand()%max_off_val;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(on == true) {
+                    pixel = pix;
+                }
+                ++off;
+                if(off > max_off) {
+                    off = 0;
+                    max_off = rand()%max_off_val;
+                    on = !on;
+                }
+            }
+        }
+    }
+    static bool dir1 = true;
+    if(dir1 == true) {
+        ++max_off_val;
+        if(max_off_val > 350) {
+            max_off_val = 350;
+            dir1 = false;
+        }
+    } else {
+        --max_off_val;
+        if(max_off_val < 100) {
+            max_off_val = 100;
+            dir1 = true;
+        }
+    }
+    AddInvert(frame);
 }
