@@ -736,3 +736,41 @@ void ac::LightScanlineSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ScaleUpDown(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    
+    static int counter = 0;
+    ++counter;
+    
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        counter = 0;
+    }
+    static bool rev = false;
+    if(counter > (static_cast<int>(ac::fps))) {
+        rev = !rev;
+        counter = 0;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                if(rev == true)
+                    pix_container.pix_values[i][z].col[j] += 15;
+                else
+                    pix_container.pix_values[i][z].col[j] -= 15;
+                int total = pixel[j] + pix_container.pix_values[i][z].col[j];
+                if(total >= 255) {
+                    pix_container.pix_values[i][z].col[j] = 0;
+                    pixel[j] = 255;
+                } else
+                    pixel[j] += total;
+            }
+        }
+    }
+    AddInvert(frame);
+}
