@@ -2722,6 +2722,24 @@ void setEnabledProg() {
         return;
     }
     
+    // check make sure value does not contain itself
+    for(int i = 0; i < [custom_array count]; ++i) {
+        NSNumber *nval = [custom_array objectAtIndex:i];
+        NSNumber *sval = [custom_subfilters objectAtIndex:i];
+        NSInteger value1 = [nval integerValue];
+        NSInteger value2 = [sval integerValue];
+        std::string name1, name2;
+        if(value1 >= 0 && value1 < ac::draw_strings.size())
+            name1 = ac::draw_strings[value1];
+        
+        if(value2 >= 0 && value2 < ac::draw_strings.size())
+            name2 = ac::draw_strings[value1];
+        if(name1 == fname || name2  == fname) {
+            _NSRunAlertPanel(@"Error a filter cannot contain itself...", @"Error: Cannot contain itself.", @"Ok", nil, nil);
+            return;
+        }
+    }
+    
     ac::filter_map[fname] = f;
     user_filter[fval_name].index = -1;
     user_filter[fval_name].name = fval_name;
