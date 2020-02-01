@@ -302,7 +302,7 @@ void setEnabledProg() {
     time_t t = time(0);
     NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
     NSString *def = [d objectForKey:@"directory_path"];
-    if(def != nil) {
+   if(def != nil) {
         directory_path = [def UTF8String];
     }
     std::cout << "Directory path: " << directory_path << "\n";
@@ -350,9 +350,10 @@ void setEnabledProg() {
     [self checkForNewVersion:NO useVal:0];
     cycle_chk_val = cycle_chk;
     //std::cout << cv::getBuildInformation() << "\n";
-    for(int i = 0; i < ac::draw_strings.size(); ++i) {
+   /* for(int i = 0; i < ac::draw_strings.size(); ++i) {
         std::cout << "v.push_back(\"" << ac::draw_strings[i] << "\");\n";
-    }
+    }*/
+    
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {
@@ -2680,10 +2681,16 @@ void setEnabledProg() {
         colorkey_filter = true;
     else
         colorkey_filter = false;
-    
 }
 
 - (IBAction) user_Set: (id) sender {
+    
+    if(directory_path.size()==0) {
+        _NSRunAlertPanel(@"Press Select Output Directory", @"Select Output Directory", @"Ok", nil, nil);
+        [self user_Clear:self];
+        return;
+    }
+
     static int index_offset = 0;
     NSString *s = [user_filter_name stringValue];
     if([s length] == 0) {
