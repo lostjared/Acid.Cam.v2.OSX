@@ -2146,6 +2146,10 @@ namespace ac {
     void VideoDisplayPercent_SubFilter(cv::Mat &frame);
     void MovementToBlackSubFilter(cv::Mat &frame);
     void Black(cv::Mat &frame);
+    void VideoFrameRGB(cv::Mat &frame);
+    void VideoAlphaBlendFade(cv::Mat &frame);
+    void VideoAlphaAddFade(cv::Mat &frame);
+    void VideoAlphaAddFadeSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -790,7 +790,7 @@ void ac::VideoTransitionInOut_SubFilter(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = ((1-alpha) * pixel[j]) + (alpha * repix[j]);
+                    pixel[j] = static_cast<unsigned char>(((1-alpha) * pixel[j]) + (alpha * repix[j]));
                 }
             }
         }
@@ -812,7 +812,7 @@ void ac::VideoDisplayPercent_SubFilter(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = ((1-0.6) * pixel[j]) + (0.4 * repix[j]);
+                    pixel[j] = static_cast<unsigned char>(((1-0.6) * pixel[j]) + (0.4 * repix[j]));
                 }
             }
         }
@@ -855,6 +855,120 @@ void ac::Black(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             pixel = cv::Vec3b(0, 0, 0);
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoFrameRGB(cv::Mat &frame) {
+    cv::Mat nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        static int offset1 = 0;
+        static int offset2 = 2;
+        static int dir1 = 1, dir2 = 0;
+        ac_resize(nframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                pixel[offset1] = static_cast<unsigned char>((0.5 * pixel[offset1]) + (0.5 * repix[offset2]));
+            }
+        }
+        if(dir1 == 1) {
+            offset1++;
+            if(offset1 > 2) {
+                offset1 = 2;
+                dir1 = 0;
+            }
+        } else {
+            offset1--;
+            if(offset1 < 0) {
+                offset1 = 0;
+                dir1 = 1;
+            }
+        }
+        
+        
+        if(dir2 == 1) {
+            offset2++;
+            if(offset2 > 2) {
+                offset2 = 2;
+                dir2 = 0;
+            }
+        } else {
+            offset2--;
+            if(offset2 < 0) {
+                offset2 = 0;
+                dir2 = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaBlendFade(cv::Mat &frame) {
+    cv::Mat nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                static double alpha = 1.0;
+                static int dir = 1;
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((1-alpha) * pixel[j]) + (alpha * repix[j]);
+                }
+                AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaAddFade(cv::Mat &frame) {
+    cv::Mat nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                static double alpha = 1.0;
+                static int dir = 1;
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]) + (alpha * repix[j]);
+                }
+                AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoAlphaAddFadeSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "VideoAlphaAddFadeSubFilter")
+        return;
+    
+    cv::Mat nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                static double alpha = 1.0;
+                static int dir = 1;
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]) + (alpha * repix[j]);
+                }
+                AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+            }
         }
     }
     AddInvert(frame);
