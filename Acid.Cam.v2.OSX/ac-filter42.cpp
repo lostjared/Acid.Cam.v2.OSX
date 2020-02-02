@@ -232,7 +232,7 @@ void ac::HorizontalColorOffsetLargeSizeSubFilter(cv::Mat &frame) {
         }
         ++counter;
         if((counter%(offset_y+1)==0)) {
-            if(on == false && (rand()%100)==0) {
+            if(on == false && (rand()%250)==0) {
                 on = !on;
             } else {
                 on = !on;
@@ -664,7 +664,7 @@ void ac::VerticalColorOffsetLargeSizeSubFilter(cv::Mat &frame) {
         }
         ++counter;
         if((counter%(offset_y+1)==0)) {
-            if(on == false && (rand()%100)==0) {
+            if(on == false && (rand()%250)==0) {
                 on = !on;
             } else {
                 on = !on;
@@ -775,11 +775,14 @@ void ac::ScaleUpDown(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::VideoTransitionInOut(cv::Mat &frame) {
+void ac::VideoTransitionInOut_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "VideoTransitionInOut_SubFilter")
+        return;
     cv::Mat nframe;
     if(VideoFrame(nframe)) {
         cv::Mat reframe;
         ac_resize(nframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
         static double alpha = 0.1;
         static int dir = 1;
         for(int z = 0; z < frame.rows; ++z) {
@@ -787,11 +790,32 @@ void ac::VideoTransitionInOut(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pixel[j] = pixel[j] + (alpha * repix[j]);
+                    pixel[j] = ((1-alpha) * pixel[j]) + (alpha * repix[j]);
                 }
             }
         }
         AlphaMovementMaxMin(alpha, dir, 0.001, 1.0, 0.1);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoDisplayPercent_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "VideoDisplayPercent_SubFilter")
+        return;
+    cv::Mat nframe;
+    if(VideoFrame(nframe)) {
+        cv::Mat reframe;
+        ac_resize(nframe, reframe, frame.size());
+        CallFilter(subfilter, reframe);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = ((1-0.6) * pixel[j]) + (0.4 * repix[j]);
+                }
+            }
+        }
     }
     AddInvert(frame);
 }

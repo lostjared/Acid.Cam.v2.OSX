@@ -2142,7 +2142,8 @@ namespace ac {
     void PreviousFrameXor(cv::Mat &frame);
     void LightScanlineSubFilter(cv::Mat &frame);
     void ScaleUpDown(cv::Mat &frame);
-    void VideoTransitionInOut(cv::Mat &frame);
+    void VideoTransitionInOut_SubFilter(cv::Mat &frame);
+    void VideoDisplayPercent_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
