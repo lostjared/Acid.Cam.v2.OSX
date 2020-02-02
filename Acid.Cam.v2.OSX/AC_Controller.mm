@@ -66,7 +66,6 @@ NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
 AC_Controller *controller = nil;
 pixel pix;
-drawn d;
 bool plugin_loaded = false;
 void *library = NULL;
 std::ostringstream ftext;
@@ -686,18 +685,10 @@ void setEnabledProg() {
     }
     void *addr;
     // load the plugin function to process pixels
-    addr = dlsym(library, "pixel");
+    addr = dlsym(library, "filter");
     pixel pix;
     pix = reinterpret_cast<pixel>(addr);
     const char *error;
-    error = dlerror();
-    if(error) {
-        std::cerr << "Could not load pixel: " << error << "\n";
-        _NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
-        return NULL;
-    }
-    addr = dlsym(library,"drawn");
-    d = reinterpret_cast<drawn>(addr);
     error = dlerror();
     if(error) {
         std::cerr << "Could not load pixel: " << error << "\n";
@@ -3863,16 +3854,5 @@ void setSliders(long frame_count) {
 
 void plugin_callback(cv::Mat &frame) {
     if(plugin_loaded == false) return;
-    int i = 0, z = 0;
-    for(z = 0; z < frame.cols; ++z) {
-        for(i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
-            unsigned char pixels[] = { buffer[0], buffer[1], buffer[2] };
-            (*pix)(z, i, pixels);
-            buffer[0] = pixels[0];
-            buffer[1] = pixels[1];
-            buffer[2] = pixels[2];
-        }
-    }
-    (*d)();
+    (*pix)(frame);
 }

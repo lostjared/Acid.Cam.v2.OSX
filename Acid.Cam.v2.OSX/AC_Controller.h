@@ -61,13 +61,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 // type def
-typedef void (*pixel)(int x, int y, unsigned char *pixels);
-typedef void (*drawn)();
+typedef void (*pixel)(cv::Mat &frame);
 // Filter Info type
 
 // global variables
 extern pixel pix;
-extern drawn d;
 extern int camera_mode;
 extern bool disableFilter;
 extern NSThread *background;

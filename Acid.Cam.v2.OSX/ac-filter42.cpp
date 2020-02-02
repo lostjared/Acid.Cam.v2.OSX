@@ -973,3 +973,4 @@ void ac::VideoAlphaAddFadeSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
