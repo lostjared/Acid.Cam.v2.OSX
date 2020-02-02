@@ -60,18 +60,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ENABLE_VERSION_UPDATE
 #endif
 
-// type def
-typedef void (*pixel)(cv::Mat &frame);
 // Filter Info type
 
 // global variables
-extern pixel pix;
 extern int camera_mode;
 extern bool disableFilter;
 extern NSThread *background;
 extern  bool camera_active;
 extern unsigned long frame_proc;
 extern bool resize_value;
+typedef void (*pixel)(cv::Mat &frame);
 
 extern NSTimer *renderTimer, *validProc;
 extern cv::Mat old_frame;
@@ -204,6 +202,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *memory_text;
     IBOutlet NSTextField *group_text;
     IBOutlet NSWindow *group_window;
+    IBOutlet NSTextField *plugin_name2;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -369,7 +368,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (void) getNameFilter: (std::string *)str index:(int) value;
 - (NSTextField *)getMemoryText: (id) sender;
 - (void) updateDirPath: (std::string *)s;
-- (NSString *) saveCustomFilter: (NSString *) name;
+- (NSString *) saveCustomFilter: (NSString *) name withPlugin: (NSString *)plug;
 - (IBAction) filterCollectionComboChanged:(id) sender;
 @property(retain) GCController *gameController;
 @property(retain) GCGamepad *theController;

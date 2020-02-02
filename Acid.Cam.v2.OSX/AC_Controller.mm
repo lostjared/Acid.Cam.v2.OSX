@@ -97,6 +97,7 @@ NSButton *cycle_chk_val;
 int delay_value = 60;
 using ac::user_filter;
 using ac::UserFilter;
+int index_offset = 0;
 
 bool operator<(const UserArgType &o1, const UserArgType &o2) {
     if(o1.index < o2.index) return true;
@@ -677,6 +678,10 @@ void setEnabledProg() {
 }
 
 - (pixel) loadPlugin: (NSString *)str {
+    if([[plugin_name2 stringValue] length] == 0) {
+        _NSRunAlertPanel(@"You must give the plugin a name", @"Requires a name.", @"Ok", nil, nil);
+        return 0;
+    }
     library = dlopen([str UTF8String], RTLD_LAZY);
     if(library == NULL) {
         std::cerr << "Error could not open: " << [str UTF8String] << "\n";
@@ -686,8 +691,8 @@ void setEnabledProg() {
     void *addr;
     // load the plugin function to process pixels
     addr = dlsym(library, "filter");
-    pixel pix;
-    pix = reinterpret_cast<pixel>(addr);
+    pixel pixf;
+    pixf = reinterpret_cast<pixel>(addr);
     const char *error;
     error = dlerror();
     if(error) {
@@ -695,6 +700,42 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
         return NULL;
     }
+    std::string fname = "User_";
+    fname += [[plugin_name2 stringValue] UTF8String];
+    int index = 0;
+    int val1 = -1;
+    for(index = 0; index < ac::draw_strings.size(); ++index) {
+        if(ac::draw_strings[index] == fname) {
+            val1 = index;
+            break;
+        }
+    }
+    int index_offset = 0;
+    if(val1 == -1) {
+        ac::draw_strings.push_back(fname);
+        val1 = static_cast<int>(ac::draw_strings.size()-1);
+    }
+    ++index_offset;
+    ac::filter_map[fname] = val1;
+    user_filter[fname].name = fname;
+    user_filter[fname].other_name = fname;
+    user_filter[fname].index = ac::filter_map[fname];
+    user_filter[fname].sort_num = index_offset;
+    user_filter[fname].func = pixf;
+    NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
+    if(fname.find("User_") == std::string::npos) {
+        [user_filter_name addItemWithObjectValue:sval];
+        [user_filter_name setStringValue:@""];
+    }
+    [self loadMenuList];
+    [table_view reloadData];
+    std::ostringstream stream;
+    stream << "User set: " << fname << " to: " << fname << "\n";
+    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()] withPlugin:@"Plug"];
+    std::string sname;
+    sname = fname + ".acl";
+    user_filter[fname].filename = [val UTF8String];
+    flushToLog(stream);
     return pix;
 }
 
@@ -2682,7 +2723,6 @@ void setEnabledProg() {
         return;
     }
 
-    static int index_offset = 0;
     NSString *s = [user_filter_name stringValue];
     if([s length] == 0) {
         _NSRunAlertPanel(@"User defined requires a valid name", @"Error forgot to set name", @"Ok", nil, nil);
@@ -2753,7 +2793,7 @@ void setEnabledProg() {
     [table_view reloadData];
     std::ostringstream stream;
     stream << "User set: " << fname << " to: " << fname << "\n";
-    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()]];
+    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()] withPlugin: nil];
     std::string sname;
     sname = fname + ".acl";
     user_filter[fname].filename = [val UTF8String];
@@ -2774,8 +2814,8 @@ void setEnabledProg() {
 }
 
 
-- (NSString *) saveCustomFilter: (NSString *)fname_ {
-    if([custom_array count] == 0) {
+- (NSString *) saveCustomFilter: (NSString *)fname_ withPlugin: (NSString *)plug {
+    if([custom_array count] == 0 && plug == nil) {
         _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
         return nil;
     }

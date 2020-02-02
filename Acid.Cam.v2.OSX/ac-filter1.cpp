@@ -252,10 +252,16 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
                 if(*pos1 == *pos2)
                     continue;
             }
+            if(pos->second.func != 0) {
+                pos->second.func(frame);
+                std::cout << "HERE.\n";
+            }
+            else
             if(s.length() > 0) {
                 ac::setSubFilter(ac::filter_map[s]);
                 ac::CallFilter(f, frame);
-            } else {
+            }
+            else {
                 CallFilter(f, frame);
             }
         }

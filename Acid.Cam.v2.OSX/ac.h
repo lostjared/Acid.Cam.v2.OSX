@@ -120,13 +120,16 @@ namespace ac {
         std::unordered_map<std::string, std::string> options;
     };
     
+    typedef void (*pixel)(cv::Mat &frame);
+    
     class UserFilter {
     public:
         int index, subfilter;
         int sort_num;
+        pixel func;
         std::string name, other_name, filename;
         FileT custom_filter;
-        UserFilter(): index(0), subfilter(-1) {}
+        UserFilter(): index(0), subfilter(-1), func(0) {}
     };
     
     bool checkFilter(std::string name);
