@@ -242,6 +242,10 @@ bool ac::getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size
 bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
     auto pos = user_filter.find(filtername);
     if(pos != user_filter.end()) {
+        if(pos->second.func != 0) {
+            pos->second.func(frame);
+            return true;
+        }
         for(int i = 0; i < pos->second.custom_filter.name.size(); ++i) {
             FileT &type = pos->second.custom_filter;
             std::string f = type.name[i];
@@ -252,14 +256,9 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
                 if(*pos1 == *pos2)
                     continue;
             }
-            if(pos->second.func != 0) {
-                pos->second.func(frame);
-                std::cout << "HERE.\n";
-            }
-            else
             if(s.length() > 0) {
-                ac::setSubFilter(ac::filter_map[s]);
-                ac::CallFilter(f, frame);
+                    ac::setSubFilter(ac::filter_map[s]);
+                    ac::CallFilter(f, frame);
             }
             else {
                 CallFilter(f, frame);

@@ -722,6 +722,12 @@ void setEnabledProg() {
     user_filter[fname].index = ac::filter_map[fname];
     user_filter[fname].sort_num = index_offset;
     user_filter[fname].func = pixf;
+    
+    if(user_filter[fname].func == 0) {
+        _NSRunAlertPanel(@"Could not open file", @"Plugin would not load", @"Ok", nil, nil);
+        return 0;
+    }
+    
     NSString *sval = [NSString stringWithUTF8String: fname.c_str()];
     if(fname.find("User_") == std::string::npos) {
         [user_filter_name addItemWithObjectValue:sval];
@@ -736,7 +742,7 @@ void setEnabledProg() {
     sname = fname + ".acl";
     user_filter[fname].filename = [val UTF8String];
     flushToLog(stream);
-    return pix;
+    return pixf;
 }
 
 - (void) closePlugin {
