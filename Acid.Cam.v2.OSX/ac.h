@@ -2144,6 +2144,7 @@ namespace ac {
     void ScaleUpDown(cv::Mat &frame);
     void VideoTransitionInOut_SubFilter(cv::Mat &frame);
     void VideoDisplayPercent_SubFilter(cv::Mat &frame);
+    void MovementToBlackSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
