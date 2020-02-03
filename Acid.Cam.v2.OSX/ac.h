@@ -130,7 +130,7 @@ namespace ac {
         std::string name, other_name, filename, plug_file;
         FileT custom_filter;
         void *library;
-        UserFilter(): index(0), subfilter(-1), func(0) {}
+        UserFilter(): index(0), subfilter(-1), func(0), library(0) {}
     };
     
     bool checkFilter(std::string name);

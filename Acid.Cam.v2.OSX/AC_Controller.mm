@@ -67,7 +67,6 @@ NSMenuItem *stop_prog_i;
 AC_Controller *controller = nil;
 pixel pix;
 bool plugin_loaded = false;
-void *library = NULL;
 std::ostringstream ftext;
 std::ostringstream stream;
 //cv::Mat blend_image;
@@ -689,7 +688,7 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"You must give the plugin a name", @"Requires a name.", @"Ok", nil, nil);
         return 0;
     }
-    library = dlopen([str UTF8String], RTLD_LAZY);
+    void *library = dlopen([str UTF8String], RTLD_LAZY);
     if(library == NULL) {
         std::cerr << "Error could not open: " << [str UTF8String] << "\n";
         _NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
@@ -776,8 +775,12 @@ void setEnabledProg() {
 }
 
 - (void) closePlugin {
-    if(library != NULL)
-        dlclose(library);
+  
+    for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
+        if(i->second.library != 0)
+            dlclose(i->second.library);
+    }
+    
 }
 
 -(IBAction) startProgram: (id) sender {
