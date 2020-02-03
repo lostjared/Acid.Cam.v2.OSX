@@ -65,7 +65,6 @@ bool isPaused = false;
 NSSlider *frame_slider;
 NSMenuItem *stop_prog_i;
 AC_Controller *controller = nil;
-pixel pix;
 bool plugin_loaded = false;
 std::ostringstream ftext;
 std::ostringstream stream;
@@ -639,9 +638,8 @@ void setEnabledProg() {
 }
 
 - (IBAction) setPlugin: (id) sender {
-    [self closePlugin];
     NSString *file_type = [NSString stringWithFormat: @"%@/%@", [plugin_name stringValue], [plugin_dir objectValueOfSelectedItem]];
-    pix = [self loadPlugin: file_type];
+    pixel pix = [self loadPlugin: file_type];
     if(pix == NULL)
         plugin_loaded = false;
     else
@@ -775,12 +773,10 @@ void setEnabledProg() {
 }
 
 - (void) closePlugin {
-  
     for(auto i = user_filter.begin(); i != user_filter.end(); ++i) {
         if(i->second.library != 0)
             dlclose(i->second.library);
     }
-    
 }
 
 -(IBAction) startProgram: (id) sender {
@@ -3972,6 +3968,5 @@ void setSliders(long frame_count) {
 }
 
 void plugin_callback(cv::Mat &frame) {
-    if(plugin_loaded == false) return;
-    (*pix)(frame);
+    
 }
