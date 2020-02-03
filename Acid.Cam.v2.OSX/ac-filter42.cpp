@@ -952,7 +952,6 @@ void ac::VideoAlphaAddFade(cv::Mat &frame) {
 void ac::VideoAlphaAddFadeSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "VideoAlphaAddFadeSubFilter")
         return;
-    
     cv::Mat nframe;
     if(VideoFrame(nframe)) {
         cv::Mat reframe;
@@ -974,3 +973,29 @@ void ac::VideoAlphaAddFadeSubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::DelayOnOffSubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "DelayOnOffSubFilter")
+        return;
+    static int delay = 0, seconds = 0;
+    static int wait = 1+(rand()%3);
+    int fps = static_cast<int>(ac::fps);
+    static int on = 1;
+    if(on == 1)
+        CallFilter(subfilter, frame);
+    
+    ++delay;
+    if(delay > fps) {
+        delay = 0;
+        ++seconds;
+        if(seconds > wait) {
+            seconds = 0;
+            on = (on == 0) ? 1 : 0;
+            if(on == 1)
+                wait = 1+(rand()%1);
+            else
+                wait = 1+(rand()%3);
+            
+        }
+    }
+    AddInvert(frame);
+}

@@ -722,7 +722,7 @@ void setEnabledProg() {
     user_filter[fname].index = ac::filter_map[fname];
     user_filter[fname].sort_num = index_offset;
     user_filter[fname].func = pixf;
-    
+    user_filter[fname].plug_file = [str UTF8String];
     if(user_filter[fname].func == 0) {
         _NSRunAlertPanel(@"Could not open file", @"Plugin would not load", @"Ok", nil, nil);
         return 0;
@@ -737,7 +737,7 @@ void setEnabledProg() {
     [table_view reloadData];
     std::ostringstream stream;
     stream << "User set: " << fname << " to: " << fname << "\n";
-    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()] withPlugin:@"Plug"];
+    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()] withPlugin:str];
     std::string sname;
     sname = fname + ".acl";
     user_filter[fname].filename = [val UTF8String];
@@ -2859,6 +2859,11 @@ void setEnabledProg() {
         NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
         file_n << "=bsrc:" << (int)src_amt << "\n";
     }
+    
+    if(plug != nil) {
+        file_n << "*" << [plug UTF8String] << "\n";
+    }
+    else
     for(int i = 0; i < [custom_array count]; ++i) {
         NSNumber *nval = [custom_array objectAtIndex:i];
         NSNumber *sval = [custom_subfilters objectAtIndex:i];

@@ -127,7 +127,7 @@ namespace ac {
         int index, subfilter;
         int sort_num;
         pixel func;
-        std::string name, other_name, filename;
+        std::string name, other_name, filename, plug_file;
         FileT custom_filter;
         UserFilter(): index(0), subfilter(-1), func(0) {}
     };
@@ -2153,6 +2153,7 @@ namespace ac {
     void VideoAlphaBlendFade(cv::Mat &frame);
     void VideoAlphaAddFade(cv::Mat &frame);
     void VideoAlphaAddFadeSubFilter(cv::Mat &frame);
+    void DelayOnOffSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
