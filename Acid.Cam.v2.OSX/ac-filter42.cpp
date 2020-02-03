@@ -999,3 +999,31 @@ void ac::DelayOnOffSubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoImageBlendAlpha(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat reimage;
+    ac_resize(blend_image, reimage, frame.size());
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static double alpha[3] = {0.1, 0.2, 0.3};
+        static int dir[3] = {1,1,1};
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix2 = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha[0] * pixel[j]) + (alpha[1] * pix1[j]) + (alpha[2] * pix2[j]));
+                }
+            }
+        }
+        for(int j = 0; j < 3; ++j)
+            AlphaMovementMaxMin(alpha[j], dir[j], 0.01, 0.4, 0.1);
+    }
+    
+    AddInvert(frame);
+}
