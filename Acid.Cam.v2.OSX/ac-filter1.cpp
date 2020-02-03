@@ -2226,7 +2226,7 @@ bool ac::checkFilter(std::string name) {
 }
 
 
-bool ac::LoadFilterFile(std::string fname, std::string filen) {
+bool ac::LoadFilterFile(std::string fname, std::string filen, int &plugin) {
     std::cout << "attempting to load: " << fname << ":" << filen << "\n";
     static int sort_index = 0;
     ac::FileT typev;
@@ -2236,6 +2236,7 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
         std::cout << "LoadFilterFile: Error could not load file: " << filen << "\n";
         return false;
     }
+    plugin = 0;
     std::vector<std::string> values;
     while(!file.eof()) {
         std::string item;
@@ -2243,10 +2244,17 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
         if(file)
             values.push_back(item);
     }
+  
      // check if data valid
     for(int i = 0; i < values.size(); ++i ){
         std::string item = values[i];
         std::string s_left, s_right;
+        
+        if(item[0] == '*') {
+            plugin = 1;
+            continue;
+        }
+        
         auto pos = item.find(":");
         if(pos == std::string::npos) {
             return false;
@@ -2262,6 +2270,10 @@ bool ac::LoadFilterFile(std::string fname, std::string filen) {
     }
     for(int i = 0; i < values.size(); ++i) {
         std::string item = values[i];
+        if(item[0] == '*') {
+            plugin = 1;
+            continue;
+        }
         std::string s_left, s_right;
         s_left = item.substr(0, item.find(":"));
         s_right = item.substr(item.find(":")+1, item.length());

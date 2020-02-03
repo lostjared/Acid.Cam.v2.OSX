@@ -678,6 +678,13 @@ void setEnabledProg() {
 }
 
 - (pixel) loadPlugin: (NSString *)str {
+    
+    if(directory_path.size()==0) {
+        _NSRunAlertPanel(@"Error you must set the directory path in custom filter window press the dir button", @"Set path", @"Ok",nil,nil);
+        return 0;
+    }
+    
+    
     if([[plugin_name2 stringValue] length] == 0) {
         _NSRunAlertPanel(@"You must give the plugin a name", @"Requires a name.", @"Ok", nil, nil);
         return 0;
@@ -686,7 +693,7 @@ void setEnabledProg() {
     if(library == NULL) {
         std::cerr << "Error could not open: " << [str UTF8String] << "\n";
         _NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
-        exit(1);
+        return 0;
     }
     void *addr;
     // load the plugin function to process pixels
@@ -722,6 +729,7 @@ void setEnabledProg() {
     user_filter[fname].index = ac::filter_map[fname];
     user_filter[fname].sort_num = index_offset;
     user_filter[fname].func = pixf;
+    user_filter[fname].library = library;
     user_filter[fname].plug_file = [str UTF8String];
     if(user_filter[fname].func == 0) {
         _NSRunAlertPanel(@"Could not open file", @"Plugin would not load", @"Ok", nil, nil);
@@ -735,9 +743,31 @@ void setEnabledProg() {
     }
     [self loadMenuList];
     [table_view reloadData];
+    
+    std::fstream inf, outf;
+    inf.open([str UTF8String], std::ios::in | std::ios::binary);
+    if(!inf.is_open()) {
+        _NSRunAlertPanel(@"Could not open file", @"Plugin would not load", @"Ok", nil, nil);
+        return 0;
+    }
+    std::ostringstream stream_;
+    stream_ << directory_path << "/" << fname << ".acf";
+    outf.open(stream_.str(), std::ios::out | std::ios::binary);
+    if(!outf.is_open()) {
+        _NSRunAlertPanel(@"Could not open file", @"Plugin would not load", @"Ok", nil, nil);
+        return 0;
+    }
+    while(!inf.eof()) {
+        char buf[1024];
+        inf.read(buf, sizeof(buf));
+        size_t bytes = inf.gcount();
+        outf.write(buf, bytes);
+    }
+    inf.close();
+    outf.close();
     std::ostringstream stream;
     stream << "User set: " << fname << " to: " << fname << "\n";
-    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()] withPlugin:str];
+    NSString *val = [self saveCustomFilter: [NSString stringWithUTF8String: fname.c_str()] withPlugin:[NSString stringWithUTF8String:stream_.str().c_str()]];
     std::string sname;
     sname = fname + ".acl";
     user_filter[fname].filename = [val UTF8String];
@@ -2835,6 +2865,11 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"Could not open file", @"Could not open file do i have rights to this folder?", @"Ok", nil, nil);
         return nil;
     }
+    
+    if(plug != nil) {
+        file_n << "*" << [fname_ UTF8String] << "\n";
+    }
+    
     if([load_settings integerValue] == 1) {
         NSInteger rgb[] = {[red_slider integerValue], [green_slider integerValue], [blue_slider integerValue]};
         file_n << "=red:" << (int)rgb[0] << "\n";
@@ -2859,11 +2894,7 @@ void setEnabledProg() {
         NSInteger src_amt = [blend_source_amt indexOfSelectedItem];
         file_n << "=bsrc:" << (int)src_amt << "\n";
     }
-    
-    if(plug != nil) {
-        file_n << "*" << [plug UTF8String] << "\n";
-    }
-    else
+  
     for(int i = 0; i < [custom_array count]; ++i) {
         NSNumber *nval = [custom_array objectAtIndex:i];
         NSNumber *sval = [custom_subfilters objectAtIndex:i];
@@ -2881,7 +2912,8 @@ void setEnabledProg() {
     stream << "Saved Custom Filter: " << file_name << "\n";
     flushToLog(stream);
     file_n.close();
-    if(ac::LoadFilterFile([fname_ UTF8String], file_name)) {
+    int plugin = 0;
+    if(ac::LoadFilterFile([fname_ UTF8String], file_name, plugin)) {
         std::cout << "Filter loaded into Memory...\n";
     }
     return [NSString stringWithUTF8String:file_name.c_str()];
@@ -2965,8 +2997,38 @@ void setEnabledProg() {
     std::string fname_path = path;
     fname_path = fname_path.substr(0, fname_path.find(":"));
     fpath << directory_path << "/" << fname_path;
-
-    if(ac::LoadFilterFile(fname_path, fpath.str())) {
+    
+    int plugin = 0;
+    
+    if(ac::LoadFilterFile(fname_path, fpath.str(), plugin)) {
+        if(plugin == 1) {
+            std::string name_val = fname_path;
+            std::ostringstream stream;
+            stream << directory_path << "/" << name_val << ".acf";
+            std::string name_path = stream.str();
+            void *library = dlopen(name_path.c_str(), RTLD_LAZY);
+            
+            if(library == NULL) {
+                std::cerr << "Error could not open: " << name_path << "\n";
+                _NSRunAlertPanel(@"Error Occoured Loading Plugin", @"Exiting...", @"Ok", nil, nil);
+                return;
+            }
+            void *addr;
+            // load the plugin function to process pixels
+            addr = dlsym(library, "filter");
+            pixel pixf;
+            pixf = reinterpret_cast<pixel>(addr);
+            const char *error;
+            error = dlerror();
+            if(error) {
+                std::cerr << "Could not load pixel: " << error << "\n";
+                _NSRunAlertPanel(@"Could not load Plugin", @"Error loading plugin", @"Ok", nil,nil);
+                return;
+            }
+            
+            user_filter[name_val].func = pixf;
+            user_filter[name_val].library = library;
+        }
         NSString *sval = [NSString stringWithUTF8String: filter_name.c_str()];
         [user_filter_name addItemWithObjectValue:sval];
         [table_view reloadData];
@@ -2990,6 +3052,7 @@ void setEnabledProg() {
             return;
         }
        ac::clearFilterFiles();
+        
         int index_offset = 0;
         while(!file.eof()) {
             std::string file_data;
@@ -3103,7 +3166,8 @@ void setEnabledProg() {
         stream << "Saved Custom Filter: " << [fileName UTF8String] << "\n";
         flushToLog(stream);
         file_n.close();
-        if(ac::LoadFilterFile(default_name, [fileName UTF8String])) {
+        int plugin = 0;
+        if(ac::LoadFilterFile(default_name, [fileName UTF8String], plugin)) {
             std::cout << "Filter loaded into Memory...\n";
         }
     }
@@ -3167,7 +3231,8 @@ void setEnabledProg() {
     [panel setCanChooseDirectories: NO];
     [panel setAllowedFileTypes: [NSArray arrayWithObject:@"filter"]];
     if([panel runModal]) {
-        if(ac::LoadFilterFile("User_default", [[[panel URL] path] UTF8String])) {
+        int plugin = 0;
+        if(ac::LoadFilterFile("User_default", [[[panel URL] path] UTF8String], plugin)) {
               auto type = user_filter["User_default"].custom_filter.options;
                 for(auto v = type.begin(); v != type.end(); ++v) {
                     [self setCustomValue:[NSString stringWithUTF8String:v->first.c_str()] value:[NSString stringWithUTF8String:v->second.c_str()]];

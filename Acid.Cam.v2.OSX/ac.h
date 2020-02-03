@@ -129,6 +129,7 @@ namespace ac {
         pixel func;
         std::string name, other_name, filename, plug_file;
         FileT custom_filter;
+        void *library;
         UserFilter(): index(0), subfilter(-1), func(0) {}
     };
     
@@ -216,7 +217,7 @@ namespace ac {
     bool CallFilter(int index, cv::Mat &frame);
     bool CallFilter(const std::string &name, cv::Mat &frame);
     bool CallFilterFile(cv::Mat &frame, std::string filename);
-    bool LoadFilterFile(std::string name, std::string file);
+    bool LoadFilterFile(std::string name, std::string file, int &plugin);
     void clearFilterFiles();
     bool getSupportedResolutions(cv::VideoCapture &capture, std::vector<cv::Size> &res);
     // Acid Cam Filter Function prototypes
