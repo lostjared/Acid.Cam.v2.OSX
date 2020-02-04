@@ -94,3 +94,62 @@ void ac::IntertwineCols640(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::HorizontalOffsetLess_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "HorizontalColorOffsetLargeSizeSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    static int offset_y = (rand()%(frame.rows));
+    bool on = false;
+    static int counter = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on == true) {
+                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        ++counter;
+        if((counter%(offset_y+1)==0)) {
+            int val = rand()%50;
+            if(val == 0) {
+                on = !on;
+            }
+            offset_y = rand()%(frame.rows);
+            counter = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::VerticalOffsetLess_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "VerticalColorOffsetLargeSizeSubFilter")
+        return;
+    cv::Mat frame_copy = frame.clone();
+    CallFilter(subfilter, frame_copy);
+    static int offset_y = (rand()%(frame.rows));
+    bool on = false;
+    static int counter = 0;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(on == true) {
+                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        ++counter;
+        if((counter%(offset_y+1)==0)) {
+            int val = rand()%50;
+            if(val == 0) {
+                on = !on;
+            }
+            offset_y = rand()%(frame.rows);
+            counter = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
