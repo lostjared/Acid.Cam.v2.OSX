@@ -759,14 +759,9 @@ void ac::SwitchOrder(cv::Vec3b &cur, int color_order) {
 std::vector<int> subfilters;
 
 void ac::pushSubFilter(int newsub) {
-    if(newsub >= 0 && newsub < getFilterCount()) {
+    if(newsub >= 0) {
         subfilters.push_back(subfilter);
         subfilter = newsub;
-    } else if(newsub == -1) {
-        std::cerr << "pushSubFilter invalid filter (-1) requested...\n";
-    }
-    else {
-        std::cerr << "pushSubFilter: Error index out of range...\n";
     }
 }
 

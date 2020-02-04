@@ -257,8 +257,10 @@ bool ac::CallFilterFile(cv::Mat &frame, std::string filtername) {
                     continue;
             }
             if(s.length() > 0) {
-                    ac::setSubFilter(ac::filter_map[s]);
-                    ac::CallFilter(f, frame);
+                //ac::setSubFilter(ac::filter_map[s]);
+                ac::pushSubFilter(ac::filter_map[s]);
+                ac::CallFilter(f, frame);
+                ac::popSubFilter();
             }
             else {
                 CallFilter(f, frame);
