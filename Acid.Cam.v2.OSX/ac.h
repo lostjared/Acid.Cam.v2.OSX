@@ -2156,6 +2156,7 @@ namespace ac {
     void VideoAlphaAddFadeSubFilter(cv::Mat &frame);
     void DelayOnOffSubFilter(cv::Mat &frame);
     void VideoImageBlendAlpha(cv::Mat &frame);
+    void IntertwineCols640(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -1027,3 +1027,12 @@ void ac::VideoImageBlendAlpha(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::IntertwineCols640(cv::Mat &frame) {
+    cv::Mat sizef;
+    ac_resize(frame, sizef, cv::Size(640, 360));
+    static MatrixCollection<640> collection;
+    IntertwineCols(sizef, &collection, 1);
+    ac_resize(sizef, frame, frame.size());
+    AddInvert(frame);
+}
