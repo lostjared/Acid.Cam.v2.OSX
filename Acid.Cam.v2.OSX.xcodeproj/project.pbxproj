@@ -42,6 +42,7 @@
 		7F98F23023DCBB6F00DF3933 /* libx265.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F98F22F23DCBB6F00DF3933 /* libx265.a */; };
 		7F98F23223DF654600DF3933 /* ac-filter42.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F98F23123DF654600DF3933 /* ac-filter42.cpp */; };
 		7F9A55D3224A92B900F9A7DB /* ac-filter18.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F9A55D2224A92B900F9A7DB /* ac-filter18.cpp */; };
+		7F9AE71923E90AA400D98161 /* ac-filter43.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F9AE71823E90AA400D98161 /* ac-filter43.cpp */; };
 		7F9BFD5923A17C9900B36F9F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9BFD5823A17C9900B36F9F /* IOKit.framework */; };
 		7F9BFD5B23A238DC00B36F9F /* ac-filter37.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F9BFD5A23A238DB00B36F9F /* ac-filter37.cpp */; };
 		7F9CE204221B7A83009C544C /* ac-filter16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F9CE203221B7A83009C544C /* ac-filter16.cpp */; };
@@ -171,6 +172,7 @@
 		7F98F22F23DCBB6F00DF3933 /* libx265.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx265.a; path = cvlibs/libx265.a; sourceTree = "<group>"; };
 		7F98F23123DF654600DF3933 /* ac-filter42.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter42.cpp"; path = "Acid.Cam.v2.OSX/ac-filter42.cpp"; sourceTree = "<group>"; };
 		7F9A55D2224A92B900F9A7DB /* ac-filter18.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter18.cpp"; path = "Acid.Cam.v2.OSX/ac-filter18.cpp"; sourceTree = "<group>"; };
+		7F9AE71823E90AA400D98161 /* ac-filter43.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter43.cpp"; path = "Acid.Cam.v2.OSX/ac-filter43.cpp"; sourceTree = "<group>"; };
 		7F9BFD5823A17C9900B36F9F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		7F9BFD5A23A238DB00B36F9F /* ac-filter37.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter37.cpp"; path = "Acid.Cam.v2.OSX/ac-filter37.cpp"; sourceTree = "<group>"; };
 		7F9CE203221B7A83009C544C /* ac-filter16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter16.cpp"; path = "Acid.Cam.v2.OSX/ac-filter16.cpp"; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				7F30F87223BCD17800433904 /* ac-filter40.cpp */,
 				7F32C03123C6D99400AC885E /* ac-filter41.cpp */,
 				7F98F23123DF654600DF3933 /* ac-filter42.cpp */,
+				7F9AE71823E90AA400D98161 /* ac-filter43.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -603,6 +606,7 @@
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
 				7F3CF9D3237879A5004017A8 /* ac-filter35.cpp in Sources */,
+				7F9AE71923E90AA400D98161 /* ac-filter43.cpp in Sources */,
 				7F9D70F217DE4F7C009C54DA /* fractal.cpp in Sources */,
 				7F190F91226E343B001F4521 /* tokenize.cpp in Sources */,
 				7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */,
