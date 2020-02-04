@@ -2159,6 +2159,7 @@ namespace ac {
     void IntertwineCols640(cv::Mat &frame);
     void HorizontalOffsetLess_SubFilter(cv::Mat &frame);
     void VerticalOffsetLess_SubFilter(cv::Mat &frame);
+    void SquareOffsetLess_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
