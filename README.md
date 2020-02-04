@@ -14,6 +14,7 @@ Combined with OBS you can live stream your self filtering video games/yourself o
 
 To be able to use all the filters in this app your system should have at lest 8 GB of ram for 1080p video. For 4K higher Ram is recommended, but you can set the Max Stored Frames based on the resolution you are doing and when it is reached it will release the frames.
 On my system for 2160p video when using something like a Random filter I set it to 400 frames for my system with 32 GB ram. You can set it lower based on your system ram level It is in the preferences window.
+Some filters require more than the default amount of allocated frames. Usually these have the name 640 or 720 in the title. If you are running with enough ram please set the require frame limit before starting your session!
 
 When writing C++ code using libacidcam do not call a mulithreaded filter from within another mulithreaded filter from within it's loop callback. 
 
