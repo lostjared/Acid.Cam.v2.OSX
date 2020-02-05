@@ -2164,6 +2164,7 @@ namespace ac {
     void PrevFrameNotEqual(cv::Mat &frame);
     void MirrorDelayLeft(cv::Mat &frame);
     void MirrorDelayRight(cv::Mat &frame);
+    void ApplyColorRange(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2261,6 +2262,8 @@ namespace ac {
     void User(cv::Mat &frame);
     void setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high);
     void applyColorRange(cv::Mat &frame);
+    void setColorRangeEnabled(bool e);
+    bool getColorRangeEnabled();
     //extern cv::Vec3b colors[256];
     
     // todo: later

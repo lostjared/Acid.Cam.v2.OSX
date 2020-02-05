@@ -57,7 +57,7 @@ namespace ac {
     cv::VideoCapture v_cap;
     int color_map_color = 0;
     unsigned int color_value_r[256], color_value_g[256], color_value_b[256];
-    
+    bool range_enabled = false;
 }
 
 void ac::init() {
@@ -151,6 +151,14 @@ void ac::applyColorRange(cv::Mat &frame) {
             pixel[0] = cv::saturate_cast<unsigned char>(val);
         }
     }
+}
+
+void ac::setColorRangeEnabled(bool e) {
+    range_enabled = e;
+}
+
+bool ac::getColorRangeEnabled() {
+    return range_enabled;
 }
 
 void ac::MedianBlur(cv::Mat &frame, unsigned int value) {

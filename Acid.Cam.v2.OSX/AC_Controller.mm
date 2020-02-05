@@ -1424,8 +1424,7 @@ void setEnabledProg() {
     NSInteger after = [apply_after integerValue];
     if(after == NSControlStateValueOff)
         ac::ApplyColorMap(frame);
-    if(use_color_range == YES)
-        ac::applyColorRange(frame);
+
     
     if([fade_filter state] == NSControlStateValueOff) {
         if(disableFilter == false && ac::testSize(frame))
@@ -1463,10 +1462,7 @@ void setEnabledProg() {
     
     if(after == NSControlStateValueOn)
         ac::ApplyColorMap(frame);
-    
-    if(use_color_range == YES)
-        ac::applyColorRange(frame);
-    
+
     
     if([color_chk state] == NSControlStateValueOn && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
@@ -3911,11 +3907,11 @@ void setEnabledProg() {
     high[2] = values[2];
     ac::setColorRangeLowToHigh(low, high);
     _NSRunAlertPanel(@"Color Range Set", @"Range Set", @"Ok", nil, nil);
-    use_color_range = YES;
+    ac::setColorRangeEnabled(true);
 }
 
 - (IBAction) disableColorRange: (id) sender {
-    use_color_range = NO;
+    ac::setColorRangeEnabled(false);
 }
 
 - (IBAction) showColorRange: (id)sender {

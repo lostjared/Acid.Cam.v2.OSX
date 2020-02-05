@@ -263,3 +263,8 @@ void ac::MirrorDelayRight(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::ApplyColorRange(cv::Mat &frame) {
+    if(getColorRangeEnabled()==true) {
+        applyColorRange(frame);
+    }
+}
