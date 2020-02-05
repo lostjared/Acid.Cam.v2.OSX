@@ -233,3 +233,33 @@ void ac::PrevFrameNotEqual(cv::Mat &frame) {
     prev = frame.clone();
     AddInvert(frame);
 }
+
+void ac::MirrorDelayLeft(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat &copy = collection.frames[7];
+    MirrorLeft(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols/2; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy.at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
+void ac::MirrorDelayRight(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat &copy = collection.frames[7];
+    MirrorRight(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = frame.cols/2; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy.at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
+

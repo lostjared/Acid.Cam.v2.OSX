@@ -2162,6 +2162,8 @@ namespace ac {
     void SquareOffsetLess_SubFilter(cv::Mat &frame);
     void SquareOffset_SubFilter(cv::Mat &frame);
     void PrevFrameNotEqual(cv::Mat &frame);
+    void MirrorDelayLeft(cv::Mat &frame);
+    void MirrorDelayRight(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
