@@ -268,3 +268,19 @@ void ac::ApplyColorRange(cv::Mat &frame) {
         applyColorRange(frame);
     }
 }
+void ac::IntertwineAlphaBlend(cv::Mat &frame) {
+    cv::Mat sizef;
+    cv::Mat copy1 = frame.clone();
+    ac_resize(frame, sizef, cv::Size(640, 360));
+    static MatrixCollection<360> collection;
+    IntertwineRows(sizef, &collection, 1);
+    ac_resize(sizef, frame, frame.size());
+    ac_resize(copy1, sizef, cv::Size(640, 360));
+    static MatrixCollection<640> collection2;
+    IntertwineCols(sizef, &collection2, 1);
+    ac_resize(sizef, copy1, copy1.size());
+    cv::Mat out;
+    AlphaBlend(frame, copy1, out, 0.5);
+    frame = out.clone();
+    AddInvert(frame);
+}

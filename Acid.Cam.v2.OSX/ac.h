@@ -2165,6 +2165,7 @@ namespace ac {
     void MirrorDelayLeft(cv::Mat &frame);
     void MirrorDelayRight(cv::Mat &frame);
     void ApplyColorRange(cv::Mat &frame);
+    void IntertwineAlphaBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
