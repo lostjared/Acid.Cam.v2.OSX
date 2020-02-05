@@ -1424,6 +1424,8 @@ void setEnabledProg() {
     NSInteger after = [apply_after integerValue];
     if(after == NSControlStateValueOff)
         ac::ApplyColorMap(frame);
+    if(use_color_range == YES)
+        ac::applyColorRange(frame);
     
     if([fade_filter state] == NSControlStateValueOff) {
         if(disableFilter == false && ac::testSize(frame))
@@ -3878,6 +3880,42 @@ void setEnabledProg() {
         }
         [table_view reloadData];
     }
+}
+
+- (IBAction) setColorRange:(id)sender {
+    cv::Vec3b low, high;
+    NSColor *color_value = [color_start color];
+    double rf = 0, gf = 0, bf = 0;
+    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+    unsigned int values[3];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    low[0] = values[0];
+    low[1] = values[1];
+    low[2] = values[2];
+    color_value = [color_stop color];
+    rf = 0;
+    gf = 0;
+    bf = 0;
+    [color_value getRed:&rf green:&gf blue:&bf alpha:nil];
+    values[2] = rf*255.99999f;
+    values[1] = gf*255.99999f;
+    values[0] = bf*255.99999f;
+    high[0] = values[0];
+    high[1] = values[1];
+    high[2] = values[2];
+    ac::setColorRangeLowToHigh(low, high);
+    _NSRunAlertPanel(@"Color Range Set", @"Range Set", @"Ok", nil, nil);
+    use_color_range = YES;
+}
+
+- (IBAction) disableColorRange: (id) sender {
+    use_color_range = NO;
+}
+
+- (IBAction) showColorRange: (id)sender {
+    [color_range_ orderFront:self];
 }
 
 

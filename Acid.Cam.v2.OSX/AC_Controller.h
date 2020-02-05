@@ -203,6 +203,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *group_text;
     IBOutlet NSWindow *group_window;
     IBOutlet NSTextField *plugin_name2;
+    IBOutlet NSColorWell *color_start, *color_stop;
+    IBOutlet NSWindow *color_range_;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -230,6 +232,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     GCExtendedGamepad *profile;
     GCMicroGamepad *micro;
     std::string directory_path;
+    BOOL use_color_range;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -365,6 +368,10 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) toggleFullScreenGL: (id) sender;
 - (IBAction) changedCameraDevice: (id) sender;
 - (IBAction) saveFilterGroup:(id) sender;
+- (IBAction) setColorRange:(id)sender;
+- (IBAction) showColorRange: (id)sender;
+- (IBAction) disableColorRange: (id) sender;
+
 - (void) getNameFilter: (std::string *)str index:(int) value;
 - (NSTextField *)getMemoryText: (id) sender;
 - (void) updateDirPath: (std::string *)s;

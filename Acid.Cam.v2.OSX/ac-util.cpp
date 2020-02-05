@@ -49,16 +49,30 @@ cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_color_keys;
 int pixel_collection_value = 55;
 
+
 namespace ac {
     int allocated_frames = 0;
     int allocated_max = 300;
     bool release_frames = false;
     cv::VideoCapture v_cap;
     int color_map_color = 0;
+    unsigned int color_value_r[256], color_value_g[256], color_value_b[256];
+    
 }
 
 void ac::init() {
     fill_filter_map();
+    
+    for(int red = 0; red < 255; ++red){
+        color_value_r[red] = red;
+    }
+    for(int green = 0; green < 255; ++green){
+        color_value_g[green] = green;
+    }
+    for(int blue = 0; blue < 255; ++blue){
+        color_value_b[blue] = blue;
+    }
+
 }
 
 void ac::setMaxAllocated(const int &v) {
@@ -82,6 +96,61 @@ void ac::setPixelCollection(int value) {
 }
 int  ac::getPixelCollection() {
     return pixel_collection_value;
+}
+
+void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
+    int start = low[2];
+    int diff = abs(low[2]-high[2]);
+    if(diff <= 0) diff = 1;
+    if(diff <= 0) diff = 1;
+    diff = 255/diff;
+    for(int red = 0; red < 255; ++red) {
+        color_value_r[red] = start;
+        if((red%diff)==0 && start < high[2]) {
+            start ++;
+        }
+    }
+    start = low[1];
+    diff = abs(low[1]-high[1]);
+    if(diff <= 0) diff = 1;
+    diff = 255/diff;
+    if(diff <= 0) diff = 1;
+    
+    for(int green = 0; green < 255; ++green){
+        color_value_g[green] = start;
+        if((red%diff)==0 && start < high[1]) {
+            start ++;
+        }
+    }
+    start = low[0];
+    diff = abs(low[0]-high[0]);
+    if(diff <= 0) diff = 1;
+    diff = 255/diff;
+    if(diff <= 0) diff = 1;
+    for(int blue = 0; blue < 255; ++blue){
+        color_value_b[blue] = start;
+        if((red%diff)==0 && start < high[0]) {
+            start ++;
+        }
+    }
+}
+
+void ac::applyColorRange(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            unsigned char val;
+            val = color_value_r[pixel[2]];
+            if(val > 255) val = 255;
+            pixel[2] = val;
+            val = color_value_g[pixel[1]];
+            if(val > 255) val = 255;
+            pixel[1] = val;
+            if(val > 255) val = 255;
+            val = color_value_b[pixel[0]];
+            pixel[0] = cv::saturate_cast<unsigned char>(val);
+        }
+    }
 }
 
 void ac::MedianBlur(cv::Mat &frame, unsigned int value) {

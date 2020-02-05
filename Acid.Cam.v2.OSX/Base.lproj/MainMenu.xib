@@ -43,6 +43,9 @@
                 <outlet property="col_intense" destination="VUs-AE-eTh" id="Sf5-DO-PWo"/>
                 <outlet property="color_chk" destination="tEK-oU-BBG" id="ilc-BJ-nLn"/>
                 <outlet property="color_map" destination="xbk-h6-XyP" id="jF9-ga-AcP"/>
+                <outlet property="color_range_" destination="OWh-Qq-DYu" id="V5W-pY-CZY"/>
+                <outlet property="color_start" destination="f6z-Yk-0GI" id="YrP-0j-xRA"/>
+                <outlet property="color_stop" destination="Ml1-4Z-kWW" id="VGX-fa-o08"/>
                 <outlet property="color_well" destination="yl0-is-M5l" id="fgh-Ot-gls"/>
                 <outlet property="colorkey_b_high" destination="7tE-7L-GEx" id="1Od-xb-qnq"/>
                 <outlet property="colorkey_b_low" destination="mOd-QT-fii" id="dFd-bw-C1r"/>
@@ -502,6 +505,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showPlugins:" target="630" id="w1j-gX-y8x"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Color Range" id="ZlS-oF-mjI">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showColorRange:" target="630" id="0X6-b1-4Fo"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Fit Video to Window" id="KDy-87-FEf">
@@ -2517,7 +2526,7 @@ Gw
                         <rect key="frame" x="113" y="293" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="-" id="yQY-ia-NGn">
-                            <font key="font" metaFont="label" size="18"/>
+                            <font key="font" metaFont="system" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -2526,7 +2535,7 @@ Gw
                         <rect key="frame" x="113" y="259" width="18" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="+" id="UQs-jp-vIt">
-                            <font key="font" metaFont="label" size="18"/>
+                            <font key="font" metaFont="system" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -2996,6 +3005,69 @@ Gw
                 </subviews>
             </view>
             <point key="canvasLocation" x="824.5" y="-273"/>
+        </window>
+        <window title="Color Range" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="OWh-Qq-DYu">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="370" y="402" width="575" height="64"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
+            <view key="contentView" id="Py0-2j-rkh">
+                <rect key="frame" x="0.0" y="0.0" width="575" height="64"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <colorWell id="f6z-Yk-0GI">
+                        <rect key="frame" x="62" y="20" width="115" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="color" red="0.0" green="0.0" blue="0.0" alpha="0.24705882352941178" colorSpace="custom" customColorSpace="sRGB"/>
+                    </colorWell>
+                    <colorWell id="Ml1-4Z-kWW">
+                        <rect key="frame" x="229" y="20" width="115" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="color" red="1" green="1" blue="1" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                    </colorWell>
+                    <button verticalHuggingPriority="750" id="Jzd-m0-D1L">
+                        <rect key="frame" x="354" y="18" width="112" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Set Range" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aZd-oD-2St">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setColorRange:" target="630" id="CfJ-zb-rB4"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="mrE-1B-6Wm">
+                        <rect key="frame" x="22" y="27" width="38" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Start:" id="Ybm-sN-x6E">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="eLO-rL-48x">
+                        <rect key="frame" x="460" y="18" width="101" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dcI-Dc-S9V">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="disableColorRange:" target="630" id="got-Er-Xc7"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="zzg-du-fdl">
+                        <rect key="frame" x="187" y="27" width="36" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Stop:" id="oK7-uV-bQG">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="-299.5" y="-1326"/>
         </window>
     </objects>
 </document>

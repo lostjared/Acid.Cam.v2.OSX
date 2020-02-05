@@ -2259,6 +2259,10 @@ namespace ac {
     void setFilterColorMap(int color);
     int  getColorMapFilter();
     void User(cv::Mat &frame);
+    void setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high);
+    void applyColorRange(cv::Mat &frame);
+    //extern cv::Vec3b colors[256];
+    
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
