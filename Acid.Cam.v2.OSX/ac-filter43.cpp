@@ -214,3 +214,22 @@ void ac::SquareOffset_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PrevFrameNotEqual(cv::Mat &frame) {
+    static cv::Mat prev = frame.clone();
+    if((prev.size() != frame.size()) || (reset_alpha == true)) {
+        prev = frame.clone();
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b p = prev.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                if(pixel[j] >= p[j] && pixel[j] <= p[j]+getPixelCollection())
+                    pixel[j] = p[j];
+            }
+        }
+    }
+    prev = frame.clone();
+    AddInvert(frame);
+}

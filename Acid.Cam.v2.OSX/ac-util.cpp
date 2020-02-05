@@ -93,7 +93,7 @@ void ac::MedianBlur(cv::Mat &frame, unsigned int value) {
 
 // Apply color map to cv::Mat
 void ac::ApplyColorMap(cv::Mat &frame) {
-    if(set_color_map > 0 && set_color_map < 13) {
+    if(set_color_map > 0 && set_color_map < 21) {
         cv::Mat output_f1 = frame.clone();
         cv::applyColorMap(output_f1, frame, (int)set_color_map-1);
         const int w = frame.cols;

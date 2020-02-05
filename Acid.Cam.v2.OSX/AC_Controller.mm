@@ -2110,6 +2110,23 @@ void setEnabledProg() {
     std::ostringstream stream;
     stream << "Color Map set to: " << ac::set_color_map << "\n";
     flushToLog(stream);
+    /*
+    for(int i=0;i<256;i++)
+    {
+        M1.at<uchar>(i)=Luta[i][0];
+        M2.at<uchar>(i)=Luta[i][1];
+        M3.at<uchar>(i)=Luta[i][2];
+    }
+    
+    Mat r1,r2,r3;
+    cv::LUT(temp,M1,r1);
+    cv::LUT(temp,M2,r2);
+    cv::LUT(temp,M3,r3);
+    std::vector<cv::Mat> planes;
+    planes.push_back(r1);
+    planes.push_back(r2);
+    planes.push_back(r3);
+    cv::merge(planes,dst); */
 }
 
 - (IBAction) selectedCustomFilter: (id) sender {

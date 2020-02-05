@@ -1053,6 +1053,30 @@
                                     <menuItem title="Hot" id="Llw-uF-Zf3">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
+                                    <menuItem title="Parula" id="Kq4-d7-8wt">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Magma" id="Cb8-f8-R3f">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="iFERNO" id="sN8-gb-eq7">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Plasma" id="2xb-qN-BIH">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="VIRDIS" id="aTI-x2-K60">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Cividis" id="DNM-0A-4Zk">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Twilight" id="gdq-Dc-i5a">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Twilight Shifted" id="6nb-s3-az5">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
@@ -2493,7 +2517,7 @@ Gw
                         <rect key="frame" x="113" y="293" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="-" id="yQY-ia-NGn">
-                            <font key="font" metaFont="system" size="18"/>
+                            <font key="font" metaFont="label" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -2502,7 +2526,7 @@ Gw
                         <rect key="frame" x="113" y="259" width="18" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="+" id="UQs-jp-vIt">
-                            <font key="font" metaFont="system" size="18"/>
+                            <font key="font" metaFont="label" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
