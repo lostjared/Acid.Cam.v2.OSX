@@ -1464,6 +1464,10 @@ void setEnabledProg() {
     if(after == NSControlStateValueOn)
         ac::ApplyColorMap(frame);
     
+    if(use_color_range == YES)
+        ac::applyColorRange(frame);
+    
+    
     if([color_chk state] == NSControlStateValueOn && colorkey_set == true && !color_image.empty()) {
         cv::Mat cframe = frame.clone();
         ac::filterColorKeyed(well_color, ac::orig_frame, cframe, frame);
