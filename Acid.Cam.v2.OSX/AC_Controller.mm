@@ -3918,10 +3918,7 @@ void setEnabledProg() {
     [color_range_ orderFront:self];
 }
 
-
 @end
-
-
 
 void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
     ac::in_custom = true;

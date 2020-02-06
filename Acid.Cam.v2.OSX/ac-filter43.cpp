@@ -284,3 +284,50 @@ void ac::IntertwineAlphaBlend(cv::Mat &frame) {
     frame = out.clone();
     AddInvert(frame);
 }
+
+void ac::BlackLines(cv::Mat &frame) {
+    static int depth = rand()%50;
+    cv::Mat copy1 = frame.clone();
+    static int counter = 0;
+    static int counter_max = rand()%70;
+    static int frame_counter = 0;
+    static bool on = true;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b d;
+            if(i > depth && i+depth < frame.cols)
+                d = copy1.at<cv::Vec3b>(z, i+depth);
+            else
+                d = cv::Vec3b(0, 0, 0);
+            if(on == true) {
+                if(i+depth < frame.cols) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * d[j]));
+                    }
+                } else {
+                    pixel = cv::Vec3b(0, 0, 0);
+                }
+            }
+            if(i < depth) {
+                d = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * d[j]));
+                }
+            }
+        }
+        if(frame_counter == 0) {
+            ++counter;
+            if(counter > counter_max) {
+                counter = 0;
+                depth = rand()%50;
+                counter_max = rand()%70;
+                on = !on;
+            }
+        }
+    }
+    ++frame_counter;
+    if(frame_counter > 1) {
+        frame_counter = 0;
+    }
+}
