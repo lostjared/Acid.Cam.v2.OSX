@@ -3009,7 +3009,7 @@ Gw
         <window title="Color Range" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="OWh-Qq-DYu">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="370" y="402" width="575" height="64"/>
+            <rect key="contentRect" x="2514" y="1607" width="575" height="64"/>
             <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
             <view key="contentView" id="Py0-2j-rkh">
                 <rect key="frame" x="0.0" y="0.0" width="575" height="64"/>
@@ -3067,7 +3067,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-299.5" y="-1326"/>
+            <point key="canvasLocation" x="-297" y="-1329"/>
         </window>
     </objects>
 </document>

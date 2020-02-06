@@ -3906,7 +3906,7 @@ void setEnabledProg() {
     high[1] = values[1];
     high[2] = values[2];
     ac::setColorRangeLowToHigh(low, high);
-    _NSRunAlertPanel(@"Color Range Set", @"Range Set", @"Ok", nil, nil);
+    _NSRunAlertPanel(@"Color Range Set", @"Range Set, please add filter ApplyColorRange to a Custom Filter where you want to use it!", @"Ok", nil, nil);
     ac::setColorRangeEnabled(true);
 }
 
