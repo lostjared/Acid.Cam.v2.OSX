@@ -2167,6 +2167,8 @@ namespace ac {
     void ApplyColorRange(cv::Mat &frame);
     void IntertwineAlphaBlend(cv::Mat &frame);
     void BlackLines(cv::Mat &frame);
+    void MedianBlendMultiThread2(cv::Mat &frame);
+    void MedianBlendMultiThread2_ColorChange(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
