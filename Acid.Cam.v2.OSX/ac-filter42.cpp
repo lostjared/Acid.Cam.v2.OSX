@@ -977,11 +977,12 @@ void ac::DelayOnOffSubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "DelayOnOffSubFilter")
         return;
     static int delay = 0, seconds = 0;
-    static int wait = 1+(rand()%3);
+    static int wait = 1+(rand()%1+getVariableWait());
     int fps = static_cast<int>(ac::fps);
     static int on = 1;
     if(on == 1)
         CallFilter(subfilter, frame);
+    
     
     ++delay;
     if(delay > fps) {
@@ -991,9 +992,9 @@ void ac::DelayOnOffSubFilter(cv::Mat &frame) {
             seconds = 0;
             on = (on == 0) ? 1 : 0;
             if(on == 1)
-                wait = 1+(rand()%1);
+                wait = 1+(rand()%(1+getVariableWait()));
             else
-                wait = 1+(rand()%3);
+                wait = 1+(rand()%(1+getVariableWait()));
             
         }
     }
