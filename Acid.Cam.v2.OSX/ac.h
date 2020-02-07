@@ -2171,8 +2171,7 @@ namespace ac {
     void MedianBlendMultiThread2_ColorChange(cv::Mat &frame);
     void ApplyColorRangeInverted(cv::Mat &frame);
     void VariablesExtraHorizontal(cv::Mat &frame);
-    void setVariableWait(int wait);
-    int getVariableWait();
+    void ChannelSortDelay(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2272,7 +2271,8 @@ namespace ac {
     void applyColorRange(cv::Mat &frame);
     void setColorRangeEnabled(bool e);
     bool getColorRangeEnabled();
-    //extern cv::Vec3b colors[256];
+    void setVariableWait(int wait);
+    int getVariableWait();
     
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
