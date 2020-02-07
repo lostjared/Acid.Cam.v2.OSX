@@ -2383,16 +2383,15 @@ void setEnabledProg() {
     }
     NSInteger value = [set_color_map indexOfSelectedItem];
     ac::setFilterColorMap(static_cast<int>(value));
-    
     log << "Maximum Stored Frames: " << max << "\n";
-    
     int temp_value = atoi([[custom_cycle_delay stringValue] UTF8String]);
     if(temp_value > 0) {
         delay_value = temp_value;
         log << "Custom Cycle Delay set to: " << delay_value << "\n";
     }
-    
     ac::setMaxAllocated(static_cast<int>(max));
+    NSInteger wait_v = [wait_text integerValue];
+    ac::setVariableWait(static_cast<int>(wait_v));
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

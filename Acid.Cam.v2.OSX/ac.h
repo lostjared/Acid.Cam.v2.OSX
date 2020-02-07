@@ -2171,6 +2171,8 @@ namespace ac {
     void MedianBlendMultiThread2_ColorChange(cv::Mat &frame);
     void ApplyColorRangeInverted(cv::Mat &frame);
     void VariablesExtraHorizontal(cv::Mat &frame);
+    void setVariableWait(int wait);
+    int getVariableWait();
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

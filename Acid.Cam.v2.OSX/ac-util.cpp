@@ -49,7 +49,6 @@ cv::Vec3b gray_color(100, 100, 100);
 std::vector<ac::Keys> blocked_color_keys;
 int pixel_collection_value = 55;
 
-
 namespace ac {
     int allocated_frames = 0;
     int allocated_max = 300;
@@ -58,6 +57,7 @@ namespace ac {
     int color_map_color = 0;
     unsigned int color_value_r[256], color_value_g[256], color_value_b[256];
     bool range_enabled = false;
+    int vwait = 5;
 }
 
 void ac::init() {
@@ -97,6 +97,15 @@ void ac::setPixelCollection(int value) {
 int  ac::getPixelCollection() {
     return pixel_collection_value;
 }
+
+void ac::setVariableWait(int wait) {
+    vwait = wait;
+}
+
+int ac::getVariableWait() {
+    return vwait;
+}
+
 
 void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
     int start = low[2];

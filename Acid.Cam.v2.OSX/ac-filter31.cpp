@@ -770,6 +770,14 @@ void ac::VariableRectanglesSimple(cv::Mat &frame) {
     int current_line = 0;
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
+    static int wait = 0;
+    ++wait;
+    if(wait > getVariableWait()) {
+        wait = 0;
+    } else {
+        return;
+    }
+
     while(current_line < total_lines) {
         int rand_height = 10+rand()%390;
         if(current_line+rand_height > total_lines)
@@ -794,6 +802,15 @@ void ac::VariableRectanglesExtra(cv::Mat &frame) {
     int current_line = 0;
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
+    
+    static int wait = 0;
+    ++wait;
+    if(wait > getVariableWait()) {
+        wait = 0;
+    } else {
+        return;
+    }
+    
     while(current_line < total_lines) {
         int rand_height = 10+rand()%490;
         if(current_line+rand_height > total_lines)
@@ -820,6 +837,15 @@ void ac::VariableRectangleImageAlphaBlend(cv::Mat &frame) {
     int current_line = 0;
     static MatrixCollection<16> collection;
     collection.shiftFrames(frame);
+    
+    static int wait = 0;
+    ++wait;
+    if(wait > getVariableWait()) {
+        wait = 0;
+    } else {
+        return;
+    }
+    
     cv::Mat reimage;
     ac_resize(blend_image, reimage, frame.size());
     static double alpha = 1.0;
