@@ -100,7 +100,7 @@ int  ac::getPixelCollection() {
 
 void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
     int start = low[2];
-    int diff = abs(low[2]-high[2]);
+    int diff = high[2]-low[2];
     if(diff <= 0) diff = 1;
     if(diff <= 0) diff = 1;
     diff = 255/diff;
@@ -111,46 +111,68 @@ void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
         }
     }
     start = low[1];
-    diff = abs(low[1]-high[1]);
+    diff = high[1]-low[1];
     if(diff <= 0) diff = 1;
     diff = 255/diff;
     if(diff <= 0) diff = 1;
     
     for(int green = 0; green < 255; ++green){
         color_value_g[green] = start;
-        if((red%diff)==0 && start < high[1]) {
+        if((green%diff)==0 && start < high[1]) {
             start ++;
         }
     }
     start = low[0];
-    diff = abs(low[0]-high[0]);
+    diff = high[0]-low[0];
     if(diff <= 0) diff = 1;
     diff = 255/diff;
     if(diff <= 0) diff = 1;
     for(int blue = 0; blue < 255; ++blue){
         color_value_b[blue] = start;
-        if((red%diff)==0 && start < high[0]) {
+        if((blue%diff)==0 && start < high[0]) {
             start ++;
         }
     }
 }
 
 void ac::applyColorRange(cv::Mat &frame) {
+    
+    if(getColorRangeEnabled() == false)
+        return;
+    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            unsigned char val;
-            val = color_value_r[pixel[2]];
-            if(val > 255) val = 255;
+            unsigned int val = 0;
+            val = cv::saturate_cast<unsigned char>(color_value_r[pixel[2]]);
             pixel[2] = val;
-            val = color_value_g[pixel[1]];
-            if(val > 255) val = 255;
+            val = cv::saturate_cast<unsigned char>(color_value_g[pixel[1]]);
             pixel[1] = val;
-            if(val > 255) val = 255;
-            val = color_value_b[pixel[0]];
-            pixel[0] = cv::saturate_cast<unsigned char>(val);
+            val = cv::saturate_cast<unsigned char>(color_value_b[pixel[0]]);
+            pixel[0] = val;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::ApplyColorRangeInverted(cv::Mat &frame) {
+    
+    if(getColorRangeEnabled() == false)
+        return;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            unsigned int val = 0;
+            val = cv::saturate_cast<unsigned char>(color_value_r[~pixel[2]]);
+            pixel[2] = val;
+            val = cv::saturate_cast<unsigned char>(color_value_g[~pixel[1]]);
+            pixel[1] = val;
+            val = cv::saturate_cast<unsigned char>(color_value_b[~pixel[0]]);
+            pixel[0] = val;
+        }
+    }
+    AddInvert(frame);
 }
 
 void ac::setColorRangeEnabled(bool e) {
