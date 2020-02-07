@@ -2175,6 +2175,8 @@ namespace ac {
     void DizzyMode(cv::Mat &frame);
     void IntertwineColormap(cv::Mat &frame);
     void RotateFrame(cv::Mat &frame);
+    void GhostShift(cv::Mat &frame);
+    void RotateSet(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2276,6 +2278,7 @@ namespace ac {
     bool getColorRangeEnabled();
     void setVariableWait(int wait);
     int getVariableWait();
+    void rotate_image(cv::Mat &src, cv::Mat &dst, double angle);
     
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);

@@ -437,7 +437,7 @@ void ac::DizzyMode(cv::Mat &frame) {
 }
 
 
-void rotate_image(cv::Mat &src, cv::Mat &dst, double angle)
+void ac::rotate_image(cv::Mat &src, cv::Mat &dst, double angle)
 {
     cv::Point2f pt(src.cols/2., src.rows/2.);
     cv::Mat r = getRotationMatrix2D(pt, angle, 1.0);
@@ -458,12 +458,40 @@ void ac::IntertwineColormap(cv::Mat &frame) {
 void ac::RotateFrame(cv::Mat &frame) {
     static double angle = 1.0;
     cv::Mat out;
-    rotate_image(frame, out, angle);
+    ac::rotate_image(frame, out, angle);
     frame = out.clone();
     AddInvert(frame);
-    
     angle += 10.0;
     if(angle > 360)
         angle = 1;
-    
+    AddInvert(frame);
+}
+
+void ac::GhostShift(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int i = 0; i < collection.size(); ++i) {
+        cv::Mat copy1 = collection.frames[i].clone();
+        VariablesExtraHorizontal(copy1);
+        VariableRectanglesExtra(copy1);
+        cv::Mat out;
+        AlphaBlendDouble(frame, copy1, out, 0.6, 0.4);
+        frame = out.clone();
+    }
+    AddInvert(frame);
+}
+
+void ac::RotateSet(cv::Mat &frame) {
+    cv::Mat out = frame.clone();
+    RotateFrame(out);
+    cv::Mat copy1;
+    cv::resize(out, copy1, cv::Size(frame.cols*4, frame.rows*4));
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z+(copy1.cols/4), i+(copy1.cols/4));
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
 }
