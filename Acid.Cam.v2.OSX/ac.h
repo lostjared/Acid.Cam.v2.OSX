@@ -2173,6 +2173,8 @@ namespace ac {
     void VariablesExtraHorizontal(cv::Mat &frame);
     void ChannelSortDelay(cv::Mat &frame);
     void DizzyMode(cv::Mat &frame);
+    void IntertwineColormap(cv::Mat &frame);
+    void RotateFrame(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

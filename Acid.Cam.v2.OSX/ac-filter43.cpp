@@ -435,3 +435,35 @@ void ac::DizzyMode(cv::Mat &frame) {
     frame = out.clone();
     AddInvert(frame);
 }
+
+
+void rotate_image(cv::Mat &src, cv::Mat &dst, double angle)
+{
+    cv::Point2f pt(src.cols/2., src.rows/2.);
+    cv::Mat r = getRotationMatrix2D(pt, angle, 1.0);
+    cv::warpAffine(src, dst, r, cv::Size(src.cols, src.rows));
+}
+
+
+void ac::IntertwineColormap(cv::Mat &frame) {
+    if(getColorRangeEnabled() == false)
+        return;
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    applyColorRange(copy1);
+    ApplyColorRangeInverted(copy1);
+    AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
+    AddInvert(frame);
+}
+
+void ac::RotateFrame(cv::Mat &frame) {
+    static double angle = 1.0;
+    cv::Mat out;
+    rotate_image(frame, out, angle);
+    frame = out.clone();
+    AddInvert(frame);
+    
+    angle += 10.0;
+    if(angle > 360)
+        angle = 1;
+    
+}

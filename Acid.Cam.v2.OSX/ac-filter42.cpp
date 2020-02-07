@@ -995,7 +995,6 @@ void ac::DelayOnOffSubFilter(cv::Mat &frame) {
                 wait = 1+(rand()%(1+getVariableWait()));
             else
                 wait = 1+(rand()%(1+getVariableWait()));
-            
         }
     }
     AddInvert(frame);
