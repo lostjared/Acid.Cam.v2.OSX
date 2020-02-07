@@ -418,3 +418,20 @@ void ac::ChannelSortDelay(cv::Mat &frame) {
     frame = out.clone();
     AddInvert(frame);
 }
+
+void ac::DizzyMode(cv::Mat &frame) {
+    static cv::Mat copy1 = frame.clone();
+    if(copy1.size() != frame.size() || reset_alpha == true)
+        copy1 = frame.clone();
+    cv::Mat cp = frame.clone();
+    static int wait = 0;
+    ++wait;
+    if(wait > getVariableWait()) {
+        copy1 = cp.clone();
+        wait = 0;
+    }
+    cv::Mat out;
+    AlphaBlendDouble(copy1, frame, out, 0.5, 0.5);
+    frame = out.clone();
+    AddInvert(frame);
+}
