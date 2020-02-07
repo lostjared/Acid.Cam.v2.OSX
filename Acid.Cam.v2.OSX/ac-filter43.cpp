@@ -367,3 +367,27 @@ void ac::MedianBlendMultiThread2_ColorChange(cv::Mat &frame) {
     MedianBlendMultiThread2(frame);
     AddInvert(frame);
 }
+
+void ac::VariablesExtraHorizontal(cv::Mat &frame) {
+    int total_lines = frame.cols-2;
+    int current_line = 0;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    while(current_line < total_lines) {
+        int rand_height = 10+rand()%490;
+        if(current_line+rand_height > total_lines)
+            rand_height = total_lines-current_line;
+        int rand_frame = rand()%(collection.size()-1);
+        for(int i = current_line; i < current_line+rand_height; ++i) {
+            if(current_line > total_lines)
+                break;
+            for(int z = 0; z < frame.rows-1; ++z) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        current_line += rand_height;
+    }
+    AddInvert(frame);
+}
