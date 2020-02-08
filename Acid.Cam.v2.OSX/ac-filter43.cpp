@@ -485,13 +485,25 @@ void ac::RotateSet(cv::Mat &frame) {
     cv::Mat out = frame.clone();
     RotateFrame(out);
     cv::Mat copy1;
-    cv::resize(out, copy1, cv::Size(frame.cols*4, frame.rows*4));
+    cv::resize(out, copy1, cv::Size(static_cast<int>(frame.cols*3.5), static_cast<int>(frame.rows*3.5)));
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z+(copy1.cols/4), i+(copy1.cols/4));
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z+(copy1.cols/3), i+(copy1.cols/3));
             pixel = pix;
         }
     }
+    AddInvert(frame);
+}
+
+void ac::RotateFrameReverse(cv::Mat &frame) {
+    static double angle = 360.0;
+    cv::Mat out;
+    ac::rotate_image(frame, out, angle);
+    frame = out.clone();
+    AddInvert(frame);
+    angle -= 10.0;
+    if(angle <= 1)
+        angle = 360;
     AddInvert(frame);
 }
