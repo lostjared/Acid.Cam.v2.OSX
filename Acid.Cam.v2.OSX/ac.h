@@ -2178,6 +2178,7 @@ namespace ac {
     void GhostShift(cv::Mat &frame);
     void RotateSet(cv::Mat &frame);
     void RotateFrameReverse(cv::Mat &frame);
+    void RotateSetReverse(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

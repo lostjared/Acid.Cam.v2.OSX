@@ -507,3 +507,18 @@ void ac::RotateFrameReverse(cv::Mat &frame) {
         angle = 360;
     AddInvert(frame);
 }
+
+void ac::RotateSetReverse(cv::Mat &frame) {
+    cv::Mat out = frame.clone();
+    RotateFrameReverse(out);
+    cv::Mat copy1;
+    cv::resize(out, copy1, cv::Size(static_cast<int>(frame.cols*3.5), static_cast<int>(frame.rows*3.5)));
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z+(copy1.cols/3), i+(copy1.cols/3));
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
