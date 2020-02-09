@@ -529,3 +529,10 @@ void ac::AuraGhostRotate(cv::Mat &frame) {
     GhostTrails(frame);
     AddInvert(frame);
 }
+
+void ac::AuraGhostRotateReverse(cv::Mat &frame) {
+    RotateSetReverse(frame);
+    MatrixCollectionAuraTrails(frame);
+    GhostTrails(frame);
+    AddInvert(frame);
+}
