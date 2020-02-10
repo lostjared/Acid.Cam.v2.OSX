@@ -2393,7 +2393,7 @@ void setEnabledProg() {
     NSInteger wait_v = [wait_text integerValue];
     
     if(wait_v < 0) {
-        _NSRunAlertPanel(@"Wait cannot be negative", @"Negative value found", @"Ok", nil, nil);
+        _NSRunAlertPanel(@"The Wait variable cannot be a negative number", @"You entered a Negative value", @"Ok", nil, nil);
         return;
     }
     
