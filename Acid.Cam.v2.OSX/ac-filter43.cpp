@@ -536,3 +536,18 @@ void ac::AuraGhostRotateReverse(cv::Mat &frame) {
     GhostTrails(frame);
     AddInvert(frame);
 }
+
+void ac::AuraGhostMedianBlend(cv::Mat &frame) {
+    static int wait = 0;
+    static int dir = 1;
+    ++wait;
+    if(wait > getVariableWait() * static_cast<int>(ac::fps)) {
+        dir = (dir == 0) ? 1 : 0;
+        wait = 0;
+    }
+    if(dir == 1)
+        AuraGhostRotate(frame);
+    else
+        AuraGhostRotateReverse(frame);
+    MedianBlendMultiThread(frame);
+}
