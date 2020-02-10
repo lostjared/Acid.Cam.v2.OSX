@@ -537,7 +537,7 @@ void ac::AuraGhostRotateReverse(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::AuraGhostMedianBlend(cv::Mat &frame) {
+void ac::AuraGhostCollectionEnergy(cv::Mat &frame) {
     static int wait = 0;
     static int dir = 1;
     ++wait;
@@ -549,5 +549,5 @@ void ac::AuraGhostMedianBlend(cv::Mat &frame) {
         AuraGhostRotate(frame);
     else
         AuraGhostRotateReverse(frame);
-    MedianBlendMultiThread(frame);
+    CollectionEnergy(frame);
 }
