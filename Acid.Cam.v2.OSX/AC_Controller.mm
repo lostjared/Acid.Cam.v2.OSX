@@ -2391,7 +2391,14 @@ void setEnabledProg() {
     }
     ac::setMaxAllocated(static_cast<int>(max));
     NSInteger wait_v = [wait_text integerValue];
+    
+    if(wait_v < 0) {
+        _NSRunAlertPanel(@"Wait cannot be negative", @"Negative value found", @"Ok", nil, nil);
+        return;
+    }
+    
     ac::setVariableWait(static_cast<int>(wait_v));
+    log << "Wait set to: " << static_cast<int>(wait_v) << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);
