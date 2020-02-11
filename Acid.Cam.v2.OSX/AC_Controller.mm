@@ -351,7 +351,6 @@ void setEnabledProg() {
    /* for(int i = 0; i < ac::draw_strings.size(); ++i) {
         std::cout << "v.push_back(\"" << ac::draw_strings[i] << "\");\n";
     }*/
-    
 }
 
 - (IBAction) reloadCameraInfo: (id) sender {

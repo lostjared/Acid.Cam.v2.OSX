@@ -2186,6 +2186,7 @@ namespace ac {
     void SetImageAndVideoBlend(cv::Mat &frame);
     void ThresholdDark(cv::Mat &frame);
     void ThresholdMedianBlend(cv::Mat &frame);
+    void Threshold(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

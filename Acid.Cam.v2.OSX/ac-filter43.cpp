@@ -623,3 +623,12 @@ void ac::ThresholdMedianBlend(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::Threshold(cv::Mat &frame) {
+    static int color_counter = 125;
+    cv::Mat out,dst;
+    cv::cvtColor(frame, out, cv::COLOR_BGR2GRAY);
+    cv::threshold(out, dst, color_counter, 255, 3);
+    cv::cvtColor(dst, frame, cv::COLOR_GRAY2BGR);
+    AddInvert(frame);
+}

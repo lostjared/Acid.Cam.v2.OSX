@@ -83,6 +83,7 @@
     [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
         NSLog(@"End...");
     }];
+    std::cout << glGetString(GL_RENDERER) << " Version: " << glGetString(GL_VERSION) << "\n";
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification
