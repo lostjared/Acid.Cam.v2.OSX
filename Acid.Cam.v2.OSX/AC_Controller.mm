@@ -2391,7 +2391,6 @@ void setEnabledProg() {
     }
     ac::setMaxAllocated(static_cast<int>(max));
     NSInteger wait_v = [wait_text integerValue];
-    
     if(wait_v < 0) {
         _NSRunAlertPanel(@"The Wait variable cannot be a negative number", @"You entered a Negative value", @"Ok", nil, nil);
         return;
