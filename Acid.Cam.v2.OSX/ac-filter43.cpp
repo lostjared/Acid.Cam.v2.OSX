@@ -603,3 +603,23 @@ void ac::SetImageAndVideoBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ThresholdDark(cv::Mat &frame) {
+    static int color_counter = 75;
+    cv::Mat out,dst;
+    cv::cvtColor(frame, out, cv::COLOR_BGR2GRAY);
+    cv::threshold(out, dst, color_counter, 255, 1);
+    cv::cvtColor(dst, frame, cv::COLOR_GRAY2BGR);
+    AddInvert(frame);
+}
+
+void ac::ThresholdMedianBlend(cv::Mat &frame) {
+    static int color_counter = 175;
+    cv::Mat out,dst;
+    cv::cvtColor(frame, out, cv::COLOR_BGR2GRAY);
+    cv::threshold(out, dst, color_counter, 255, 1);
+    cv::cvtColor(dst, frame, cv::COLOR_GRAY2BGR);
+    BlendWithSource50(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}

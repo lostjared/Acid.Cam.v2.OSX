@@ -2184,6 +2184,8 @@ namespace ac {
     void AuraGhostCollectionEnergy(cv::Mat &frame);
     void BlendSourceImageAndVideo(cv::Mat &frame);
     void SetImageAndVideoBlend(cv::Mat &frame);
+    void ThresholdDark(cv::Mat &frame);
+    void ThresholdMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
