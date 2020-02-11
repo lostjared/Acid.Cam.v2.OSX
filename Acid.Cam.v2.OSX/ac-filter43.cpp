@@ -632,3 +632,36 @@ void ac::Threshold(cv::Mat &frame) {
     cv::cvtColor(dst, frame, cv::COLOR_GRAY2BGR);
     AddInvert(frame);
 }
+
+void ac::RemoveLowRedLevel(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[2] <= 125)
+                pixel[2] = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::RemoveLowGreenLevel(cv::Mat &frame)  {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[1] <= 125)
+                pixel[1] = 0;
+        }
+    }
+    AddInvert(frame);
+
+}
+void ac::RemoveLowBlueLevel(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[0] <= 125)
+                pixel[0] = 0;
+        }
+    }
+    AddInvert(frame);
+}

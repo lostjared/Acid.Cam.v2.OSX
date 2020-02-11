@@ -2187,6 +2187,9 @@ namespace ac {
     void ThresholdDark(cv::Mat &frame);
     void ThresholdMedianBlend(cv::Mat &frame);
     void Threshold(cv::Mat &frame);
+    void RemoveLowRedLevel(cv::Mat &frame);
+    void RemoveLowGreenLevel(cv::Mat &frame);
+    void RemoveLowBlueLevel(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
