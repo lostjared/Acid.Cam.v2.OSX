@@ -665,3 +665,36 @@ void ac::RemoveLowBlueLevel(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::IncreaseLowRedLevel(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[2] <= 125)
+                pixel[2] *= 2;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::IncreaseLowGreenLevel(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[1] <= 125)
+                pixel[1] *= 2;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::IncreaseLowBlueLevel(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(pixel[0] <= 125)
+                pixel[0] *= 2;
+        }
+    }
+    AddInvert(frame);
+}

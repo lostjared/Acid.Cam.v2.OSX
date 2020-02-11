@@ -2190,6 +2190,9 @@ namespace ac {
     void RemoveLowRedLevel(cv::Mat &frame);
     void RemoveLowGreenLevel(cv::Mat &frame);
     void RemoveLowBlueLevel(cv::Mat &frame);
+    void IncreaseLowRedLevel(cv::Mat &frame);
+    void IncreaseLowGreenLevel(cv::Mat &frame);
+    void IncreaseLowBlueLevel(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
