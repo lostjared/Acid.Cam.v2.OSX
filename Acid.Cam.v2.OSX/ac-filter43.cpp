@@ -568,14 +568,38 @@ void ac::BlendSourceImageAndVideo(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix1 = reimage.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix2 = reframe.at<cv::Vec3b>(z, i);
-                
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(pixel[j] * 0.5) + ((pix1[j] * alpha) + (pix2[j] * (0.5-alpha)));
                 }
-                
             }
         }
         AlphaMovementMaxMin(alpha, dir, 0.01, 0.5, 0.1);
+    }
+    AddInvert(frame);
+}
+
+void ac::SetImageAndVideoBlend(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
+        static double alpha = 1.0;
+        static int dir = 1;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = reimage.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix2 = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((pix1[j] * alpha) + (pix2[j] * (1.0-alpha)));
+                }
+            }
+        }
+        AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
     }
     AddInvert(frame);
 }

@@ -2183,6 +2183,7 @@ namespace ac {
     void AuraGhostRotateReverse(cv::Mat &frame);
     void AuraGhostCollectionEnergy(cv::Mat &frame);
     void BlendSourceImageAndVideo(cv::Mat &frame);
+    void SetImageAndVideoBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
