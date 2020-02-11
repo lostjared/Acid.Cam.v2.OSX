@@ -2394,9 +2394,15 @@ void setEnabledProg() {
         _NSRunAlertPanel(@"The Wait variable cannot be a negative number", @"You entered a Negative value", @"Ok", nil, nil);
         return;
     }
-    
     ac::setVariableWait(static_cast<int>(wait_v));
     log << "Wait set to: " << static_cast<int>(wait_v) << "\n";
+    NSInteger color_v = [color_level_text integerValue];
+    if(color_v < 0 || color_v > 255) {
+        _NSRunAlertPanel(@"The Color variable cannot be a negative number and must be below 255", @"You entered a Incorrect value", @"Ok", nil, nil);
+        return;
+    }
+    ac::setColorLevel(static_cast<int>(color_v));
+    log << "Color Level set to: " << static_cast<int>(color_v) << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

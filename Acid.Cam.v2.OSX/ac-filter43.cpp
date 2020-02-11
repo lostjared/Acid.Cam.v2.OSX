@@ -670,7 +670,7 @@ void ac::IncreaseLowRedLevel(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            if(pixel[2] <= 125)
+            if(pixel[2] <= getColorLevel())
                 pixel[2] *= 2;
         }
     }
@@ -681,7 +681,7 @@ void ac::IncreaseLowGreenLevel(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            if(pixel[1] <= 125)
+            if(pixel[1] <= getColorLevel())
                 pixel[1] *= 2;
         }
     }
@@ -692,7 +692,7 @@ void ac::IncreaseLowBlueLevel(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            if(pixel[0] <= 125)
+            if(pixel[0] <= getColorLevel())
                 pixel[0] *= 2;
         }
     }

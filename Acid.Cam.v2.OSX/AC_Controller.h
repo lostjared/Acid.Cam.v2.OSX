@@ -205,7 +205,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *plugin_name2;
     IBOutlet NSColorWell *color_start, *color_stop;
     IBOutlet NSWindow *color_range_;
-    IBOutlet NSTextField *wait_text;
+    IBOutlet NSTextField *wait_text, *color_level_text;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;

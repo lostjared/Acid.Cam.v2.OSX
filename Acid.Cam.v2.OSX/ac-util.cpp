@@ -58,6 +58,7 @@ namespace ac {
     unsigned int color_value_r[256], color_value_g[256], color_value_b[256];
     bool range_enabled = false;
     int vwait = 5;
+    int color_level = 125;
 }
 
 void ac::init() {
@@ -1520,4 +1521,11 @@ void ac::setFilterColorMap(int color) {
 
 int  ac::getColorMapFilter() {
     return color_map_color;
+}
+
+void ac::setColorLevel(int color) {
+    color_level = color;
+}
+int ac::getColorLevel() {
+    return color_level;
 }
