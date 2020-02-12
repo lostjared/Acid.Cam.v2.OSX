@@ -828,7 +828,7 @@ void setEnabledProg() {
             _NSRunAlertPanel(@"Error",@" Scaling only available in video mode", @"Ok", nil,nil);
             return;
         }
-        cv::Size res_arr[] = { {320, 240}, {640, 480}, {800, 600}, {1024, 576}, {1280, 720}, {1920, 1080}, {2560, 1440}, {3840, 2160}, {0, 0}};
+        cv::Size res_arr[] = { {0, 0}, {320, 240}, {640, 480}, {800, 600}, {1024, 576}, {1280, 720}, {1920, 1080}, {2560, 1440}, {3840, 2160}, {0, 0}};
         bool use_resized_res = false;
         if([videoFileInput state] == NSControlStateValueOn) {
             input_file = [[video_file stringValue] UTF8String];
