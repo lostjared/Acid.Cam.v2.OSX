@@ -379,7 +379,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (NSString *) saveCustomFilter: (NSString *) name withPlugin: (NSString *)plug;
 - (IBAction) filterCollectionComboChanged:(id) sender;
 @property(retain) GCController *gameController;
-@property(retain) GCGamepad *theController;
+@property(retain) GCExtendedGamepad *theController;
 
 @end
 

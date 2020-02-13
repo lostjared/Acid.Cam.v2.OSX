@@ -3780,7 +3780,7 @@ void setEnabledProg() {
     
     for(int i = 0; i < [GCController controllers].count; ++i) {
         GCController *gp = [GCController controllers][i];
-        GCGamepad *pad = [gp gamepad];
+        GCExtendedGamepad *pad = [gp extendedGamepad];
         if(pad != nil) {
             std::cout << "Mapped Buttons To: " << [[gp vendorName] UTF8String] << "\n";
             std::cout << (unsigned long) pad << "\n";

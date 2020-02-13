@@ -2296,7 +2296,7 @@ namespace ac {
     int getVariableWait();
     void rotate_image(cv::Mat &src, cv::Mat &dst, double angle);
     void setColorLevel(int color);
-    int  getColorLevel();
+    int getColorLevel();
     
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
