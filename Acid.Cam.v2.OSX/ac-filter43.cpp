@@ -709,3 +709,29 @@ void ac::Zoom(cv::Mat &frame) {
     AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 1.0);
     AddInvert(frame);
 }
+
+void ac::IntertwineVideo640(cv::Mat &frame) {
+    cv::Mat sizef;
+    ac_resize(frame, sizef, cv::Size(640, 360));
+    static MatrixCollection<640> collection;
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, sizef.size());
+        collection.shiftFrames(reframe);
+    }
+    IntertwineCols(sizef, &collection, 1);
+    ac_resize(sizef, frame, frame.size());
+    AddInvert(frame);
+}
+
+void ac::IntertwineCols640x8(cv::Mat &frame) {
+    cv::Mat sizef;
+    ac_resize(frame, sizef, cv::Size(640, 360));
+    static MatrixCollection<640> collection;
+    for(int i = 0; i < 7; ++i)
+        collection.shiftFrames(sizef);
+    IntertwineCols(sizef, &collection, 1);
+    ac_resize(sizef, frame, frame.size());
+    AddInvert(frame);
+}

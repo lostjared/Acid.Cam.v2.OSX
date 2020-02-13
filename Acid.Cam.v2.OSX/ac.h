@@ -2194,6 +2194,8 @@ namespace ac {
     void IncreaseLowGreenLevel(cv::Mat &frame);
     void IncreaseLowBlueLevel(cv::Mat &frame);
     void Zoom(cv::Mat &frame);
+    void IntertwineVideo640(cv::Mat &frame);
+    void IntertwineCols640x8(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2894,8 +2896,8 @@ namespace ac {
     }
     
     template<int col_size>
-    void IntertwineCols(cv::Mat &frame, MatrixCollection<col_size> *collection, int width) {
-        collection->shiftFrames(frame);
+    void IntertwineCols(cv::Mat &frame, MatrixCollection<col_size> *collection, int width, bool add = true) {
+        if(add == true) collection->shiftFrames(frame);
         int index = 0;
         int pos = 0;
         for(int i = 0; i < frame.cols; ++i) {
