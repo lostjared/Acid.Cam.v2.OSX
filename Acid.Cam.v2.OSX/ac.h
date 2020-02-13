@@ -2193,6 +2193,7 @@ namespace ac {
     void IncreaseLowRedLevel(cv::Mat &frame);
     void IncreaseLowGreenLevel(cv::Mat &frame);
     void IncreaseLowBlueLevel(cv::Mat &frame);
+    void Zoom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

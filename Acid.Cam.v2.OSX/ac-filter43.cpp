@@ -698,3 +698,20 @@ void ac::IncreaseLowBlueLevel(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::Zoom(cv::Mat &frame) {
+    static double zoom_x = 2, zoom_y = 2;
+    cv::Mat copy1;
+    cv::resize(frame, copy1, cv::Size(static_cast<int>(frame.rows*zoom_x), static_cast<int>(frame.cols*zoom_y)));
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    static int dir1 = 1, dir2 = 1;
+    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 1.0);
+    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 1.0);
+    AddInvert(frame);
+}
