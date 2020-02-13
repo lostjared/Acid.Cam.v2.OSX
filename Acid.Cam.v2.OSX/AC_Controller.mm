@@ -3773,7 +3773,7 @@ void setEnabledProg() {
 }
 
 - (IBAction) initControllers:(id)sender {
-    
+    /*
     [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
         NSLog(@"End...");
     }];
@@ -3827,36 +3827,15 @@ void setEnabledProg() {
                     std::cout << "Right shoulder...\n";
                 };
             }
-            
-        } else {
-            NSLog(@"Controller not supported!");
         }
-        /*
-         pad.valueChangedHandler = ^(GCGamepad *gamepad, GCControllerElement *element)
-         {
-         if ((gamepad.buttonA == element) && gamepad.buttonA.isPressed) {
-         [self nextFilter:self];
-         std::cout << "Next Filter\n";
-         }
-         if ((gamepad.buttonY == element) && gamepad.buttonY.isPressed) {
-         [self prevFilter:self];
-         std::cout << "Prev Filter...\n";
-         }
-         if (gamepad.buttonX == element && gamepad.buttonX.isPressed) {
-         std::cout << "Button X\n";
-         }
-         if (gamepad.buttonB == element && gamepad.buttonB.isPressed) {
-         std::cout << "Button B\n";
-         }
-         };*/
-    }
+     }*/
 }
 
 - (IBAction) releaseControllers: (id) sender {
-    if(theController != nil) {
+   /* if(theController != nil) {
         [theController release];
         theController = nil;
-    }
+    }*/
 }
 
 - (IBAction) toggleFullScreenGL: (id) sender {

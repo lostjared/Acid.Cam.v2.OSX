@@ -68,7 +68,7 @@
     lameRenderingTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(render:) userInfo:nil repeats:YES];
     [lameRenderingTimer retain];
     [[NSRunLoop currentRunLoop] addTimer:lameRenderingTimer forMode:NSRunLoopCommonModes];
-    
+    /*
     center = [NSNotificationCenter defaultCenter];
     [center addObserverForName: GCControllerDidConnectNotification object: nil queue: nil usingBlock: ^(NSNotification * note) {
         GCController *control = note.object;
@@ -82,7 +82,7 @@
     
     [GCController startWirelessControllerDiscoveryWithCompletionHandler:^() {
         NSLog(@"End...");
-    }];
+    }];*/
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification
