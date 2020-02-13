@@ -605,7 +605,7 @@ void ac::SetImageAndVideoBlend(cv::Mat &frame) {
 }
 
 void ac::ThresholdDark(cv::Mat &frame) {
-    static int color_counter = getColorLevel();
+    int color_counter = getColorLevel();
     cv::Mat out,dst;
     cv::cvtColor(frame, out, cv::COLOR_BGR2GRAY);
     cv::threshold(out, dst, color_counter, 255, 1);
@@ -614,7 +614,7 @@ void ac::ThresholdDark(cv::Mat &frame) {
 }
 
 void ac::ThresholdMedianBlend(cv::Mat &frame) {
-    static int color_counter = getColorLevel();
+    int color_counter = getColorLevel();
     cv::Mat out,dst;
     cv::cvtColor(frame, out, cv::COLOR_BGR2GRAY);
     cv::threshold(out, dst, color_counter, 255, 1);
@@ -625,7 +625,7 @@ void ac::ThresholdMedianBlend(cv::Mat &frame) {
 }
 
 void ac::Threshold(cv::Mat &frame) {
-    static int color_counter = getColorLevel();
+    int color_counter = getColorLevel();
     cv::Mat out,dst;
     cv::cvtColor(frame, out, cv::COLOR_BGR2GRAY);
     cv::threshold(out, dst, color_counter, 255, 3);
