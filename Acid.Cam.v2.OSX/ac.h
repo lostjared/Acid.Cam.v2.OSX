@@ -110,7 +110,6 @@ int AC_GetFZ(int oldh, int y, int nh);
 
 // acid cam namespace
 namespace ac {
-
     class FileT {
     public:
         std::string fname;
@@ -2197,6 +2196,7 @@ namespace ac {
     void IntertwineVideo640(cv::Mat &frame);
     void IntertwineCols640x8(cv::Mat &frame);
     void ZoomCorner(cv::Mat &frame);
+    void ZoomRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
