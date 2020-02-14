@@ -735,3 +735,14 @@ void ac::IntertwineCols640x8(cv::Mat &frame) {
     ac_resize(sizef, frame, frame.size());
     AddInvert(frame);
 }
+
+void ac::ZoomCorner(cv::Mat &frame) {
+    static double zoom_x = 2, zoom_y = 2;
+    cv::Mat copy1;
+    cv::resize(frame, copy1, cv::Size(static_cast<int>(frame.cols*zoom_x), static_cast<int>(frame.rows*zoom_y)));
+    frame = copy1(cv::Rect(copy1.cols-frame.cols, copy1.rows-frame.rows, frame.cols, frame.rows));
+    static int dir1 = 1, dir2 = 1;
+    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 1.0);
+    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 1.0);
+    AddInvert(frame);
+}

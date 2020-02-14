@@ -2196,6 +2196,7 @@ namespace ac {
     void Zoom(cv::Mat &frame);
     void IntertwineVideo640(cv::Mat &frame);
     void IntertwineCols640x8(cv::Mat &frame);
+    void ZoomCorner(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
