@@ -2197,6 +2197,7 @@ namespace ac {
     void IntertwineCols640x8(cv::Mat &frame);
     void ZoomCorner(cv::Mat &frame);
     void ZoomRandom(cv::Mat &frame);
+    void MedianBlendByLowValue(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
