@@ -2199,6 +2199,7 @@ namespace ac {
     void ZoomRandom(cv::Mat &frame);
     void MedianBlendByLowValue(cv::Mat &frame);
     void MedianBlendByIncreasingValue(cv::Mat &frame);
+    void AuraZoomMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

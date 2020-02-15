@@ -863,3 +863,10 @@ void ac::MedianBlendByIncreasingValue(cv::Mat &frame) {
         }
     }
 }
+
+void ac::AuraZoomMedianBlend(cv::Mat &frame) {
+    AuraGhostRotate(frame);
+    ZoomRandom(frame);
+    MedianBlendMultiThread(frame);
+    AddInvert(frame);
+}
