@@ -3742,6 +3742,7 @@ void setEnabledProg() {
         [self changeFilter:self];
     }
     
+    
     /*
      //std::cout << "FilterItem[] items = new FilterItem[" << ac::solo_filter.size() << "]\n";
      std::cout << "private List<FilterItem> items, sorted_items;\n";
