@@ -950,7 +950,7 @@ void ac::MirrorFadeDelay(cv::Mat &frame) {
         if(cnt > fps) {
             cnt = 0;
             ++seconds;
-            if(seconds > 15) {
+            if(seconds > 8) {
                 current_filter = new_filter;
                 new_filter = ac::filter_map[mirror_array[rand()%mirror_array.size()]];
                 if(current_fade_alpha == 0) current_fade_alpha = 1.0;
