@@ -843,7 +843,7 @@ void ac::RandomFadeDelay(cv::Mat &frame) {
         if(cnt > fps) {
             cnt = 0;
             ++seconds;
-            if(seconds > 15) {
+            if(seconds > getVariableWait()) {
                 current_filter = new_filter;
                 new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
                 if(current_fade_alpha == 0) current_fade_alpha = 1.0;
@@ -950,7 +950,7 @@ void ac::MirrorFadeDelay(cv::Mat &frame) {
         if(cnt > fps) {
             cnt = 0;
             ++seconds;
-            if(seconds > 8) {
+            if(seconds > getVariableWait()) {
                 current_filter = new_filter;
                 new_filter = ac::filter_map[mirror_array[rand()%mirror_array.size()]];
                 if(current_fade_alpha == 0) current_fade_alpha = 1.0;
