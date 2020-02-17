@@ -2200,6 +2200,8 @@ namespace ac {
     void MedianBlendByLowValue(cv::Mat &frame);
     void MedianBlendByIncreasingValue(cv::Mat &frame);
     void AuraZoomMedianBlend(cv::Mat &frame);
+    void OffTrackX(cv::Mat &frame);
+    void OffTrackY(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

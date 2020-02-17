@@ -882,3 +882,33 @@ void ac::AuraZoomMedianBlend(cv::Mat &frame) {
     MedianBlendMultiThread(frame);
     AddInvert(frame);
 }
+
+void ac::OffTrackX(cv::Mat &frame) {
+    int offset = rand()%frame.cols;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, offset);
+            pixel = pix;
+            ++offset;
+            if(offset > frame.cols-1) offset = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::OffTrackY(cv::Mat &frame) {
+    int offset = rand()%frame.rows;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(offset, i);
+            pixel = pix;
+        }
+        ++offset;
+        if(offset > frame.rows-1) offset = 0;
+    }
+    AddInvert(frame);
+}
