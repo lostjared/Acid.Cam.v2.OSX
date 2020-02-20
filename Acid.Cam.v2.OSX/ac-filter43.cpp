@@ -931,7 +931,7 @@ void ac::FrameAlphaInsert(cv::Mat &frame) {
     }
     static int frame_counter = 0;
     ++frame_counter;
-    if(frame_counter > static_cast<int>(ac::fps) * 1) {
+    if(frame_counter > static_cast<int>(ac::fps) * getVariableWait()) {
         stored_frame = copy1.clone();
         frame_counter = 0;
     }
@@ -956,7 +956,7 @@ void ac::FrameAlphaInsert_SubFilter(cv::Mat &frame) {
     }
     static int frame_counter = 0;
     ++frame_counter;
-    if(frame_counter > static_cast<int>(ac::fps) * 1) {
+    if(frame_counter > static_cast<int>(ac::fps) * getVariableWait()) {
         stored_frame = copy1.clone();
         frame_counter = 0;
     }
