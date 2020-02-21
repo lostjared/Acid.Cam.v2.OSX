@@ -961,3 +961,28 @@ void ac::FrameAlphaInsert_SubFilter(cv::Mat &frame) {
         frame_counter = 0;
     }
 }
+
+void ac::FrameAlphaBlend_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FrameAlphaBlend_SubFilter")
+        return;
+    static cv::Mat stored_frame = frame.clone();
+    if(stored_frame.size() != frame.size())
+        stored_frame = frame.clone();
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = stored_frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.4 * pixel[j]) + (0.6 * pix[j]));
+            }
+        }
+    }
+    CallFilter(subfilter, frame);
+    static int frame_counter = 0;
+    ++frame_counter;
+    if(frame_counter > static_cast<int>(ac::fps) * getVariableWait()) {
+        stored_frame = copy1.clone();
+        frame_counter = 0;
+    }
+}

@@ -2204,6 +2204,7 @@ namespace ac {
     void OffTrackY(cv::Mat &frame);
     void FrameAlphaInsert(cv::Mat &frame);
     void FrameAlphaInsert_SubFilter(cv::Mat &frame);
+    void FrameAlphaBlend_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
