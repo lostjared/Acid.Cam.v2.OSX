@@ -935,6 +935,7 @@ void ac::FrameAlphaInsert(cv::Mat &frame) {
         stored_frame = copy1.clone();
         frame_counter = 0;
     }
+    AddInvert(frame);
 }
 
 void ac::FrameAlphaInsert_SubFilter(cv::Mat &frame) {
@@ -960,6 +961,7 @@ void ac::FrameAlphaInsert_SubFilter(cv::Mat &frame) {
         stored_frame = copy1.clone();
         frame_counter = 0;
     }
+    AddInvert(frame);
 }
 
 void ac::FrameAlphaBlend_SubFilter(cv::Mat &frame) {
@@ -985,4 +987,22 @@ void ac::FrameAlphaBlend_SubFilter(cv::Mat &frame) {
         stored_frame = copy1.clone();
         frame_counter = 0;
     }
+    AddInvert(frame);
+}
+
+void ac::SlowTrails_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SlowTrails_SubFilter")
+        return;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    cv::Mat out;
+    for(int i = 0; i < collection.size(); ++i) {
+        cv::Mat copy2 = collection.frames[i].clone();
+        CallFilter(subfilter, copy2);
+        AlphaBlendDouble(copy1, copy2, out, 0.3, 0.7);
+        copy1 = out.clone();
+    }
+    frame = copy1.clone();
+    AddInvert(frame);
 }
