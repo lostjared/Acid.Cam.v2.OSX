@@ -2206,6 +2206,7 @@ namespace ac {
     void FrameAlphaInsert_SubFilter(cv::Mat &frame);
     void FrameAlphaBlend_SubFilter(cv::Mat &frame);
     void SlowTrails_SubFilter(cv::Mat &frame);
+    void AddCollectionSubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
