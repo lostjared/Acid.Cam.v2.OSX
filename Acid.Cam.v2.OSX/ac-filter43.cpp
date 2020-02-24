@@ -993,7 +993,7 @@ void ac::FrameAlphaBlend_SubFilter(cv::Mat &frame) {
 void ac::SlowTrails_SubFilter(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "SlowTrails_SubFilter")
         return;
-    static MatrixCollection<32> collection;
+    static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
     cv::Mat out;
