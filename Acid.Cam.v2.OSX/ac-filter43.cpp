@@ -1054,3 +1054,14 @@ void ac::AddCollectionXor_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ProperTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    cv::Mat out;
+    AlphaBlendDouble(frame, collection.frames[7],out,0.5, 0.5);
+    collection.shiftFrames(out);
+    frame = out.clone();
+    AddInvert(frame);
+}
