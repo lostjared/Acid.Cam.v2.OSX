@@ -138,7 +138,7 @@ void ac::StuckFrame_SubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     collection.shiftFrames(copy1);
     cv::Mat out;
-    AlphaBlendDouble(frame, collection.frames[7], out, 0.5, 0.6);
+    AlphaBlendDouble(frame, collection.frames[7], out, 0.5, 0.5);
     frame = out.clone();
     AddInvert(frame);
 }
