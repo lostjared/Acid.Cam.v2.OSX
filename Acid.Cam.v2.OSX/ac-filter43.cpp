@@ -1065,3 +1065,17 @@ void ac::ProperTrails(cv::Mat &frame) {
     frame = out.clone();
     AddInvert(frame);
 }
+
+void ac::ProperTrails_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "ProperTrails_SubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    cv::Mat out;
+    AlphaBlendDouble(frame, collection.frames[7],out,0.5, 0.5);
+    CallFilter(subfilter, out);
+    collection.shiftFrames(out);
+    frame = out.clone();
+    AddInvert(frame);
+}

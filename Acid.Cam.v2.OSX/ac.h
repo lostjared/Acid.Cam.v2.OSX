@@ -2209,6 +2209,7 @@ namespace ac {
     void AddCollectionSubFilter(cv::Mat &frame);
     void AddCollectionXor_SubFilter(cv::Mat &frame);
     void ProperTrails(cv::Mat &frame);
+    void ProperTrails_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
