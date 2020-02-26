@@ -378,8 +378,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (void) updateDirPath: (std::string *)s;
 - (NSString *) saveCustomFilter: (NSString *) name withPlugin: (NSString *)plug;
 - (IBAction) filterCollectionComboChanged:(id) sender;
-@property(retain) GCController *gameController;
-@property(retain) GCExtendedGamepad *theController;
+//@property(retain) GCController *gameController;
+//@property(retain) GCExtendedGamepad *theController;
 
 @end
 

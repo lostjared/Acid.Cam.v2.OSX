@@ -178,8 +178,8 @@ void setEnabledProg() {
 // Objective-C implemtation of class AC_Controller
 @implementation AC_Controller
 
-@synthesize gameController;
-@synthesize theController;
+//@synthesize gameController;
+//@synthesize theController;
 
 - (void) stopCV_prog {
     [startProg setEnabled: YES];

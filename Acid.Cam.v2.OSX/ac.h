@@ -2364,7 +2364,7 @@ namespace ac {
             unsigned long total = 0;
             for(int i = 0; i < Size; ++i) {
                 if(frames[i] != 0 && !frames[i]->empty())
-                total += frames[i]->rows * frames[i]->cols;
+                    total += frames[i]->rows * frames[i]->cols;
             }
             return total;
         }
@@ -2385,7 +2385,7 @@ namespace ac {
         void setMat(int index, cv::Mat &frame) {
             *frames[index] = frame;
         }
-
+        
         cv::Mat &operator[](int pos) {
             if(frames == 0) {
                 initFrames();
@@ -2541,7 +2541,7 @@ namespace ac {
         int r = 3+rand()%7;
         for(int i = 0; i < r; ++i)
             MedianBlur(frame);
-
+        
         auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
             for(int z = offset; z <  offset+size; ++z) {
                 for(int i = 0; i < cols; ++i) {
@@ -3068,7 +3068,7 @@ namespace ac {
             }
         }
     }
-
+    
     
     template<int size_val>
     void ShadowTrails(cv::Mat &frame, MatrixCollection<size_val> *collection, int &index) {
