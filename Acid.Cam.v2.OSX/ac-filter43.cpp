@@ -1009,7 +1009,10 @@ void ac::SlowTrails_SubFilter(cv::Mat &frame) {
 
 void ac::PixelateBlend(cv::Mat &frame) {
     static MatrixCollection<8> collection;
-    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    VariableRectanglesExtra(copy1);
+    Square_Block_Resize_Vertical(copy1);
+    collection.shiftFrames(copy1);
     int index = 0;
     int counter = 0;
     int wait = 1+rand()%50;
