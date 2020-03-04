@@ -2212,6 +2212,7 @@ namespace ac {
     void ProperTrails_SubFilter(cv::Mat &frame);
     void StuckFrame_SubFilter(cv::Mat &frame);
     void XorLag(cv::Mat &frame);
+    void PixelateBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
