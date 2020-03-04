@@ -158,3 +158,55 @@ void ac::XorLag(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PixelateBlend(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    cv::Mat copy1 = frame.clone();
+    VariableRectanglesExtra(copy1);
+    Square_Block_Resize_Vertical(copy1);
+    collection.shiftFrames(copy1);
+    int index = 0;
+    int counter = 0;
+    int wait = 1+rand()%50;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            ++counter;
+            if(counter > wait) {
+                wait = 1+(rand()%50);
+                ++index;
+                counter = 0;
+                if(index > collection.size()-1)
+                    index = 0;
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::PixelateRect(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    cv::Mat copy1 = frame.clone();
+    StretchRowMatrix16(copy1);
+    StretchColMatrix16(copy1);
+    collection.shiftFrames(copy1);
+    for(int j = 0; j < 100; ++j) {
+        int index = rand()%collection.size();
+        int start_x = rand()%frame.cols;
+        int stop_x = rand()%frame.cols;
+        for(int i = start_x; i < frame.cols && i < start_x+stop_x; ++i) {
+            int start_y = rand()%frame.rows;
+            int stop_y = rand()%frame.rows;
+            for(int z = start_y; z < frame.rows && z < start_y+stop_y; ++z) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
