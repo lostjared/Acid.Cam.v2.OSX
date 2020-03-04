@@ -142,3 +142,19 @@ void ac::StuckFrame_SubFilter(cv::Mat &frame) {
     frame = out.clone();
     AddInvert(frame);
 }
+
+void ac::XorLag(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    cv::Mat &cp = collection.frames[31];
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = cp.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^pix[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
