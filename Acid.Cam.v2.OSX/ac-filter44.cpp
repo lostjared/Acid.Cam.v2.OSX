@@ -228,3 +228,24 @@ void ac::RGBSplitFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagPixel(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int off = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(i < frame.cols) {
+                cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])+(0.5 * pix[j]));
+                }
+            }
+        }
+        ++off;
+        if(off > collection.size()-1)
+            off = 0;
+    }
+    AddInvert(frame);
+}
