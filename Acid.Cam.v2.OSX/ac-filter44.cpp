@@ -210,3 +210,21 @@ void ac::PixelateRect(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RGBSplitFilter(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b rgb[3];
+            rgb[0] = collection.frames[15].at<cv::Vec3b>(z, i);
+            rgb[1] = collection.frames[7].at<cv::Vec3b>(z, i);
+            rgb[2] = collection.frames[0].at<cv::Vec3b>(z, i);
+            pixel[0] = rgb[0][0];
+            pixel[1] = rgb[1][1];
+            pixel[2] = rgb[2][2];
+        }
+    }
+    AddInvert(frame);
+}

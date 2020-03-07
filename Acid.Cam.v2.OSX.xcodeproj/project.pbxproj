@@ -784,7 +784,7 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = "2.63.0 High Sierra";
+				MARKETING_VERSION = "2.64.0 High Sierra";
 				OTHER_LDFLAGS = (
 					/usr/lib/libbz2.dylib,
 					/usr/lib/libdl.dylib,
@@ -830,7 +830,7 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = "2.63.0 High Sierra";
+				MARKETING_VERSION = "2.64.0 High Sierra";
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = (
 					/usr/lib/libbz2.dylib,

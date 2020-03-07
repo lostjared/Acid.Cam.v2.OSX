@@ -2214,6 +2214,7 @@ namespace ac {
     void XorLag(cv::Mat &frame);
     void PixelateBlend(cv::Mat &frame);
     void PixelateRect(cv::Mat &frame);
+    void RGBSplitFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
