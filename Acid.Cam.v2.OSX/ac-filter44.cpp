@@ -317,3 +317,60 @@ void ac::DiagPixelY4(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 0.1, 1.0);
     AddInvert(frame);
 }
+
+void ac::ExpandLeftRight(cv::Mat &frame) {
+    static int off = rand()%frame.cols;
+    static int off_dir = 1;
+    static int counter = 0;
+    static int cdir = 1;
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(i+off < frame.cols) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i+off);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            } else {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, off-i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+        if(cdir == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-1;
+                cdir = 0;
+            }
+        } else {
+            --index;
+            if(index <= 1) {
+                index = 1;
+                cdir = 1;
+            }
+        }
+        ++counter;
+        if(counter > 3) {
+            counter = 0;
+            if(off_dir == 1) {
+                ++off;
+                if(off > frame.cols) {
+                    off = frame.cols-1;
+                    off_dir = 0;
+                }
+            } else {
+                --off;
+                if(off <= 1) {
+                    off = 1;
+                    off_dir = 1;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
