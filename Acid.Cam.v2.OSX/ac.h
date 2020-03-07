@@ -2218,6 +2218,7 @@ namespace ac {
     void DiagPixel(cv::Mat &frame);
     void DiagPixelY(cv::Mat &frame);
     void DiagPixelY2(cv::Mat &frame);
+    void DiagPixelY3(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
