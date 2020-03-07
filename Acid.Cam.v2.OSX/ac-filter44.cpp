@@ -296,3 +296,24 @@ void ac::DiagPixelY3(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagPixelY4(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    if(collection.empty()) collection.shiftFrames(frame);
+    cv::Mat out;
+    AlphaBlendDouble(frame, collection.frames[rand()%(collection.size()-1)], out, 0.5, 0.5);
+    collection.shiftFrames(out);
+    int index = 0;
+    static double alpha = 1.0;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        index = rand()%(collection.size()-1);
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    AlphaMovementMaxMin(alpha, dir, 0.01, 0.1, 1.0);
+    AddInvert(frame);
+}
