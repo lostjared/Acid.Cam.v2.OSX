@@ -249,3 +249,22 @@ void ac::DiagPixel(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagPixelY(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    int off = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
+            pixel = pix;
+            
+            ++off;
+            if(off > collection.size()-1)
+                off = 0;
+
+        }
+    }
+    AddInvert(frame);
+}

@@ -2216,6 +2216,7 @@ namespace ac {
     void PixelateRect(cv::Mat &frame);
     void RGBSplitFilter(cv::Mat &frame);
     void DiagPixel(cv::Mat &frame);
+    void DiagPixelY(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
