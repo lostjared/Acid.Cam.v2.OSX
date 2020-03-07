@@ -334,7 +334,7 @@ void ac::ExpandLeftRight(cv::Mat &frame) {
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
                 }
-            } else {
+            } else if(off-i > 0) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, off-i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
