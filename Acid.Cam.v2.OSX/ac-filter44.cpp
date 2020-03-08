@@ -395,3 +395,26 @@ void ac::DiagSquare(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagSquareLarge(cv::Mat &frame) {
+    static constexpr int SIZE=32;
+    static MatrixCollection<SIZE> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    static int square = 64;
+    for(int z = 0; z < frame.rows; z += square) {
+        for(int i = 0; i < frame.cols; i += square) {
+            for(int x = 0; x+i < frame.cols && x < square; ++x) {
+                for(int y = 0; z+y < frame.rows && y < square; ++y) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                    pixel = pix;
+                }
+            }
+            ++offset;
+            if(offset > (collection.size()-1))
+                offset = 0;
+        }
+    }
+    AddInvert(frame);
+}
