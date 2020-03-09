@@ -418,3 +418,28 @@ void ac::DiagSquareLarge(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagonalSquareCollection(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    for(int z = 0; z < frame.rows; z += 32) {
+        for(int i = 0; i < frame.cols; i += 32) {
+            for(int x = 0; x+i < frame.cols && x < 32; ++x) {
+                for(int y = 0; z+y < frame.rows && y < 32; ++y) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                    pixel = pix;
+                }
+                ++offset;
+                if(offset > (collection.size()-1))
+                    offset = 0;
+
+            }
+            ++offset;
+            if(offset > (collection.size()-1))
+                offset = 0;
+        }
+    }
+    AddInvert(frame);
+}
