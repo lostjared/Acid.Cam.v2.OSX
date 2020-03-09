@@ -2224,6 +2224,7 @@ namespace ac {
     void DiagSquare(cv::Mat &frame);
     void DiagSquareLarge(cv::Mat &frame);
     void DiagonalSquareCollection(cv::Mat &frame);
+    void DiagnoalSquareSize(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
