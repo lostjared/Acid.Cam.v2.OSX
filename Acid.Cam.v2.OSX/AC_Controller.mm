@@ -3908,6 +3908,22 @@ void setEnabledProg() {
     [color_range_ orderFront:self];
 }
 
+- (IBAction) setSlitScan:(id) sender {
+    NSInteger w = [slit_width integerValue];
+    NSInteger h = [slit_height integerValue];
+    NSInteger f = [slit_frames integerValue];
+    if(w >= 320 && h >= 240 && f >= 8) {
+        ac::slitScanSet((int)f, (int)w, (int)h);
+        _NSRunAlertPanel(@"Value set", @"Value Set", @"Ok", nil, nil);
+    } else {
+        _NSRunAlertPanel(@"Invalid data value not set", @"Value not Set", @"Ok", nil, nil);
+    }
+}
+
+- (IBAction) showSlitScan:(id) sender {
+    [slit_win orderFront:self];
+}
+
 @end
 
 void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {

@@ -2228,6 +2228,7 @@ namespace ac {
     void DiagonalSquareSizeOnOff(cv::Mat &frame);
     void DiagonalSquareSizeOnOffRandom(cv::Mat &frame);
     void DiagonalBuffer(cv::Mat &frame);
+    void SlitScanGUI(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2332,6 +2333,7 @@ namespace ac {
     void rotate_image(cv::Mat &src, cv::Mat &dst, double angle);
     void setColorLevel(int color);
     int getColorLevel();
+    void slitScanSet(int num, int width, int height);
     
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
@@ -2358,6 +2360,16 @@ namespace ac {
         Frames(int size) : frames(0), Size(size) {
             
         }
+        
+        ~Frames() {
+            if(frames != 0) {
+                for(int i = 0; i < Size; ++i) {
+                    delete frames[i];
+                }
+                delete [] frames;
+            }
+        }
+        
         void releaseFrames() {
             for(int i = 0; i < Size; ++i) {
                 frames[i]->release();
@@ -2504,8 +2516,96 @@ namespace ac {
         int completedRows;
     };
     
-    unsigned long calculateMemory();
+    class DynamicMatrixCollection {
+    public:
+        int ArraySize;
+        
+        DynamicMatrixCollection(int s) : ArraySize(s), frames(s), w(0), h(0) {
+            //all_objects.push_back(&frames);
+            completedRows = 0;
+        }
+        Frames frames;
+        int w, h;
+        void shiftFrames(cv::Mat &frame) {
+            frames.initFrames();
+            if(resetFrame(frame)) {
+                shiftEachFrame(frame);
+                if(completedRows < size()) ++completedRows;
+            }
+        }
+        
+        void shiftEachFrame(cv::Mat &frame) {
+            for(int i = ArraySize-1; i > 0; --i) {
+                frames[i] = frames[i-1];
+            }
+            frames[0] = frame.clone();
+        }
+        
+        bool resetFrame(cv::Mat &frame) {
+            int wx = frame.cols;
+            int wh = frame.rows;
+            if(getCurrentAllocatedFrames() > getMaxAllocated()) {
+                release_frames = true;
+            }
+            // check if any frames were released.
+            bool check_released = false;
+            for(int i = 0; i < ArraySize; ++i) {
+                if(frames[i].empty()) {
+                    check_released = true;
+                    setAllocatedFrames(getCurrentAllocatedFrames()+ArraySize);
+                    //allocated_frames += Size;
+                    frames[i] = frame.clone();
+                    break;
+                }
+            }
+            if(check_released == true || (w != wx || h != wh) || reset_filter == true || frames_released == true) {
+                col_lock.lock();
+                for(int i = 0; i < ArraySize; ++i)
+                    frames[i] = frame.clone();
+                w = wx;
+                h = wh;
+                reset_filter = false;
+                completedRows = 0;
+                col_lock.unlock();
+                return false;
+            }
+            return true;
+        }
+        
+        bool empty() {
+            for(int i = 0; i < size(); ++i) {
+                if(!frames[i].empty())
+                    return false;
+            }
+            return true;
+        }
+        
+        void releaseFrames() {
+            frames.releaseFrames();
+        }
+        
+        bool valid() const {
+            return (w != 0 && h != 0);
+        }
+        int width() const {
+            return w;
+        }
+        int height() const { return h; }
+        cv::Size bounds() const {
+            return cv::Size(w, h);
+        }
+        int size() const {
+            return ArraySize;
+            
+        }
+        int completed() {
+            return completedRows;
+            
+        }
+        int completedRows;
+    };
     
+    unsigned long calculateMemory();
     extern bool testSize(cv::Mat &frame);
     // pass function pointer, functor or lambda with prototype
     // void filter(cv::Mat *frame, int offset, int cols, int size)

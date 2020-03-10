@@ -206,6 +206,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSColorWell *color_start, *color_stop;
     IBOutlet NSWindow *color_range_;
     IBOutlet NSTextField *wait_text, *color_level_text;
+    IBOutlet NSTextField *slit_width, *slit_height, *slit_frames;
+    IBOutlet NSWindow *slit_win;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -372,7 +374,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) setColorRange:(id)sender;
 - (IBAction) showColorRange: (id)sender;
 - (IBAction) disableColorRange: (id) sender;
-
+- (IBAction) setSlitScan:(id) sender;
+- (IBAction) showSlitScan:(id) sender;
 - (void) getNameFilter: (std::string *)str index:(int) value;
 - (NSTextField *)getMemoryText: (id) sender;
 - (void) updateDirPath: (std::string *)s;

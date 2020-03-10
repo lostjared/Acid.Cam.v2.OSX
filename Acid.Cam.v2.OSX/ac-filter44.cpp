@@ -604,3 +604,48 @@ void ac::DiagonalBuffer(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+int num_frames = 0;
+int slit_width = 0;
+int slit_height = 0;
+ac::DynamicMatrixCollection *collection = 0;
+
+
+void ac::slitScanSet(int num, int width, int height) {
+    if(collection != 0) {
+        delete collection;
+        collection = 0;
+    }
+    collection = new DynamicMatrixCollection(num);
+    num_frames = num;
+    slit_width = width;
+    slit_height = height;
+}
+
+void ac::SlitScanGUI(cv::Mat &frame) {
+    
+    if(collection == 0)
+        return;
+    
+    cv::Mat copy1;
+    ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
+    collection->shiftFrames(copy1);
+    int index = 0;
+    
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i) {
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection->frames[index].at<cv::Vec3b>(z, i);
+            if(pixel == pix) {
+                pixel = collection->frames[1].at<cv::Vec3b>(z, i);
+            } else {
+                pixel = pix;
+            }
+        }
+        ++index;
+        if(index > collection->size()-1)
+            index = 0;
+    }
+    ac_resize(copy1, frame, frame.size());
+    AddInvert(frame);
+}
