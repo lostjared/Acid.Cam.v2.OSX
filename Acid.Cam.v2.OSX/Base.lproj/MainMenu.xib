@@ -123,8 +123,10 @@
                 <outlet property="slider_green_pos" destination="JdX-or-gwM" id="wc2-jo-tm9"/>
                 <outlet property="slider_red" destination="mzX-pn-252" id="ruZ-J7-hWX"/>
                 <outlet property="slider_red_pos" destination="S4C-AA-haV" id="7Xg-vp-Wcc"/>
+                <outlet property="slit_delay" destination="hhx-0P-RNb" id="OlQ-JA-JJH"/>
                 <outlet property="slit_frames" destination="qt9-m2-Ct0" id="h3M-7f-qdH"/>
                 <outlet property="slit_height" destination="cbO-pq-PGL" id="c2G-V3-fP3"/>
+                <outlet property="slit_on" destination="G1r-Xh-xGg" id="yUU-iV-Hb8"/>
                 <outlet property="slit_repeat" destination="XTz-P2-no7" id="wpf-JA-Rnc"/>
                 <outlet property="slit_width" destination="les-2p-W6z" id="kfe-zR-2V7"/>
                 <outlet property="slit_win" destination="S7E-w3-lc5" id="BMq-ML-aFg"/>
@@ -2540,7 +2542,7 @@ Gw
                         <rect key="frame" x="111" y="316" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="-" id="yQY-ia-NGn">
-                            <font key="font" metaFont="system" size="18"/>
+                            <font key="font" metaFont="label" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -2549,7 +2551,7 @@ Gw
                         <rect key="frame" x="111" y="282" width="18" height="20"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="+" id="UQs-jp-vIt">
-                            <font key="font" metaFont="system" size="18"/>
+                            <font key="font" metaFont="label" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -3206,6 +3208,51 @@ Gw
                         <rect key="frame" x="260" y="59" width="47" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1" drawsBackground="YES" id="mb7-1O-u9b">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Tj-8f-QyB">
+                        <rect key="frame" x="-68" y="18" width="40" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Width" id="UN2-RJ-ETq">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hhx-0P-RNb">
+                        <rect key="frame" x="69" y="17" width="42" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="0" drawsBackground="YES" id="2Sj-qV-oKE">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hMp-Lh-Wd7">
+                        <rect key="frame" x="18" y="20" width="38" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Delay" id="ypm-VA-jar">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ODS-we-1m7">
+                        <rect key="frame" x="126" y="19" width="49" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="On For:" id="ngI-Sv-ICz">
+                            <font key="font" usesAppearanceFont="YES"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1r-Xh-xGg">
+                        <rect key="frame" x="192" y="16" width="40" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1" drawsBackground="YES" id="BWD-D4-hnA">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

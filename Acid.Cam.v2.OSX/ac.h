@@ -2333,7 +2333,7 @@ namespace ac {
     void rotate_image(cv::Mat &src, cv::Mat &dst, double angle);
     void setColorLevel(int color);
     int getColorLevel();
-    void slitScanSet(int num, int width, int height, int repeat);
+    void slitScanSet(int num, int width, int height, int repeat, int delay, int on);
     
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
