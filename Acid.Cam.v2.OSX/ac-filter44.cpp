@@ -563,3 +563,44 @@ void ac::DiagonalSquareSizeOnOffRandom(cv::Mat &frame) {
         }
     }
 }
+
+void ac::DiagonalBuffer(cv::Mat &frame) {
+    static PixelArray2D pix_container;
+    static int pix_x = 0, pix_y = 0;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    if(image_matrix_reset == true || pix_container.pix_values == 0 || frame.size() != cv::Size(pix_x, pix_y)) {
+        pix_container.create(frame, frame.cols, frame.rows, 0);
+        pix_x = frame.cols;
+        pix_y = frame.rows;
+        for(int i = 0; i < pix_x; ++i) {
+            for(int z = 0; z < pix_y; ++z) {
+                for(int q = 0; q < frame.rows; ++q) {
+                    pix_container.pix_values[i][z].col[q] = rand()%collection.size();
+                }
+            }
+        }
+    }
+    bool on = true;
+    int v = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+
+        if((z%8)==0) {
+            v = pix_container.pix_values[0][z].col[0];
+            ++v;
+            if(v > (collection.size()-1))
+                v = 0;
+            pix_container.pix_values[0][z].col[0] = v;
+        }
+        
+        for(int i = 0; i < frame.cols; ++i) {
+            if(on == true) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix;
+                pix = collection.frames[v].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
