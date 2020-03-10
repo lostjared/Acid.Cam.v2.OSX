@@ -615,7 +615,10 @@ namespace ac {
     std::unique_ptr<ac::DynamicMatrixCollection> collection;
 }
 
+std::mutex value;
+
 void ac::slitScanSet(int num, int width, int height, int repeat, int delay, int on) {
+    value.lock();
     collection.reset(new DynamicMatrixCollection(num));
     num_frames = num;
     slit_width = width;
@@ -623,11 +626,15 @@ void ac::slitScanSet(int num, int width, int height, int repeat, int delay, int 
     slit_repeat = repeat;
     slit_delay = delay;
     slit_on = on;
+    value.unlock();
 }
 
 void ac::SlitScanGUI(cv::Mat &frame) {
-    if(collection.get() == nullptr)
+    value.lock();
+    if(collection.get() == nullptr) {
+        value.unlock();
         return;
+    }
     cv::Mat copy1;
     ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
     static int time_count = 0;
@@ -676,5 +683,6 @@ void ac::SlitScanGUI(cv::Mat &frame) {
         }
     }
     ac_resize(copy1, frame, frame.size());
+    value.unlock();
     AddInvert(frame);
 }
