@@ -590,6 +590,8 @@ void setEnabledProg() {
             strout << "Filters that require SubFilter should be used in the Custom Filter Mode.\n";
             [custom_window orderFront:self];
             flushToLog(strout);
+        } else if(filter_value == "SlitScanGUI") {
+            [slit_win orderFront:self];
         }
     }
     ac::reset_filter = true;
@@ -2175,6 +2177,10 @@ void setEnabledProg() {
             strout << "To use this filter, set a subfilter in Custom Window...\n";
             flushToLog(strout);
         }
+        if(filter_value == "SlitScanGUI") {
+            [slit_win orderFront:self];
+        }
+        
         if([chk_preview integerValue] == 1 && !test_image.empty()) {
             cv::Mat copy1 = test_image.clone();
             if(ac::filter_map_str.find(file_str) != ac::filter_map_str.end()) {

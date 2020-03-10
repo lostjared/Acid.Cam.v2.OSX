@@ -3121,7 +3121,7 @@ Gw
         <window title="SlitScan" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="S7E-w3-lc5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="370" y="402" width="333" height="160"/>
+            <rect key="contentRect" x="2841" y="1198" width="333" height="160"/>
             <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
             <view key="contentView" id="OPk-Uc-d0F">
                 <rect key="frame" x="0.0" y="0.0" width="333" height="160"/>
