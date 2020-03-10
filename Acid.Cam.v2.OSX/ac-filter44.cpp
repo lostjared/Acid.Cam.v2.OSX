@@ -519,3 +519,47 @@ void ac::DiagonalSquareSizeOnOff(cv::Mat &frame) {
         }
     }
 }
+
+void ac::DiagonalSquareSizeOnOffRandom(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int square_size = 32;
+    static int offset = 0;
+    bool on = true;
+    for(int z = 0; z < frame.rows; z += square_size) {
+        for(int i = 0; i < frame.cols; i += square_size) {
+            for(int x = 0; x+i < frame.cols && x < square_size; ++x) {
+                for(int y = 0; z+y < frame.rows && y < square_size; ++y) {
+                    if(on == true) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                        pixel = pix;
+                    }
+                }
+            }
+            ++offset;
+            if(offset > (collection.size()-1))
+                offset = 0;
+
+            if( (rand()%25) > 15)
+                on = true;
+            else
+                on = false;
+        }
+    }
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        ++square_size;
+        if(square_size >= 128) {
+            square_size = 128;
+            dir = 0;
+        }
+    } else {
+        --square_size;
+        if(square_size <= 8) {
+            square_size = 8;
+            dir = 1;
+        }
+    }
+}

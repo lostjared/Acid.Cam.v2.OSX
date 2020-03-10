@@ -2226,6 +2226,7 @@ namespace ac {
     void DiagonalSquareCollection(cv::Mat &frame);
     void DiagnoalSquareSize(cv::Mat &frame);
     void DiagonalSquareSizeOnOff(cv::Mat &frame);
+    void DiagonalSquareSizeOnOffRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
