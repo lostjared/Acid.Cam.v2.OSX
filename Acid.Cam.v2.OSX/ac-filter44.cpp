@@ -619,8 +619,10 @@ std::mutex value;
 
 void ac::slitScanSet(int num, int width, int height, int repeat, int delay, int on) {
     value.lock();
-    collection.reset(new DynamicMatrixCollection(num));
-    num_frames = num;
+    if(num != num_frames) {
+        collection.reset(new DynamicMatrixCollection(num));
+        num_frames = num;
+    }
     slit_width = width;
     slit_height = height;
     slit_repeat = repeat;
