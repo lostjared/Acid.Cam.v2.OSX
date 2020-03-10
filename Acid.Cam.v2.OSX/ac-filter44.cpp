@@ -632,7 +632,7 @@ void ac::SlitScanGUI(cv::Mat &frame) {
     ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
     static int time_count = 0;
     static int seconds = 0;
-    bool add = true;
+    static bool add = true;
     
     ++time_count;
     if(time_count > static_cast<int>(ac::fps)) {
