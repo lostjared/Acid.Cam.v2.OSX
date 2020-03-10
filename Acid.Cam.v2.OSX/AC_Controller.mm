@@ -3918,8 +3918,10 @@ void setEnabledProg() {
     NSInteger w = [slit_width integerValue];
     NSInteger h = [slit_height integerValue];
     NSInteger f = [slit_frames integerValue];
-    if(w >= 320 && h >= 240 && f >= 8) {
-        ac::slitScanSet(static_cast<int>(f), static_cast<int>(w), static_cast<int>(h));
+    NSInteger r = [slit_repeat integerValue];
+    
+    if(w >= 320 && h >= 240 && f >= 8 && r >= 1) {
+        ac::slitScanSet(static_cast<int>(f), static_cast<int>(w), static_cast<int>(h), static_cast<int>(r));
         _NSRunAlertPanel(@"Value set", @"Value Set", @"Ok", nil, nil);
     } else {
         _NSRunAlertPanel(@"Invalid data value not set", @"Value not Set", @"Ok", nil, nil);
