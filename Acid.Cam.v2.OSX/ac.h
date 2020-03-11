@@ -2553,7 +2553,8 @@ namespace ac {
             for(int i = 0; i < ArraySize; ++i) {
                 if(frames[i].empty()) {
                     check_released = true;
-                    setAllocatedFrames(getCurrentAllocatedFrames()+ArraySize);
+                    //allocaed frames not added to count
+                    //setAllocatedFrames(getCurrentAllocatedFrames()+ArraySize);
                     //allocated_frames += Size;
                     frames[i] = frame.clone();
                     break;
