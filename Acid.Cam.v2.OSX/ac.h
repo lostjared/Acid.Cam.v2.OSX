@@ -2522,6 +2522,7 @@ namespace ac {
         int ArraySize;
         
         DynamicMatrixCollection(int s) : ArraySize(s), frames(s), w(0), h(0) {
+            // do not count as part of stored frames (commented out below)
             //all_objects.push_back(&frames);
             completedRows = 0;
         }
