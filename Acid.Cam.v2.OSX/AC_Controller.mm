@@ -590,7 +590,7 @@ void setEnabledProg() {
             strout << "Filters that require SubFilter should be used in the Custom Filter Mode.\n";
             [custom_window orderFront:self];
             flushToLog(strout);
-        } else if(filter_value == "SlitScanGUI") {
+        } else if(filter_value == "SlitScanGUI" || filter_value == "SlitScanRandom") {
             [slit_win orderFront:self];
         }
     }
@@ -2177,7 +2177,7 @@ void setEnabledProg() {
             strout << "To use this filter, set a subfilter in Custom Window...\n";
             flushToLog(strout);
         }
-        if(filter_value == "SlitScanGUI") {
+        if(filter_value == "SlitScanGUI" || filter_value == "SlitScanRandom") {
             [slit_win orderFront:self];
         }
         

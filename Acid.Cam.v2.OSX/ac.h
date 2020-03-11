@@ -2229,6 +2229,7 @@ namespace ac {
     void DiagonalSquareSizeOnOffRandom(cv::Mat &frame);
     void DiagonalBuffer(cv::Mat &frame);
     void SlitScanGUI(cv::Mat &frame);
+    void SlitScanRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

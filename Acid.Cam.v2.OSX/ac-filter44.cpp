@@ -688,3 +688,43 @@ void ac::SlitScanGUI(cv::Mat &frame) {
     value.unlock();
     AddInvert(frame);
 }
+
+void ac::SlitScanRandom(cv::Mat &frame) {
+    value.lock();
+    if(collection.get() == nullptr) {
+        value.unlock();
+        return;
+    }
+    cv::Mat copy1;
+    ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
+    
+    if(collection->empty())
+        collection->shiftFrames(copy1);
+    
+    cv::Mat copy2 = collection->frames[collection->size()-2].clone();
+    
+    if((rand()%50) > 25)
+        collection->shiftFrames(copy1);
+    else
+        collection->shiftFrames(copy2);
+    
+    int index = 0;
+    int counter = 0;
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i) {
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection->frames[index].at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+        ++counter;
+        if(counter >= slit_repeat) {
+            ++index;
+            if(index > collection->size()-1)
+                index = 0;
+            counter = 0;
+        }
+    }
+    ac_resize(copy1, frame, frame.size());
+    value.unlock();
+    AddInvert(frame);
+}
