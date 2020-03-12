@@ -780,7 +780,7 @@ void ac::VideoSlitScan(cv::Mat &frame) {
             for(int i = 0; i < copy1.cols; ++i) {
                 cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix1 = collection1.frames[index].at<cv::Vec3b>(z, i);
-                cv::Vec3b pix2 = collection1.frames[index].at<cv::Vec3b>(z, i);
+                cv::Vec3b pix2 = collection2.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pix1[j]) + (0.5 * pix2[j]));
                 }

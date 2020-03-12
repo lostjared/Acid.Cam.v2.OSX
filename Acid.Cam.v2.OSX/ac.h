@@ -2337,12 +2337,10 @@ namespace ac {
     void setColorLevel(int color);
     int getColorLevel();
     void slitScanSet(int num, int width, int height, int repeat, int delay, int on);
-    
     typedef void (*Log)(std::string);
     extern Log log_func;
-    
     void setLogCallback(Log log);
-    
+    void log_print(std::string s);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

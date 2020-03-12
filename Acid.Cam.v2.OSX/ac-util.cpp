@@ -722,6 +722,11 @@ ac::Log ac::log_func = 0;
 void ac::setLogCallback(Log log) {
     log_func = log;
 }
+void ac::log_print(std::string s) {
+    if(log_func != 0)
+        log_func(s);
+}
+
 
 // set custom callback
 void ac::setCustom(DrawFunction f) {

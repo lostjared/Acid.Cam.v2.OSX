@@ -94,9 +94,7 @@ void ac::release_all_objects() {
     std::ostringstream stream;
     stream << "acidcam: Released: " << total << " Matrix objects...";
     std::cout<<stream.str() << "\n";
-    if(ac::log_func != 0)
-        log_func(stream.str());
-    
+    log_print(stream.str());
     setAllocatedFrames(0);
     col_lock.unlock();
 }
