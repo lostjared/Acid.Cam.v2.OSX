@@ -791,3 +791,35 @@ void ac::VideoSlitScan(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FloatFade(cv::Mat &frame) {
+    static float start[3] = {0}, goal[3] = {0};
+    static int init = 0, speed = 1.0;
+    if(init == 0) {
+        for(int j = 0; j < 3; ++j) {
+            start[j] = rand()%255;
+            goal[j] = rand()%255;
+        }
+        init = 1;
+    }
+    for(int j = 0; j < 3; ++j) {
+        
+        if(start[j] > goal[j]) {
+            start[j] += speed;
+        } else if(start[j] < goal[j]) {
+            start[j] -= speed;
+        } else {
+            goal[j] = rand()%255;
+        }
+    }
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.8*(pixel[j]+start[j])));
+            }
+        }
+    }
+    AddInvert(frame);
+}
