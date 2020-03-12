@@ -2233,6 +2233,7 @@ namespace ac {
     void VideoInterlacedRandom(cv::Mat &frame);
     void VideoSlitScan(cv::Mat &frame);
     void FloatFade(cv::Mat &frame);
+    void SquareShift(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

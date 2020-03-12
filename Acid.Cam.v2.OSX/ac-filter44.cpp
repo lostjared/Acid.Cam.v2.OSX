@@ -803,7 +803,6 @@ void ac::FloatFade(cv::Mat &frame) {
         init = 1;
     }
     for(int j = 0; j < 3; ++j) {
-        
         if(start[j] > goal[j]) {
             start[j] += speed;
         } else if(start[j] < goal[j]) {
@@ -812,12 +811,32 @@ void ac::FloatFade(cv::Mat &frame) {
             goal[j] = rand()%255;
         }
     }
-    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.8*(pixel[j]+start[j])));
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::SquareShift(cv::Mat &frame) {
+    static int off = 0;
+    static int frame_height = frame.rows/4;
+    cv::Mat copy1 = frame.clone();
+    for(int row = 0; row < frame.rows; row += frame_height) {
+        off = rand()%frame.cols/64;
+        if((rand()%8) > 6) {
+            for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
+                int pos = 0;
+                for(int i = off; i < frame.cols; ++i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                    ++pos;
+                    pixel = pix;
+                }
             }
         }
     }
