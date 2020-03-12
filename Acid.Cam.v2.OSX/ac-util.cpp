@@ -716,6 +716,13 @@ void ac::fillRect(cv::Mat &m, const Rect &r, cv::Vec3b pixel) {
         }
     }
 }
+
+ac::Log ac::log_func = 0;
+
+void ac::setLogCallback(Log log) {
+    log_func = log;
+}
+
 // set custom callback
 void ac::setCustom(DrawFunction f) {
     custom_callback = f;

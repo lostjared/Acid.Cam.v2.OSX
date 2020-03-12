@@ -2230,6 +2230,8 @@ namespace ac {
     void DiagonalBuffer(cv::Mat &frame);
     void SlitScanGUI(cv::Mat &frame);
     void SlitScanRandom(cv::Mat &frame);
+    void VideoInterlacedRandom(cv::Mat &frame);
+    void VideoSlitScan(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2336,11 +2338,17 @@ namespace ac {
     int getColorLevel();
     void slitScanSet(int num, int width, int height, int repeat, int delay, int on);
     
+    typedef void (*Log)(std::string);
+    extern Log log_func;
+    
+    void setLogCallback(Log log);
+    
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
     //extern std::string *draw_strings;
     extern std::vector<std::string> draw_strings;
+    
     extern DrawFunction plugin_func;
     extern DrawFunction *draw_func;
     extern FilterType *filter_array;

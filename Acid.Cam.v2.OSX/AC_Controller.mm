@@ -102,6 +102,12 @@ bool operator<(const UserArgType &o1, const UserArgType &o2) {
     return false;
 }
 
+void log_callback(std::string text) {
+    std::ostringstream s;
+    s << text << "\n";
+    flushToLog(s);
+}
+
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
 cv::Mat resizeKeepAspectRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
@@ -231,6 +237,7 @@ void setEnabledProg() {
 }
 
 - (void) awakeFromNib {
+    ac::setLogCallback(log_callback);
     custom_path_prefix = nil;
     current_fade = 0;
     current_fade_alpha = 1.0;

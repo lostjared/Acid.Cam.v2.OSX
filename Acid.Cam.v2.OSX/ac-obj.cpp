@@ -91,7 +91,12 @@ void ac::release_all_objects() {
         if(all_objects[i] != 0) all_objects[i]->releaseFrames();
     }
     frames_released = true;
-    std::cout << "acidcam: Released: " << total << " Matrix objects...\n";
+    std::ostringstream stream;
+    stream << "acidcam: Released: " << total << " Matrix objects...";
+    std::cout<<stream.str() << "\n";
+    if(ac::log_func != 0)
+        log_func(stream.str());
+    
     setAllocatedFrames(0);
     col_lock.unlock();
 }

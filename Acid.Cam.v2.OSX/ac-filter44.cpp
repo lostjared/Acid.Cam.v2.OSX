@@ -728,3 +728,68 @@ void ac::SlitScanRandom(cv::Mat &frame) {
     value.unlock();
     AddInvert(frame);
 }
+
+void ac::VideoInterlacedRandom(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols-(rand()%50); ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+            ++z;
+            for(int i = frame.cols-1; i > rand()%50; --i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+// requires allocation of at least 2,000 frames
+void ac::VideoSlitScan(cv::Mat &frame) {
+    static MatrixCollection<360> collection1;
+    static MatrixCollection<360> collection2;
+    
+    if(collection1.empty()) {
+        cv::Mat val;
+        cv::resize(frame, val, cv::Size(640, 360));
+        collection1.shiftFrames(val);
+        collection2.shiftFrames(val);
+    }
+    
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat copy1;
+        ac_resize(frame, copy1, cv::Size(640, 360));
+        collection1.shiftFrames(copy1);
+        cv::Mat reframe;
+        cv::resize(vframe, reframe, cv::Size(640, 360));
+        collection2.shiftFrames(reframe);
+        int index = 0;
+        for(int z = 0; z < copy1.rows; ++z) {
+            for(int i = 0; i < copy1.cols; ++i) {
+                cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = collection1.frames[index].at<cv::Vec3b>(z, i);
+                cv::Vec3b pix2 = collection1.frames[index].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pix1[j]) + (0.5 * pix2[j]));
+                }
+            }
+            ++index;
+            if(index > collection1.size()-1)
+                index = 0;
+        }
+        ac_resize(copy1, frame, frame.size());
+    }
+    AddInvert(frame);
+}
