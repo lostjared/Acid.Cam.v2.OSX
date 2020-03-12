@@ -612,15 +612,16 @@ namespace ac {
     int slit_repeat = 1;
     int slit_delay = 0;
     int slit_on = 0;
-    std::unique_ptr<ac::DynamicMatrixCollection> collection;
+    ac::DynamicMatrixCollection collection(480);
 }
 
 std::mutex value;
+bool values_set = false;
 
 void ac::slitScanSet(int num, int width, int height, int repeat, int delay, int on) {
     value.lock();
     if(num != num_frames) {
-        collection.reset(new DynamicMatrixCollection(num));
+        collection.resize(num);
         num_frames = num;
     }
     slit_width = width;
@@ -628,15 +629,16 @@ void ac::slitScanSet(int num, int width, int height, int repeat, int delay, int 
     slit_repeat = repeat;
     slit_delay = delay;
     slit_on = on;
+    values_set = true;
     value.unlock();
 }
 
 void ac::SlitScanGUI(cv::Mat &frame) {
-    value.lock();
-    if(collection.get() == nullptr) {
-        value.unlock();
+    
+    if(values_set == false)
         return;
-    }
+    
+    value.lock();
     cv::Mat copy1;
     ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
     static int time_count = 0;
@@ -666,20 +668,20 @@ void ac::SlitScanGUI(cv::Mat &frame) {
         }
     }
     if(slit_delay == 0 || add == true)
-        collection->shiftFrames(copy1);
+        collection.shiftFrames(copy1);
     
     int index = 0;
     int counter = 0;
     for(int z = 0; z < copy1.rows; ++z) {
         for(int i = 0; i < copy1.cols; ++i) {
             cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = collection->frames[index].at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             pixel = pix;
         }
         ++counter;
         if(counter >= slit_repeat) {
             ++index;
-            if(index > collection->size()-1)
+            if(index > collection.size()-1)
                 index = 0;
             counter = 0;
         }
@@ -690,36 +692,36 @@ void ac::SlitScanGUI(cv::Mat &frame) {
 }
 
 void ac::SlitScanRandom(cv::Mat &frame) {
-    value.lock();
-    if(collection.get() == nullptr) {
-        value.unlock();
+    
+    if(values_set == false)
         return;
-    }
+    
+    value.lock();
     cv::Mat copy1;
     ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
     
-    if(collection->empty())
-        collection->shiftFrames(copy1);
+    if(collection.empty())
+        collection.shiftFrames(copy1);
     
-    cv::Mat copy2 = collection->frames[collection->size()-2].clone();
+    cv::Mat copy2 = collection.frames[collection.size()-2].clone();
     
     if((rand()%50) > 25)
-        collection->shiftFrames(copy1);
+        collection.shiftFrames(copy1);
     else
-        collection->shiftFrames(copy2);
+        collection.shiftFrames(copy2);
     
     int index = 0;
     int counter = 0;
     for(int z = 0; z < copy1.rows; ++z) {
         for(int i = 0; i < copy1.cols; ++i) {
             cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = collection->frames[index].at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             pixel = pix;
         }
         ++counter;
         if(counter >= slit_repeat) {
             ++index;
-            if(index > collection->size()-1)
+            if(index > collection.size()-1)
                 index = 0;
             counter = 0;
         }
@@ -757,6 +759,8 @@ void ac::VideoInterlacedRandom(cv::Mat &frame) {
 
 // requires allocation of at least 2,000 frames
 void ac::VideoSlitScan(cv::Mat &frame) {
+    if(values_set == false)
+        return;
     static MatrixCollection<360> collection1;
     static MatrixCollection<360> collection2;
     if(collection1.empty()) {

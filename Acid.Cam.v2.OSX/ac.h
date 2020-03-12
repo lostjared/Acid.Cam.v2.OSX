@@ -2412,17 +2412,18 @@ namespace ac {
             return total;
         }
         
-        void resizeFrames() {
+        void resizeFrames(int ns) {
             if(frames != 0) {
                 for(int i = 0; i < Size; ++i) {
                     delete frames[i];
                 }
                 delete [] frames;
             }
-            frames = new cv::Mat*[Size];
-            for(int i = 0; i < Size; ++i) {
+            frames = new cv::Mat*[ns];
+            for(int i = 0; i < ns; ++i) {
                 frames[i] = new cv::Mat();
             }
+            Size = ns;
         }
         
         void setMat(int index, cv::Mat &frame) {
@@ -2544,6 +2545,10 @@ namespace ac {
                 shiftEachFrame(frame);
                 if(completedRows < size()) ++completedRows;
             }
+        }
+        
+        void resize(int sz) {
+            frames.resizeFrames(sz);
         }
         
         void shiftEachFrame(cv::Mat &frame) {
