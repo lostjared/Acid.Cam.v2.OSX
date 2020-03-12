@@ -921,3 +921,35 @@ void ac::FloatFadeRandomIncrease(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FloatFadeRGB(cv::Mat &frame) {
+    static float start[3] = {0}, goal[3] = {0};
+    static int init = 0, speed = 2.0;
+    static int offset = rand()%2;
+    if(init == 0) {
+        for(int j = 0; j < 3; ++j) {
+            start[j] = rand()%255;
+            goal[j] = rand()%255;
+        }
+        init = 1;
+    }
+    if(start[offset] > goal[offset]) {
+        start[offset] += speed;
+    } else if(start[offset] < goal[offset]) {
+        start[offset] -= speed;
+    } else {
+        goal[offset] = rand()%255;
+        ++offset;
+        if(offset > 2)
+            offset = 0;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.8*(pixel[j]+start[j])));
+            }
+        }
+    }
+    AddInvert(frame);
+}
