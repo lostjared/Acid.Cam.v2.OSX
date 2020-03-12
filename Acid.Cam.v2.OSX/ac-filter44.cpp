@@ -759,14 +759,12 @@ void ac::VideoInterlacedRandom(cv::Mat &frame) {
 void ac::VideoSlitScan(cv::Mat &frame) {
     static MatrixCollection<360> collection1;
     static MatrixCollection<360> collection2;
-    
     if(collection1.empty()) {
         cv::Mat val;
         cv::resize(frame, val, cv::Size(640, 360));
         collection1.shiftFrames(val);
         collection2.shiftFrames(val);
     }
-    
     cv::Mat vframe;
     if(VideoFrame(vframe)) {
         cv::Mat copy1;
