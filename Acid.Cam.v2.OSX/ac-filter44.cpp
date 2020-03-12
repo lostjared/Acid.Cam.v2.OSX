@@ -842,3 +842,45 @@ void ac::SquareShift(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareShift8(cv::Mat &frame) {
+    static int off = 0;
+    static int frame_height = frame.rows/8;
+    cv::Mat copy1 = frame.clone();
+    for(int row = 0; row < frame.rows; row += frame_height) {
+        off = rand()%frame.cols/64;
+        if((rand()%8) > 6) {
+            for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
+                int pos = 0;
+                for(int i = off; i < frame.cols; ++i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                    ++pos;
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::SquareShift16(cv::Mat &frame) {
+    static int off = 0;
+    static int frame_height = frame.rows/16;
+    cv::Mat copy1 = frame.clone();
+    for(int row = 0; row < frame.rows; row += frame_height) {
+        off = rand()%frame.cols/64;
+        if((rand()%8) > 6) {
+            for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
+                int pos = 0;
+                for(int i = off; i < frame.cols; ++i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                    ++pos;
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

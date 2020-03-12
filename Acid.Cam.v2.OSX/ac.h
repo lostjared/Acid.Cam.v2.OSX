@@ -2234,6 +2234,8 @@ namespace ac {
     void VideoSlitScan(cv::Mat &frame);
     void FloatFade(cv::Mat &frame);
     void SquareShift(cv::Mat &frame);
+    void SquareShift8(cv::Mat &frame);
+    void SquareShift16(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
