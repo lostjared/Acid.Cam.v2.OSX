@@ -960,7 +960,7 @@ void ac::SquareShiftDir(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int row = 0; row < frame.rows; row += frame_height) {
         off = rand()%frame.cols/64;
-        if((rand()%50) == 0) {
+        if((rand()%8) > 6) {
             int on = rand()%2;
             for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
                 int pos = 0;
