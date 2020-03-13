@@ -2239,6 +2239,7 @@ namespace ac {
     void FloatFadeRandomIncrease(cv::Mat &frame);
     void FloatFadeRGB(cv::Mat &frame);
     void SquareShiftDir(cv::Mat &frame);
+    void SquareShiftExpand(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
