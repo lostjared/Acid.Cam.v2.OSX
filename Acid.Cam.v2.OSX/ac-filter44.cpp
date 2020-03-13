@@ -953,3 +953,35 @@ void ac::FloatFadeRGB(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareShiftDir(cv::Mat &frame) {
+    static int off = 0;
+    static int frame_height = frame.rows/4;
+    cv::Mat copy1 = frame.clone();
+    for(int row = 0; row < frame.rows; row += frame_height) {
+        off = rand()%frame.cols/64;
+        if((rand()%8) > 6) {
+            int on = rand()%2;
+            for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
+                int pos = 0;
+                if(on == 0) {
+                    for(int i = off; i < frame.cols; ++i) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                        ++pos;
+                        pixel = pix;
+                    }
+                } else {
+                    pos = frame.cols-1;
+                    for(int i = frame.cols-1-off; i > 1; --i) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                        --pos;
+                        pixel = pix;
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
