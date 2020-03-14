@@ -1032,38 +1032,3 @@ void ac::SquareShiftExpand(cv::Mat &frame) {
 }
 
 
-void ac::FloatFadeVertical(cv::Mat &frame) {
-    static float index[3] {-1, -1, -1};
-    static float speed[3] = {0.1, 0.2, 0.3};
-    static float dir[3] = {1,1,1};
-    if(index[0] == -1 && index[1] == -1 && index[2] == -1) {
-        index[0] = rand()%255;
-        index[1] = rand()%255;
-        index[2] = rand()%255;
-    }
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) +  (0.8 * (pixel[j]+index[j])));
-            }
-        }
-        for(int j = 0; j < 3; ++j) {
-            if(dir[j] == 1) {
-                if(index[j] > 255) {
-                    dir[j]  = 0;
-                } else {
-                    index[j] += speed[j];
-                }
-            }
-            else {
-                if(index[j] <= 1) {
-                    dir[j] = 1;
-                } else {
-                    index[j] -= speed[j];
-                }
-            }
-        }
-    }
-    AddInvert(frame);
-}
