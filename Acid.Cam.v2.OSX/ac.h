@@ -2552,8 +2552,11 @@ namespace ac {
             }
         }
         
+        bool set_reset;
+        
         void resize(int sz) {
             frames.resizeFrames(sz);
+            ArraySize = sz;
         }
         
         void shiftEachFrame(cv::Mat &frame) {
