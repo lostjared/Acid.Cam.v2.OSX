@@ -93,6 +93,35 @@ void ac::FloatFadeVertical(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::HorizontalLineBlend(cv::Mat &frame) {
+void ac::LineTrails(cv::Mat &frame) {
     
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        bool on = true;
+        int r = rand()%20;
+        int in = 0;
+        for(int i = 0; i < frame.cols; ++i) {
+        
+            ++in;
+            if(in > r) {
+                on = !on;
+                r = rand()%20;
+                in = 0;
+            }
+            if(on == true) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    
+    ++index;
+    if(index > collection.size()-1)
+        index = 0;
+    
+    AddInvert(frame);
 }

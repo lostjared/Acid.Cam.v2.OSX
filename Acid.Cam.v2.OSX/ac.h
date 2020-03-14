@@ -2241,7 +2241,7 @@ namespace ac {
     void SquareShiftDir(cv::Mat &frame);
     void SquareShiftExpand(cv::Mat &frame);
     void FloatFadeVertical(cv::Mat &frame);
-    void HorizontalLineBlend(cv::Mat &frame);
+    void LineTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
