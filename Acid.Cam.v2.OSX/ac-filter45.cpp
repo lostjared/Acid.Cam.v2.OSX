@@ -177,3 +177,24 @@ void ac::StretchLineRow(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::StretchLineCol(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int stretch_x = frame.rows;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int nw = AC_GetFZ(frame.rows, z, stretch_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
+            pixel = pix;
+        }
+        if(rand()%2==0) {
+            stretch_x -= rand()%12;
+            if(stretch_x < frame.rows)
+                stretch_x = frame.rows;
+        } else {
+            stretch_x += rand()%12;
+        }
+    }
+    AddInvert(frame);
+}

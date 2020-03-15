@@ -2244,6 +2244,7 @@ namespace ac {
     void LineTrails(cv::Mat &frame);
     void SquareShiftDirVertical(cv::Mat &frame);
     void StretchLineRow(cv::Mat &frame);
+    void StretchLineCol(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
