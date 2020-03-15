@@ -158,33 +158,22 @@ void ac::SquareShiftDirVertical(cv::Mat &frame) {
 }
 
 void ac::StretchLineRow(cv::Mat &frame) {
-    static int start_x = 0, stop_x = 400, max_size = frame.cols;
     cv::Mat copy1 = frame.clone();
+    int stretch_x = frame.cols;
     for(int z = 0; z < frame.rows; ++z) {
-        int offset = start_x;
         for(int i = 0; i < frame.cols; ++i) {
-            int x = AC_GetFX(max_size, i, stop_x);
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, offset);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, x);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));;
-            }
-            ++offset;
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int nw = AC_GetFX(frame.cols, i, stretch_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
+            pixel = pix;
+        }
+        if(rand()%2==0) {
+            stretch_x -= rand()%12;
+            if(stretch_x < frame.cols)
+                stretch_x = frame.cols;
+        } else {
+            stretch_x += rand()%12;
         }
     }
-    
-    static int dir = 1;
-    if(dir == 1) {
-        ++stop_x;
-        if(stop_x > frame.cols) {
-            dir = 0;
-        }
-    } else {
-        --stop_x;
-        if(stop_x <= 1) {
-            dir = 1;
-        }
-    }
-    
     AddInvert(frame);
 }
