@@ -94,17 +94,14 @@ void ac::FloatFadeVertical(cv::Mat &frame) {
 }
 
 void ac::LineTrails(cv::Mat &frame) {
-    
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         bool on = true;
         int r = rand()%20;
         int in = 0;
         for(int i = 0; i < frame.cols; ++i) {
-        
             ++in;
             if(in > r) {
                 on = !on;
@@ -118,10 +115,44 @@ void ac::LineTrails(cv::Mat &frame) {
             }
         }
     }
-    
     ++index;
     if(index > collection.size()-1)
         index = 0;
-    
+    AddInvert(frame);
+}
+
+void ac::SquareShiftDirVertical(cv::Mat &frame) {
+    static int off = 0;
+    static int frame_height = frame.cols/4;
+    cv::Mat copy1 = frame.clone();
+    for(int row = 0; row < frame.cols; row += frame_height) {
+        off = rand()%frame.rows/64;
+        if((rand()%8) > 6) {
+            int on = rand()%2;
+            for(int i = row; i < (row+frame_height) && (i < frame.cols); ++i) {
+                int pos = 0;
+                if(on == 0) {
+                    for(int z = off; z < frame.rows; ++z) {
+                        if(z < frame.rows && i < frame.cols) {
+                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                            ++pos;
+                            pixel = pix;
+                        }
+                    }
+                } else {
+                    pos = frame.cols-1;
+                    for(int z = frame.rows-1-off; z > 1; --z) {
+                        if(i < frame.cols && z < frame.rows) {
+                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
+                            --pos;
+                            pixel = pix;
+                        }
+                    }
+                }
+            }
+        }
+    }
     AddInvert(frame);
 }
