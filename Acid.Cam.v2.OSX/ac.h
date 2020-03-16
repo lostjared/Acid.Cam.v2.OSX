@@ -2356,6 +2356,8 @@ namespace ac {
     extern Log log_func;
     void setLogCallback(Log log);
     void log_print(std::string s);
+    void setMaxStretch(int max);
+    int  getMaxStretch();
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

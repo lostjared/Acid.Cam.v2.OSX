@@ -2416,6 +2416,17 @@ void setEnabledProg() {
     }
     ac::setColorLevel(static_cast<int>(color_v));
     log << "Color Level set to: " << static_cast<int>(color_v) << "\n";
+    
+    
+    NSInteger max_x = [max_stretch_x integerValue];
+    if(max_x <= 5) {
+        _NSRunAlertPanel(@"Stretch Value must be greater than 5", @"Invalid Stretch Value", @"Ok", nil, nil);
+        return;
+    }
+    
+    ac::setMaxStretch(static_cast<int>(max_x));
+    log << "Max Stretch Set to: " << static_cast<int>(max_x) << "\n";
+    
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

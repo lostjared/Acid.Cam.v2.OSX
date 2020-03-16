@@ -199,6 +199,19 @@ void ac::StretchLineCol(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+namespace ac {
+    int max_stretch_ = 20;
+}
+
+void ac::setMaxStretch(int max) {
+    max_stretch_ = max;
+}
+
+int  ac::getMaxStretch() {
+    return max_stretch_;
+}
+
+
 void ac::StretchLineRowInc(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     int stretch_x = frame.cols;
@@ -226,7 +239,7 @@ void ac::StretchLineRowInc(cv::Mat &frame) {
         frame_count = 0;
         if(dir == 1) {
             ++max_x;
-            if(max_x > 20)
+            if(max_x > max_stretch_)
                 dir = 0;
         } else {
             --max_x;
@@ -265,7 +278,7 @@ void ac::StretchLineColInc(cv::Mat &frame) {
         frame_count = 0;
         if(dir == 1) {
             ++max_x;
-            if(max_x > 20)
+            if(max_x > max_stretch_)
                 dir = 0;
         } else {
             --max_x;

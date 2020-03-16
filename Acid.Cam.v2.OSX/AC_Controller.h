@@ -208,6 +208,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *wait_text, *color_level_text;
     IBOutlet NSTextField *slit_width, *slit_height, *slit_frames, *slit_repeat, *slit_delay, *slit_on;
     IBOutlet NSWindow *slit_win;
+    IBOutlet NSTextField *max_stretch_x;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
