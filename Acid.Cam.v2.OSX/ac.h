@@ -2247,6 +2247,7 @@ namespace ac {
     void StretchLineCol(cv::Mat &frame);
     void StretchLineRowInc(cv::Mat &frame);
     void StretchLineColInc(cv::Mat &frame);
+    void StretchRowSplit(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

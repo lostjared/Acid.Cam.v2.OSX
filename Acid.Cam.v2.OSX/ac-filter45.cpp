@@ -287,3 +287,44 @@ void ac::StretchLineColInc(cv::Mat &frame) {
         }
     }
 }
+
+void ac::StretchRowSplit(cv::Mat &frame) {
+    int index = 0;
+    std::vector<cv::Mat> values;
+
+    for(int z = 0; z < frame.rows; ++z) {
+        int spot = 10+rand()%100;
+        int over = 0;
+        if(index+spot < frame.cols) {
+            cv::Mat mat;
+            mat.create(frame.rows, index+spot, CV_8UC3);
+            for(int zz = 0; zz < frame.rows; ++zz) {
+                for(int ii = over; ii < index+spot; ++ii) {
+                    cv::Vec3b pixel = frame.at<cv::Vec3b>(zz, ii+spot);
+                    cv::Vec3b &pix = mat.at<cv::Vec3b>(zz, ii);
+                    pix = pixel;
+                }
+            }
+            over += index+spot;
+            values.push_back(mat);
+        }
+    }
+    int start_x = 0, start_y = 0;
+    int pos = 0;
+    
+    for(int i = 0; i < static_cast<int>(values.size()); ++i) {
+        int stretch = 10+rand()%400;
+        for(int x = 0; x < values[i].cols; ++x) {
+            start_y = 0;
+            for(int y = 0; y < values[i].rows; ++y) {
+                int nx = AC_GetFX(values[i].cols, pos, stretch);
+                cv::Vec3b pix =  values[i].at<cv::Vec3b>(y, nx);
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(start_y, start_x);
+                start_y++;
+                pixel = pix;
+            }
+            start_x++;
+        }
+    }
+    AddInvert(frame);
+}
