@@ -328,3 +328,18 @@ void ac::StretchRowSplit(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoAddBlend(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel += reframe.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+    AddInvert(frame);
+}
