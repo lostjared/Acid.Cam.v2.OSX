@@ -2251,6 +2251,7 @@ namespace ac {
     void VideoAddBlend(cv::Mat &frame);
     void VideoFadeInAndOut(cv::Mat &frame);
     void VideoFadeRGB(cv::Mat &frame);
+    void VideoSubtract(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
