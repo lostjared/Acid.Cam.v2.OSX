@@ -414,3 +414,43 @@ void ac::VideoSubtract(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::StretchLineRowLeftRight(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int stretch_x = frame.cols;
+    static int max_x = 1;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int nw = AC_GetFX(frame.cols, i, stretch_x);
+            cv::Vec3b pix;
+            pix = copy1.at<cv::Vec3b>(z, nw);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^pix[j];
+            }
+        }
+        if(rand()%2==0) {
+            stretch_x -= rand()%max_x;
+            if(stretch_x < frame.cols)
+                stretch_x = frame.cols;
+        } else {
+            stretch_x += rand()%max_x;
+        }
+    }
+    AddInvert(frame);
+    static int frame_count = 0;
+    ++frame_count;
+    if(frame_count > static_cast<int>(ac::fps/4)) {
+        frame_count = 0;
+        if(dir == 1) {
+            ++max_x;
+            if(max_x > max_stretch_)
+                dir = 0;
+        } else {
+            --max_x;
+            if(max_x <= 1)
+                dir = 1;
+        }
+    }
+}
