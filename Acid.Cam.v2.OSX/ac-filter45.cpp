@@ -343,3 +343,24 @@ void ac::VideoAddBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoFadeInAndOut(cv::Mat &frame) {
+    cv::Mat vframe;
+    static double alpha = 1.0;
+    static int dir = 1;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
+}
