@@ -364,3 +364,35 @@ void ac::VideoFadeInAndOut(cv::Mat &frame) {
     AddInvert(frame);
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.3);
 }
+
+void ac::VideoFadeRGB(cv::Mat &frame) {
+    static float rgb[3] = {-1,-1,-1};
+    static int speed = 5;
+    int rgb_index = 0;
+    if(rgb[0] == -1 && rgb[1] == -1 && rgb[2] == -1) {
+        rgb[0] = rand()%255;
+        rgb[1] = rand()%255;
+        rgb[2] = rand()%255;
+    }
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reimage;
+        ac_resize(vframe, reimage, frame.size());
+        rgb[rgb_index] += speed;
+        if(rgb[rgb_index] > 255) {
+            rgb[rgb_index] = rand()%255;
+            rgb_index = rand()%3;
+        }
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(((rgb[j]+pixel[j])*0.5) + (0.5*pix[j]));
+                }
+            }
+        }
+        
+    }
+    AddInvert(frame);
+}
