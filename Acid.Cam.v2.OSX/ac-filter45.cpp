@@ -454,3 +454,33 @@ void ac::StretchLineRowLeftRight(cv::Mat &frame) {
         }
     }
 }
+
+void ac::FadeInOutBlendRGB(cv::Mat &frame) {
+    static float col[] = {-1,-1,-1};
+    static float speed = 5;
+    if(col[0] == -1 && col[1] == -1 && col[2] == -1) {
+        col[0] = rand()%255;
+        col[1] = rand()%255;
+        col[2] = rand()%255;
+    }
+    for(int j = 0; j < 3; ++j) {
+        if(col[j] < 255/2) {
+            col[j] -= speed;
+            if(col[j] <= 0)
+                col[j] = rand()%255;
+        } else {
+            col[j] += speed;
+            if(col[j] >= 255)
+                col[j] = rand()%255;
+        }
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.8 * (pixel[j]+col[j])));
+            }
+        }
+    }
+    AddInvert(frame);
+}
