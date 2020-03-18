@@ -20,35 +20,35 @@ I can confirm Acid Cam works with Elgato Camlink 4K. With this device, you can u
 
 The Start Session 
 
-[creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/session.png?raw=true "screenshot1")
+![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/session.png?raw=true "screenshot1")
 
 The start session window is where you choose if you want to use a Webcam or a video file. You also can select the desired output format or if you want to record it. Checking repeat causes the video to loop. You can resize the output frame and stretch it if required. If stretch is not checked, the video will retain its original aspect ratio.
 
 The Activity Log:
 
-[creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/log.png?raw=true "screenshot1")
+![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/log.png?raw=true "screenshot1")
 
 
 The Activity Log shows information about the video and allows you to select a single filter, You can check fade, and it will fade from filter to filter when you change it. Negate returns the opposite or negative of the video. The RGB sliders offset the colors RGB values. The RGB order lets you rearrange the order of the component RGB values. The color map is using only a specific set of colors. Near the bottom of the window displays how many stored frames are allocated. The program caches frames to for a lot of the filters, and when it reaches a certain number, they are automatically released. You can see how many frames you want to go before each release. You can also release manually through the programs menu.
 
 The preferences window:
 
-[creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/pref.png?raw=true "screenshot1")
+![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/pref.png?raw=true "screenshot1")
 
 
 The preferences window: contains a series of options you can set to change how some of the filters operate. Process mode is how the index variable is incremented and decremented for some of the older filters. Movement speed is for most animated filters movements speed changes how fast it moves in and out. Custom cycle delay is for filters that have the word delay in the name and how many frames it should wait before changing. BlendWithSource is how much percentage of the image do you wish to restore. Threads are how many threads to use for the filters that are multithreaded. Key tolerance is for the Image windows Chroma Key features. Pixel difference is for the ones that detect a change in the image, how much of a difference for it to trigger that it has changed. Max stored frames is how many frames to store before resetting the cache. FFMPEG Path is if you optionally want to install FFMPEG, you can point it to the path for the program to find it. Syphon output is for using a Syphon server what resolution you want to use. Frame wait is for how long to wait for ones that have wait in the name. Stretch Line is for StretchLineRowInc and StretchLineColInc how much distortion you want. The higher the value, the more distorted it gets.
 
-[creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/image.png?raw=true "screenshot1")
+![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/image.png?raw=true "screenshot1")
 
 
 The image window you select a series of images, and they appear in the dropdown list. You can then select one and set it as one of the image types like Blend Image. You can also set a chroma key, and you can set a second video file. The Cycle option is how many frames do you want to wait before it changes the currently selected image from the dropdown list you selected. You can see to shuffle the images, move at random or in order.
 
-[creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/keys.png?raw=true "screenshot1")
+![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/keys.png?raw=true "screenshot1")
 
 
 The Chroma key window you select a series of color ranges. You can set the component colors then set whether you want a range of tolerance. When you have your keys in the list, click set colors to activate it. Then select a filter that uses a chroma key.
 
-[creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/custom.png?raw=true "screenshot1")
+![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/custom.png?raw=true "screenshot1")
 
 
 The custom filter window, this is probably the most important window in the application. You can select multiple filters and have them executed one after the other, with ones output being the input to the next in a chain. You can toggle a filter on or off while in a custom. You can save and load a custom. User-defined is when you select a list of filters and assign it a new name so you can use it. You can save/load these user-defined lists, and you should first set the output directory by pressing the dir button to a location you have read/write access.
