@@ -8,9 +8,19 @@ If you want to support the development of this software (not required) you can d
 
 Acid Cam is an Open Source project I initially began working on back in 2011. The first version of the program was written in Objective-C and worked with webcams only. The version of Acid Cam this document describes in the 2.0 series, which was rewritten from scratch in C++ with the macOS user interface being Objective-C++.
 Acid Cam distorts video to create art. It is designed to be used with other software (Syphon) or on its own. There are multiple versions of the program for macOS, Linux, and Windows, as well as a command-line version of the program. The program also has a live webcam feature. If you wish to use this feature, you should use a lower resolution and not stack up to many filters. The majority of the time, this program is more useful in video mode, where it can process multiple filters in up to 2160p 4K resolution.
+
 Some important Notes:
+
 To be able to use all the filters in this app, your system should have at least 8 GB of Ram for 1080p video. For 4K higher Ram is recommended, but you can set the Max Stored Frames based on the resolution you are doing and when it is reached it will release the frames. On my system for 2160p video when using something like a Random filter I set it to 400 frames for my system with 32 GB ram. You can set it lower based on your system ram level It is in the preferences window. Some filters require more than the default amount of allocated frames. Usually these have the name 640 or 720 in the title. If you are running with enough Ram, please set the require frame limit before starting your session!
-The video Acid Cam outputs when using MPEG-4 is saved at a very high bitrate. Sometimes you will need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower the bitrate by exporting it as H.264. Another program you could use would be Handbrake. The following image is of MediaInfo on a 4K video created with Acid Cam. The overall bitrate is very high.
+
+The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower the bitrate by exporting it as H.264. Another program you could use would be Handbrake. The following image is of MediaInfo on a 4K video created with Acid Cam. The overall bitrate is very high.
+
+![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
+
+or use FFMPEG like this:
+
+    $ ffmpeg -i "input.file.mp4" -c:v libx265 -tag:v hvc1 -crf 18 output.file.mp4
+
 This version shares some code with libacidcam, so sometimes, when I update the parts that are shared show up in both projects. libacidcam uses C++/OpenCV and Autotools, and this macOS program uses Objective-C++/Cocoa/OpenCV and Xcode
 This project was created in hopes of providing some entertainment, or for the Glitch artist to give you an image/video to use with other tools.
 I call the art that I create with Acid Cam "Acid Glitch," but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
@@ -71,16 +81,6 @@ Newest version of the program now requires macOS High Sierra to run.
 To compile first clone then open with Xcode and build.
 
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam2_ScreenShot.png?raw=true "screenshot")
-
-The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower the bitrate by exporting it as H.264. Another program you could use would be Handbrake. The following image is of MediaInfo on a 4K video created with Acid Cam. The overall bitrate is very high.
-
-![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
-
-or use FFMPEG like this:
-
-    $ ffmpeg -i "input.file.mp4" -c:v libx265 -tag:v hvc1 -crf 18 output.file.mp4
-
-This project contains the compiled static libraries / include files required to build the program.
 
 Project home page: http://lostsidedead.com/blog/?index=212
 
