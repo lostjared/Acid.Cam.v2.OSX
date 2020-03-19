@@ -2255,6 +2255,7 @@ namespace ac {
     void StretchLineRowLeftRight(cv::Mat &frame);
     void FadeInOutBlendRGB(cv::Mat &frame);
     void FadeInOutReverseRGB(cv::Mat &frame);
+    void PixelateRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
