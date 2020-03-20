@@ -555,3 +555,20 @@ void ac::PixelateRandom(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PixelateFillRandom(cv::Mat &frame) {
+    static int f_w = 8, f_h = 8;
+    for(int z = 0; z < frame.rows; z += f_h) {
+        for(int i = 0; i < frame.cols; i += f_w) {
+            cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
+            for(int x = 0; x < f_w; ++x) {
+                for(int y = 0; y < f_h; ++y) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                    }
+                }
+            }
+        }
+    }
+}

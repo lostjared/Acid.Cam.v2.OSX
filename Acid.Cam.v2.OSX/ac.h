@@ -2256,6 +2256,7 @@ namespace ac {
     void FadeInOutBlendRGB(cv::Mat &frame);
     void FadeInOutReverseRGB(cv::Mat &frame);
     void PixelateRandom(cv::Mat &frame);
+    void PixelateFillRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
