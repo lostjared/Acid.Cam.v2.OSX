@@ -526,10 +526,17 @@ void ac::FadeInOutReverseRGB(cv::Mat &frame) {
 }
 
 void ac::PixelateRandom(cv::Mat &frame) {
-    
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            }
+        }
+    }
     AddInvert(frame);
 }
 
