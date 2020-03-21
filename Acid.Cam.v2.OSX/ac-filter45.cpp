@@ -556,3 +556,48 @@ void ac::PixelateFillRandom(cv::Mat &frame) {
         }
     }
 }
+
+void ac::JaggedLine(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int space = 0;
+    bool on = true;
+    bool dir = true;
+    static int offset = 0;
+    static int max_value = 4;
+    static int max_dir = 1;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            int x = rand()%max_value;
+            ++space;
+            if(space > 25) {
+                space = 0;
+                on = !on;
+                dir = !dir;
+            }
+            if(on == true) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                if(i+x < frame.cols && dir == true) {
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i+x);
+                    pixel = pix;
+                } else if(i-x > 0 && dir == false) {
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i-x);
+                    pixel = pix;
+                }
+            }
+        }
+        ++offset;
+        if(offset > (collection.size()-1))
+            offset = 0;
+    }
+    AddInvert(frame);
+    if(max_dir == 1) {
+        max_value += 5;
+        if(max_value >= 200)
+            max_dir = 0;
+    } else {
+        max_value -= 5;
+        if(max_value <= 5)
+            max_dir = 1;
+    }
+}
