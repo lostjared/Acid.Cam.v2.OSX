@@ -2259,6 +2259,7 @@ namespace ac {
     void PixelateFillRandom(cv::Mat &frame);
     void JaggedLine(cv::Mat &frame);
     void ScratchyTrails(cv::Mat &frame);
+    void ExpandPixelate(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -622,3 +622,35 @@ void ac::ScratchyTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ExpandPixelate(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    static int max = 5;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            int off_y = z+(rand()%max);
+            if(off_y < frame.rows) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(off_y, i);
+                pixel = pix;
+            }
+            offset++;
+            if(offset > (collection.size()-1))
+                offset = 0;
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        max += 5;
+        if(max > 150) {
+            dir = 0;
+        }
+    } else {
+        max -= 5;
+        if(max <= 5)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
