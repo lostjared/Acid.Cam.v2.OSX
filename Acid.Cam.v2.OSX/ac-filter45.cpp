@@ -601,3 +601,24 @@ void ac::JaggedLine(cv::Mat &frame) {
             max_dir = 1;
     }
 }
+
+void ac::ScratchyTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int offset = 0;
+    for(int z = 0; z < frame.rows-2; ++z) {
+        for(int i = 0; i < frame.cols-2; ++i) {
+            if(rand()%25==0) {
+                ++offset;
+                if(offset > (collection.size()-1))
+                    offset = 0;
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
