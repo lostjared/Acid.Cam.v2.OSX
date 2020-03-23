@@ -654,3 +654,44 @@ void ac::ExpandPixelate(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoRandom(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe, copy1 = frame.clone();
+        ac_resize(vframe, reframe, frame.size());
+        RandomFadeDelay(reframe);
+        RandomSolo(copy1);
+        AlphaBlendDouble(reframe, copy1, frame, 0.5, 0.5);
+    }
+    AddInvert(frame);
+}
+
+void ac::VideoCollectionTwitch(cv::Mat &frame) {
+    static MatrixCollection<32> collection, recollection;
+    int offset = rand()%collection.size();
+    int offsetx = rand()%recollection.size();
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    if(recollection.empty())
+        collection.shiftFrames(frame);
+    
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        collection.shiftFrames(frame);
+        recollection.shiftFrames(reframe);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b cpx = collection.frames[offset].at<cv::Vec3b>(z, i);
+                cv::Vec3b vpix = recollection.frames[offsetx].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(((0.5*cpx[j]))+(0.5*vpix[j]));
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

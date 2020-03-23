@@ -2260,6 +2260,8 @@ namespace ac {
     void JaggedLine(cv::Mat &frame);
     void ScratchyTrails(cv::Mat &frame);
     void ExpandPixelate(cv::Mat &frame);
+    void VideoRandom(cv::Mat &frame);
+    void VideoCollectionTwitch(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
