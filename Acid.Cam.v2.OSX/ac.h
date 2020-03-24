@@ -2262,6 +2262,7 @@ namespace ac {
     void ExpandPixelate(cv::Mat &frame);
     void VideoRandom(cv::Mat &frame);
     void VideoCollectionTwitch(cv::Mat &frame);
+    void DiagSquare8(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
