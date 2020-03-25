@@ -84,7 +84,6 @@ void ac::MetalMedianBlend(cv::Mat &frame) {
 }
 
 void ac::SelfScaleRefinedRGB(cv::Mat &frame) {
-    /*
     static int rand_value = rand()%3;
     static double alpha[3] = {1.0, 255/20, 1.0};
     static int dir[3] = {1, 0, 1};
@@ -132,7 +131,7 @@ void ac::SelfScaleRefinedRGB(cv::Mat &frame) {
     UseMultipleThreads(frame, getThreadCount(), callback);
     AddInvert(frame);
     for(int j = 0; j < 3; ++j)
-        AlphaMovementMaxMin(alpha[j], dir[j], 0.1, 255/20, 1.0); */
+        AlphaMovementMaxMin(alpha[j], dir[j], 0.1, 255/20, 1.0);
 }
 
 void ac::ImageFreezeReleaseRepeat(cv::Mat &frame) {
