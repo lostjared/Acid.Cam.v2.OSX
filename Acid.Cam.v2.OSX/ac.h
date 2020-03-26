@@ -2263,6 +2263,7 @@ namespace ac {
     void VideoRandom(cv::Mat &frame);
     void VideoCollectionTwitch(cv::Mat &frame);
     void DiagSquare8(cv::Mat &frame);
+    void DiagSquareRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

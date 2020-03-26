@@ -720,4 +720,24 @@ void ac::DiagSquare8(cv::Mat &frame) {
             offset = 0;
     }
     AddInvert(frame);
+    
+}
+
+void ac::DiagSquareRandom(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    for(int z = 0; z < frame.rows; z += 32) {
+        for(int i = 0; i < frame.cols; i += 32) {
+            for(int x = 0; x+i < frame.cols && x < 32; ++x) {
+                for(int y = 0; z+y < frame.rows && y < 32; ++y) {
+                    offset = rand()%collection.size();
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
 }
