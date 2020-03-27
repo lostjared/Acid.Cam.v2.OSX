@@ -2264,6 +2264,7 @@ namespace ac {
     void VideoCollectionTwitch(cv::Mat &frame);
     void DiagSquare8(cv::Mat &frame);
     void DiagSquareRandom(cv::Mat &frame);
+    void SlitScanXGUI(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

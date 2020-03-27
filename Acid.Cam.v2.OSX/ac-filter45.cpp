@@ -741,3 +741,5 @@ void ac::DiagSquareRandom(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+
