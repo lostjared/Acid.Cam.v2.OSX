@@ -2265,6 +2265,7 @@ namespace ac {
     void DiagSquare8(cv::Mat &frame);
     void DiagSquareRandom(cv::Mat &frame);
     void SlitScanXGUI(cv::Mat &frame);
+    void DiagSquareX(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
