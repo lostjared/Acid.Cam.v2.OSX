@@ -617,18 +617,6 @@ void setEnabledProg() {
     [menu_freeze setEnabled: NO];
     [record_op setEnabled: YES];
     [videoFileInput setEnabled:YES];
-    /*if([videoFileInput integerValue] == 0) {
-     [up4k setEnabled: NO];
-     [video_width setEnabled:NO];
-     [video_height setEnabled:NO];
-     [chk_stretch setEnabled:NO];
-     }
-     else {
-     [up4k setEnabled: YES];
-     [video_width setEnabled:YES];
-     [video_height setEnabled:YES];
-     [chk_stretch setEnabled:YES];
-     }*/
     stopCV();
     [startProg setTitle:@"Start Session"];
 }
