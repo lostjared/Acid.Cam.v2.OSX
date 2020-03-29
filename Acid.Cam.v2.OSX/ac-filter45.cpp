@@ -768,5 +768,9 @@ void ac::DiagSquareX(cv::Mat &frame) {
 }
 
 void ac::SlitScanDir(cv::Mat &frame) {
-    
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    IntertwineRow480pX2(copy1);
+    IntertwineCols640(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
+    AddInvert(frame);
 }
