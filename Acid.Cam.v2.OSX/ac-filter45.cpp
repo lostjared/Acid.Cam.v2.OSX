@@ -767,3 +767,6 @@ void ac::DiagSquareX(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SlitScanDir(cv::Mat &frame) {
+    
+}
