@@ -832,7 +832,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="230"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="230"/>
@@ -2784,7 +2784,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F2s-8x-t0v">
-                        <rect key="frame" x="16" y="56" width="81" height="17"/>
+                        <rect key="frame" x="16" y="22" width="81" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Stretch Line:" id="Vkz-6y-zwX">
                             <font key="font" metaFont="system"/>
@@ -2793,7 +2793,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AtR-co-5nZ">
-                        <rect key="frame" x="112" y="53" width="47" height="22"/>
+                        <rect key="frame" x="103" y="20" width="47" height="22"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="20" drawsBackground="YES" id="KcP-Wq-oO6">
                             <font key="font" metaFont="system"/>
@@ -2802,7 +2802,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="660-SV-BgH">
-                        <rect key="frame" x="160" y="13" width="113" height="32"/>
+                        <rect key="frame" x="156" y="14" width="113" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="push" title="Save Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lIj-db-Mzb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
