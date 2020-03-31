@@ -2270,6 +2270,8 @@ namespace ac {
     void VideoScanline(cv::Mat &frame);
     void VideoSquareRandom(cv::Mat &frame);
     void VideoScanlineBlend(cv::Mat &frame);
+    void VideoSplitColumn(cv::Mat &frame);
+    void VideoXStatic(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

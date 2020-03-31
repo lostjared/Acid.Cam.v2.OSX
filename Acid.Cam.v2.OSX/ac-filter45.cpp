@@ -863,3 +863,32 @@ void ac::VideoScanlineBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoSplitColumn(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static int off_x = 1;
+        static int max_x = 300;
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = off_x; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+            ++off_x;
+            if(off_x > max_x) {
+                off_x = rand()%max_x;
+                max_x += 100;
+                if(max_x > frame.cols)
+                    max_x = 300;
+            }
+        }
+        AddInvert(frame);
+    }
+}
+
+void ac::VideoXStatic(cv::Mat &frame) {
+    
+}
