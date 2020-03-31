@@ -802,3 +802,36 @@ void ac::VideoScanline(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::VideoSquareRandom(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        static MatrixCollection<32> collection;
+        collection.shiftFrames(frame);
+        collection.shiftFrames(reframe);
+        static int start_off = 0;
+        int offset = start_off;
+        start_off = (start_off == 0) ? 1 : 0;
+        for(int z = 0; z < frame.rows; z += 32) {
+            for(int i = 0; i < frame.cols; i += 32) {
+                for(int x = 0; x+i < frame.cols && x < 32; ++x) {
+                    for(int y = 0; z+y < frame.rows && y < 32; ++y) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                        pixel = pix;
+                    }
+                }
+                ++offset;
+                if(offset > (collection.size()-1))
+                    offset = 0;
+            }
+            ++offset;
+            if(offset > (collection.size()-1))
+                offset = 0;
+
+        }
+        AddInvert(frame);
+    }
+}

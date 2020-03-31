@@ -2268,6 +2268,7 @@ namespace ac {
     void DiagSquareX(cv::Mat &frame);
     void SlitScanDir(cv::Mat &frame);
     void VideoScanline(cv::Mat &frame);
+    void VideoSquareRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
