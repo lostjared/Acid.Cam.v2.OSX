@@ -835,3 +835,31 @@ void ac::VideoSquareRandom(cv::Mat &frame) {
         AddInvert(frame);
     }
 }
+
+void ac::VideoScanlineBlend(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reframe;
+        ac_resize(vframe, reframe, frame.size());
+        bool on = true;
+        static int start_x = 0, stop_x = rand()%50;
+        for(int z = 0; z < frame.rows-2; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                ++start_x;
+                if(start_x > stop_x) {
+                    on = !on;
+                    start_x = 0;
+                    stop_x = rand()%50;
+                }
+                if(on) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
