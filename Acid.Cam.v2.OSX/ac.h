@@ -2274,6 +2274,9 @@ namespace ac {
     void VideoXStatic(cv::Mat &frame);
     void ScanlineCollection(cv::Mat &frame);
     void SquareShiftDirRGB(cv::Mat &frame);
+    void StretchLineRowIncRGB(cv::Mat &frame);
+    void StretchLineColIncRGB(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
