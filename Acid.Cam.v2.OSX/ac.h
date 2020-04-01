@@ -2273,6 +2273,7 @@ namespace ac {
     void VideoSplitColumn(cv::Mat &frame);
     void VideoXStatic(cv::Mat &frame);
     void ScanlineCollection(cv::Mat &frame);
+    void SquareShiftDirRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
