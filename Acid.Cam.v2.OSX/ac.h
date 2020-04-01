@@ -2272,6 +2272,7 @@ namespace ac {
     void VideoScanlineBlend(cv::Mat &frame);
     void VideoSplitColumn(cv::Mat &frame);
     void VideoXStatic(cv::Mat &frame);
+    void ScanlineCollection(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
