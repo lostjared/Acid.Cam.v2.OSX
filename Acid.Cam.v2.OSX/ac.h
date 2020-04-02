@@ -2278,7 +2278,7 @@ namespace ac {
     void StretchLineColIncRGB(cv::Mat &frame);
     void StretchLineRowIncSource(cv::Mat &frame);
     void StretchLineColIncSource(cv::Mat &frame);
-    
+    void AlternateAlpha(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

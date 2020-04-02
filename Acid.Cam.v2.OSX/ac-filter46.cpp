@@ -58,3 +58,19 @@
 
 #include "ac.h"
 
+void ac::AlternateAlpha(cv::Mat &frame) {
+    static double alpha = 0.5;
+    static int dir = 1;
+    static int rgb = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            pixel[rgb] = static_cast<unsigned char>((pixel[rgb] * 0.5) * alpha);
+        }
+    }
+    AddInvert(frame);
+    AlphaMovementMaxMin(alpha, dir, 0.01, 0.5, 0.1);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
