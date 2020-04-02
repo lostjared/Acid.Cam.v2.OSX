@@ -1053,3 +1053,87 @@ void ac::StretchLineColIncRGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::StretchLineRowIncSource(cv::Mat &frame) {
+    static int rgb = 0;
+    cv::Mat copy1 = frame.clone();
+    int stretch_x = frame.cols;
+    static int max_x = 1;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int nw = AC_GetFX(frame.cols, i, stretch_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
+            pixel[rgb] = pix[rgb];
+        }
+        if(rand()%2==0) {
+            stretch_x -= rand()%max_x;
+            if(stretch_x < frame.cols)
+                stretch_x = frame.cols;
+        } else {
+            stretch_x += rand()%max_x;
+        }
+        
+        ++rgb;
+        if(rgb > 2)
+            rgb = 0;
+        
+    }
+    AddInvert(frame);
+    static int frame_count = 0;
+    ++frame_count;
+    if(frame_count > static_cast<int>(ac::fps/4)) {
+        frame_count = 0;
+        if(dir == 1) {
+            ++max_x;
+            if(max_x > max_stretch_)
+                dir = 0;
+        } else {
+            --max_x;
+            if(max_x <= 1)
+                dir = 1;
+        }
+    }
+}
+
+void ac::StretchLineColIncSource(cv::Mat &frame) {
+    static int rgb = 0;
+    cv::Mat copy1 = frame.clone();
+    int stretch_x = frame.rows;
+    static int max_x = 1;
+    static int dir = 1;
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int nw = AC_GetFZ(frame.rows, z, stretch_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
+            pixel[rgb] = pix[rgb];
+        }
+        if(rand()%2==0) {
+            stretch_x -= rand()%max_x;
+            if(stretch_x < frame.rows)
+                stretch_x = frame.rows;
+        } else {
+            stretch_x += rand()%max_x;
+        }
+        ++rgb;
+        if(rgb > 2)
+            rgb = 0;
+    }
+    AddInvert(frame);
+    static int frame_count = 0;
+    ++frame_count;
+    if(frame_count > static_cast<int>(ac::fps/4)) {
+        frame_count = 0;
+        if(dir == 1) {
+            ++max_x;
+            if(max_x > max_stretch_)
+                dir = 0;
+        } else {
+            --max_x;
+            if(max_x <= 1)
+                dir = 1;
+        }
+    }
+}
