@@ -2,7 +2,7 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
-[VERSION: 2.67.0 (macOS)]
+[VERSION: 2.68.0 (macOS)]
 
 If you want to support the development of this software (not required) you can do so here: https://lostsidedead.biz/showlove/anyamount.html
 
