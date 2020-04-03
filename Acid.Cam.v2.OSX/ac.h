@@ -2280,6 +2280,7 @@ namespace ac {
     void StretchLineColIncSource(cv::Mat &frame);
     void AlternateAlpha(cv::Mat &frame);
     void Square_Block_Resize_Vertical_RGB(cv::Mat &frame);
+    void DiagSquareRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
