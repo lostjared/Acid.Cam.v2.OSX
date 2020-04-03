@@ -155,3 +155,52 @@ void ac::DiagSquareRGB(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::ShiftPixelsRGB(cv::Mat &frame) {
+    static int offset = 1;
+    const int w = frame.cols;// frame width
+    const int h = frame.rows;// frame height
+    static int rgb = 0;
+    
+    for(int z = 0; z < h; ++z) {
+        int start = 0;
+        for(int i = offset; i < w && start < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &source = frame.at<cv::Vec3b>(z, start);
+            pixel[rgb] += source[rgb];
+            ++start;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
+        }
+        for(int i = 0; i < offset-1 && start < w; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &source = frame.at<cv::Vec3b>(z, start);
+            pixel[rgb] += source[rgb];
+            ++start;
+            // swap colors
+            swapColors(frame, z, i);
+            // if isNegative true invert pixel
+            if(isNegative) invert(frame, z, i);
+        }
+    }
+    static int direction = 1;
+    static int max_up = (w/16);
+    if(direction == 1) {
+        ++offset;
+        if(offset > max_up)  {
+            direction = 0;
+            max_up += 4;
+            if(max_up > (w/4)) {
+                max_up = (w/16);
+            }
+        }
+    } else if(direction == 0) {
+        --offset;
+        if(offset < 2) direction = 1;
+    }
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
