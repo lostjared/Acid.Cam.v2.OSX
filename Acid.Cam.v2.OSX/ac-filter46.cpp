@@ -258,3 +258,36 @@ void ac::UseOldRowVertRGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::ColorWaveTrailsRGB(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    cv::Mat copy1 = frame.clone();
+    MatrixCollectionAuraTrails(copy1);
+    collection.shiftFrames(copy1);
+    int index = 0, dir = 1;
+    static int rgb = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel[rgb] = static_cast<unsigned char>((0.3 * pixel[rgb]) + (pix[rgb] * 0.7));
+        }
+        if(dir == 1) {
+            ++index;
+            if(index > (collection.size()-1)) {
+                index = collection.size()-1;
+                dir = 0;
+            }
+        } else {
+            --index;
+            if(index <= 0) {
+                index = 0;
+                dir = 1;
+            }
+        }
+    }
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}

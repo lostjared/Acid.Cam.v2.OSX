@@ -2283,6 +2283,7 @@ namespace ac {
     void DiagSquareRGB(cv::Mat &frame);
     void ShiftPixelsRGB(cv::Mat &frame);
     void UseOldRowVertRGB(cv::Mat &frame);
+    void ColorWaveTrailsRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
