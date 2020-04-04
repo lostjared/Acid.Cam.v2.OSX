@@ -291,3 +291,35 @@ void ac::ColorWaveTrailsRGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::MirrorDiamondRGB(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int index = 0;
+    static int rgb = 0;
+    int start_x = 0;
+    int off_x = index;
+    for(int z = 0; z < frame.rows; ++z) {
+        start_x = off_x;
+        for(int i = 0; i < frame.cols; ++i) {
+            if(start_x > frame.cols-1) {
+                start_x = 0;
+            }
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, start_x);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel[rgb] = pix[rgb];
+            ++start_x;
+        }
+        ++off_x;
+        if(off_x > frame.cols)
+            off_x = 0;
+    }
+    ++index;
+    if(index > frame.cols)
+        index = 0;
+    
+    MirrorLeftBottomToTop(frame);
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
