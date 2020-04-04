@@ -204,3 +204,57 @@ void ac::ShiftPixelsRGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::UseOldRowVertRGB(cv::Mat &frame) {
+    static MatrixCollection<32> collection1;
+    static MatrixCollection<32> collection2;
+    collection1.shiftFrames(frame);
+    if(collection2.empty()) collection2.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    static int square_max = (frame.cols / collection1.size());
+    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int rgb = 0;
+    int row = 0;
+    int off = 0;
+    int size_past = 0;
+    while(row < frame.cols-1) {
+        square_size = 25 + (rand()% 1+(square_max - 25));
+        for(int i = row; i < row+square_size; ++i) {
+            int val = (rand()%10);
+            for(int z = 0; z < frame.cols; ++z) {
+                if(i < frame.cols && z < frame.rows) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    if(val > 7) {
+                        if(off < (collection2.size()-1)) {
+                            cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
+                            pixel[rgb] = static_cast<unsigned char>((0.5 * pixel[rgb]) + (0.5 * pix[rgb]));
+                        }
+                    } else {
+                        if(off < (collection1.size()-1)) {
+                            cv::Vec3b pix = collection1.frames[off].at<cv::Vec3b>(z, i);
+                            pixel[rgb] = static_cast<unsigned char>((0.5 * pixel[rgb]) + (0.5 * pix[rgb]));
+                        }
+                    }
+                }
+            }
+        }
+        row += square_size;
+        size_past += square_size;
+        if(size_past > square_max-1) {
+            size_past = 0;
+            ++off;
+            if(off > (collection1.size()-1))
+                break;
+        }
+    }
+    
+    static int counter = 0;
+    if(++counter > 10) {
+        counter = 0;
+        collection2.shiftFrames(copy1);
+    }
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}

@@ -2282,6 +2282,7 @@ namespace ac {
     void Square_Block_Resize_Vertical_RGB(cv::Mat &frame);
     void DiagSquareRGB(cv::Mat &frame);
     void ShiftPixelsRGB(cv::Mat &frame);
+    void UseOldRowVertRGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
