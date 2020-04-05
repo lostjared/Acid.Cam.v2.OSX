@@ -376,3 +376,42 @@ void ac::Square_Block_Resize_RGB(cv::Mat &frame) {
         rgb = 0;
     
 }
+
+void ac::VariableLinesY_RGB(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int i_dir = 1;
+    static int offset = rand()%frame.rows;
+    static int rgb = 0;
+    for(int i = 0; i < frame.cols; i++) {
+        int pos = 0;
+        if(i_dir == 1) {
+            ++offset;
+            if(offset > frame.rows-1) {
+                offset = frame.rows-1;
+                i_dir = 0;
+            }
+        } else {
+            --offset;
+            if(offset <= 1) {
+                offset = 1;
+                i_dir = 1;
+            }
+        }
+        for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel[rgb] = pix[rgb];
+            ++pos;
+        }
+        for(int z = 0; z < offset && pos < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(pos, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+            pixel[rgb] = pix[rgb];
+            ++pos;
+        }
+    }
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
