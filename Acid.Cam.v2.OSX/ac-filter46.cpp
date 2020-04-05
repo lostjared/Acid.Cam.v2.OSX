@@ -415,3 +415,31 @@ void ac::VariableLinesY_RGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::MedianBlendMultiThread_RGB(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    int r = 3+rand()%7;
+    for(int i = 0; i < r; ++i)
+        MedianBlur(frame);
+    collection.shiftFrames(frame);
+    static int rgb = 0;
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Scalar value;
+                for(int j = 0; j < collection.size(); ++j) {
+                    cv::Vec3b pixel = collection.frames[j].at<cv::Vec3b>(z, i);
+                    value[rgb] += pixel[rgb];
+                }
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int val = 1+static_cast<int>(value[rgb]);
+                pixel[rgb] = static_cast<unsigned char>(pixel[rgb] ^ val);
+            }
+        }
+    };
+    UseMultipleThreads(frame, getThreadCount(), callback);
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}

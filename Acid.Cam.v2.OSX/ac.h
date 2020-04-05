@@ -2287,7 +2287,8 @@ namespace ac {
     void MirrorDiamondRGB(cv::Mat &frame);
     void Square_Block_Resize_RGB(cv::Mat &frame);
     void VariableLinesY_RGB(cv::Mat &frame);
-
+    void MedianBlendMultiThread_RGB(cv::Mat &frame);
+    
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
