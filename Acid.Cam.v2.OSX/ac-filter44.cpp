@@ -748,6 +748,66 @@ void ac::SlitScanXGUI(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+void ac::SlitScanGUI_RGB(cv::Mat &frame) {
+
+    if(values_set == false)
+        return;
+    
+    value.lock();
+    cv::Mat copy1;
+    ac_resize(frame, copy1, cv::Size(slit_width, slit_height));
+    static int time_count = 0;
+    static int seconds = 0;
+    static bool add = true;
+    
+    int rgb = rand()%3;
+    
+    ++time_count;
+    if(time_count > static_cast<int>(ac::fps)) {
+        ++seconds;
+        time_count = 0;
+    }
+    if(add == false && ((seconds>=slit_delay))) {
+        add = true;
+        seconds = 0;
+    }
+    
+    if(add == true) {
+        static int stop_timer = 0;
+        ++stop_timer;
+        static int stop_seconds = 0;
+        if(stop_timer > static_cast<int>(ac::fps)) {
+            ++stop_seconds;
+            if(stop_seconds >= slit_on) {
+                add = false;
+                stop_seconds = 0;
+            }
+        }
+    }
+    if(slit_delay == 0 || add == true)
+        collection.shiftFrames(copy1);
+    
+    int index = 0;
+    int counter = 0;
+    for(int z = 0; z < copy1.rows; ++z) {
+        for(int i = 0; i < copy1.cols; ++i) {
+            cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+            pixel[rgb] = pix[rgb];
+        }
+        ++counter;
+        if(counter >= slit_repeat) {
+            ++index;
+            if(index > collection.size()-1)
+                index = 0;
+            counter = 0;
+        }
+    }
+    ac_resize(copy1, frame, frame.size());
+    value.unlock();
+    AddInvert(frame);
+}
+
 void ac::SlitScanXGUI_RGB(cv::Mat &frame) {
     if(values_set == false)
         return;
@@ -787,7 +847,6 @@ void ac::SlitScanXGUI_RGB(cv::Mat &frame) {
     int index = 0;
     int counter = 0;
     int rgb = rand()%3;
-    
     for(int i = 0; i < copy1.cols; ++i) {
         for(int z = 0; z < copy1.rows; ++z) {
             cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);

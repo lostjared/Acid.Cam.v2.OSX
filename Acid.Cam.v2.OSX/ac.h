@@ -2289,7 +2289,7 @@ namespace ac {
     void VariableLinesY_RGB(cv::Mat &frame);
     void MedianBlendMultiThread_RGB(cv::Mat &frame);
     void SlitScanXGUI_RGB(cv::Mat &frame);
-    
+    void SlitScanGUI_RGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
