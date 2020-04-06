@@ -443,3 +443,26 @@ void ac::MedianBlendMultiThread_RGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::SlitScanDir_RGB(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    IntertwineRow480pX2(copy1);
+    IntertwineCols640(copy2);
+    int val = rand()%2;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix2 = copy2.at<cv::Vec3b>(z, i);
+            if(val == 0) {
+                pixel[0] = pix1[0];
+                pixel[2] = pix2[2];
+                
+            } else {
+                pixel[0] = pix2[0];
+                pixel[2] = pix1[2];
+            }
+        }
+    }
+    AddInvert(frame);
+}
