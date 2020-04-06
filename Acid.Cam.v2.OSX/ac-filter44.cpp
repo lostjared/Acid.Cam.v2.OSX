@@ -786,7 +786,7 @@ void ac::SlitScanXGUI_RGB(cv::Mat &frame) {
     
     int index = 0;
     int counter = 0;
-    int rgb = rand()%2;
+    int rgb = rand()%3;
     
     for(int i = 0; i < copy1.cols; ++i) {
         for(int z = 0; z < copy1.rows; ++z) {
