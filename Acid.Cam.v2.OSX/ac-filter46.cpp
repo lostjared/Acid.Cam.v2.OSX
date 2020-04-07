@@ -551,3 +551,50 @@ void ac::MovementTrailsXRGB_SubFilter(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::TwistedVision_RGB(cv::Mat &frame) {
+    static int pos[3] = {2,frame.cols-1,2};
+    static int sized_w = frame.size().width;
+    static int rgb = 0;
+    if(sized_w != frame.size().width) {
+        pos[1] = frame.cols-1;
+        sized_w = frame.size().width;
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cx = i+pos[0];
+            if(cx >= 0 && cx < frame.cols) {
+                cv::Vec3b pix = frame.at<cv::Vec3b>(z, cx);
+                //for(int j = 0; j < 3; ++j) {
+                    pixel[rgb] = pix[rgb]^pixel[rgb];
+                //}
+            } else {
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = pixel[j]^pos[0];
+            }
+            int cx_x = i+pos[1];
+            if(cx_x >= 0 && cx_x < frame.cols) {
+                cv::Vec3b pix=frame.at<cv::Vec3b>(z, cx_x);
+                //for(int j = 0; j < 3; ++j) {
+                    pixel[rgb] = pixel[rgb]^pix[rgb];
+                //}
+            } else {
+                //for(int j = 0; j < 3; ++j)
+                    pixel[rgb] = pixel[rgb]^pos[1];
+            }
+        }
+    }
+    ++pos[0];
+    if(pos[0] > frame.cols/2) {
+        pos[0] = 2;
+    }
+    --pos[1];
+    if(pos[1] <= frame.cols/2)
+        pos[1] = frame.cols-1;
+    
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
