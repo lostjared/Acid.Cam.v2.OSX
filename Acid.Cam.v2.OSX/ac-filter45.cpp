@@ -542,11 +542,11 @@ void ac::PixelateRandom(cv::Mat &frame) {
 
 void ac::PixelateFillRandom(cv::Mat &frame) {
     static int f_w = 8, f_h = 8;
-    for(int z = 0; z < frame.rows; z += f_h) {
-        for(int i = 0; i < frame.cols; i += f_w) {
+    for(int z = 0; z < frame.rows-1; z += f_h) {
+        for(int i = 0; i < frame.cols-1; i += f_w) {
             cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
-            for(int x = 0; x < f_w; ++x) {
-                for(int y = 0; y < f_h; ++y) {
+            for(int x = 0; x < f_w && x < frame.cols-1; ++x) {
+                for(int y = 0; y < f_h && y < frame.rows-1; ++y) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
@@ -702,10 +702,10 @@ void ac::DiagSquare8(cv::Mat &frame) {
     collection.shiftFrames(frame);
     static int offset = 0;
     static int square = 8;
-    for(int z = 0; z < frame.rows; z += square) {
-        for(int i = 0; i < frame.cols; i += square) {
-            for(int x = 0; x+i < frame.cols && x < square; ++x) {
-                for(int y = 0; z+y < frame.rows && y < square; ++y) {
+    for(int z = 0; z < frame.rows-1; z += square) {
+        for(int i = 0; i < frame.cols-1; i += square) {
+            for(int x = 0; x+i < frame.cols-1 && x < square; ++x) {
+                for(int y = 0; z+y < frame.rows-1 && y < square; ++y) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                     pixel = pix;
@@ -730,8 +730,8 @@ void ac::DiagSquareRandom(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; z += 32) {
         for(int i = 0; i < frame.cols; i += 32) {
             offset = rand()%collection.size();
-            for(int x = 0; x+i < frame.cols && x < 32; ++x) {
-                for(int y = 0; z+y < frame.rows && y < 32; ++y) {
+            for(int x = 0; x+i < frame.cols-1 && x < 32; ++x) {
+                for(int y = 0; z+y < frame.rows-1 && y < 32; ++y) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                     pixel = pix;
@@ -750,8 +750,8 @@ void ac::DiagSquareX(cv::Mat &frame) {
     static int square = 4;
     for(int i = 0; i < frame.cols; i += square) {
         for(int z = 0; z < frame.rows; z += square) {
-            for(int x = 0; x+i < frame.cols && x < square; ++x) {
-                for(int y = 0; z+y < frame.rows && y < square; ++y) {
+            for(int x = 0; x+i < frame.cols-1 && x < square; ++x) {
+                for(int y = 0; z+y < frame.rows-1 && y < square; ++y) {
                     cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                     pixel = pix;
@@ -816,8 +816,8 @@ void ac::VideoSquareRandom(cv::Mat &frame) {
         start_off = (start_off == 0) ? 1 : 0;
         for(int z = 0; z < frame.rows; z += 32) {
             for(int i = 0; i < frame.cols; i += 32) {
-                for(int x = 0; x+i < frame.cols && x < 32; ++x) {
-                    for(int y = 0; z+y < frame.rows && y < 32; ++y) {
+                for(int x = 0; x+i < frame.cols-1 && x < 32; ++x) {
+                    for(int y = 0; z+y < frame.rows-1 && y < 32; ++y) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                         cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                         pixel = pix;
@@ -944,7 +944,7 @@ void ac::SquareShiftDirRGB(cv::Mat &frame) {
         off = rand()%frame.cols/64;
         if((rand()%8) > 6) {
             int on = rand()%2;
-            for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
+            for(int z = row; z < (row+frame_height) && (z < frame.rows-1); ++z) {
                 int pos = 0;
                 if(on == 0) {
                     for(int i = off; i < frame.cols; ++i) {

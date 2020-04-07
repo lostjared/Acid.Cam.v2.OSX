@@ -521,3 +521,33 @@ void ac::SquareShiftDirGradient(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MovementTrailsXRGB_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MovementTrailsXRGB_SubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    static int rgb = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            bool set_value = false;
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                if(abs(pixel[rgb]-pix[rgb]) > getPixelCollection()) {
+                    pixel[rgb] = pix1[rgb];
+                    set_value = true;
+                }
+                if(set_value == true)
+                    break;
+            }
+        }
+    }
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
