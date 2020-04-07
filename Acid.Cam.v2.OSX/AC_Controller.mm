@@ -597,7 +597,7 @@ void setEnabledProg() {
             strout << "Filters that require SubFilter should be used in the Custom Filter Mode.\n";
             [custom_window orderFront:self];
             flushToLog(strout);
-        } else if(filter_value == "SlitScanGUI" || filter_value == "SlitScanGUI_RGB" || filter_value == "SlitScanXGUI_RGB" || filter_value == "SlitScanXGUI" || filter_value == "SlitScanRandom") {
+        } else if((filter_value.find("SlitScan") != std::string::npos) || filter_value == "SlitScanGUI" || filter_value == "SlitScanGUI_RGB" || filter_value == "SlitScanXGUI_RGB" || filter_value == "SlitScanXGUI" || filter_value == "SlitScanRandom") {
             [slit_win orderFront:self];
         }
     }
@@ -2172,7 +2172,7 @@ void setEnabledProg() {
             strout << "To use this filter, set a subfilter in Custom Window...\n";
             flushToLog(strout);
         }
-        if(filter_value == "SlitScanGUI" || filter_value == "SlitScanGUI_RGB" || filter_value == "SlitScanXGUI_RGB" || filter_value == "SlitScanXGUI" || filter_value == "SlitScanRandom") {
+        if(filter_value.find("SlitScan") != std::string::npos || filter_value == "SlitScanGUI" || filter_value == "SlitScanGUI_RGB" || filter_value == "SlitScanXGUI_RGB" || filter_value == "SlitScanXGUI" || filter_value == "SlitScanRandom") {
             [slit_win orderFront:self];
         }
         
