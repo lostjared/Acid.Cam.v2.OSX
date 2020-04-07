@@ -2291,6 +2291,7 @@ namespace ac {
     void SlitScanXGUI_RGB(cv::Mat &frame);
     void SlitScanGUI_RGB(cv::Mat &frame);
     void SlitScanDir_RGB(cv::Mat &frame);
+    void SquareShiftDirGradient(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
