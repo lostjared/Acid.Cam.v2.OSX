@@ -566,9 +566,7 @@ void ac::TwistedVision_RGB(cv::Mat &frame) {
             int cx = i+pos[0];
             if(cx >= 0 && cx < frame.cols) {
                 cv::Vec3b pix = frame.at<cv::Vec3b>(z, cx);
-                //for(int j = 0; j < 3; ++j) {
-                    pixel[rgb] = pix[rgb]^pixel[rgb];
-                //}
+                pixel[rgb] = pix[rgb]^pixel[rgb];
             } else {
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = pixel[j]^pos[0];
@@ -576,12 +574,9 @@ void ac::TwistedVision_RGB(cv::Mat &frame) {
             int cx_x = i+pos[1];
             if(cx_x >= 0 && cx_x < frame.cols) {
                 cv::Vec3b pix=frame.at<cv::Vec3b>(z, cx_x);
-                //for(int j = 0; j < 3; ++j) {
-                    pixel[rgb] = pixel[rgb]^pix[rgb];
-                //}
+                pixel[rgb] = pixel[rgb]^pix[rgb];
             } else {
-                //for(int j = 0; j < 3; ++j)
-                    pixel[rgb] = pixel[rgb]^pos[1];
+                pixel[rgb] = pixel[rgb]^pos[1];
             }
         }
     }
