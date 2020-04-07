@@ -448,7 +448,7 @@ void ac::SlitScanDir_RGB(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     IntertwineRow480pX2(copy1);
     IntertwineCols640(copy2);
-    int val = rand()%2;
+    int val = rand()%6;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
@@ -457,10 +457,21 @@ void ac::SlitScanDir_RGB(cv::Mat &frame) {
             if(val == 0) {
                 pixel[0] = pix1[0];
                 pixel[2] = pix2[2];
-                
-            } else {
+            } else if(val == 1){
                 pixel[0] = pix2[0];
                 pixel[2] = pix1[2];
+            } else if(val == 2) {
+                pixel[0] = pix1[0];
+                pixel[1] = pix2[1];
+            } else if(val == 3) {
+                pixel[0] = pix2[0];
+                pixel[1] = pix1[1];
+            } else if(val == 4) {
+                pixel[2] = pix1[2];
+                pixel[0] = pix2[0];
+            } else if(val == 5) {
+                pixel[2] = pix2[2];
+                pixel[1] = pix1[1];
             }
         }
     }
