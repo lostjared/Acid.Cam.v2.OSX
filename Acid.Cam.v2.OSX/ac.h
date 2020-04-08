@@ -2294,6 +2294,7 @@ namespace ac {
     void SquareShiftDirGradient(cv::Mat &frame);
     void MovementTrailsXRGB_SubFilter(cv::Mat &frame);
     void TwistedVision_RGB(cv::Mat &frame);
+    void CollectionWave_RGB(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

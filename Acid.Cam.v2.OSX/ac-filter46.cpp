@@ -593,3 +593,50 @@ void ac::TwistedVision_RGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+void ac::CollectionWave_RGB(cv::Mat &frame) {
+    static MatrixCollection<24> collection1;
+    collection1.shiftFrames(frame);
+    static int row_size = 10;
+    static int rgb = 0;
+    int row_index = 0;
+    int row_dir = 1, row_size_dir = 1;
+    for(int q = 0; q < frame.rows; q += row_size) {
+        for(int z = 0; z < q+row_size && z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix1 = collection1.frames[row_index].at<cv::Vec3b>(z, i);
+                pixel[rgb] = static_cast<unsigned char>((0.5 * pixel[rgb]) + (0.5 * pix1[rgb]));
+            }
+            if(row_dir == 1) {
+                ++row_index;
+                if(row_index > (collection1.size()-1)) {
+                    row_index = collection1.size()-1;
+                    row_dir = 0;
+                }
+            } else {
+                --row_index;
+                if(row_index <= 1) {
+                    row_index = 1;
+                    row_dir = 1;
+                    if(row_size_dir == 1) {
+                        row_size += 20;
+                        if(row_size > 100) {
+                            row_size_dir = 0;
+                        }
+                    } else {
+                        row_size -= 20;
+                        if(row_size <= 10) {
+                            row_size = 50;
+                            row_size_dir = 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+    ++rgb;
+    if(rgb > 2)
+        rgb = 0;
+}
