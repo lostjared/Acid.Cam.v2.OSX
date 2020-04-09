@@ -211,6 +211,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *max_stretch_x;
     IBOutlet NSTextField *blend_percent;
     IBOutlet NSSlider *blend_percent_slider;
+    IBOutlet NSWindow *blend_percent_window;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -385,6 +386,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (NSString *) saveCustomFilter: (NSString *) name withPlugin: (NSString *)plug;
 - (IBAction) filterCollectionComboChanged:(id) sender;
 - (IBAction) setBlendPercent: (id) sender;
+- (IBAction) updateBlendPercent: (id) sender;
+- (IBAction) viewBlendPercentage: (id) sender;
 @end
 
 extern AC_Controller *controller;

@@ -3883,7 +3883,16 @@ void setEnabledProg() {
 }
 
 - (IBAction) setBlendPercent: (id) sender {
-    
+}
+
+- (IBAction) updateBlendPercent: (id) sender {
+    NSInteger pos = [blend_percent_slider integerValue];
+    NSString *s = [NSString stringWithFormat:@"%d%%", (int)pos];
+    [blend_percent setStringValue:s];
+}
+
+- (IBAction) viewBlendPercentage: (id) sender {
+    [blend_percent_window orderFront:self];
 }
 
 @end

@@ -19,6 +19,7 @@
                 <outlet property="apply_after" destination="1Hm-k5-BOy" id="X1b-Tf-egL"/>
                 <outlet property="blend_percent" destination="R8i-1Q-E6c" id="iEo-Oa-fwd"/>
                 <outlet property="blend_percent_slider" destination="aGh-Zl-51u" id="pWr-cs-dS9"/>
+                <outlet property="blend_percent_window" destination="Zu6-de-JjN" id="0zi-hq-f0X"/>
                 <outlet property="blend_source_amt" destination="01p-To-uoC" id="eTS-Lk-8mL"/>
                 <outlet property="block_colors_window" destination="Zk1-Q2-DQZ" id="ZRZ-7S-igJ"/>
                 <outlet property="blocked_color_well" destination="Bqt-fh-v2p" id="EHY-EX-Fo7"/>
@@ -529,6 +530,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showSlitScan:" target="630" id="gOP-ac-6xB"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Blend Percentage" id="SUN-tr-BIw">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="viewBlendPercentage:" target="630" id="0Q0-Vo-mvt"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Fit Video to Window" id="KDy-87-FEf">
@@ -1200,7 +1207,7 @@
                                     <tableColumns>
                                         <tableColumn width="62.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="cCc-3o-aCy">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="State">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -1213,7 +1220,7 @@
                                         </tableColumn>
                                         <tableColumn width="50.96484375" minWidth="40" maxWidth="1000" id="ycY-ks-ZcW">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Index">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1226,7 +1233,7 @@
                                         </tableColumn>
                                         <tableColumn width="247" minWidth="40" maxWidth="1000" id="3sp-AL-JTj">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Filter">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1239,7 +1246,7 @@
                                         </tableColumn>
                                         <tableColumn width="69" minWidth="40" maxWidth="1000" id="VL2-XO-FZP">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="SubIndex">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1252,7 +1259,7 @@
                                         </tableColumn>
                                         <tableColumn width="191.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="0g1-rF-NHB">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Sub Filter">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -1979,7 +1986,7 @@ Gw
                                     <tableColumns>
                                         <tableColumn width="50.96484375" minWidth="40" maxWidth="1000" id="NF7-Qd-O2W">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Index">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1992,7 +1999,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn width="487" minWidth="40" maxWidth="1000" id="BeB-oO-kB9">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Filter">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -3283,8 +3290,8 @@ Gw
             </view>
             <point key="canvasLocation" x="240.5" y="-309"/>
         </window>
-        <window title="Blend Percentage" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="Zu6-de-JjN">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+        <window title="Blend Percentage" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Zu6-de-JjN">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="370" y="402" width="480" height="60"/>
             <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
@@ -3296,6 +3303,9 @@ Gw
                         <rect key="frame" x="18" y="23" width="336" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="ff9-we-riP"/>
+                        <connections>
+                            <action selector="updateBlendPercent:" target="630" id="qem-PS-5dN"/>
+                        </connections>
                     </slider>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dBZ-GW-GVB">
                         <rect key="frame" x="415" y="13" width="61" height="32"/>
