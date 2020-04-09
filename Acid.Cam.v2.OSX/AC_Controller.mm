@@ -599,6 +599,8 @@ void setEnabledProg() {
             flushToLog(strout);
         } else if((filter_value.find("SlitScan") != std::string::npos) || filter_value == "SlitScanGUI" || filter_value == "SlitScanGUI_RGB" || filter_value == "SlitScanXGUI_RGB" || filter_value == "SlitScanXGUI" || filter_value == "SlitScanRandom") {
             [slit_win orderFront:self];
+        } else if(filter_value == "BlendWithSourcePercent") {
+             [blend_percent_window orderFront:self];
         }
     }
     ac::reset_filter = true;
@@ -2175,7 +2177,9 @@ void setEnabledProg() {
         if(filter_value.find("SlitScan") != std::string::npos || filter_value == "SlitScanGUI" || filter_value == "SlitScanGUI_RGB" || filter_value == "SlitScanXGUI_RGB" || filter_value == "SlitScanXGUI" || filter_value == "SlitScanRandom") {
             [slit_win orderFront:self];
         }
-        
+        if(filter_value == "BlendWithSourcePercent") {
+             [blend_percent_window orderFront:self];
+        }
         if([chk_preview integerValue] == 1 && !test_image.empty()) {
             cv::Mat copy1 = test_image.clone();
             if(ac::filter_map_str.find(file_str) != ac::filter_map_str.end()) {
@@ -3883,6 +3887,8 @@ void setEnabledProg() {
 }
 
 - (IBAction) setBlendPercent: (id) sender {
+    int per = static_cast<int>([blend_percent_slider integerValue]);
+    ac::setBlendPercent(per);
 }
 
 - (IBAction) updateBlendPercent: (id) sender {

@@ -640,3 +640,20 @@ void ac::CollectionWave_RGB(cv::Mat &frame) {
     if(rgb > 2)
         rgb = 0;
 }
+
+namespace {
+    int blend_percent = 50;
+}
+
+void ac::setBlendPercent(int percent) {
+    blend_percent = percent;
+}
+
+void ac::BlendWithSourcePercent(cv::Mat &frame) {
+    if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
+        cv::Mat copy1 = frame.clone();
+        double val = 0.01 * blend_percent;
+        AlphaBlendDouble(copy1, orig_frame, frame, 1-val, val);
+        AddInvert(frame);
+    }
+}

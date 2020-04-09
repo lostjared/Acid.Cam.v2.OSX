@@ -2295,6 +2295,7 @@ namespace ac {
     void MovementTrailsXRGB_SubFilter(cv::Mat &frame);
     void TwistedVision_RGB(cv::Mat &frame);
     void CollectionWave_RGB(cv::Mat &frame);
+    void BlendWithSourcePercent(cv::Mat &frame);
    
     // #NoFilter
     void NoFilter(cv::Mat &frame);
@@ -2407,6 +2408,7 @@ namespace ac {
     void log_print(std::string s);
     void setMaxStretch(int max);
     int  getMaxStretch();
+    void setBlendPercent(int percent);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

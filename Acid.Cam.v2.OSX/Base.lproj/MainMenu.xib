@@ -3292,8 +3292,8 @@ Gw
         </window>
         <window title="Blend Percentage" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Zu6-de-JjN">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="370" y="402" width="480" height="60"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
+            <rect key="contentRect" x="100" y="1586" width="480" height="60"/>
             <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
             <view key="contentView" id="xhG-2n-Jkb">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="60"/>
