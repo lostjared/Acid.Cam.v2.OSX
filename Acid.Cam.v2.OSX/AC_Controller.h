@@ -209,6 +209,8 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *slit_width, *slit_height, *slit_frames, *slit_repeat, *slit_delay, *slit_on;
     IBOutlet NSWindow *slit_win;
     IBOutlet NSTextField *max_stretch_x;
+    IBOutlet NSTextField *blend_percent;
+    IBOutlet NSSlider *blend_percent_slider;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -382,6 +384,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (void) updateDirPath: (std::string *)s;
 - (NSString *) saveCustomFilter: (NSString *) name withPlugin: (NSString *)plug;
 - (IBAction) filterCollectionComboChanged:(id) sender;
+- (IBAction) setBlendPercent: (id) sender;
 @end
 
 extern AC_Controller *controller;

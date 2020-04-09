@@ -3882,6 +3882,10 @@ void setEnabledProg() {
     [slit_win orderFront:self];
 }
 
+- (IBAction) setBlendPercent: (id) sender {
+    
+}
+
 @end
 
 void CustomFilter(cv::Mat &frame, NSMutableArray *listval, NSMutableArray *sublist, NSMutableArray *filter_states) {
