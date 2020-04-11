@@ -2297,7 +2297,7 @@ namespace ac {
     void CollectionWave_RGB(cv::Mat &frame);
     void BlendWithSourcePercent(cv::Mat &frame);
     void SlitScan_Colors(cv::Mat &frame);
-    void TestFilter101(cv::Mat &frame);
+    void ReverseRandom(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

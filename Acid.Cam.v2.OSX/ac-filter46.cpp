@@ -658,6 +658,24 @@ void ac::BlendWithSourcePercent(cv::Mat &frame) {
     }
 }
 
-void ac::TestFilter101(cv::Mat &frame) {
-    
+void ac::ReverseRandom(cv::Mat &frame) {
+    bool rev = false;
+    int rev_h = 100+(rand()%100);
+    int index = 0;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z){
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(rev == true) {
+                pixel = copy1.at<cv::Vec3b>(z, (frame.cols-i-1));
+            }
+        }
+        ++index;
+        if(index >= rev_h) {
+            rev = !rev;
+            index = 0;
+            rev_h = 100+(rand()%300);
+        }
+    }
+    AddInvert(frame);
 }
