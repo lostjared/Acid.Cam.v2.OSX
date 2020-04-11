@@ -674,7 +674,7 @@ void ac::ReverseRandom(cv::Mat &frame) {
         if(index >= rev_h) {
             rev = !rev;
             index = 0;
-            rev_h = 100+(rand()%300);
+            rev_h = 100+(rand()%500);
         }
     }
     AddInvert(frame);
