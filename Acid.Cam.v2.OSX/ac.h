@@ -2298,6 +2298,7 @@ namespace ac {
     void BlendWithSourcePercent(cv::Mat &frame);
     void SlitScan_Colors(cv::Mat &frame);
     void ReverseRandom(cv::Mat &frame);
+    void ReverseRandomCollection(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
