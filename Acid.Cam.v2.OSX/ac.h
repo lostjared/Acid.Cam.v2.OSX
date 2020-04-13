@@ -2299,6 +2299,7 @@ namespace ac {
     void SlitScan_Colors(cv::Mat &frame);
     void ReverseRandom(cv::Mat &frame);
     void ReverseRandomCollection(cv::Mat &frame);
+    void RevesreRandomChannelCollection(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

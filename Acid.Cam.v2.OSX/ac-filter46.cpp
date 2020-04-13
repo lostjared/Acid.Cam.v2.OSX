@@ -707,3 +707,35 @@ void ac::ReverseRandomCollection(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::RevesreRandomChannelCollection(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int val_index = 0;
+    static int offset = 0;
+    bool rev = false;
+    int rev_h = 100+(rand()%100);
+    int index = 0;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z){
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(rev == true) {
+                pixel[offset] = collection.frames[val_index].at<cv::Vec3b>(z, (frame.cols-i-1))[offset];
+            }
+        }
+        ++index;
+        if(index >= rev_h) {
+            rev = !rev;
+            index = 0;
+            rev_h = 100+(rand()%500);
+            ++val_index;
+            if(val_index > (collection.size()-1))
+                val_index = 0;
+            ++offset;
+            if(offset > 2)
+                offset = 0;
+        }
+    }
+    AddInvert(frame);
+}
