@@ -2301,6 +2301,7 @@ namespace ac {
     void ReverseRandomCollection(cv::Mat &frame);
     void RevesreRandomChannelCollection(cv::Mat &frame);
     void ReverseRandomCollectionResize(cv::Mat &frame);
+    void SquareBlockGlitch(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

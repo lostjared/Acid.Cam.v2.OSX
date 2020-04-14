@@ -773,3 +773,41 @@ void ac::ReverseRandomCollectionResize(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareBlockGlitch(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int off = 0;
+    static int offx = 0;
+    static int frame_height = frame.rows/4;
+    for(int row = 0; row < frame.rows; row += frame_height) {
+        off = rand()%frame.cols/64;
+        if((rand()%8) > 6) {
+            int on = rand()%2;
+            offx = rand()%collection.size();
+            for(int z = row; z < (row+frame_height) && (z < frame.rows); ++z) {
+                int pos = 0;
+                if(on == 0) {
+                    for(int i = off; i < frame.cols; ++i) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix = collection.frames[offx].at<cv::Vec3b>(z, pos);
+                        ++pos;
+                        pixel = pix;
+                    }
+                } else {
+                    pos = frame.cols-1;
+                    for(int i = frame.cols-1-off; i > 1; --i) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix = collection.frames[offx].at<cv::Vec3b>(z, pos);
+                        --pos;
+                        pixel = pix;
+                    }
+                }
+            }
+        }
+    }
+    ++offx;
+    if(offx > (collection.size()-1))
+        offx = 0;
+    AddInvert(frame);
+}
