@@ -832,3 +832,26 @@ void ac::SquareStretchRows(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareStretchRowsDelay(cv::Mat &frame) {
+    cv::Mat copies[6];
+    for(int i = 0; i < 6; ++i) {
+        ac_resize(frame, copies[i], cv::Size(frame.cols+((rand()%10) * 100), frame.rows));
+    }
+    int offset = 0;
+    for(int row = 0; row < frame.rows; row += (frame.rows/6)) {
+        
+        if((rand()%50) != 0)
+            continue;
+        
+        for(int z = row; z < row+(frame.rows/6) && z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copies[offset].at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+        offset++;
+    }
+    AddInvert(frame);
+}
