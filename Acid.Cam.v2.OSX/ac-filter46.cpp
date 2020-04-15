@@ -811,3 +811,19 @@ void ac::SquareBlockGlitch(cv::Mat &frame) {
         offx = 0;
     AddInvert(frame);
 }
+
+void ac::SquareStretchRows(cv::Mat &frame) {
+    
+    cv::Mat copies[4];
+    for(int i = 0; i < 4; ++i)
+        copies[i] = frame.clone();
+    
+    
+    for(int row = 0; row < frame.rows; row += (frame.rows/4)) {
+        
+        
+        
+    }
+    
+    
+}
