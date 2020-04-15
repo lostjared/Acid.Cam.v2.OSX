@@ -2304,6 +2304,7 @@ namespace ac {
     void SquareBlockGlitch(cv::Mat &frame);
     void SquareStretchRows(cv::Mat &frame);
     void SquareStretchRowsDelay(cv::Mat &frame);
+    void SquareStretchEven(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
