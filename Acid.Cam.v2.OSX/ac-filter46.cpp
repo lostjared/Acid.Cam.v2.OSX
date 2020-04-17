@@ -901,16 +901,17 @@ void ac::SketchFilter(cv::Mat &frame) {
 }
 
 void ac::SquareStretchEvenCollection(cv::Mat &frame) {
-    static MatrixCollection<32> collection;
+    static constexpr int MAX_FRAMES=16;
+    static MatrixCollection<MAX_FRAMES> collection;
     collection.shiftFrames(frame);
-    cv::Mat copies[8];
-    for(int i = 0; i < 8; ++i) {
+    cv::Mat copies[MAX_FRAMES];
+    for(int i = 0; i < MAX_FRAMES; ++i) {
         ac_resize(collection.frames[i], copies[i], cv::Size(frame.cols+((rand()%5) * 30), frame.rows));
     }
     int offset = 0;
-    for(int row = 0; row < frame.rows; row += (frame.rows/8)) {
+    for(int row = 0; row < frame.rows; row += (frame.rows/MAX_FRAMES)) {
         offset = rand()%collection.size();
-        for(int z = row; z < row+(frame.rows/8) && z < frame.rows; ++z) {
+        for(int z = row; z < row+(frame.rows/MAX_FRAMES) && z < frame.rows; ++z) {
             int start = copies[offset].cols-frame.cols;
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
