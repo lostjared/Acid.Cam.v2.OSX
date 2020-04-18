@@ -2307,6 +2307,7 @@ namespace ac {
     void SquareStretchEven(cv::Mat &frame);
     void SketchFilter(cv::Mat &frame);
     void SquareStretchEvenCollection(cv::Mat &frame);
+    void SquareStretchEven32(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

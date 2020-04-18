@@ -923,3 +923,27 @@ void ac::SquareStretchEvenCollection(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareStretchEven32(cv::Mat &frame) {
+    static constexpr int MAX_FRAMES=32;
+    cv::Mat copies[MAX_FRAMES];
+    for(int i = 0; i < MAX_FRAMES; ++i) {
+        ac_resize(frame, copies[i], cv::Size(frame.cols+((rand()%5) * 10), frame.rows));
+    }
+    int offset = 0;
+    for(int row = 0; row < frame.rows; row += (frame.rows/MAX_FRAMES)) {
+        for(int z = row; z < row+(frame.rows/MAX_FRAMES) && z < frame.rows; ++z) {
+            int start = copies[offset].cols-frame.cols;
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = copies[offset].at<cv::Vec3b>(z, start);
+                pixel = pix;
+                ++start;
+            }
+        }
+        ++offset;
+        if(offset > MAX_FRAMES-1)
+            offset = 0;
+    }
+    AddInvert(frame);
+}
