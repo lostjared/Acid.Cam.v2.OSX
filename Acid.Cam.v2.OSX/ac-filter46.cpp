@@ -952,12 +952,11 @@ void ac::RGBLineFuzz(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         int offset = rand()%frame.rows;
         for(int i = 0; i < frame.cols; ++i) {
+            ++offset;
+            if(offset > frame.rows-1)
+                offset = 0;
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = frame.at<cv::Vec3b>(offset, i);
-            if(offset > frame.rows)
-                offset = 0;
-            else
-                ++offset;
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
             }
