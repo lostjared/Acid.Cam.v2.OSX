@@ -966,3 +966,22 @@ void ac::RGBLineFuzz(cv::Mat &frame) {
     RGBSplitFilter(frame);
     AddInvert(frame);
 }
+
+void ac::RGBLineFuzzX(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        int offset = rand()%frame.cols;
+        for(int i = 0; i < frame.cols; ++i) {
+            ++offset;
+            if(offset > frame.cols-1)
+                offset = 0;
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = frame.at<cv::Vec3b>(z, offset);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+        }
+        
+    }
+    RGBSplitFilter(frame);
+    AddInvert(frame);
+}

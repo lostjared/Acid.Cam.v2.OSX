@@ -2309,6 +2309,7 @@ namespace ac {
     void SquareStretchEvenCollection(cv::Mat &frame);
     void SquareStretchEven32(cv::Mat &frame);
     void RGBLineFuzz(cv::Mat &frame);
+    void RGBLineFuzzX(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
