@@ -985,3 +985,21 @@ void ac::RGBLineFuzzX(cv::Mat &frame) {
     RGBSplitFilter(frame);
     AddInvert(frame);
 }
+
+void ac::ChannelSortCollection32(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    std::vector<cv::Mat> v;
+    std::vector<cv::Mat> v1;
+    std::vector<cv::Mat> v2;
+    cv::split(collection.frames[0], v);
+    cv::split(collection.frames[15], v1);
+    cv::split(collection.frames[31], v2);
+    cv::Mat channels[3];
+    cv::Mat output;
+    cv::sort(v[0], channels[0],cv::SORT_ASCENDING);
+    cv::sort(v1[1], channels[1],cv::SORT_ASCENDING);
+    cv::sort(v2[2], channels[2],cv::SORT_ASCENDING);
+    cv::merge(channels, 3, frame);
+    AddInvert(frame);
+}

@@ -2310,6 +2310,7 @@ namespace ac {
     void SquareStretchEven32(cv::Mat &frame);
     void RGBLineFuzz(cv::Mat &frame);
     void RGBLineFuzzX(cv::Mat &frame);
+    void ChannelSortCollection32(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
