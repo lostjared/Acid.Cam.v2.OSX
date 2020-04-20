@@ -2312,6 +2312,7 @@ namespace ac {
     void RGBLineFuzzX(cv::Mat &frame);
     void ChannelSortCollection32(cv::Mat &frame);
     void LinesAcrossX(cv::Mat &frame);
+    void XorLineX(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

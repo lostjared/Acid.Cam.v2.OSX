@@ -1015,3 +1015,26 @@ void ac::LinesAcrossX(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::XorLineX(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        static int rgb[3] = {0};
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                rgb[j] += pixel[j];
+            }
+            
+        }
+        rgb[0] /= frame.cols;
+        rgb[1] /= frame.cols;
+        rgb[2] /= frame.cols;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>(0.5 * (pixel[j]^rgb[j])) + static_cast<unsigned char>(0.5 * pixel[j]);
+            }
+        }
+    }
+    AddInvert(frame);
+}
