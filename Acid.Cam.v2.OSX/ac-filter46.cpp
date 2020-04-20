@@ -1003,3 +1003,15 @@ void ac::ChannelSortCollection32(cv::Mat &frame) {
     cv::merge(channels, 3, frame);
     AddInvert(frame);
 }
+
+void ac::LinesAcrossX(cv::Mat &frame) {
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 1; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b prev = frame.at<cv::Vec3b>(z, i-1);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = pixel[j]^prev[j];
+        }
+    }
+    AddInvert(frame);
+}
