@@ -2317,6 +2317,7 @@ namespace ac {
     void ExpandContract(cv::Mat &frame);
     void MoveInThenMoveOut(cv::Mat &frame);
     void MoveInThenMoveOutFast(cv::Mat &frame);
+    void CurrentDesktop(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

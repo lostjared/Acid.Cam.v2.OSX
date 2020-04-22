@@ -189,3 +189,19 @@ void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+#ifdef __APPLE__
+extern void ScreenGrab(cv::Mat &frame);
+#endif
+
+void ac::CurrentDesktop(cv::Mat &frame) {
+#ifdef __APPLE__
+    cv::Mat cap;
+    ScreenGrab(cap);
+    cv::Mat temp;
+    ac_resize(cap, temp, frame.size());
+    cv::cvtColor(temp, frame, cv::COLOR_RGB2BGR);
+#endif
+}
+
+
