@@ -2316,6 +2316,7 @@ namespace ac {
     void AlphaComponentIncrease(cv::Mat &frame);
     void ExpandContract(cv::Mat &frame);
     void MoveInThenMoveOut(cv::Mat &frame);
+    void MoveInThenMoveOutFast(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

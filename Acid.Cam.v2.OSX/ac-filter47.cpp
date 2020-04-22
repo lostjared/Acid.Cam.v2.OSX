@@ -165,3 +165,27 @@ void ac::MoveInThenMoveOut(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
+    static int nw = frame.cols/8;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0;  z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            int col = AC_GetFX(frame.cols, i, nw);
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
+            pixel = pix;
+        }
+        static int dir = 1;
+        if(dir == 1) {
+            nw += (rand()%20);
+            if(nw > frame.cols)
+                dir = 0;
+        } else {
+            nw -= (rand()%20);
+            if(nw < frame.cols/8)
+                dir = 1;
+        }
+    }
+    AddInvert(frame);
+}
