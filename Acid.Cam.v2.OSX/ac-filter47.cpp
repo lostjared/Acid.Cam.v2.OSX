@@ -191,15 +191,12 @@ void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
 }
 
 
-#define CONTAINS_SCREEN_GRAB
-
-
-#ifdef CONTAINS_SCREEN_GRAB
+#if !defined(NO_SCREEN_GRAB) && defined(__APPLE__)
 extern void ScreenGrab(cv::Mat &frame);
 #endif
 
 void ac::CurrentDesktop(cv::Mat &frame) {
-#ifdef CONTAINS_SCREEN_GRAB
+#if !defined(NO_SCREEN_GRAB) && defined(__APPLE__)
     cv::Mat cap;
     ScreenGrab(cap);
     cv::Mat temp;

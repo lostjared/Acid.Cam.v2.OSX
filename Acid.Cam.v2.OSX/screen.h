@@ -5,8 +5,6 @@
 @interface NSImage (NSImage_OpenCV) {
     
 }
-
 @property(nonatomic, readonly) cv::Mat CVMat;
-
 @end
 
