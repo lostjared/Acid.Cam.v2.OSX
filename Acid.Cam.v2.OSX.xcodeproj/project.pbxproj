@@ -321,8 +321,6 @@
 		7F9D708917DE4F35009C54DA = {
 			isa = PBXGroup;
 			children = (
-				7FCFCD0C245035E90010B639 /* screen.h */,
-				7FCFCD0A245035610010B639 /* screen.mm */,
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
 				7F190F8D226E305F001F4521 /* AC_SearchController.mm */,
@@ -335,6 +333,8 @@
 				7FEC38762130EB6800EE1A3E /* AC_AppDelegate.mm */,
 				7F9D70EB17DE4F7C009C54DA /* videocapture.h */,
 				7F9D70EC17DE4F7C009C54DA /* videoprogram.mm */,
+				7FCFCD0C245035E90010B639 /* screen.h */,
+				7FCFCD0A245035610010B639 /* screen.mm */,
 				7F9D70B517DE4F7C009C54DA /* ac.h */,
 				7FEE831220C394320027A848 /* ac-obj.cpp */,
 				7FA4F5CF21D553E600E6D442 /* ac-filtercat.cpp */,

@@ -190,12 +190,16 @@ void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-#ifdef __APPLE__
+
+#define CONTAINS_SCREEN_GRAB
+
+
+#ifdef CONTAINS_SCREEN_GRAB
 extern void ScreenGrab(cv::Mat &frame);
 #endif
 
 void ac::CurrentDesktop(cv::Mat &frame) {
-#ifdef __APPLE__
+#ifdef CONTAINS_SCREEN_GRAB
     cv::Mat cap;
     ScreenGrab(cap);
     cv::Mat temp;
