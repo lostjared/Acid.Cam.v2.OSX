@@ -201,7 +201,7 @@ void ac::CurrentDesktop(cv::Mat &frame) {
     ScreenGrab(cap);
     cv::Mat temp;
     ac_resize(cap, temp, frame.size());
-    cv::cvtColor(temp, frame, cv::COLOR_RGB2BGR);
+    cv::cvtColor(temp, frame, cv::COLOR_RGBA2BGR);
 #endif
 }
 
