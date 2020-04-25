@@ -2319,6 +2319,7 @@ namespace ac {
     void MoveInThenMoveOutFast(cv::Mat &frame);
     void CurrentDesktop(cv::Mat &frame);
     void DistortionFuzz(cv::Mat &frame);
+    void DistortionByRow(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
