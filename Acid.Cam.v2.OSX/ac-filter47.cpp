@@ -236,23 +236,20 @@ void ac::DistortionFuzz(cv::Mat &frame) {
 }
 
 void ac::DistortionByRow(cv::Mat &frame) {
-    
-    static int nw = frame.rows/8;
+    static int nw = frame.rows/16;
     cv::Mat copy1 = frame.clone();
-   
-
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            int col = AC_GetFZ(frame.cols, z, nw);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
-            pixel = pix;
+            int col = AC_GetFZ(frame.rows, z, nw);
+            if(col >= 0 && col < frame.rows) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
+                pixel = pix;
+            }
         }
-        
         ++nw;
         if(nw > frame.rows-1)
-            nw = frame.rows/8;
+            nw = frame.rows/16;
     }
-    
     AddInvert(frame);
 }
