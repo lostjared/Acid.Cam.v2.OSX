@@ -272,3 +272,25 @@ void ac::DistortionByRowRev(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DistortionByRowVar(cv::Mat &frame) {
+    static int nw = frame.rows/16;
+    cv::Mat copy1 = frame.clone();
+    static int add = 1+(rand()%25);
+    for(int z = 0;  z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int col = AC_GetFZ(frame.rows, z, nw);
+            if(col >= 0 && col < frame.rows) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
+                pixel = pix;
+            }
+        }
+        nw += add;
+        if(nw > frame.rows-1) {
+            nw = frame.rows/16;
+            add = 1+(rand()%25);
+        }
+    }
+    AddInvert(frame);
+}
