@@ -245,6 +245,7 @@ void ac::DistortionByRow(cv::Mat &frame) {
             if(col >= 0 && col < frame.rows) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
                 pixel = pix;
+            
             }
         }
         ++nw;
@@ -309,4 +310,22 @@ void ac::DistortionByRowRand(cv::Mat &frame) {
         }
     }
     AddInvert(frame);
+}
+
+void ac::DistortionByCol(cv::Mat &frame) {
+    static int nh = frame.cols/16;
+    cv::Mat copy1 = frame.clone();
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int col = AC_GetFX(frame.cols, i, nh);
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
+                pixel = pix;
+            }
+        }
+        nh++;
+        if(nh > frame.cols)
+            nh = frame.cols/16;
+    }
 }
