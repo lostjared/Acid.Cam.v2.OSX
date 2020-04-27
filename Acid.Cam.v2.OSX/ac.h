@@ -2325,7 +2325,7 @@ namespace ac {
     void DistortionByRowRand(cv::Mat &frame);
     void DistortionByCol(cv::Mat &frame);
     void DistortionByColRand(cv::Mat &frame);
-
+    void DistortionByColVar(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -346,3 +346,25 @@ void ac::DistortionByColRand(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DistortionByColVar(cv::Mat &frame) {
+    static int nh = frame.cols/16;
+    static int add = 1+(rand()%25);
+    cv::Mat copy1 = frame.clone();
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int col = AC_GetFX(frame.cols, i, nh);
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
+                pixel = pix;
+            }
+        }
+        nh += add;
+        if(nh > frame.cols) {
+            nh = frame.cols/16;
+            add = 1+(rand()%25);
+        }
+    }
+    AddInvert(frame);
+}
