@@ -368,3 +368,16 @@ void ac::DistortionByColVar(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::LongLines(cv::Mat &frame) {
+    
+    for(int i = 0; i < frame.cols; ++i) {
+        if(rand()%150==0) {
+            for(int z = 0; z < frame.rows; ++z) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel = 0;
+            }
+        }
+    }
+    AddInvert(frame);
+}
