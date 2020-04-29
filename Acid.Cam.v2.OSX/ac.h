@@ -108,6 +108,9 @@ extern cv::Mat blend_image,color_image,color_bg_image, color_replace_image, colo
 int AC_GetFX(int oldw,int x, int nw);
 int AC_GetFZ(int oldh, int y, int nh);
 
+// leave defined for safe array access (slower)
+#define ARRAY_TEST
+
 // acid cam namespace
 namespace ac {
     class FileT {
