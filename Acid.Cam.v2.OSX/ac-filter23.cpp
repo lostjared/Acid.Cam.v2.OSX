@@ -169,7 +169,7 @@ void ac::PositionShift(cv::Mat &frame) {
         int index = val_offset;
         for(int i = 0; i < frame.cols; ++i) {
             if(index < frame.cols-1) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, index);
+                cv::Vec3b &pixel = pixelAt(frame,z, index);
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
                 pixel = pix;
                 ++index;
@@ -633,7 +633,7 @@ void ac::BlendByColsSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(index == 1) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
                 pixel = pix;
@@ -652,7 +652,7 @@ void ac::BlendByColsImage(cv::Mat &frame) {
     ac_resize(blend_image, copy1, frame.size());
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(index == 1) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
                 pixel = pix;
@@ -732,7 +732,7 @@ void ac::IntertwineHorizontalImageSubFilter(cv::Mat &frame) {
     frames[2] = copy1.clone();
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
                 pixel[j] = pix[j];
@@ -755,7 +755,7 @@ void ac::InterwtineHorizontalImageSubFilterByIndex(cv::Mat &frame) {
     int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pix[j];
@@ -784,7 +784,7 @@ void ac::IntertwineHorizontalImageSubFilterMatrixCollection(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = frames[index].at<cv::Vec3b>(z, i)[j];
                 ++index;

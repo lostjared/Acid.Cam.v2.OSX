@@ -114,7 +114,7 @@ void ac::NegativeDarkenXor(cv::Mat &frame) {
     DarkenFilter(copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^static_cast<unsigned char>((-pix[j])*alpha1);
@@ -134,7 +134,7 @@ void ac::ImageXor_SubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix1 = reimage.at<cv::Vec3b>(z, i);
             cv::Vec3b pix2 = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
@@ -162,7 +162,7 @@ void ac::StrobeNegatePixel(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = ~pixel[index];
         }
     }
@@ -177,7 +177,7 @@ void ac::StrobeNegateInOut(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = ~pixel[index];
         }
     }
@@ -220,7 +220,7 @@ void ac::AlphaStrobeBlend(cv::Mat &frame) {
     static int dir_v = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
@@ -251,7 +251,7 @@ void ac::CannyRandomPixels(cv::Mat &frame) {
     cv::Vec3b r(100+rand()%155, 100+rand()%155, 100+rand()%155);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(pixel[0] == 255 && pixel[1] == 255 && pixel[2] == 255) {
                 pixel = r;
             }
@@ -750,7 +750,7 @@ void ac::StrobeRandomChannel(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.1, 6.0, 1.0);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[res] = static_cast<unsigned char>(pixel[res]*alpha);
         }
     }
@@ -986,7 +986,7 @@ void ac::IncreaseRGB(cv::Mat &frame) {
     static int speed = 5;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] += max;
         }
     }
@@ -1007,7 +1007,7 @@ void ac::IncreaseColor(cv::Mat &frame) {
     static int speed = 5;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = pixel;
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += max[j];
@@ -1035,7 +1035,7 @@ void ac::SaturateBlend(cv::Mat &frame) {
     rainbowBlend(copy2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[2];
             pix[0] = copy1.at<cv::Vec3b>(z, i);
             pix[1] = copy2.at<cv::Vec3b>(z, i);
@@ -1058,7 +1058,7 @@ void ac::SaturateBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[2];
             pix[0] = copy1.at<cv::Vec3b>(z, i);
             pix[1] = copy2.at<cv::Vec3b>(z, i);
@@ -1077,7 +1077,7 @@ void ac::MaxRGB(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = 255;
         }
     }
@@ -1098,7 +1098,7 @@ void ac::XorDifferenceFilter(cv::Mat &frame) {
             for(int q = 0; q < collection.size(); ++q) {
                 copy_pix[q] = collection.frames[q].at<cv::Vec3b>(z, i);
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b copy_pixel = pixel;
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = copy_pix[0][j] ^ copy_pix[1][j] ^ copy_pix[2][j] ^ copy_pix[3][j] ^ copy_pix[4][j] ^ copy_pix[5][j] ^ copy_pix[6][j] ^ copy_pix[7][j] ^ pixel[j];

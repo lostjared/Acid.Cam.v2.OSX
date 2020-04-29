@@ -68,7 +68,7 @@ void ac::ImageSquareShrinkAlpha(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
@@ -101,7 +101,7 @@ void ac::ImageSquareExpand(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -157,7 +157,7 @@ void ac::ImageSquareShrinkSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, reimage);
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
@@ -348,7 +348,7 @@ void ac::GradientGlitch(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         val = 1;
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[0] = static_cast<unsigned char>((pixel[0] * val) * 0.5);
             pixel[2] = static_cast<unsigned char>((pixel[2] * ~val) * 0.5);
             
@@ -375,7 +375,7 @@ void ac::ImageGradientBlend(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         val = 1;
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (pix[j] * (1-alpha)));
@@ -446,7 +446,7 @@ void ac::GradientFilter(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         val = increment_value;
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = val;
             if((i%inc) == 0) {
                 if(dir == 1) {
@@ -579,7 +579,7 @@ void ac::RandomGradientColors(cv::Mat &frame) {
                     }
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * cols[j]));
             }
@@ -730,7 +730,7 @@ void ac::ColorVariableRectangles(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((pixel[j] * alpha) + (rand_color[j]));
                 }
@@ -755,7 +755,7 @@ void ac::VariableRectangles(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 pixel[offset] += rand_color;
             }
         }
@@ -787,7 +787,7 @@ void ac::VariableRectanglesSimple(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 pixel = pix;
             }
@@ -820,7 +820,7 @@ void ac::VariableRectanglesExtra(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 pixel = pix;
             }
@@ -859,7 +859,7 @@ void ac::VariableRectangleImageAlphaBlend(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 //pixel = pix;
@@ -920,7 +920,7 @@ void ac::VariableRectanglesSmall(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 pixel = pix;
             }
@@ -944,7 +944,7 @@ void ac::VariableRectanglesLarge(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 pixel = pix;
             }
@@ -972,7 +972,7 @@ void ac::VariableRectanglesImageCollection(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
@@ -1007,7 +1007,7 @@ void ac::VariableRectanglesVariableImageSubFilter(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 cv::Vec3b img = image_collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {

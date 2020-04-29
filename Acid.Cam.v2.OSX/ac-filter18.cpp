@@ -117,10 +117,10 @@ void ac::MatrixCollectionMedianBlendFilter(cv::Mat &frame) {
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Scalar values;
             for(int q = 0; q < collection.size(); ++q) {
-                cv::Vec3b pix = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     values[j] += pix[j];
                 }
@@ -462,7 +462,7 @@ void ac::MatrixCollectionAddImage(cv::Mat &frame) {
                     values[j] += val[j];
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 values[j] /= collection.size();
@@ -720,7 +720,7 @@ void ac::IntertwineWithSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if((z%2) == 0) {
                 cv::Vec3b cp1 = copy1.at<cv::Vec3b>(z, i);
                 pixel = cp1;
@@ -740,7 +740,7 @@ void ac::IntertwineWithImageAndSubFilter(cv::Mat &frame) {
     int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             switch(index) {
@@ -769,7 +769,7 @@ void ac::IntertwineFrameWithImage(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(index == 0) {
                 index = 1;
             } else {
@@ -793,7 +793,7 @@ void ac::InterlaceVerticalFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(index == 0) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
@@ -817,7 +817,7 @@ void ac::InterlaceHorizontalFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(index == 0) {
                 pixel = cv::Vec3b(0,0,0);
                 index = 1;
@@ -900,7 +900,7 @@ void ac::IntertwineImageOnOff(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(on_val == 0)
                 pixel = reimage.at<cv::Vec3b>(z, i);
             else

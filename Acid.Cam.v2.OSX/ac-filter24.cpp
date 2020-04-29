@@ -485,7 +485,7 @@ void ac::ColorImageBlendSource(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b src_pix = orig_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b src_pix = pixelAt(orig_frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     int &d = pix_container.pix_values[i][z].dir[j];
                     PixelValues &pix = pix_container.pix_values[i][z];

@@ -68,7 +68,7 @@ void ac::FloatFadeVertical(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) +  (0.8 * (pixel[j]+index[j])));
             }
@@ -109,7 +109,7 @@ void ac::LineTrails(cv::Mat &frame) {
                 in = 0;
             }
             if(on == true) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 pixel = pix;
             }
@@ -134,7 +134,7 @@ void ac::SquareShiftDirVertical(cv::Mat &frame) {
                 if(on == 0) {
                     for(int z = off; z < frame.rows; ++z) {
                         if(z < frame.rows && i < frame.cols) {
-                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                            cv::Vec3b &pixel = pixelAt(frame,z, i);
                             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
                             ++pos;
                             pixel = pix;
@@ -144,7 +144,7 @@ void ac::SquareShiftDirVertical(cv::Mat &frame) {
                     pos = frame.cols-1;
                     for(int z = frame.rows-1-off; z > 1; --z) {
                         if(i < frame.cols && z < frame.rows) {
-                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                            cv::Vec3b &pixel = pixelAt(frame,z, i);
                             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
                             --pos;
                             pixel = pix;
@@ -162,7 +162,7 @@ void ac::StretchLineRow(cv::Mat &frame) {
     int stretch_x = frame.cols;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFX(frame.cols, i, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
             pixel = pix;
@@ -183,7 +183,7 @@ void ac::StretchLineCol(cv::Mat &frame) {
     int stretch_x = frame.rows;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFZ(frame.rows, z, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
             pixel = pix;
@@ -219,7 +219,7 @@ void ac::StretchLineRowInc(cv::Mat &frame) {
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFX(frame.cols, i, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
             pixel = pix;
@@ -257,7 +257,7 @@ void ac::StretchLineColInc(cv::Mat &frame) {
     
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFZ(frame.rows, z, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
             pixel = pix;
@@ -300,7 +300,7 @@ void ac::StretchRowSplit(cv::Mat &frame) {
             mat.create(frame.rows, index+spot, CV_8UC3);
             for(int zz = 0; zz < frame.rows; ++zz) {
                 for(int ii = over; ii < index+spot; ++ii) {
-                    cv::Vec3b pixel = frame.at<cv::Vec3b>(zz, ii+spot);
+                    cv::Vec3b pixel = pixelAt(frame,zz, ii+spot);
                     cv::Vec3b &pix = mat.at<cv::Vec3b>(zz, ii);
                     pix = pixel;
                 }
@@ -319,7 +319,7 @@ void ac::StretchRowSplit(cv::Mat &frame) {
             for(int y = 0; y < values[i].rows; ++y) {
                 int nx = AC_GetFX(values[i].cols, pos, stretch);
                 cv::Vec3b pix =  values[i].at<cv::Vec3b>(y, nx);
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(start_y, start_x);
+                cv::Vec3b &pixel = pixelAt(frame,start_y, start_x);
                 start_y++;
                 pixel = pix;
             }
@@ -336,8 +336,8 @@ void ac::VideoAddBlend(cv::Mat &frame) {
         ac_resize(vframe, reframe, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                pixel += reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                pixel += pixelAt(reframe,z, i);
             }
         }
     }
@@ -353,8 +353,8 @@ void ac::VideoFadeInAndOut(cv::Mat &frame) {
         ac_resize(vframe, reframe, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
                 }
@@ -385,7 +385,7 @@ void ac::VideoFadeRGB(cv::Mat &frame) {
         }
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(((rgb[j]+pixel[j])*0.5) + (0.5*pix[j]));
@@ -404,7 +404,7 @@ void ac::VideoSubtract(cv::Mat &frame) {
         ac_resize(vframe, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned int>((0.5 * pixel[j]) - (0.3 * pix[j]));
@@ -422,7 +422,7 @@ void ac::StretchLineRowLeftRight(cv::Mat &frame) {
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFX(frame.cols, i, stretch_x);
             cv::Vec3b pix;
             pix = copy1.at<cv::Vec3b>(z, nw);
@@ -476,7 +476,7 @@ void ac::FadeInOutBlendRGB(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.2 * pixel[j]) + (0.8 * (pixel[j]+col[j])));
             }
@@ -516,7 +516,7 @@ void ac::FadeInOutReverseRGB(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * (pixel[j]+stop[j])) + (0.5 * (pixel[j]+col[j])));
             }
@@ -530,7 +530,7 @@ void ac::PixelateRandom(cv::Mat &frame) {
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
@@ -547,7 +547,7 @@ void ac::PixelateFillRandom(cv::Mat &frame) {
             cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
             for(int x = 0; x < f_w && x < frame.cols-1; ++x) {
                 for(int y = 0; y < f_h && y < frame.rows-1; ++y) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
                     }
@@ -576,7 +576,7 @@ void ac::JaggedLine(cv::Mat &frame) {
                 dir = !dir;
             }
             if(on == true) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 if(i+x < frame.cols && dir == true) {
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i+x);
                     pixel = pix;
@@ -613,7 +613,7 @@ void ac::ScratchyTrails(cv::Mat &frame) {
                 if(offset > (collection.size()-1))
                     offset = 0;
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -632,7 +632,7 @@ void ac::ExpandPixelate(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             int off_y = z+(rand()%max);
             if(off_y < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(off_y, i);
                 pixel = pix;
             }
@@ -684,7 +684,7 @@ void ac::VideoCollectionTwitch(cv::Mat &frame) {
         recollection.shiftFrames(reframe);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b cpx = collection.frames[offset].at<cv::Vec3b>(z, i);
                 cv::Vec3b vpix = recollection.frames[offsetx].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
@@ -706,7 +706,7 @@ void ac::DiagSquare8(cv::Mat &frame) {
         for(int i = 0; i < frame.cols-1; i += square) {
             for(int x = 0; x+i < frame.cols-1 && x < square; ++x) {
                 for(int y = 0; z+y < frame.rows-1 && y < square; ++y) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                     pixel = pix;
                 }
@@ -732,7 +732,7 @@ void ac::DiagSquareRandom(cv::Mat &frame) {
             offset = rand()%collection.size();
             for(int x = 0; x+i < frame.cols-1 && x < 32; ++x) {
                 for(int y = 0; z+y < frame.rows-1 && y < 32; ++y) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                     pixel = pix;
                 }
@@ -752,7 +752,7 @@ void ac::DiagSquareX(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; z += square) {
             for(int x = 0; x+i < frame.cols-1 && x < square; ++x) {
                 for(int y = 0; z+y < frame.rows-1 && y < square; ++y) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                    cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                     cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                     pixel = pix;
                 }
@@ -784,8 +784,8 @@ void ac::VideoScanline(cv::Mat &frame) {
         static int start_x = 0, stop_x = rand()%50;
         for(int z = 0; z < frame.rows-2; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 ++start_x;
                 if(start_x > stop_x) {
                     on = !on;
@@ -818,7 +818,7 @@ void ac::VideoSquareRandom(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; i += 32) {
                 for(int x = 0; x+i < frame.cols-1 && x < 32; ++x) {
                     for(int y = 0; z+y < frame.rows-1 && y < 32; ++y) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                         cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
                         pixel = pix;
                     }
@@ -845,8 +845,8 @@ void ac::VideoScanlineBlend(cv::Mat &frame) {
         static int start_x = 0, stop_x = rand()%50;
         for(int z = 0; z < frame.rows-2; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 ++start_x;
                 if(start_x > stop_x) {
                     on = !on;
@@ -873,8 +873,8 @@ void ac::VideoSplitColumn(cv::Mat &frame) {
         static int max_x = 300;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = off_x; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 pixel = pix;
             }
             ++off_x;
@@ -897,8 +897,8 @@ void ac::VideoXStatic(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if((rand()%2)==0) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
                     pixel = pix;
                 }
             }
@@ -915,7 +915,7 @@ void ac::ScanlineCollection(cv::Mat &frame) {
     static int offset = 0;
     for(int z = 0; z < frame.rows-2; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z, i);
             ++start_x;
             if(start_x > stop_x) {
@@ -948,7 +948,7 @@ void ac::SquareShiftDirRGB(cv::Mat &frame) {
                 int pos = 0;
                 if(on == 0) {
                     for(int i = off; i < frame.cols; ++i) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b &pixel = pixelAt(frame,z, i);
                         cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
                         ++pos;
                         pixel[rgb] = pix[rgb];
@@ -956,7 +956,7 @@ void ac::SquareShiftDirRGB(cv::Mat &frame) {
                 } else {
                     pos = frame.cols-1;
                     for(int i = frame.cols-1-off; i > 1; --i) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b &pixel = pixelAt(frame,z, i);
                         cv::Vec3b pix = copy1.at<cv::Vec3b>(z, pos);
                         --pos;
                         pixel[rgb] = pix[rgb];
@@ -979,7 +979,7 @@ void ac::StretchLineRowIncRGB(cv::Mat &frame) {
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFX(frame.cols, i, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
             pixel[rgb] = pix[rgb];
@@ -1021,7 +1021,7 @@ void ac::StretchLineColIncRGB(cv::Mat &frame) {
     static int dir = 1;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFZ(frame.rows, z, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
             pixel[rgb] = pix[rgb];
@@ -1062,7 +1062,7 @@ void ac::StretchLineRowIncSource(cv::Mat &frame) {
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFX(frame.cols, i, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
             pixel[rgb] = pix[rgb];
@@ -1105,7 +1105,7 @@ void ac::StretchLineColIncSource(cv::Mat &frame) {
     static int dir = 1;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int nw = AC_GetFZ(frame.rows, z, stretch_x);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
             pixel[rgb] = pix[rgb];

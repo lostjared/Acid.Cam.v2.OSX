@@ -100,7 +100,7 @@ void ac::UseOldRow(cv::Mat &frame) {
             int val = (rand()%10);
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(val > 7) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -155,7 +155,7 @@ void ac::UseEveryOtherRow(cv::Mat &frame) {
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if((row%2)==0) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -209,7 +209,7 @@ void ac::UseOffRow(cv::Mat &frame) {
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if((row%4)==0) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -309,7 +309,7 @@ void ac::BlockyTrails(cv::Mat &frame) {
         int off = rand()%3;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -342,7 +342,7 @@ void ac::BlockyTrails16(cv::Mat &frame) {
         int off = rand()%6;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -378,7 +378,7 @@ void ac::BlockyTrails32(cv::Mat &frame) {
         int off = rand()%9;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -423,7 +423,7 @@ void ac::BlockyTrails64(cv::Mat &frame) {
         int off = rand()%18;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = frames[off].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -451,7 +451,7 @@ void ac::UseOffRowVert(cv::Mat &frame) {
         for(int i = row; i < row+square_size; ++i) {
             for(int z = 0; z < frame.rows; ++z) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if((row%4)==0) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -504,7 +504,7 @@ void ac::UseOldRowVert(cv::Mat &frame) {
             int val = (rand()%10);
             for(int z = 0; z < frame.cols; ++z) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(val > 7) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -557,7 +557,7 @@ void ac::UseEveryOtherRowVert(cv::Mat &frame) {
         for(int i = row; i < row+square_size; ++i) {
             for(int z = 0; z < frame.rows; ++z) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if((row%2)==0) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -627,7 +627,7 @@ void ac::RegularTrails(cv::Mat &frame) {
     for(int q = 0; q < 4; ++q) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[q].at<cv::Vec3b>(z, i);
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -655,7 +655,7 @@ void ac::UseOldRow64(cv::Mat &frame) {
             int val = (rand()%10);
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(val > 5) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -708,7 +708,7 @@ void ac::UseOldRowVert64(cv::Mat &frame) {
             int val = (rand()%10);
             for(int z = 0; z < frame.cols; ++z) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(val > 5) {
                         if(off < (collection2.size()-1)) {
                             cv::Vec3b pix = collection2.frames[off].at<cv::Vec3b>(z, i);
@@ -757,7 +757,7 @@ void ac::GradientColorBlend(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.rows;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (alpha[j] * r_color));
             }
@@ -783,7 +783,7 @@ void ac::GradientRedBlend(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.rows;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[2] = static_cast<unsigned char>((0.5 * pixel[2]) + (alpha[2] * r_color));
         }
         for(int j = 0; j < 3; ++j) {
@@ -807,7 +807,7 @@ void ac::GradientGreenBlend(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.rows;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[1] = static_cast<unsigned char>((0.5 * pixel[1]) + (alpha[1] * r_color));
         }
         for(int j = 0; j < 3; ++j) {
@@ -831,7 +831,7 @@ void ac::GradientBlueBlend(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.rows;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[0] = static_cast<unsigned char>((0.5 * pixel[0]) + (alpha[0] * r_color));
         }
         for(int j = 0; j < 3; ++j) {
@@ -867,7 +867,7 @@ void ac::GradientXRed(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.cols;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[2] = static_cast<unsigned char>((0.5 * pixel[2]) + (alpha[2] * r_color));
         }
         for(int j = 0; j < 3; ++j) {
@@ -884,7 +884,7 @@ void ac::GradientXGreen(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.cols;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[0] = static_cast<unsigned char>((0.5 * pixel[1]) + (alpha[1] * r_color));
         }
         for(int j = 0; j < 3; ++j) {
@@ -901,7 +901,7 @@ void ac::GradientXBlue(cv::Mat &frame) {
     double alpha_inc = 0.5/frame.cols;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[0] = static_cast<unsigned char>((0.5 * pixel[0]) + (alpha[0] * r_color));
         }
         for(int j = 0; j < 3; ++j) {
@@ -936,7 +936,7 @@ void ac::StretchRowMatrix16(cv::Mat &frame) {
     int rand_size = rand()%50;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -962,7 +962,7 @@ void ac::StretchRowMatrix32(cv::Mat &frame) {
     int rand_size = rand()%50;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -988,7 +988,7 @@ void ac::StretchRowMatrix8(cv::Mat &frame) {
     int rand_size = rand()%50;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[current].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));

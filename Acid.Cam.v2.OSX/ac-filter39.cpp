@@ -75,7 +75,7 @@ void ac::Square_Block_Resize_Vert_Video(cv::Mat &frame) {
                 for(int y = 0; y < square_size; ++y) {
                     for(int x = 0; x < square_size; ++x) {
                         if(z+y < (frame.rows-1) && i+x < (frame.cols-1)) {
-                            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                            cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
                             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                             for(int j = 0; j < 3; ++j) {
                                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -168,7 +168,7 @@ void ac::VideoMatrixBlend(cv::Mat &frame) {
         frame2[2] = collection2.frames[7].clone();
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix1 = frame1[j].at<cv::Vec3b>(z, i);
                     cv::Vec3b pix2 = frame2[j].at<cv::Vec3b>(z, i);
@@ -203,7 +203,7 @@ void ac::VideoMatrixBlendAlpha(cv::Mat &frame) {
         frame2[2] = collection2.frames[7].clone();
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix1 = frame1[j].at<cv::Vec3b>(z, i);
                     cv::Vec3b pix2 = frame2[j].at<cv::Vec3b>(z, i);
@@ -246,7 +246,7 @@ void ac::VideoMatrixBlendAlphaRandom(cv::Mat &frame) {
         frame2[2] = collection2.frames[7].clone();
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix1 = frame1[j].at<cv::Vec3b>(z, i);
                     cv::Vec3b pix2 = frame2[j].at<cv::Vec3b>(z, i);
@@ -272,7 +272,7 @@ void ac::VideoMatrixSwitch(cv::Mat &frame) {
             for(int z = offset; z <  offset+size; ++z) {
                 for(int i = 0; i < cols; ++i) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
                     pixel[index] = static_cast<unsigned char>((0.5 * pixel[index] + (0.5 * pix[index])));
                 }
             }
@@ -302,7 +302,7 @@ void ac::VideoCollectionWave(cv::Mat &frame) {
         for(int q = 0; q < frame.rows; q += row_size) {
             for(int z = 0; z < q+row_size && z < frame.rows; ++z) {
                 for(int i = 0; i < frame.cols; ++i) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     cv::Vec3b pix1 = collection1.frames[row_index].at<cv::Vec3b>(z, i);
                     cv::Vec3b pix2 = collection2.frames[row_index].at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
@@ -349,7 +349,7 @@ void ac::CollectionWave(cv::Mat &frame) {
     for(int q = 0; q < frame.rows; q += row_size) {
         for(int z = 0; z < q+row_size && z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix1 = collection1.frames[row_index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix1[j]));
@@ -397,7 +397,7 @@ void ac::TremorShake(cv::Mat &frame) {
     for(int q = 0; q < collection.size(); ++q) {
         for(int z = row_y; z < frame.rows && z < row_y+row_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = collection.frames[row_index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -447,7 +447,7 @@ void ac::PixelateSquares(cv::Mat &frame) {
         for(int i = 0; i < num_square_w; ++i) {
             for(int p = (z*pix_size_h); p < (z*pix_size_h)+pix_size_h && p < frame.rows; ++p) {
                 for(int q = (i*pix_size_w); q < (i*pix_size_w)+pix_size_w && p < frame.cols; ++q) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(p, q);
+                    cv::Vec3b &pixel = pixelAt(frame,p, q);
                     cv::Vec3b col = collection.frames[index].at<cv::Vec3b>(p, q);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * col[j]));
@@ -501,7 +501,7 @@ void ac::VideoCollectionOffsetBlend(cv::Mat &frame) {
         int index1 = 0, index2 = 0, dir1 = 1;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix1 = collection1.frames[index1].at<cv::Vec3b>(z, i);
                     cv::Vec3b pix2 = collection2.frames[index2].at<cv::Vec3b>(z, i);
@@ -542,7 +542,7 @@ void ac::VideoTransparent(cv::Mat &frame) {
         Smooth(copy1,&collection);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = (static_cast<unsigned char>(pixel[j] * 0.5) + static_cast<unsigned char>(pix[j] * 0.5));
@@ -566,7 +566,7 @@ void ac::VideoStripes(cv::Mat &frame) {
         Smooth(copy1,&collection);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                     pixel[j] = (static_cast<unsigned char>(pixel[j] * 0.5) ^ static_cast<unsigned char>(pix[j] * 0.5));
@@ -828,13 +828,13 @@ void ac::VideoSlideRGB(cv::Mat &frame) {
         ac_resize(vframe, reframe, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = x_offset; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
             }
             for(int i = 0; i < x_offset; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, (frame.cols-1-i));
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, (frame.cols-1-i));
                 pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
             }
         }
@@ -872,15 +872,15 @@ void ac::VideoSlide(cv::Mat &frame) {
         ac_resize(vframe, reframe, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = x_offset; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 for(int bgr = 0; bgr < 3; ++bgr) {
                     pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
                 }
             }
             for(int i = 0; i < x_offset; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, (frame.cols-1-i));
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, (frame.cols-1-i));
                 for(int bgr = 0; bgr < 3; ++bgr) {
                     pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
                 }
@@ -918,16 +918,16 @@ void ac::VideoSlideOffset(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             int pos = 0;
             for(int i = x_offset; i < frame.cols && pos < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 for(int bgr = 0; bgr < 3; ++bgr) {
                     pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
                 }
                 ++pos;
             }
             for(int i = 0; i < x_offset && pos < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, pos);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, pos);
                 for(int bgr = 0; bgr < 3; ++bgr) {
                     pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
                 }
@@ -966,16 +966,16 @@ void ac::VideoSlideOffsetX(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             int pos = 0;
             for(int i = x_offset; i < frame.cols && pos < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 for(int bgr = 0; bgr < 3; ++bgr) {
                     pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
                 }
                 ++pos;
             }
             for(int i = 0; i < x_offset && pos < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, pos);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 for(int bgr = 0; bgr < 3; ++bgr) {
                     pixel[bgr] = static_cast<unsigned char>((0.5 * pixel[bgr]) + (0.5 * pix[bgr]));
                 }

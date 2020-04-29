@@ -126,7 +126,7 @@ void ac::VideoImageBlend(cv::Mat &frame) {
                 for(int i = 0; i < cols; ++i) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                     cv::Vec3b pix[3];
-                    pix[0] = reframe.at<cv::Vec3b>(z, i);
+                    pix[0] = pixelAt(reframe,z, i);
                     pix[1] = reimage.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j)  {
                         pixel[j] = static_cast<unsigned char>(((pixel[j]^pix[0][j]^pix[1][j])) * 0.8);
@@ -450,7 +450,7 @@ void ac::VideoXorSource(cv::Mat &frame) {
             for(int z = offset; z <  offset+size; ++z) {
                 for(int i = 0; i < cols; ++i) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = pixel[j]^pix[j];
                     }
@@ -475,7 +475,7 @@ void ac::VideoXorSelfScale(cv::Mat &frame) {
             for(int z = offset; z <  offset+size; ++z) {
                 for(int i = 0; i < cols; ++i) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = static_cast<unsigned char>((static_cast<int>(pixel[j] * alpha))^static_cast<int>(pix[j] * (1-alpha)));
                     }
@@ -759,8 +759,8 @@ void ac::ExpandFrame(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z+pos_y, i+pos_x);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z+pos_y, i+pos_x);
                 pixel = pix;
             }
         }
@@ -810,8 +810,8 @@ void ac::ExpandImage(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z+pos_y, i+pos_x);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(reframe,z+pos_y, i+pos_x);
                 pixel = pix;
             }
         }
@@ -863,8 +863,8 @@ void ac::ExpandVideo(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(z+pos_y < reframe.rows && i+pos_x < reframe.cols) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z+pos_y, i+pos_x);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z+pos_y, i+pos_x);
                     pixel = pix;
                 }
             }
@@ -982,7 +982,7 @@ void ac::AlphaVideoXor(cv::Mat &frame) {
             for(int z = offset; z <  offset+size; ++z) {
                 for(int i = 0; i < cols; ++i) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = static_cast<unsigned char>(alpha * pixel[j])+(static_cast<unsigned char>(rgb_values[j])^pix[j]);
                     }

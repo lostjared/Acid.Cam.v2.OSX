@@ -382,7 +382,7 @@ void ac::GlitchyTrails(cv::Mat &frame) {
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     if(off < (collection.size()-1)) {
                         cv::Vec3b pix = collection.frames[off].at<cv::Vec3b>(z, i);
                         for(int j = 0; j < 3; ++j) {
@@ -448,7 +448,7 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
             for(int z = row; z < row+square_size; ++z) {
                  for(int i = 0; i < frame.cols; ++i) {
                     if(i < frame.cols && z < frame.rows) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b &pixel = pixelAt(frame,z, i);
                         if(off < (collection.size()-1)) {
                             cv::Vec3b pix[2];
                             pix[0] = collection.frames[off].at<cv::Vec3b>(z, i);
@@ -880,8 +880,8 @@ void ac::VideoBlendTruncate(cv::Mat &frame) {
         ac_resize(vframe, reframe, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b repix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b repix = pixelAt(reframe,z, i);
                 for(int j = 0; j < 3; ++j) {
                     if(pixel[j] > static_cast<int>(max1))
                         pixel[j] = static_cast<int>(max1);

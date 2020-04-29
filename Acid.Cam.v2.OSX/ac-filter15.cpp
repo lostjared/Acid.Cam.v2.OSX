@@ -52,7 +52,7 @@ void ac::ImageXorScale(cv::Mat &frame) {
     static int dir = rand()%2;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b copy_pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^copy_pix[j]^scale;
@@ -535,7 +535,7 @@ void ac::BlurMatrixCollectionXor(cv::Mat &frame) {
     Smooth(copy1, &collection);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Scalar values;
             for(int q = 0; q < collection.size(); ++q) {
                 cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
@@ -563,7 +563,7 @@ void ac::MatrixCollection8XorSubFilter(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar values;
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int q = 0; q < collection.size(); ++q) {
                 cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
@@ -586,7 +586,7 @@ void ac::BlurSmoothRevFilter(cv::Mat &frame) {
     BlurSmoothMatrix(copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
@@ -611,7 +611,7 @@ void ac::SurroundingPixels(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, i+1);
@@ -638,7 +638,7 @@ void ac::SurroundingPixelsAlpha(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, i+1);
@@ -666,7 +666,7 @@ void ac::MatrixCollectionSurroundingPixels(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, i+1);
@@ -700,7 +700,7 @@ void ac::MatrixCollectionSurroundingPixelsSubFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, i+1);
@@ -738,7 +738,7 @@ void ac::MatrixCollectionSurroundingPixelsImage(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, i+1);
@@ -774,7 +774,7 @@ void ac::MatrixCollectionSurroundingPixelsImageSubFilter(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     for(int z = 0; z < frame.rows-1; ++z) {
         for(int i = 0; i < frame.cols-1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[4];
             pix[0] = pixel;
             pix[1] = copy1.at<cv::Vec3b>(z, i+1);

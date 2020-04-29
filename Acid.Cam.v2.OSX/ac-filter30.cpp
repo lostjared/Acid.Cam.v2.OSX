@@ -64,8 +64,8 @@ void ac::StrangeGlitch64(cv::Mat &frame) {
         cv::Mat &copy_frame = collection.frames[q];
         for(int z = 0; z < copy_frame.rows; ++z) {
             for(int i = 0; i < copy_frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(copy_frame,z, i);
                 if(colorBounds(pixel, pix, cv::Vec3b(30, 30, 30), cv::Vec3b(30, 30, 30))) {
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = pix[j];
@@ -85,8 +85,8 @@ void ac::StrangeGlitch16(cv::Mat &frame) {
         cv::Mat &copy_frame = collection.frames[q];
         for(int z = 0; z < copy_frame.rows; ++z) {
             for(int i = 0; i < copy_frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(copy_frame,z, i);
                 if(colorBounds(pixel, pix, cv::Vec3b(30, 30, 30), cv::Vec3b(30, 30, 30))) {
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = pix[j];
@@ -109,8 +109,8 @@ void ac::CollectionMatrixOutline(cv::Mat &frame) {
     cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
@@ -134,8 +134,8 @@ void ac::CollectionMatrixSubFilter(cv::Mat &frame) {
     cv::Vec3b intensity(getPixelCollection(), getPixelCollection(), getPixelCollection());
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
@@ -193,8 +193,8 @@ void ac::ImageCollectionMatrixOutline(cv::Mat &frame) {
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
@@ -219,8 +219,8 @@ void ac::ImageCollectionMatrixOutlineSubFilter(cv::Mat &frame) {
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
@@ -247,8 +247,8 @@ void ac::ImageCollectionMatrixFillSubFilter(cv::Mat &frame) {
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0, 0, 0);
             } else {
@@ -277,8 +277,8 @@ void ac::ImageCollectionMatrixFadeInOutSubFilter(cv::Mat &frame) {
     int detect = static_cast<int>(detect_val);
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, cv::Vec3b(detect, detect, detect), cv::Vec3b(detect, detect, detect))) {
                 pixel = cv::Vec3b(0, 0, 0);
             } else {
@@ -306,8 +306,8 @@ void ac::ImageCollectionMatrixIntensitySubFilter(cv::Mat &frame) {
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0, 0, 0);
             } else {
@@ -337,8 +337,8 @@ void ac::ImageCollectionMatrixMedianSubFilter(cv::Mat &frame) {
     cv::Mat &copy_frame = collection.frames[val];
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0, 0, 0);
             } else {
@@ -362,8 +362,8 @@ void ac::CollectionMatrxOutlineAlphaMedianBlend(cv::Mat &frame) {
     cv::Mat copied_frame = frame.clone(), copy_val = frame.clone();
     for(int z = 0; z < copy_frame.rows; ++z) {
         for(int i = 0; i < copy_frame.cols; ++i) {
-            cv::Vec3b &pixel = copied_frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = copy_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(copied_frame,z, i);
+            cv::Vec3b pix = pixelAt(copy_frame,z, i);
             if(colorBounds(pixel, pix, intensity, intensity)) {
                 pixel = cv::Vec3b(0,0,0);
             } else {
@@ -416,7 +416,7 @@ void ac::MatrixCollectionAuraTrails(cv::Mat &frame) {
     for(int q = 0; q < collection.size(); ++q) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -442,7 +442,7 @@ void ac::MatrixCollectionAuraTrails32(cv::Mat &frame) {
     for(int q = 0; q < collection.size(); ++q) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
                     pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -474,7 +474,7 @@ void ac::PixelIntensityFillSubFilter(cv::Mat &frame) {
     for(int q = 0; q < collection.size(); ++q) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix_val = collection.frames[q].at<cv::Vec3b>(z, i);
                 cv::Vec3b pixels[3];
                 pixels[0] = frames[0].at<cv::Vec3b>(z, i);
@@ -558,7 +558,7 @@ void ac::ImageCycleXor(cv::Mat &frame) {
     for(int q = 0; q < 3; ++q) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b cpix = collection.frames[q].at<cv::Vec3b>(z, i);
                 cv::Vec3b ipix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
@@ -957,7 +957,7 @@ void ac::ImageSquareShrink(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -990,7 +990,7 @@ void ac::ImageSquareShrinkFast(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));

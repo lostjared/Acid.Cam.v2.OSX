@@ -53,7 +53,7 @@ void ac::BlendReverseSubFilter(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copyf.at<cv::Vec3b>(z, i);
             switch(index) {
                 case 0:
@@ -103,7 +103,7 @@ void ac::MirrorBitwiseXor(cv::Mat &frame) {
     FlipBlendAll(temp);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = temp.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1))^static_cast<unsigned char>(pix[j]*alpha);
@@ -139,7 +139,7 @@ void ac::RandomIncrease(cv::Mat &frame) {
     static cv::Vec3b values;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += values[j];
             }
@@ -168,7 +168,7 @@ void ac::MedianBlend16(cv::Mat &frame) {
                     value[q] += pixel[q];
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = 1+static_cast<int>(value[j]);
                 pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
@@ -207,7 +207,7 @@ void ac::MedianBlendBufferSubFilter(cv::Mat &frame) {
                     value[q] += pixel[q];
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy_f.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = 1+static_cast<int>(value[j]);
@@ -230,11 +230,11 @@ void ac::BGRBlend(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar values;
             for(int q = 0; q < collection.size(); ++q) {
-                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j)
                     values[j] += pixel[j];
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = pixel;
             for(int j = 0; j < 3; ++j) {
                 int val = static_cast<int>(values[j]);
@@ -255,13 +255,13 @@ void ac::RGBBlend(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar values;
             for(int q = 0; q < collection.size()-1; ++q) {
-                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     values[j] += pixel[j];
                     values[j] /= 1.5;
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = static_cast<int>(values[j]);
                 pixel[j] = pixel[j] ^ val;
@@ -284,13 +284,13 @@ void ac::RGBBlendSubFilter(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Scalar values;
             for(int q = 0; q < collection.size()-1; ++q) {
-                cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     values[j] += pixel[j];
                     values[j] /= 1.5;
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy_f.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = static_cast<int>(values[j]);
@@ -309,7 +309,7 @@ void ac::DivideAndIncH(cv::Mat &frame) {
     unsigned int row_y = frame.rows/255;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[0] += x;
             pixel[1] += y;
             ++counter_x;
@@ -334,7 +334,7 @@ void ac::DivideAndIncW(cv::Mat &frame) {
     unsigned int row_y = frame.rows/255;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[0] += x;
             pixel[1] += y;
             ++counter_x;
@@ -360,7 +360,7 @@ void ac::XorOppositeSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copyf);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b rpix = copyf.at<cv::Vec3b>(frame.rows-z-1, i);
             cv::Vec3b rpix1 = copyf.at<cv::Vec3b>(z, frame.cols-i-1);
             cv::Vec3b rpix2 = copyf.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
@@ -491,7 +491,7 @@ void ac::MedianBlendDark(cv::Mat &frame) {
                     value[q] -= pixel[q];
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = 1+static_cast<int>(value[j]);
                 pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
@@ -529,7 +529,7 @@ void ac::MedianBlendSubFilterEx(cv::Mat &frame) {
                     value[q] += pixel[q];
                 }
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 int val = 1+static_cast<int>(value[j]);
                 pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
@@ -577,7 +577,7 @@ void ac::AlphaBlendXorImage(cv::Mat &frame) {
         MedianBlur(outval);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = copyf.at<cv::Vec3b>(z, i);
                 cv::Vec3b pixval = outval.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
@@ -689,10 +689,10 @@ void ac::TwistedVision(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int cx = i+pos[0];
             if(cx >= 0 && cx < frame.cols) {
-                cv::Vec3b pix = frame.at<cv::Vec3b>(z, cx);
+                cv::Vec3b pix = pixelAt(frame,z, cx);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = pix[j]^pixel[j];
                 }
@@ -702,7 +702,7 @@ void ac::TwistedVision(cv::Mat &frame) {
             }
             int cx_x = i+pos[1];
             if(cx_x >= 0 && cx_x < frame.cols) {
-                cv::Vec3b pix=frame.at<cv::Vec3b>(z, cx_x);
+                cv::Vec3b pix=pixelAt(frame,z, cx_x);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = pixel[j]^pix[j];
                 }
@@ -840,7 +840,7 @@ void ac::MirrorMedian(cv::Mat &frame) {
     cv::Mat copyf = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[5];
             pix[0] = pixel;
             pix[1] = copyf.at<cv::Vec3b>(frame.rows-z-1, i);
@@ -875,7 +875,7 @@ void ac::MirrorMatrixCollection(cv::Mat &frame) {
     cv::Mat frame_copy = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[5];
             pix[0] = pixel;
             pix[1] = copyf.at<cv::Vec3b>(frame.rows-z-1, i);
@@ -910,7 +910,7 @@ void ac::SelfScaleByFrame(cv::Mat &frame) {
     collection.shiftFrames(copyf);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i  = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[3].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j] ^ pix[j];
@@ -964,7 +964,7 @@ void ac::XorAlphaSubFilter(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copyf.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>(pix[j]*alpha);
@@ -1066,7 +1066,7 @@ void ac::ImageXorMirrorFilter(cv::Mat &frame) {
     	for(int z = 0; z < frame.rows; ++z) {
         	for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b frame_values[5], image_values[5];
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 frame_values[0] = pixel;
                 frame_values[1] = copyf.at<cv::Vec3b>(copyf.rows-z-1, copyf.cols-i-1);
                 frame_values[2] = copyf.at<cv::Vec3b>(z, copyf.cols-i-1);
@@ -1093,7 +1093,7 @@ void ac::ImageXorSubFilter(cv::Mat &frame) {
         static double scale = 0.5;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix1 = copyf.at<cv::Vec3b>(z, i);
                 cv::Vec3b pix2 = resized_blend.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {

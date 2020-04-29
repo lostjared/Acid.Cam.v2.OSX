@@ -84,7 +84,7 @@ void ac::DigitalHazeBlend(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             PixelValues &pix = pix_container.pix_values[i][z];
             for(int j = 0; j < 3; ++j) {
                 if(pix.col[j] > pixel[j])
@@ -338,8 +338,8 @@ void ac::VideoRoll(cv::Mat &frame) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(z+y < frame_size-1) {
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(y+z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,y+z, i);
                     for(int j = 0; j < 3; ++j) {
                         pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix[j] * 0.5));
                     }
@@ -378,8 +378,8 @@ void ac::VideoRollReverse(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(z+y < frame_size-1) {
                     if(frame.rows-z-1 >= 0 && i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
-                        cv::Vec3b pix = reframe.at<cv::Vec3b>((frame.rows-z-1), i);
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b pix = pixelAt(reframe,(frame.rows-z-1), i);
+                        cv::Vec3b &pixel = pixelAt(frame,z, i);
                         for(int j = 0; j < 3; ++j) {
                             pixel[j] = static_cast<unsigned char>((pixel[j] * 0.5) + (pix[j] * 0.5));
                         }
@@ -745,7 +745,7 @@ void ac::VideoPixelOnOffSwitch(cv::Mat &frame) {
             for(int z = offset; z <  offset+size; ++z) {
                 for(int i = 0; i < cols; ++i) {
                     cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                    cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pix = pixelAt(reframe,z, i);
                     if(index == 0) {
                         index = 1;
                         continue;

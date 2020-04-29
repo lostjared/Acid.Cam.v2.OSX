@@ -66,7 +66,7 @@ void ac::ImageMirror_DownSubFilter(cv::Mat &frame) {
     int halfway = (frame.rows/2);
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
             ASSERT(frame.rows-z-1 > 0);
             for(int j = 0; j < 3; ++j) {
@@ -76,7 +76,7 @@ void ac::ImageMirror_DownSubFilter(cv::Mat &frame) {
     }
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             ASSERT(frame.rows-z-1 > 0);
             for(int j = 0; j < 3; ++j) {
@@ -119,7 +119,7 @@ void ac::AlphaImageSourceScale(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b opix = ac::orig_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b opix = pixelAt(orig_frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
                 }
@@ -143,7 +143,7 @@ void ac::GhostMirrorReversed(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b opix = ac::orig_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b opix = pixelAt(orig_frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
                 }
@@ -167,7 +167,7 @@ void ac::GhostMirrorFade(cv::Mat &frame) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
                 cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b opix = ac::orig_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b opix = pixelAt(orig_frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
                 }

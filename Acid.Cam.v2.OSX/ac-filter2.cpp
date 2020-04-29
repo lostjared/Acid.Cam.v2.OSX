@@ -54,7 +54,7 @@ void ac::glitchSort(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {// top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             // grab current pixel value reference
-            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &value = pixelAt(frame,z, i);
             // temporary int variable
             unsigned int vv = 0;
             // pointer to unsigned char * of vv variable
@@ -71,7 +71,7 @@ void ac::glitchSort(cv::Mat &frame) {
             // pointer to integer stored at index i
             unsigned char *value = (unsigned char*)&v[i];
             // grab current pixel reference as cv::Vec3b
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             // alphablend pixel with values from v at index i
             pixel[0] = static_cast<unsigned char>(pixel[0] + (pos)*value[0]);
             pixel[1] = static_cast<unsigned char>(pixel[1] + (pos)*value[1]);
@@ -98,7 +98,7 @@ void ac::pixelSort(cv::Mat &frame) {
         for(int i = 0; i < w; ++i) { // left to right
             //int value = frame.at<int>(z, i);
             // grab pixel reference
-            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &value = pixelAt(frame,z, i);
             unsigned int vv = 0;
             // unsigned char * of vv
             unsigned char *cv = (unsigned char*)&vv;
@@ -116,7 +116,7 @@ void ac::pixelSort(cv::Mat &frame) {
             // unsigned char pointer of vector v at index i
             unsigned char *value = (unsigned char*)&v[i];
             // get pixel reference
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             // add to pixel without scaling
             pixel[0] += value[0];
             pixel[1] += value[1];
@@ -158,7 +158,7 @@ void ac::randomFlash(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {// left to right
             // get pixel reference
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             // calculate RGB values
             pixel[0] += static_cast<unsigned char>(pos*random_r);
             pixel[1] += static_cast<unsigned char>(pos*random_g);
@@ -187,7 +187,7 @@ void ac::alphaFlame(cv::Mat &frame) {
     for(z = 0; z < frame.cols; ++z) {
         for(i = 0; i < frame.rows; ++i) {
             // grab pixel reference as cv::Vec3b
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &buffer = pixelAt(frame,i, z);
             // call change pixel function
             changePixel(frame, z, i, buffer, pos, &count);
         }
@@ -265,7 +265,7 @@ void ac::DiamondPattern(cv::Mat &frame) {
     int h = frame.rows;// frame height
     for(int z = 0; z < h; ++z) {// from top to bottom
         for(int i = 0; i < w; ++i) {// from left to right
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// get current pixel
+            cv::Vec3b &buffer = pixelAt(frame,z, i);// get current pixel
             // calculate the colors of the gradient diamonds
             if((i%2) == 0) {// if i % 2 equals 0
                 if((z%2) == 0) {// if z % 2 equals 0
@@ -310,7 +310,7 @@ void ac::MirrorBlend(cv::Mat &frame) {
     orig = frame.clone();// clone to orig
     for(int z = 2; z < h-3; ++z) { // from top to bottom
         for(int i = 2; i < w-3; ++i) {// from left to right
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i); // get pixel at i,z
+            cv::Vec3b &buffer = pixelAt(frame,z, i); // get pixel at i,z
             cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));// get pixel at w-i, h-z
             // set pixel rgb components
             buffer[0] += static_cast<unsigned char>(pix1[0]*pos);
@@ -351,7 +351,7 @@ void ac::Pulse(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) { // from top to bottom
         for(int i = 0; i < w; ++i) { // from left to right
             // current pixel reference cv::Vec3b
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &buffer = pixelAt(frame,z, i);
             // pixel rgb components plus equal multiplied by pos
             buffer[0] += static_cast<unsigned char>(buffer[0]*pos);
             buffer[1] += static_cast<unsigned char>(buffer[1]*pos);
@@ -394,7 +394,7 @@ void ac::SidewaysMirror(cv::Mat &frame) {
         for(int i = 2; i < w-3; ++i) {// loop each row from left
             // to right
             // current pixel
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &buffer = pixelAt(frame,z, i);
             // h minus y, width minus x positioned pixel
             cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
             // y and width minus x pixel
@@ -425,7 +425,7 @@ void ac::MirrorNoBlend(cv::Mat &frame) {
     orig = frame.clone(); // clone the frame to orig
     for(int z = 2; z < h-3; ++z) { // loop through the height
         for(int i = 2; i < w-3; ++i) {// go across each row
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);// current pixel
+            cv::Vec3b &buffer = pixelAt(frame,z, i);// current pixel
             // opposite of current pixel
             cv::Vec3b &pix1 = orig.at<cv::Vec3b>((h-z), (w-i));
             // opposite width, same height
@@ -453,7 +453,7 @@ void ac::SortFuzz(cv::Mat &frame) {
     v.reserve(w);// reserve at least width bytes
     for(int z = 0; z < h; ++z) { //  loop: top to bottom
         for(int i = 0; i < w; ++i) { // loop: left ro right
-            cv::Vec3b &value = frame.at<cv::Vec3b>(z, i); // current pixel
+            cv::Vec3b &value = pixelAt(frame,z, i); // current pixel
             unsigned int vv = 0; // integer
             unsigned char *cv = (unsigned char*)&vv; // pointer to unsigned char*
             // set each byte
@@ -466,7 +466,7 @@ void ac::SortFuzz(cv::Mat &frame) {
         std::sort(v.begin(), v.end());// sort greater
         for(int i = 0; i < w; ++i) { // left to right
             unsigned char *value = (unsigned char*)&v[i];
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// pixel at i,z
+            cv::Vec3b &pixel = pixelAt(frame,z, i);// pixel at i,z
             // pixel values plus equal value plus r
             pixel[0] += static_cast<unsigned char>(value[0]+r);
             pixel[1] += static_cast<unsigned char>(value[1]+r);
@@ -490,7 +490,7 @@ void ac::Fuzz(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {// loop top to bottom
         for(int i = 0; i < w; ++i) { // loop from left ro gith
             if((rand()%amount)==1) {// if random is true
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);// grab pixel
+                cv::Vec3b &pixel = pixelAt(frame,z, i);// grab pixel
                 pixel[0] += rand()%255;// add random numbers
                 pixel[1] += rand()%255;
                 pixel[2] += rand()%255;
@@ -522,7 +522,7 @@ void ac::DoubleVision(cv::Mat &frame) {
     for(int z = 3; z < h-3; ++z) {// top to bottom
         for(int i = 3; i < w-3; ++i) { // left to right
             // current pixel
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &buffer = pixelAt(frame,z, i);
             cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i); // pixel at h-y, x
             cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i)); // pixel at y, w-x
             // this is what gives the diamond image
@@ -564,7 +564,7 @@ void ac::RGBShift(cv::Mat &frame) {
     for(int z = 3; z < h-3; ++z) {// top to bottom
         for(int i = 3; i < w-3; ++i) {// left to right
             // grab pixel values
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &buffer = pixelAt(frame,z, i);
             cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
             cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
             cv::Vec3b &r = orig.at<cv::Vec3b>((h-z), (w-i));
@@ -602,7 +602,7 @@ void ac::RGBSep(cv::Mat &frame) {
     for(int z = 3; z < h-3; ++z) {// top to bottom
         for(int i = 3; i < w-3; ++i) {// left to right
             // grab pixel values
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &buffer = pixelAt(frame,z, i);
             cv::Vec3b &g = orig.at<cv::Vec3b>((h-z), i);
             cv::Vec3b &b = orig.at<cv::Vec3b>(z, (w-i));
             // set pixel values
@@ -624,7 +624,7 @@ void ac::GradientRainbow(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) { // top to bottom
         for(int i = 0; i < w; ++i) {// left to right
             // reference to current pixel
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             // color RGB variables
             int color_R = static_cast<int>(start_color * 4), color_G = static_cast<int>(start_color * 6), color_B = static_cast<int>(start_color * 8);
             // add to pixel color
@@ -651,7 +651,7 @@ void ac::GradientRainbowFlash(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) { // top to bottom
         for(int i = 0; i < w; ++i) {// left to right
             // reference to current pixel
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             // color RGB variables
             int color_R = static_cast<int>(start_color * 4), color_G = static_cast<int>(start_color * 6), color_B = static_cast<int>(start_color * 8);
             // add to pixel colors
@@ -706,7 +706,7 @@ void ac::Scanlines(cv::Mat &frame) {
     int h = frame.rows;// height
     for(int z = 0; z < h; z += 2) {// top to bottom step by 2
         for(int i = 0; i < w; ++i) {// left to right
-            cv::Vec3b &pix = frame.at<cv::Vec3b>(z, i);// current pixel
+            cv::Vec3b &pix = pixelAt(frame,z, i);// current pixel
             pix[0] = pix[1] = pix[2] = 0;// set to zero
         }
     }
@@ -718,7 +718,7 @@ void ac::TVStatic(cv::Mat &frame) {
     static int dir = 0;
     for(int z = dir; z < h; z += 2) {// top to bottom step by 2 pixels
         for(int i = 0; i < w; ++i) {// left to right
-            cv::Vec3b &pix = frame.at<cv::Vec3b>(z, i);// current pixel
+            cv::Vec3b &pix = pixelAt(frame,z, i);// current pixel
             if(rand()%2>0) {
                 pix[0] = pix[1] = pix[2] = 0;
             } else {
@@ -739,7 +739,7 @@ void ac::MirrorAverage(cv::Mat &frame) {
     for(int z = 1; z < h-1; ++z) { // top to bottom
         for(int i = 1; i < w-1; ++i) {// left to right
             // refernce to current pixel located at i,z
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b mir_pix[3]; // array of Vec3b variables
             mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i)); // pixel at w-i, h-z
             mir_pix[1] = orig.at<cv::Vec3b>((h-z), i); // pixel at i, h-z
@@ -773,7 +773,7 @@ void ac::MirrorAverageMix(cv::Mat &frame) {
     static double pos = 1.0; // position index floating point
     for(int z = 1; z < h-1; ++z) { // loop from top to bottom
         for(int i = 1; i < w-1; ++i) { // loop from left to right
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // current pixel at i,z
+            cv::Vec3b &pixel = pixelAt(frame,z, i); // current pixel at i,z
             cv::Vec3b mir_pix[3]; // array of 3 cv::Vec3b vectors
             mir_pix[0] = orig.at<cv::Vec3b>((h-z), (w-i)); // pixel at w-i, h-z
             mir_pix[1] = orig.at<cv::Vec3b>((h-z), i); // pixel at i, h-z
@@ -803,7 +803,7 @@ void ac::Mean(cv::Mat &frame) {
     cv::Scalar s = cv::mean(frame);
     for(int z = 0; z < h; ++z) { // from top to bottom
         for(int i = 0; i < w; ++i) {// from left to right
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i); // pixel at (i,z)
+            cv::Vec3b &pixel = pixelAt(frame,z, i); // pixel at (i,z)
             // add to pixel values
             pixel[0] += static_cast<unsigned char>(pos*s[0]);
             pixel[1] += static_cast<unsigned char>(pos*s[1]);

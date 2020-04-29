@@ -122,7 +122,7 @@ void ac::HLine::drawLines(cv::Mat &frame) {
         for(int x = rc.x; x < rc.x+rc.w; ++x) {
             if(count < num) {
                 if(rc.y >= 0 && rc.y < frame.rows && x >= 0 && x < frame.cols) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(rc.y, x);
+                    cv::Vec3b &pixel = pixelAt(frame,rc.y, x);
                     pixel[0] = pixel[1] = pixel[2] = 255;
                     ++count;
                 }

@@ -134,8 +134,8 @@ void ac::OrStrobe(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = prev_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix = pixelAt(prev_frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]|randval[j]|pix[j])*alpha);
             }
@@ -185,7 +185,7 @@ void ac::RGBTrails(cv::Mat &frame) {
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int offset = 0;
             for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
@@ -215,7 +215,7 @@ void ac::RGBTrailsAlpha(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 4.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int offset = 0;
             for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
@@ -241,7 +241,7 @@ void ac::RGBTrailsNegativeAlpha(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 8.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int offset = 0;
             for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);
@@ -280,7 +280,7 @@ void ac::DifferenceStrobe(cv::Mat &frame) {
     int rand_value = rand()%255;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
@@ -315,7 +315,7 @@ void ac::BlackAndWhiteDifferenceStrobe(cv::Mat &frame) {
     static cv::Vec3b white(255, 255, 255), black(0, 0, 0);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
@@ -352,7 +352,7 @@ void ac::DifferenceXor(cv::Mat &frame) {
     static cv::Vec3b white(255, 255, 255), black(0, 0, 0);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
@@ -386,7 +386,7 @@ void ac::DifferenceRand(cv::Mat &frame) {
     cv::Vec3b pix_color(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
@@ -421,7 +421,7 @@ void ac::DifferenceBrightStrobe(cv::Mat &frame) {
     cv::Vec3b rand_pix(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             if(pixel[offset]+5 >= pix[offset] && pixel[offset]-5 <= pix[offset]) {
                 for(int j = 0; j < 3; ++j) {
@@ -461,7 +461,7 @@ void ac::PsycheTrails(cv::Mat &frame) {
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int offset = 0;
             for(int j = 0; j < collection.size(); ++j) {
                 cv::Vec3b pix = collection.frames[j].at<cv::Vec3b>(z, i);

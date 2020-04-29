@@ -217,7 +217,7 @@ void ac::MirrorLeft(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         int start = 0;
         for(int i = halfway; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z,((halfway)-start));
             ASSERT(halfway-start > 0);
             pixel = pix;
@@ -232,7 +232,7 @@ void ac::MirrorRight(cv::Mat &frame) {
     int halfway = (frame.cols/2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < halfway; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
             ASSERT(frame.cols-i-1 > 0);
             pixel = pix;
@@ -271,7 +271,7 @@ void ac::FadeFromColorToColor(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += old_color[j];
             }
@@ -305,7 +305,7 @@ void ac::FadeFromColorToColorImage(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += static_cast<unsigned char>((pix[j]+old_color[j])*0.5);
@@ -568,7 +568,7 @@ void ac::FrameStretchAlphaBlend(cv::Mat &frame) {
     ac_resize(frame, copy1, cv::Size(w, h));
     for(int z = 0; z < copy1.rows; ++z) {
         for(int i = 0; i < copy1.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) + static_cast<unsigned char>(pix[j] * alpha);
@@ -601,7 +601,7 @@ void ac::MirrorTopToBottom(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         int start = 0;
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(((halfway)-start), i);
             ASSERT(halfway-start > 0);
             pixel = pix;
@@ -617,7 +617,7 @@ void ac::MirrorBottomToTop(cv::Mat &frame) {
     int halfway = (frame.rows/2);
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
             ASSERT(frame.rows-z-1 > 0);
             pixel = pix;
@@ -702,7 +702,7 @@ void ac::BlendImageLayer(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += pix[j];
@@ -790,7 +790,7 @@ void ac::ImageDiff(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
             pixel = pixel-pix;
         }
@@ -814,8 +814,8 @@ void ac::RestoreBlack(cv::Mat &frame) {
     if(!orig_frame.empty() && orig_frame.size() == frame.size()) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = orig_frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(orig_frame,z, i);
                 if(pix[0] >= 0 && pix[0] <= 2 && pix[1] >= 0 && pix[1] <= 2 && pix[2] >= 0 && pix[2] <= 2)
                     pixel = pix;
             }
@@ -858,7 +858,7 @@ void ac::AverageHorizontalDistortion(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         unsigned int values[3] = {0,0,0};
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 values[j] += pixel[j];
             }
@@ -868,7 +868,7 @@ void ac::AverageHorizontalDistortion(cv::Mat &frame) {
         values[2] /= frame.cols;
         double value = 0.5;
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += static_cast<unsigned char>(values[j] * value);
             }
@@ -909,7 +909,7 @@ void ac::resizeFrameWidth(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int x = (resize_x-(frame.cols))+i;
             int y = (resize_y-(frame.rows))+z;
             ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
@@ -947,7 +947,7 @@ void ac::resizeFrameHeight(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int x = (resize_x-(frame.cols))+i;
             int y = (resize_y-(frame.rows))+z;
             ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
@@ -985,7 +985,7 @@ void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int x = (resize_x-(frame.cols))+i;
             int y = (resize_y-(frame.rows))+z;
             ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);

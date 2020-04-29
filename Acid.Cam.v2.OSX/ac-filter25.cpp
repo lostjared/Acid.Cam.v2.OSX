@@ -181,7 +181,7 @@ void ac::ColorImagePixelsResetSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b cpix = reimage.at<cv::Vec3b>(z, i);
             cv::Vec3b cfreeze = frame_copy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
@@ -664,7 +664,7 @@ void ac::ShiftMatrixLeft(cv::Mat &frame) {
                 pix_container.pix_values[frame.cols-1][z] = p;
             }
             pix_container.pix_values[i][z] = pix_container.pix_values[i+1][z];
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * p.col[j]));
             }

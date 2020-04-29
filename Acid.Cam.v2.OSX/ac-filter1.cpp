@@ -125,6 +125,16 @@ bool ac::OpenCL_Enabled() {
     return cl_init;
 }
 
+cv::Vec3b &ac::pixelAt(cv::Mat &frame, int y, int x) {
+    
+    if(y >= 0 && x >= 0 && y < frame.rows && x < frame.cols)
+        return frame.at<cv::Vec3b>(y, x);
+        
+    std::cout << "out of range: " << x << ":" << y << "\n";
+    return frame.at<cv::Vec3b>(0, 0);
+}
+
+
 // return version info
 std::string ac::getVersion() {
     return version;
@@ -2503,7 +2513,7 @@ void ac::swapColors(cv::Mat &frame, int y, int x) {
 }
 
 void ac::swapColors_(cv::Mat &frame, int y, int x) {
-    cv::Vec3b &cur = frame.at<cv::Vec3b>(y,x);
+    cv::Vec3b &cur = pixelAt(frame,y,x);
     cur[0] += swapColor_b;
     cur[1] += swapColor_g;
     cur[2] += swapColor_r;
@@ -2535,7 +2545,7 @@ void ac::swapColors_(cv::Mat &frame, int y, int x) {
 // invert pixel in frame at x,y
 void ac::invert(cv::Mat &frame, int y, int x) {
     if(in_custom == true) return;
-    cv::Vec3b &cur = frame.at<cv::Vec3b>(y,x);// cur pixel
+    cv::Vec3b &cur = pixelAt(frame,y,x);// cur pixel
     cur[0] = ~cur[0]; // bit manipulation sets opposite
     cur[1] = ~cur[1];
     cur[2] = ~cur[2];

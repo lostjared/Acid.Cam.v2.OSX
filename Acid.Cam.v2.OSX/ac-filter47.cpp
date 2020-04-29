@@ -61,8 +61,8 @@
 void ac::LinesAcrossX(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 1; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-            cv::Vec3b prev = frame.at<cv::Vec3b>(z, i-1);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b prev = pixelAt(frame,z, i-1);
             for(int j = 0; j < 3; ++j)
                 pixel[j] = pixel[j]^prev[j];
         }
@@ -74,7 +74,7 @@ void ac::XorLineX(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         static int rgb[3] = {0};
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 rgb[j] += pixel[j];
             }
@@ -84,7 +84,7 @@ void ac::XorLineX(cv::Mat &frame) {
         rgb[1] /= frame.cols;
         rgb[2] /= frame.cols;
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(0.5 * (pixel[j]^rgb[j])) + static_cast<unsigned char>(0.5 * pixel[j]);
             }
@@ -98,7 +98,7 @@ void ac::AlphaComponentIncrease(cv::Mat &frame) {
     static double alpha = 0.1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] ^= static_cast<unsigned char>(alpha * pixel[index]);
         }
     }
@@ -124,7 +124,7 @@ void ac::ExpandContract(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
             pixel = pix;
         }
@@ -148,7 +148,7 @@ void ac::MoveInThenMoveOut(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
             pixel = pix;
         }
@@ -172,7 +172,7 @@ void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
             pixel = pix;
         }
@@ -213,7 +213,7 @@ void ac::DistortionFuzz(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
             pixel = pix;
         }
@@ -240,7 +240,7 @@ void ac::DistortionByRow(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFZ(frame.rows, z, nw);
             if(col >= 0 && col < frame.rows) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
@@ -260,7 +260,7 @@ void ac::DistortionByRowRev(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0;  z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFZ(frame.rows, z, nw);
             if(col >= 0 && col < frame.rows) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
@@ -280,7 +280,7 @@ void ac::DistortionByRowVar(cv::Mat &frame) {
     static int add = 1+(rand()%25);
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFZ(frame.rows, z, nw);
             if(col >= 0 && col < frame.rows) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
@@ -301,7 +301,7 @@ void ac::DistortionByRowRand(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0;  z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFZ(frame.rows, z, nw);
             if(col >= 0 && col < frame.rows) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(col, i);
@@ -317,7 +317,7 @@ void ac::DistortionByCol(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFX(frame.cols, i, nh);
             if(col >= 0 && col < frame.cols) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
@@ -336,7 +336,7 @@ void ac::DistortionByColRand(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFX(frame.cols, i, nh);
             if(col >= 0 && col < frame.cols) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
@@ -353,7 +353,7 @@ void ac::DistortionByColVar(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int col = AC_GetFX(frame.cols, i, nh);
             if(col >= 0 && col < frame.cols) {
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
@@ -374,7 +374,7 @@ void ac::LongLines(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         if(rand()%150==0) {
             for(int z = 0; z < frame.rows; ++z) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
                 pixel = 0;
             }
         }

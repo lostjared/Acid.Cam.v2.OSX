@@ -203,6 +203,8 @@ namespace ac {
     void init();
     // be sure to call this when the application starts
     void fill_filter_map();
+    
+    cv::Vec3b &pixelAt(cv::Mat &frame, int y, int x);
     // draw functions
     DrawFunction getRandomFilter();
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
@@ -2814,7 +2816,7 @@ namespace ac {
                         test[j] += pix[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     test[j] /= (collection->size()-1);
                     pixel[j] = cv::saturate_cast<unsigned char>(test[j]);
@@ -2838,7 +2840,7 @@ namespace ac {
                         test[j] += pix[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     test[j] /= (collection->size());
                     test[j] /= dark;
@@ -2864,7 +2866,7 @@ namespace ac {
                         test[j] += pix[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     test[j] /= (collection->size());
                     pixel[j] = static_cast<unsigned char>(test[j])^r[j];
@@ -2889,7 +2891,7 @@ namespace ac {
                         test[j] += pix[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 test[index] /= (collection->size()-1);
                 pixel[index] = cv::saturate_cast<unsigned char>(test[index]);
                 swapColors(frame, z, i);// swap colors
@@ -2914,7 +2916,7 @@ namespace ac {
                         values[j] += pix[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 bool found = false;
                 for(int j = 0; j < 3; ++j) {
                     values[j] /= collection->size();
@@ -2945,7 +2947,7 @@ namespace ac {
                         values[j] += pix[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b copypix = filtered.at<cv::Vec3b>(z, i);
                 bool found = false;
                 for(int j = 0; j < 3; ++j) {
@@ -2975,7 +2977,7 @@ namespace ac {
                         value[q] += pixel[q];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     int val = 1+static_cast<int>(value[j]/div_val);
                     pixel[j] = static_cast<unsigned char>(pixel[j] ^ val);
@@ -2999,7 +3001,7 @@ namespace ac {
                         value2[q] += pixel2[q];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     int val1 = 1+static_cast<int>(value1[j]/div_val);
                     int val2 = 1+static_cast<int>(value2[j]/div_val);
@@ -3020,7 +3022,7 @@ namespace ac {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Mat &current = collection->frames[index];
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 if(hideRows == false) {
                     cv::Vec3b value = current.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
@@ -3058,7 +3060,7 @@ namespace ac {
             cv::Mat &current = (on_off == 0) ? collection->frames[index] : frame;
             on_off = (on_off == 0) ? 1 : 0;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 if(hideRows == false) {
                     cv::Vec3b value = current.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
@@ -3089,7 +3091,7 @@ namespace ac {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Mat &current = collection->frames[row_size-index-1];
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 if(hideRows == false) {
                     cv::Vec3b value = current.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
@@ -3126,7 +3128,7 @@ namespace ac {
         for(int z = 0; z < frame.rows; ++z) {
             cv::Mat &current = collection->frames[index];
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 if(z < collection->completedRows) {
                     cv::Vec3b value = current.at<cv::Vec3b>(z, i);
                     func(pixel, value);
@@ -3150,7 +3152,7 @@ namespace ac {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Mat &current = collection->frames[index];
             for(int z = 0; z < frame.rows; ++z) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b value = current.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = value[j];
@@ -3179,7 +3181,7 @@ namespace ac {
             cv::Mat &copy1 = collection1->frames[index];
             cv::Mat &copy2 = collection2->frames[index];
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix_val[2];
                 pix_val[0] = copy1.at<cv::Vec3b>(z, i);
                 pix_val[1] = copy2.at<cv::Vec3b>(z, i);
@@ -3238,12 +3240,12 @@ namespace ac {
                 cv::Scalar values;
                 for(int q = 0; q < depth; ++q) {
                     cv::Mat &frame = collection->frames[q];
-                    cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b pixel = pixelAt(frame,z, i);
                     for(int j = 0; j < 3; ++j) {
                         values[j] += pixel[j];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     int val = static_cast<int>(values[j]);
                     pixel[j] = pixel[j]^val;
@@ -3701,7 +3703,7 @@ namespace ac {
             for(int z = row; z < row+square_size; ++z) {
                 for(int i = 0; i < frame.cols; ++i) {
                     if(i < frame.cols && z < frame.rows) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b &pixel = pixelAt(frame,z, i);
                         cv::Vec3b pix;
                         int frame_index = (rand()%(collection->size()-1));
                         if(off < (collection->size()-1)) {
@@ -3746,7 +3748,7 @@ namespace ac {
             for(int z = row; z < row+square_size; ++z) {
                 for(int i = 0; i < frame.cols; ++i) {
                     if(i < frame.cols && z < frame.rows) {
-                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                        cv::Vec3b &pixel = pixelAt(frame,z, i);
                         cv::Vec3b pix;
                         if(off < (collection->size()-1)) {
                             pix = collection->frames[frame_index].template at<cv::Vec3b>(z, i);
@@ -3776,7 +3778,7 @@ namespace ac {
     void MatrixCollectionTruncate(cv::Mat &frame, MatrixCollection<Size> *collection, int maxSize) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     if(pixel[j] > maxSize)
                         pixel[j] = maxSize;

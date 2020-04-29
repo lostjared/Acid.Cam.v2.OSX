@@ -63,7 +63,7 @@ void ac::Box::drawBox(cv::Mat &frame) {
     temp.create(cv::Size(w, h), CV_8UC3);
     for(int yy = y, pos_y = 0; yy < y+h && yy < frame_height; ++yy, ++pos_y) {
         for(int ii = x,pos_x = 0; ii < x+w && ii < frame_width; ++ii, ++pos_x) {
-            cv::Vec3b pixel = frame.at<cv::Vec3b>(yy, ii);
+            cv::Vec3b pixel = pixelAt(frame,yy, ii);
             cv::Vec3b &target = temp.at<cv::Vec3b>(pos_y, pos_x);
             target = pixel;
         }
@@ -72,7 +72,7 @@ void ac::Box::drawBox(cv::Mat &frame) {
     for(int z = y, pos_y = 0; z < y+h && z < frame_height; ++z, ++pos_y) {
         for(int i = x, pos_x = 0; i < x+w && i < frame_width; ++i, ++pos_x) {
             if(i < frame.cols && z < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 pixel = temp.at<cv::Vec3b>(pos_y,pos_x);
             }
         }

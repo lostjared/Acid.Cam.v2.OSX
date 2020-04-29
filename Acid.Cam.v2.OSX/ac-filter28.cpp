@@ -427,7 +427,7 @@ void ac::GradientRandom(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         val = 1;
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = static_cast<unsigned char>((alpha * pixel[index]) + (0.5 * val));
             if((z%inc) == 0)
                 ++val;}
@@ -446,7 +446,7 @@ void ac::LineMedianBlend(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         val = rand()%255;
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = static_cast<unsigned char>((0.5 * pixel[index]) + (0.5 * val));
             if((z%inc) == 0)
                 ++val;}
@@ -467,7 +467,7 @@ void ac::PerfectMedianBlend(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         val = 1;
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] = static_cast<unsigned char>((alpha * pixel[index]) + ((1-alpha) * val));
             if((z%inc) == 0)
                 ++val;
@@ -495,7 +495,7 @@ void ac::ImageRowAlphaSubFilter(cv::Mat &frame) {
     pos = (pos == 0) ? 1 : 0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[2];
             pix[0] = reimage.at<cv::Vec3b>(z, i);
             pix[1] = copy1.at<cv::Vec3b>(z, i);
@@ -518,7 +518,7 @@ void ac::IndexPixelRowSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b src = copy1.at<cv::Vec3b>(z, i);
             src[index] = pixel[index];
             pixel = src;
@@ -539,7 +539,7 @@ void ac::IndexSourceRowSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b src = copy1.at<cv::Vec3b>(z, i);
             pixel[index] = src[index];
         }
@@ -558,7 +558,7 @@ void ac::IndexSourceBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, copy1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b src = copy1.at<cv::Vec3b>(z, i);
             pixel[index] = static_cast<unsigned char>((0.5 * pixel[index]) + (0.5 * src[index]));
         }
@@ -668,7 +668,7 @@ void ac::LoFi_320x240_Interlaced(cv::Mat &frame) {
     int offset = start_value;
     for(int z = 0; z < reframe.rows; ++z) {
         for(int i = 0; i < reframe.cols; ++i) {
-            cv::Vec3b &pixel = reframe.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(reframe,z, i);
             if(offset == 0)
                 pixel[0] = pixel[1] = pixel[2] = 0;
             
@@ -766,7 +766,7 @@ void ac::LoFi_ImageScaleSubFilter(cv::Mat &frame) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
                 cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = reframe.at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = pixelAt(reframe,z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((alpha * pixel[j]) + ((1-alpha) * pix[j]));
                 }
@@ -804,7 +804,7 @@ void ac::ImageMirror_Left(cv::Mat &frame) {
     for(int z = 0; z < reimage.rows; ++z) {
         int start = 0;
         for(int i = halfway; i < reimage.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z,((halfway)-start));
             ASSERT(halfway-start > 0);
             for(int j = 0; j < 3; ++j) {
@@ -815,7 +815,7 @@ void ac::ImageMirror_Left(cv::Mat &frame) {
     }
     for(int z = 0; z < reimage.rows; ++z) {
         for(int i = 0; i < halfway; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -834,7 +834,7 @@ void ac::ImageMirror_Right(cv::Mat &frame) {
     int halfway = (frame.cols/2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < halfway; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
             ASSERT(frame.cols-i-1 > 0);
             for(int j = 0; j < 3; ++j) {
@@ -844,7 +844,7 @@ void ac::ImageMirror_Right(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = halfway; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -864,7 +864,7 @@ void ac::ImageMirror_Up(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         int start = 0;
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(((halfway)-start), i);
             ASSERT(halfway-start > 0);
             for(int j = 0; j < 3; ++j) {
@@ -875,7 +875,7 @@ void ac::ImageMirror_Up(cv::Mat &frame) {
     }
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])  + (0.5 * pix[j]));
@@ -894,7 +894,7 @@ void ac::ImageMirror_Down(cv::Mat &frame) {
     int halfway = (frame.rows/2);
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
             ASSERT(frame.rows-z-1 > 0);
             for(int j = 0; j < 3; ++j) {
@@ -904,7 +904,7 @@ void ac::ImageMirror_Down(cv::Mat &frame) {
     }
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             ASSERT(frame.rows-z-1 > 0);
             for(int j = 0; j < 3; ++j) {
@@ -927,7 +927,7 @@ void ac::ImageMirror_LeftSubFilter(cv::Mat &frame) {
     for(int z = 0; z < reimage.rows; ++z) {
         int start = 0;
         for(int i = halfway; i < reimage.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z,((halfway)-start));
             ASSERT(halfway-start > 0);
             for(int j = 0; j < 3; ++j) {
@@ -938,7 +938,7 @@ void ac::ImageMirror_LeftSubFilter(cv::Mat &frame) {
     }
     for(int z = 0; z < reimage.rows; ++z) {
         for(int i = 0; i < halfway; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -958,7 +958,7 @@ void ac::ImageMirror_RightSubFilter(cv::Mat &frame) {
     int halfway = (frame.cols/2);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < halfway; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, frame.cols-i-1);
             ASSERT(frame.cols-i-1 > 0);
             for(int j = 0; j < 3; ++j) {
@@ -968,7 +968,7 @@ void ac::ImageMirror_RightSubFilter(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = halfway; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
@@ -988,7 +988,7 @@ void ac::ImageMirror_UpSubFilter(cv::Mat &frame) {
     for(int i = 0; i < frame.cols; ++i) {
         int start = 0;
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(((halfway)-start), i);
             ASSERT(halfway-start > 0);
             for(int j = 0; j < 3; ++j) {
@@ -999,7 +999,7 @@ void ac::ImageMirror_UpSubFilter(cv::Mat &frame) {
     }
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((0.5 * pixel[j])  + (0.5 * pix[j]));

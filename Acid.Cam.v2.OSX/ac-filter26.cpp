@@ -879,7 +879,7 @@ void ac::LightBlend(cv::Mat &frame) {
     for(int z = 0; z < frame.rows-2; ++z) {
         for(int i = 0; i < frame.cols-2; ++i) {
             cv::Vec3b pixels[4];
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixels[0] = copy1.at<cv::Vec3b>(z, i+1);
             pixels[1] = copy1.at<cv::Vec3b>(z+1, i);
             pixels[2] = copy1.at<cv::Vec3b>(z+1, i+1);
@@ -903,7 +903,7 @@ void ac::LightBlendXor(cv::Mat &frame) {
     for(int z = 0; z < frame.rows-2; ++z) {
         for(int i = 0; i < frame.cols-2; ++i) {
             cv::Vec3b pixels[4];
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixels[0] = copy1.at<cv::Vec3b>(z, i+1);
             pixels[1] = copy1.at<cv::Vec3b>(z+1, i);
             pixels[2] = copy1.at<cv::Vec3b>(z+1, i+1);

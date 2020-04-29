@@ -54,7 +54,7 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {// from top to bottom
         for(int i = 0; i < frame.cols; ++i) {// from left to right
-            cv::Vec3b &colorval = frame.at<cv::Vec3b>(z, i);// at x,y
+            cv::Vec3b &colorval = pixelAt(frame,z, i);// at x,y
             colorval[0] += static_cast<unsigned char>(colorval[0]*alpha);
             colorval[1] += static_cast<unsigned char>(colorval[1]*alpha);
             colorval[2] += static_cast<unsigned char>(colorval[2]*alpha);
@@ -90,7 +90,7 @@ void ac::SelfScale(cv::Mat &frame) {
     for(int z = 0; z < h; ++z) {// top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             // current pixel at x,y
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             // scale each rgb value by pos
             pixel[0] = static_cast<unsigned char>(pixel[0] * pos);
             pixel[1] = static_cast<unsigned char>(pixel[1] * pos);
@@ -126,7 +126,7 @@ void ac::StrobeEffect(cv::Mat &frame) {
     for (int z = 0; z < frame.cols - 2; ++z) {
         for (int i = 0; i < frame.rows - 2; ++i) {
             
-            cv::Vec3b &colors = frame.at<cv::Vec3b>(i, z); // current pixel
+            cv::Vec3b &colors = pixelAt(frame,i, z); // current pixel
             
             switch (passIndex) {
                 case 0: // pass 0 set color values
@@ -145,8 +145,8 @@ void ac::StrobeEffect(cv::Mat &frame) {
                     colors[2] = static_cast<unsigned char>(colors[2] * (-alpha));
                     break;
                 case 3: { // pass 3 grab pixels +1, and +2 ahead and use for colors
-                    cv::Vec3b &color1 = frame.at<cv::Vec3b>(i + 1, z);// x,y + 1
-                    cv::Vec3b &color2 = frame.at<cv::Vec3b>(i + 2, z);// x,y + 2
+                    cv::Vec3b &color1 = pixelAt(frame,i + 1, z);// x,y + 1
+                    cv::Vec3b &color2 = pixelAt(frame,i + 2, z);// x,y + 2
                     // set colors accordingly
                     colors[0] += static_cast<unsigned char>(colors[0] * alpha);
                     colors[1] += static_cast<unsigned char>(color1[1] * alpha);
@@ -181,7 +181,7 @@ void ac::Blend3(cv::Mat &frame) {
     static double rValue[3] = { 0, 0, 0 };
     for (z = 0; z < frame.cols; ++z) {
         for (i = 0; i < frame.rows; ++i) {
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // get pixel value
+            cv::Vec3b &color_value = pixelAt(frame,i, z); // get pixel value
             for (int j = 0; j < 3; ++j)
                 color_value[j] += static_cast<unsigned char>(color_value[j] * rValue[j]); // loop through each color multiply by rValue
             // swap colors
@@ -209,11 +209,11 @@ void ac::NegParadox(cv::Mat &frame) {
     for (int z = 0; z < frame.cols - 3; ++z) { // left to right
         for (int i = 0; i < frame.rows - 3; ++i) { // top to bottom
             cv::Vec3b colors[4];// vector array
-            colors[0] = frame.at<cv::Vec3b>(i, z);// grab pixels
-            colors[1] = frame.at<cv::Vec3b>(i + 1, z);
-            colors[2] = frame.at<cv::Vec3b>(i + 2, z);
-            colors[3] = frame.at<cv::Vec3b>(i + 3, z);
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab pixel
+            colors[0] = pixelAt(frame,i, z);// grab pixels
+            colors[1] = pixelAt(frame,i + 1, z);
+            colors[2] = pixelAt(frame,i + 2, z);
+            colors[3] = pixelAt(frame,i + 3, z);
+            cv::Vec3b &color_value = pixelAt(frame,i, z);// grab pixel
             // set final pixel color values
             color_value[0] += static_cast<unsigned char>((colors[0][0] * alpha) + (colors[1][0] * alpha));
             color_value[1] += static_cast<unsigned char>((colors[1][1] * alpha) + (colors[3][1] * alpha));
@@ -243,7 +243,7 @@ void ac::ThoughtMode(cv::Mat &frame) {
     static int sw = 1, tr = 1;
     for(int z = 2; z < frame.cols-2; ++z) {
         for(int i = 2; i < frame.rows-4; ++i) {
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // current pixel
+            cv::Vec3b &color_value = pixelAt(frame,i, z); // current pixel
             // set pixel rgb values
             if(sw == 1) color_value[0] += static_cast<unsigned char>(color_value[mode]*alpha);
             if(tr == 0) color_value[mode] -= static_cast<unsigned char>(color_value[rand()%2]*alpha);
@@ -276,8 +276,8 @@ void ac::Pass2Blend(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) { // top to bottom
         for(int i = 0; i < frame.cols; ++i) { // left to right
             if(!frame.empty() && !orig_frame.empty()) {
-                cv::Vec3b &color1 = frame.at<cv::Vec3b>(z, i);// current pixel
-                cv::Vec3b color2 = orig_frame.at<cv::Vec3b>(z, i);// original frame pixel
+                cv::Vec3b &color1 = pixelAt(frame,z, i);// current pixel
+                cv::Vec3b color2 = pixelAt(orig_frame,z, i);// original frame pixel
                 for(int q = 0; q < 3; ++q)
                     color1[q] = static_cast<unsigned char>(color2[q] * ac::pass2_alpha) + static_cast<unsigned char>(color1[q] * ac::pass2_alpha);
                     //color1[q] = static_cast<unsigned char>(color2[q]+(color1[q]*ac::pass2_alpha));// multiply
@@ -295,9 +295,9 @@ void ac::RandTriBlend(cv::Mat &frame) {
     for (z = 2; z < frame.cols - 2; ++z) {
         for (i = 2; i < frame.rows - 2; ++i) {
             // grab pixels
-            colors[0] = frame.at<cv::Vec3b>(i, z);
-            colors[1] = frame.at<cv::Vec3b>(i + 1, z);
-            colors[2] = frame.at<cv::Vec3b>(i + 2, z);
+            colors[0] = pixelAt(frame,i, z);
+            colors[1] = pixelAt(frame,i + 1, z);
+            colors[2] = pixelAt(frame,i + 2, z);
             // chaos
             counter = rand() % 3;
             if (counter == 0) { // if counter equals zero
@@ -318,7 +318,7 @@ void ac::RandTriBlend(cv::Mat &frame) {
                 colors[3][2] = static_cast<unsigned char>((colors[0][1] + colors[1][1]) * alpha);
                 colors[3][1] = static_cast<unsigned char>((colors[0][2] + colors[1][2] + colors[2][2]) * alpha);
             }
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab current pixel
+            cv::Vec3b &color_value = pixelAt(frame,i, z);// grab current pixel
             color_value = colors[3];// assign pixel
             swapColors(frame, i, z);// swap colors
             if(isNegative == true) { // if isNegative
@@ -347,7 +347,7 @@ void ac::Blank(cv::Mat &frame) {
     static bool color_switch = false;// color switch set to false
     for(int z = 0; z < frame.cols; ++z) {// left to right
         for(int i = 0; i < frame.rows; ++i) { // top to bottom
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // current pixel
+            cv::Vec3b &color_value = pixelAt(frame,i, z); // current pixel
             for(int j = 0; j < 3; ++j) {
                 // process pixel values
                 val[j] = static_cast<unsigned char>((alpha*color_value[j]) / (2-j+1));
@@ -379,11 +379,11 @@ void ac::Tri(cv::Mat &frame) {
     static double alpha = 1.0f;// static alpha set to 1
     for(int z = 0; z < frame.cols-3; ++z) {// left to right
         for(int i = 0; i < frame.rows-3; ++i) {// top to bottom
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// current pixel
+            cv::Vec3b &color_value = pixelAt(frame,i, z);// current pixel
             cv::Vec3b colors[2];// colors
             // grab pixels
-            colors[0] = frame.at<cv::Vec3b>(i+1, z);
-            colors[1] = frame.at<cv::Vec3b>(i+2, z);
+            colors[0] = pixelAt(frame,i+1, z);
+            colors[1] = pixelAt(frame,i+2, z);
             // set pixels
             color_value[0] += static_cast<unsigned char>(color_value[0]*alpha);
             color_value[1] += static_cast<unsigned char>(color_value[1]+colors[0][1]+colors[1][1]*alpha);
@@ -413,7 +413,7 @@ void ac::Distort(cv::Mat &frame) {
     static int i = 0, z = 0;// loop variables
     for(z = 0; z < frame.cols; ++z) { // left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &color_value = pixelAt(frame,i, z);
             // set pixel values
             color_value[0] = static_cast<unsigned char>((i*alpha)+color_value[0]);
             color_value[2] = static_cast<unsigned char>((z*alpha)+color_value[2]);
@@ -446,7 +446,7 @@ void ac::CDraw(cv::Mat &frame) {
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             int cX = static_cast<int>((rad * cos(deg)));
             int cY = static_cast<int>((rad * sin(deg)));
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z); // grab pixel reference
+            cv::Vec3b &color_value = pixelAt(frame,i, z); // grab pixel reference
             // set values
             color_value[0] = static_cast<unsigned char>(color_value[0]*(cX * alpha));
             color_value[1] = static_cast<unsigned char>(color_value[1]*(cY * alpha));
@@ -474,7 +474,7 @@ void ac::Type(cv::Mat &frame) {
     static int off = 0;// off variable
     for(z = 0; z < frame.rows; ++z) { // top to bottom
         for(i = 0; i < frame.cols; ++i) {// left to right
-            cv::Vec3b &current = frame.at<cv::Vec3b>(z, i); // grab pixel reference
+            cv::Vec3b &current = pixelAt(frame,z, i); // grab pixel reference
             // set pixel values
             current[0] += static_cast<unsigned char>(add_r+current[0]);
             current[1] += static_cast<unsigned char>(add_r+current[1]);
@@ -495,8 +495,8 @@ void ac::Type(cv::Mat &frame) {
 void ac::NewOne(cv::Mat &frame) {
     for(int z = 0; z < frame.cols; ++z) {// left to right
         for(int i = 1; i < frame.rows-1; ++i) {// top to bottom
-            cv::Vec3b &colv = frame.at<cv::Vec3b>(i, z);// get pixels
-            cv::Vec3b &cola = frame.at<cv::Vec3b>((frame.rows-1)-i, (frame.cols-1)-z);//frame.at<cv::Vec3b>((frame.cols-1)-z, (frame.rows-1)-i);
+            cv::Vec3b &colv = pixelAt(frame,i, z);// get pixels
+            cv::Vec3b &cola = pixelAt(frame,(frame.rows-1)-i, (frame.cols-1)-z);//pixelAt(frame,(frame.cols-1)-z, (frame.rows-1)-i);
             // set arrays
             int red_values[] = { colv[0]+cola[2], colv[1]+cola[1], colv[2]+cola[0], 0 };
             int green_values[] = { colv[2]+cola[0], colv[1]+cola[1], colv[0]+cola[2], 0 };
@@ -547,7 +547,7 @@ void ac::blendFractalMood(cv::Mat &frame) {
     static bool shift_value = true;
     for(int z = 0; z < frame.cols; ++z) {// left to right
         for(int i = 0; i < frame.rows; ++i) {// top to bottom
-            cv::Vec3b &color_value = frame.at<cv::Vec3b>(i, z);// grab pixel
+            cv::Vec3b &color_value = pixelAt(frame,i, z);// grab pixel
             // set pixel values
             color_value[0] += (shift == shift_value) ? color : -color;
             color_value[1] += (shift == shift_value) ? -color : color;
@@ -583,8 +583,8 @@ void ac::blendWithImage(cv::Mat &frame) {
             int q = GetFX(blendW_frame, i, frame.rows);
             int j = GetFY(blendW_frame, z, frame.cols);
             // grab pixels
-            cv::Vec3b &frame_one = frame.at<cv::Vec3b>(i, z);
-            cv::Vec3b &frame_two = blendW_frame.at<cv::Vec3b>(q, j);
+            cv::Vec3b &frame_one = pixelAt(frame,i, z);
+            cv::Vec3b &frame_two = pixelAt(blendW_frame,q, j);
             // set pixel values
             for(int p = 0; p < 3; ++p)
                 frame_one[p] += static_cast<unsigned char>((frame_one[p]*alpha)+(frame_two[p]*beta));
@@ -615,7 +615,7 @@ void ac::cossinMultiply(cv::Mat &frame) {
     static int i = 0, z = 0;// loop variables
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z); // grab pixel
+            cv::Vec3b &buffer = pixelAt(frame,i, z); // grab pixel
             // set pixel values
             buffer[0] += static_cast<unsigned char>(1+static_cast<int>((sin(alpha))*z));
             buffer[1] += static_cast<unsigned char>(1+static_cast<int>((cos(alpha))*i));
@@ -636,7 +636,7 @@ void ac::colorAccumulate1(cv::Mat &frame) {
     static int i = 0, z = 0; // static loop variables
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// current pixel
+            cv::Vec3b &buffer = pixelAt(frame,i, z);// current pixel
             // set pixel values
             buffer[0] += static_cast<unsigned char>((buffer[2]*alpha));
             buffer[1] += static_cast<unsigned char>((buffer[0]*alpha));
@@ -658,7 +658,7 @@ void ac::colorAccumulate2(cv::Mat &frame) {
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             // grab pixel
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &buffer = pixelAt(frame,i, z);
             // set pixel rgb values
             buffer[0] += static_cast<unsigned char>((buffer[2]*alpha)+i);
             buffer[1] += static_cast<unsigned char>((buffer[0]*alpha)+z);
@@ -679,7 +679,7 @@ void ac::colorAccumulate3(cv::Mat &frame) {
     static int i = 0, z = 0;// loop variables
     for(z = 0; z < frame.cols; ++z) {// from left to right
         for(i = 0; i < frame.rows; ++i) {// from top to bottom
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel reference
+            cv::Vec3b &buffer = pixelAt(frame,i, z);// grab pixel reference
             // set rgb values
             buffer[0] = static_cast<unsigned char>((-buffer[2])+z);
             buffer[1] = static_cast<unsigned char>((-buffer[0])+i);
@@ -700,7 +700,7 @@ void ac::filter8(cv::Mat &frame) {
     static int i = 0, z = 0, q = 0;// loop variable
     for(z = 0; z < frame.cols; ++z) {// from left to right
         for(i = 0; i < frame.rows; ++i) {// from top to bottom
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel
+            cv::Vec3b &buffer = pixelAt(frame,i, z);// grab pixel
             for(q = 0; q < 3; ++q) {// loop each rgb value
                 buffer[q] = static_cast<unsigned char>(buffer[q]+((i+z)*alpha));// preform calculation
                 
@@ -727,7 +727,7 @@ void ac::filter3(cv::Mat &frame) {
     static int i = 0, z = 0, q = 0;// loop variables
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// grab pixel reference
+            cv::Vec3b &buffer = pixelAt(frame,i, z);// grab pixel reference
             for(q = 0; q < 3; ++q) {// loop through rgb values
                 buffer[q] = static_cast<unsigned char>(buffer[0]+(buffer[q])*(alpha));// preform calculation
             }
@@ -768,7 +768,7 @@ void ac::rainbowBlend(cv::Mat &frame) {
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             // grab pixel as cv::Vec3b reference
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &buffer = pixelAt(frame,i, z);
             // add to rgb values alpha * rb,gb,bb variables
             buffer[0] += static_cast<unsigned char>(alpha*rb);
             buffer[1] += static_cast<unsigned char>(alpha*gb);
@@ -807,7 +807,7 @@ void ac::randBlend(cv::Mat &frame) {
     static int i = 0, z = 0;// i,z loop variables
     for(z = 0; z < frame.cols; ++z) {// from left to right
         for(i = 0; i < frame.rows; ++i) {// from top to bottom
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);// pixel at
+            cv::Vec3b &buffer = pixelAt(frame,i, z);// pixel at
             buffer[0] += rr;// add random R
             buffer[1] += rg;// add random G
             buffer[2] += rb;// add random B
@@ -824,7 +824,7 @@ void ac::newBlend(cv::Mat &frame) {
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             // grab pixel
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &buffer = pixelAt(frame,i, z);
             // set pixel RGB values
             buffer[0] = static_cast<unsigned char>(buffer[2]+(1+(i*z)/pos));
             buffer[1] = static_cast<unsigned char>(buffer[1]+(1+(i*z)/pos));
@@ -857,7 +857,7 @@ void ac::pixelScale(cv::Mat &frame) {
     for(z = 0; z < frame.cols; ++z) {// left to right
         for(i = 0; i < frame.rows; ++i) {// top to bottom
             // grab pixel reference
-            cv::Vec3b &buffer = frame.at<cv::Vec3b>(i, z);
+            cv::Vec3b &buffer = pixelAt(frame,i, z);
             cv::Vec3b buf = buffer;// temp pixel
             // set RGB pixel values
             buffer[0] = static_cast<unsigned char>((buf[0]*pos)+(buf[0]-buffer[2]));

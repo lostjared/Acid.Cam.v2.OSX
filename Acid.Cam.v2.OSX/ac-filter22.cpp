@@ -625,7 +625,7 @@ void ac::ColorPositionAverageXor(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             if(i == value) {
-                pixels.push_back(frame.at<cv::Vec3b>(z, i));
+                pixels.push_back(pixelAt(frame,z, i));
                 ++value;
                 break;
             }
@@ -643,7 +643,7 @@ void ac::ColorPositionAverageXor(cv::Mat &frame) {
     values[2] = static_cast<int>(combined[2]/pixels.size());
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^values[j]);
             }
@@ -660,7 +660,7 @@ void ac::ColorPositionXor(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             if(i == value) {
-                pixels.push_back(frame.at<cv::Vec3b>(z, i));
+                pixels.push_back(pixelAt(frame,z, i));
                 ++value;
                 break;
             }
@@ -680,7 +680,7 @@ void ac::ColorPositionXor(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b &pix = collection.frames[7].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                pixel[j] = cv::saturate_cast<unsigned char>((pixel[j]^pix[j])^values[j]);
@@ -742,7 +742,7 @@ void ac::ColorCollectionPixelXor(cv::Mat &frame) {
                 for(int j = 0; j < 3; ++j)
                     value[j] += pix[j];
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 value[j] /= collection.size();
                 int ival = static_cast<int>(value[j]);
@@ -779,7 +779,7 @@ void ac::ColorStrobeXor(cv::Mat &frame) {
                 for(int j = 0; j < 3; ++j)
                     sval[j] += pix[j];
             }
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int bgr[3];
             for(int j = 0; j < 3; ++j) {
                 bgr[j] = static_cast<int>(sval[j]/collection.size());

@@ -83,7 +83,7 @@ void ac::ParticleEmiter::set(cv::Mat &frame) {
     }
     for(int z = 0; z < h; ++z) {
         for(int i = 0; i < w; ++i) {
-            cv::Vec3b pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pixel = pixelAt(frame,z, i);
             part[i][z].pixel = pixel;
         }
     }
@@ -98,7 +98,7 @@ void ac::ParticleEmiter::draw(cv::Mat &frame) {
             int x_pos = part[i][z].x;
             int y_pos = part[i][z].y;
             if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                cv::Vec3b &pixel = pixelAt(frame,y_pos, x_pos);
                 pixel = part[i][z].pixel;
             }
         }
@@ -115,7 +115,7 @@ void ac::ParticleEmiter::draw_blend(cv::Mat &frame) {
             int x_pos = part[i][z].x;
             int y_pos = part[i][z].y;
             if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                cv::Vec3b &pixel = pixelAt(frame,y_pos, x_pos);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = pixel[j]+(part[i][z].pixel[j]^static_cast<unsigned char>(alpha));
             }
@@ -136,7 +136,7 @@ void ac::ParticleEmiter::draw_flash(cv::Mat &frame) {
             int x_pos = part[i][z].x;
             int y_pos = part[i][z].y;
             if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                cv::Vec3b &pixel = pixelAt(frame,y_pos, x_pos);
                 switch(flash_index) {
                     case 0:
                         pixel = part[i][z].pixel;
@@ -165,7 +165,7 @@ void ac::ParticleEmiter::draw_alpha(cv::Mat &frame) {
             int x_pos = part[i][z].x;
             int y_pos = part[i][z].y;
             if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                cv::Vec3b &pixel = pixelAt(frame,y_pos, x_pos);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] += part[i][z].pixel[j]*static_cast<unsigned char>(alpha);
                 
@@ -186,7 +186,7 @@ void ac::ParticleEmiter::draw_move(cv::Mat &frame) {
             int x_pos = part[i][z].x;
             int y_pos = part[i][z].y;
             if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                cv::Vec3b &pixel = pixelAt(frame,y_pos, x_pos);
                 pixel = part[i][z].pixel;
             }
         }
@@ -203,7 +203,7 @@ void ac::ParticleEmiter::draw_op(cv::Mat &frame) {
             int x_pos = part[i][z].x;
             int y_pos = part[i][z].y;
             if(x_pos > 0 && x_pos < frame.cols && y_pos > 0 && y_pos < frame.rows) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y_pos, x_pos);
+                cv::Vec3b &pixel = pixelAt(frame,y_pos, x_pos);
                 for(int j = 0; j < 3; ++j)
                 	pixel[j] = part[i][z].pixel[j]^pixel[j];
             }

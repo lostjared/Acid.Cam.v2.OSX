@@ -125,7 +125,7 @@ void ac::RandomSquares(cv::Mat &frame) {
         for(int i = rc.x; i < rc.x+rc.w; ++i) {
             for(int z = rc.y; z < rc.y+rc.h; ++z) {
                 if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     for(int q = 0; q < 3; ++q) {
                         pixel[q] = pixel[q]^color[q];
                     }
@@ -148,7 +148,7 @@ void ac::RandomImageSquares(cv::Mat &frame) {
         for(int i = rc.x; i < rc.x+rc.w; ++i) {
             for(int z = rc.y; z < rc.y+rc.h; ++z) {
                 if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
-                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
                     cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                     for(int q = 0; q < 3; ++q) {
                         pixel[q] = pixel[q]^pix[q];
@@ -285,7 +285,7 @@ void ac::IntertwineMirrorEnergy(cv::Mat &frame) {
     int row_counter = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i< frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b time_pixel = collection.frames[index].at<cv::Vec3b>(z, i);
             pixel = time_pixel;
         }
@@ -312,7 +312,7 @@ void ac::IntertwineMultipleRows(cv::Mat &frame) {
     int row_counter = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i< frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b time_pixel = collection.frames[index].at<cv::Vec3b>(z, i);
             pixel = time_pixel;
         }

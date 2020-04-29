@@ -52,13 +52,13 @@ void ac::SlideUpDown(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
             
@@ -102,13 +102,13 @@ void ac::SlideUpDownXor(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
             
@@ -164,14 +164,14 @@ void ac::SlideUpDownRandom(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frames[0].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frames[1].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
@@ -222,14 +222,14 @@ void ac::SlideSubFilter(cv::Mat &frame) {
     } else return;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < start_1; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
             }
         }
         for(int i =(frame.cols-1); i > start_2; --i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
@@ -281,14 +281,14 @@ void ac::SlideSubUpDownFilter(cv::Mat &frame) {
     
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_x.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
@@ -331,7 +331,7 @@ void ac::BlendInAndOut(cv::Mat &frame) {
     static int step[3] = {1,1,1};
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(color[j]);
             }
@@ -364,7 +364,7 @@ void ac::BlendScaleInAndOut(cv::Mat &frame) {
     static int step[3] = {1,1,1};
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>(color[j]*alpha);
             }
@@ -397,7 +397,7 @@ void ac::AcidGlitch(cv::Mat &frame) {
     static cv::Scalar color(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix_copy = pixel;
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += static_cast<unsigned char>(((pix_copy[3-j-1] ^ static_cast<unsigned char>(color[j]))) * alpha);
@@ -435,7 +435,7 @@ void ac::XorBackwards(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 double val = 0;
@@ -457,7 +457,7 @@ void ac::LiquidFilter(cv::Mat &frame) {
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b frame_pix[3];
             for(int j = 0; j < 3; ++j) {
                 frame_pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
@@ -483,7 +483,7 @@ void ac::MatrixXorAnd(cv::Mat &frame) {
     collection.shiftFrames(frame);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b frame_pix[3];
             for(int j = 0; j < 3; ++j)
                 frame_pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
@@ -515,7 +515,7 @@ void ac::XorAlpha(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= static_cast<unsigned char>(color_value[j]*alpha);
             
@@ -547,7 +547,7 @@ void ac::SelfXorAverage(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix[3];
             for(int j = 0; j < 3; ++j) {
                 pix[j] = collection.frames[j].at<cv::Vec3b>(z, i);
@@ -568,7 +568,7 @@ void ac::RandomXorBlend(cv::Mat &frame) {
     cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]^pix[j]);
             }
@@ -589,14 +589,14 @@ void ac::RGBVerticalXor(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 6.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < pos[index]; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[3-index-1] ^= static_cast<unsigned char>(pixel[index]*alpha);
             
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
         for(int z = pos[index]; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] ^= static_cast<unsigned char>(pixel[index]*alpha);
             
             swapColors(frame, z, i);
@@ -633,14 +633,14 @@ void ac::RGBHorizontalXor(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 6.0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < pos[index]; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[3-index-1] ^= static_cast<unsigned char>(pixel[index]*alpha);
             
             swapColors(frame, z, i);
             if(isNegative) invert(frame, z, i);
         }
         for(int i = pos[index]; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             pixel[index] ^= static_cast<unsigned char>(pixel[index]*alpha);
             
             swapColors(frame, z, i);
@@ -671,7 +671,7 @@ void ac::FadeStrobe(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = (pixel[j]^static_cast<unsigned char>(1+colorval[j]));
             }
@@ -691,7 +691,7 @@ void ac::RGBMirror(cv::Mat &frame) {
     cv::Mat f_copy = frame.clone();
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b f_pixel[4];
             f_pixel[0] = f_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
             f_pixel[1] = f_copy.at<cv::Vec3b>(frame.rows-z-1, i);
@@ -711,7 +711,7 @@ void ac::MirrorStrobe(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = copy_f.at<cv::Vec3b>(copy_f.rows-z-1, copy_f.cols-i-1);
             pixel[index] = cv::saturate_cast<unsigned char>((pixel[index]^pix[index])+value[index]);
             
@@ -733,7 +733,7 @@ void ac::AndStrobe(cv::Mat &frame) {
     cv::Vec3b colorval(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]&colorval[j];
             }
@@ -748,7 +748,7 @@ void ac::AndStrobeScale(cv::Mat &frame) {
     cv::Vec3b colorval(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = static_cast<unsigned char>((pixel[j]&colorval[j])*alpha);
             }
@@ -763,7 +763,7 @@ void ac::AndPixelStrobe(cv::Mat &frame) {
     static int index = 0;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j] & static_cast<unsigned char>(colorval[j]);
                 pixel[j] = pixel[j] ^ static_cast<unsigned char>(colorval[j]);
@@ -786,7 +786,7 @@ void ac::AndOrXorStrobe(cv::Mat &frame) {
     cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 switch(index) {
                     case 0:
@@ -816,7 +816,7 @@ void ac::AndOrXorStrobeScale(cv::Mat &frame) {
     cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 switch(index) {
                     case 0:
@@ -855,7 +855,7 @@ void ac::FadeInAndOut(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= cv::saturate_cast<unsigned char>(colorval[j]);
             
@@ -888,7 +888,7 @@ void ac::BrightStrobe(cv::Mat &frame) {
     cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] ^= static_cast<unsigned char>((colorval[j]*speed[j]));
             }
@@ -926,7 +926,7 @@ void ac::DarkStrobe(cv::Mat &frame) {
     cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i ){
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] &= static_cast<unsigned char>((pixel[j]%(1+static_cast<unsigned char>(colorval[j])))*alpha);
             }
@@ -943,7 +943,7 @@ void ac::RandomXorOpposite(cv::Mat &frame) {
     cv::Vec3b colorval2(rand()%255, rand()%255, rand()%255);
     for(int z = 0; z < frame.rows; ++z){
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = ~pixel[j] ^ colorval[j] ^ ~colorval2[j];
             }
@@ -960,7 +960,7 @@ void ac::StrobeTransform(cv::Mat &frame) {
     static int speed = 2, speed_increase = 5;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += ((pixel[j] + (static_cast<unsigned char>(value))) ^ static_cast<unsigned char>(alpha)) ^ colorval[j];
             }
@@ -1010,7 +1010,7 @@ void ac::InitBlend(cv::Mat &frame) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += ((pixel[j] + (static_cast<unsigned char>(value))) ^ static_cast<unsigned char>(alpha)) ^ colorval[j];
             }

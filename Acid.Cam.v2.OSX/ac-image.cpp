@@ -54,7 +54,7 @@ void ac::imageBlend(cv::Mat &frame) {
         for(i = 0; i < frame.cols; ++i) { // top to bottom
             for(z = 0; z < frame.rows; ++z) {// left to right
                 // get resized x,y
-                cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);// get current pixel
+                cv::Vec3b &current = pixelAt(frame,z, i);// get current pixel
                 cv::Vec3b im = reimage.at<cv::Vec3b>(z, i);// get pixel to blend from resized x,y
                 // set pixel values
                 current[0] = static_cast<unsigned char>(current[0]+(im[0]*pos));
@@ -80,7 +80,7 @@ void ac::imageBlendTwo(cv::Mat &frame) {
             for(z = 0; z < frame.rows; ++z) {// top to bottom
                 // resize x,y
                 // grab pixels
-                cv::Vec3b &current = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &current = pixelAt(frame,z, i);
                 cv::Vec3b im = reimage.at<cv::Vec3b>(z, i);
                 // set pixel values
                 current[0] = static_cast<unsigned char>(im[0]+(current[0]*pos));
@@ -106,7 +106,7 @@ void ac::imageBlendThree(cv::Mat &frame) {
             for(int z = 0; z < frame.rows; ++z) {// from left to right
                 // calculate x,y pixel position
                 // get pixel to manipulate reference
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 // get image pixel from calculated x,y positions
                 cv::Vec3b im = reimage.at<cv::Vec3b>(z, i);
                 // calculate pixel data
@@ -150,7 +150,7 @@ void ac::imageBlendFour(cv::Mat &frame) {
         for(int z = 3; z < h-3; ++z) {// top to bottom
             for(int i = 3; i < w-3; ++i) {// left to right
                 // current pixel by reference
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 // calculate resized image based x,y positions
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
@@ -207,7 +207,7 @@ void ac::ImageFile(cv::Mat &frame) {
         ac_resize(blend_image, reimage, frame.size());
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 pixel[0] += add_i[0];
                 pixel[1] += add_i[1];
@@ -228,7 +228,7 @@ void ac::ImageXor(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 4.0;
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = cv::saturate_cast<unsigned char>((pixel[j]^add_i[j])*alpha);
@@ -248,7 +248,7 @@ void ac::ImageAlphaBlend(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 2.0;
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 int cX = AC_GetFX(blend_image.cols, i, frame.cols);
                 int cY = AC_GetFZ(blend_image.rows, z, frame.rows);
                 cv::Vec3b add_i = blend_image.at<cv::Vec3b>(cY, cX);
@@ -273,7 +273,7 @@ void ac::ImageInter(cv::Mat &frame) {
         ac_resize(blend_image, reimage, frame.size());
         for(int z = 0;  z < h; ++z) {
             for(int i = 0; i < w; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 if(start == 0) {
                     pixel = add_i;
@@ -314,7 +314,7 @@ void ac::ImageX(cv::Mat &frame) {
                 cv::Vec3b &pixel = frame_blend.at<cv::Vec3b>(cY, cX);
                 cv::Vec3b pix = frame_blend.at<cv::Vec3b>(cY+1, cX+1);
                 pixel = pix;
-                cv::Vec3b &pix_value = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pix_value = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j)
                     pix_value[j] = static_cast<unsigned char>(pixel[j]+(pix_value[j]*alpha));
             }
@@ -377,7 +377,7 @@ void ac::BlendImageOnOff(cv::Mat &frame) {
                         value[q] += pix[j][q];
                     }
                 }
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 for(int j = 0; j < 3; ++j) {
                     value[j] /= 4;
                     unsigned char val = static_cast<unsigned char>(value[j]);
@@ -410,7 +410,7 @@ void ac::XorSelfAlphaImage(cv::Mat &frame) {
         ac_resize(blend_image, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     //pixel[j] ^= (1-((pixel[j] + pix[j])) * (2+static_cast<unsigned char>(alpha)));
@@ -455,7 +455,7 @@ void ac::ImageShiftMatrixLeft(cv::Mat &frame) {
             for(int z = 0; z < frame.rows; ++z) {
                 int cX = AC_GetFX(image.cols, i, frame.cols);
                 int cY = AC_GetFZ(image.rows, z, frame.rows);
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b src_pixel = image.at<cv::Vec3b>(cY, cX);
                 for(int j = 0; j < 3; ++j)
                     pixel[j] = static_cast<unsigned char>((alpha * pixel[j])) ^ src_pixel[j];
@@ -485,7 +485,7 @@ void ac::BlendImageXor(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 7.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((pixel[j]^add_i[j])*alpha);
@@ -506,12 +506,12 @@ void ac::BlendImageAround_Median(cv::Mat &frame) {
         static double alpha = 1.0, alpha_max = 7.0;
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pixel_data[4];
                 pixel_data[0] = pixel;
-                pixel_data[1] = frame.at<cv::Vec3b>(frame.rows-z-1, i);
-                pixel_data[2] = frame.at<cv::Vec3b>(z, frame.cols-i-1);
-                pixel_data[3] = frame.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+                pixel_data[1] = pixelAt(frame,frame.rows-z-1, i);
+                pixel_data[2] = pixelAt(frame,z, frame.cols-i-1);
+                pixel_data[3] = pixelAt(frame,frame.rows-z-1, frame.cols-i-1);
                 cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
                 cv::Scalar val;
                 for(int j = 0; j < 4; ++j) {
@@ -544,7 +544,7 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
         ac_resize(blend_image, reimage, frame.size());
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b orig_pix = pixel;
                 cv::Vec3b add_i = blend_image.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < collection.size(); ++j) {

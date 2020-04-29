@@ -59,7 +59,7 @@ void ac::resizeImageWidth(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int x = (resize_x-(frame.cols))+i;
             int y = (resize_y-(frame.rows))+z;
             ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
@@ -98,7 +98,7 @@ void ac::resizeImageHeight(cv::Mat &frame) {
     ac_resize(blend_image, copy1, cv::Size(resize_x,resize_y));
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int x = (resize_x-(frame.cols))+i;
             int y = (resize_y-(frame.rows))+z;
             ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
@@ -138,7 +138,7 @@ void ac::resizeImageWidthAndHeight(cv::Mat &frame) {
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             int x = (resize_x-(frame.cols))+i;
             int y = (resize_y-(frame.rows))+z;
             ASSERT(x >= 0 && y >= 0 && x < copy1.cols && y < copy1.rows);
@@ -353,7 +353,7 @@ void ac::ColorFadeFilter(cv::Mat &frame) {
     static int dir[3] = {1, 0, 1};
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += rgb_start[j];
             }
@@ -381,7 +381,7 @@ void ac::ColorChannelMoveUpAndDown(cv::Mat &frame) {
     int rgb_stop[3] = {rand()%255, rand()%255, rand()%255};
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] += rgb_values[j];
             
@@ -425,7 +425,7 @@ void ac::DifferenceSubFilter(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = copy1.at<cv::Vec3b>(z, i);
-            cv::Vec3b pix = orig_frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = pixelAt(orig_frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] -= (pix[j]);
         }
@@ -450,7 +450,7 @@ void ac::ColorVariableBlend(cv::Mat &frame) {
     static int dir[3] = {1,1,1};
     for(int z = 0; z <  frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += rgb_values[j];
             }
@@ -480,7 +480,7 @@ void ac::ColorXorBlend(cv::Mat &frame) {
     static int speed = 10;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^rgb_values[j];
             }
@@ -516,7 +516,7 @@ void ac::ColorAddBlend(cv::Mat &frame) {
     static int speed = 10;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] += rgb_values[j];
             }
@@ -568,7 +568,7 @@ void ac::IntertwineByFrameDown(cv::Mat &frame) {
     static int index = collection.size()-1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^pix[j];
@@ -587,7 +587,7 @@ void ac::IntertwineByFrameUp(cv::Mat &frame) {
     static int index = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^pix[j];
@@ -607,7 +607,7 @@ void ac::IntertwineFrameFast(cv::Mat &frame) {
     static int index = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pix[j];
@@ -819,7 +819,7 @@ void ac::IntertwineXorCollection(cv::Mat &frame) {
     static int size_value = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
             for(int j = 0; j < 3; ++j) {
                 pixel[j] = pixel[j]^pix[j];
@@ -876,7 +876,7 @@ void ac::IntertwineFrameImage1080X(cv::Mat &frame) {
     static int size_value = 1;
     for(int z = 0; z < reframe.rows; ++z) {
         for(int i = 0; i < reframe.cols; ++i) {
-            cv::Vec3b &pixel = reframe.at<cv::Vec3b>(z, i);
+            cv::Vec3b &pixel = pixelAt(reframe,z, i);
             if((z%2) == 0) {
                 cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {

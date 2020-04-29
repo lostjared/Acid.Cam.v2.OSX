@@ -90,7 +90,7 @@ void ac::Grid::createGrid(cv::Mat &frame, int w, int h, int size) {
     }
     for(int i = 0; i < g_w; ++i) {
         for(int z = 0; z < g_h; ++z) {
-            cv::Vec3b pixel = frame.at<cv::Vec3b>(z*size, i*size);
+            cv::Vec3b pixel = pixelAt(frame,z*size, i*size);
             Point p(i, z);
             points.push_back(p);
             boxes[i][z] = GridBox(pixel);
@@ -110,7 +110,7 @@ void ac::Grid::fillGrid(cv::Mat &frame) {
     
     for(int i = 0; i < g_w; ++i) {
         for(int z = 0; z < g_h; ++z) {
-            cv::Vec3b pixel = frame.at<cv::Vec3b>(z*g_s, i*g_s);
+            cv::Vec3b pixel = pixelAt(frame,z*g_s, i*g_s);
             boxes[i][z] = GridBox(pixel);
             if(g_random)
                 boxes[i][z].on = ((rand()%4) == 0) ? false : true;
@@ -207,7 +207,7 @@ void ac::GridFilter8xBlend(cv::Mat &frame) {
     for(int z = 0; z < grid.g_h; ++z) {
         for(int i = 0; i < grid.g_w; ++i) {
             if(grid.boxes[i][z].on) {
-                cv::Vec3b pixel = frame.at<cv::Vec3b>(z*grid.g_s, i*grid.g_s);
+                cv::Vec3b pixel = pixelAt(frame,z*grid.g_s, i*grid.g_s);
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] = static_cast<unsigned char>((pixel[j]+grid.boxes[i][z].color[j])/2);
                     pixel[j] *= static_cast<unsigned char>(alpha);
