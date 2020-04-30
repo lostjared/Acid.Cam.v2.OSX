@@ -4,7 +4,7 @@
 //
 //  Created by Jared Bruni on 6/3/13.
 //  https://github.com/lostjared
-//  Copyright (c) 2019 Jared Bruni. All rights reserved.
+//  Copyright (c) 2020 Jared Bruni. All rights reserved.
 /*
  * Software written by Jared Bruni https://github.com/lostjared
  
@@ -22,7 +22,7 @@
  
  BSD 2-Clause License
  
- Copyright (c) 2019, Jared Bruni
+ Copyright (c) 2020, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
