@@ -132,7 +132,7 @@ cv::Vec3b &ac::pixelAt(cv::Mat &frame, int y, int x) {
 #endif
         return frame.at<cv::Vec3b>(y, x);
     
-    std::cout << "out of range: " << x << ":" << y << "\n";
+    std::cout << "Error: Array Position Out Of Range: " << x << "," << y << "\n";
     return frame.at<cv::Vec3b>(0, 0);
 }
 
