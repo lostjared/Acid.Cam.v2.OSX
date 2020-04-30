@@ -76,8 +76,10 @@
 #else
 #define ASSERT(X)
 #endif
-// leave defined for safe array access (slower)
+// leave defined for safe array access (slower for testing)
+// comment out below if building release build
 #define ARRAY_BOUNDS_TEST
+
 // comment out below if making release
 //#define DEBUG_MODE
 /*
