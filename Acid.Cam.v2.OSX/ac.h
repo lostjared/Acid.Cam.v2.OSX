@@ -117,10 +117,12 @@ namespace ac {
     inline cv::Vec3b &pixelAt(cv::Mat &frame, int y, int x) {
 #ifdef ARRAY_BOUNDS_TEST
         if(y >= 0 && x >= 0 && y < frame.rows && x < frame.cols)
-#endif
-            return frame.at<cv::Vec3b>(y, x);
+             return frame.at<cv::Vec3b>(y, x);
+        
         std::cout << "Error: Array Position Out Of Range: " << x << "," << y << "\n";
         return frame.at<cv::Vec3b>(0, 0);
+#endif
+        return frame.at<cv::Vec3b>(y, x);
     }
     
     class FileT {
