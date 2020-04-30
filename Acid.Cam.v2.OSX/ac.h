@@ -78,8 +78,7 @@
 #endif
 
 // leave defined for safe array access (slower)
-#define ARRAY_TEST
-
+#define ARRAY_BOUNDS_TEST
 // comment out below if making release
 //#define DEBUG_MODE
 

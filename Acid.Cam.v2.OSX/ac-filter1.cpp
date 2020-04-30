@@ -127,7 +127,7 @@ bool ac::OpenCL_Enabled() {
 
 cv::Vec3b &ac::pixelAt(cv::Mat &frame, int y, int x) {
     
-#ifdef ARRAY_TEST
+#ifdef ARRAY_BOUNDS_TEST
     if(y >= 0 && x >= 0 && y < frame.rows && x < frame.cols)
 #endif
         return frame.at<cv::Vec3b>(y, x);
