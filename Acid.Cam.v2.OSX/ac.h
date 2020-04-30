@@ -81,7 +81,6 @@
 #ifndef DONT_TEST_BOUNDS
 #define ARRAY_BOUNDS_TEST
 #endif
-
 // comment out below if making release
 //#define DEBUG_MODE
 /*
@@ -114,6 +113,16 @@ int AC_GetFZ(int oldh, int y, int nh);
 
 // acid cam namespace
 namespace ac {
+    
+    inline cv::Vec3b &pixelAt(cv::Mat &frame, int y, int x) {
+#ifdef ARRAY_BOUNDS_TEST
+        if(y >= 0 && x >= 0 && y < frame.rows && x < frame.cols)
+#endif
+            return frame.at<cv::Vec3b>(y, x);
+        std::cout << "Error: Array Position Out Of Range: " << x << "," << y << "\n";
+        return frame.at<cv::Vec3b>(0, 0);
+    }
+    
     class FileT {
     public:
         std::string fname;
@@ -207,8 +216,7 @@ namespace ac {
     void init();
     // be sure to call this when the application starts
     void fill_filter_map();
-    
-    cv::Vec3b &pixelAt(cv::Mat &frame, int y, int x);
+ 
     // draw functions
     DrawFunction getRandomFilter();
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);
