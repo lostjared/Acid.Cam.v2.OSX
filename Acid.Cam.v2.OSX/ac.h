@@ -78,9 +78,9 @@
 #endif
 // leave defined for safe array access (slower for testing)
 // comment out below if building release build
-//#ifndef DONT_TEST_BOUNDS
-//#define ARRAY_BOUNDS_TEST
-//#endif
+#ifndef DONT_TEST_BOUNDS
+#define ARRAY_BOUNDS_TEST
+#endif
 // comment out below if making release
 //#define DEBUG_MODE
 /*
