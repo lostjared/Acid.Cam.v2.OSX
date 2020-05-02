@@ -420,7 +420,7 @@ void ac::SetDesktopRect(int x, int y, int w, int h) {
     xx = x;
     yy = y;
     ww = w;
-    hh = 0;
+    hh = h;
 }
 
 #if !defined(NO_SCREEN_GRAB) && defined(__APPLE__)
