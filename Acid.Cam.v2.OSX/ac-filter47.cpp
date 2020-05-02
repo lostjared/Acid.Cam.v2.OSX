@@ -381,3 +381,34 @@ void ac::LongLines(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::TearRight(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int max = 50;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        int offset = 25+(rand()%max);
+        int total_size = frame.cols+offset;
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int col = AC_GetFX(frame.cols, i, total_size);
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b pix = pixelAt(copy1, z, col);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        max += 20;
+        if(max > 400)
+            dir = 0;
+        
+    } else {
+        max -= 20;
+        if(max < 50)
+            dir = 1;
+    }
+}
+

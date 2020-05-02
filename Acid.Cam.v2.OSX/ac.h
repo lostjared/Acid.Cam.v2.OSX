@@ -2343,6 +2343,7 @@ namespace ac {
     void DistortionByColRand(cv::Mat &frame);
     void DistortionByColVar(cv::Mat &frame);
     void LongLines(cv::Mat &frame);
+    void TearRight(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
