@@ -212,6 +212,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *blend_percent;
     IBOutlet NSSlider *blend_percent_slider;
     IBOutlet NSWindow *blend_percent_window;
+    IBOutlet NSTextField *desk_x, *desk_y, *desk_w, *desk_h;
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;

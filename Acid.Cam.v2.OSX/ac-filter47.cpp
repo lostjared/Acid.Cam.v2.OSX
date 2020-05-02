@@ -412,3 +412,29 @@ void ac::TearRight(cv::Mat &frame) {
     }
 }
 
+namespace ac {
+    int xx = 0, yy = 0, ww = 1280, hh = 720;
+}
+
+void ac::SetDesktopRect(int x, int y, int w, int h) {
+    xx = x;
+    yy = y;
+    ww = w;
+    hh = 0;
+}
+
+#if !defined(NO_SCREEN_GRAB) && defined(__APPLE__)
+extern void ScreenGrabRect(int x, int y, int w, int h, cv::Mat &frame);
+#endif
+
+
+void ac::CurrentDesktopRect(cv::Mat &frame) {
+#if !defined(NO_SCREEN_GRAB) && defined(__APPLE__)
+        cv::Mat cap;
+        ScreenGrabRect(xx,yy,ww,hh,cap);
+        cv::Mat temp;
+        ac_resize(cap, temp, frame.size());
+        cv::cvtColor(temp, frame, cv::COLOR_RGBA2BGR);
+#endif
+}
+

@@ -3,8 +3,13 @@
 #include"screen.h"
 #ifdef __APPLE__
 
-NSImage *CaptureScreen() {
-    NSRect screenRect = [[NSScreen mainScreen] frame];
+NSImage *CaptureScreenRect(int x, int y, int w, int h) {
+//    NSRect screenRect = [[NSScreen mainScreen] frame];
+    NSRect screenRect;
+    screenRect.size.height=h;
+    screenRect.size.width =w;
+    screenRect.origin.x = x;
+    screenRect.origin.y = y;
     CGImageRef cgImage = CGWindowListCreateImage(screenRect, kCGWindowListOptionOnScreenOnly, kCGNullWindowID, kCGWindowImageDefault);
     NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
     CGImageRelease(cgImage);
@@ -13,6 +18,15 @@ NSImage *CaptureScreen() {
     return image;
 }
 
+NSImage *CaptureScreen() {
+     NSRect screenRect = [[NSScreen mainScreen] frame];
+    CGImageRef cgImage = CGWindowListCreateImage(screenRect, kCGWindowListOptionOnScreenOnly, kCGNullWindowID, kCGWindowImageDefault);
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    NSImage *image = [[NSImage alloc] init];
+    [image addRepresentation:rep];
+    return image;
+}
 
 @implementation NSImage (NSImage_OpenCV)
 
@@ -65,6 +79,12 @@ NSImage *CaptureScreen() {
 
 void ScreenGrab(cv::Mat &frame) {
     NSImage *cap = CaptureScreen();
+    frame = [cap CVMat];
+    [cap release];
+}
+
+void ScreenGrabRect(int x, int y, int w, int h, cv::Mat &frame) {
+    NSImage *cap = CaptureScreenRect(x,y,w,h);
     frame = [cap CVMat];
     [cap release];
 }

@@ -2344,6 +2344,7 @@ namespace ac {
     void DistortionByColVar(cv::Mat &frame);
     void LongLines(cv::Mat &frame);
     void TearRight(cv::Mat &frame);
+    void CurrentDesktopRect(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2365,6 +2366,7 @@ namespace ac {
     void setPixelCollection(int value);
     int  getPixelCollection();
     bool VideoFrame(cv::Mat &frame);
+    void SetDesktopRect(int x, int y, int w, int h);
     
     // color correction
     void MedianBlur(cv::Mat &frame, unsigned int value);
