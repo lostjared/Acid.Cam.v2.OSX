@@ -423,6 +423,24 @@ void ac::SetDesktopRect(int x, int y, int w, int h) {
     hh = h;
 }
 
+cv::Mat resizeRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
+{
+    cv::Mat output;
+    double h1 = dstSize.width * (input.rows/(double)input.cols);
+    double w2 = dstSize.height * (input.cols/(double)input.rows);
+    if( h1 <= dstSize.height) {
+        ac::ac_resize( input, output, cv::Size(dstSize.width, h1));
+    } else {
+        ac::ac_resize( input, output, cv::Size(w2, dstSize.height));
+    }
+    int top = (dstSize.height-output.rows) / 2;
+    int down = (dstSize.height-output.rows+1) / 2;
+    int left = (dstSize.width - output.cols) / 2;
+    int right = (dstSize.width - output.cols+1) / 2;
+    cv::copyMakeBorder(output, output, top, down, left, right, cv::BORDER_CONSTANT, bgcolor );
+    return output;
+}
+
 #if !defined(NO_SCREEN_GRAB) && defined(__APPLE__)
 extern void ScreenGrabRect(int x, int y, int w, int h, cv::Mat &frame);
 #endif
@@ -433,7 +451,9 @@ void ac::CurrentDesktopRect(cv::Mat &frame) {
         cv::Mat cap;
         ScreenGrabRect(xx,yy,ww,hh,cap);
         cv::Mat temp;
-        ac_resize(cap, temp, frame.size());
+        //ac_resize(cap, temp, frame.size());
+        cv::Scalar s(0,0,0);
+        temp = resizeRatio(cap, frame.size(), s);
         cv::cvtColor(temp, frame, cv::COLOR_RGBA2BGR);
 #endif
 }
