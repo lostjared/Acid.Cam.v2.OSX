@@ -219,6 +219,9 @@ namespace ac {
     // be sure to call this when the application starts
     void fill_filter_map();
  
+    // resize surface preserve ratio
+    cv::Mat resizeRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor);
+    
     // draw functions
     DrawFunction getRandomFilter();
     void DrawFilter(const std::string &name, const cv::Mat &frame, cv::Mat &outframe);

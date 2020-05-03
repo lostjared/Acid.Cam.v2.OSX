@@ -423,7 +423,7 @@ void ac::SetDesktopRect(int x, int y, int w, int h) {
     hh = h;
 }
 
-cv::Mat resizeRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
+cv::Mat ac::resizeRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor)
 {
     cv::Mat output;
     double h1 = dstSize.width * (input.rows/(double)input.cols);
