@@ -2348,6 +2348,7 @@ namespace ac {
     void LongLines(cv::Mat &frame);
     void TearRight(cv::Mat &frame);
     void CurrentDesktopRect(cv::Mat &frame);
+    void TearDown(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
