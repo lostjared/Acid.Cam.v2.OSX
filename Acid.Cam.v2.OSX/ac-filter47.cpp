@@ -487,6 +487,31 @@ void ac::TearDown(cv::Mat &frame) {
     }
 }
 
-void ac::TestFilter101x(cv::Mat &frame) {
-    
+void ac::TearUp(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int max = 50;
+    for(int i = 0; i < frame.cols; ++i) {
+        int offset = 25+(rand()%max);
+        int total_size = frame.rows-offset;
+        for(int z = 0; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int col = AC_GetFZ(frame.rows, z, total_size);
+            if(col >= 0 && col < frame.rows) {
+                cv::Vec3b pix = pixelAt(copy1, col, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        max += 20;
+        if(max > 400)
+            dir = 0;
+        
+    } else {
+        max -= 20;
+        if(max < 50)
+            dir = 1;
+    }
 }
