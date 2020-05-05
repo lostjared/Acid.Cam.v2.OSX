@@ -486,3 +486,7 @@ void ac::TearDown(cv::Mat &frame) {
             dir = 1;
     }
 }
+
+void ac::TestFilter101x(cv::Mat &frame) {
+    
+}
