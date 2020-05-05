@@ -2350,6 +2350,7 @@ namespace ac {
     void CurrentDesktopRect(cv::Mat &frame);
     void TearDown(cv::Mat &frame);
     void TearUp(cv::Mat &frame);
+    void TearLeft(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
