@@ -2246,7 +2246,6 @@ namespace ac {
     void DiagnoalSquareSize(cv::Mat &frame);
     void DiagonalSquareSizeOnOff(cv::Mat &frame);
     void DiagonalSquareSizeOnOffRandom(cv::Mat &frame);
-    void DiagonalBuffer(cv::Mat &frame);
     void SlitScanGUI(cv::Mat &frame);
     void SlitScanRandom(cv::Mat &frame);
     void VideoInterlacedRandom(cv::Mat &frame);
