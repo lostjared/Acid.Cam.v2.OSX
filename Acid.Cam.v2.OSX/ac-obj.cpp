@@ -86,17 +86,19 @@ bool ac::frames_released = false;
 
 void ac::release_all_objects() {
     int total = getCurrentAllocatedFrames();
-    col_lock.lock();
-    for(unsigned int i = 0; i < all_objects.size(); ++i) {
-        if(all_objects[i] != 0) all_objects[i]->releaseFrames();
+    if(total > 0) {
+        col_lock.lock();
+        for(unsigned int i = 0; i < all_objects.size(); ++i) {
+            if(all_objects[i] != 0) all_objects[i]->releaseFrames();
+        }
+        frames_released = true;
+        std::ostringstream stream;
+        stream << "acidcam: Released: " << total << " Matrix objects...\nIf this is happening often consider increasing maxmium frames in the Preferences Window.\n";
+        std::cout<<stream.str() << "\n";
+        log_print(stream.str());
+        setAllocatedFrames(0);
+        col_lock.unlock();
     }
-    frames_released = true;
-    std::ostringstream stream;
-    stream << "acidcam: Released: " << total << " Matrix objects...\nIf this is happening often consider increasing maxmium frames in the Preferences Window.\n";
-    std::cout<<stream.str() << "\n";
-    log_print(stream.str());
-    setAllocatedFrames(0);
-    col_lock.unlock();
 }
 
 ac::HLine::HLine() : w(0), h(0) {}
