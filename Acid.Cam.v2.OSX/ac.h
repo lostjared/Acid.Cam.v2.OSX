@@ -2496,12 +2496,15 @@ namespace ac {
                     delete frames[i];
                 }
                 delete [] frames;
+                frames = 0;
             }
         }
         
         void releaseFrames() {
-            for(int i = 0; i < Size; ++i) {
-                frames[i]->release();
+            if(frames != 0) {
+                for(int i = 0; i < Size; ++i) {
+                    if(frames[i] != 0) frames[i]->release();
+                }
             }
         }
         
@@ -2536,6 +2539,7 @@ namespace ac {
                     delete frames[i];
                 }
                 delete [] frames;
+                frames = 0;
             }
             frames = new cv::Mat*[ns];
             for(int i = 0; i < ns; ++i) {
