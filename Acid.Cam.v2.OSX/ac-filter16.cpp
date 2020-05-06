@@ -462,12 +462,12 @@ void ac::MirrorFrameShuffle(cv::Mat &frame) {
         init = 1;
     }
     static unsigned int index = 0;
-    CallFilter(filter_array[index], frame);
-    ++index;
+     ++index;
     if(index > filter_array.size()-1) {
         index = 0;
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
+    CallFilter(filter_array[index], frame);
     AddInvert(frame);
 }
 
@@ -503,12 +503,12 @@ void ac::XorFrameShuffle(cv::Mat &frame) {
         std::shuffle(filter_array.begin(), filter_array.end(), rng);
         init = 1;
     }
-    CallFilter(filter_array[index], frame);
     ++index;
     if(index > filter_array.size()-1) {
         index = 0;
         std::shuffle(filter_array.begin(), filter_array.end(),rng);
     }
+    CallFilter(filter_array[index], frame);
     AddInvert(frame);
 }
 
