@@ -19,7 +19,7 @@ The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will n
 
 or use FFMPEG like this:
 
-    $ ffmpeg -i "input.file.mp4" -c:v libx265 -tag:v hvc1 -crf 18 output.file.mp4
+    $ ffmpeg -i "input.file.mp4" -c:v libx265 -tag:v hvc1 -crf 22 output.file.mp4
 
 This version shares some code with libacidcam, so sometimes, when I update the parts that are shared show up in both projects. libacidcam uses C++/OpenCV and Autotools, and this macOS program uses Objective-C++/Cocoa/OpenCV and Xcode
 This project was created in hopes of providing some entertainment, or for the Glitch artist to give you an image/video to use with other tools.
