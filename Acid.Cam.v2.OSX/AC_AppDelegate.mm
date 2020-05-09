@@ -165,8 +165,6 @@
                                                                            [self resizeWindowForCurrentVideo];
                                                                        }
                                                                        // ...then update the view and mark it as needing display
-                                                                       self.image_view.image = frame;
-                                                                       [self.image_view setNeedsDisplay:YES];
                                                                        cv::Mat img;
                                                                        img.create(imageSize.height,imageSize.width,CV_8UC4);
                                                                        glPixelStorei(GL_PACK_ALIGNMENT, (img.step & 3) ? 1 : 4);
@@ -176,6 +174,9 @@
                                                                        cv::flip(img, flipped, 0);
                                                                        cv::cvtColor(flipped, img, CV_RGBA2BGR);
                                                                        ac::setNewSyphonImage(img);
+                                                                       self.image_view.image = frame;
+                                                                       [self.image_view setNeedsDisplay:YES];
+                                                                       
                                                                    }];
                                                                }];
             
