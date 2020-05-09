@@ -58,11 +58,14 @@
     NSTimeInterval fpsStart;
     NSUInteger fpsCount;
     GCController *game_controller;
+    IBOutlet NSBox *the_box;
+    IBOutlet NSTextField *the_box_text;
+    
 }
 
 @property (assign) IBOutlet SimpleImageView *view;
 @property (readwrite, retain) NSArray *selectedServerDescriptions;
-@property (readonly) IBOutlet NSString *status; // "frameWidth x frameHeight : FPS" or "--" if no
+@property (readonly) NSString *status; // "frameWidth x frameHeight : FPS" or "--" if no
 @property (readwrite, assign) NSUInteger FPS;
 @property (readwrite, assign) NSUInteger frameWidth;
 @property (readwrite, assign) NSUInteger frameHeight;

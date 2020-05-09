@@ -192,6 +192,8 @@ namespace ac {
     extern DrawFunction custom_callback;
     extern DrawFunction plugin_func;
     extern bool release_frames;
+    extern bool syphon_in_enabled;
+    extern bool syphon_in_changed;
     // ror/rol tempaltes
     template<typename T>
     inline T ror(T x, int m){

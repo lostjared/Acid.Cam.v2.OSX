@@ -199,6 +199,7 @@ void main() {\
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    
     SyphonImage *image = self.image;
 
     BOOL changed = self.needsReshape || !NSEqualSizes(_imageSize, image.textureSize);
@@ -206,14 +207,14 @@ void main() {\
     if (self.needsReshape)
     {
         NSSize frameSize = self.renderSize;
-
         glViewport(0, 0, frameSize.width, frameSize.height);
-
         [[self openGLContext] update];
-
         self.needsReshape = NO;
     }
 
+    if(ac::syphon_in_enabled == false)
+        return;
+    
     if (image && changed)
     {
         _imageSize = image.textureSize;

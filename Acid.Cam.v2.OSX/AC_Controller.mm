@@ -1189,7 +1189,12 @@ void setEnabledProg() {
         if(ac::noRecord == false) {
             cv::Mat up;
             up = frame;
-            if(writer->isOpened()) writer->write(up);
+            if(writer->isOpened()) {
+                if((ac::syphon_in_enabled && ac::syphon_in_changed) || ac::syphon_in_enabled == false) {
+                    writer->write(up);
+                    if(ac::syphon_in_enabled == true) ac::syphon_in_changed = false;
+                }
+            }
             struct stat buf;
             stat(ac::fileName.c_str(), &buf);
             file_size = buf.st_size;
@@ -1538,7 +1543,12 @@ void setEnabledProg() {
     setFrameLabel(ftext);
     if(ac::noRecord == false) {
         
-        if(writer->isOpened() && frame_counter_speed == 0) writer->write(frame);
+        if(writer->isOpened() && frame_counter_speed == 0) {
+            if((ac::syphon_in_enabled && ac::syphon_in_changed) || ac::syphon_in_enabled == false) {
+                writer->write(frame);
+                if(ac::syphon_in_enabled) ac::syphon_in_changed = false;
+            }
+        }
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);
         file_size = buf.st_size;

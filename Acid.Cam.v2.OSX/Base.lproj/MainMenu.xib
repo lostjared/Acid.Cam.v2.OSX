@@ -6,11 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
-            <connections>
-                <outlet property="delegate" destination="494" id="495"/>
-            </connections>
-        </customObject>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="630" customClass="AC_Controller">
@@ -599,6 +595,8 @@
                 <outlet property="availableServersController" destination="cDp-VX-zHV" id="aXC-f7-QZ3"/>
                 <outlet property="glView" destination="xoh-dp-4jL" id="rl6-Jc-JA0"/>
                 <outlet property="image_view" destination="2Xe-yt-B1p" id="LVq-Uy-YFG"/>
+                <outlet property="the_box" destination="GW3-lR-UQ9" id="l7Y-WU-QQ5"/>
+                <outlet property="the_box_text" destination="OcD-Rd-FTu" id="ph0-Nv-UAH"/>
                 <outlet property="view" destination="2Xe-yt-B1p" id="m6Q-Yg-AlI"/>
                 <outlet property="window" destination="bXO-Yk-fPq" id="NlY-Xc-xvq"/>
             </connections>
@@ -854,7 +852,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="230"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="230"/>
@@ -3445,15 +3443,18 @@ Gw
                 <allowedToolbarItems/>
                 <defaultToolbarItems/>
                 <connections>
-                    <outlet property="delegate" destination="wNe-UY-Pnq" id="huz-ca-8hG"/>
+                    <outlet property="delegate" destination="wNe-UY-Pnq" id="heP-tq-dAp"/>
                 </connections>
             </toolbar>
+            <connections>
+                <outlet property="delegate" destination="494" id="Iim-PI-4rl"/>
+            </connections>
             <point key="canvasLocation" x="-439" y="206"/>
         </window>
         <customObject id="wNe-UY-Pnq" customClass="ToolbarDelegate">
             <connections>
                 <outlet property="availableServersMenu" destination="Ljo-4h-OSv" id="7ST-lC-dF3"/>
-                <outlet property="statusBox" destination="GW3-lR-UQ9" id="har-Ee-RZs"/>
+                <outlet property="statusBox" destination="GW3-lR-UQ9" id="1ku-0g-UGD"/>
             </connections>
         </customObject>
         <arrayController objectClassName="NSDictionary" editable="NO" id="cDp-VX-zHV" userLabel="Available Servers Array Controller"/>
@@ -3465,9 +3466,9 @@ Gw
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OcD-Rd-FTu" userLabel="SmallStaticText - Source: 1280 x 1020 (at 100%), 60 FPS">
-                        <rect key="frame" x="2" y="4" width="124" height="14"/>
+                        <rect key="frame" x="2" y="3" width="124" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingHead" truncatesLastVisibleLine="YES" sendsActionOnEndEditing="YES" alignment="center" title="1280 x 1020 : 60 FPS" usesSingleLineMode="YES" id="PXn-fI-wOY">
+                        <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingHead" truncatesLastVisibleLine="YES" sendsActionOnEndEditing="YES" alignment="center" title="Input Information" usesSingleLineMode="YES" id="PXn-fI-wOY">
                             <font key="font" metaFont="message" size="11"/>
                             <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3481,14 +3482,18 @@ Gw
         <popUpButton id="Ljo-4h-OSv">
             <rect key="frame" x="0.0" y="0.0" width="203" height="18"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-            <popUpButtonCell key="cell" type="squareTextured" title="empty" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="nV7-M8-UcX" id="aR3-qs-f7z">
+            <popUpButtonCell key="cell" type="squareTextured" title="empty" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="nV7-M8-UcX" id="aR3-qs-f7z">
                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                 <font key="font" metaFont="message" size="11"/>
                 <menu key="menu" title="OtherViews" id="bP7-ud-PPD">
                     <items>
-                        <menuItem title="empty" id="nV7-M8-UcX"/>
+                        <menuItem title="empty" state="on" id="nV7-M8-UcX"/>
                     </items>
                 </menu>
+                <connections>
+                    <outlet property="availableServersMenu" destination="Ljo-4h-OSv" id="EFj-3o-5VR"/>
+                    <outlet property="representedObject" destination="cDp-VX-zHV" id="ROt-G0-qyq"/>
+                </connections>
             </popUpButtonCell>
             <point key="canvasLocation" x="28" y="39"/>
         </popUpButton>

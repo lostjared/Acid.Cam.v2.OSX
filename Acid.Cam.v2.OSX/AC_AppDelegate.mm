@@ -88,9 +88,12 @@
 }
 
 - (IBAction) listen_for:(id)sender {
-    
-    [self startProgram];
-    
+    if(ac::syphon_in_enabled == false) {
+        [self startProgram];
+    } else {
+        ac::syphon_in_enabled = false;
+        [self.image_view.window orderOut:self];
+    }
 }
 
 - (void) startProgram {
@@ -100,7 +103,9 @@
     [[self.image_view window] setContentMinSize:(NSSize){400.0,300.0}];
     [[self.image_view window] setDelegate:self];
     [[self.image_view window] orderFront:self];
+    ac::syphon_in_enabled = true;
 }
+    
 
 - (NSArray *)selectedServerDescriptions
 {
@@ -115,7 +120,6 @@
         NSString *newUUID = [descriptions lastObject][SyphonServerDescriptionUUIDKey];
         BOOL uuidChange = newUUID && ![currentUUID isEqualToString:newUUID];
         selectedServerDescriptions = descriptions;
-        
         if (!newUUID || !currentUUID || uuidChange)
         {
             // Stop our current client
