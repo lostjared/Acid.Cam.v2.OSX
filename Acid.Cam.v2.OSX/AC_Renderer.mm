@@ -93,6 +93,7 @@ AC_Renderer *render_;
     glClear(GL_COLOR_BUFFER_BIT);
     if(!frame.empty() && new_frame == YES) {
         cv::Mat outval;
+        // change this to resize window instead of frame
         frame =  resizeKeepAspectRatio(frame, cv::Size(dimensions.width, dimensions.height), cv::Scalar(0,0,0));
         glDrawPixels(frame.cols, frame.rows, GL_BGR, GL_UNSIGNED_BYTE, (unsigned char *)frame.ptr());
         new_frame = NO;

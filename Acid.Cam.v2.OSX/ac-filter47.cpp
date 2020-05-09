@@ -556,12 +556,12 @@ void ac::setNewSyphonImage(cv::Mat &frame) {
 
 void ac::SyphonInputVideo(cv::Mat &frame) {
     if(syphon_in_enabled && !new_image.empty()) {
-        cv::Scalar s(255,0,0);
+        cv::Scalar s(0,0,0);
         cv::Mat copy;
         //ac_resize(new_image, copy, frame.size());
         copy = resizeRatio(new_image, frame.size(), s);
+        AddInvert(copy);
         frame = copy.clone();
-        AddInvert(frame);
         ac::syphon_in_changed = true;
     }
 }

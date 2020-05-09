@@ -220,7 +220,6 @@ void main() {\
         _imageSize = image.textureSize;
 
         NSSize frameSize = self.renderSize;
-
         NSSize scaled;
         float wr = _imageSize.width / frameSize.width;
         float hr = _imageSize.height / frameSize.height;
@@ -249,6 +248,8 @@ void main() {\
 
     if (image)
     {
+        NSSize frameSize = self.renderSize;
+
         glUseProgram(_program);
         glBindTexture(GL_TEXTURE_RECTANGLE, image.textureName);
         glBindVertexArray(_vao);
@@ -256,15 +257,16 @@ void main() {\
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_RECTANGLE, 0);
         glUseProgram(0);
+        
         cv::Mat img;
-        img.create(_imageSize.height,_imageSize.width,CV_8UC4);
+        img.create(frameSize.height, frameSize.width,CV_8UC4);
         glPixelStorei(GL_PACK_ALIGNMENT, (img.step & 3) ? 1 : 4);
-        glPixelStorei(GL_PACK_ROW_LENGTH, (GLint)img.step/img.elemSize());
+        glPixelStorei(GL_PACK_ROW_LENGTH, (int)img.step/img.elemSize());
         glReadPixels(0, 0, img.cols, img.rows, GL_RGBA, GL_UNSIGNED_BYTE, img.data);
         cv::Mat flipped;
         cv::flip(img, flipped, 0);
         cv::cvtColor(flipped, img, CV_RGBA2BGR);
-        ac::setNewSyphonImage(img);
+        ac::setNewSyphonImage(flipped);
     }
     [[self openGLContext] flushBuffer];
 }
