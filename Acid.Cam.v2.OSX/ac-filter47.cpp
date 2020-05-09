@@ -549,19 +549,30 @@ void ac::TearLeft(cv::Mat &frame) {
 bool new_image_ready = false;
 cv::Mat new_image;
 
+
+std::mutex in_lock;
+
+
 void ac::setNewSyphonImage(cv::Mat &frame) {
+    in_lock.lock();
     new_image = frame.clone();
     new_image_ready = true;
+    in_lock.unlock();
 }
 
 void ac::SyphonInputVideo(cv::Mat &frame) {
+    in_lock.lock();
     if(syphon_in_enabled && !new_image.empty()) {
         cv::Scalar s(0,0,0);
         cv::Mat copy;
         //ac_resize(new_image, copy, frame.size());
+        std::cout << "new frame: " << new_image.cols << "x" << new_image.rows << "\n";
+        std::cout << "frame: " << frame.cols << "x" << frame.rows << "\n";
         copy = resizeRatio(new_image, frame.size(), s);
+        std::cout << "copy: " << copy.cols << "x" << copy.rows << "\n";
         AddInvert(copy);
         frame = copy.clone();
         ac::syphon_in_changed = true;
     }
+    in_lock.unlock();
 }

@@ -259,13 +259,13 @@ void main() {\
         glUseProgram(0);
         
         cv::Mat img;
-        img.create(frameSize.height, frameSize.width,CV_8UC4);
+        img.create(frameSize.height, frameSize.width,CV_8UC3);
         glPixelStorei(GL_PACK_ALIGNMENT, (img.step & 3) ? 1 : 4);
         glPixelStorei(GL_PACK_ROW_LENGTH, (int)img.step/img.elemSize());
-        glReadPixels(0, 0, img.cols, img.rows, GL_RGBA, GL_UNSIGNED_BYTE, img.data);
+        glReadPixels(0, 0, img.cols, img.rows, GL_RGB, GL_UNSIGNED_BYTE, img.data);
         cv::Mat flipped;
         cv::flip(img, flipped, 0);
-        cv::cvtColor(flipped, img, CV_RGBA2BGR);
+        cv::cvtColor(flipped, img, CV_RGB2BGR);
         ac::setNewSyphonImage(flipped);
     }
     [[self openGLContext] flushBuffer];
