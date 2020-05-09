@@ -854,7 +854,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="CQX-W9-Xrg">
                             <rect key="frame" x="1" y="1" width="690" height="230"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="asC-Zi-PdA">
                                     <rect key="frame" x="0.0" y="0.0" width="690" height="230"/>
@@ -2565,7 +2565,7 @@ Gw
                         <rect key="frame" x="109" y="471" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="-" id="yQY-ia-NGn">
-                            <font key="font" metaFont="system" size="18"/>
+                            <font key="font" metaFont="label" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -2574,7 +2574,7 @@ Gw
                         <rect key="frame" x="109" y="437" width="18" height="20"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="+" id="UQs-jp-vIt">
-                            <font key="font" metaFont="system" size="18"/>
+                            <font key="font" metaFont="label" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -3472,6 +3472,9 @@ Gw
                             <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="494" name="value" keyPath="status" id="s0e-tu-gOz"/>
+                        </connections>
                     </textField>
                 </subviews>
             </view>
@@ -3481,15 +3484,19 @@ Gw
         <popUpButton id="Ljo-4h-OSv">
             <rect key="frame" x="0.0" y="0.0" width="203" height="18"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-            <popUpButtonCell key="cell" type="squareTextured" title="empty" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="nV7-M8-UcX" id="aR3-qs-f7z">
+            <popUpButtonCell key="cell" type="squareTextured" title="empty" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="nV7-M8-UcX" id="aR3-qs-f7z">
                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                 <font key="font" metaFont="message" size="11"/>
                 <menu key="menu" title="OtherViews" id="bP7-ud-PPD">
                     <items>
-                        <menuItem title="empty" id="nV7-M8-UcX"/>
+                        <menuItem title="empty" state="on" id="nV7-M8-UcX"/>
                     </items>
                 </menu>
             </popUpButtonCell>
+            <connections>
+                <binding destination="cDp-VX-zHV" name="contentValues" keyPath="arrangedObjects" id="ILA-CE-6f8"/>
+                <binding destination="cDp-VX-zHV" name="selectedIndex" keyPath="selectionIndex" previousBinding="ILA-CE-6f8" id="GTX-YT-ycN"/>
+            </connections>
             <point key="canvasLocation" x="28" y="39"/>
         </popUpButton>
     </objects>
