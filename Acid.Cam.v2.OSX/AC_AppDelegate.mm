@@ -95,7 +95,6 @@
 
 - (void) startProgram {
     [availableServersController bind:@"contentArray" toObject:[SyphonServerDirectory sharedDirectory] withKeyPath:@"servers" options:nil];
-    
     [self bind:@"selectedServerDescriptions" toObject:availableServersController withKeyPath:@"selectedObjects" options:nil];
     
     [[self.image_view window] setContentMinSize:(NSSize){400.0,300.0}];
@@ -186,10 +185,8 @@
             if (syClient == nil)
             {
                 self.image_view.image = nil;
-                
                 self.frameWidth = 0;
                 self.frameHeight = 0;
-                
                 [self.view setNeedsDisplay:YES];
             }
         }
