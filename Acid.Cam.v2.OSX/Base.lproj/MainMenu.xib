@@ -3452,7 +3452,7 @@ Gw
         </window>
         <customObject id="wNe-UY-Pnq" customClass="ToolbarDelegate">
             <connections>
-                <outlet property="availableServersMenu" destination="Ljo-4h-OSv" id="3AE-v2-VYq"/>
+                <outlet property="availableServersMenu" destination="Ljo-4h-OSv" id="7ST-lC-dF3"/>
                 <outlet property="statusBox" destination="GW3-lR-UQ9" id="har-Ee-RZs"/>
             </connections>
         </customObject>
@@ -3481,14 +3481,12 @@ Gw
         <popUpButton id="Ljo-4h-OSv">
             <rect key="frame" x="0.0" y="0.0" width="203" height="18"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-            <popUpButtonCell key="cell" type="squareTextured" title="Item 1" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aR3-qs-f7z">
+            <popUpButtonCell key="cell" type="squareTextured" title="empty" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="nV7-M8-UcX" id="aR3-qs-f7z">
                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                 <font key="font" metaFont="message" size="11"/>
                 <menu key="menu" title="OtherViews" id="bP7-ud-PPD">
                     <items>
-                        <menuItem title="Item 1" state="on" id="jal-BT-svq"/>
-                        <menuItem title="Item 2" id="Hmf-c3-mKz"/>
-                        <menuItem title="Item 3" id="nV7-M8-UcX"/>
+                        <menuItem title="empty" id="nV7-M8-UcX"/>
                     </items>
                 </menu>
             </popUpButtonCell>

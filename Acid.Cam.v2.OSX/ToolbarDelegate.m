@@ -34,6 +34,7 @@
     IBOutlet NSBox *statusBox;
 }
 
+
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
     return [NSArray arrayWithObjects:@"ServersMenuItemIdentifier",
@@ -48,9 +49,6 @@
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
 {
-    
-    NSLog(@"TEST123\n");
-    
     
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
     if ([itemIdentifier isEqualToString:@"ServersMenuItemIdentifier"])
