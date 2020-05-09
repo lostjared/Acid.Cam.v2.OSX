@@ -45,9 +45,10 @@
 #import <Syphon/Syphon.h>
 #import "AC_Renderer.h"
 #import "AC_ImageView.h"
+#import "SimpleImageView.h"
 
 
-@interface AC_AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {
+@interface AC_AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate,NSWindowDelegate> {
     NSWindow *window;
     AC_ImageView *glView;
     SyphonServer *syServer;
@@ -58,10 +59,19 @@
     NSUInteger fpsCount;
     GCController *game_controller;
 }
-@property (assign, nonatomic) NSUInteger FPS;
+
+@property (assign) IBOutlet SimpleImageView *view;
+@property (readwrite, retain) NSArray *selectedServerDescriptions;
+@property (readonly) NSString *status; // "frameWidth x frameHeight : FPS" or "--" if no server
+@property (readwrite, assign) NSUInteger FPS;
+@property (readwrite, assign) NSUInteger frameWidth;
+@property (readwrite, assign) NSUInteger frameHeight;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet AC_ImageView* glView;
 @property (retain) NSNotificationCenter *center;
+@property (assign) IBOutlet SimpleImageView *image_view;
+
 
 - (IBAction) open:(id)sender;
+- (IBAction) listen_for:(id)sender;
 @end

@@ -475,6 +475,12 @@
                                     <action selector="enableSpyhon:" target="630" id="qaH-Fw-TXD"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Input from Syphon Server" keyEquivalent="I" id="oYU-9S-bUO">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                <connections>
+                                    <action selector="listen_for:" target="494" id="iv0-Zg-cNz"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -590,8 +596,10 @@
         </menu>
         <customObject id="494" customClass="AC_AppDelegate">
             <connections>
+                <outlet property="availableServersController" destination="cDp-VX-zHV" id="VKg-Qp-cu4"/>
                 <outlet property="glView" destination="xoh-dp-4jL" id="rl6-Jc-JA0"/>
-                <outlet property="window" destination="ueZ-Gv-BFp" id="So5-bd-v2W"/>
+                <outlet property="image_view" destination="2Xe-yt-B1p" id="LVq-Uy-YFG"/>
+                <outlet property="window" destination="bXO-Yk-fPq" id="hI8-mb-LqZ"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
@@ -1211,7 +1219,7 @@
                                     <tableColumns>
                                         <tableColumn width="62.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="cCc-3o-aCy">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="State">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -1224,7 +1232,7 @@
                                         </tableColumn>
                                         <tableColumn width="50.96484375" minWidth="40" maxWidth="1000" id="ycY-ks-ZcW">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Index">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1237,7 +1245,7 @@
                                         </tableColumn>
                                         <tableColumn width="247" minWidth="40" maxWidth="1000" id="3sp-AL-JTj">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Filter">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1250,7 +1258,7 @@
                                         </tableColumn>
                                         <tableColumn width="69" minWidth="40" maxWidth="1000" id="VL2-XO-FZP">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="SubIndex">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -1263,7 +1271,7 @@
                                         </tableColumn>
                                         <tableColumn width="191.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="0g1-rF-NHB">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Sub Filter">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -1990,7 +1998,7 @@ Gw
                                     <tableColumns>
                                         <tableColumn width="50.96484375" minWidth="40" maxWidth="1000" id="NF7-Qd-O2W">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Index">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -2003,7 +2011,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn width="487" minWidth="40" maxWidth="1000" id="BeB-oO-kB9">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Filter">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="message" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
@@ -3416,5 +3424,86 @@ Gw
             </view>
             <point key="canvasLocation" x="-2469" y="-2550"/>
         </window>
+        <popUpButton id="Z9d-RH-xMe">
+            <rect key="frame" x="0.0" y="0.0" width="203" height="18"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+            <popUpButtonCell key="cell" type="squareTextured" title="Item 1" bezelStyle="texturedSquare" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aXZ-o5-1xv">
+                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                <font key="font" metaFont="message" size="11"/>
+                <menu key="menu" title="OtherViews" id="Gid-Wr-BUp">
+                    <items>
+                        <menuItem title="Item 1" state="on" id="vAE-Qe-omF"/>
+                        <menuItem title="Item 2" id="7Wn-vq-QQE"/>
+                        <menuItem title="Item 3" id="d6E-tc-WO4"/>
+                    </items>
+                </menu>
+            </popUpButtonCell>
+            <point key="canvasLocation" x="28" y="39"/>
+        </popUpButton>
+        <window title="Syphon Input" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" id="bXO-Yk-fPq">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="513" y="318" width="640" height="480"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
+            <value key="minSize" type="size" width="400" height="300"/>
+            <view key="contentView" id="hiX-LI-Zqd">
+                <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <openGLView wantsLayer="YES" fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" depthSize="16bit" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Xe-yt-B1p" customClass="SimpleImageView">
+                        <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </openGLView>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="95A3A9CD-A776-42B5-816F-4624357CCE76" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="YmR-aO-8Ys">
+                <allowedToolbarItems/>
+                <defaultToolbarItems/>
+                <connections>
+                    <outlet property="delegate" destination="wNe-UY-Pnq" id="iQO-MR-ZTG"/>
+                </connections>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="fLw-fx-e1U" id="Sc3-W7-8Mp"/>
+            </connections>
+            <point key="canvasLocation" x="140" y="346"/>
+        </window>
+        <box boxType="custom" borderType="line" title="Box" titlePosition="noTitle" id="64X-Vu-Wbn">
+            <rect key="frame" x="0.0" y="0.0" width="130" height="18"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+            <view key="contentView" id="tBe-m4-Xei">
+                <rect key="frame" x="1" y="1" width="128" height="16"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fwr-GB-LwM" userLabel="SmallStaticText - Source: 1280 x 1020 (at 100%), 60 FPS">
+                        <rect key="frame" x="2" y="1" width="124" height="14"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingHead" truncatesLastVisibleLine="YES" sendsActionOnEndEditing="YES" alignment="center" title="1280 x 1020 : 60 FPS" usesSingleLineMode="YES" id="ifu-SN-zCT">
+                            <font key="font" metaFont="message" size="11"/>
+                            <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <color key="fillColor" red="0.7019608021" green="0.7019608021" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+            <point key="canvasLocation" x="140" y="154"/>
+        </box>
+        <customObject id="wNe-UY-Pnq" customClass="ToolbarDelegate">
+            <connections>
+                <outlet property="statusBox" destination="64X-Vu-Wbn" id="zbz-8H-xcY"/>
+            </connections>
+        </customObject>
+        <customObject id="fLw-fx-e1U" userLabel="SyphonDelegate" customClass="SimpleClientAppDelegate">
+            <connections>
+                <outlet property="availableServersController" destination="cDp-VX-zHV" id="ArM-eb-YSH"/>
+                <outlet property="view" destination="2Xe-yt-B1p" id="9Cg-V1-VBd"/>
+            </connections>
+        </customObject>
+        <arrayController objectClassName="NSDictionary" editable="NO" id="cDp-VX-zHV" userLabel="Available Servers Array Controller">
+            <connections>
+                <outlet property="content" destination="fLw-fx-e1U" id="stv-wG-lpP"/>
+            </connections>
+        </arrayController>
     </objects>
 </document>

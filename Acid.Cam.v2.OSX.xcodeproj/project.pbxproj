@@ -98,6 +98,9 @@
 		7FE23DEE1E28405E00B14623 /* libblas.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DA81E28355600B14623 /* libblas.tbd */; };
 		7FE23DEF1E28405E00B14623 /* libcblas.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DA91E28355600B14623 /* libcblas.tbd */; };
 		7FE8B92222E36642005BEA55 /* ac-filter26.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FE8B92122E36642005BEA55 /* ac-filter26.cpp */; };
+		7FE8E23824665E4B00C15807 /* ToolbarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE8E23324665E4B00C15807 /* ToolbarDelegate.m */; };
+		7FE8E23B24665E4B00C15807 /* ServerDescriptionValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE8E23724665E4B00C15807 /* ServerDescriptionValueTransformer.m */; };
+		7FE8E23E24665E9600C15807 /* SimpleImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FE8E23C24665E9600C15807 /* SimpleImageView.mm */; };
 		7FEC3863213092D200EE1A3E /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */; };
 		7FEC38692130937200EE1A3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38682130937200EE1A3E /* OpenGL.framework */; };
 		7FEC38722130E97B00EE1A3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEC38702130E97A00EE1A3E /* QuartzCore.framework */; };
@@ -242,6 +245,12 @@
 		7FE23DEA1E28403C00B14623 /* libclapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libclapack.tbd; path = usr/lib/libclapack.tbd; sourceTree = SDKROOT; };
 		7FE23DEB1E28403C00B14623 /* liblapack.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblapack.tbd; path = usr/lib/liblapack.tbd; sourceTree = SDKROOT; };
 		7FE8B92122E36642005BEA55 /* ac-filter26.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter26.cpp"; path = "Acid.Cam.v2.OSX/ac-filter26.cpp"; sourceTree = "<group>"; };
+		7FE8E23124665E4B00C15807 /* ToolbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarDelegate.h; path = Acid.Cam.v2.OSX/ToolbarDelegate.h; sourceTree = "<group>"; };
+		7FE8E23224665E4B00C15807 /* ServerDescriptionValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerDescriptionValueTransformer.h; path = Acid.Cam.v2.OSX/ServerDescriptionValueTransformer.h; sourceTree = "<group>"; };
+		7FE8E23324665E4B00C15807 /* ToolbarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarDelegate.m; path = Acid.Cam.v2.OSX/ToolbarDelegate.m; sourceTree = "<group>"; };
+		7FE8E23724665E4B00C15807 /* ServerDescriptionValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerDescriptionValueTransformer.m; path = Acid.Cam.v2.OSX/ServerDescriptionValueTransformer.m; sourceTree = "<group>"; };
+		7FE8E23C24665E9600C15807 /* SimpleImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleImageView.mm; path = Acid.Cam.v2.OSX/SimpleImageView.mm; sourceTree = "<group>"; };
+		7FE8E23D24665E9600C15807 /* SimpleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleImageView.h; path = Acid.Cam.v2.OSX/SimpleImageView.h; sourceTree = "<group>"; };
 		7FEC38612130806400EE1A3E /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
 		7FEC38682130937200EE1A3E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7FEC38702130E97A00EE1A3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -321,6 +330,12 @@
 		7F9D708917DE4F35009C54DA = {
 			isa = PBXGroup;
 			children = (
+				7FE8E23D24665E9600C15807 /* SimpleImageView.h */,
+				7FE8E23C24665E9600C15807 /* SimpleImageView.mm */,
+				7FE8E23224665E4B00C15807 /* ServerDescriptionValueTransformer.h */,
+				7FE8E23724665E4B00C15807 /* ServerDescriptionValueTransformer.m */,
+				7FE8E23124665E4B00C15807 /* ToolbarDelegate.h */,
+				7FE8E23324665E4B00C15807 /* ToolbarDelegate.m */,
 				7F9D70B217DE4F7C009C54DA /* AC_Controller.h */,
 				7F9D70B317DE4F7C009C54DA /* AC_Controller.mm */,
 				7F190F8D226E305F001F4521 /* AC_SearchController.mm */,
@@ -588,6 +603,7 @@
 				7F4D4B9320E50293000248F9 /* ac-filter7.cpp in Sources */,
 				7FA7FC952289713B000EAE41 /* ac-filter21.cpp in Sources */,
 				7F30F87323BCD17800433904 /* ac-filter40.cpp in Sources */,
+				7FE8E23E24665E9600C15807 /* SimpleImageView.mm in Sources */,
 				7FEE831720C399420027A848 /* ac-alpha.cpp in Sources */,
 				7F9D70A217DE4F35009C54DA /* main.m in Sources */,
 				7F1EE0E524067E53001ED89B /* ac-filter44.cpp in Sources */,
@@ -615,6 +631,7 @@
 				7F3170D0225820DE0095C384 /* ac-filter19.cpp in Sources */,
 				7FEE832F20C45B0E0027A848 /* ac-filter4.cpp in Sources */,
 				7FCFCD06244EFAE80010B639 /* ac-filter47.cpp in Sources */,
+				7FE8E23824665E4B00C15807 /* ToolbarDelegate.m in Sources */,
 				7F2EC02823322B6200DD586E /* ac-filter31.cpp in Sources */,
 				7FA977D0241CC0ED00E17FD9 /* ac-filter45.cpp in Sources */,
 				7F28BAE022B1A46D007C4712 /* ac-filter23.cpp in Sources */,
@@ -628,6 +645,7 @@
 				7FEE832720C3DFEA0027A848 /* ac-box.cpp in Sources */,
 				7FEE831B20C39B030027A848 /* ac-particle.cpp in Sources */,
 				7F3CF9D3237879A5004017A8 /* ac-filter35.cpp in Sources */,
+				7FE8E23B24665E4B00C15807 /* ServerDescriptionValueTransformer.m in Sources */,
 				7F9AE71923E90AA400D98161 /* ac-filter43.cpp in Sources */,
 				7F9D70F217DE4F7C009C54DA /* fractal.cpp in Sources */,
 				7F190F91226E343B001F4521 /* tokenize.cpp in Sources */,

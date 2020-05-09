@@ -545,3 +545,20 @@ void ac::TearLeft(cv::Mat &frame) {
             dir = 1;
     }
 }
+
+bool new_image_ready = false;
+cv::Mat new_image;
+
+void ac::setNewSyphonImage(cv::Mat &frame) {
+    new_image = frame.clone();
+    new_image_ready = true;
+}
+
+void ac::SyphonInputVideo(cv::Mat &frame) {
+    if(!new_image.empty()) {
+        cv::Scalar s(0,0,0);
+        frame = resizeRatio(new_image, frame.size(), s);
+        new_image_ready = false;
+        AddInvert(frame);
+    }
+}

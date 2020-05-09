@@ -2350,6 +2350,8 @@ namespace ac {
     void TearDown(cv::Mat &frame);
     void TearUp(cv::Mat &frame);
     void TearLeft(cv::Mat &frame);
+    void SyphonInputVideo(cv::Mat &frame);
+    
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -2358,6 +2360,7 @@ namespace ac {
     // plugin must be implemented in project
     void plugin(cv::Mat &frame);
     // set Custom Filter callback function
+    void setNewSyphonImage(cv::Mat &frame);
     void setCustom(DrawFunction f);
     void setPlugin(DrawFunction f);
     void setProcMode(PROC_MODE_TYPE value);
