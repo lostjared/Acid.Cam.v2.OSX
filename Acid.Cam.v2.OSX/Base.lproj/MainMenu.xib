@@ -364,7 +364,7 @@
                                     <action selector="disableFilters:" target="630" id="Wyu-8w-tNw"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Reset Filters" keyEquivalent="r" id="AXb-kt-Z1x">
+                            <menuItem title="Reset Filters" keyEquivalent="z" id="AXb-kt-Z1x">
                                 <connections>
                                     <action selector="resetAllFilters:" target="630" id="xy9-Ip-tJS"/>
                                 </connections>
@@ -475,8 +475,7 @@
                                     <action selector="enableSpyhon:" target="630" id="qaH-Fw-TXD"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Input from Syphon Server" keyEquivalent="I" id="oYU-9S-bUO">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                            <menuItem title="Input from Syphon Server" keyEquivalent="r" id="oYU-9S-bUO">
                                 <connections>
                                     <action selector="listen_for:" target="494" id="iv0-Zg-cNz"/>
                                 </connections>
