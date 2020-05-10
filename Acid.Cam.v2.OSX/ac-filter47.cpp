@@ -573,3 +573,22 @@ void ac::SyphonInputVideo(cv::Mat &frame) {
     }
     in_lock.unlock();
 }
+
+void ac::DistortStretch(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    int offset_x = frame.cols;
+    int offset_y = frame.rows;
+    int off_x = rand()%500, off_y = rand()%500;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int col_x = AC_GetFX(frame.cols, i, offset_x+off_x);
+            int col_y = AC_GetFZ(frame.rows, z, offset_y+off_y);
+            if(col_x >= 0 && col_x < frame.cols && col_y >= 0 && col_y < frame.rows) {
+                cv::Vec3b pix = pixelAt(copy1, col_y, col_x);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}

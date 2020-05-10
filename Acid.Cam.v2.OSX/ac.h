@@ -2353,6 +2353,7 @@ namespace ac {
     void TearUp(cv::Mat &frame);
     void TearLeft(cv::Mat &frame);
     void SyphonInputVideo(cv::Mat &frame);
+    void DistortStretch(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);
