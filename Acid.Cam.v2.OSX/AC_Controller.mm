@@ -3487,7 +3487,7 @@ void setEnabledProg() {
     NSControlStateValue check = [check_update state];
     if(check == NSControlStateValueOff && value == 0)
         return NO;
-    __block BOOL return_val;
+    __block NSInteger return_val;
 #ifdef ENABLE_VERSION_UPDATE
     NSString *download_url = @"https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/README.md";
     NSURL *URL = [NSURL URLWithString:download_url];
