@@ -566,10 +566,7 @@ void ac::SyphonInputVideo(cv::Mat &frame) {
         cv::Scalar s(0,0,0);
         cv::Mat copy;
         //ac_resize(new_image, copy, frame.size());
-        std::cout << "new frame: " << new_image.cols << "x" << new_image.rows << "\n";
-        std::cout << "frame: " << frame.cols << "x" << frame.rows << "\n";
         copy = resizeRatio(new_image, frame.size(), s);
-        std::cout << "copy: " << copy.cols << "x" << copy.rows << "\n";
         AddInvert(copy);
         frame = copy.clone();
         ac::syphon_in_changed = true;
