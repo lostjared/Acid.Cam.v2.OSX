@@ -2355,7 +2355,7 @@ namespace ac {
     void SyphonInputVideo(cv::Mat &frame);
     void DistortStretch(cv::Mat &frame);
     void MultiVideoBlend(cv::Mat &frame);
-    
+    void MultiVideoAlphaBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
