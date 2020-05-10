@@ -597,8 +597,11 @@ std::vector<cv::VideoCapture *> capture_devices;
 std::vector<std::string> list_of_files;
 bool ac::setVideoFiles(std::vector<std::string> &v) {
     
-    if(!capture_devices.empty())
+    if(!capture_devices.empty()) {
+        for(int i = 0; i < capture_devices.size(); ++i)
+            delete capture_devices[i];
         capture_devices.erase(capture_devices.begin(), capture_devices.end());
+    }
     for(int i = 0; i < v.size(); ++i) {
         
         cv::VideoCapture *cap = new cv::VideoCapture(v[i]);
