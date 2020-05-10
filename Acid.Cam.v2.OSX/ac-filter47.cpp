@@ -592,3 +592,50 @@ void ac::DistortStretch(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+std::vector<cv::VideoCapture *> capture_devices;
+std::vector<std::string> list_of_files;
+bool ac::setVideoFiles(std::vector<std::string> &v) {
+    
+    if(!capture_devices.empty())
+        capture_devices.erase(capture_devices.begin(), capture_devices.end());
+    for(int i = 0; i < v.size(); ++i) {
+        
+        cv::VideoCapture *cap = new cv::VideoCapture(v[i]);
+        capture_devices.push_back(cap);
+    }
+    for(int i = 0; i < capture_devices.size(); ++i) {
+        if(!capture_devices[i]->isOpened())
+            return false;
+    }
+    list_of_files = v;
+    return true;
+}
+
+void ac::MultiVideoBlend(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            for(int q = 0; q < frames.size(); ++q) {
+                cv::Vec3b pixelx = pixelAt(frames[q], z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] += pixelx[j];
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

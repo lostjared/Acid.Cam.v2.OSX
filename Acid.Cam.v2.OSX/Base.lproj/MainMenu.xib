@@ -164,8 +164,10 @@
                 <outlet property="val_colorkey_r_high" destination="Led-8n-s4s" id="qQR-KB-pfb"/>
                 <outlet property="val_colorkey_r_low" destination="f9c-NS-oJ5" id="MhG-7A-aMo"/>
                 <outlet property="videoFileInput" destination="686" id="G3w-FB-gY4"/>
+                <outlet property="video_box" destination="NMy-AW-j9f" id="eXc-ed-Wcf"/>
                 <outlet property="video_file" destination="553" id="639"/>
                 <outlet property="video_height" destination="p30-pX-yXw" id="2zk-wv-gGP"/>
+                <outlet property="video_indow" destination="va0-hi-zyP" id="TJd-tU-J1B"/>
                 <outlet property="video_position" destination="rzG-vp-bWY" id="K9c-iV-hmp"/>
                 <outlet property="video_value" destination="4I5-S0-AqS" id="eD3-T0-aRN"/>
                 <outlet property="video_width" destination="Dmu-BM-fnD" id="oPY-Fc-lds"/>
@@ -539,6 +541,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showSlitScan:" target="630" id="gOP-ac-6xB"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="View Video Concat" id="qBm-0f-ohB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="openVideoConcat:" target="630" id="TNk-gh-RhV"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="View Blend Percentage" id="SUN-tr-BIw">
@@ -2564,7 +2572,7 @@ Gw
                         <rect key="frame" x="109" y="471" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="-" id="yQY-ia-NGn">
-                            <font key="font" metaFont="label" size="18"/>
+                            <font key="font" metaFont="system" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -2573,7 +2581,7 @@ Gw
                         <rect key="frame" x="109" y="437" width="18" height="20"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="+" id="UQs-jp-vIt">
-                            <font key="font" metaFont="label" size="18"/>
+                            <font key="font" metaFont="system" size="18"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -3498,5 +3506,60 @@ Gw
             </connections>
             <point key="canvasLocation" x="28" y="39"/>
         </popUpButton>
+        <window title="Video Files" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="va0-hi-zyP">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="2578" y="1575" width="460" height="101"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3200" height="1777"/>
+            <view key="contentView" id="0N6-oS-6td">
+                <rect key="frame" x="0.0" y="0.0" width="460" height="101"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NMy-AW-j9f">
+                        <rect key="frame" x="20" y="57" width="435" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="6J8-PW-9YC">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b54-1l-3io">
+                        <rect key="frame" x="14" y="13" width="65" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Lyv-1x-JgN">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addVideoFiles:" target="630" id="6IJ-I5-bcf"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fkT-rb-6Tv">
+                        <rect key="frame" x="75" y="13" width="89" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dd3-Go-Ts8">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="removeVideoFile:" target="630" id="9vP-rb-ulw"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Tg-c2-ZCq">
+                        <rect key="frame" x="354" y="13" width="104" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Set Values" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AsR-In-YQT">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setVideoFileObject:" target="630" id="AzB-yQ-IbM"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="-1324" y="-2563"/>
+        </window>
     </objects>
 </document>

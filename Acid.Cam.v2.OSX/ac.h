@@ -2354,6 +2354,7 @@ namespace ac {
     void TearLeft(cv::Mat &frame);
     void SyphonInputVideo(cv::Mat &frame);
     void DistortStretch(cv::Mat &frame);
+    void MultiVideoBlend(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);
@@ -2378,7 +2379,7 @@ namespace ac {
     int  getPixelCollection();
     bool VideoFrame(cv::Mat &frame);
     void SetDesktopRect(int x, int y, int w, int h);
-    
+    bool setVideoFiles(std::vector<std::string> &v);
     // color correction
     void MedianBlur(cv::Mat &frame, unsigned int value);
     void setBlendPercentage(const double &value);

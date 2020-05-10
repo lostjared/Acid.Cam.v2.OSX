@@ -213,6 +213,9 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSSlider *blend_percent_slider;
     IBOutlet NSWindow *blend_percent_window;
     IBOutlet NSTextField *desk_x, *desk_y, *desk_w, *desk_h;
+    IBOutlet NSWindow *video_indow;
+    IBOutlet NSComboBox *video_box;
+    
     SearchController *search_controller;
     NSMenu *user_menu;
     NSThread *proc_cv;
@@ -389,6 +392,11 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) setBlendPercent: (id) sender;
 - (IBAction) updateBlendPercent: (id) sender;
 - (IBAction) viewBlendPercentage: (id) sender;
+- (IBAction) addVideoFiles:(id)sender;
+- (IBAction) removeVideoFile: (id) sender;
+- (IBAction) resetVideoFile:(id)sender;
+- (IBAction) setVideoFileObject: (id) sender;
+- (IBAction) openVideoConcat:(id)sender;
 @end
 
 extern AC_Controller *controller;

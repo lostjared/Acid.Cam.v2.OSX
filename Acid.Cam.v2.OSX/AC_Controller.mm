@@ -582,6 +582,9 @@ void setEnabledProg() {
         }
         
         std::string filter_value = ac::draw_strings[ac::draw_offset];
+        if(filter_value == "MultiVideoBlend")
+            [video_indow orderFront:self];
+        else
         if(filter_value.find("Video") != std::string::npos) {
             [image_select orderFront:self];
             strout.str("");
@@ -2210,6 +2213,9 @@ void setEnabledProg() {
                 cv::namedWindow("Preview_Window", cv::WINDOW_NORMAL);
                 if(copy1.size().width > 0 && copy1.size().height > 0) cv::imshow("Preview_Window", copy1);
             }
+        }
+        if(filter_value == "MultiVideoBlend") {
+            [video_indow orderFront:self];
         }
     }
 }
@@ -3927,6 +3933,47 @@ void setEnabledProg() {
 
 - (IBAction) viewBlendPercentage: (id) sender {
     [blend_percent_window orderFront:self];
+}
+
+- (IBAction) addVideoFiles:(id)sender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setAllowsMultipleSelection:YES];
+    [panel setAllowedFileTypes:[NSArray arrayWithObjects:@"mov", @"mp4", @"avi", @"mkv", nil]];
+    if([panel runModal]) {
+        for(int i = 0; i < [[panel URLs] count]; ++i) {
+            NSString *s = [[[panel URLs] objectAtIndex:i] path];
+            [video_box addItemWithObjectValue:s];
+        }
+    }
+}
+- (IBAction) removeVideoFile: (id) sender {
+    
+    NSInteger index = [video_box indexOfSelectedItem];
+    if(index >= 0) {
+        [video_box removeItemAtIndex:index];
+    }
+    
+}
+- (IBAction) resetVideoFile:(id)sender {
+    
+}
+
+- (IBAction) setVideoFileObject: (id) sender {
+    std::vector<std::string> values;
+    for(NSInteger i = 0; i < [video_box numberOfItems]; ++i) {
+        std::string value = [[video_box itemObjectValueAtIndex:i] UTF8String];
+        std::cout << value << "\n";
+        values.push_back(value);
+    }
+    if(ac::setVideoFiles(values)) {
+        _NSRunAlertPanel(@"Successfuly set Objects", @"Success", @"Ok", nil, nil);
+    } else {
+        _NSRunAlertPanel(@"Failed to set files!", @"Failed", @"Ok", nil, nil);
+    }
+}
+
+- (IBAction) openVideoConcat:(id)sender {
+    [video_indow orderFront:self];
 }
 
 @end
