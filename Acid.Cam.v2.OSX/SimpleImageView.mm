@@ -265,7 +265,7 @@ void main() {\
         cv::Mat flipped;
         cv::flip(img, flipped, 0);
         cv::cvtColor(flipped, img, CV_RGB2BGR);
-        ac::setNewSyphonImage(flipped);
+        ac::setNewSyphonImage(img);
     }
     [[self openGLContext] flushBuffer];
 }
