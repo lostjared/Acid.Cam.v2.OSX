@@ -240,7 +240,6 @@ void main() {\
         };
 
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
     glClearColor(0.0, 0.0, 0.0, 1.0);

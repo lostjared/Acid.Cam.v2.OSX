@@ -932,6 +932,19 @@ void setEnabledProg() {
                 camera_active = true;
             }
             [window1 orderFront:self];
+            NSSize sz;
+            if([up4k state] == NSControlStateValueOn) {
+                value_w = (int)cap_width;
+                value_h = (int)cap_height;
+                sz.width = value_w;
+                sz.height = value_h;
+            } else {
+               int wx = capture->get(CV_CAP_PROP_FRAME_WIDTH);
+               int wy = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
+                sz.width = wx;
+                sz.height = wy;
+            }
+            [syphon_window setContentSize: sz];
             [startProg setTitle:@"Stop"];
             ac::pix.setInit(false);
         }
