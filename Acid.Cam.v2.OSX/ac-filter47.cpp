@@ -708,7 +708,6 @@ void ac::MultiVideoXor(cv::Mat &frame) {
             capture_devices[q]->open(list_of_files[q]);
         }
     }
-    double percent = 1.0/(frames.size()+1);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame, z, i);
