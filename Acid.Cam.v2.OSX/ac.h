@@ -2356,6 +2356,7 @@ namespace ac {
     void DistortStretch(cv::Mat &frame);
     void MultiVideoBlend(cv::Mat &frame);
     void MultiVideoAlphaBlend(cv::Mat &frame);
+    void MultiVideoSmooth(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

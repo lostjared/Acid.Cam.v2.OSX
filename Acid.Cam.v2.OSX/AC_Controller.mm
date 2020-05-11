@@ -582,7 +582,7 @@ void setEnabledProg() {
         }
         
         std::string filter_value = ac::draw_strings[ac::draw_offset];
-        if(filter_value == "MultiVideoBlend" || filter_value == "MultiVideoAlphaBlend")
+        if(filter_value.find("MultiVideo") != std::string::npos)
             [video_indow orderFront:self];
         else
         if(filter_value.find("Video") != std::string::npos) {
@@ -2214,7 +2214,7 @@ void setEnabledProg() {
                 if(copy1.size().width > 0 && copy1.size().height > 0) cv::imshow("Preview_Window", copy1);
             }
         }
-        if(filter_value == "MultiVideoBlend" || filter_value == "MultiVideoAlphaBlend") {
+        if(filter_value.find("MultiVideo") != std::string::npos) {
             [video_indow orderFront:self];
         }
     }

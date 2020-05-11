@@ -674,3 +674,22 @@ void ac::MultiVideoAlphaBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MultiVideoSmooth(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            collection.shiftFrames(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    Smooth(frame, &collection);
+    AddInvert(frame);
+}
