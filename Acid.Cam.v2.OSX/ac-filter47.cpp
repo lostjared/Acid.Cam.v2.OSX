@@ -560,18 +560,17 @@ void ac::setNewSyphonImage(cv::Mat &frame) {
         return;
     
     in_lock.lock();
-    if(frames_.size()<1000)
+    if((frame.rows <= 720 && frames_.size()<1500) || (frame.rows <= 1080 && frames_.size()<1000) || (frame.rows > 1080 && frames_.size()<200))
         frames_.push_back(frame);
+    
     new_image_ready = true;
     in_lock.unlock();
-    std::cout << "frames; " << frames_.size() << "\n";
 }
 
 
 void ac::setRunning(bool b) {
     program_running = b;
 }
-
 
 void ac::SyphonInputVideo(cv::Mat &frame) {
     in_lock.lock();
