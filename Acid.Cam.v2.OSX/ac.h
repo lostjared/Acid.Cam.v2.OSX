@@ -2359,6 +2359,8 @@ namespace ac {
     void MultiVideoSmooth(cv::Mat &frame);
     void MultiVideoXor(cv::Mat &frame);
     void MultiVideoFilter_SubFilter(cv::Mat &frame);
+    void FadeOnOff(cv::Mat &frame);
+    void Stereo(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

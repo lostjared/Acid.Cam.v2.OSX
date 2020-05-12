@@ -756,3 +756,49 @@ void ac::MultiVideoFilter_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FadeOnOff(cv::Mat &frame) {
+    static int colors[3] = {0};
+    static int offset = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            for(int q = 0; q < 3; ++q) {
+                pixel[q] = static_cast<unsigned char>((pixel[q] * 0.5) + (colors[q] * 0.5));
+            }
+        }
+    }
+    static int index = 0;
+    static int rand_change = 25+rand()%50;
+    colors[offset] ++;
+    ++index;
+    if(index > rand_change) {
+        index = 0;
+        colors[offset] = 0;
+        offset++;
+        if(offset > 2)
+            offset = 0;
+        rand_change = 25+rand()%50;
+    }
+    AddInvert(frame);
+}
+
+void ac::Stereo(cv::Mat &frame) {
+    cv::Mat img;
+    ac_resize(frame, img, cv::Size(frame.cols/2, frame.rows));
+    for(int z = 0; z < frame.rows; ++z) {
+        int x = 0;
+        for(int i = frame.cols/2; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix =img.at<cv::Vec3b>(z, x);
+            ++x;
+            pixel = pix;
+        }
+        for(int i = 0; i < frame.cols/2; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix =img.at<cv::Vec3b>(z, i);
+            pixel = pix;
+        }
+    }
+    AddInvert(frame);
+}
