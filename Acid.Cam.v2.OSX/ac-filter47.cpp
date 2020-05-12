@@ -721,3 +721,38 @@ void ac::MultiVideoXor(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MultiVideoFilter_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MultiVideoFilter_SubFilter")
+        return;
+    if(capture_devices.size()==0)
+        return;
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            CallFilter(subfilter, r);
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    double percent = 1.0/(frames.size()+1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            pixel[0] = (pixel[0]*percent);
+            pixel[1] = (pixel[1]*percent);
+            pixel[2] = (pixel[2]*percent);
+            for(int q = 0; q < frames.size(); ++q) {
+                cv::Vec3b pixelx = pixelAt(frames[q], z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] += (pixelx[j]*percent);
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
