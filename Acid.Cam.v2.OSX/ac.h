@@ -68,6 +68,7 @@
 #include<thread>
 #include<mutex>
 #include<chrono>
+#include<deque>
 #include"ac-filtercat.h"
 //#define ASSERT_CHECK
 //Macro for assert testing
@@ -186,7 +187,7 @@ namespace ac {
     extern bool reset_alpha;
     extern std::unordered_map<std::string, UserFilter> user_filter;
     void invert(cv::Mat &frame, int x, int y);
-    /* filter typedef */
+     /* filter typedef */
     typedef void (*DrawFunction)(cv::Mat &frame);
     typedef std::pair<std::string,DrawFunction> FilterType;
     extern DrawFunction custom_callback;
@@ -212,6 +213,8 @@ namespace ac {
         Keys() : key_type(KeyValueType::KEY_RANGE), spill(false) {}
     };
     
+    extern std::deque<cv::Mat> frames_;
+    
     enum SearchType { SEARCH_NOTFOUND=0, SEARCH_PIXEL, SEARCH_GRAY };
     enum PROC_MODE_TYPE { MOVEINOUT_INC, MOVEINOUT, MOVERESET };
     enum class IntertwineDir { HORIZONTAL, VERTICAL };
@@ -220,7 +223,7 @@ namespace ac {
     void init();
     // be sure to call this when the application starts
     void fill_filter_map();
- 
+    void setRunning(bool b);
     // resize surface preserve ratio
     cv::Mat resizeRatio(const cv::Mat &input, const cv::Size &dstSize, const cv::Scalar &bgcolor);
     

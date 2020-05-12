@@ -807,7 +807,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Prefix.pch";
 				GCC_VERSION = "";
@@ -853,7 +853,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acid.Cam.v2.OSX/Acid.Cam.v2.OSX-Prefix.pch";
 				GCC_VERSION = "";

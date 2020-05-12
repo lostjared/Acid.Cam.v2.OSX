@@ -2404,6 +2404,7 @@ std::vector<std::string> ac::buildDrawStrings() {
     return v;
 }
 
+
 bool ac::checkFilter(std::string name) {
     auto pos = user_filter.find(name);
     if(pos == user_filter.end())

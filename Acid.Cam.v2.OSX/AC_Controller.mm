@@ -624,6 +624,7 @@ void setEnabledProg() {
     [videoFileInput setEnabled:YES];
     stopCV();
     [startProg setTitle:@"Start Session"];
+    ac::setRunning(false);
 }
 
 - (IBAction) selectPlugin: (id) sender {
@@ -782,6 +783,10 @@ void setEnabledProg() {
 
 -(IBAction) startProgram: (id) sender {
     
+    if(!ac::frames_.empty()) {
+        ac::frames_.erase(ac::frames_.begin(), ac::frames_.end());
+    }
+    
     if([[startProg title] isEqualToString: @"Start Session"]) {
         if([videoFileInput integerValue] == 0 && [[[output_Type itemAtIndex:[output_Type indexOfSelectedItem]] title] isEqualToString:@"MOV - HEVC/H.265"]) {
             _NSRunAlertPanel(@"You can only use HEVC in Video mode because it takes a long time to process", @"HEVC Requires Video File", @"Ok", nil, nil);
@@ -897,13 +902,13 @@ void setEnabledProg() {
             ret_val = program_main(outputVideo, value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         if(ret_val == 0) {
             if(camera_mode == 1) {
-                renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+               renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
             }
             else {
                 renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
                 [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
             }
-            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
+            [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSRunLoopCommonModes];
         }
         restartFilter = YES;
         
@@ -950,6 +955,7 @@ void setEnabledProg() {
             [syphon_window setContentSize: sz];
             [startProg setTitle:@"Stop"];
             ac::pix.setInit(false);
+            ac::setRunning(true);
         }
     } else {
         [self stopProgram:self];
@@ -1415,6 +1421,7 @@ void setEnabledProg() {
         frame_counter_speed = 0;
         return;
     }
+        
     cv::Mat temp_frame;
     if([rotate_v state] == NSControlStateValueOn) {
         cv::flip(frame, temp_frame, 1);
@@ -1443,17 +1450,18 @@ void setEnabledProg() {
     NSInteger after = [apply_after integerValue];
     if(after == NSControlStateValueOff)
         ac::ApplyColorMap(frame);
-
     
     if([fade_filter state] == NSControlStateValueOff) {
         if(disableFilter == false && ac::testSize(frame))
-            ac::CallFilter(ac::draw_offset, frame);
+                ac::CallFilter(ac::draw_offset, frame);
     } else {
         if(current_fade_alpha >= 0) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
         } else {
-            if(disableFilter == false && ac::testSize(frame)) ac::CallFilter(ac::draw_offset, frame);
+            if(disableFilter == false && ac::testSize(frame)) {
+                ac::CallFilter(ac::draw_offset, frame);
+            }
         }
     }
     ac::frames_released = false;
@@ -1585,7 +1593,6 @@ void setEnabledProg() {
         // flush to log
         flushToLog(sout);
     }
-    
 }
 
 - (IBAction) openWebcamDialog: (id) sender {
@@ -1821,6 +1828,7 @@ void setEnabledProg() {
         [menuPaused setState:NSControlStateValueOff];
         [pause_step setEnabled:NO];
         isPaused = false;
+        ac::setRunning(true);
         _NSRunAlertPanel(@"Cannot pause in camera mode", @"Cannot pause", @"Ok", nil, nil);
         return;
     }
@@ -1830,12 +1838,14 @@ void setEnabledProg() {
         [menuPaused setState: NSControlStateValueOff];
         [pause_step setEnabled: NO];
         isPaused = false;
+        ac::setRunning(true);
         stream << "Program unpaused.\n";
         flushToLog(stream);
         
     } else {
         [menuPaused setState: NSControlStateValueOn];
         isPaused = true;
+        ac::setRunning(false);
         [pause_step setEnabled: YES];
         stream << "Program paused.\n";
         flushToLog(stream);
