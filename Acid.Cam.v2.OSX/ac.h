@@ -2364,6 +2364,7 @@ namespace ac {
     void MultiVideoFilter_SubFilter(cv::Mat &frame);
     void FadeOnOff(cv::Mat &frame);
     void Stereo(cv::Mat &frame);
+    void MultiVideoSaturateBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
