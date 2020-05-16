@@ -215,6 +215,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSTextField *desk_x, *desk_y, *desk_w, *desk_h;
     IBOutlet NSWindow *video_indow;
     IBOutlet NSComboBox *video_box;
+    IBOutlet NSMenuItem *low_res;
     
     SearchController *search_controller;
     NSMenu *user_menu;
@@ -244,6 +245,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     GCMicroGamepad *micro;
     std::string directory_path;
     BOOL use_color_range;
+    bool low_res_mode;
 }
 // classes messages
 - (void) createMenu: (NSMenu **)cat menuAll: (NSMenu **)all items: (NSMenu **)it_arr custom:(BOOL)cust adduser: (BOOL) addu;
@@ -397,6 +399,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) resetVideoFile:(id)sender;
 - (IBAction) setVideoFileObject: (id) sender;
 - (IBAction) openVideoConcat:(id)sender;
+- (IBAction) lowResMode:(id) sender;
 @end
 
 extern AC_Controller *controller;

@@ -96,6 +96,7 @@
                 <outlet property="key_tolerance" destination="K8V-2K-bHz" id="Rkt-SD-Msh"/>
                 <outlet property="label_path" destination="FRG-kI-oe7" id="reW-DC-Rcg"/>
                 <outlet property="load_settings" destination="J8u-5o-7L8" id="vGj-C6-G6r"/>
+                <outlet property="low_res" destination="DEj-cu-qd3" id="tha-Ct-v1i"/>
                 <outlet property="max_frames" destination="dXP-EX-qyQ" id="G0U-5i-2cM"/>
                 <outlet property="max_stretch_x" destination="AtR-co-5nZ" id="tvC-Iv-yZ8"/>
                 <outlet property="memory_text" destination="y0p-5U-eMS" id="eui-nH-uLr"/>
@@ -440,6 +441,13 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="cm5-dY-T9I"/>
+                            <menuItem title="Low Res Mode" id="DEj-cu-qd3">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="lowResMode:" target="630" id="uDz-Ub-vJQ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Ctw-xM-Zcf"/>
                             <menuItem title="Speed" id="FbJ-Q3-Db8">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Speed" id="V7X-PE-b5n">

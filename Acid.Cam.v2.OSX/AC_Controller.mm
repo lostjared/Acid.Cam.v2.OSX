@@ -331,7 +331,7 @@ void setEnabledProg() {
         }
         cv::ocl::Device(context.device(0));
     }
-    
+    low_res_mode = false;
     flushToLog(sout);
     ac::setThreadCount(4);
     restartFilter = NO;
@@ -1452,15 +1452,33 @@ void setEnabledProg() {
         ac::ApplyColorMap(frame);
     
     if([fade_filter state] == NSControlStateValueOff) {
-        if(disableFilter == false && ac::testSize(frame))
+        if(disableFilter == false && ac::testSize(frame)) {
+            if(low_res_mode == true) {
+                cv::Size s = frame.size();
+                cv::Mat small;
+                ac::ac_resize(frame, small, cv::Size(800, 600));
+                ac::CallFilter(ac::draw_offset, small);
+                ac::ac_resize(small, frame, s);
+            }
+            else
                 ac::CallFilter(ac::draw_offset, frame);
+
+        }
     } else {
         if(current_fade_alpha >= 0) {
             ac::filterFade(frame, (int)current_fade, ac::draw_offset, current_fade_alpha);
             current_fade_alpha -= 0.08;
         } else {
             if(disableFilter == false && ac::testSize(frame)) {
-                ac::CallFilter(ac::draw_offset, frame);
+                if(low_res_mode == true) {
+                    cv::Size s = frame.size();
+                    cv::Mat small;
+                    ac::ac_resize(frame, small, cv::Size(800, 600));
+                    ac::CallFilter(ac::draw_offset, small);
+                    ac::ac_resize(small, frame, s);
+                }
+                else
+                    ac::CallFilter(ac::draw_offset, frame);
             }
         }
     }
@@ -3982,6 +4000,18 @@ void setEnabledProg() {
 
 - (IBAction) openVideoConcat:(id)sender {
     [video_indow orderFront:self];
+}
+
+- (IBAction) lowResMode:(id) sender {
+    
+    NSInteger low_r = [low_res state];
+    if(low_r == NSControlStateValueOn) {
+        [low_res setState: NSControlStateValueOff];
+        low_res_mode = false;
+    } else {
+        [low_res setState: NSControlStateValueOn];
+        low_res_mode = true;
+    }
 }
 
 @end
