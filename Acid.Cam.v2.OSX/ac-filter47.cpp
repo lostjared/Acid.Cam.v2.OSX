@@ -834,15 +834,11 @@ void ac::MultiVideoSaturateBlend(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame, z, i);
-            int pix_values[3] = {0};
             for(int q = 0; q < frames.size(); ++q) {
                 cv::Vec3b pixelx = pixelAt(frames[q], z, i);
                 for(int j = 0; j < 3; ++j) {
-                    pix_values[j] += pixel[j];
+                    pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]+pixelx[j]);
                 }
-            }
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = cv::saturate_cast<unsigned char>(pix_values[j]);
             }
         }
     }
