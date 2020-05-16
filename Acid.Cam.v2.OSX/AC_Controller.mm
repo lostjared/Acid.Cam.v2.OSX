@@ -1456,7 +1456,7 @@ void setEnabledProg() {
             if(low_res_mode == true) {
                 cv::Size s = frame.size();
                 cv::Mat small;
-                ac::ac_resize(frame, small, cv::Size(720, 480));
+                ac::ac_resize(frame, small, cv::Size(640, 360));
                 ac::CallFilter(ac::draw_offset, small);
                 ac::ac_resize(small, frame, s);
             }
@@ -1473,7 +1473,7 @@ void setEnabledProg() {
                 if(low_res_mode == true) {
                     cv::Size s = frame.size();
                     cv::Mat small;
-                    ac::ac_resize(frame, small, cv::Size(720, 480));
+                    ac::ac_resize(frame, small, cv::Size(640, 360));
                     ac::CallFilter(ac::draw_offset, small);
                     ac::ac_resize(small, frame, s);
                 }

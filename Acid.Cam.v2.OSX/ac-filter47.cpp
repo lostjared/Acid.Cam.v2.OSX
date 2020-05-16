@@ -578,11 +578,12 @@ void ac::SyphonInputVideo(cv::Mat &frame) {
         cv::Scalar s(0,0,0);
         cv::Mat copy;
         cv::Mat &new_imagex = frames_[0];
-        //ac_resize(new_image, copy, frame.size());
-        copy = resizeRatio(new_imagex, frame.size(), s);
+        ac_resize(new_imagex, copy, frame.size());
+        //copy = resizeRatio(new_imagex, frame.size(), s);
         AddInvert(copy);
         frame = copy;
-        frames_.pop_front();
+        if(frames_.size()>0)
+            frames_.pop_front();
         ac::syphon_in_changed = true;
     }
     in_lock.unlock();
