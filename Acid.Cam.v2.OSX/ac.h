@@ -2365,6 +2365,7 @@ namespace ac {
     void FadeOnOff(cv::Mat &frame);
     void Stereo(cv::Mat &frame);
     void MultiVideoSaturateBlend(cv::Mat &frame);
+    void ImageWithKeys(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -844,3 +844,22 @@ void ac::MultiVideoSaturateBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ImageWithKeys(cv::Mat &frame) {
+    if(blend_set==true && !blend_image.empty()) {
+
+        cv::Mat reimage;
+        ac_resize(blend_image, reimage, frame.size());
+        
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(reimage, z, i);
+                if(searchColors(pixel) != SEARCH_PIXEL) {
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

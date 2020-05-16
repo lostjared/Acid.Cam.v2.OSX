@@ -2006,7 +2006,10 @@ void setEnabledProg() {
         NSString *current = [image_combo itemObjectValueAtIndex: [image_combo indexOfSelectedItem]];
         NSInteger index = [image_to_set indexOfSelectedItem];
         if(index == 0) {
+            
+            isPaused = true;
             blend_image = cv::imread([current UTF8String]);
+            isPaused = false;
             if(blend_image.empty()) {
                 _NSRunAlertPanel(@"Image Not set", @"Could Not Set Image...\n", @"Ok", nil, nil);
                 return;
