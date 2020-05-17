@@ -256,7 +256,6 @@ void main() {\
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_RECTANGLE, 0);
         glUseProgram(0);
-        
         cv::Mat img;
         img.create(frameSize.height, frameSize.width,CV_8UC3);
         glPixelStorei(GL_PACK_ALIGNMENT, (img.step & 3) ? 1 : 4);

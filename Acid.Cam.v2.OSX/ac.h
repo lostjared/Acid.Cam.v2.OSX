@@ -2366,6 +2366,8 @@ namespace ac {
     void Stereo(cv::Mat &frame);
     void MultiVideoSaturateBlend(cv::Mat &frame);
     void ImageWithKeys(cv::Mat &frame);
+    void MultiVideoColorKeyOn(cv::Mat &frame);
+    void MultiVideoColorKeyOff(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
