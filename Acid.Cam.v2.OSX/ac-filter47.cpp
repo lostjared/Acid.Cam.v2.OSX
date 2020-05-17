@@ -934,3 +934,35 @@ void ac::MultiVideoColorKeyOff(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MultiVideoMedianBlend(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int col[3] = {0};
+            for(int q = 0; q < frames.size(); ++q) {
+                cv::Vec3b pixelx = pixelAt(frames[q], z, i);
+                for(int j = 0; j < 3; ++j) {
+                    col[j] += pixelx[j];
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^col[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}

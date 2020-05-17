@@ -2368,6 +2368,7 @@ namespace ac {
     void ImageWithKeys(cv::Mat &frame);
     void MultiVideoColorKeyOn(cv::Mat &frame);
     void MultiVideoColorKeyOff(cv::Mat &frame);
+    void MultiVideoMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
