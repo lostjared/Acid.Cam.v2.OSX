@@ -1064,3 +1064,36 @@ void ac::MultiVideoAlphaMedianBlend(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MultiVideoInterlace(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    int q = 0;
+    int counter = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pixelx = pixelAt(frames[q], z, i);
+            pixel = pixelx;
+        }
+        ++counter;
+        if(counter > 3) {
+            counter = 0;
+            ++q;
+            if(q > frames.size()-1)
+                q = 0;
+        }
+    }
+    AddInvert(frame);
+}
