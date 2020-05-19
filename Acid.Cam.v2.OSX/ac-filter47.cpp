@@ -960,7 +960,6 @@ void ac::MultiVideoMedianBlend(cv::Mat &frame) {
                 }
             }
             for(int j = 0; j < 3; ++j) {
-                col[j] /= frames.size();
                 pixel[j] = pixel[j]^col[j];
             }
         }
@@ -1024,6 +1023,42 @@ void ac::MultiVideoSubtract(cv::Mat &frame) {
                 for(int j = 0; j < 3; ++j) {
                     pixel[j] -= pixelx[j];
                 }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::MultiVideoAlphaMedianBlend(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    double percent = 0.5;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            double col[3];
+            col[0] = (pixel[0]*percent);
+            col[1] = (pixel[0]*percent);
+            col[2] = (pixel[0]*percent);
+            for(int q = 0; q < frames.size(); ++q) {
+                cv::Vec3b pixelx = pixelAt(frames[q], z, i);
+                for(int j = 0; j < 3; ++j) {
+                    col[j] += (percent * pixelx[j]);
+                }
+            }
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pixel[j]^static_cast<int>(col[j]);
             }
         }
     }

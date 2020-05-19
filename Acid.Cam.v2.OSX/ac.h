@@ -2371,6 +2371,7 @@ namespace ac {
     void MultiVideoMedianBlend(cv::Mat &frame);
     void MultiVideoMirror(cv::Mat &frame);
     void MultiVideoSubtract(cv::Mat &frame);
+    void MultiVideoAlphaMedianBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
