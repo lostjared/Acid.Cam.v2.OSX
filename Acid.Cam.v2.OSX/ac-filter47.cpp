@@ -1085,14 +1085,56 @@ void ac::MultiVideoInterlace(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame, z, i);
             cv::Vec3b pixelx = pixelAt(frames[q], z, i);
-            pixel = pixelx;
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = cv::saturate_cast<unsigned char>(pixel[j]+pixelx[j]);
         }
         ++counter;
-        if(counter > 3) {
+        if(counter > 1) {
             counter = 0;
             ++q;
             if(q > frames.size()-1)
                 q = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::MultiVideoChangeLines(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    int q = rand()%frames.size();
+    int counter = 0;
+    int counter_max = 50+(rand()%250);
+    bool vid_on = false;
+    if(rand()%30==0) {
+        for(int z = 0; z < frame.rows; ++z) {
+            if(vid_on) {
+                for(int i = 0; i < frame.cols; ++i) {
+                    cv::Vec3b &pixel = pixelAt(frame, z, i);
+                    cv::Vec3b pixelx = pixelAt(frames[q], z, i);
+                    for(int j = 0; j < 3; ++j)
+                        pixel[j] = pixelx[j];
+                }
+            }
+            ++counter;
+            if(counter > counter_max) {
+                q = rand()%frames.size();
+                counter = 0;
+                counter_max = 50+rand()%250;
+                vid_on = (vid_on == true) ? false : true;
+            }
+            
         }
     }
     AddInvert(frame);
