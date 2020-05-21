@@ -1139,3 +1139,49 @@ void ac::MultiVideoChangeLines(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MultiVideoDiagPixel(cv::Mat &frame) {
+    if(capture_devices.size()==0)
+        return;
+    
+    static MatrixCollection<32> collection;
+    static int offset_i = 0;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    std::vector<cv::Mat> frames;
+    for(int q = 0; q < capture_devices.size(); ++q) {
+        cv::Mat temp;
+        if(capture_devices[q]->isOpened() && capture_devices[q]->read(temp)) {
+            cv::Mat r;
+            ac_resize(temp, r, frame.size());
+            frames.push_back(r);
+        } else {
+            capture_devices[q]->open(list_of_files[q]);
+        }
+    }
+    
+    if(offset_i > frames.size()-1)
+        offset_i = 0;
+    
+    collection.shiftFrames(frames[offset_i]);
+    static int offset = 0;
+    for(int z = 0; z < frame.rows; z += 32) {
+        for(int i = 0; i < frame.cols; i += 32) {
+            for(int x = 0; x+i < frame.cols && x < 32; ++x) {
+                for(int y = 0; z+y < frame.rows && y < 32; ++y) {
+                    cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
+                    cv::Vec3b pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                    pixel = pix;
+                }
+            }
+            ++offset;
+            if(offset > (collection.size()-1)) {
+                offset = 0;
+                ++offset_i;
+                if(offset_i > frames.size()-1)
+                    offset_i = 0;
+            }
+        }
+    }
+    AddInvert(frame);
+}

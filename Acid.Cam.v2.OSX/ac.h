@@ -2374,6 +2374,7 @@ namespace ac {
     void MultiVideoAlphaMedianBlend(cv::Mat &frame);
     void MultiVideoInterlace(cv::Mat &frame);
     void MultiVideoChangeLines(cv::Mat &frame);
+    void MultiVideoDiagPixel(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
