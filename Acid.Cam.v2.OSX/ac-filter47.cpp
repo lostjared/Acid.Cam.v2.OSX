@@ -1140,7 +1140,7 @@ void ac::MultiVideoChangeLines(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::MultiVideoDiagPixel(cv::Mat &frame) {
+void ac::MultiVideoDiagSquare(cv::Mat &frame) {
     if(capture_devices.size()==0)
         return;
     
