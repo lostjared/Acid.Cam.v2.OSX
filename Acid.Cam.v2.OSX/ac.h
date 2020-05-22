@@ -2375,6 +2375,7 @@ namespace ac {
     void MultiVideoInterlace(cv::Mat &frame);
     void MultiVideoChangeLines(cv::Mat &frame);
     void MultiVideoDiagSquare(cv::Mat &frame);
+    void ShiftLinesDown(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

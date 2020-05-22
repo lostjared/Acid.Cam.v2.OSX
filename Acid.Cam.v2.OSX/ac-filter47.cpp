@@ -1189,3 +1189,32 @@ void ac::MultiVideoDiagSquare(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ShiftLinesDown(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    int index = 0;
+    static int counter = 0;
+    static int counter_max = 32;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[index], z, i);
+            pixel = pix;
+        }
+        ++counter;
+        if(counter > counter_max) {
+            counter = 0;
+            if(rand()%50==0) {
+                counter_max += 10;
+                if(counter_max > frame.rows/4)
+                    counter_max = 32;
+            }
+            ++index;
+            if(index > collection.size()-1) {
+                index = 0;
+            }
+        }
+    }
+    AddInvert(frame);
+}
