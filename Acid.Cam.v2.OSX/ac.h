@@ -2377,6 +2377,7 @@ namespace ac {
     void MultiVideoDiagSquare(cv::Mat &frame);
     void ShiftLinesDown(cv::Mat &frame);
     void PictureStretch(cv::Mat &frame);
+    void PictureStretchPieces(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

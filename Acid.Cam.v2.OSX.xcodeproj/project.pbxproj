@@ -122,6 +122,7 @@
 		7FEE833020C45B0E0027A848 /* ac-filter3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832C20C45B0D0027A848 /* ac-filter3.cpp */; };
 		7FEE833120C45B0E0027A848 /* ac-filter2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832D20C45B0D0027A848 /* ac-filter2.cpp */; };
 		7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE833220C45B560027A848 /* ac-filter5.cpp */; };
+		7FFB05B82479E3ED00A616C5 /* ac-filter48.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB05B72479E3EC00A616C5 /* ac-filter48.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -275,6 +276,7 @@
 		7FEE832C20C45B0D0027A848 /* ac-filter3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter3.cpp"; path = "Acid.Cam.v2.OSX/ac-filter3.cpp"; sourceTree = "<group>"; };
 		7FEE832D20C45B0D0027A848 /* ac-filter2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter2.cpp"; path = "Acid.Cam.v2.OSX/ac-filter2.cpp"; sourceTree = "<group>"; };
 		7FEE833220C45B560027A848 /* ac-filter5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter5.cpp"; path = "Acid.Cam.v2.OSX/ac-filter5.cpp"; sourceTree = "<group>"; };
+		7FFB05B72479E3EC00A616C5 /* ac-filter48.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter48.cpp"; path = "Acid.Cam.v2.OSX/ac-filter48.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -401,6 +403,7 @@
 				7FA977CF241CC0EC00E17FD9 /* ac-filter45.cpp */,
 				7FD2C98524362E6300365A25 /* ac-filter46.cpp */,
 				7FCFCD05244EFAE60010B639 /* ac-filter47.cpp */,
+				7FFB05B72479E3EC00A616C5 /* ac-filter48.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -621,6 +624,7 @@
 				7F52A4AA2197358C0032CCF3 /* ac-filter12.cpp in Sources */,
 				7FEE831520C394320027A848 /* ac-obj.cpp in Sources */,
 				7FEE832E20C45B0E0027A848 /* ac-filter1.cpp in Sources */,
+				7FFB05B82479E3ED00A616C5 /* ac-filter48.cpp in Sources */,
 				7FD2C98624362E6400365A25 /* ac-filter46.cpp in Sources */,
 				7FEE831D20C39B290027A848 /* ac-grid.cpp in Sources */,
 				7FEC387C2130EB9900EE1A3E /* AC_ImageView.mm in Sources */,
