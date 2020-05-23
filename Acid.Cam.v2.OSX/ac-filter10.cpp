@@ -274,10 +274,28 @@ void ac::IntertwinedMirror(cv::Mat &frame) {
 
 void ac::BlurredMirror(cv::Mat &frame) {
     cv::Mat frame_copy;
+    cv::medianBlur(frame, frame_copy, 3);
     DarkenImage(frame_copy, 2);
     DarkenImage(frame, 2);
-    MirrorLeftTopToBottom(frame);
+    static double alpha = 1.0, alpha_max = 4.0;
+    int lines = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b values[3];
+            values[0] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, frame.cols-i-1);
+            values[1] = frame_copy.at<cv::Vec3b>(frame.rows-z-1, i);
+            values[2] = frame_copy.at<cv::Vec3b>(z, frame.cols-i-1);
+            for(int j = 0; j < 3; ++j)
+                pixel[j] = static_cast<unsigned char>((pixel[j] * (1+alpha))) ^ static_cast<unsigned char>((values[lines][j]*alpha));
+        }
+        ++lines;
+        if(lines > 2)
+            lines = 0;
+    }
     MedianBlend(frame);
+    static int dir = 1;
+    procPos(dir, alpha, alpha_max);
     AddInvert(frame);
 }
 
