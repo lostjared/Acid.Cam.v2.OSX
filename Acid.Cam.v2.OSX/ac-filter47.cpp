@@ -1218,3 +1218,30 @@ void ac::ShiftLinesDown(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PictureStretch(cv::Mat &frame) {
+
+    int index = 0;
+    cv::Mat copy1 = frame.clone();
+    int offset = 50+rand()%150;
+
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i< frame.cols; ++i) {
+            int value_offset = 0;
+            if(index == 0) {
+                value_offset = frame.cols+offset;
+                index = 1;
+            } else {
+                value_offset = frame.cols-offset;
+                index = 0;
+            }
+            int col = AC_GetFX(frame.cols, i, value_offset);
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(copy1, z, col);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
