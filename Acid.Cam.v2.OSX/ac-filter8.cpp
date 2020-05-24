@@ -1033,7 +1033,7 @@ void ac::SoftFeedbackResizeSubFilter(cv::Mat &frame) {
 
 void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
     
-    if(subfilter != -1 && ac::draw_strings[subfilter] == "SoftFeedbackResizeSubFilter64")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "SoftFeedbackResizeSubFilter64")
         return;
     
     static MatrixCollection<64> collection;
@@ -1049,9 +1049,7 @@ void ac::SoftFeedbackResizeSubFilter64(cv::Mat &frame) {
         if(offset >= 0 && offset < collection.size() && source.w > add_w && source.h > add_h) {
             cv::Mat out_frame;
             ac_resize(collection.frames[offset], out_frame, cv::Size(source.w, source.h));
-            size_t rand_test = 0;
-            if(subfilter != -1) rand_test = ac::draw_strings[subfilter].find("Rand");
-            if(testSize(out_frame) && rand_test == std::string::npos && subfilter != -1 && ac::draw_strings[subfilter] != "SoftFeedbackResizeSubFilter64") {
+            if(testSize(out_frame)) {
                 CallFilter(subfilter, out_frame);
             }
             copyMat(out_frame, 0, 0, frame, source.x, source.y, source.w, source.h);
