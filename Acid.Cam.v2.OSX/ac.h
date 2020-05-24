@@ -2378,6 +2378,7 @@ namespace ac {
     void ShiftLinesDown(cv::Mat &frame);
     void PictureStretch(cv::Mat &frame);
     void PictureStretchPieces(cv::Mat &frame);
+    void VisualSnow(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
