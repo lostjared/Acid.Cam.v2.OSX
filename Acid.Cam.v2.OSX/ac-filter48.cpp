@@ -236,3 +236,36 @@ void ac::VisualSnowX2(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::LineGlitch(cv::Mat &frame) {
+    static int length = 1;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    int counter = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+            pixel = pix;
+            ++counter;
+            if(counter > length) {
+                counter = 0;
+                ++offset;
+                if(offset > collection.size()-1)
+                    offset = 0;
+            }
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        length += 10;
+        if(length > 400)
+            dir = 0;
+    } else {
+        length -= 10;
+        if(length <= 10)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
