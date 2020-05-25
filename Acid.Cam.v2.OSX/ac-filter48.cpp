@@ -330,3 +330,49 @@ void ac::SlitReverse64_Increase(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SlitStretch(cv::Mat &frame) {
+    static int counter = 0;
+    static int index = 0;
+    static int counter_max = 2;
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int m_index = 0;
+    int offset = 50+rand()%100;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i< frame.cols; ++i) {
+            int value_offset = 0;
+            if(index == 0) {
+                value_offset = frame.cols+offset;
+            } else {
+                value_offset = frame.cols-offset;
+            }
+            int col = AC_GetFX(frame.cols, i, value_offset);
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(collection.frames[m_index], z, col);
+                pixel = pix;
+            }
+            ++counter;
+            if(counter > counter_max) {
+                counter = 0;
+                counter_max = 2;
+                index = (index == 0) ? 1 : 0;
+                m_index++;
+                if(m_index > (collection.size()-1))
+                    m_index = 0;
+            }
+        }
+        ++counter;
+        if(counter > counter_max) {
+            counter = 0;
+            counter_max = 2;
+            index = (index == 0) ? 1 : 0;
+            m_index++;
+            if(m_index > (collection.size()-1))
+                m_index = 0;
+        }
+    }
+    AddInvert(frame);
+}
