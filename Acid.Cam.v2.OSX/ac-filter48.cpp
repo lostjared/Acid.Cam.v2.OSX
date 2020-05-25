@@ -194,6 +194,45 @@ void ac::VisualSnow(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::TestFilter101x(cv::Mat &frame) {
-    
+void ac::VisualSnowX2(cv::Mat &frame) {
+    static int max = 2;
+    static int index = 0;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            int rx = rand()%max;
+            int ry = rand()%max;
+            if(index == 0) {
+                rx = -rx;
+            } else {
+                ry = -ry;
+            }
+            int offset_x = frame.cols+rx;
+            int offset_y = frame.rows+ry;
+            int col_x = AC_GetFX(frame.cols, i, offset_x);
+            int col_y = AC_GetFZ(frame.rows, z, offset_y);
+            if(col_x >= 0 && col_x < frame.cols && col_y >= 0 && col_y < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = pixelAt(copy1, col_y, col_x);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+            }
+        }
+    }
+    index = (index == 0) ? 1 : 0;
+    static int dir = 1;
+    if(dir == 1) {
+        max += 50;
+        if(max > frame.cols/4) {
+            dir = 0;
+        }
+    } else {
+        max -= 50;
+        if(max <= 10) {
+            max = 10;
+            dir = 1;
+        }
+    }
+    AddInvert(frame);
 }

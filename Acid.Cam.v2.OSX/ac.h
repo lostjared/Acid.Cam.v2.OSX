@@ -2379,7 +2379,7 @@ namespace ac {
     void PictureStretch(cv::Mat &frame);
     void PictureStretchPieces(cv::Mat &frame);
     void VisualSnow(cv::Mat &frame);
-    void TestFilter101x(cv::Mat &frame);
+    void VisualSnowX2(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
