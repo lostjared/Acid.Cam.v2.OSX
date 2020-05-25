@@ -193,3 +193,7 @@ void ac::VisualSnow(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::TestFilter101x(cv::Mat &frame) {
+    
+}
