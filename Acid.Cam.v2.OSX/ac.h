@@ -2381,6 +2381,8 @@ namespace ac {
     void VisualSnow(cv::Mat &frame);
     void VisualSnowX2(cv::Mat &frame);
     void LineGlitch(cv::Mat &frame);
+    void SlitReverse64(cv::Mat &frame);
+    void SlitReverse64_Increase(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

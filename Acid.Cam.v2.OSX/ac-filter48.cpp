@@ -269,3 +269,64 @@ void ac::LineGlitch(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SlitReverse64(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+            pixel = pix;
+        }
+        if(dir == 1) {
+            ++offset;
+            if(offset > (collection.size()-1))
+                dir = rand()%2;
+        } else {
+            --offset;
+            if(offset <= 1)
+                dir = rand()%2;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::SlitReverse64_Increase(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    static int dir = 1;
+    static int max = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+            pixel = pix;
+        }
+        if(dir == 1) {
+            ++offset;
+            if(offset > max) {
+                dir = rand()%2;
+                static int m_dir = 1;
+                if(m_dir == 1) {
+                    ++max;
+                    if(max > (collection.size()-1))
+                        m_dir = 0;
+                } else {
+                    --max;
+                    if(max <= 1)
+                        m_dir = 1;
+                }
+            }
+        } else {
+            --offset;
+            if(offset <= 1)
+                dir = rand()%2;
+            
+        }
+    }
+    AddInvert(frame);
+}
