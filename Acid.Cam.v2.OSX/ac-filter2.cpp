@@ -129,22 +129,9 @@ void ac::pixelSort(cv::Mat &frame) {
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
-    switch(rand()%5) {
-        case 0:
-            ShuffleAlpha(frame);
-            break;
-        case 1:
-            ShuffleRGB(frame);
-            break;
-        case 2:
-            ShuffleSelf(frame);
-            break;
-        case 3:
-            ShuffleMedian(frame);
-            break;
-        case 4:
-            ShuffleColorMap(frame);
-            break;
+    int index = rand()%svDistort.size();
+    if(index >= 0 && index < svDistort.size() && index != ac::draw_offset) {
+        CallFilter(svDistort[index], frame);
     }
 }
 
