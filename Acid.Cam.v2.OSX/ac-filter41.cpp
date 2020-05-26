@@ -679,9 +679,11 @@ void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
 }
 
 void ac::RandomSolo(cv::Mat &frame) {
-    int value = ac::filter_map[ac::solo_filter[rand()%solo_filter.size()]];
-    ac::CallFilter(value, frame);
-    AddInvert(frame);
+    int index = rand()%solo_filter.size();
+    if(index >= 0 && index < solo_filter.size() && index != ac::draw_offset) {
+        ac::CallFilter(solo_filter[index], frame);
+        AddInvert(frame);
+    }
 }
 
 void ac::PiecesOfFrames(cv::Mat &frame) {
@@ -695,10 +697,10 @@ void ac::PiecesOfFrames(cv::Mat &frame) {
         pix_y = frame.rows;
     }
     pix_container.reset();
-    for(int i = 0; i < collection.size(); ++i) {
+    for(int q = 0; q < collection.size(); ++q) {
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b pix = collection.frames[i].at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = collection.frames[q].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     pix_container.pix_values[i][z].col[j] += pix[j];
                 }
