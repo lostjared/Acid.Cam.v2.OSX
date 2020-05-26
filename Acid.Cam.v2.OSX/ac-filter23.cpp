@@ -181,6 +181,7 @@ void ac::PositionShift(cv::Mat &frame) {
 }
 
 void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
+    /*
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     cv::Mat frames[3];
@@ -215,7 +216,7 @@ void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
-    AddInvert(frame);
+    AddInvert(frame);*/
 }
 
 void ac::Shake(cv::Mat &frame) {

@@ -150,9 +150,11 @@ void ac::MoveInThenMoveOut(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
-            pixel = pix;
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
+                pixel = pix;
+            }
         }
         static int dir = 1;
         if(dir == 1) {
@@ -174,9 +176,11 @@ void ac::MoveInThenMoveOutFast(cv::Mat &frame) {
     for(int z = 0;  z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int col = AC_GetFX(frame.cols, i, nw);
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
-            pixel = pix;
+            if(col >= 0 && col < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, col);
+                pixel = pix;
+            }
         }
         static int dir = 1;
         if(dir == 1) {
