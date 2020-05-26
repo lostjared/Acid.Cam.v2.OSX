@@ -51,7 +51,7 @@ int pixel_collection_value = 55;
 
 namespace ac {
     int allocated_frames = 0;
-    int allocated_max = 300;
+    int allocated_max = 1500;
     bool release_frames = false;
     cv::VideoCapture v_cap;
     int color_map_color = 0;
