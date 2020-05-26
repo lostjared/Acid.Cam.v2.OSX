@@ -549,20 +549,24 @@ void ac::VariableLinesOffset(cv::Mat &frame) {
             z += offset_counter;
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
     }
     AddInvert(frame);
@@ -582,20 +586,24 @@ void ac::VaraibleLinesRectangle(cv::Mat &frame) {
             offset_counter = rand()%400;
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
     }
     AddInvert(frame);
@@ -615,16 +623,20 @@ void ac::VariableLinesRectangleSource(cv::Mat &frame) {
             offset_counter = rand()%400;
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
     }
     AddInvert(frame);
@@ -650,16 +662,20 @@ void ac::VariableLinesStartRectangle(cv::Mat &frame) {
             }
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
     }
     AddInvert(frame);
@@ -685,20 +701,24 @@ void ac::VariableLinesStartRectangleBlend(cv::Mat &frame) {
             }
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
     }
     AddInvert(frame);
@@ -725,29 +745,34 @@ void ac::VariableLinesOnOffBlend(cv::Mat &frame) {
         }
         int rand_off =  rand()%15;
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            if(rand_off <= 5) {
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(rand_off <= 5) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
                 }
+                else
+                    pixel = pix;
+                
+                ++pos;
             }
-            else
-                pixel = pix;
-            
-            ++pos;
         }
+        
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            if(rand_off <= 5) {
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(rand_off <= 5) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
                 }
+                else
+                    pixel = pix;
+                ++pos;
             }
-            else
-                pixel = pix;
-            ++pos;
         }
     }
     AddInvert(frame);
@@ -777,35 +802,41 @@ void ac::VariableCollectionLinesOffBlend(cv::Mat &frame) {
         }
         int rand_off =  rand()%15;
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            if(rand_off <= 5) {
-                pix = collection.frames[index].at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(rand_off <= 5) {
+                    pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
                 }
+                else
+                    pixel = pix;
+                
+                ++pos;
             }
-            else
-                pixel = pix;
-            
-            ++pos;
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            if(rand_off <= 5) {
-                pix = collection.frames[index].at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(rand_off <= 5) {
+                    pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
                 }
+                else
+                    pixel = pix;
+                ++pos;
             }
-            else
-                pixel = pix;
-            ++pos;
+            ++index;
+            if(index > (collection.size()-1))
+                index = 0;
         }
-        ++index;
-        if(index > (collection.size()-1))
-            index = 0;
     }
     AddInvert(frame);
 }
@@ -832,16 +863,26 @@ void ac::VariableDistortionWave(cv::Mat &frame) {
             }
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                if(index >= 0 && index < collection.size()-1) {
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                    ++pos;
+                }
+            }
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                if(index >= 0 && index < collection.size()-1) {
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                    ++pos;
+                }
+            }
         }
         if(in_dir == 1) {
             ++index;
@@ -883,16 +924,22 @@ void ac::VariableDistortionReset(cv::Mat &frame) {
             }
         }
         for(int i = offset; i < frame.cols && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
         for(int i = 0; i < offset && pos < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, pos);
-            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, pos);
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
         ++index;
         if(index > (collection.size()-1)) {
@@ -922,16 +969,22 @@ void ac::VariableLinesY(cv::Mat &frame) {
             }
         }
         for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,pos, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,pos, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
         for(int z = 0; z < offset && pos < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,pos, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,pos, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+                ++pos;
+            }
         }
     }
     AddInvert(frame);
@@ -957,20 +1010,26 @@ void ac::VariableLinesY_Blend(cv::Mat &frame) {
             }
         }
         for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,pos, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,pos, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
         for(int z = 0; z < offset && pos < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,pos, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,pos, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+                ++pos;
             }
-            ++pos;
         }
     }
     AddInvert(frame);
@@ -998,16 +1057,26 @@ void ac::VariableLinesY_Wave(cv::Mat &frame) {
             }
         }
         for(int z = offset; z < frame.rows && pos < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,pos, i);
-            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,pos, i);
+                if(index >= 0 && index < collection.size()-1) {
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                    ++pos;
+                }
+            }
         }
         for(int z = 0; z < offset && pos < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,pos, i);
-            cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-            pixel = pix;
-            ++pos;
+            if(z >= 0 && z < frame.rows && pos >= 0 && pos < frame.cols && i >= 0 && i < frame.cols) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,pos, i);
+                if(index >= 0 && index < collection.size()-1) {
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                    ++pos;
+                }
+            }
         }
         if(index_dir == 1) {
             index++;

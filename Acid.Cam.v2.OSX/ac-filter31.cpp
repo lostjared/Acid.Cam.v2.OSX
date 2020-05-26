@@ -755,8 +755,10 @@ void ac::VariableRectangles(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                pixel[offset] += rand_color;
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    pixel[offset] += rand_color;
+                }
             }
         }
         current_line += rand_height;
@@ -787,9 +789,13 @@ void ac::VariableRectanglesSimple(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
-                pixel = pix;
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    if(rand_frame < collection.size()-1) {
+                        cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                        pixel = pix;
+                    }
+                }
             }
         }
         current_line += rand_height;
@@ -820,9 +826,13 @@ void ac::VariableRectanglesExtra(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
-                pixel = pix;
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    if(rand_frame < collection.size()-1) {
+                        cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                        pixel = pix;
+                    }
+                }
             }
         }
         current_line += rand_height;
@@ -859,12 +869,16 @@ void ac::VariableRectangleImageAlphaBlend(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    cv::Vec3b img = reimage.at<cv::Vec3b>(z, i);
+                    if(rand_frame < collection.size()-1) {
+                        cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                 //pixel = pix;
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((alpha * pix[j]) + ((1-alpha) * img[j]));
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((alpha * pix[j]) + ((1-alpha) * img[j]));
+                        }
+                    }
                 }
             }
         }
@@ -944,9 +958,13 @@ void ac::VariableRectanglesLarge(cv::Mat &frame) {
             if(current_line > total_lines)
                 break;
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
-                pixel = pix;
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    if(rand_frame < collection.size()-1) {
+                        cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
+                        pixel = pix;
+                    }
+                }
             }
         }
         current_line += rand_height;
