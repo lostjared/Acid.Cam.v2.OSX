@@ -819,7 +819,7 @@ void ac::Mean(cv::Mat &frame) {
 // Laplacian - takes cv::Mat reference
 void ac::Laplacian(cv::Mat &frame) {
     cv::UMat uout, f = frame.getUMat(cv::ACCESS_FAST);
-    cv::Laplacian(f,uout, CV_8U);
+    cv::Laplacian(frame,uout, CV_8U);
     uout.copyTo(frame);
     AddInvert(frame);
 }
@@ -833,7 +833,7 @@ void ac::Bitwise_XOR(cv::Mat &frame) {
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
-    cv::bitwise_xor(frame.getUMat(cv::ACCESS_FAST), initial, output); // OpenCV function bitwise_and
+    cv::bitwise_xor(frame, initial, output); // OpenCV function bitwise_and
     initial = start.clone();// set initial to start
     frame = output.clone(); // set frame to output
     AddInvert(frame);
@@ -848,7 +848,7 @@ void ac::Bitwise_AND(cv::Mat &frame) {
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
-    cv::bitwise_and(frame.getUMat(cv::ACCESS_FAST), initial, output); // OpenCV function bitwise_and
+    cv::bitwise_and(frame, initial, output); // OpenCV function bitwise_and
     initial = start.clone();// set initial to start
     frame = output.clone(); // set frame to output
     AddInvert(frame);
@@ -862,7 +862,7 @@ void ac::Bitwise_OR(cv::Mat &frame) {
     }
     cv::Mat start = frame.clone(); // clone frame (make a copy)
     cv::Mat output = frame.clone();// output variable
-    cv::bitwise_or(frame.getUMat(cv::ACCESS_FAST), initial, output); // OpenCV function bitwise_and
+    cv::bitwise_or(frame, initial, output); // OpenCV function bitwise_and
     initial = start.clone();// set initial to start
     frame = output.clone(); // set frame to output
     AddInvert(frame);
