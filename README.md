@@ -4,6 +4,7 @@
 
 [VERSION: 2.72.0 (macOS)]
 
+
 If you want to support the development of this software (not required) you can do so here: https://lostsidedead.biz/showlove/anyamount.html
 
 Acid Cam is an Open Source project I initially began working on back in 2011. The first version of the program was written in Objective-C and worked with webcams only. The version of Acid Cam this document describes in the 2.0 series, which was rewritten from scratch in C++ with the macOS user interface being Objective-C++.
