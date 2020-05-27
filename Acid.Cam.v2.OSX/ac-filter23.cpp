@@ -181,10 +181,10 @@ void ac::PositionShift(cv::Mat &frame) {
 }
 
 void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
-    /*
+    
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    cv::Mat frames[3];
+    cv::Mat frames[4];
     frames[0] = collection.frames[1].clone();
     frames[1] = collection.frames[collection.size()/2].clone();
     frames[2] = collection.frames[collection.size()-1].clone();
@@ -192,31 +192,34 @@ void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                int values[3];
-                InitArrayPosition(values, index);
-                for(int j = 0; j < 3; ++j) {
-                    cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
-                    pixel[j] = pix[values[j]];
-                }
-                if(dir == 1) {
-                    ++index;
-                    if(index > 2) {
-                        index = 2;
-                        dir = 0;
+                if(z >= 0 && z < frame->rows && i >= 0 && i < frame->cols) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    int values[6];
+                    InitArrayPosition(values, index);
+                    for(int j = 0; j < 3; ++j) {
+                        cv::Vec3b pix = frames[j].at<cv::Vec3b>(z, i);
+                        if(values[j] >= 0 && values[j] < 3)
+                            pixel[j] = pix[values[j]];
                     }
-                } else {
-                    --index;
-                    if(index <= 0) {
-                        index = 0;
-                        dir = 1;
+                    if(dir == 1) {
+                        ++index;
+                        if(index > 2) {
+                            index = 2;
+                            dir = 0;
+                        }
+                    } else {
+                        --index;
+                        if(index <= 0) {
+                            index = 0;
+                            dir = 1;
+                        }
                     }
                 }
             }
         }
     };
     UseMultipleThreads(frame, getThreadCount(), callback);
-    AddInvert(frame);*/
+    AddInvert(frame);
 }
 
 void ac::Shake(cv::Mat &frame) {
