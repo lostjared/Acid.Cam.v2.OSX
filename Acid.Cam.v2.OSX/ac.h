@@ -2386,6 +2386,7 @@ namespace ac {
     void SlitStretch(cv::Mat &frame);
     void LineLeftRight(cv::Mat &frame);
     void LineLeftRightResize(cv::Mat &frame);
+    void SoloInOrder(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

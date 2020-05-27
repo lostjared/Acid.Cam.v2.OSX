@@ -424,4 +424,29 @@ void ac::LineLeftRightResize(cv::Mat &frame) {
             offset = 0;
     }
     AddInvert(frame);
+  
+}
+
+void ac::SoloInOrder(cv::Mat &frame) {
+    static bool off = false;
+    if(off == true) return;
+    static int index = 0;
+    static int frame_counter = 0;
+    CallFilter(ac::solo_filter[index], frame);
+    std::string name = ac::solo_filter[index];
+    static int seconds = 0;
+    ++frame_counter;
+    if(frame_counter > ac::fps) {
+        ++seconds;
+        frame_counter = 0;
+        if(seconds >= 2) {
+            seconds = 0;
+            index++;
+            if(index > ac::solo_filter.size()-1) {
+                off = true;
+                index = 0;
+            }
+        }
+    }
+    cv::putText(frame, name,cv::Point(40, 40),cv::FONT_HERSHEY_DUPLEX,1.0,CV_RGB(255, 255, 255), 2);
 }
