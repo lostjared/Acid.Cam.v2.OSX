@@ -380,18 +380,13 @@ void ac::SlitStretch(cv::Mat &frame) {
 void ac::LineLeftRight(cv::Mat &frame) {
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
-    static int index = 0;
     static int offset = 0;
     int ra = rand()%frame.cols;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             int rx = frame.cols;
             int cx = 0;
-            if(index == 0) {
-                cx = AC_GetFX(frame.cols, i, rx+ra);
-            } else {
-                cx = AC_GetFX(frame.cols, i, rx-ra);
-            }
+            cx = AC_GetFX(frame.cols, i, rx+ra);
             if(cx >= 0 && cx < frame.cols) {
                 cv::Vec3b &pixel = pixelAt(frame, z, i);
                 cv::Vec3b pix = pixelAt(collection.frames[offset], z, cx);
@@ -401,6 +396,32 @@ void ac::LineLeftRight(cv::Mat &frame) {
             ++offset;
             if(offset > (collection.size()-1))
                 offset = 0;
+    }
+    AddInvert(frame);
+}
+
+void ac::LineLeftRightResize(cv::Mat &frame) {
+    static MatrixCollection<128> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    int ra = rand()%frame.cols;
+    int rb = rand()%frame.rows;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            int rx = frame.cols;
+            int ry = frame.rows;
+            int cx = 0, cy = 0;
+            cx = AC_GetFX(frame.cols, i, rx+ra);
+            cy = AC_GetFZ(frame.rows, z, ry+rb);
+            if(cx >= 0 && cx < frame.cols && cy >= 0 && cy < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(collection.frames[offset], cy, cx);
+                pixel = pix;
+            }
+        }
+        ++offset;
+        if(offset > (collection.size()-1))
+            offset = 0;
     }
     AddInvert(frame);
 }
