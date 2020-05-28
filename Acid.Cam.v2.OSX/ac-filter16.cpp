@@ -523,14 +523,6 @@ void ac::XorMirrorBlendFrame(cv::Mat &frame) {
 void ac::ImageXorSmooth(cv::Mat &frame) {
     if(blend_set == false)
         return;
-    static MatrixCollection<32> collection1, collection2;
-    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    ShuffleImage(copy1);
-    XorFrameShuffle(copy2);
-    Smooth(copy1, &collection1);
-    Smooth(copy2, &collection2);
-    AlphaBlend(copy1, copy2, frame, 0.5);
-    AddInvert(frame);
 }
 
 void ac::SmoothSubFilter64(cv::Mat &frame) {

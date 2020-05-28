@@ -957,10 +957,12 @@ void ac::ImageSquareShrink(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
             }
         }
     }
@@ -990,10 +992,12 @@ void ac::ImageSquareShrinkFast(cv::Mat &frame) {
     ac_resize(blend_image, reimage, frame.size());
     for(int z = (frame.rows-1)-frame_offset_z; z >= frame_offset_z; --z) {
         for(int i = (frame.cols-1)-frame_offset_i; i >= frame_offset_i; --i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
             }
         }
     }

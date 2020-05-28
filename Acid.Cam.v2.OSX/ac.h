@@ -2387,6 +2387,7 @@ namespace ac {
     void LineLeftRight(cv::Mat &frame);
     void LineLeftRightResize(cv::Mat &frame);
     void SoloInOrder(cv::Mat &frame);
+    void ImageInOrder(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

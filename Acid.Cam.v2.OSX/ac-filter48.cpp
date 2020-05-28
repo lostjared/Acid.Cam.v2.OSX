@@ -450,3 +450,28 @@ void ac::SoloInOrder(cv::Mat &frame) {
     }
     cv::putText(frame, name,cv::Point(40, 40),cv::FONT_HERSHEY_DUPLEX,1.0,CV_RGB(255, 255, 255), 2);
 }
+
+void ac::ImageInOrder(cv::Mat &frame) {
+    static bool off = false;
+    if(off == true) return;
+    static int index = 0;
+    static int frame_counter = 0;
+    std::string name = ac::svImage[index];
+    std::cout << "[" << index << "," << ac::svImage.size() << "] = Calling ... " << name << "\n";
+    CallFilter(ac::svImage[index], frame);
+    static int seconds = 0;
+    ++frame_counter;
+    if(frame_counter > ac::fps) {
+        ++seconds;
+        frame_counter = 0;
+        if(seconds >= 2) {
+            seconds = 0;
+            index++;
+            if(index > ac::svImage.size()-1) {
+                off = true;
+                index = 0;
+            }
+        }
+    }
+    cv::putText(frame, name,cv::Point(40, 40),cv::FONT_HERSHEY_DUPLEX,1.0,CV_RGB(255, 255, 255), 2);
+}
