@@ -454,7 +454,7 @@ void ac::SoloInOrder(cv::Mat &frame) {
 void ac::ImageInOrder(cv::Mat &frame) {
     static bool off = false;
     if(off == true) return;
-    static int index = 0;
+    static int index = 156;
     static int frame_counter = 0;
     std::string name = ac::svImage[index];
     std::cout << "[" << index << "," << ac::svImage.size() << "] = Calling ... " << name << "\n";
