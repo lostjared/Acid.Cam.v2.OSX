@@ -181,13 +181,12 @@ void ac::PositionShift(cv::Mat &frame) {
 }
 
 void ac::ColorCollectionMovementIndex(cv::Mat &frame) {
-    
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     cv::Mat frames[4];
     frames[0] = collection.frames[1].clone();
-    frames[1] = collection.frames[collection.size()/2].clone();
-    frames[2] = collection.frames[collection.size()-1].clone();
+    frames[1] = collection.frames[4].clone();
+    frames[2] = collection.frames[7].clone();
     static int index = 0, dir = 1;
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {

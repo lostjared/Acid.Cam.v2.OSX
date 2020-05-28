@@ -51,7 +51,7 @@ namespace ac {
 #elif defined(_WIN32)
     const std::string version="2.74.0 (Windows)";
 #else
-    const std::string version="2.74.1 (Generic)";
+    const std::string version="2.74.0 (Generic)";
 #endif
     std::mutex col_lock;
     bool swapColorOn = true;
