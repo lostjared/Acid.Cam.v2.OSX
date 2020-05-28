@@ -223,11 +223,13 @@ void ac::StretchLineRowInc(cv::Mat &frame) {
     static int dir = 1;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            int nw = AC_GetFX(frame.cols, i, stretch_x);
-            if(nw >= 0 && nw < frame.cols) {
-                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
-                pixel = pix;
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                int nw = AC_GetFX(frame.cols, i, stretch_x);
+                if(nw >= 0 && nw < frame.cols && i >= 0 && i < copy1.cols && z >= 0 &&  z < copy1.rows) {
+                    cv::Vec3b pix = copy1.at<cv::Vec3b>(z, nw);
+                    pixel = pix;
+                }
             }
         }
         if(rand()%2==0) {
@@ -263,11 +265,13 @@ void ac::StretchLineColInc(cv::Mat &frame) {
     
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            int nw = AC_GetFZ(frame.rows, z, stretch_x);
-            if(nw >= 0 && nw < frame.rows) {
-                cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
-                pixel = pix;
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                int nw = AC_GetFZ(frame.rows, z, stretch_x);
+                if(nw >= 0 && nw < frame.rows) {
+                    cv::Vec3b pix = copy1.at<cv::Vec3b>(nw, i);
+                    pixel = pix;
+                }
             }
         }
         if(rand()%2==0) {
@@ -308,9 +312,11 @@ void ac::StretchRowSplit(cv::Mat &frame) {
             mat.create(frame.rows, index+spot, CV_8UC3);
             for(int zz = 0; zz < frame.rows; ++zz) {
                 for(int ii = over; ii < index+spot; ++ii) {
-                    cv::Vec3b pixel = pixelAt(frame,zz, ii+spot);
-                    cv::Vec3b &pix = mat.at<cv::Vec3b>(zz, ii);
-                    pix = pixel;
+                    if(ii+spot < frame.cols && ii >= 0 && ii < frame.cols && zz >= 0 && zz < frame.rows) {
+                        cv::Vec3b pixel = pixelAt(frame,zz, ii+spot);
+                        cv::Vec3b &pix = mat.at<cv::Vec3b>(zz, ii);
+                        pix = pixel;
+                    }
                 }
             }
             over += index+spot;
@@ -326,11 +332,13 @@ void ac::StretchRowSplit(cv::Mat &frame) {
             start_y = 0;
             for(int y = 0; y < values[i].rows; ++y) {
                 int nx = AC_GetFX(values[i].cols, pos, stretch);
-                if(nx >= 0 && nx < values[i].cols) {
+                if(nx >= 0 && nx < values[i].cols && x >= 0 && x<values[i].cols && y >= 0 && y < values[i].rows) {
                     cv::Vec3b pix =  values[i].at<cv::Vec3b>(y, nx);
-                    cv::Vec3b &pixel = pixelAt(frame,start_y, start_x);
-                    start_y++;
-                    pixel = pix;
+                    if(start_y >= 0 && start_y < frame.rows && start_x >= 0 && start_x < frame.cols) {
+                        cv::Vec3b &pixel = pixelAt(frame,start_y, start_x);
+                        start_y++;
+                        pixel = pix;
+                    }
                 }
             }
             start_x++;

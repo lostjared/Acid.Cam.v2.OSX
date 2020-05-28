@@ -568,10 +568,12 @@ void ac::FrameStretchAlphaBlend(cv::Mat &frame) {
     ac_resize(frame, copy1, cv::Size(w, h));
     for(int z = 0; z < copy1.rows; ++z) {
         for(int i = 0; i < copy1.cols; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) + static_cast<unsigned char>(pix[j] * alpha);
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows && i < copy1.cols && z < copy1.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j] * alpha) + static_cast<unsigned char>(pix[j] * alpha);
+                }
             }
         }
     }

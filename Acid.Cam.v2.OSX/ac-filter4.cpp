@@ -1132,7 +1132,7 @@ void ac::RandomFour(cv::Mat &frame) {
 void ac::BlendThree(cv::Mat &frame) {
     static double pos = 1.0, pos_max = 8.0;
     cv::Mat frames[3];
-    frames[0] = frame;
+    frames[0] = frame.clone();
     for(int j = 1; j < 3; ++j) {
         frames[j] = frame.clone();
         randomFilter(frames[j]);
