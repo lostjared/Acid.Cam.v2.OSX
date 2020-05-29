@@ -454,7 +454,7 @@ void ac::SoloInOrder(cv::Mat &frame) {
 void ac::ImageInOrder(cv::Mat &frame) {
     static bool off = false;
     if(off == true) return;
-    static int index = 156;
+    static int index = 0;
     static int frame_counter = 0;
     std::string name = ac::svImage[index];
     std::cout << "[" << index << "," << ac::svImage.size() << "] = Calling ... " << name << "\n";
@@ -474,4 +474,44 @@ void ac::ImageInOrder(cv::Mat &frame) {
         }
     }
     cv::putText(frame, name,cv::Point(40, 40),cv::FONT_HERSHEY_DUPLEX,1.0,CV_RGB(255, 255, 255), 2);
+}
+
+void ac::SubInOrder(cv::Mat &frame) {
+    static bool off = false;
+    if(off == true) return;
+    static int index = 96;
+    static int frame_counter = 0;
+    static int sub_index = 0;
+
+    std::string name = ac::vSub[index];
+    std::string sub_name = solo_filter[sub_index];
+    
+    if(name != sub_name && sub_name.find("SubFilter") == std::string::npos) {
+        std::cout << "[" << index << "," << ac::vSub.size() << "] = Calling ... " << name << "\n";
+        pushSubFilter(ac::filter_map[sub_name]);
+        CallFilter(name, frame);
+        popSubFilter();
+    }
+    
+    static int seconds = 0;
+    ++frame_counter;
+    if(frame_counter > ac::fps) {
+        ++seconds;
+        frame_counter = 0;
+        if(seconds >= 2) {
+            seconds = 0;
+            index++;
+            ++sub_index;
+            if(sub_index > solo_filter.size()-1)
+                sub_index = 0;
+
+            if(index > ac::vSub.size()-1) {
+                off = true;
+                index = 0;
+            }
+        }
+    }
+    std::ostringstream stream;
+    stream << name << " sub: " << sub_name;
+    cv::putText(frame, stream.str(),cv::Point(40, 40),cv::FONT_HERSHEY_DUPLEX,1.0,CV_RGB(255, 255, 255), 2);
 }

@@ -55,8 +55,10 @@ void ac::ExpandSquareSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = start_x; i < stop_x; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            pixel = frame_copy.at<cv::Vec3b>(z, i);
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                pixel = frame_copy.at<cv::Vec3b>(z, i);
+            }
         }
     }
     static int dir = 1;
@@ -88,10 +90,12 @@ void ac::ExpandSquareBlendSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = start_x; i < stop_x; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>(pix[j]*alpha);
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1)) ^ static_cast<unsigned char>(pix[j]*alpha);
+            }
         }
     }
     static int dir = 1;
@@ -124,8 +128,10 @@ void ac::ExpandSquareVerticalSubFilter(cv::Mat &frame) {
     CallFilter(subfilter, frame_copy);
     for(int z = 0; z < frame.cols; ++z) {
         for(int i = start_x; i < stop_x; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,i, z);
-            pixel = frame_copy.at<cv::Vec3b>(i, z);
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,i, z);
+                pixel = frame_copy.at<cv::Vec3b>(i, z);
+            }
         }
     }
     static int dir = 1;
