@@ -1282,16 +1282,18 @@ void ac::AlphaBlendArray(cv::Mat &src, cv::Mat *frames, int num_frames) {
     double amt = 1.0/num_frames;
     for(int z = 0; z < src.rows; ++z) {
         for(int i = 0; i < src.cols; ++i) {
-            cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
-            unsigned int rgb_values[3] = {0};
-            for(int q = 0; q < num_frames; ++q) {
-                cv::Vec3b value = frames[q].at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    rgb_values[j] += static_cast<unsigned char>(value[j]*amt);
+            if(i >= 0 && i < src.cols && z >= 0 && z < src.rows) {
+                cv::Vec3b &pixel = src.at<cv::Vec3b>(z, i);
+                unsigned int rgb_values[3] = {0};
+                for(int q = 0; q < num_frames; ++q) {
+                    cv::Vec3b value = frames[q].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        rgb_values[j] += static_cast<unsigned char>(value[j]*amt);
+                    }
                 }
-            }
-           for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(rgb_values[j]);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(rgb_values[j]);
+                }
             }
         }
     }
