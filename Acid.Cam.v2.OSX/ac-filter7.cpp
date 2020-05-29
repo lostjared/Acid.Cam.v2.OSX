@@ -52,16 +52,20 @@ void ac::SlideUpDown(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
+            if(i >= 0 && i < frame.cols && z >= 0 & z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
+                }
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            for(int j = 0; j < 3; ++j)
-                pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
-            
+            if(i >= 0 && i < frame.cols && z >= 0 & z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] = static_cast<unsigned char>(pixel[j]*(alpha+1));
+            }
         }
     }
     if(direction_1 == 1) {
@@ -102,15 +106,22 @@ void ac::SlideUpDownXor(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
+            if(i >= 0 && i < frame.cols && z >= 0 & z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
+                }
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            for(int j = 0; j < 3; ++j)
-                pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
+            if(i >= 0 && i < frame.cols && z >= 0 & z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(pixel[j]*(alpha+1));
+                
+            }
             
         }
     }
@@ -164,18 +175,24 @@ void ac::SlideUpDownRandom(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 3.0;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < start_1; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = frames[0].at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+            if(i >= 0 && i < frame.cols && z >= 0 & z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = frames[0].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+                }
             }
         }
         for(int z =(frame.rows-1); z > start_2; --z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = frames[1].at<cv::Vec3b>(z, i);
-            for(int j = 0; j < 3; ++j)
-                pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
-            
+            if(i >= 0 && i < frame.cols && z >= 0 & z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = frames[1].at<cv::Vec3b>(z, i);
+                for(int j = 0; j < 3; ++j)
+                    pixel[j] ^= static_cast<unsigned char>(pix[j]*alpha);
+                
+            }
         }
     }
     if(direction_1 == 1) {
@@ -276,7 +293,7 @@ void ac::SlideSubUpDownFilter(cv::Mat &frame) {
     cv::Mat frame_x;
     frame_x = frame.clone();
     if(ac::subfilter != -1) {
-        CallFilter(subfilter, frame_x); 
+        CallFilter(subfilter, frame_x);
     } else return;
     
     for(int i = 0; i < frame.cols; ++i) {
