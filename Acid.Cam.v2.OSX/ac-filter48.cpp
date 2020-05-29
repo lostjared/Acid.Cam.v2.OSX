@@ -479,7 +479,7 @@ void ac::ImageInOrder(cv::Mat &frame) {
 void ac::SubInOrder(cv::Mat &frame) {
     static bool off = false;
     if(off == true) return;
-    static int index = 294;
+    static int index = 0;
     static int frame_counter = 0;
     static int sub_index = 0;
 
