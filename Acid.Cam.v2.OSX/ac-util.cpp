@@ -649,9 +649,11 @@ void ac::filterFade(cv::Mat &frame, int filter1, int filter2, double alpha, int 
 void ac::copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const Rect &rc) {
     for(int i = 0; i < rc.w; ++i) {
         for(int z = 0; z < rc.h; ++z) {
-            cv::Vec3b &dst = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
-            cv::Vec3b srcp = src.at<cv::Vec3b>(srcrc.y+z, srcrc.x+i);
-            dst = srcp;
+            if(rc.y+z < target.rows && rc.x+i < target.cols) {
+                cv::Vec3b &dst = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
+                cv::Vec3b srcp = src.at<cv::Vec3b>(srcrc.y+z, srcrc.x+i);
+                dst = srcp;
+            }
         }
     }
 }
@@ -659,10 +661,11 @@ void ac::copyMat(const cv::Mat &src, const Rect &srcrc, cv::Mat &target, const R
 void ac::copyMat(cv::Mat &frame, const cv::Mat &cpy, int x, int y) {
     for(int i = x; i < x+cpy.cols && i < frame.cols; ++i) {
         for(int z = y; z < y+cpy.rows && z < frame.rows; ++z) {
-            ASSERT((i < frame.cols) && (z < frame.rows) && (i >= 0 && z >= 0));
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = cpy.at<cv::Vec3b>(z, i);
-            pixel = pix;
+            if((i < frame.cols) && (z < frame.rows) && (i >= 0 && z >= 0)) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = cpy.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
         }
     }
 }
@@ -690,10 +693,11 @@ void ac::copyMat(const cv::Mat &src,int src_x, int src_y ,cv::Mat &target, const
     for(int i = 0; i < rc.w; ++i) {
         for(int z = 0; z < rc.h; ++z) {
             if(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols) {
-                ASSERT(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols);
-                cv::Vec3b &pixel = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
-                cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
-                pixel = src_pixel;
+                if(src_y+z < src.rows && src_x+i < src.cols && rc.y+z < target.rows && rc.x+i < target.cols) {
+                    cv::Vec3b &pixel = target.at<cv::Vec3b>(rc.y+z, rc.x+i);
+                    cv::Vec3b src_pixel = src.at<cv::Vec3b>(src_y+z, src_x+i);
+                    pixel = src_pixel;
+                }
             }
         }
     }

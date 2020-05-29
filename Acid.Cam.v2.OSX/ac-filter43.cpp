@@ -164,10 +164,12 @@ void ac::SquareOffsetLess_SubFilter(cv::Mat &frame) {
     int stop_y = rand()%frame.rows;
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = start_y; z < stop_y; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            if(on == true) {
-                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
-                pixel = pix;
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                if(on == true) {
+                    cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                }
             }
         }
         ++counter;
@@ -195,10 +197,12 @@ void ac::SquareOffset_SubFilter(cv::Mat &frame) {
     int stop_x = rand()%frame.cols;
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = start_x; i < stop_x; ++i) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            if(on == true) {
-                cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
-                pixel = pix;
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                if(on == true) {
+                    cv::Vec3b pix = frame_copy.at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                }
             }
         }
         ++counter;
