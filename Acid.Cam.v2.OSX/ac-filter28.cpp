@@ -894,21 +894,29 @@ void ac::ImageMirror_Down(cv::Mat &frame) {
     int halfway = (frame.rows/2);
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
-            ASSERT(frame.rows-z-1 > 0);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+                if(frame.rows-z-1 > 0) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
             }
         }
     }
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            ASSERT(frame.rows-z-1 > 0);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(frame.rows-z-1 > 0) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
             }
         }
     }

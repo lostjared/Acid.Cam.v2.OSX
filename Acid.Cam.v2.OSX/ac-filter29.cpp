@@ -66,21 +66,28 @@ void ac::ImageMirror_DownSubFilter(cv::Mat &frame) {
     int halfway = (frame.rows/2);
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = 0; z < halfway; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
-            ASSERT(frame.rows-z-1 > 0);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(frame.rows-z-1, i);
+                if(frame.rows-z-1 > 0) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
             }
         }
     }
     for(int i = 0; i < frame.cols; ++i) {
         for(int z = halfway; z < frame.rows; ++z) {
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
-            ASSERT(frame.rows-z-1 > 0);
-            for(int j = 0; j < 3; ++j) {
-                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                cv::Vec3b pix = copy1.at<cv::Vec3b>(z, i);
+                if(frame.rows-z-1 > 0) {
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
             }
         }
     }
@@ -137,15 +144,16 @@ void ac::GhostMirrorReversed(cv::Mat &frame) {
     cv::flip(temp, reimage, 1);
     static double alpha = 1.0;
     static int dir = 1;
-    
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b opix = pixelAt(orig_frame,z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
+                if(i >= 0 && i < frame->cols && z >= 0 && z < frame->rows) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                    cv::Vec3b opix = pixelAt(orig_frame,z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
+                    }
                 }
             }
         }
