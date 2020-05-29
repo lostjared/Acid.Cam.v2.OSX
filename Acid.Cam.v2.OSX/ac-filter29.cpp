@@ -175,11 +175,15 @@ void ac::GhostMirrorFade(cv::Mat &frame) {
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
-                cv::Vec3b opix = pixelAt(orig_frame,z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
+                if(i >= 0 && i < frame->cols && z >= 0 && z < frame->rows) {
+                    if(i >= 0 && i < reimage.cols && z >= 0 && z < reimage.rows && i >= 0 && i < orig_frame.cols && z >= 0 && z < orig_frame.rows) {
+                        cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                        cv::Vec3b img_pix = reimage.at<cv::Vec3b>(z, i);
+                        cv::Vec3b opix = pixelAt(orig_frame,z, i);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>(((alpha/2) * pixel[j]) + ((alpha/2) * opix[j]) + ((1-alpha) * img_pix[j]));
+                        }
+                    }
                 }
             }
         }
