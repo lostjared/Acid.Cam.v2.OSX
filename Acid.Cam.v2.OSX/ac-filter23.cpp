@@ -951,7 +951,7 @@ void ac::AlphaBlendArrayRandom(cv::Mat &frame) {
         Random_Filter(frames[i]);
         BlendWithSource25(frames[i]);
     }
-    AlphaBlendArray(frame, frames, 4);
+    AlphaBlendArray(frame, frames, 3);
     AddInvert(frame);
 }
 
