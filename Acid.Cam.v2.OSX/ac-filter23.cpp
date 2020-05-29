@@ -945,7 +945,7 @@ void ac::AlphaBlendWithThreeCollections(cv::Mat &frame) {
 }
 
 void ac::AlphaBlendArrayRandom(cv::Mat &frame) {
-    cv::Mat frames[4];
+    cv::Mat frames[6];
     for(int i = 0; i < 4; ++i) {
         frames[i] = frame.clone();
         Random_Filter(frames[i]);
