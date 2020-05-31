@@ -568,6 +568,6 @@ void ac::RGBCollectionBlend(cv::Mat &frame) {
     if(off_z > (collection.size()-1))
         off_z = 0;
     
-    
+    BlendWithSource25(frame);
     AddInvert(frame);
 }
