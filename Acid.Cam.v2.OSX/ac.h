@@ -3339,9 +3339,7 @@ namespace ac {
         int r = 3+rand()%7;
         for(int i = 0; i < r; ++i)
             MedianBlur(frame);
-
         collection->shiftFrames(frame);
-        
         static int position = 2;
         static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
             for(int z = offset; z <  offset+size; ++z) {
