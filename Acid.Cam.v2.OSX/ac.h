@@ -2392,6 +2392,8 @@ namespace ac {
     void RGBLineTrails(cv::Mat &frame);
     void RGBCollectionBlend(cv::Mat &frame);
     void RGBCollectionIncrease(cv::Mat &frame);
+    void RGBCollectionEx(cv::Mat &frame);
+    void RGBLongTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

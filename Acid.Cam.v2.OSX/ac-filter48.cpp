@@ -601,3 +601,92 @@ void ac::RGBCollectionIncrease(cv::Mat &frame) {
         off_z = 0;
     AddInvert(frame);
 }
+
+void ac::RGBCollectionEx(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset_i = frame.cols, offset_z = frame.rows;
+    static int index = 0;
+    static int off_x = 0, off_y = 1, off_z = 2;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b rgb[6];
+            int cx = AC_GetFX(frame.cols, i, offset_i+index);
+            int cy = AC_GetFZ(frame.rows, z, offset_z+index);
+            
+            if(cy >= 0 && cy < frame.rows && cx >= 0 && cx < frame.cols) {
+                rgb[0] = collection.frames[1].at<cv::Vec3b>(cy, cx);
+                rgb[1] = collection.frames[15].at<cv::Vec3b>(cy, cx);
+                rgb[2] = collection.frames[31].at<cv::Vec3b>(cy, cx);
+                pixel[0] = rgb[off_x][0];
+                pixel[1] = rgb[off_y][1];
+                pixel[2] = rgb[off_z][2];
+            }
+        }
+    }
+    ++off_x;
+    ++off_y;
+    ++off_z;
+    if(off_x > 2)
+        off_x = 0;
+    
+    if(off_y > 2)
+        off_y = 0;
+    
+    if(off_z > 2)
+        off_z = 0;
+    static int dir = 1;
+    if(dir == 1) {
+        ++index;
+        if(index > frame.cols*2)
+            dir = 0;
+    } else {
+        --index;
+        if(index <= 1)
+            dir = 1;
+    }
+    AddInvert(frame);
+}
+
+void ac::RGBLongTrails(cv::Mat &frame) {
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    static int off_x = 0, off_y = 1, off_z = 2, off_x1 = 3, off_y1 = 4, off_z1 = 5;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b rgb[8];
+            rgb[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            rgb[1] = collection.frames[16].at<cv::Vec3b>(z, i);
+            rgb[2] = collection.frames[31].at<cv::Vec3b>(z, i);
+            rgb[3] = collection.frames[47].at<cv::Vec3b>(z, i);
+            rgb[4] = collection.frames[56].at<cv::Vec3b>(z, i);
+            rgb[5] = collection.frames[63].at<cv::Vec3b>(z, i);
+            pixel[0] = static_cast<unsigned char>((0.5 * rgb[off_x][0]) + (0.5 * rgb[off_x1][0]));
+            pixel[1] = static_cast<unsigned char>((0.5 * rgb[off_y][1]) + (0.5 * rgb[off_y1][1]));
+            pixel[2] = static_cast<unsigned char>((0.5 * rgb[off_z][2]) + (0.5 * rgb[off_z1][2]));
+        }
+    }
+    ++off_x;
+    ++off_y;
+    ++off_z;
+    ++off_x1;
+    ++off_y1;
+    ++off_z1;
+    
+    if(off_x > 2)
+        off_x = 0;
+    if(off_y > 2)
+        off_y = 0;
+    if(off_z > 2)
+        off_z = 0;
+    if(off_x1 > 5)
+        off_x1 = 3;
+    if(off_y1 > 5)
+        off_y1 = 3;
+    if(off_z1 > 5)
+        off_z1 = 3;
+    
+    AddInvert(frame);
+}
