@@ -571,3 +571,33 @@ void ac::RGBCollectionBlend(cv::Mat &frame) {
     BlendWithSource25(frame);
     AddInvert(frame);
 }
+
+void ac::RGBCollectionIncrease(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int off_x = 0, off_y = 1, off_z = 2;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b rgb[6];
+            rgb[0] = collection.frames[1].at<cv::Vec3b>(z, i);
+            rgb[1] = collection.frames[8].at<cv::Vec3b>(z, i);
+            rgb[2] = collection.frames[14].at<cv::Vec3b>(z, i);
+            pixel[0] = rgb[off_x][0];
+            pixel[1] = rgb[off_y][1];
+            pixel[2] = rgb[off_z][2];
+        }
+    }
+    ++off_x;
+    ++off_y;
+    ++off_z;
+    if(off_x > 2)
+        off_x = 0;
+    
+    if(off_y > 2)
+        off_y = 0;
+    
+    if(off_z > 2)
+        off_z = 0;
+    AddInvert(frame);
+}
