@@ -2390,6 +2390,7 @@ namespace ac {
     void ImageInOrder(cv::Mat &frame);
     void SubInOrder(cv::Mat &frame);
     void RGBLineTrails(cv::Mat &frame);
+    void RGBCollectionBlend(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

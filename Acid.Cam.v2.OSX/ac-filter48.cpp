@@ -538,3 +538,36 @@ void ac::RGBLineTrails(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::RGBCollectionBlend(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int off_x = 0, off_y = 8, off_z = 14;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b rgb[3];
+            rgb[0] = collection.frames[off_x].at<cv::Vec3b>(z, i);
+            rgb[1] = collection.frames[off_y].at<cv::Vec3b>(z, i);
+            rgb[2] = collection.frames[off_z].at<cv::Vec3b>(z, i);
+            pixel[0] = rgb[0][0];
+            pixel[1] = rgb[1][1];
+            pixel[2] = rgb[2][2];
+        }
+    }
+    ++off_x;
+    ++off_y;
+    ++off_z;
+    
+    if(off_x > (collection.size()-1))
+        off_x = 0;
+   
+    if(off_y > (collection.size()-1))
+        off_y = 0;
+    
+    if(off_z > (collection.size()-1))
+        off_z = 0;
+    
+    
+    AddInvert(frame);
+}
