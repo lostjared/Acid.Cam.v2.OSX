@@ -515,3 +515,26 @@ void ac::SubInOrder(cv::Mat &frame) {
     stream << name << " sub: " << sub_name;
     cv::putText(frame, stream.str(),cv::Point(40, 40),cv::FONT_HERSHEY_DUPLEX,1.0,CV_RGB(255, 255, 255), 2);
 }
+
+void ac::RGBLineTrails(cv::Mat &frame) {
+    static MatrixCollection<12> collection;
+    collection.shiftFrames(frame);
+    int offset = 0;
+    static int index = 0;
+    for(int z = 0; z  < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+            pixel[index] = pix[index];
+            
+        }
+        ++offset;
+        if(offset > (collection.size()-1))
+            offset = 0;
+    }
+    ++index;
+    if(index > 2)
+        index = 0;
+    
+    AddInvert(frame);
+}
