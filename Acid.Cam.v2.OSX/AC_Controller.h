@@ -400,6 +400,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
 - (IBAction) setVideoFileObject: (id) sender;
 - (IBAction) openVideoConcat:(id)sender;
 - (IBAction) lowResMode:(id) sender;
+- (IBAction) copyFilterUsed:(id) sender;
 @end
 
 extern AC_Controller *controller;

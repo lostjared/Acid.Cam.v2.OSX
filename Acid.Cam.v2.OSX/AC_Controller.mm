@@ -3391,6 +3391,39 @@ void setEnabledProg() {
     flushToLog(stream1);
 }
 
+- (IBAction) copyFilterUsed:(id) sender {
+    std::ostringstream stream;
+    NSInteger count = [custom_array count];
+    if(count == 0) return;
+    for(int i = 0; i < count; ++i) {
+        NSNumber *num1 = [custom_array objectAtIndex: i];
+        NSNumber *num2 = [custom_subfilters objectAtIndex: i];
+        NSInteger val1 = [num1 integerValue];
+        NSInteger val2 = [num2 integerValue];
+        if(val2 == -1) {
+            stream << ac::draw_strings[val1];
+        } else {
+            stream << ac::draw_strings[val1] << ":" << ac::draw_strings[val2];
+        }
+        
+        if(i == count-1)
+            continue;
+        else
+            stream << ", ";
+        
+    }
+    if(stream.str().length() == 0)
+        return;
+    NSString *cmd_str = [NSString stringWithUTF8String:stream.str().c_str()];
+    [[NSPasteboard generalPasteboard] clearContents];
+    [[NSPasteboard generalPasteboard] setString:cmd_str forType:NSPasteboardTypeString];
+    _NSRunAlertPanel(@"Copied String Text for Acid Cam ACF to Clipboard", cmd_str, @"Ok", nil, nil);
+    std::ostringstream stream1;
+    stream1 << "Custom Filter is: " << stream.str().c_str() << "\n";
+    flushToLog(stream1);
+}
+
+
 - (IBAction) insertFilter: (id) sender {
     NSInteger index = [current_filter_custom indexOfSelectedItem];
     if(index >= 0) {

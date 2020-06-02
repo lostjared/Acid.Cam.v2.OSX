@@ -308,7 +308,13 @@
                             <menuItem title="Copy Custom Filter String" id="FYH-xq-UXa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="copyCustomToString:" target="630" id="dm2-12-GLo"/>
+                                    <action selector="copyCustomToString:" target="630" id="T0b-rM-dEX"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy Custom Filter Text" id="E8p-ES-AJ1">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="copyFilterUsed:" target="630" id="yN8-K1-tPZ"/>
                                 </connections>
                             </menuItem>
                         </items>
