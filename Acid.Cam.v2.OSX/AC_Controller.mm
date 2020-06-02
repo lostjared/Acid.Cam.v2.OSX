@@ -3417,7 +3417,7 @@ void setEnabledProg() {
     NSString *cmd_str = [NSString stringWithUTF8String:stream.str().c_str()];
     [[NSPasteboard generalPasteboard] clearContents];
     [[NSPasteboard generalPasteboard] setString:cmd_str forType:NSPasteboardTypeString];
-    _NSRunAlertPanel(@"Copied String Text for Acid Cam ACF to Clipboard", cmd_str, @"Ok", nil, nil);
+    _NSRunAlertPanel(@"Copied String Text for ACF (Acid Cam Custom Filter) to Clipboard: ", cmd_str, @"Ok", nil, nil);
     std::ostringstream stream1;
     stream1 << "Custom Filter is: " << stream.str().c_str() << "\n";
     flushToLog(stream1);
