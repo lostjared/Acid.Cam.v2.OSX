@@ -3395,6 +3395,9 @@ void setEnabledProg() {
     std::ostringstream stream;
     NSInteger count = [custom_array count];
     if(count == 0) return;
+    
+    stream << "ACF: ";
+    
     for(int i = 0; i < count; ++i) {
         NSNumber *num1 = [custom_array objectAtIndex: i];
         NSNumber *num2 = [custom_subfilters objectAtIndex: i];
@@ -3419,7 +3422,7 @@ void setEnabledProg() {
     [[NSPasteboard generalPasteboard] setString:cmd_str forType:NSPasteboardTypeString];
     _NSRunAlertPanel(@"Copied String Text for ACF (Acid Cam Custom Filter) to Clipboard: ", cmd_str, @"Ok", nil, nil);
     std::ostringstream stream1;
-    stream1 << "Custom Filter is: " << stream.str().c_str() << "\n";
+    stream1 << "ACF is: " << stream.str().c_str() << "\n";
     flushToLog(stream1);
 }
 
