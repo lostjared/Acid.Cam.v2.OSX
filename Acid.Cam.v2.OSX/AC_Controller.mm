@@ -3395,9 +3395,7 @@ void setEnabledProg() {
     std::ostringstream stream;
     NSInteger count = [custom_array count];
     if(count == 0) return;
-    
     stream << "ACF: ";
-    
     for(int i = 0; i < count; ++i) {
         NSNumber *num1 = [custom_array objectAtIndex: i];
         NSNumber *num2 = [custom_subfilters objectAtIndex: i];
