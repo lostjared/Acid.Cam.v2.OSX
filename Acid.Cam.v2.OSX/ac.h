@@ -2396,6 +2396,7 @@ namespace ac {
     void RGBLongTrails(cv::Mat &frame);
     void VideoMatrixOutlineSubFilter(cv::Mat &frame);
     void FadeRGB_Speed(cv::Mat &frame);
+    void TestFilter101x(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

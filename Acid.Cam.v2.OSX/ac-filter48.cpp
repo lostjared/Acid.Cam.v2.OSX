@@ -726,6 +726,7 @@ void ac::FadeRGB_Speed(cv::Mat &frame) {
     static int dir = 1;
     static int offset = 0;
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.1);
+    
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b &pixel = pixelAt(frame, z, i);
@@ -735,4 +736,8 @@ void ac::FadeRGB_Speed(cv::Mat &frame) {
     ++offset;
     if(offset > 2)
         offset = 0;
+}
+
+void ac::TestFilter101x(cv::Mat &frame) {
+    
 }
