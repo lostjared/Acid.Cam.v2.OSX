@@ -2398,6 +2398,7 @@ namespace ac {
     void FadeRGB_Speed(cv::Mat &frame);
     void RGBStrobeTrails(cv::Mat &frame);
     void FadeRGB_Variable(cv::Mat &frame);
+    void SquareBlockGlitch(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

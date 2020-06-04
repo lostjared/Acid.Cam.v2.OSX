@@ -781,3 +781,22 @@ void ac::FadeRGB_Variable(cv::Mat &frame) {
     MedianBlendMultiThread2(frame);
     AddInvert(frame);
 }
+
+void ac::SquareBlockGlitch(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    int offset = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+            pixel = pix;
+        }
+        if((rand()%50)==0) {
+            ++offset;
+            if(offset > collection.size()-1)
+                offset = 0;
+        }
+    }
+    AddInvert(frame);
+}
