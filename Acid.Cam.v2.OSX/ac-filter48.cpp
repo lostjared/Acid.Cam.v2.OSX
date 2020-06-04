@@ -763,3 +763,21 @@ void ac::RGBStrobeTrails(cv::Mat &frame) {
     strobe = (strobe == true) ? false : true;
     AddInvert(frame);
 }
+
+void ac::FadeRGB_Variable(cv::Mat &frame) {
+    static double alpha[3] = {0.1, 0.5, 0.7};
+    static int dir[3] = {1, 0, 1};
+    AlphaMovementMaxMin(alpha[0], dir[0], 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha[1], dir[1], 0.01, 1.0, 0.1);
+    AlphaMovementMaxMin(alpha[2], dir[2], 0.01, 1.0, 0.1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.3*(pixel[j]*alpha[j])));
+            }
+        }
+    }
+    MedianBlendMultiThread2(frame);
+    AddInvert(frame);
+}
