@@ -782,7 +782,7 @@ void ac::FadeRGB_Variable(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::SquareBlockGlitch(cv::Mat &frame) {
+void ac::SquareRectangleGlitch(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
     int offset = 0;
