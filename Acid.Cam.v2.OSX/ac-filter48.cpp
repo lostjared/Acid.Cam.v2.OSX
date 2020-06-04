@@ -736,8 +736,30 @@ void ac::FadeRGB_Speed(cv::Mat &frame) {
     ++offset;
     if(offset > 2)
         offset = 0;
+    AddInvert(frame);
 }
 
-void ac::TestFilter101x(cv::Mat &frame) {
-    
+void ac::RGBStrobeTrails(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    if(collection.empty())
+        collection.shiftFrames(frame);
+    collection.shiftFrames(frame);
+    static bool strobe = false;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix[4];
+            pix[0] = pixelAt(collection.frames[1], z, i);
+            pix[1] = pixelAt(collection.frames[4], z, i);
+            pix[2] = pixelAt(collection.frames[7], z, i);
+            for(int j = 0; j < 3; ++j) {
+                if(strobe == false)
+                    pixel[j] = pix[3-j-1][j];
+                else
+                    pixel[j] = pix[j][j];
+            }
+        }
+    }
+    strobe = (strobe == true) ? false : true;
+    AddInvert(frame);
 }
