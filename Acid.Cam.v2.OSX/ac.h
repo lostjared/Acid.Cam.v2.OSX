@@ -2398,7 +2398,8 @@ namespace ac {
     void FadeRGB_Speed(cv::Mat &frame);
     void RGBStrobeTrails(cv::Mat &frame);
     void FadeRGB_Variable(cv::Mat &frame);
-    void SquareRectangleGlitch(cv::Mat &frame);
+    void BoxGlitch(cv::Mat &frame);
+    void TestFilter101x(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -3385,7 +3386,6 @@ namespace ac {
             }
         }
     }
-    
     
     template<int size_val>
     void ShadowTrails(cv::Mat &frame, MatrixCollection<size_val> *collection, int &index) {
