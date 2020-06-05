@@ -834,3 +834,13 @@ void ac::VerticalPictureDistort(cv::Mat &frame) {
         }
     }
 }
+
+void ac::ShortTrail(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    int r = rand()%(collection.size()-1);
+    cv::Mat out;
+    AlphaBlendDouble(frame, collection.frames[r], out, 0.7, 0.3);
+    frame = out.clone();
+    AddInvert(frame);
+}
