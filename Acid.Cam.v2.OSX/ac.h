@@ -2399,7 +2399,7 @@ namespace ac {
     void RGBStrobeTrails(cv::Mat &frame);
     void FadeRGB_Variable(cv::Mat &frame);
     void BoxGlitch(cv::Mat &frame);
-    void TestFilter101x(cv::Mat &frame);
+    void VerticalPictureDistort(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

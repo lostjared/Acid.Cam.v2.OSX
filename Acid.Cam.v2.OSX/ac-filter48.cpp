@@ -801,6 +801,36 @@ void ac::BoxGlitch(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::TestFilter101x(cv::Mat &frame) {
+void ac::VerticalPictureDistort(cv::Mat &frame) {
     
+    static int offset = 0;
+    if(offset == 0 || offset > frame.rows || offset < 0) {
+        offset = frame.rows/4;
+    }
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = offset; z < frame.rows; ++z) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int col = AC_GetFZ(frame.rows, z, z*2);
+            if(col >= 0 && col < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b pix = pixelAt(frame, col, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+    static int counter = 0;
+    ++counter;
+    if(counter > static_cast<int>(ac::fps/6)) {
+        counter = 0;
+        static int dir = 1;
+        if(dir == 1) {
+            ++offset;
+            if(offset > frame.rows/2)
+                dir = 0;
+        } else {
+            --offset;
+            if(offset <= 1)
+                dir = 1;
+        }
+    }
 }
