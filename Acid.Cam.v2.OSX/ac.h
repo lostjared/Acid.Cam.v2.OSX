@@ -2403,6 +2403,7 @@ namespace ac {
     void ShortTrail(cv::Mat &frame);
     void DiagInward(cv::Mat &frame);
     void DiagSquareInward(cv::Mat &frame);
+    void DiagSquareInwardResize(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
