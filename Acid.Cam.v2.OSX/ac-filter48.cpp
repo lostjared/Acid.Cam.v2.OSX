@@ -945,3 +945,56 @@ void ac::DiagSquareInwardResize(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagSquareInwardResizeXY(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int SIZE_COL_W = 8, SIZE_COL_H = 16;
+    static int offset = 0;
+    static bool on_ = true;
+    for(int z = 0; z < frame.rows; z += SIZE_COL_H) {
+        for(int i = 0; i < frame.cols; i += SIZE_COL_W) {
+            for(int x = 0; x < SIZE_COL_W; ++x) {
+                for(int y = 0; y < SIZE_COL_H; ++y) {
+                    if((z+y) < frame.rows && (i+x) < frame.cols) {
+                        cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                        int pos = 0;
+                        if(on_) {
+                            pos = offset;
+                        } else {
+                            pos = collection.size()-offset-1;
+                        }
+                        if(pos >= 0 && pos < collection.size()-1) {
+                            cv::Vec3b pix = pixelAt(collection.frames[pos], z+y, i+x);
+                            pixel = pix;
+                        }
+                    }
+                }
+            }
+            ++offset;
+            if(offset > collection.size()-1)
+                offset = 0;
+            on_ = (on_ == true) ? false : true;
+        }
+    }
+    static bool dir = true, dir2 = false;
+    if(dir == true) {
+        SIZE_COL_W += rand()%2;
+        if(SIZE_COL_W > 64)
+            dir = false;
+    } else {
+        SIZE_COL_W -= rand()%2;
+        if(SIZE_COL_W <= 8)
+            dir = true;
+    }
+    if(dir2 == true) {
+        SIZE_COL_H += rand()%2;
+        if(SIZE_COL_H > 64)
+            dir2 = false;
+    } else {
+        SIZE_COL_H -= rand()%2;
+        if(SIZE_COL_H <= 8)
+            dir2 = true;
+    }
+    AddInvert(frame);
+}

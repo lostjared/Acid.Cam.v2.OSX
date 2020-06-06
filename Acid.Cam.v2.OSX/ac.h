@@ -2404,6 +2404,7 @@ namespace ac {
     void DiagInward(cv::Mat &frame);
     void DiagSquareInward(cv::Mat &frame);
     void DiagSquareInwardResize(cv::Mat &frame);
+    void DiagSquareInwardResizeXY(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
