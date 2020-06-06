@@ -844,3 +844,26 @@ void ac::ShortTrail(cv::Mat &frame) {
     frame = out.clone();
     AddInvert(frame);
 }
+
+void ac::DiagInward(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int index = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; i += 2) {
+            if(i >= 0 && i+1 < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(collection.frames[index],z, i);
+                pixel = pix;
+                cv::Vec3b &pixel1 = pixelAt(frame, z, i+1);
+                cv::Vec3b pix1 = pixelAt(collection.frames[collection.size()-index-1],z, i+1);
+                pixel1 = pix1;
+            }
+        }
+
+        ++index;
+        if(index > (collection.size()-1))
+            index = 0;
+    }
+    AddInvert(frame);
+}

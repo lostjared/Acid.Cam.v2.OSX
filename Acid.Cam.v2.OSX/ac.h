@@ -2401,6 +2401,7 @@ namespace ac {
     void BoxGlitch(cv::Mat &frame);
     void VerticalPictureDistort(cv::Mat &frame);
     void ShortTrail(cv::Mat &frame);
+    void DiagInward(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
