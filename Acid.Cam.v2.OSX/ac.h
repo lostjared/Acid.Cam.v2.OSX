@@ -2402,6 +2402,7 @@ namespace ac {
     void VerticalPictureDistort(cv::Mat &frame);
     void ShortTrail(cv::Mat &frame);
     void DiagInward(cv::Mat &frame);
+    void DiagSquareInward(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

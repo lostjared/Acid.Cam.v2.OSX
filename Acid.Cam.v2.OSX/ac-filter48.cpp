@@ -867,3 +867,37 @@ void ac::DiagInward(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagSquareInward(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static constexpr int SIZE_COL = 8;
+    static int offset = 0;
+    static bool on_ = true;
+    for(int z = 0; z < frame.rows; z += SIZE_COL) {
+        for(int i = 0; i < frame.cols; i += SIZE_COL) {
+            for(int x = 0; x < SIZE_COL; ++x) {
+                for(int y = 0; y < SIZE_COL; ++y) {
+                    if((z+y) < frame.rows && (i+x) < frame.cols) {
+                        cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                        int pos = 0;
+                        if(on_) {
+                            pos = offset;
+                        } else {
+                            pos = collection.size()-offset-1;
+                        }
+                        if(pos >= 0 && pos < collection.size()-1) {
+                            cv::Vec3b pix = pixelAt(collection.frames[pos], z+y, i+x);
+                            pixel = pix;
+                        }
+                    }
+                }
+            }
+            ++offset;
+            if(offset > collection.size()-1)
+                offset = 0;
+            on_ = (on_ == true) ? false : true;
+        }
+    }
+    AddInvert(frame);
+}
