@@ -1003,6 +1003,13 @@ void ac::ParticleSlide(cv::Mat &frame) {
     static Point **position = 0;
     static cv::Size sz = frame.size();
     if(position == 0 || sz != frame.size()) {
+        if(position != 0) {
+            for(int i = 0; i < sz.width; ++i) {
+                delete [] position[i];
+            }
+            delete [] position;
+            position = 0;
+        }
         position = new Point*[frame.cols];
         for(int i = 0; i < frame.cols; ++i) {
             position[i] = new Point[frame.rows];
@@ -1012,6 +1019,7 @@ void ac::ParticleSlide(cv::Mat &frame) {
                 position[i][z].setPoint(i, z);
             }
         }
+        sz = frame.size();
     }
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
