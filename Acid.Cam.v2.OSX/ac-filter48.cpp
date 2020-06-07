@@ -1085,10 +1085,10 @@ void ac::DiagPixelated(cv::Mat &frame) {
                     }
                 }
             }
+            ++offset;
+            if(offset > collection.size()-1)
+                offset = 0;
         }
-        ++offset;
-        if(offset > collection.size()-1)
-            offset = 0;
     }
     AddInvert(frame);
 }
