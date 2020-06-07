@@ -2406,6 +2406,7 @@ namespace ac {
     void DiagSquareInwardResize(cv::Mat &frame);
     void DiagSquareInwardResizeXY(cv::Mat &frame);
     void ParticleSlide(cv::Mat &frame);
+    void DiagPixelated(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -1066,3 +1066,29 @@ void ac::ParticleSlide(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagPixelated(cv::Mat &frame) {
+    
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    static int square_w = 16, square_h = 16;
+    static int offset = 0;
+    
+    for(int z = 0; z < frame.rows; z += square_h) {
+        for(int i = 0; i < frame.cols; i += square_w) {
+            for(int x = 0; x < square_w; ++x) {
+                for(int y = 0; y < square_h; ++y) {
+                    cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                    cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
+            }
+        }
+        ++offset;
+        if(offset > collection.size()-1)
+            offset = 0;
+    }
+    AddInvert(frame);
+}
