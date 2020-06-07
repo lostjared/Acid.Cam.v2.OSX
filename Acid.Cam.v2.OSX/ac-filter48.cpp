@@ -998,3 +998,63 @@ void ac::DiagSquareInwardResizeXY(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::ParticleSlide(cv::Mat &frame) {
+    static Point **position = 0;
+    static cv::Size sz = frame.size();
+    if(position == 0 || sz != frame.size()) {
+        position = new Point*[frame.cols];
+        for(int i = 0; i < frame.cols; ++i) {
+            position[i] = new Point[frame.rows];
+        }
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int z = 0; z < frame.rows; ++z) {
+                position[i][z].setPoint(i, z);
+            }
+        }
+    }
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    cv::Mat copy1 = frame.clone();
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            Point &p = position[i][z];
+            if(p.x >= 0 && p.x < frame.cols && p.y >= 0 && p.y < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(collection.frames[offset], p.y, p.x);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+                if((rand()%10)==0) offset ++;
+                if(offset > (collection.size()-1))
+                    offset = 0;
+           
+            }
+            switch((rand()%5)) {
+                case 0:
+                    p.x += rand()%100;
+                    break;
+                case 1:
+                    p.x -= rand()%100;
+                    break;
+                case 2:
+                    p.y += rand()%100;
+                    break;
+                case 3:
+                    p.y -= rand()%100;
+                    break;
+            }
+            
+            if(p.x > frame.cols-1)
+                p.x = 0;
+            if(p.x <= 1)
+                p.x = frame.cols;
+            if(p.y <= 1)
+                p.x = frame.cols-1;
+            if(p.y > frame.rows-1)
+                p.y = 0;
+        }
+    }
+    AddInvert(frame);
+}
