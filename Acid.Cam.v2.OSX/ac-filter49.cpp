@@ -1,0 +1,188 @@
+
+
+/*
+ * Software written by Jared Bruni https://github.com/lostjared
+ 
+ This software is dedicated to all the people that experience mental illness.
+ 
+ Website: http://lostsidedead.com
+ YouTube: http://youtube.com/LostSideDead
+ Instagram: http://instagram.com/lostsidedead
+ Twitter: http://twitter.com/jaredbruni
+ Facebook: http://facebook.com/LostSideDead0x
+ 
+ You can use this program free of charge and redistrubute it online as long
+ as you do not charge anything for this program. This program is meant to be
+ 100% free.
+ 
+ BSD 2-Clause License
+ 
+ Copyright (c) 2020, Jared Bruni
+ All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ 
+ * Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 
+ * Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ */
+
+/*
+ //Basic Multithreaded Filter
+ auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+ for(int z = offset; z <  offset+size; ++z) {
+ for(int i = 0; i < cols; ++i) {
+ }
+ }
+ };
+ UseMultipleThreads(frame, getThreadCount(), callback);
+ AddInvert(frame);
+ 
+ */
+
+#include "ac.h"
+
+
+void ac::ParticleSlide(cv::Mat &frame) {
+    static Point **position = 0;
+    static cv::Size sz = frame.size();
+    if(position == 0 || sz != frame.size()) {
+        if(position != 0) {
+            for(int i = 0; i < sz.width; ++i) {
+                delete [] position[i];
+            }
+            delete [] position;
+            position = 0;
+        }
+        position = new Point*[frame.cols];
+        for(int i = 0; i < frame.cols; ++i) {
+            position[i] = new Point[frame.rows];
+        }
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int z = 0; z < frame.rows; ++z) {
+                position[i][z].setPoint(i, z);
+            }
+        }
+        sz = frame.size();
+    }
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static int offset = 0;
+    cv::Mat copy1 = frame.clone();
+    for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows; ++z) {
+            Point &p = position[i][z];
+            if(p.x >= 0 && p.x < frame.cols && p.y >= 0 && p.y < frame.rows) {
+                cv::Vec3b &pixel = pixelAt(frame, z, i);
+                cv::Vec3b pix = pixelAt(collection.frames[offset], p.y, p.x);
+                for(int j = 0; j < 3; ++j) {
+                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                }
+                if((rand()%10)==0) offset ++;
+                if(offset > (collection.size()-1))
+                    offset = 0;
+                
+            }
+            switch((rand()%5)) {
+                case 0:
+                    p.x += rand()%100;
+                    break;
+                case 1:
+                    p.x -= rand()%100;
+                    break;
+                case 2:
+                    p.y += rand()%100;
+                    break;
+                case 3:
+                    p.y -= rand()%100;
+                    break;
+            }
+            
+            if(p.x > frame.cols-1)
+                p.x = 0;
+            if(p.x <= 1)
+                p.x = frame.cols;
+            if(p.y <= 1)
+                p.x = frame.cols-1;
+            if(p.y > frame.rows-1)
+                p.y = 0;
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::DiagPixelated(cv::Mat &frame) {
+    static int square_w = 16, square_h = 16;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; z += square_h) {
+        for(int i = 0; i < frame.cols; i += square_w) {
+            for(int x = 0; x < square_w; ++x) {
+                for(int y = 0; y < square_h; ++y) {
+                    cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                    cv::Vec3b pix = pixelAt(copy1,z,i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+void ac::DiagPixelatedResize(cv::Mat &frame) {
+    static int square_w = 16, square_h = 16;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; z += square_h) {
+        for(int i = 0; i < frame.cols; i += square_w) {
+            for(int x = 0; x < square_w; ++x) {
+                for(int y = 0; y < square_h; ++y) {
+                    if(i >= 0 && z >= 0 && z+y > 0 && i+x > 0 && z+y < frame.rows && i+x < frame.cols && i < frame.cols && z < frame.rows) {
+                        cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                        cv::Vec3b pix = pixelAt(copy1,z,i);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        square_w ++;
+        if(square_w > 63)
+            dir = 0;
+    } else {
+        square_w --;;
+        if(square_w < 2)
+            dir = 1;
+    }
+    static int dir1 = 1;
+    if(dir1 == 1) {
+        square_h ++;
+        if(square_h > 63)
+            dir1 = 0;
+    } else {
+        square_h --;
+        if(square_h < 2)
+            dir1 = 1;
+    }
+}
