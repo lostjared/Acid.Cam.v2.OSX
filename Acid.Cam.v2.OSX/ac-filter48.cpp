@@ -1085,3 +1085,44 @@ void ac::DiagPixelated(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::DiagPixelatedResize(cv::Mat &frame) {
+    static int square_w = 16, square_h = 16;
+    cv::Mat copy1 = frame.clone();
+    for(int z = 0; z < frame.rows; z += square_h) {
+        for(int i = 0; i < frame.cols; i += square_w) {
+            for(int x = 0; x < square_w; ++x) {
+                for(int y = 0; y < square_h; ++y) {
+                    if(i >= 0 && z >= 0 && z+y > 0 && i+x > 0 && z+y < frame.rows && i+x < frame.cols && i < frame.cols && z < frame.rows) {
+                        cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                        cv::Vec3b pix = pixelAt(copy1,z,i);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+    static int dir = 1;
+    if(dir == 1) {
+        square_w ++;
+        if(square_w > 63)
+            dir = 0;
+    } else {
+        square_w --;;
+        if(square_w < 2)
+            dir = 1;
+    }
+    static int dir1 = 1;
+    if(dir1 == 1) {
+        square_h ++;
+        if(square_h > 63)
+            dir1 = 0;
+    } else {
+        square_h --;
+        if(square_h < 2)
+            dir1 = 1;
+    }
+}
