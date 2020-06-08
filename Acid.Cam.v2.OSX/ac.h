@@ -2408,6 +2408,7 @@ namespace ac {
     void ParticleSlide(cv::Mat &frame);
     void DiagPixelated(cv::Mat &frame);
     void DiagPixelatedResize(cv::Mat &frame);
+    void DiagPixelRGB_Collection(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

@@ -186,3 +186,33 @@ void ac::DiagPixelatedResize(cv::Mat &frame) {
             dir1 = 1;
     }
 }
+
+void ac::DiagPixelRGB_Collection(cv::Mat &frame) {
+   
+    static MatrixCollection<64> collection;
+    collection.shiftFrames(frame);
+    
+    static int offset = 0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z,i);
+            cv::Vec3b pix = pixelAt(collection.frames[offset], z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+            }
+            static int dir = 1;
+            if(dir == 1) {
+                ++offset;
+                if(offset > (collection.size()-1))
+                    dir = 0;
+            } else {
+                --offset;
+                if(offset <= 1)
+                    dir = 1;
+            }
+        }
+    }
+    RGBSplitFilter(frame);
+    AddInvert(frame);
+}
