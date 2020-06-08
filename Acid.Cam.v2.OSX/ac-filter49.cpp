@@ -216,3 +216,27 @@ void ac::DiagPixelRGB_Collection(cv::Mat &frame) {
     RGBSplitFilter(frame);
     AddInvert(frame);
 }
+
+void ac::RGBShiftTrails(cv::Mat &frame) {
+    static MatrixCollection<16> collection;
+    collection.shiftFrames(frame);
+    static int off[3] = {0,1,2};
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix[3];
+            pix[0] = pixelAt(collection.frames[0], z, i);
+            pix[1] = pixelAt(collection.frames[7], z, i);
+            pix[2] = pixelAt(collection.frames[15], z, i);
+            for(int j = 0; j < 3; ++j) {
+                pixel[j] = pix[off[j]][j];
+            }
+        }
+    }
+    for(int j = 0; j < 3; ++j) {
+        off[j]++;
+        if(off[j] > 2)
+            off[j] = 0;
+    }
+    AddInvert(frame);
+}

@@ -2409,6 +2409,7 @@ namespace ac {
     void DiagPixelated(cv::Mat &frame);
     void DiagPixelatedResize(cv::Mat &frame);
     void DiagPixelRGB_Collection(cv::Mat &frame);
+    void RGBShiftTrails(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
