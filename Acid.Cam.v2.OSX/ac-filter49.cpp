@@ -240,3 +240,47 @@ void ac::RGBShiftTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::PictureShiftDown(cv::Mat &frame) {
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFZ(frame.rows, z, new_row);
+            if(row >= 0 && row < frame.rows) {
+                cv::Vec3b pix = pixelAt(copy, row, i);
+                pixel = pix;
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.rows)
+        new_row = frame.rows+(640+rand()%frame.rows);
+    AddInvert(frame);
+}
+
+void ac::PictureShiftRight(cv::Mat &frame) {
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFX(frame.cols, i, new_row);
+            if(row >= 0 && row < frame.cols) {
+                cv::Vec3b pix = pixelAt(copy, z, row);
+                pixel = pix;
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.cols)
+        new_row = frame.cols+(640+rand()%frame.cols);
+    AddInvert(frame);
+}
+
+void ac::PictureShiftDownRight(cv::Mat &frame) {
+    PictureShiftDown(frame);
+    PictureShiftRight(frame);
+    AddInvert(frame);
+}

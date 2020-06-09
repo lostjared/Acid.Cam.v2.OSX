@@ -2410,6 +2410,9 @@ namespace ac {
     void DiagPixelatedResize(cv::Mat &frame);
     void DiagPixelRGB_Collection(cv::Mat &frame);
     void RGBShiftTrails(cv::Mat &frame);
+    void PictureShiftDown(cv::Mat &frame);
+    void PictureShiftRight(cv::Mat &frame);
+    void PictureShiftDownRight(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
