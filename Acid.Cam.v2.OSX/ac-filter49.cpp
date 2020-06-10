@@ -301,3 +301,12 @@ void ac::FlipPictureShift(cv::Mat &frame) {
     
     AddInvert(frame);
 }
+
+void ac::FlipPictureRandomMirror(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
+    MirrorRandomNow(copy1);
+    FlipPictureShift(copy1);
+    MirrorRandomNow(copy2);
+    AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
+    AddInvert(frame);
+}
