@@ -284,3 +284,20 @@ void ac::PictureShiftDownRight(cv::Mat &frame) {
     PictureShiftRight(frame);
     AddInvert(frame);
 }
+
+void ac::FlipPictureShift(cv::Mat &frame) {
+    static int counter = 0;
+    static int index = 0;
+    ++counter;
+    if(counter > static_cast<int>(ac::fps/2)) {
+        index = (index == 0) ? 1 : 0;
+        counter = 0;
+    }
+    
+    if(index == 0)
+        PictureShiftRight(frame);
+    else
+        PictureShiftDown(frame);
+    
+    AddInvert(frame);
+}

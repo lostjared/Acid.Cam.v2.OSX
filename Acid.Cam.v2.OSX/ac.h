@@ -2413,6 +2413,7 @@ namespace ac {
     void PictureShiftDown(cv::Mat &frame);
     void PictureShiftRight(cv::Mat &frame);
     void PictureShiftDownRight(cv::Mat &frame);
+    void FlipPictureShift(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
