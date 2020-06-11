@@ -2415,6 +2415,7 @@ namespace ac {
     void PictureShiftDownRight(cv::Mat &frame);
     void FlipPictureShift(cv::Mat &frame);
     void FlipPictureRandomMirror(cv::Mat &frame);
+    void TestFilter101x(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

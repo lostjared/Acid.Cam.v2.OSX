@@ -310,3 +310,7 @@ void ac::FlipPictureRandomMirror(cv::Mat &frame) {
     AlphaBlendDouble(copy1, copy2, frame, 0.5, 0.5);
     AddInvert(frame);
 }
+
+void ac::TestFilter101x(cv::Mat &frame) {
+    
+}
