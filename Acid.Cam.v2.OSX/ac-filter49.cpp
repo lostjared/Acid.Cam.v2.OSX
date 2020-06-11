@@ -311,6 +311,29 @@ void ac::FlipPictureRandomMirror(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::TestFilter101x(cv::Mat &frame) {
+void ac::PictureShiftVariable(cv::Mat &frame) {
+    static int new_row = 0;
+    static int new_col = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFZ(frame.rows, z, new_row);
+            int col = AC_GetFX(frame.cols, i, new_col);
+            if(row >= 0 && row < frame.rows && col >= 0 && col < frame.cols) {
+                cv::Vec3b pix = pixelAt(copy, row, col);
+                pixel = pix;
+            }
+        }
+    }
+    new_row -= rand()%100;
+    new_col -= rand()%25;
     
+    if(new_col <= frame.cols)
+        new_col = frame.cols+(640+rand()%frame.cols);
+    
+    if(new_row <= frame.rows)
+        new_row = frame.rows+(640+rand()%frame.rows);
+    AddInvert(frame);
+
 }
