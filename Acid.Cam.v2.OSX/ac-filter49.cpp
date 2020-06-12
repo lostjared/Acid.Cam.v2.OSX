@@ -337,3 +337,24 @@ void ac::PictureShiftVariable(cv::Mat &frame) {
     AddInvert(frame);
 
 }
+
+void ac::RGBWideTrails(cv::Mat &frame) {
+    static MatrixCollection<17> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b pix[8];
+            for(int q = 0; q < 8; ++q) {
+                pix[q] = pixelAt(collection.frames[q*2], z, i);
+            }
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix1, pix2;
+            for(int j = 0; j < 3; ++j) {
+                pix1[j] = pix[j][j];
+                pix2[j] = pix[3+j][j];
+                pixel[j] = static_cast<unsigned char>((0.5 * pix1[j]) + (0.5 * pix2[j]));
+            }
+        }
+    }
+    AddInvert(frame);
+}
