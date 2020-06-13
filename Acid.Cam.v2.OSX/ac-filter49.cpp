@@ -543,3 +543,30 @@ void ac::TripHSV(cv::Mat &frame) {
     cv::cvtColor(frame, frame, cv::COLOR_HSV2BGR);
     AddInvert(frame);
 }
+
+void ac::Diag_Line_InOut(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int LINE_SIZE=16;
+    static int dir = 1;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; i += LINE_SIZE) {
+            for(int j = 0; j < LINE_SIZE; ++j) {
+                if(i >= 0 && i < frame.cols && z >= 0 && z < frame.rows && i+j < frame.cols && z+j < frame.rows) {
+                    cv::Vec3b &pixel = pixelAt(frame, z, i+j);
+                    cv::Vec3b pix = pixelAt(copy1, z+j, i);
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+    if(dir == 1) {
+        ++LINE_SIZE;
+        if(LINE_SIZE > 128)
+            dir = 0;
+    } else {
+        --LINE_SIZE;
+        if(LINE_SIZE <= 1)
+            dir = 1;
+    }
+}
