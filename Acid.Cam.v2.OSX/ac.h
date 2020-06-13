@@ -2425,6 +2425,7 @@ namespace ac {
     void StretchB_Down(cv::Mat &frame);
     void Distorted_LinesY(cv::Mat &frame);
     void Distorted_LinesX(cv::Mat &frame);
+    void TripHSV(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
