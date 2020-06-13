@@ -377,3 +377,11 @@ void ac::StretchR_Right(cv::Mat &frame) {
         new_row = frame.cols+(640+rand()%frame.cols);
     AddInvert(frame);
 }
+
+void ac::StretchG_Right(cv::Mat &frame) {
+    
+}
+
+void ac::StretchB_Right(cv::Mat &frame) {
+    
+}

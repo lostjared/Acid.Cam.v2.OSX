@@ -2418,6 +2418,8 @@ namespace ac {
     void PictureShiftVariable(cv::Mat &frame);
     void RGBWideTrails(cv::Mat &frame);
     void StretchR_Right(cv::Mat &frame);
+    void StretchG_Right(cv::Mat &frame);
+    void StretchB_Right(cv::Mat &frame);
     
     // #NoFilter
     void NoFilter(cv::Mat &frame);
