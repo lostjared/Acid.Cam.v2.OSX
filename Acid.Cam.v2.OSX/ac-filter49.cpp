@@ -358,3 +358,7 @@ void ac::RGBWideTrails(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::StretchR_Right(cv::Mat &frame) {
+    
+}
