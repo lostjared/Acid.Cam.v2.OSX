@@ -2431,6 +2431,7 @@ namespace ac {
     void TripHSV(cv::Mat &frame);
     void Diag_Line_InOut(cv::Mat &frame);
     void Histogram(cv::Mat &frame);
+    void ImageHistogramLookup(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -3907,12 +3908,13 @@ namespace ac {
             
         }
         
+        cv::Mat b_hist, g_hist, r_hist;
+        
         cv::Mat createHistogram(cv::Mat &source) {
             std::vector<cv::Mat> bgr_planes;
             split(source, bgr_planes);
             float range[] = {0,256};
             const float *histRange = {range};
-            cv::Mat b_hist, g_hist, r_hist;
             bool uniform = true, accumulate = false;
             cv::calcHist(&bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate);
             cv::calcHist(&bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate);
@@ -3921,11 +3923,15 @@ namespace ac {
             cv::normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
             cv::normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
             cv::normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            cv::Mat channels[3];
+            channels[0] = b_hist;
+            channels[1] = r_hist;
+            channels[2] = r_hist;
+            cv::merge(channels, 3, histImage);
             return histImage;
         }
         
         cv::Mat createGraph(cv::Mat &source) {
-            
             std::vector<cv::Mat> bgr_planes;
             split(source, bgr_planes);
             float range[] = {0,256};

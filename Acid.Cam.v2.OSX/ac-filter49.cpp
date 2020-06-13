@@ -577,3 +577,15 @@ void ac::Histogram(cv::Mat &frame) {
     frame = copy.clone();
     AddInvert(frame);
 }
+
+void ac::ImageHistogramLookup(cv::Mat &frame) {
+    if(blend_set == false)
+        return;
+    cv::Mat image;
+    ac_resize(blend_image, image, frame.size());
+    Histogram_ hst;
+    cv::Mat copy1 = frame.clone();
+    cv::Mat copy2 = hst.createHistogram(image);
+    cv::LUT(copy1, hst.b_hist, frame);
+    AddInvert(frame);
+}
