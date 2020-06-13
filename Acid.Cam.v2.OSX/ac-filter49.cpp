@@ -415,3 +415,58 @@ void ac::StretchB_Right(cv::Mat &frame) {
         new_row = frame.cols+(640+rand()%frame.cols);
     AddInvert(frame);
 }
+
+void ac::StretchR_Down(cv::Mat &frame) {
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFZ(frame.rows, z, new_row);
+            if(row >= 0 && row < frame.rows) {
+                cv::Vec3b pix = pixelAt(copy, row, i);
+                pixel[2] = pix[2];
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.rows)
+        new_row = frame.rows+(640+rand()%frame.rows);
+    AddInvert(frame);
+}
+void ac::StretchG_Down(cv::Mat &frame) {
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFZ(frame.rows, z, new_row);
+            if(row >= 0 && row < frame.rows) {
+                cv::Vec3b pix = pixelAt(copy, row, i);
+                pixel[1] = pix[1];
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.rows)
+        new_row = frame.rows+(640+rand()%frame.rows);
+    AddInvert(frame);
+}
+void ac::StretchB_Down(cv::Mat &frame) {
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFZ(frame.rows, z, new_row);
+            if(row >= 0 && row < frame.rows) {
+                cv::Vec3b pix = pixelAt(copy, row, i);
+                pixel[0] = pix[0];
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.rows)
+        new_row = frame.rows+(640+rand()%frame.rows);
+    AddInvert(frame);
+}
