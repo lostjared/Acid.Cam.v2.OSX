@@ -570,3 +570,10 @@ void ac::Diag_Line_InOut(cv::Mat &frame) {
             dir = 1;
     }
 }
+
+void ac::Histogram(cv::Mat &frame) {
+    Histogram_ hst;
+    cv::Mat copy = hst.createGraph(frame);
+    frame = copy.clone();
+    AddInvert(frame);
+}

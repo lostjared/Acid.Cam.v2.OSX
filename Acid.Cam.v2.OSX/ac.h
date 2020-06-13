@@ -45,11 +45,14 @@
 #ifdef __APPLE__
 #include<opencv2/videoio.hpp>
 #include<opencv2/imgproc.hpp>
+#include<opencv2/imgcodecs.hpp>
 #include<opencv2/highgui.hpp>
 #include<opencv2/core/ocl.hpp>
 #else
 #include<opencv2/opencv.hpp>
 #include<opencv2/core/ocl.hpp>
+#include<opencv2/imgcodecs.hpp>
+#include<opencv2/imgproc.hpp>
 #endif
 #include<iostream>
 #include<fstream>
@@ -2427,6 +2430,7 @@ namespace ac {
     void Distorted_LinesX(cv::Mat &frame);
     void TripHSV(cv::Mat &frame);
     void Diag_Line_InOut(cv::Mat &frame);
+    void Histogram(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -3894,6 +3898,67 @@ namespace ac {
         }
         collection->shiftFrames(frame);
     }
+    
+    class Histogram_ {
+    private:
+        int histSize;
+    public:
+        Histogram_() : histSize{256} {
+            
+        }
+        
+        cv::Mat createHistogram(cv::Mat &source) {
+            std::vector<cv::Mat> bgr_planes;
+            split(source, bgr_planes);
+            float range[] = {0,256};
+            const float *histRange = {range};
+            cv::Mat b_hist, g_hist, r_hist;
+            bool uniform = true, accumulate = false;
+            cv::calcHist(&bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate);
+            cv::calcHist(&bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate);
+            cv::calcHist(&bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate);
+            cv::Mat histImage(source.rows, source.cols, CV_8UC3, cv::Scalar(0,0,0));
+            cv::normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            cv::normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            cv::normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            return histImage;
+        }
+        
+        cv::Mat createGraph(cv::Mat &source) {
+            
+            std::vector<cv::Mat> bgr_planes;
+            split(source, bgr_planes);
+            float range[] = {0,256};
+            const float *histRange = {range};
+            cv::Mat b_hist, g_hist, r_hist;
+            bool uniform = true, accumulate = false;
+            cv::calcHist(&bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate);
+            cv::calcHist(&bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate);
+            cv::calcHist(&bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate);
+            cv::Mat histImage(source.rows, source.cols, CV_8UC3, cv::Scalar(0,0,0));
+            cv::normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            cv::normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            cv::normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+            int hist_w = histImage.cols;
+            int hist_h = histImage.rows;
+            int bin_w = cvRound( (double) hist_w/histSize );
+
+            for( int i = 1; i < histSize; i++ )
+            {
+                cv::line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ),
+                         cv::Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
+                         cv::Scalar( 255, 0, 0), 2, 8, 0  );
+                cv::line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ),
+                     cv::Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
+                     cv::Scalar( 0, 255, 0), 2, 8, 0  );
+                line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ),
+                     cv::Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
+                     cv::Scalar( 0, 0, 255), 2, 8, 0  );
+            }
+            return histImage;
+        }
+        
+    };
 }
 
 extern ac::ParticleEmiter emiter;
