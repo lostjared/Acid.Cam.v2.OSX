@@ -379,9 +379,39 @@ void ac::StretchR_Right(cv::Mat &frame) {
 }
 
 void ac::StretchG_Right(cv::Mat &frame) {
-    
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFX(frame.cols, i, new_row);
+            if(row >= 0 && row < frame.cols) {
+                cv::Vec3b pix = pixelAt(copy, z, row);
+                pixel[1] = pix[1];
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.cols)
+        new_row = frame.cols+(640+rand()%frame.cols);
+    AddInvert(frame);
 }
 
 void ac::StretchB_Right(cv::Mat &frame) {
-    
+    static int new_row = 0;
+    cv::Mat copy = frame.clone();
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            int row = AC_GetFX(frame.cols, i, new_row);
+            if(row >= 0 && row < frame.cols) {
+                cv::Vec3b pix = pixelAt(copy, z, row);
+                pixel[0] = pix[0];
+            }
+        }
+    }
+    new_row -= 100;
+    if(new_row <= frame.cols)
+        new_row = frame.cols+(640+rand()%frame.cols);
+    AddInvert(frame);
 }
