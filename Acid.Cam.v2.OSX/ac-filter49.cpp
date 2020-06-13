@@ -470,3 +470,54 @@ void ac::StretchB_Down(cv::Mat &frame) {
         new_row = frame.rows+(640+rand()%frame.rows);
     AddInvert(frame);
 }
+
+void ac::Distorted_LinesY(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int rand_dir = rand()%2;
+    for(int i = 16; i < frame.cols; ++i) {
+        static int counter = 0;
+        ++counter;
+        if(counter > 4) {
+            rand_dir = rand()%2;
+            counter = 0;
+        }
+        for(int z = 0; z < frame.rows; ++z) {
+            int offset = (rand_dir == 1) ? i : i-16;
+            int rand_len = rand()%16;
+            for(int q = 0; q < rand_len; ++q) {
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols && offset+q < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame, z, i);
+                    cv::Vec3b pix = pixelAt(copy1, z, offset+q);
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
+
+
+void ac::Distorted_LinesX(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    static int rand_dir = rand()%2;
+    for(int z = 16; z < frame.rows; ++z) {
+        static int counter = 0;
+        ++counter;
+        if(counter > 4) {
+            rand_dir = rand()%2;
+            counter = 0;
+        }
+        for(int i = 0; i < frame.cols; ++i) {
+            int offset = (rand_dir == 1) ? z : z-16;
+            int rand_len = rand()%16;
+            for(int q = 0; q < rand_len; ++q) {
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols && offset+q < frame.cols) {
+                    cv::Vec3b &pixel = pixelAt(frame, z, i);
+                    cv::Vec3b pix = pixelAt(copy1, offset+q, i);
+                    pixel = pix;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
