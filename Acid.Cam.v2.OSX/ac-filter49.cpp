@@ -572,7 +572,7 @@ void ac::Diag_Line_InOut(cv::Mat &frame) {
 }
 
 void ac::Histogram(cv::Mat &frame) {
-    Histogram_ hst;
+    Histogram_Type hst;
     cv::Mat copy = hst.createGraph(frame);
     frame = copy.clone();
     AddInvert(frame);
@@ -583,7 +583,7 @@ void ac::ImageHistogramLookup(cv::Mat &frame) {
         return;
     cv::Mat image;
     ac_resize(blend_image, image, frame.size());
-    Histogram_ hst;
+    Histogram_Type hst;
     cv::Mat copy1 = frame.clone();
     cv::Mat copy2 = hst.createHistogram(image);
     cv::LUT(copy1, hst.b_hist, frame);

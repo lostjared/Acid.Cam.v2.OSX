@@ -3902,13 +3902,11 @@ namespace ac {
         collection->shiftFrames(frame);
     }
     
-    class Histogram_ {
+    class Histogram_Type {
     private:
         int histSize;
     public:
-        Histogram_() : histSize{256} {
-            
-        }
+        Histogram_Type() : histSize{256} {}
         cv::Mat b_hist, g_hist, r_hist;
         cv::Mat createHistogram(cv::Mat &source) {
             std::vector<cv::Mat> bgr_planes;
