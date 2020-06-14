@@ -589,3 +589,28 @@ void ac::ImageHistogramLookup(cv::Mat &frame) {
     cv::LUT(copy1, hst.b_hist, frame);
     AddInvert(frame);
 }
+
+void ac::MovementRange_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "MovementRange_SubFilter")
+        return;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
+            for(int index = 0; index < collection.size(); ++index) {
+                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                int value1 = pixel[0]+pixel[1]+pixel[2];
+                int value2 = pix[0]+pix[1]+pix[2];
+                if(abs(value1-value2) > getPixelCollection()) {
+                    pixel = pix1;
+                    break;
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}

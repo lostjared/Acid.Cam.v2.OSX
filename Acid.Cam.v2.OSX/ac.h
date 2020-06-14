@@ -2432,6 +2432,7 @@ namespace ac {
     void Diag_Line_InOut(cv::Mat &frame);
     void Histogram(cv::Mat &frame);
     void ImageHistogramLookup(cv::Mat &frame);
+    void MovementRange_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
@@ -3907,9 +3908,7 @@ namespace ac {
         Histogram_() : histSize{256} {
             
         }
-        
         cv::Mat b_hist, g_hist, r_hist;
-        
         cv::Mat createHistogram(cv::Mat &source) {
             std::vector<cv::Mat> bgr_planes;
             split(source, bgr_planes);
@@ -3930,7 +3929,7 @@ namespace ac {
             cv::merge(channels, 3, histImage);
             return histImage;
         }
-        
+
         cv::Mat createGraph(cv::Mat &source) {
             std::vector<cv::Mat> bgr_planes;
             split(source, bgr_planes);
@@ -3963,7 +3962,6 @@ namespace ac {
             }
             return histImage;
         }
-        
     };
 }
 
