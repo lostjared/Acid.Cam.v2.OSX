@@ -2433,6 +2433,7 @@ namespace ac {
     void Histogram(cv::Mat &frame);
     void ImageHistogramLookup(cv::Mat &frame);
     void MovementRange_SubFilter(cv::Mat &frame);
+    void XorSumStrobe(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
