@@ -2479,11 +2479,11 @@ void setEnabledProg() {
     int y = (int)[desk_y integerValue];
     int w = (int)[desk_w integerValue];
     int h = (int)[desk_h integerValue];
-    
     ac::SetDesktopRect(x,y,w,h);
-    
     log << "Desktop Rect set to: " << x << "," << y << " " << w << "," << h <<"\n";
-    
+    int tv = static_cast<int>([threshold_edit integerValue]);
+    ac::setThreshold(tv);
+    log << "Threshold: " << tv << "\n";
     NSString *val = [NSString stringWithUTF8String:log.str().c_str()];
     if(display_msg == YES) _NSRunAlertPanel(@"Settings changed", val, @"Ok", nil, nil);
     flushToLog(log);

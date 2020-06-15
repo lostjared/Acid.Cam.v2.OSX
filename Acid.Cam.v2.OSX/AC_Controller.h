@@ -216,6 +216,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSWindow *video_indow;
     IBOutlet NSComboBox *video_box;
     IBOutlet NSMenuItem *low_res;
+    IBOutlet NSTextField *threshold_edit;
     
     SearchController *search_controller;
     NSMenu *user_menu;

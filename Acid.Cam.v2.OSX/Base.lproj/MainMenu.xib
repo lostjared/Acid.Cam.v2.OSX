@@ -153,6 +153,7 @@
                 <outlet property="t_red" destination="m3P-As-OgG" id="mXd-cA-huW"/>
                 <outlet property="t_view" destination="asC-Zi-PdA" id="BG7-qq-fQz"/>
                 <outlet property="table_view" destination="oR9-5h-21a" id="UXP-JM-woL"/>
+                <outlet property="threshold_edit" destination="zfe-Z3-9MK" id="YLX-96-pWv"/>
                 <outlet property="up4k" destination="GTi-zi-kC5" id="dS5-O5-ZbT"/>
                 <outlet property="user_filter_name" destination="omF-QR-BCU" id="K0I-M4-wdy"/>
                 <outlet property="user_filter_remove" destination="kcY-Ry-Ubm" id="pHI-ff-Dmj"/>
@@ -2931,6 +2932,24 @@ Gw
                         <rect key="frame" x="155" y="112" width="14" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="H" id="Uyp-et-YRb">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zfe-Z3-9MK">
+                        <rect key="frame" x="106" y="72" width="160" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="15" drawsBackground="YES" id="S6n-9K-DPi">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="43u-tb-Zei">
+                        <rect key="frame" x="23" y="72" width="65" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Threshold" id="2y9-Ti-DQ1">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

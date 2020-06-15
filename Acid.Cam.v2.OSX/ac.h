@@ -2550,6 +2550,7 @@ namespace ac {
     void setMaxStretch(int max);
     int  getMaxStretch();
     void setBlendPercent(int percent);
+    void setThreshold(int t);
     // todo: later
     // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings

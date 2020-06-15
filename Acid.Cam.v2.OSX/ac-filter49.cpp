@@ -629,11 +629,17 @@ void ac::XorSumStrobe(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+
+int threshold_value = 15;
+
+void ac::setThreshold(int t) {
+    threshold_value = t;
+}
+
 void ac::DetectEdges(cv::Mat &frame) {
     cv::Mat result;
     cv::morphologyEx(frame, result, cv::MORPH_GRADIENT, cv::Mat());
-    int threshold = 15;
-    cv::threshold(result, frame, threshold, 255, cv::THRESH_BINARY);
+    cv::threshold(result, frame, threshold_value, 255, cv::THRESH_BINARY);
     AddInvert(frame);
 }
 
