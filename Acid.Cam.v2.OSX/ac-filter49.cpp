@@ -655,8 +655,14 @@ void ac::SobelNorm(cv::Mat &frame) {
 }
 
 void ac::SobelThreshold(cv::Mat &frame) {
-    cv::Mat copy1 = frame.clone();
-    SobelNorm(copy1);
-    cv::threshold(copy1, frame, threshold_value, 255, cv::THRESH_BINARY);
+    cv::Mat sobel_x, sobel_y, sobel;
+    cv::Sobel(frame, sobel_x, CV_16S,1,0);
+    cv::Sobel(frame, sobel_y, CV_16S,0,1);
+    sobel = abs(sobel_x)+abs(sobel_y);
+    double smin, smax;
+    cv::minMaxLoc(sobel, &smin, &smax);
+    cv::Mat sobel_i;
+    sobel.convertTo(sobel_i, CV_8U, -255./smax,255);
+    cv::threshold(sobel_i, frame, threshold_value, 255, cv::THRESH_BINARY);
     AddInvert(frame);
 }

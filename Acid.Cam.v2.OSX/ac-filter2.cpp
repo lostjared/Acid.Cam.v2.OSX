@@ -129,10 +129,11 @@ void ac::pixelSort(cv::Mat &frame) {
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
+    /*
     int index = rand()%(svDistort.size()/4);
     if(index >= 0 && index < svDistort.size() && index != ac::draw_offset) {
         CallFilter(svDistort[index], frame);
-    }
+    }*/
 }
 
 void ac::randomFlash(cv::Mat &frame) {
