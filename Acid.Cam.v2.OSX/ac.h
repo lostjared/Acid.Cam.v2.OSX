@@ -2435,7 +2435,8 @@ namespace ac {
     void MovementRange_SubFilter(cv::Mat &frame);
     void XorSumStrobe(cv::Mat &frame);
     void DetectEdges(cv::Mat &frame);
-    void GrabCut(cv::Mat &frame);
+    void SobelNorm(cv::Mat &frame);
+    void SobelThreshold(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

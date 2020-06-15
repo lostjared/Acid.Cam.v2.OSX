@@ -643,18 +643,20 @@ void ac::DetectEdges(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::GrabCut(cv::Mat &frame) {
-    /*
-    cv::Mat image;
-    ac_resize(frame, image, cv::Size(320, 240));
-    cv::Rect rectangle(10, 10, image.cols-10, image.rows-10);
-    cv::Mat result;
-    cv::Mat bgModel,fgModel;
-    cv::grabCut(image,result,rectangle,bgModel,fgModel,5,cv::GC_INIT_WITH_RECT);
-    cv::compare(result,cv::GC_PR_FGD,result,cv::CMP_EQ);
-    result = result&1;
-    cv::Mat foreground(image.size(),CV_8UC3,cv::Scalar(255,255,255));
-    image.copyTo(foreground,result);
-    ac_resize(foreground, frame, frame.size());
-    */
+void ac::SobelNorm(cv::Mat &frame) {
+    cv::Mat sobel_x, sobel_y, sobel;
+    cv::Sobel(frame, sobel_x, CV_16S,1,0);
+    cv::Sobel(frame, sobel_y, CV_16S,0,1);
+    sobel = abs(sobel_x)+abs(sobel_y);
+    double min, max;
+    cv::minMaxLoc(sobel, &min, &max);
+    sobel.convertTo(frame, CV_8UC3, -255.0/max,255);
+    AddInvert(frame);
+}
+
+void ac::SobelThreshold(cv::Mat &frame) {
+    cv::Mat copy1 = frame.clone();
+    SobelNorm(copy1);
+    cv::threshold(copy1, frame, threshold_value, 255, cv::THRESH_BINARY);
+    AddInvert(frame);
 }
