@@ -955,8 +955,6 @@ namespace ac {
     void SquareDivideSubFilter(cv::Mat &frame);
     void SquareSubFilter(cv::Mat &frame);
     void SquareSubFilter8(cv::Mat &frame);
-    void SquareRandomFilter(cv::Mat &frame);
-    void SquareRandomSubFilter(cv::Mat &frame);
     void ColorExpand(cv::Mat &frame);
     void ColorExpandSubFilter(cv::Mat &frame);
     void RotateImage(cv::Mat &frame);

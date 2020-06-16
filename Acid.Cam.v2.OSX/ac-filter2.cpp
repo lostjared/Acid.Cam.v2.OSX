@@ -134,6 +134,7 @@ void ac::randomFilter(cv::Mat &frame) {
     if(index >= 0 && index < svDistort.size() && index != ac::draw_offset) {
         CallFilter(svDistort[index], frame);
     }*/
+    SelfAlphaBlend(frame);
 }
 
 void ac::randomFlash(cv::Mat &frame) {

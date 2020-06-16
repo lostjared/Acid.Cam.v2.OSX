@@ -744,56 +744,6 @@ void ac::SquareSubFilter8(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::SquareRandomFilter(cv::Mat &frame) {
-    constexpr int num_s = 4;
-    int pos_x = 0, pos_y = 0;
-    int index = 0;
-    int size_w = frame.cols/num_s;
-    int size_h = frame.rows/num_s;
-    cv::Mat resized[num_s*num_s];
-    for(int i = 0; i < num_s; ++i) {
-        for(int z = 0; z < num_s; ++z) {
-            pos_x = i*size_w;
-            pos_y = z*size_h;
-            resized[index].create(cv::Size(size_w, size_h),CV_8UC3);
-            copyMat(frame, Rect(pos_x, pos_y, size_w, size_h), resized[index], Rect(0, 0, size_w, size_h));
-            randomFilter(resized[index]);
-            copyMat(resized[index], Rect(0, 0, size_w, size_h), frame, Rect(pos_x, pos_y, size_w, size_h));
-            ++index;
-        }
-    }
-    AddInvert(frame);
-}
-
-void ac::SquareRandomSubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "SquareRandomSubFilter")
-        return;
-    cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
-    constexpr int num_s = 4;
-    static MatrixCollection<num_s*num_s> collection;
-    int pos_x = 0, pos_y = 0;
-    int index = 0;
-    int size_w = frame.cols/num_s;
-    int size_h = frame.rows/num_s;
-    cv::Mat resized[num_s*num_s];
-    for(int i = 0; i < num_s; ++i) {
-        for(int z = 0; z < num_s; ++z) {
-            pos_x = i*size_w;
-            pos_y = z*size_h;
-            resized[index].create(cv::Size(size_w, size_h),CV_8UC3);
-            copyMat(copy1, Rect(pos_x, pos_y, size_w, size_h), resized[index], Rect(0, 0, size_w, size_h));
-            randomFilter(resized[index]);
-            CallFilter(subfilter, resized[index]);
-            copyMat(resized[index], Rect(0, 0, size_w, size_h), copy2, Rect(pos_x, pos_y, size_w, size_h));
-            ++index;
-        }
-    }
-    AlphaBlend(copy1, copy2, frame, 0.5);
-    Smooth(frame, &collection);
-    AddInvert(frame);
-}
-
-
 void ac::ColorExpand(cv::Mat &frame) {
     static int color_value[3] = {rand()%255,rand()%255,rand()%255};
     static int dir[3] = {rand()%2, rand()%2, rand()%2};
