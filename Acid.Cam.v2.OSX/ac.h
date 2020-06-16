@@ -2435,6 +2435,7 @@ namespace ac {
     void DetectEdges(cv::Mat &frame);
     void SobelNorm(cv::Mat &frame);
     void SobelThreshold(cv::Mat &frame);
+    void Contours(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
