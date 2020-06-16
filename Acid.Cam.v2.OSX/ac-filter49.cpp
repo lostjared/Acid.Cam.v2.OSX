@@ -670,19 +670,19 @@ void ac::SobelThreshold(cv::Mat &frame) {
 void ac::Contours(cv::Mat &frame) {
     int thresh = threshold_value;
     cv::Mat canny_output;
-    std::vector<std::vector<cv::Point> > contours;
+    std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     cv::Mat src_gray;
-    cv::cvtColor( frame, src_gray, CV_BGR2GRAY );
-    cv::blur( src_gray, src_gray, cv::Size(3,3) );
-    cv::Canny( src_gray, canny_output, thresh, thresh*2, 3 );
-    cv::findContours( canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
-    cv::Mat drawing = cv::Mat::zeros( canny_output.size(), CV_8UC3 );
+    cv::cvtColor(frame, src_gray, CV_BGR2GRAY);
+    cv::blur(src_gray, src_gray, cv::Size(3,3));
+    cv::Canny(src_gray, canny_output, thresh, thresh*2, 3);
+    cv::findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+    cv::Mat drawing = cv::Mat::zeros(canny_output.size(), CV_8UC3);
     for( int i = 0; i< contours.size(); i++ )
     {
         //cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
         cv::Scalar color(255,255,255);
-        cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
+        cv::drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point());
     }
     frame = drawing.clone();
 }
