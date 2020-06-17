@@ -668,6 +668,7 @@ void ac::SobelThreshold(cv::Mat &frame) {
 }
 
 void ac::Contours(cv::Mat &frame) {
+    /*
     int thresh = threshold_value;
     cv::Mat canny_output;
     std::vector<std::vector<cv::Point>> contours;
@@ -685,4 +686,5 @@ void ac::Contours(cv::Mat &frame) {
         cv::drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point());
     }
     frame = drawing.clone();
+    */
 }
