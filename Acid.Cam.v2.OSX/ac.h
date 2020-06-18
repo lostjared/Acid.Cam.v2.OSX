@@ -2436,10 +2436,10 @@ namespace ac {
     void SobelNorm(cv::Mat &frame);
     void SobelThreshold(cv::Mat &frame);
     void EdgeFill_SubFilter(cv::Mat &frame);
-    void WhiteFill_SubFilter(cv::Mat &frame);
-    void BlackFill_SubFilter(cv::Mat &frame);
-    void PinkFill_SubFilter(cv::Mat &frame);
-    void GreenFill_SubFilter(cv::Mat &frame);
+    void FillWhite_SubFilter(cv::Mat &frame);
+    void FillBlack_SubFilter(cv::Mat &frame);
+    void FillPink_SubFilter(cv::Mat &frame);
+    void FillGreen_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

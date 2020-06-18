@@ -686,8 +686,8 @@ void ac::EdgeFill_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::WhiteFill_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "WhiteFill_SubFilter")
+void ac::FillWhite_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillWhite_SubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
@@ -703,8 +703,8 @@ void ac::WhiteFill_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
-void ac::BlackFill_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "BlackFill_SubFilter")
+void ac::FillBlack_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillBlack_SubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
@@ -721,8 +721,8 @@ void ac::BlackFill_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::PinkFill_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "PinkFill_SubFilter")
+void ac::FillPink_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillPink_SubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
@@ -739,8 +739,8 @@ void ac::PinkFill_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::GreenFill_SubFilter(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "GreenFill_SubFilter")
+void ac::FillGreen_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillGreen_SubFilter")
         return;
     cv::Mat copy1 = frame.clone();
     CallFilter(subfilter, copy1);
