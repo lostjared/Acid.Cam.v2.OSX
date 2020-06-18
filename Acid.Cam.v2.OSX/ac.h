@@ -2439,6 +2439,7 @@ namespace ac {
     void WhiteFill_SubFilter(cv::Mat &frame);
     void BlackFill_SubFilter(cv::Mat &frame);
     void PinkFill_SubFilter(cv::Mat &frame);
+    void GreenFill_SubFilter(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
