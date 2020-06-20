@@ -756,3 +756,15 @@ void ac::FillGreen_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::MedianBlurHigherLevel(cv::Mat &frame) {
+#ifdef _WIN32
+    cv::Mat copy = frame.clone();
+    cv::medianBlur(copy, frame, 15);
+#else
+    cv::UMat blur, out;
+    blur = frame.getUMat(cv::ACCESS_FAST);
+    cv::medianBlur(blur, out, 15);
+    out.copyTo(frame);
+#endif
+}

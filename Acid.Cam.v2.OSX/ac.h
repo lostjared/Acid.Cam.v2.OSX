@@ -2440,6 +2440,7 @@ namespace ac {
     void FillBlack_SubFilter(cv::Mat &frame);
     void FillPink_SubFilter(cv::Mat &frame);
     void FillGreen_SubFilter(cv::Mat &frame);
+    void MedianBlurHigherLevel(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
