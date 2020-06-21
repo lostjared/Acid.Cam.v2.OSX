@@ -757,6 +757,7 @@ void ac::FillGreen_SubFilter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
+// Slow
 void ac::MedianBlurHigherLevel(cv::Mat &frame) {
 #ifdef _WIN32
     cv::Mat copy = frame.clone();
