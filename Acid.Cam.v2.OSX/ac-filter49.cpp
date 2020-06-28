@@ -805,3 +805,21 @@ void ac::FillNonBlack_SubFilter(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::FillNonPink_SubFilter(cv::Mat &frame) {
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "FillNonPink_SubFilter")
+        return;
+    cv::Mat copy1 = frame.clone();
+    CallFilter(subfilter, copy1);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            if(!(pixel[0] >= 225 && pixel[0] <= 255 && pixel[1] >= 0 && pixel[1] <= 25 && pixel[2] >= 225 && pixel[2] <= 255)) {
+                cv::Vec3b pix;
+                pix = copy1.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    AddInvert(frame);
+}
