@@ -913,6 +913,7 @@ void ac::DiagSquareInwardResize(cv::Mat &frame) {
             for(int x = 0; x < SIZE_COL; ++x) {
                 for(int y = 0; y < SIZE_COL; ++y) {
                     if((z+y) < frame.rows && (i+x) < frame.cols) {
+                        
                         cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
                         int pos = 0;
                         if(on_) {

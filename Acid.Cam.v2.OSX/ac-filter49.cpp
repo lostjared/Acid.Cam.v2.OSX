@@ -134,10 +134,12 @@ void ac::DiagPixelated(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_w) {
             for(int x = 0; x < square_w; ++x) {
                 for(int y = 0; y < square_h; ++y) {
-                    cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
-                    cv::Vec3b pix = pixelAt(copy1,z,i);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    if(z >= 0 && z+y < frame.rows && i+x < frame.cols && i >= 0) {
+                        cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
+                        cv::Vec3b pix = pixelAt(copy1,z,i);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
                     }
                 }
             }
