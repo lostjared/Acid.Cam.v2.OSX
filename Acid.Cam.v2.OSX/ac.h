@@ -2444,6 +2444,7 @@ namespace ac {
     void FillNonWhite_SubFilter(cv::Mat &frame);
     void FillNonBlack_SubFilter(cv::Mat &frame);
     void FillNonPink_SubFilter(cv::Mat &frame);
+    void LineInLineOut(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
