@@ -2446,6 +2446,7 @@ namespace ac {
     void FillNonPink_SubFilter(cv::Mat &frame);
     void LineInLineOut(cv::Mat &frame);
     void LineInLineOut_Increase(cv::Mat &frame);
+    void LineInLineOut2_Increase(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

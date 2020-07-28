@@ -190,7 +190,7 @@ void ac::DiagPixelatedResize(cv::Mat &frame) {
 }
 
 void ac::DiagPixelRGB_Collection(cv::Mat &frame) {
-   
+    
     static MatrixCollection<64> collection;
     collection.shiftFrames(frame);
     
@@ -337,7 +337,7 @@ void ac::PictureShiftVariable(cv::Mat &frame) {
     if(new_row <= frame.rows)
         new_row = frame.rows+(640+rand()%frame.rows);
     AddInvert(frame);
-
+    
 }
 
 void ac::RGBWideTrails(cv::Mat &frame) {
@@ -905,3 +905,54 @@ void ac::LineInLineOut_Increase(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::LineInLineOut2_Increase(cv::Mat &frame) {
+    static int offset = 0, index = 0, max = 5;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int pos=i; pos < i+offset; ++pos) {
+                if(pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
+                    cv::Vec3b &pixel = pixelAt(frame, z, pos);
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
+            }
+            i += offset;
+        }
+        static int dir = 1, max_dir = 1;
+        if(dir == 1) {
+            ++offset;
+            if(offset > max) {
+                dir = 0;
+                if(max_dir == 1) {
+                    max += 1;
+                    if(max > 250)
+                        max_dir = 0;
+                } else {
+                    max -= 1;
+                    if(max <= 5)
+                        max_dir = 1;
+                }
+            }
+        } else {
+            --offset;
+            if(offset <= 1)
+                dir = 1;
+        }
+        static int idir = 1;
+        if(idir == 1) {
+            ++index;
+            if(index > collection.size()-2)
+                idir = 0;
+        } else {
+            --index;
+            if(index <= 1)
+                idir = 1;
+        }
+    }
+    AddInvert(frame);}
