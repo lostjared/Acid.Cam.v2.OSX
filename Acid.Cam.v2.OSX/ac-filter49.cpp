@@ -833,7 +833,7 @@ void ac::LineInLineOut(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             for(int pos=i; pos < i+offset; ++pos) {
-                if(pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
+                if(i >= 0 && i < frame.cols && pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
                     cv::Vec3b &pixel = pixelAt(frame, z, pos);
                     cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                     pixel = pix;
@@ -868,7 +868,7 @@ void ac::LineInLineOut_Increase(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             for(int pos=i; pos < i+offset; ++pos) {
-                if(pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
+                if(i >= 0 && i < frame.cols && pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
                     cv::Vec3b &pixel = pixelAt(frame, z, pos);
                     cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                     pixel = pix;
@@ -913,7 +913,7 @@ void ac::LineInLineOut2_Increase(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             for(int pos=i; pos < i+offset; ++pos) {
-                if(pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
+                if(i >= 0 && i < frame.cols && pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
                     cv::Vec3b &pixel = pixelAt(frame, z, pos);
                     cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                     pixel = pix;
@@ -965,7 +965,7 @@ void ac::LineInLineOut3_Increase(cv::Mat &frame) {
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             for(int pos=i; pos < i+offset; ++pos) {
-                if(pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
+                if(i >= 0 && i < frame.cols && pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
                     cv::Vec3b &pixel = pixelAt(frame, z, pos);
                     cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                     pixel = pix;
