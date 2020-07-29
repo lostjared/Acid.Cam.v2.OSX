@@ -23,6 +23,7 @@
 		7F3B124523104DD30011C6DF /* ac-filter29.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B124423104DD30011C6DF /* ac-filter29.cpp */; };
 		7F3CF9D3237879A5004017A8 /* ac-filter35.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F3CF9D2237879A4004017A8 /* ac-filter35.cpp */; };
 		7F418243229AF12A00528131 /* ac-filter22.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F418242229AF12A00528131 /* ac-filter22.cpp */; };
+		7F46332324D23270008C6869 /* ac-filter50.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F46332224D23270008C6869 /* ac-filter50.cpp */; };
 		7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F47CB331C6D0549008689B9 /* AudioToolbox.framework */; };
 		7F4D4B9320E50293000248F9 /* ac-filter7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D4B9220E50292000248F9 /* ac-filter7.cpp */; };
 		7F5181C820CC7F4200CF342C /* ac-filter6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F5181C720CC7F4200CF342C /* ac-filter6.cpp */; };
@@ -160,6 +161,7 @@
 		7F3BFD26224BE19C00838B80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7F3CF9D2237879A4004017A8 /* ac-filter35.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter35.cpp"; path = "Acid.Cam.v2.OSX/ac-filter35.cpp"; sourceTree = "<group>"; };
 		7F418242229AF12A00528131 /* ac-filter22.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter22.cpp"; path = "Acid.Cam.v2.OSX/ac-filter22.cpp"; sourceTree = "<group>"; };
+		7F46332224D23270008C6869 /* ac-filter50.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter50.cpp"; path = "Acid.Cam.v2.OSX/ac-filter50.cpp"; sourceTree = "<group>"; };
 		7F47CB331C6D0549008689B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7F4A50A920800F84009998DA /* tokenize.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tokenize.hpp; path = Acid.Cam.v2.OSX/tokenize.hpp; sourceTree = "<group>"; };
 		7F4D4B9220E50292000248F9 /* ac-filter7.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter7.cpp"; path = "Acid.Cam.v2.OSX/ac-filter7.cpp"; sourceTree = "<group>"; };
@@ -334,7 +336,6 @@
 		7F9D708917DE4F35009C54DA = {
 			isa = PBXGroup;
 			children = (
-				7FE8E23D24665E9600C15807 /* SimpleImageView.h */,
 				7FE8E23C24665E9600C15807 /* SimpleImageView.mm */,
 				7FE8E23224665E4B00C15807 /* ServerDescriptionValueTransformer.h */,
 				7FE8E23724665E4B00C15807 /* ServerDescriptionValueTransformer.m */,
@@ -345,6 +346,7 @@
 				7F190F8D226E305F001F4521 /* AC_SearchController.mm */,
 				7F190F8F226E3076001F4521 /* AC_SearchController.h */,
 				7FEC387B2130EB9800EE1A3E /* AC_ImageView.h */,
+				7FE8E23D24665E9600C15807 /* SimpleImageView.h */,
 				7FEC387A2130EB9800EE1A3E /* AC_ImageView.mm */,
 				7FEC38772130EB6800EE1A3E /* AC_Renderer.h */,
 				7FEC38742130EB6600EE1A3E /* AC_Renderer.mm */,
@@ -407,6 +409,7 @@
 				7FCFCD05244EFAE60010B639 /* ac-filter47.cpp */,
 				7FFB05B72479E3EC00A616C5 /* ac-filter48.cpp */,
 				7FED81D9248D064D00A8A35D /* ac-filter49.cpp */,
+				7F46332224D23270008C6869 /* ac-filter50.cpp */,
 				7FEE831120C394320027A848 /* ac-util.cpp */,
 				7FEE831820C39AAB0027A848 /* ac-square.cpp */,
 				7FEE831A20C39B020027A848 /* ac-particle.cpp */,
@@ -644,6 +647,7 @@
 				7F28BAE022B1A46D007C4712 /* ac-filter23.cpp in Sources */,
 				7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */,
 				7F9DCAB32232F9CC0031F992 /* ac-filter17.cpp in Sources */,
+				7F46332324D23270008C6869 /* ac-filter50.cpp in Sources */,
 				7FA763AD23460E9600BFDB50 /* ac-filter32.cpp in Sources */,
 				7FEC38792130EB6800EE1A3E /* AC_AppDelegate.mm in Sources */,
 				7FED81DA248D064D00A8A35D /* ac-filter49.cpp in Sources */,
