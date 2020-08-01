@@ -300,3 +300,48 @@ void ac::LineInLineOut_Vertical(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::LineInLineOut_VerticalIncrease(cv::Mat &frame) {
+    static int offset = 0, index = 0, max = 50;
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            for(int pos=z; pos < z+offset; ++pos) {
+                if(i >= 0 && i < frame.cols && pos >= 0 && pos < frame.rows && z >= 0 && z < frame.rows) {
+                    cv::Vec3b &pixel = pixelAt(frame, pos, i);
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
+                }
+            }
+            i += offset;
+        }
+        static int dir = 1, max_dir = 1;
+        if(dir == 1) {
+            ++offset;
+            if(offset > max) {
+                dir = 0;
+                if(max_dir == 1) {
+                    max += 1;
+                    if(max > 400)
+                        max_dir = 0;
+                } else {
+                    max -= 1;
+                    if(max <= 50)
+                        max_dir = 1;
+                }
+            }
+        } else {
+            --offset;
+            if(offset <= 1)
+                dir = 1;
+        }
+        ++index;
+        if(index > collection.size()-1)
+            index = 0;
+    }
+    AddInvert(frame);
+}
