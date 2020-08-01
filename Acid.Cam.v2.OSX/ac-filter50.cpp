@@ -173,7 +173,7 @@ void ac::LineInLineOut_ReverseIncrease(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::LineInLineOut_InverseY(cv::Mat &frame) {
+void ac::LineInLineOut_InvertedY(cv::Mat &frame) {
     static int offset = 0, index = 0, max = 50;
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
