@@ -2454,6 +2454,7 @@ namespace ac {
     void LineInLineOut_ReverseInvertedY(cv::Mat &frame);
     void LineInLineOut_Vertical(cv::Mat &frame);
     void LineInLineOut_VerticalIncrease(cv::Mat &frame);
+    void TestFilter101(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

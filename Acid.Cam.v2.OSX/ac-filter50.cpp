@@ -345,3 +345,7 @@ void ac::LineInLineOut_VerticalIncrease(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::TestFilter101(cv::Mat &frame) {
+    
+}
