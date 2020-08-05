@@ -2456,6 +2456,7 @@ namespace ac {
     void LineInLineOut_VerticalIncrease(cv::Mat &frame);
     void LineInLineOut_IncreaseImage(cv::Mat &frame);
     void LineInLineOut_IncreaseVideo(cv::Mat &frame);
+    void LineInLineOut_IncreaseVideo2(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);

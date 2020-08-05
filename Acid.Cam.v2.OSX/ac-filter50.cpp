@@ -450,3 +450,54 @@ void ac::LineInLineOut_IncreaseVideo(cv::Mat &frame) {
         AddInvert(frame);
     }
 }
+
+void ac::LineInLineOut_IncreaseVideo2(cv::Mat &frame) {
+    cv::Mat vframe;
+    if(VideoFrame(vframe)) {
+        cv::Mat reimage;
+        ac_resize(vframe, reimage, frame.size());
+        static int offset = 0, index = 0, max = 50;
+        static MatrixCollection<8> collection;
+        collection.shiftFrames(frame);
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                for(int pos=i; pos < i+offset; ++pos) {
+                    if(i >= 0 && i < frame.cols && pos >= 0 && pos < frame.cols && z >= 0 && z < frame.rows) {
+                        cv::Vec3b &pixel = pixelAt(frame, z, pos);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                        cv::Vec3b rei = pixelAt(reimage,z, i);
+                        pixel = pix;
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.3 * pixel[j]) + (0.3 * pix[j]) + (0.3 * rei[j]));
+                        }
+                    }
+                }
+                i += offset;
+                static int dir = 1, max_dir = 1;
+                if(dir == 1) {
+                    ++offset;
+                    if(offset > max) {
+                        dir = 0;
+                        if(max_dir == 1) {
+                            max += 1;
+                            if(max > 400)
+                                max_dir = 0;
+                        } else {
+                            max -= 1;
+                            if(max <= 50)
+                                max_dir = 1;
+                        }
+                    }
+                } else {
+                    --offset;
+                    if(offset <= 1)
+                        dir = 1;
+                }
+                ++index;
+                if(index > collection.size()-1)
+                    index = 0;
+            }
+        }
+        AddInvert(frame);
+    }
+}
