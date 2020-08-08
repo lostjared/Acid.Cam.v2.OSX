@@ -666,7 +666,7 @@ void ac::SquareByRow(cv::Mat &frame) {
             for(int x = 0; x < SIZE_VALUE; ++x) {
                 int index = rand()%64;
                 for(int y = 0; y < SIZE_VALUE; ++y) {
-                    if(z+y < frame.rows-1 && i+x < frame.cols) {
+                    if(z+y < frame.rows-1 && i+x < frame.cols-1) {
                         cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
                         cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
                         ++index;
