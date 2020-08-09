@@ -682,3 +682,36 @@ void ac::SquareByRow(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareByRowRev(cv::Mat &frame) {
+    static MatrixCollection<32> collection;
+    collection.shiftFrames(frame);
+    static constexpr int SIZE_VALUE=96;
+    for(int z = 0; z < frame.rows; z += SIZE_VALUE) {
+        for(int i = 0; i < frame.cols; i += SIZE_VALUE) {
+            for(int x = 0; x < SIZE_VALUE; ++x) {
+                int index = rand()%64;
+                int offset = 0;
+                for(int y = 0; y < SIZE_VALUE; ++y) {
+                    if(z+y < frame.rows-1 && i+x < frame.cols-1 && (frame.cols-(i+x)-1) > 0) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix;
+                        if((offset%2)==0) {
+                            pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        } else {
+                            pix = collection.frames[index].at<cv::Vec3b>(z+y, frame.cols-(i+x)-1);
+                        }
+                        ++index;
+                        if(index > collection.size()-1) {
+                            index = 0;
+                        }
+                        
+                        pixel = pix;
+                        ++offset;
+                    }
+                }
+            }
+        }
+    }
+    AddInvert(frame);
+}
