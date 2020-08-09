@@ -715,3 +715,31 @@ void ac::SquareByRowRev(cv::Mat &frame) {
     }
     AddInvert(frame);
 }
+
+void ac::SquareByRow2(cv::Mat &frame) {
+    static MatrixCollection<48> collection;
+    collection.shiftFrames(frame);
+    static constexpr int SIZE_VALUE=96;
+    for(int z = 0; z < frame.rows; z += SIZE_VALUE) {
+        for(int i = 0; i < frame.cols; i += SIZE_VALUE) {
+            for(int x = 0; x < SIZE_VALUE; ++x) {
+                int index = rand()%32;
+                for(int y = 0; y < SIZE_VALUE; ++y) {
+                    if(z+y < frame.rows-1 && i+x < frame.cols-1) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(z+y, i+x);
+                        cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                        }
+                    }
+                    ++index;
+                    if(index > collection.size()-1) {
+                        index = 0;
+                    }
+                }
+            }
+        }
+    }
+    RGBStrobeTrails(frame);
+    AddInvert(frame);
+}

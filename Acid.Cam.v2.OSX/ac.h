@@ -2462,6 +2462,7 @@ namespace ac {
     void LineInLineOut_IncreaseImage3(cv::Mat &frame);
     void SquareByRow(cv::Mat &frame);
     void SquareByRowRev(cv::Mat &frame);
+    void SquareByRow2(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
