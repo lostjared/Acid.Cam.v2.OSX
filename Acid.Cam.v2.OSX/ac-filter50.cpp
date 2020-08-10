@@ -743,3 +743,25 @@ void ac::SquareByRow2(cv::Mat &frame) {
     RGBStrobeTrails(frame);
     AddInvert(frame);
 }
+
+void ac::DivideByValue(cv::Mat &frame) {
+    static MatrixCollection<8> collection;
+    collection.shiftFrames(frame);
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = pixelAt(frame, z, i);
+            cv::Vec3b pix[8];
+            unsigned int total_value[3] = {0};
+            for(int j = 0; j < 8; ++j) {
+                pix[j] = pixelAt(collection.frames[j], z, i);
+                for(int q = 0; q < 3; ++q)
+                    total_value[q] += pix[j][q];
+            }
+            for(int j = 0; j < 3; ++j) {
+                total_value[j] /= 5;
+                pixel[j] = pixel[j]^total_value[j];
+            }
+        }
+    }
+    AddInvert(frame);
+}
