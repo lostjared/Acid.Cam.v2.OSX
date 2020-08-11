@@ -567,9 +567,11 @@ void ac::PixelateFillRandom(cv::Mat &frame) {
             cv::Vec3b pix(rand()%255, rand()%255, rand()%255);
             for(int x = 0; x < f_w && x < frame.cols-1; ++x) {
                 for(int y = 0; y < f_h && y < frame.rows-1; ++y) {
-                    cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
-                    for(int j = 0; j < 3; ++j) {
-                        pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                    if(x >= 0 && x < frame.cols-1 && y >= 0 && y < frame.rows-1 && z+y < frame.rows-1 && i+x < frame.cols-1) {
+                        cv::Vec3b &pixel = pixelAt(frame,z+y, i+x);
+                        for(int j = 0; j < 3; ++j) {
+                            pixel[j] = static_cast<unsigned char>((0.7 * pixel[j]) + (0.3 * pix[j]));
+                        }
                     }
                 }
             }

@@ -134,7 +134,7 @@ void ac::DiagPixelated(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_w) {
             for(int x = 0; x < square_w; ++x) {
                 for(int y = 0; y < square_h; ++y) {
-                    if(z >= 0 && z+y < frame.rows && i+x < frame.cols && i >= 0) {
+                    if(z >= 0 && z+y < frame.rows-1 && i+x < frame.cols-1 && i >= 0) {
                         cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
                         cv::Vec3b pix = pixelAt(copy1,z,i);
                         for(int j = 0; j < 3; ++j) {
@@ -155,7 +155,7 @@ void ac::DiagPixelatedResize(cv::Mat &frame) {
         for(int i = 0; i < frame.cols; i += square_w) {
             for(int x = 0; x < square_w; ++x) {
                 for(int y = 0; y < square_h; ++y) {
-                    if(i >= 0 && z >= 0 && z+y > 0 && i+x > 0 && z+y < frame.rows && i+x < frame.cols && i < frame.cols && z < frame.rows) {
+                    if(i >= 0 && z >= 0 && z+y > 0 && i+x > 0 && z+y < frame.rows-1 && i+x < frame.cols-1 && i < frame.cols-1 && z < frame.rows-1) {
                         cv::Vec3b &pixel = pixelAt(frame, z+y, i+x);
                         cv::Vec3b pix = pixelAt(copy1,z,i);
                         for(int j = 0; j < 3; ++j) {
@@ -487,7 +487,7 @@ void ac::Distorted_LinesY(cv::Mat &frame) {
             int offset = (rand_dir == 1) ? i : i-16;
             int rand_len = rand()%16;
             for(int q = 0; q < rand_len; ++q) {
-                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols && offset+q < frame.cols) {
+                if(z >= 0 && z < frame.rows-1 && i >= 0 && i < frame.cols-1 && offset+q < frame.cols-1) {
                     cv::Vec3b &pixel = pixelAt(frame, z, i);
                     cv::Vec3b pix = pixelAt(copy1, z, offset+q);
                     pixel = pix;
@@ -513,7 +513,7 @@ void ac::Distorted_LinesX(cv::Mat &frame) {
             int offset = (rand_dir == 1) ? z : z-16;
             int rand_len = rand()%16;
             for(int q = 0; q < rand_len; ++q) {
-                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols && offset+q < frame.cols) {
+                if(q >= 0 && q < frame.cols-1 && z >= 0 && z < frame.rows-1 && i >= 0 && i < frame.cols-1 && offset+q < frame.cols-1) {
                     cv::Vec3b &pixel = pixelAt(frame, z, i);
                     cv::Vec3b pix = pixelAt(copy1, offset+q, i);
                     pixel = pix;
