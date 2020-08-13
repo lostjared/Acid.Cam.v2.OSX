@@ -513,7 +513,7 @@ void ac::Distorted_LinesX(cv::Mat &frame) {
             int offset = (rand_dir == 1) ? z : z-16;
             int rand_len = rand()%16;
             for(int q = 0; q < rand_len; ++q) {
-                if(q >= 0 && q < frame.cols-1 && z >= 0 && z < frame.rows-1 && i >= 0 && i < frame.cols-1 && offset+q < frame.cols-1) {
+                if(q >= 0 && q < frame.cols-1 && z >= 0 && z < frame.rows-1 && i >= 0 && i < frame.cols-1 && offset+q < frame.rows-1) {
                     cv::Vec3b &pixel = pixelAt(frame, z, i);
                     cv::Vec3b pix = pixelAt(copy1, offset+q, i);
                     pixel = pix;
