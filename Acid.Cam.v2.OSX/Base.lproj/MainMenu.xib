@@ -81,6 +81,7 @@
                 <outlet property="find_text" destination="efF-9E-1nR" id="zEl-Ez-ZcU"/>
                 <outlet property="finish_queue" destination="8dK-49-42N" id="k24-yP-vFE"/>
                 <outlet property="finish_queue_progress" destination="scO-9p-ahu" id="sOa-26-Amu"/>
+                <outlet property="fps_field" destination="pCL-KK-t5Y" id="Z68-7W-fPs"/>
                 <outlet property="framecount" destination="lqg-7A-aEC" id="Phj-U2-SxT"/>
                 <outlet property="gamma" destination="4mK-Wb-SEv" id="xil-q6-LZZ"/>
                 <outlet property="goto_f" destination="j1a-ql-e34" id="upk-ug-MzP"/>
@@ -726,7 +727,7 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="586">
-                        <rect key="frame" x="168" y="168" width="168" height="26"/>
+                        <rect key="frame" x="168" y="168" width="125" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="587">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -858,6 +859,15 @@
                             <action selector="changedCameraDevice:" target="630" id="cJF-2s-dLO"/>
                         </connections>
                     </popUpButton>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pCL-KK-t5Y">
+                        <rect key="frame" x="298" y="171" width="37" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="24" drawsBackground="YES" id="WQx-2k-Puw">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-174.5" y="-100"/>

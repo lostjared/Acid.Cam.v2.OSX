@@ -123,7 +123,7 @@ void stopCV() {
 }
 
 // program function to start process
-int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
+int program_main(double fps_value, BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on, double fps_val, bool u4k, int outputType, std::string input_file, bool noRecord, std::string outputFileName, int capture_width, int capture_height, int capture_device, long frame_countx, float pass2_alpha, std::string file_path) {
     programRunning = true;
     input_ = "";
     output_ = "";
@@ -149,7 +149,10 @@ int program_main(BOOL output, int resize_w, int resize_h, BOOL show, bool fps_on
     writer.reset(new cv::VideoWriter());
     try {
         // open either camera or video file
-        if(camera_mode == 0 /*&& capture->isOpened() == false*/) capture->open(capture_device);
+        if(camera_mode == 0 /*&& capture->isOpened() == false*/) {
+            capture->open(capture_device);
+            capture->set(cv::CAP_PROP_FPS, fps_value);
+        }
         else if(camera_mode == 1)  {
             capture->open(input_file);
             input_ = input_file;

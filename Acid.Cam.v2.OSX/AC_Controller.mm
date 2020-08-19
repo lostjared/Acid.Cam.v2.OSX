@@ -895,11 +895,14 @@ void setEnabledProg() {
             value_w = (int)cap_width;
             value_h = (int)cap_height;
         }
+        
+        double fps_val = [fps_field doubleValue];
+        
         int ret_val = 0;
         if(use_resized_res == false)
-            ret_val = program_main(outputVideo, 0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_arr[res].width, res_arr[res].height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+            ret_val = program_main(fps_val,outputVideo, 0, 0,syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, res_arr[res].width, res_arr[res].height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         else
-            ret_val = program_main(outputVideo, value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
+            ret_val = program_main(fps_val,outputVideo, value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         if(ret_val == 0) {
             if(camera_mode == 1) {
                renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
