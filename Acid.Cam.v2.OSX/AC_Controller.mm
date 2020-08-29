@@ -1226,7 +1226,10 @@ void setEnabledProg() {
         }
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if(syphon_enabled == YES) [render_ updateTexture: &frame];
+            if(syphon_enabled == YES) {
+                cv::Mat frame_copy = frame.clone();
+                [render_ updateTexture: &frame_copy];
+            }
         });
         
         if(ac::snapShot == true) {

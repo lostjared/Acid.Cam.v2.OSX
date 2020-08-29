@@ -53,6 +53,8 @@ GLuint material;
 @end
 
 
+int row_w = 0, row_h = 0;
+
 @implementation AC_Renderer
 
 @synthesize needsReshape = _needsReshape;
@@ -95,9 +97,6 @@ GLuint material;
 - (void)render:(NSSize)dimensions
 {
     NSSize frameSize = dimensions;
-    std::cout << frameSize.width << ":" << frameSize.height << "\n";
-    std::cout << frame.cols << ":" << frame.rows << "\n";
-    
     glViewport(0, 0, frameSize.width, frameSize.height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -109,25 +108,37 @@ GLuint material;
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
     cv::Mat value;
-    cv::flip(frame, value, -1);
+    cv::flip(frame, value, 0);
     frame = value;
     NSSize textureSize;
     textureSize.width = frame.cols;
     textureSize.height = frame.rows;
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, material);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, frame.cols);
-    glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,
-                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
     static bool set = false;
     if(set == false) {
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGB, frame.cols, frame.rows, 0, GL_RGB, GL_UNSIGNED_BYTE, frame.ptr());
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, frame.cols);
+        glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,
+                        GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGB, textureSize.width, textureSize.height, 0, GL_RGB, GL_UNSIGNED_BYTE, frame.ptr());
         set = true;
+        row_w = textureSize.width;
+        row_h = textureSize.height;
     }
     else if(new_frame) {
-        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, frame.cols, frame.rows, GL_BGR, GL_UNSIGNED_BYTE, frame.ptr());
+        cv::Mat val;
+        cv::resize(frame, val, cv::Size(row_w, row_h));
+        frame = val;
+        textureSize.width = row_w;
+        textureSize.height = row_h;
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, frame.cols);
+        glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,
+                        GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, textureSize.width, textureSize.height, GL_BGR, GL_UNSIGNED_BYTE, frame.ptr());
         new_frame = false;
     }
 
