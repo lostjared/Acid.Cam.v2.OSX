@@ -46,7 +46,16 @@
 
 AC_Renderer *render_;
 
+GLuint material;
+
+@interface AC_Renderer ()
+@property (readwrite) BOOL needsReshape;
+@end
+
+
 @implementation AC_Renderer
+
+@synthesize needsReshape = _needsReshape;
 
 - (id)initWithComposition:(NSURL *)url context:(NSOpenGLContext *)context pixelFormat:(NSOpenGLPixelFormat *)format
 {
@@ -57,11 +66,13 @@ AC_Renderer *render_;
     }
     render_ = self;
     new_frame = NO;
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &material);
     return self;
 }
 
 - (void) updateTexture: (cv::Mat *)fval {
-    cv::flip(*fval, frame, 0);
+    frame = *fval;
     new_frame = YES;
 }
 
@@ -83,25 +94,72 @@ AC_Renderer *render_;
 
 - (void)render:(NSSize)dimensions
 {
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+    NSSize frameSize = dimensions;
+    std::cout << frameSize.width << ":" << frameSize.height << "\n";
+    std::cout << frame.cols << ":" << frame.rows << "\n";
+    
+    glViewport(0, 0, frameSize.width, frameSize.height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0, frameSize.width, 0.0, frameSize.height, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslated(frameSize.width * 0.5, frameSize.height * 0.5, 0.0);
+   
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    if(!frame.empty() && new_frame == YES) {
-        cv::Mat outval;
-        // change this to resize window instead of frame
-        frame =  resizeKeepAspectRatio(frame, cv::Size(dimensions.width, dimensions.height), cv::Scalar(0,0,0));
-        glDrawPixels(frame.cols, frame.rows, GL_BGR, GL_UNSIGNED_BYTE, (unsigned char *)frame.ptr());
-        new_frame = NO;
+    cv::Mat value;
+    cv::flip(frame, value, -1);
+    frame = value;
+    NSSize textureSize;
+    textureSize.width = frame.cols;
+    textureSize.height = frame.rows;
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, material);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, frame.cols);
+    glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,
+                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    
+    static bool set = false;
+    if(set == false) {
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGB, frame.cols, frame.rows, 0, GL_RGB, GL_UNSIGNED_BYTE, frame.ptr());
+        set = true;
     }
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
+    else if(new_frame) {
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, frame.cols, frame.rows, GL_BGR, GL_UNSIGNED_BYTE, frame.ptr());
+        new_frame = false;
+    }
+
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    
+    GLfloat tex_coords[] =
+    {
+        0.0,                0.0,
+        (GLfloat)textureSize.width,  0.0,
+        (GLfloat)textureSize.width,  (GLfloat)textureSize.height,
+        0.0,                (GLfloat)textureSize.height
+    };
+    
+    float halfw = textureSize.width;
+    float halfh = textureSize.height;
+    
+    GLfloat verts[] =
+    {
+        -halfw, -halfh,
+        halfw, -halfh,
+        halfw, halfh,
+        -halfw, halfh
+    };
+    
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, verts );
+    glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    glDisableClientState(GL_VERTEX_ARRAY);
+    
 }
 
 @end

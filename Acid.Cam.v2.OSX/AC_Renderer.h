@@ -44,7 +44,8 @@
 #include "AC_Controller.h"
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
+#import <OpenGL/CGLMacro.h>
+#import <OpenGL/glu.h>
 
 
 @interface AC_Renderer : NSObject {
@@ -54,11 +55,17 @@
     BOOL initval;
     cv::Mat frame;
     BOOL new_frame;
+    BOOL _needsReshape;
+
 }
 - (id)initWithComposition:(NSURL *)url context:(NSOpenGLContext *)context pixelFormat:(NSOpenGLPixelFormat *)format;
 @property (readonly) BOOL hasNewFrame;
+@property (readonly) NSSize renderSize;
+
 - (void)render:(NSSize)dimensions;
 - (void)updateTexture: (cv::Mat *)fval;
+
+
 @end
 
 extern AC_Renderer *render_;

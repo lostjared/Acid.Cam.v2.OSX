@@ -32,23 +32,15 @@ NSImage *CaptureScreen() {
 
 -(CGImageRef)CGImage
 {
-    CGContextRef bitmapCtx = CGBitmapContextCreate(NULL/*data - pass NULL to let CG allocate the memory*/,
-                                                   [self size].width,
-                                                   [self size].height,
-                                                   8 /*bitsPerComponent*/,
-                                                   0 /*bytesPerRow - CG will calculate it for you if it's allocating the data.  This might get padded out a bit for better alignment*/,
-                                                   [[NSColorSpace genericRGBColorSpace] CGColorSpace],
-                                                   kCGBitmapByteOrder32Host|kCGImageAlphaPremultipliedFirst);
     
-    [NSGraphicsContext saveGraphicsState];
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:bitmapCtx flipped:NO]];
-    [self drawInRect:NSMakeRect(0,0, [self size].width, [self size].height) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:1.0];
-    [NSGraphicsContext restoreGraphicsState];
-    
-    CGImageRef cgImage = CGBitmapContextCreateImage(bitmapCtx);
-    CGContextRelease(bitmapCtx);
-    return cgImage;
+    NSImage *image = self; // an image
+    NSGraphicsContext *context = [NSGraphicsContext currentContext];
+    CGRect imageCGRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    NSRect imageRect = NSRectFromCGRect(imageCGRect);
+    CGImageRef imageRef = [image CGImageForProposedRect:&imageRect context:context hints:nil];
+    return imageRef;
 }
+
 
 
 -(cv::Mat)CVMat
