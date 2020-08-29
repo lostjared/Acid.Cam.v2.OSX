@@ -909,7 +909,7 @@ void setEnabledProg() {
             }
             else {
                 //renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
-                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
+                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps/2 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
 //                [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
                 [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
             }
