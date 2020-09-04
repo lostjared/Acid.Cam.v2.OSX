@@ -48,8 +48,7 @@
 #include<sstream>
 #include<memory>
 #include<string>
-
-
+#include"ffmpeg_write.h"
 // Global external functions/variables
 extern bool breakProgram, programRunning, stopProgram;
 extern bool isPaused;

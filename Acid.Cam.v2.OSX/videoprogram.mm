@@ -50,6 +50,8 @@
 #undef check
 #include"videocapture.h"
 
+extern FILE *fptr;
+
 std::string input_, output_;
 // Variable definiton
 unsigned int int_Seed = (unsigned int)(time(0));
@@ -80,26 +82,26 @@ void stopCV() {
     // if timer is valid
     if(renderTimer != nil && renderTimer.valid) {
         // stop timer
+        if(fptr != 0)
+              pclose(fptr);
+        
         [renderTimer invalidate];
         renderTimer = nil;
         // destroy the OpenCV Windows
         cv::destroyWindow("Acid Cam v2");
         cv::destroyWindow("Controls");
         // if recording clean up and release the writer
-        if(!ac::noRecord && writer->isOpened()) {
+        if(!ac::noRecord) {
             writer->release();
-            if(camera_mode == 1 && copy_sound == true && (output_Type == 0 || output_Type == 1) && input_.length() > 0 && output_.length() > 0) {
+            if(camera_mode == 1 && copy_sound == true) {
                 std::stringstream stream;
                 auto pos = ac::fileName.rfind("_.");
                 if(pos != std::string::npos) {
                     std::string file_n = ac::fileName.substr(0, pos);
                     stream << file_n << ".mp4";
-                    if(ac::CopyAudioStream(ffmpeg_string_path, output_, input_, stream.str())) {
-                        sout << "Successfully Wrote Video File to: " << stream.str() << "\n";
-                        std::remove(ac::fileName.c_str());
-                    } else {
-                        sout << "Mux failed. Do you have FFMPEG installed? Use homebrew to install FFMPEG...\n";
-                    }
+                    mux_audio(output_.c_str(), input_.c_str(), stream.str().c_str());
+                    sout << "Successfully Wrote Video File to: " << stream.str() << "\n";
+                    //std::remove(ac::fileName.c_str());
                 }
             } else {
                 sout << "Wrote to Video File: " << ac::fileName << "\n";
@@ -226,18 +228,39 @@ int program_main(double fps_value, BOOL output, int resize_w, int resize_h, BOOL
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
                 fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
-                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','1'),  ac::fps, s4k, true);
+                //opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','1'),  ac::fps, s4k, true);
+                std::ostringstream stream;
+                stream << s4k.width << "x" << s4k.height;
+                std::string res = stream.str();
+                stream.str("");
+                stream << ac::fps;
+                std::string f = stream.str();
+                if(camera_mode == 1)
+                    fptr = open_ffmpeg(ac::fileName.c_str(),"libx264",res.c_str(), res.c_str(), f.c_str(), crf.c_str());
+                else
+                    opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('a','v','c','1'),  ac::fps, s4k, true);
+
             } else if(outputType == 2) {
                 if(camera_mode == 1 && copy_sound == true) sound_prefix = "_";
-                fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps  << ".AC2.Output." << counter << sound_prefix << ".mov";
+                fs << ac::fileName << output_format << "-" << s4k.width << "x" << s4k.height << "p" << std::fixed << std::setprecision(2) << ac::fps  << ".AC2.Output." << counter << sound_prefix << ".mp4";
                 ac::fileName = fs.str();
-                opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('h','v','c','1'),  ac::fps, s4k, true);
+                //opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('h','v','c','1'),  ac::fps, s4k, true);
+                std::ostringstream stream;
+                stream << s4k.width << "x" << s4k.height;
+                std::string res = stream.str();
+                stream.str("");
+                stream << ac::fps;
+                std::string f = stream.str();
+                if(camera_mode == 1)
+                    fptr = open_ffmpeg(ac::fileName.c_str(),"libx265",res.c_str(), res.c_str(), f.c_str(), crf.c_str());
+                else
+                    opened = writer->open(ac::fileName, cv::VideoWriter::fourcc('h','v','c','1'),  ac::fps, s4k, true);
             }
-            if(writer->isOpened()) {
+            if(fptr != 0 || writer->isOpened()) {
                 output_ = ac::fileName;
             }
             // if writer is not opened exit
-            if(writer->isOpened() == false || opened == false) {
+            if(fptr == 0 && (writer->isOpened() == false || opened == false)) {
                 sout << "Error video file could not be created.\n";
                 _NSRunAlertPanel(@"Error", @"Video file could not be created Output directory exisit?\n", @"Close", nil, nil);
                 return -1;

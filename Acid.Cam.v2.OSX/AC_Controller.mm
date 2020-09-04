@@ -96,6 +96,7 @@ int delay_value = 60;
 using ac::user_filter;
 using ac::UserFilter;
 int index_offset = 0;
+std::string crf = "24";
 
 bool operator<(const UserArgType &o1, const UserArgType &o2) {
     if(o1.index < o2.index) return true;
@@ -107,6 +108,8 @@ void log_callback(std::string text) {
     s << text << "\n";
     flushToLog(s);
 }
+
+FILE *fptr = 0;
 
 //  Function below from Stack Overflow
 // https://stackoverflow.com/questions/28562401/resize-an-image-to-a-square-but-keep-aspect-ratio-c-opencv
@@ -337,6 +340,9 @@ void setEnabledProg() {
     restartFilter = NO;
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *str = [bundle pathForResource:@"clouds" ofType:@"tiff"];
+    NSString *s_ffmpeg_path = [bundle pathForResource:@"ffmpeg" ofType:@""];
+    [ffmpeg_path setStringValue:s_ffmpeg_path];
+    ffmpeg_path_str = [s_ffmpeg_path UTF8String];
     test_image = cv::imread([str UTF8String]);
     [bundle release];
     [self readSettings:self];
@@ -623,6 +629,7 @@ void setEnabledProg() {
     [record_op setEnabled: YES];
     [videoFileInput setEnabled:YES];
     stopCV();
+    fptr = 0;
     [startProg setTitle:@"Start Session"];
     ac::setRunning(false);
 }
@@ -783,6 +790,8 @@ void setEnabledProg() {
 
 -(IBAction) startProgram: (id) sender {
     
+    crf = [[crf_field stringValue] UTF8String];
+    
     if(!ac::frames_.empty()) {
         ac::frames_.erase(ac::frames_.begin(), ac::frames_.end());
     }
@@ -905,7 +914,7 @@ void setEnabledProg() {
             ret_val = program_main(fps_val,outputVideo, value_w, value_h, syphon_enabled, set_frame_rate, set_frame_rate_val, u4k, (int)popupType, input_file, r, filename, (int)cap_width, (int)cap_height,(int)[device_index indexOfSelectedItem], 0, 0.75f, add_path);
         if(ret_val == 0) {
             if(camera_mode == 1) {
-               renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
+                renderTimer = [NSTimer timerWithTimeInterval:1.0/ac::fps target:self selector:@selector(cvProc:) userInfo:nil repeats:YES];
             }
             else {
                 //renderTimer = [NSTimer timerWithTimeInterval:1.0/1000 target:self selector:@selector(camProc:) userInfo:nil repeats:YES];
@@ -1598,6 +1607,8 @@ void setEnabledProg() {
                 writer->write(frame);
                 if(ac::syphon_in_enabled) ac::syphon_in_changed = false;
             }
+        } else {
+            write_ffmpeg(fptr, frame);
         }
         struct stat buf;
         stat(ac::fileName.c_str(), &buf);

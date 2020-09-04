@@ -92,6 +92,7 @@ extern int delay_value;
 @interface Download : NSObject <NSApplicationDelegate,NSURLDownloadDelegate>
 @end
 
+extern std::string crf;
 
 class UserArgType {
 public:
@@ -218,6 +219,7 @@ bool operator<(const UserArgType &o1, const UserArgType &o2);
     IBOutlet NSMenuItem *low_res;
     IBOutlet NSTextField *threshold_edit;
     IBOutlet NSTextField *fps_field;
+    IBOutlet NSTextField *crf_field;
     
     SearchController *search_controller;
     NSMenu *user_menu;

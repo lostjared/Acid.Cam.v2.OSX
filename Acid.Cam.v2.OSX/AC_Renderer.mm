@@ -143,6 +143,12 @@ int row_w = 0, row_h = 0;
     }
 
     glColor4f(1.0, 1.0, 1.0, 1.0);
+    NSSize scaled;
+    float wr = textureSize.width / frameSize.width;
+    float hr = textureSize.height / frameSize.height;
+    float ratio;
+    ratio = (hr < wr ? wr : hr);
+    scaled = NSMakeSize((textureSize.width / ratio), (textureSize.height / ratio));
     
     GLfloat tex_coords[] =
     {
@@ -152,8 +158,8 @@ int row_w = 0, row_h = 0;
         0.0,                (GLfloat)textureSize.height
     };
     
-    float halfw = textureSize.width;
-    float halfh = textureSize.height;
+    float halfw = scaled.width * 0.5;
+    float halfh = scaled.height * 0.5;
     
     GLfloat verts[] =
     {
