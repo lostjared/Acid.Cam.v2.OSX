@@ -321,7 +321,10 @@ void setEnabledProg() {
     flushToLog(time_stream);
     std::ostringstream sout;
     // load from settings
-    ffmpeg_string_path = "/usr/local/bin/ffmpeg";
+    NSBundle *bundlex = [NSBundle mainBundle];
+    NSString *val = [bundlex pathForResource:@"ffmpeg" ofType:@""];
+    ffmpeg_string_path =  [val UTF8String];
+    [ffmpeg_path setStringValue:val];
     std::string gfx_name;
     [self getGraphicsInfo:&gfx_name];
     sout << "GPU: " << gfx_name << "\n";
@@ -817,10 +820,6 @@ void setEnabledProg() {
             file.open(ffmpeg_string_path, std::ios::in);
             if(!file.is_open() || !file.good()) {
                 _NSRunAlertPanel(@"FFMPEG must be installed, check README", @"FFMPEG should be installed with Homebrew package manager. It is free you can find it here: https://brew.sh/", @"Ok", nil, nil);
-                return;
-            }
-            if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
-                _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
                 return;
             }
         }
@@ -2449,10 +2448,6 @@ void setEnabledProg() {
         }
         file.close();
         ffmpeg_string_path = [[ffmpeg_path stringValue] UTF8String];
-        if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
-            _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
-            return;
-        }
         output_path_ffmpeg = ffmpeg_string_path;
     } else {
         output_path_ffmpeg = "Not Enabled.";
@@ -3627,11 +3622,6 @@ void setEnabledProg() {
         [copy_audio setState:NSControlStateValueOff];
         return;
     }
-    if(ac::FFMPEG_Installed(ffmpeg_string_path) == false) {
-        _NSRunAlertPanel(@"FFMPEG Program Not found, Is it Installed?", @"Valid FFMPEG Program could not be found...", @"Ok", nil, nil);
-        [copy_audio setState:NSControlStateValueOff];
-        return;
-    }
 }
 
 - (IBAction) menuMoveNormal: (id) sender {
@@ -3668,16 +3658,6 @@ void setEnabledProg() {
 }
 
 - (IBAction) readSettings: (id) sender {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *ff_path = [defaults objectForKey:@"ffmpeg"];
-    NSInteger ff_support = [defaults integerForKey:@"ffmpeg_on"];
-    if(ff_path != nil) {
-        ffmpeg_string_path = [ff_path UTF8String];
-    } else {
-        ffmpeg_string_path = "/usr/local/bin/ffmpeg";
-    }
-    [ffmpeg_path setStringValue: [NSString stringWithUTF8String: ffmpeg_string_path.c_str()]];
-    [ffmpeg_support setIntegerValue:ff_support];
 }
 
 - (IBAction) toggleOutput: (id) sender {

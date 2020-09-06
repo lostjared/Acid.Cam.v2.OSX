@@ -71,7 +71,7 @@ void close_stdout() {
 void mux_audio(const char *output, const char *src, const char *final_file) {
 #ifndef _WIN32
     std::ostringstream stream;
-    stream << ffmpeg_path_str << " -y -i " << output << " -i " << src << " -c copy -map 0:v:0 -map 1:a:0? -shortest " << final_file;
+    stream << ffmpeg_path_str << " -y -i \"" << output << "\" -i \"" << src << "\" -c copy -map 0:v:0 -map 1:a:0? -shortest \"" << final_file << "\"";
     std::cout << "acidcam: " << stream.str() << "\n";
 #ifndef _WIN32
     FILE *fptr = popen(stream.str().c_str(), "r");

@@ -1485,27 +1485,7 @@ bool ac::CopyAudioStream(std::string ffmpeg, std::string file1, std::string file
 }
 
 bool ac::FFMPEG_Installed(const std::string &ffmpeg) {
-#if defined(__APPLE__) || defined(__linux__)
-    std::array<char, 128> buffer;
-    std::string result;
-    std::string cmd = ffmpeg + " -h";
-    FILE* fpipe = popen(cmd.c_str(), "r");
-    if (!fpipe) {
-        return false;
-    }
-    while (fgets(buffer.data(), 128, fpipe) != NULL) {
-        result += buffer.data();
-    }
-    int val = pclose(fpipe);
-    if(result.find("ffmpeg") != std::string::npos)
-        return true;
-    
-    if(val != 0)
-        return false;
-#else
-    std::cout << ffmpeg << ": Not supported on this platform...\n";
-#endif
-    return false;
+    return true;
 }
 
 void ac::swapColorState(const bool &b) {
