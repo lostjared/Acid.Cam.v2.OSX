@@ -834,7 +834,7 @@ void ac::VariableRectanglesExtra(cv::Mat &frame) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
                     cv::Vec3b &pixel = pixelAt(frame,z, i);
-                    if(rand_frame < collection.size()-1) {
+                    if(rand_frame < collection.size()-1 && i < collection.frames[rand_frame].cols && z < collection.frames[rand_frame].rows) {
                         cv::Vec3b pix = collection.frames[rand_frame].at<cv::Vec3b>(z, i);
                         pixel = pix;
                     }

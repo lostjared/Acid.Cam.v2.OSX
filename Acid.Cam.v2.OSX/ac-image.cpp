@@ -542,20 +542,24 @@ void ac::ImageBlendTransform(cv::Mat &frame) {
         collection.shiftFrames(frame);
         cv::Mat reimage;
         ac_resize(blend_image, reimage, frame.size());
-        for(int z = 0; z < frame.rows; ++z) {
-            for(int i = 0; i < frame.cols; ++i) {
+        for(int z = 0; z < frame.rows-1; ++z) {
+            for(int i = 0; i < frame.cols-1; ++i) {
+                if(z < frame.rows-1 && i < frame.cols-1) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b orig_pix = pixel;
-                cv::Vec3b add_i = blend_image.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < collection.size(); ++j) {
-                    cv::Vec3b color_v = collection.frames[j].at<cv::Vec3b>(z, i);
-                    for(int q = 0; q < 3; ++q) {
-                        pixel[q] ^= color_v[q];
+                cv::Vec3b add_i = reimage.at<cv::Vec3b>(z, i);
+                for(int j = 0; j < collection.size()-1; ++j) {
+                    if(i < collection.frames[j].cols -1 && z < collection.frames[j].rows-1) {
+                        cv::Vec3b color_v = collection.frames[j].at<cv::Vec3b>(z, i);
+                        for(int q = 0; q < 3; ++q) {
+                            pixel[q] ^= color_v[q];
+                        }
                     }
                 }
                 for(int q = 0; q < 3; ++q) {
                     pixel[q] ^= static_cast<unsigned char>((orig_pix[q] * alpha) + (add_i[q] * alpha));
                 }
+              }
             }
         }
         static int dir = 1;

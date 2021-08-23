@@ -375,10 +375,12 @@ void ac::VideoRandomWave(cv::Mat &frame) {
         collection.shiftFrames(reframe);
         for(int z = 0; z < frame.rows; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                if(index < collection.size()-1 && z < frame.rows-1 && i < frame.cols-1) {
+                    cv::Vec3b &pixel = pixelAt(frame,z, i);
+                    cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        pixel[j] = static_cast<unsigned char>((0.5 * pixel[j]) + (0.5 * pix[j]));
+                    }
                 }
             }
             if(dir == 1) {

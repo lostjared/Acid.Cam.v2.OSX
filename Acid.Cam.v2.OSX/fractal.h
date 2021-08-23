@@ -1,21 +1,23 @@
 /*
- * Software written by Jared Bruni https://github.com/lostjared
+ * Acid Cam v2 - OpenCV Edition
+ * written by Jared Bruni ( http://lostsidedead.com / https://github.com/lostjared )
  
- This software is dedicated to all the people that experience mental illness.
+ This software is dedicated to all the people that struggle with mental illness.
  
+ GitHub: http://github.com/lostjared
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
- Instagram: http://instagram.com/lostsidedead
+ Instagram: http://instagram.com/jaredbruni
  Twitter: http://twitter.com/jaredbruni
  Facebook: http://facebook.com/LostSideDead0x
  
- You can use this program free of charge and redistrubute it online as long
- as you do not charge anything for this program. This program is meant to be
- 100% free.
+ You can use this program free of charge and redistrubute as long
+ as you do not charge anything for this program. This program is 100%
+ Free.
  
  BSD 2-Clause License
  
- Copyright (c) 2020, Jared Bruni
+ Copyright (c) 2018, Jared Bruni
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without

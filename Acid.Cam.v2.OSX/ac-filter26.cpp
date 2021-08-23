@@ -283,33 +283,35 @@ void ac::PixelImageBlendFrame(cv::Mat &frame) {
     auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
         for(int z = offset; z <  offset+size; ++z) {
             for(int i = 0; i < cols; ++i) {
-                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
-                PixelValues &p = pix_container.pix_values[i][z];
-                cv::Vec3b &ipix = reimage.at<cv::Vec3b>(z, i);
-                for(int j = 0; j < 3; ++j) {
-                    if(p.dir[i] == 1) {
-                        p.col[j] += speed;
-                        if(p.col[j] == ipix[j]) {
-                            p.add[j] = p.col[j];
-                            p.col[j] = ipix[j];
+                if(z < frame->rows-1 && i < frame->cols-1 && z < reimage.rows-1 && i < reimage.cols-1) {
+                    cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                    PixelValues &p = pix_container.pix_values[i][z];
+                    cv::Vec3b &ipix = reimage.at<cv::Vec3b>(z, i);
+                    for(int j = 0; j < 3; ++j) {
+                        if(p.dir[i] == 1) {
+                            p.col[j] += speed;
+                            if(p.col[j] == ipix[j]) {
+                                p.add[j] = p.col[j];
+                                p.col[j] = ipix[j];
+                            } else {
+                                if(p.col[j] >= 255) {
+                                    p.dir[j] = 0;
+                                }
+                            }
                         } else {
-                            if(p.col[j] >= 255) {
-                                p.dir[j] = 0;
+                            if(p.col[j] == ipix[j]) {
+                                p.add[j] = p.col[j];
+                                p.col[j] = ipix[j];
+                            } else {
+                                p.col[j] -= speed;
+                                if(p.col[j] <= 1) {
+                                    p.dir[j] = 1;
+                                }
                             }
                         }
-                    } else {
-                        if(p.col[j] == ipix[j]) {
-                            p.add[j] = p.col[j];
-                            p.col[j] = ipix[j];
-                        } else {
-                            p.col[j] -= speed;
-                            if(p.col[j] <= 1) {
-                                p.dir[j] = 1;
-                            }
-                        }
+                        int val = p.col[j] ^ p.add[j];
+                        pixel[j] = static_cast<unsigned char>((0.25 * pixel[j]) + (0.25 * val) +  (0.50 * ipix[j]));
                     }
-                    int val = p.col[j] ^ p.add[j];
-                    pixel[j] = static_cast<unsigned char>((0.25 * pixel[j]) + (0.25 * val) +  (0.50 * ipix[j]));
                 }
             }
         }

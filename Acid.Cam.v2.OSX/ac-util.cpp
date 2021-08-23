@@ -1021,11 +1021,13 @@ void ac::InterlaceFrames(cv::Mat &frame, const cv::Mat &copy1) {
     }
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
+            if(z < frame.rows-1 && i < frame.cols-1 && z < reimage.rows-1 && i < frame.cols-1) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             if(index == 0) {
                 pixel = reimage.at<cv::Vec3b>(z, i);
             } else {
                 continue;
+            }
             }
         }
         index = (index == 0) ? 1 : 0;

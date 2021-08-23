@@ -228,7 +228,7 @@ void ac::MirrorIntertwineRows720(cv::Mat &frame) {
     for(int index = 0, pos = 0; index < copy1.rows; index ++, ++pos) {
         cv::Mat &ref1 = collection.frames[pos];
         for(int i = 0; i < frame.cols; ++i) {
-            if(index < frame.rows && i < frame.cols) {
+            if(index < resized.rows-1 && i < resized.cols-1 && index < ref1.rows-1 &&  i < ref1.cols-1) {
                 cv::Vec3b &pixel = resized.at<cv::Vec3b>(index, i);
                 cv::Vec3b pix = ref1.at<cv::Vec3b>(index, i);
                 pixel = pix;
@@ -256,7 +256,7 @@ void ac::MirrorIntertwineRowsY(cv::Mat &frame) {
     for(int index = 0, pos = 0; index < copy1.rows; index ++, ++pos) {
         cv::Mat &ref1 = collection.frames[pos];
         for(int i = 0; i < frame.cols; ++i) {
-            if(index < frame.rows && i < frame.cols) {
+            if(index < resized.rows-1 && i < resized.cols-1 && index < ref1.rows-1 &&  i < ref1.cols-1) {
                 cv::Vec3b &pixel = resized.at<cv::Vec3b>(index, i);
                 cv::Vec3b pix = ref1.at<cv::Vec3b>(index, i);
                 pixel = pix;
@@ -286,7 +286,7 @@ void ac::MirrorIntertwineRowsX_Y_Width_Height(cv::Mat &frame) {
     for(int index = 0, pos = 0; index < copy1.rows; index ++, ++pos) {
         cv::Mat &ref1 = collection.frames[pos];
         for(int i = 0; i < frame.cols; ++i) {
-            if(index < frame.rows && i < frame.cols) {
+            if(index < resized.rows-1 && i < resized.cols-1 && index < ref1.rows-1 &&  i < ref1.cols-1) {
                 cv::Vec3b &pixel = resized.at<cv::Vec3b>(index, i);
                 cv::Vec3b pix = ref1.at<cv::Vec3b>(index, i);
                 pixel = pix;

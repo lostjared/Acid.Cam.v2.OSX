@@ -190,6 +190,7 @@
 		7F9AE71823E90AA400D98161 /* ac-filter43.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter43.cpp"; path = "Acid.Cam.v2.OSX/ac-filter43.cpp"; sourceTree = "<group>"; };
 		7F9BFD5823A17C9900B36F9F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		7F9BFD5A23A238DB00B36F9F /* ac-filter37.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter37.cpp"; path = "Acid.Cam.v2.OSX/ac-filter37.cpp"; sourceTree = "<group>"; };
+		7F9C62E126D441B00085AA0A /* libbz2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbz2.a; path = cvlibs/libbz2.a; sourceTree = "<group>"; };
 		7F9CE203221B7A83009C544C /* ac-filter16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ac-filter16.cpp"; path = "Acid.Cam.v2.OSX/ac-filter16.cpp"; sourceTree = "<group>"; };
 		7F9D709217DE4F35009C54DA /* Acid.Cam.v2.OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Acid.Cam.v2.OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9D709517DE4F35009C54DA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -450,6 +451,7 @@
 		7F9D709417DE4F35009C54DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7F9C62E126D441B00085AA0A /* libbz2.a */,
 				7F98F22F23DCBB6F00DF3933 /* libx265.a */,
 				7F32C03323D796DC00AC885E /* GameController.framework */,
 				7F9BFD5823A17C9900B36F9F /* IOKit.framework */,
@@ -901,8 +903,8 @@
 				);
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = (
-					/usr/lib/libbz2.dylib,
-					/usr/lib/libdl.dylib,
+					"-ldl",
+					"-lbz2",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
