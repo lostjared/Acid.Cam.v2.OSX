@@ -67,7 +67,6 @@
 		7F9E38BB204C807C002A1F4F /* liblibpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB51E28356900B14623 /* liblibpng.a */; };
 		7F9E38BC204C807C002A1F4F /* liblibtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB61E28356900B14623 /* liblibtiff.a */; };
 		7F9E38BD204C807C002A1F4F /* libopencv_world.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F5831E81E27F3DA00101A98 /* libopencv_world.a */; };
-		7F9E38BE204C807C002A1F4F /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DBC1E28356900B14623 /* libzlib.a */; };
 		7F9E38BF204C807C002A1F4F /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DAC1E28356900B14623 /* libavcodec.a */; };
 		7F9E38C0204C807C002A1F4F /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB01E28356900B14623 /* libavutil.a */; };
 		7F9E38C1204C807C002A1F4F /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DB71E28356900B14623 /* libswscale.a */; };
@@ -126,6 +125,8 @@
 		7FEE833020C45B0E0027A848 /* ac-filter3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832C20C45B0D0027A848 /* ac-filter3.cpp */; };
 		7FEE833120C45B0E0027A848 /* ac-filter2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832D20C45B0D0027A848 /* ac-filter2.cpp */; };
 		7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE833220C45B560027A848 /* ac-filter5.cpp */; };
+		7FF9082726D452AC00054F13 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9C62E126D441B00085AA0A /* libbz2.a */; };
+		7FF9082826D452FE00054F13 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9C62E126D441B00085AA0A /* libbz2.a */; };
 		7FFB05B82479E3ED00A616C5 /* ac-filter48.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB05B72479E3EC00A616C5 /* ac-filter48.cpp */; };
 /* End PBXBuildFile section */
 
@@ -305,7 +306,6 @@
 				7F9E38BB204C807C002A1F4F /* liblibpng.a in Frameworks */,
 				7F9E38BC204C807C002A1F4F /* liblibtiff.a in Frameworks */,
 				7F9E38BD204C807C002A1F4F /* libopencv_world.a in Frameworks */,
-				7F9E38BE204C807C002A1F4F /* libzlib.a in Frameworks */,
 				7F9E38BF204C807C002A1F4F /* libavcodec.a in Frameworks */,
 				7F9E38C0204C807C002A1F4F /* libavutil.a in Frameworks */,
 				7F9E38C1204C807C002A1F4F /* libswscale.a in Frameworks */,
@@ -323,9 +323,11 @@
 				7FE23DED1E28403C00B14623 /* liblapack.tbd in Frameworks */,
 				7FE23DE91E28403000B14623 /* libf77lapack.tbd in Frameworks */,
 				7FC2B66A213185E700E54B6E /* Syphon.framework in Frameworks */,
+				7FF9082826D452FE00054F13 /* libbz2.a in Frameworks */,
 				7FEC38692130937200EE1A3E /* OpenGL.framework in Frameworks */,
 				7FE23DD31E28398000B14623 /* CoreVideo.framework in Frameworks */,
 				7FE23DD11E28397900B14623 /* CoreMedia.framework in Frameworks */,
+				7FF9082726D452AC00054F13 /* libbz2.a in Frameworks */,
 				7FE23DA71E28350700B14623 /* OpenCL.framework in Frameworks */,
 				7F5831E61E27F3CB00101A98 /* AVFoundation.framework in Frameworks */,
 				7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */,
@@ -853,6 +855,7 @@
 				OTHER_LDFLAGS = (
 					"-ldl",
 					"-lbz2",
+					"-lz",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
@@ -905,6 +908,7 @@
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-ldl",
 					"-lbz2",
+					"-lz",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
