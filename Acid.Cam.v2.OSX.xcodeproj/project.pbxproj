@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F02B87026D4556800901A64 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE23DBC1E28356900B14623 /* libzlib.a */; };
 		7F190F8E226E305F001F4521 /* AC_SearchController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F190F8D226E305F001F4521 /* AC_SearchController.mm */; };
 		7F190F91226E343B001F4521 /* tokenize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F190F90226E343B001F4521 /* tokenize.cpp */; };
 		7F1EE0E524067E53001ED89B /* ac-filter44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F1EE0E424067E53001ED89B /* ac-filter44.cpp */; };
@@ -333,6 +334,7 @@
 				7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */,
 				7F47CB341C6D0549008689B9 /* AudioToolbox.framework in Frameworks */,
 				7F9D712117DE4FA0009C54DA /* AppKit.framework in Frameworks */,
+				7F02B87026D4556800901A64 /* libzlib.a in Frameworks */,
 				7FEC3863213092D200EE1A3E /* VideoDecodeAcceleration.framework in Frameworks */,
 				7F9D709617DE4F35009C54DA /* Cocoa.framework in Frameworks */,
 			);
@@ -847,7 +849,7 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = "2.64.0 High Sierra";
+				MARKETING_VERSION = v2.80.4;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DDONT_TEST_BOUNDS",
@@ -855,7 +857,6 @@
 				OTHER_LDFLAGS = (
 					"-ldl",
 					"-lbz2",
-					"-lz",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
@@ -899,7 +900,7 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = "2.64.0 High Sierra";
+				MARKETING_VERSION = v2.80.4;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DDONT_TEST_BOUNDS",
@@ -908,7 +909,6 @@
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-ldl",
 					"-lbz2",
-					"-lz",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
