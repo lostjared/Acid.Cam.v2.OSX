@@ -860,9 +860,9 @@ void ac::AndOrXorStrobeScale(cv::Mat &frame) {
 }
 
 void ac::FadeInAndOut(cv::Mat &frame) {
-    static int speed[3] = {5+rand()%10, 5+rand()%10, 5+rand()%10};
+    static int speed[4] = {5+rand()%10, 5+rand()%10, 5+rand()%10};
     static cv::Scalar colorval(rand()%255, rand()%255, rand()%255);
-    static int dir[3] = {rand()%2, rand()%2, rand()%2};
+    static int dir[4] = {rand()%2, rand()%2, rand()%2};
     if(frames_released == true || reset_alpha == true) {
         colorval = cv::Scalar(rand()%255, rand()%255, rand()%255);
         for(int j = 0; j < 3; ++j) {
@@ -870,8 +870,8 @@ void ac::FadeInAndOut(cv::Mat &frame) {
             speed[j] = 5+rand()%10;
         }
     }
-    for(int z = 0; z < frame.rows; ++z) {
-        for(int i = 0; i < frame.cols; ++i) {
+    for(int z = 0; z < frame.rows-1; ++z) {
+        for(int i = 0; i < frame.cols-1; ++i) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             for(int j = 0; j < 3; ++j)
                 pixel[j] ^= cv::saturate_cast<unsigned char>(colorval[j]);

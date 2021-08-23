@@ -373,12 +373,12 @@ void ac::GlitchyTrails(cv::Mat &frame) {
     static MatrixCollection<32> collection;
     collection.shiftFrames(frame);
     static int square_max = (frame.rows / (collection.size()-1));
-    static int square_size = 25 + (rand()% (square_max - 25));
+    static int square_size = 2+ (rand()% (square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.rows-1) {
-        square_size = 25 + (rand()% (square_max - 25));
+        square_size = 2+ (rand()% (square_max));
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols-1 && z < frame.rows-1) {
@@ -440,13 +440,13 @@ void ac::GlitchyVideoXorTrails(cv::Mat &frame) {
         collection.shiftFrames(frame);
         vcollection.shiftFrames(reframe);
         static int square_max = (frame.rows / (collection.size()-1));
-        static int square_size = 25 + (rand()% (square_max - 25));
+        static int square_size = 2+ (rand()% (square_max));
         int row = 0;
         int off = 0;
         int off_row = 1+rand()%25;
         int size_past = 0;
         while(row < frame.rows-1) {
-            square_size = 25 + (rand()% (square_max - 25));
+            square_size = 2+ (rand()% (square_max));
             for(int z = row; z < row+square_size; ++z) {
                  for(int i = 0; i < frame.cols; ++i) {
                     if(i < frame.cols && z < frame.rows) {

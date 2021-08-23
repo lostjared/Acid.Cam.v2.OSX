@@ -89,8 +89,8 @@ void ac::UseOldRow(cv::Mat &frame) {
     
     cv::Mat copy1 = frame.clone();
     
-    static int square_max = (frame.rows / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_max = (frame.rows / collection1.size()-1);
+    static int square_size = 2 + (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
@@ -145,13 +145,13 @@ void ac::UseEveryOtherRow(cv::Mat &frame) {
     
     cv::Mat copy1 = frame.clone();
     
-    static int square_max = (frame.rows / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_max = (frame.rows / collection1.size()-1);
+    static int square_size = 2 + (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.rows-1) {
-        square_size = 25 + (rand()% (square_max - 25));
+        square_size = 2+ (rand()% (square_max));
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
@@ -199,13 +199,13 @@ void ac::UseOffRow(cv::Mat &frame) {
     
     cv::Mat copy1 = frame.clone();
     
-    static int square_max = (frame.rows / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_max = (frame.rows / collection1.size()-1);
+    static int square_size = 2+ (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.rows-1) {
-        square_size = 25 + (rand()% (square_max - 25));
+        square_size = 2+ (rand()% (square_max));
         for(int z = row; z < row+square_size; ++z) {
             for(int i = 0; i < frame.cols; ++i) {
                 if(i < frame.cols && z < frame.rows) {
@@ -442,12 +442,12 @@ void ac::UseOffRowVert(cv::Mat &frame) {
     if(collection2.empty()) collection2.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
     static int square_max = (frame.cols / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_size = 2 + (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.cols-1) {
-        square_size = 25 + (rand()% (square_max - 25));
+        square_size = 2+ (rand()% (square_max));
         for(int i = row; i < row+square_size; ++i) {
             for(int z = 0; z < frame.rows; ++z) {
                 if(i < frame.cols && z < frame.rows) {
@@ -494,12 +494,12 @@ void ac::UseOldRowVert(cv::Mat &frame) {
     if(collection2.empty()) collection2.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
     static int square_max = (frame.cols / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_size = 2+ (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.cols-1) {
-        square_size = 25 + (rand()% 1+(square_max - 25));
+        square_size = 2+ (rand()% 1+(square_max));
         for(int i = row; i < row+square_size; ++i) {
             int val = (rand()%10);
             for(int z = 0; z < frame.cols; ++z) {
@@ -548,12 +548,12 @@ void ac::UseEveryOtherRowVert(cv::Mat &frame) {
     if(collection2.empty()) collection2.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
     static int square_max = (frame.cols / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_size = 2+ (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.rows-1) {
-        square_size = 25 + (rand()% (square_max - 25));
+        square_size = 2 + (rand()% (square_max));
         for(int i = row; i < row+square_size; ++i) {
             for(int z = 0; z < frame.rows; ++z) {
                 if(i < frame.cols && z < frame.rows) {
@@ -644,13 +644,13 @@ void ac::UseOldRow64(cv::Mat &frame) {
     collection1.shiftFrames(frame);
     if(collection2.empty()) collection2.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
-    static int square_max = (frame.rows / collection1.size());
-    static int square_size = 25 + (rand()% (square_max - 25));
+    static int square_max = (frame.rows / collection1.size()-1);
+    static int square_size = 2+ (rand()% (square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.rows-1) {
-        square_size = 25 + (rand()% 1+(square_max - 25));
+        square_size = 2+ (rand()% 1+(square_max));
         for(int z = row; z < row+square_size; ++z) {
             int val = (rand()%10);
             for(int i = 0; i < frame.cols; ++i) {
@@ -698,12 +698,12 @@ void ac::UseOldRowVert64(cv::Mat &frame) {
     if(collection2.empty()) collection2.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
     static int square_max = (frame.cols / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_size = 2+ (rand()% 1+(square_max));
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.cols-1) {
-        square_size = 25 + (rand()% (square_max - 25));
+        square_size = 2 + (rand()% (square_max));
         for(int i = row; i < row+square_size; ++i) {
             int val = (rand()%10);
             for(int z = 0; z < frame.cols; ++z) {

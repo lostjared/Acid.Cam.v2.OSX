@@ -212,13 +212,13 @@ void ac::UseOldRowVertRGB(cv::Mat &frame) {
     if(collection2.empty()) collection2.shiftFrames(frame);
     cv::Mat copy1 = frame.clone();
     static int square_max = (frame.cols / collection1.size());
-    static int square_size = 25 + (rand()% 1+(square_max - 25));
+    static int square_size = 2+ (rand()% 1+(square_max));
     static int rgb = 0;
     int row = 0;
     int off = 0;
     int size_past = 0;
     while(row < frame.cols-1) {
-        square_size = 25 + (rand()% 1+(square_max - 25));
+        square_size = 2 + (rand()% 1+(square_max));
         for(int i = row; i < row+square_size; ++i) {
             int val = (rand()%10);
             for(int z = 0; z < frame.cols; ++z) {
