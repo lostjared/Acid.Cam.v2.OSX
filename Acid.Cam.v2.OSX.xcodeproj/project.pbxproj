@@ -851,8 +851,8 @@
 					"-DDONT_TEST_BOUNDS",
 				);
 				OTHER_LDFLAGS = (
-					/usr/lib/libbz2.dylib,
-					/usr/lib/libdl.dylib,
+					"-ldl",
+					"-lbz2",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "LostSideDead.${PRODUCT_NAME:rfc1034identifier}";
