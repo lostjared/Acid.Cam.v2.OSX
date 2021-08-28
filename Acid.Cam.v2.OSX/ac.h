@@ -2641,8 +2641,12 @@ namespace ac {
         }
         
         unsigned long getSize() {
+            
+            if(frames == 0) return 0;
+            
             unsigned long total = 0;
             for(int i = 0; i < Size; ++i) {
+                
                 if(frames[i] != 0 && !frames[i]->empty())
                     total += frames[i]->rows * frames[i]->cols;
             }
