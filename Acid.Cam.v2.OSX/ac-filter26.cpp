@@ -288,7 +288,7 @@ void ac::PixelImageBlendFrame(cv::Mat &frame) {
                     PixelValues &p = pix_container.pix_values[i][z];
                     cv::Vec3b &ipix = reimage.at<cv::Vec3b>(z, i);
                     for(int j = 0; j < 3; ++j) {
-                        if(p.dir[i] == 1) {
+                        if(p.dir[j] == 1) {
                             p.col[j] += speed;
                             if(p.col[j] == ipix[j]) {
                                 p.add[j] = p.col[j];
@@ -753,7 +753,7 @@ void ac::ColorImageBlendWithFrame(cv::Mat &frame) {
 }
 
 void ac::ColorImageBlendSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == 1 || draw_strings[subfilter] == "ColorImageBlendSubFilter")
+    if(blend_set == false || subfilter == -1)
         return;
     static double alpha = 1.0;
     static int dir = 1;

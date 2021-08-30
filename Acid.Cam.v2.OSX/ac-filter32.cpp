@@ -460,7 +460,7 @@ void ac::IntertwineVertical(cv::Mat &frame) {
     collection.shiftFrames(frame);
     static int Col = frame.cols/Size;
     int off_x = 0;
-    for(int index = 0; index < collection.size(); ++index) {
+    for(int index = 0; index < collection.size()-1; ++index) {
         for(int i = off_x; i < off_x+Col; ++i) {
             for(int z = 0; z < frame.rows; ++z) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
@@ -492,7 +492,7 @@ void ac::IntertwineImageVerticalSubFilter(cv::Mat &frame) {
     collection.shiftFrames(reimage);
     static int Col = frame.cols/Size;
     int off_x = 0;
-    for(int index = 0; index < collection.size(); ++index) {
+    for(int index = 0; index < collection.size()-1; ++index) {
         for(int i = off_x; i < off_x+Col; ++i) {
             for(int z = 0; z < frame.rows; ++z) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);

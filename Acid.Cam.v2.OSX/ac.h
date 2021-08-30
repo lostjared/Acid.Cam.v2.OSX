@@ -3711,9 +3711,9 @@ namespace ac {
     }
     extern Pixelated pix;
     struct PixelValues {
-        int dir[3];
-        int col[3];
-        int add[3];
+        int dir[4];
+        int col[4];
+        int add[4];
         int speed;
         int position_x, position_y;
         PixelValues() {

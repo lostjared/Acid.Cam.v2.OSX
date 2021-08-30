@@ -802,7 +802,7 @@ void ac::PixelReverseXor(cv::Mat &frame) {
 }
 
 void ac::PixelatedSubFilterSort(cv::Mat &frame) {
-    if(ac::draw_strings[subfilter] == "PixelatedSubFilterSort")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "PixelatedSubFilterSort")
         return;
     
     static MatrixCollection<8> collection;

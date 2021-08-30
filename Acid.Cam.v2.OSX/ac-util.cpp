@@ -107,8 +107,10 @@ int ac::getVariableWait() {
     return vwait;
 }
 
+std::mutex m_lock;
 
 void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
+    m_lock.lock();
     int start = low[2];
     int diff = high[2]-low[2];
     if(diff <= 0) diff = 1;
@@ -143,12 +145,15 @@ void ac::setColorRangeLowToHigh(cv::Vec3b low, cv::Vec3b high) {
             start ++;
         }
     }
+    m_lock.unlock();
 }
 
 void ac::applyColorRange(cv::Mat &frame) {
     
     if(getColorRangeEnabled() == false)
         return;
+    
+    m_lock.lock();
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -162,6 +167,7 @@ void ac::applyColorRange(cv::Mat &frame) {
             pixel[0] = val;
         }
     }
+    m_lock.unlock();
     AddInvert(frame);
 }
 
@@ -169,6 +175,8 @@ void ac::ApplyColorRangeInverted(cv::Mat &frame) {
     
     if(getColorRangeEnabled() == false)
         return;
+    
+    m_lock.lock();
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -182,15 +190,22 @@ void ac::ApplyColorRangeInverted(cv::Mat &frame) {
             pixel[0] = val;
         }
     }
+    m_lock.unlock();
     AddInvert(frame);
 }
 
 void ac::setColorRangeEnabled(bool e) {
+    m_lock.lock();
     range_enabled = e;
+    m_lock.unlock();
 }
 
 bool ac::getColorRangeEnabled() {
-    return range_enabled;
+    m_lock.lock();
+    bool re;
+    re = range_enabled;
+    m_lock.unlock();
+    return re;
 }
 
 void ac::MedianBlur(cv::Mat &frame, unsigned int value) {
@@ -330,9 +345,12 @@ void ac::setColorKeyRange(cv::Vec3b low, cv::Vec3b high) {
     range_low = low;
     range_high = high;
 }
+std::mutex m_lck;
 
 void ac::setBlockedColorKeys(std::vector<ac::Keys> &blocked) {
+    m_lck.lock();
     blocked_color_keys = blocked;
+    m_lck.unlock();
 }
 
 
@@ -356,16 +374,20 @@ bool ac::compareColor(const cv::Vec3b &color, const cv::Vec3b &low,const cv::Vec
 
 
 ac::SearchType ac::searchColors(const cv::Vec3b &color) {
+    m_lck.lock();
     for(unsigned int i = 0; i < blocked_color_keys.size(); ++i) {
         if(compareColor(color, blocked_color_keys[i].low, blocked_color_keys[i].high) == true) {
            if(blocked_color_keys[i].spill == true) {
+               m_lck.unlock();
                 return SEARCH_GRAY;
             }
             else {
+                m_lck.unlock();
                 return SEARCH_PIXEL;
             }
         }
     }
+    m_lck.unlock();
     return SEARCH_NOTFOUND;
 }
 
@@ -1042,7 +1064,7 @@ void ac::InterlaceFrames(cv::Mat &frame, cv::Mat *items, const int num_obj) {
             pixel = items[index].at<cv::Vec3b>(z, i);
         }
         ++index;
-        if(index > num_obj)
+        if(index > num_obj-1)
             index = 0;
     }
 }
