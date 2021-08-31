@@ -1,7 +1,7 @@
 #ifndef __SCREEN_H__
 #define __SCREEN_H__
 #ifdef __APPLE__
-#include<opencv2/opencv.hpp>
+#include"ac.h"
 #import <AppKit/AppKit.h>
 @interface NSImage (NSImage_OpenCV) {    
 }
