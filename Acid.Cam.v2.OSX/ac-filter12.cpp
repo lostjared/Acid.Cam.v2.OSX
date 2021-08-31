@@ -663,7 +663,7 @@ void ac::GammaIncDecIncrease(cv::Mat &frame) {
 }
 
 void ac::RandomSubFilter2(cv::Mat &frame) {
-    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomSubFilter")
+    if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomSubFilter2")
         return;
     static unsigned int index = 0;
     static std::vector<std::string> vSub { "Bitwise_XOR_AlphaSubFilter", "AlphaBlendSubFilter", "GradientSubFilterXor", "XorBlend_SubFilter","EnergizeSubFilter","PixelatedSubFilterSort","FilteredDifferenceSubFilter","ExpandSquareSubFilter","MirrorEnergizeSubFilter", "InterRGB_SubFilter", "InterSmoothSubFilter", "StoredFramesAlphaBlend_SubFilter", "BlendSubFilter", "BlendAlphaSubFilter", "Blend_AlphaSubFilter", "FrameMedianBlendSubFilter", "FrameBlurSubFilter","SubFilterMedianBlend", "DarkCollectionSubFilter", "FlipMedianSubFilter", "FlipMirrorSubFilter", "BlendCombinedValueSubFilter","CollectionXorSourceSubFilter","BlendReverseSubFilter","SmoothBlendReverseSubFilter","MedianBlendBufferSubFilter","RGBBlendSubFilter","XorOppositeSubFilter", "BlendSmoothSubFilter", "BlurSmoothSubFilter", "BlurFlipSubFilter", "MedianBlendSubFilterEx", "ShiftFrameSmoothSubFilter", "ShiftFrameStaticXorSubFilter"};
