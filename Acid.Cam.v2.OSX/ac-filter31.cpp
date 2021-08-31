@@ -630,7 +630,7 @@ void ac::GradientXor(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::RandomSub_Filter(cv::Mat &frame) {
+void ac::RandomSubFilter(cv::Mat &frame) {
     std::string filter_;
     std::string subf;
     filter_ = vSub[rand()%(vSub.size()-1)];
@@ -651,7 +651,7 @@ void ac::RandomSub_Filter(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::ShuffleSub_Filter(cv::Mat &frame) {
+void ac::ShuffleSubFilter(cv::Mat &frame) {
     static std::vector<std::string> solo_vec(solo_filter);
     static std::vector<std::string> shuffle_vec(vSub);
     static std::default_random_engine rng(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));

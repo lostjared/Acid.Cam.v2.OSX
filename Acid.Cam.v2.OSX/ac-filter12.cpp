@@ -662,7 +662,7 @@ void ac::GammaIncDecIncrease(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::RandomSubFilter(cv::Mat &frame) {
+void ac::RandomSubFilter2(cv::Mat &frame) {
     if(subfilter == -1 || ac::draw_strings[subfilter] == "RandomSubFilter")
         return;
     static unsigned int index = 0;

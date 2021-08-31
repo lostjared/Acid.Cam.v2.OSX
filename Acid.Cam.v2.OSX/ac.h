@@ -824,7 +824,7 @@ namespace ac {
     void ShiftFrameStaticXorSubFilter(cv::Mat &frame);
     void IncreaseDecreaseGamma(cv::Mat &frame);
     void GammaIncDecIncrease(cv::Mat &frame);
-    void RandomSubFilter(cv::Mat &frame);
+    void RandomSubFilter2(cv::Mat &frame);
     void TwistedVision(cv::Mat &frame);
     void TwistedMirror(cv::Mat &frame);
     void SelfScaleSortBlend(cv::Mat &frame);
@@ -1740,8 +1740,8 @@ namespace ac {
     void RandomGradientColors(cv::Mat &frame);
     void GradientColorMap(cv::Mat &frame);
     void GradientXor(cv::Mat &frame);
-    void RandomSub_Filter(cv::Mat &frame);
-    void ShuffleSub_Filter(cv::Mat &frame);
+    void RandomSubFilter(cv::Mat &frame);
+    void ShuffleSubFilter(cv::Mat &frame);
     void Shuffle_Filter(cv::Mat &frame);
     void RandomOrigFrame(cv::Mat &frame);
     void ColorVariableRectangles(cv::Mat &frame);
