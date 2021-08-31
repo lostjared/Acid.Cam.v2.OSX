@@ -578,7 +578,7 @@ void ac::ReduceColors(cv::Mat &frame) {
 
 void ac::ReduceColorsRandom(cv::Mat &frame) {
     static int lazy = 0;
-    static unsigned char colors_r[255], colors_g[255], colors_b[255];
+    static unsigned char colors_r[300], colors_g[300], colors_b[300];
     if(lazy == 0 || reset_alpha == true) {
         unsigned char val_r = rand()%255;
         unsigned char val_g = rand()%255;
