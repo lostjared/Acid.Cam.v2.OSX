@@ -552,7 +552,7 @@ void ac::VideoColorMapAlphaBlend(cv::Mat &frame) {
 
 void ac::ReduceColors(cv::Mat &frame) {
     static int lazy = 0;
-    static unsigned char colors[255];
+    static unsigned char colors[300];
     if(lazy == 0) {
         unsigned char val = 75;
         for(int z = 1; z < 255; ++z) {
@@ -611,7 +611,7 @@ void ac::ReduceColorsRandom(cv::Mat &frame) {
 
 void ac::ReduceColorsRed(cv::Mat &frame) {
     static int lazy = 0;
-    static unsigned char colors_r[255] = {0};
+    static unsigned char colors_r[300] = {0};
     if(lazy == 0 || reset_alpha == true) {
         unsigned char val_r = 75;
         static int index = 0;
@@ -639,7 +639,7 @@ void ac::ReduceColorsRed(cv::Mat &frame) {
 
 void ac::ReduceColorsGreen(cv::Mat &frame) {
     static int lazy = 0;
-    static unsigned char colors_r[255] = {0};
+    static unsigned char colors_r[300] = {0};
     if(lazy == 0 || reset_alpha == true) {
         unsigned char val_r = 75;
         static int index = 0;
@@ -667,7 +667,7 @@ void ac::ReduceColorsGreen(cv::Mat &frame) {
 
 void ac::ReduceColorsBlue(cv::Mat &frame) {
     static int lazy = 0;
-    static unsigned char colors_r[255] = {0};
+    static unsigned char colors_r[300] = {0};
     if(lazy == 0 || reset_alpha == true) {
         unsigned char val_r = 75;
         static int index = 0;
