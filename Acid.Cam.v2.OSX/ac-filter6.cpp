@@ -736,7 +736,7 @@ void ac::MedianBlendAnimation(cv::Mat &frame) {
 }
 
 void ac::FibFlash(cv::Mat &frame) {
-    static int values[13] = {1,2,3,5,8,13,21,34,55,89,144,233};
+    static int values[16] = {1,2,3,5,8,13,21,34,55,89,144,233};
     static int index = 0;
     static double alpha = 1.0, alpha_max = 3.0;
     
@@ -754,7 +754,7 @@ void ac::FibFlash(cv::Mat &frame) {
     static int idir = 1;
     if(idir == 1) {
         ++index;
-        if(index > 12) idir = 0;
+        if(index > 11) idir = 0;
     } else {
         --index;
         if(index <= 1) idir = 1;
