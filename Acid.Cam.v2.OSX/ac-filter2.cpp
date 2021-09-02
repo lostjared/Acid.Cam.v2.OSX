@@ -66,7 +66,8 @@ void ac::glitchSort(cv::Mat &frame) {
             cv[3] = 0;
             v.push_back(vv);// push back into vector
         }
-        std::sort(v.begin(), v.end());// sort the row of pixels
+        if(!v.empty())
+            std::sort(v.begin(), v.end());// sort the row of pixels
         for(int i = 0; i < w; ++i) {// left to right
             // pointer to integer stored at index i
             unsigned char *value = (unsigned char*)&v[i];
@@ -81,7 +82,8 @@ void ac::glitchSort(cv::Mat &frame) {
             if(isNegative) invert(frame, z, i); // if isNegative invert pixel
             
         }
-        v.erase(v.begin(), v.end());// erase pixel data
+        if(!v.empty())
+            v.erase(v.begin(), v.end());// erase pixel data
     }
     static double pos_max = 7.0f;// pos_max = 7.0
     static int direction = 1;
@@ -110,22 +112,25 @@ void ac::pixelSort(cv::Mat &frame) {
             // push back into vector v
             v.push_back(vv);
         }
-        // sort vector v
-        std::sort(v.begin(), v.end());
-        for(int i = 0; i < w; ++i) {// left to right
-            // unsigned char pointer of vector v at index i
-            unsigned char *value = (unsigned char*)&v[i];
-            // get pixel reference
-            cv::Vec3b &pixel = pixelAt(frame,z, i);
-            // add to pixel without scaling
-            pixel[0] += value[0];
-            pixel[1] += value[1];
-            pixel[2] += value[2];
-            swapColors(frame, z, i);// swap colors
-            if(isNegative) invert(frame, z, i);// invert pixel
+        if(!v.empty())
+            std::sort(v.begin(), v.end());
+        
+            for(int i = 0; i < w; ++i) {// left to right
+                // unsigned char pointer of vector v at index i
+                unsigned char *value = (unsigned char*)&v[i];
+                // get pixel reference
+                cv::Vec3b &pixel = pixelAt(frame,z, i);
+                // add to pixel without scaling
+                pixel[0] = value[0];
+                pixel[1] = value[1];
+                pixel[2] = value[2];
+                swapColors(frame, z, i);// swap colors
+                if(isNegative) invert(frame, z, i);// invert pixel
+            }
+            if(!v.empty())
+                v.erase(v.begin(), v.end());
         }
-        v.erase(v.begin(), v.end());
-    }
+    
 }
 // preform a random filter
 void ac::randomFilter(cv::Mat &frame) {
