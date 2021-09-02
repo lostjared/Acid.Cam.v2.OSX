@@ -233,7 +233,7 @@ void ac::RandomOrder(cv::Mat &frame) {
     static std::vector<int> colors { 1,2,3,4 };
     static auto rng = std::default_random_engine(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     static unsigned int index = static_cast<int>(colors.size()+1);
-    if(index > colors.size()) {
+    if(index > colors.size()-1) {
         std::shuffle(colors.begin(), colors.end(),rng);
         index = 0;
     }

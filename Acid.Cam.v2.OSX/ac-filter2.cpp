@@ -115,21 +115,21 @@ void ac::pixelSort(cv::Mat &frame) {
         if(!v.empty())
             std::sort(v.begin(), v.end());
         
-            for(int i = 0; i < w; ++i) {// left to right
-                // unsigned char pointer of vector v at index i
-                unsigned char *value = (unsigned char*)&v[i];
-                // get pixel reference
-                cv::Vec3b &pixel = pixelAt(frame,z, i);
-                // add to pixel without scaling
-                pixel[0] = value[0];
-                pixel[1] = value[1];
-                pixel[2] = value[2];
-                swapColors(frame, z, i);// swap colors
-                if(isNegative) invert(frame, z, i);// invert pixel
-            }
-            if(!v.empty())
-                v.erase(v.begin(), v.end());
+        for(int i = 0; i < w; ++i) {// left to right
+            // unsigned char pointer of vector v at index i
+            unsigned char *value = (unsigned char*)&v[i];
+            // get pixel reference
+            cv::Vec3b &pixel = pixelAt(frame,z, i);
+            // add to pixel without scaling
+            pixel[0] = value[0];
+            pixel[1] = value[1];
+            pixel[2] = value[2];
+            swapColors(frame, z, i);// swap colors
+            if(isNegative) invert(frame, z, i);// invert pixel
         }
+        if(!v.empty())
+            v.erase(v.begin(), v.end());
+    }
     
 }
 // preform a random filter
