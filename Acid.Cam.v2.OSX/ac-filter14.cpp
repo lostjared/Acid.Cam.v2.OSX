@@ -872,7 +872,7 @@ void ac::FlipShuffle(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone();
     cv::flip(copy1, frame, flip_codes[offset]);
     ++offset;
-    if(offset > flip_codes.size()) {
+    if(offset > flip_codes.size()-1) {
         offset = 0;
         std::shuffle(flip_codes.begin(), flip_codes.end(), rng);
     }

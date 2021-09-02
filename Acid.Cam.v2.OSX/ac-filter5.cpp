@@ -48,14 +48,14 @@ void ac::RandomFilteredSquare(cv::Mat &frame) {
     static std::unique_ptr<Box[]> boxes;
     int num_boxes = static_cast<int>(frame.cols/0.5);
     if(boxes == 0 || (frame.cols != Box::frame_width)) {
-        boxes.reset(new Box[num_boxes]);
+        boxes.reset(new Box[num_boxes+1]);
         Box::frame_width = frame.cols;
         Box::frame_height = frame.rows;
-        for(int i = 0; i < num_boxes; ++i)
+        for(int i = 0; i < num_boxes-1; ++i)
             boxes.get()[i].initBox(frame.cols, frame.rows);
     }
     
-    for(int i = 0; i < num_boxes; ++i) {
+    for(int i = 0; i < num_boxes-1; ++i) {
         boxes.get()[i].sizeBox();
         boxes.get()[i].drawBox(frame);
     }
