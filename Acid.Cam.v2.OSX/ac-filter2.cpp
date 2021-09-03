@@ -50,7 +50,6 @@ void ac::glitchSort(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     static std::vector<unsigned int> v;// static vector of int
-    v.reserve(w);// reserve at least w bytes
     for(int z = 0; z < h; ++z) {// top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             // grab current pixel value reference
@@ -95,7 +94,6 @@ void ac::pixelSort(cv::Mat &frame) {
     int w = frame.cols;// frame width
     int h = frame.rows;// frame height
     static std::vector<unsigned int> v;// static vector of int
-    v.reserve(w);// reserve w bytes
     for(int z = 0; z < h; ++z) { // top to bottom
         for(int i = 0; i < w; ++i) { // left to right
             //int value = frame.at<int>(z, i);

@@ -891,15 +891,15 @@ void ac::SquareStretchEven(cv::Mat &frame) {
 void ac::SketchFilter(cv::Mat &frame) {
     static MatrixCollection<8> collection;
     collection.shiftFrames(frame);
-    cv::Mat copies[8];
+    cv::Mat copies[9];
     for(int i = 0; i < 8; ++i) {
-        ac_resize(collection.frames[i], copies[i], cv::Size(frame.cols+((rand()%5) * 30), frame.rows));
+       copies[i] = frame.clone();
     }
     int offset = 0;
-    for(int row = 0; row < frame.rows; row += (frame.rows/8)) {
-        for(int z = row; z < row+(frame.rows/8) && z < frame.rows; ++z) {
+    for(int row = 0; row < frame.rows; row += (frame.rows/7)) {
+        for(int z = row; z < row+(frame.rows/7) && z < frame.rows; ++z) {
             int start = copies[offset].cols-frame.cols;
-            offset = rand()%collection.size();
+            offset = rand()%7;
             for(int i = 0; i < frame.cols; ++i) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = copies[offset].at<cv::Vec3b>(z, start);
