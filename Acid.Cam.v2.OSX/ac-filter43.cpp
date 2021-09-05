@@ -708,14 +708,14 @@ void ac::IncreaseLowBlueLevel(cv::Mat &frame) {
 }
 
 void ac::Zoom(cv::Mat &frame) {
-   static double zoom_x = 2, zoom_y = 2;
+    static double zoom_x = 2, zoom_y = 2;
     cv::Mat copy1;
     cv::resize(frame, copy1, cv::Size(static_cast<int>(frame.cols*zoom_x), static_cast<int>(frame.rows*zoom_y)));
     int y = 0;
     for(int z = 0; z < frame.rows; ++z) {
         int x = 0;
         for(int i = 0; i < frame.cols; ++i) {
-            if(x < copy1.cols && y < copy1.rows) {
+            if(x < copy1.cols && y < copy1.rows && i < frame.cols && z < frame.rows) {
                 cv::Vec3b &pixel = pixelAt(frame,z, i);
                 cv::Vec3b pix = copy1.at<cv::Vec3b>(y, x);
                 pixel = pix;
@@ -725,8 +725,8 @@ void ac::Zoom(cv::Mat &frame) {
         ++y;
     }
     static int dir1 = 1, dir2 = 1;
-    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 1.0);
-    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 1.0);
+    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 2.0);
+    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 2.0);
     AddInvert(frame);
 }
 
@@ -774,8 +774,8 @@ void ac::ZoomCorner(cv::Mat &frame) {
         ++y;
     }
     static int dir1 = 1, dir2 = 1;
-    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 1.0);
-    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 1.0);
+    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 2.0);
+    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 2.0);
     AddInvert(frame);
 }
 
@@ -798,8 +798,8 @@ void ac::ZoomRandom(cv::Mat &frame) {
         ++y;
     }
     static int dir1 = 1, dir2 = 1;
-    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 1.0);
-    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 1.0);
+    AlphaMovementMaxMin(zoom_x, dir1, 0.05, 5, 2.0);
+    AlphaMovementMaxMin(zoom_y, dir2, 0.05, 5, 2.0);
     AddInvert(frame);
     static int dir_x = 1;
     if(dir_x == 1) {
