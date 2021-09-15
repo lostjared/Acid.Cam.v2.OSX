@@ -914,7 +914,7 @@ void ac::VideoImageSourceFrame(cv::Mat &frame) {
     AlphaMovementMaxMin(alpha, dir, 0.01, 1.0, 0.2);
 }
 
-void ac::slowRed(cv::Mat &frame) {
+void ac::SlowRed(cv::Mat &frame) {
     static int col = 0;
     static int dir = 1;
     static int frame_counter = 0;
@@ -944,7 +944,7 @@ void ac::slowRed(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::slowGreen(cv::Mat &frame) {
+void ac::SlowGreen(cv::Mat &frame) {
     static int col = 0;
     static int dir = 1;
     static int frame_counter = 0;
@@ -974,7 +974,7 @@ void ac::slowGreen(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::slowBlue(cv::Mat &frame) {
+void ac::SlowBlue(cv::Mat &frame) {
     static int col = 0;
     static int dir = 1;
     static int frame_counter = 0;

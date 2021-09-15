@@ -892,7 +892,7 @@ void ac::AlphaBlendImageWithOrigSource(cv::Mat &frame) {
 
 
 
-void ac::resizeFrameWidth(cv::Mat &frame) {
+void ac::ResizeFrameWidth(cv::Mat &frame) {
     static cv::Size cur = frame.size();
     static int resize_x = 0, resize_y = 0;
     static int dir = 1;
@@ -930,7 +930,7 @@ void ac::resizeFrameWidth(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeFrameHeight(cv::Mat &frame) {
+void ac::ResizeFrameHeight(cv::Mat &frame) {
     static cv::Size cur = frame.size();
     static int resize_x = 0, resize_y = 0;
     static int dir = 1;
@@ -968,7 +968,7 @@ void ac::resizeFrameHeight(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeFrameWidthAndHeight(cv::Mat &frame) {
+void ac::ResizeFrameWidthAndHeight(cv::Mat &frame) {
     static cv::Size cur = frame.size();
     static int resize_x = 0, resize_y = 0;
     static int dir = 1;

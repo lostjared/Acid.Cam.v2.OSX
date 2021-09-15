@@ -534,13 +534,13 @@ namespace ac {
     void RandomCurtain(cv::Mat &frame);
     void CurtainVertical(cv::Mat &frame);
     void RandomCurtainVertical(cv::Mat &frame);
-    void inOrder(cv::Mat &frame);
-    void inOrderBySecond(cv::Mat &frame);
+    void InOrder(cv::Mat &frame);
+    void InOrderBySecond(cv::Mat &frame);
     void DarkenFilter(cv::Mat &frame);
     void RandomFilterBySecond(cv::Mat &frame);
     void ThreeRandom(cv::Mat &frame);
-    void inOrderAlpha(cv::Mat &frame);
-    void inOrderAlphaXor(cv::Mat &frame);
+    void InOrderAlpha(cv::Mat &frame);
+    void InOrderAlphaXor(cv::Mat &frame);
     void SlideFilterXor(cv::Mat &frame);
     void SlideFilter(cv::Mat &frame);
     void RandomSlideFilter(cv::Mat &frame);
@@ -1304,20 +1304,20 @@ namespace ac {
     void FillPixelsImage(cv::Mat &frame);
     void AverageHorizontalDistortion(cv::Mat &frame);
     void AlphaBlendImageWithOrigSource(cv::Mat &frame);
-    void resizeFrameWidth(cv::Mat &frame);
-    void resizeFrameHeight(cv::Mat &frame);
-    void resizeFrameWidthAndHeight(cv::Mat &frame);
-    void resizeImageHeight(cv::Mat &frame);
-    void resizeImageWidth(cv::Mat &frame);
-    void resizeImageWidthAndHeight(cv::Mat &frame);
-    void resizeImageAndFrameBlend(cv::Mat &frame);
-    void resizeImageWidthAndHeightSubFilter(cv::Mat &frame);
-    void resizeImageFrameWidth(cv::Mat &frame);
-    void resizeImageFrameHeight(cv::Mat &frame) ;
-    void resizeImageFrameWidthAndHeight(cv::Mat &frame);
-    void resizeImageRandom(cv::Mat &frame);
-    void resizeFrameRandom(cv::Mat &frame);
-    void resizeFrameImageFlash(cv::Mat &frame);
+    void ResizeFrameWidth(cv::Mat &frame);
+    void ResizeFrameHeight(cv::Mat &frame);
+    void ResizeFrameWidthAndHeight(cv::Mat &frame);
+    void ResizeImageHeight(cv::Mat &frame);
+    void ResizeImageWidth(cv::Mat &frame);
+    void ResizeImageWidthAndHeight(cv::Mat &frame);
+    void ResizeImageAndFrameBlend(cv::Mat &frame);
+    void ResizeImageWidthAndHeightSubFilter(cv::Mat &frame);
+    void ResizeImageFrameWidth(cv::Mat &frame);
+    void ResizeImageFrameHeight(cv::Mat &frame) ;
+    void ResizeImageFrameWidthAndHeight(cv::Mat &frame);
+    void ResizeImageRandom(cv::Mat &frame);
+    void ResizeFrameRandom(cv::Mat &frame);
+    void ResizeFrameImageFlash(cv::Mat &frame);
     void RandomFlip(cv::Mat &frame);
     void ColorsFilter(cv::Mat &frame);
     void MirrorDoubleVision(cv::Mat &frame);
@@ -1842,9 +1842,9 @@ namespace ac {
     void VideoSourceFrameBlur16(cv::Mat &frame);
     void VideoSourceFrameBlur32(cv::Mat &frame);
     void VideoImageSourceFrame(cv::Mat &frame);
-    void slowRed(cv::Mat &frame);
-    void slowGreen(cv::Mat &frame);
-    void slowBlue(cv::Mat &frame);
+    void SlowRed(cv::Mat &frame);
+    void SlowGreen(cv::Mat &frame);
+    void SlowBlue(cv::Mat &frame);
     void VideoMirrorAlpha(cv::Mat &frame);
     void VideoMirrorLeftRight(cv::Mat &frame);
     void VideoFlipFrames(cv::Mat &frame);
@@ -2580,7 +2580,7 @@ namespace ac {
     void setBlendPercent(int percent);
     void setThreshold(int t);
     // todo: later
-    // void resizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
+    // void ResizeFrame(const cv::Mat &image, cv::Mat &frame, const cv::Size &s);
     // draw functions / strings
     //extern std::string *draw_strings;
     extern std::vector<std::string> draw_strings;
@@ -2653,7 +2653,7 @@ namespace ac {
             return total;
         }
         
-        void resizeFrames(int ns) {
+        void ResizeFrames(int ns) {
             if(frames != 0) {
                 for(int i = 0; i < Size; ++i) {
                     delete frames[i];
@@ -2792,7 +2792,7 @@ namespace ac {
         bool set_reset;
         
         void resize(int sz) {
-            frames.resizeFrames(sz);
+            frames.ResizeFrames(sz);
             ArraySize = sz;
         }
         

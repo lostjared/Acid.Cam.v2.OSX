@@ -43,7 +43,7 @@
 
 #include "ac.h"
 
-void ac::resizeImageWidth(cv::Mat &frame) {
+void ac::ResizeImageWidth(cv::Mat &frame) {
     if(blend_set == false)
         return;
     static cv::Size cur = frame.size();
@@ -83,7 +83,7 @@ void ac::resizeImageWidth(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeImageHeight(cv::Mat &frame) {
+void ac::ResizeImageHeight(cv::Mat &frame) {
     if(blend_set == false)
         return;
     static cv::Size cur = frame.size();
@@ -122,7 +122,7 @@ void ac::resizeImageHeight(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeImageWidthAndHeight(cv::Mat &frame) {
+void ac::ResizeImageWidthAndHeight(cv::Mat &frame) {
     if(blend_set == false)
         return;
     static cv::Size cur = frame.size();
@@ -164,73 +164,73 @@ void ac::resizeImageWidthAndHeight(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeImageAndFrameBlend(cv::Mat &frame) {
+void ac::ResizeImageAndFrameBlend(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
     ac_resize(blend_image, reimage, frame.size());
-    resizeImageWidthAndHeight(reimage);
-    resizeFrameWidthAndHeight(copy1);
+    ResizeImageWidthAndHeight(reimage);
+    ResizeFrameWidthAndHeight(copy1);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
 
-void ac::resizeImageWidthAndHeightSubFilter(cv::Mat &frame) {
-    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "resizeImageWidthAndHeightSubFilter" || orig_frame.empty())
+void ac::ResizeImageWidthAndHeightSubFilter(cv::Mat &frame) {
+    if(blend_set == false || subfilter == -1 || draw_strings[subfilter] == "ResizeImageWidthAndHeightSubFilter" || orig_frame.empty())
         return;
     cv::Mat copy1 = frame.clone(), reimage, copy3;
     ac_resize(blend_image, reimage, frame.size());
-    resizeImageWidthAndHeight(reimage);
+    ResizeImageWidthAndHeight(reimage);
     CallFilter(subfilter, reimage);
-    resizeFrameWidthAndHeight(copy1);
+    ResizeFrameWidthAndHeight(copy1);
     AlphaBlendDouble(copy1,reimage,copy3, 0.3, 0.7);
     AlphaBlend(copy3, orig_frame, frame, 0.5);
     AddInvert(frame);
 }
 
-void ac::resizeImageFrameWidth(cv::Mat &frame) {
+void ac::ResizeImageFrameWidth(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
     ac_resize(blend_image, reimage, frame.size());
-    resizeImageWidth(reimage);
+    ResizeImageWidth(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
 
-void ac::resizeImageFrameHeight(cv::Mat &frame) {
+void ac::ResizeImageFrameHeight(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
     ac_resize(blend_image, reimage, frame.size());
-    resizeImageHeight(reimage);
+    ResizeImageHeight(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
 
-void ac::resizeImageFrameWidthAndHeight(cv::Mat &frame) {
+void ac::ResizeImageFrameWidthAndHeight(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), reimage;
     ac_resize(blend_image, reimage, frame.size());
-    resizeImageWidthAndHeight(reimage);
+    ResizeImageWidthAndHeight(reimage);
     AlphaBlend(copy1, reimage, frame, 0.5);
     AddInvert(frame);
 }
 
-void ac::resizeImageRandom(cv::Mat &frame) {
+void ac::ResizeImageRandom(cv::Mat &frame) {
     if(blend_set == false)
         return;
     static int index = 0, fcount = 0;
     switch(index) {
         case 0:
-            resizeImageFrameWidth(frame);
+            ResizeImageFrameWidth(frame);
             break;
         case 1:
-            resizeImageFrameHeight(frame);
+            ResizeImageFrameHeight(frame);
             break;
         case 2:
-            resizeImageFrameWidthAndHeight(frame);
+            ResizeImageFrameWidthAndHeight(frame);
             break;
     }
     AddInvert(frame);
@@ -244,18 +244,18 @@ void ac::resizeImageRandom(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeFrameRandom(cv::Mat &frame) {
+void ac::ResizeFrameRandom(cv::Mat &frame) {
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     static int index = 0, fcount = 0;
     switch(index) {
         case 0:
-            resizeFrameWidth(copy1);
+            ResizeFrameWidth(copy1);
             break;
         case 1:
-            resizeFrameHeight(copy1);
+            ResizeFrameHeight(copy1);
             break;
         case 2:
-            resizeFrameWidthAndHeight(copy1);
+            ResizeFrameWidthAndHeight(copy1);
             break;
     }
     AddInvert(copy1);
@@ -270,38 +270,38 @@ void ac::resizeFrameRandom(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::resizeFrameImageFlash(cv::Mat &frame) {
+void ac::ResizeFrameImageFlash(cv::Mat &frame) {
     if(blend_set == false)
         return;
     cv::Mat copy1 = frame.clone(), copy2 = frame.clone();
     int offset = rand()%9;
     switch(offset) {
         case 0:
-            resizeFrameWidth(copy1);
+            ResizeFrameWidth(copy1);
             break;
         case 1:
-            resizeFrameHeight(copy1);
+            ResizeFrameHeight(copy1);
             break;
         case 2:
-            resizeFrameWidthAndHeight(copy1);
+            ResizeFrameWidthAndHeight(copy1);
             break;
         case 3:
-            resizeImageFrameWidth(copy1);
+            ResizeImageFrameWidth(copy1);
             break;
         case 4:
-            resizeImageFrameHeight(copy1);
+            ResizeImageFrameHeight(copy1);
             break;
         case 5:
-            resizeImageFrameWidthAndHeight(copy1);
+            ResizeImageFrameWidthAndHeight(copy1);
             break;
         case 6:
-            resizeImageWidth(copy1);
+            ResizeImageWidth(copy1);
             break;
         case 7:
-            resizeImageWidth(copy1);
+            ResizeImageWidth(copy1);
             break;
         case 8:
-            resizeImageWidthAndHeight(copy1);
+            ResizeImageWidthAndHeight(copy1);
             break;
             
     }

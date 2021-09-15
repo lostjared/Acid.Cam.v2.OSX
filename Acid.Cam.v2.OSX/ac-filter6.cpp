@@ -966,11 +966,11 @@ void ac::RandomCurtainVertical(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::inOrderBySecond(cv::Mat &frame) {
+void ac::InOrderBySecond(cv::Mat &frame) {
     static int index = 0;
     if(index < ac::draw_max-8) {
         static int frame_count = 0;
-        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "inOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") CallFilter(index, frame);
+        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "InOrderBySecond" && ac::draw_strings[index] != "InOrder" && ac::draw_strings[index] != "InOrderAlpha" && ac::draw_strings[index] != "InOrderAlphaXor") CallFilter(index, frame);
         ++frame_count;
         if(frame_count >= ac::fps) {
             frame_count = 0;
@@ -983,10 +983,10 @@ void ac::inOrderBySecond(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::inOrder(cv::Mat &frame) {
+void ac::InOrder(cv::Mat &frame) {
     static int index = 0;
     if(index < ac::draw_max-8) {
-        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "inOrderBySecond" && ac::draw_strings[index] != "inOrder" && ac::draw_strings[index] != "inOrderAlpha" && ac::draw_strings[index] != "inOrderAlphaXor") CallFilter(index, frame);
+        if(index >= 0 && index < ac::draw_max-8 && ac::draw_strings[index] != "InOrderBySecond" && ac::draw_strings[index] != "InOrder" && ac::draw_strings[index] != "InOrderAlpha" && ac::draw_strings[index] != "InOrderAlphaXor") CallFilter(index, frame);
         ++index;
     } else index = 0;
     
@@ -1028,13 +1028,13 @@ void ac::ThreeRandom(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::inOrderAlpha(cv::Mat &frame) {
+void ac::InOrderAlpha(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 7.0;
     cv::Mat copy[2];
     copy[0] = frame.clone();
     copy[1] = frame.clone();
-    inOrder(copy[0]);
-    inOrder(copy[1]);
+    InOrder(copy[0]);
+    InOrder(copy[1]);
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
             cv::Vec3b colors[3];
@@ -1051,12 +1051,12 @@ void ac::inOrderAlpha(cv::Mat &frame) {
     AddInvert(frame);
 }
 
-void ac::inOrderAlphaXor(cv::Mat &frame) {
+void ac::InOrderAlphaXor(cv::Mat &frame) {
     static double alpha = 1.0, alpha_max = 4.0;
     cv::Mat copy[2];
     copy[0] = frame.clone();
     copy[1] = frame.clone();
-    inOrder(copy[0]);
+    InOrder(copy[0]);
     AlphaXorBlend(copy[0], copy[1], frame, alpha);
     static int dir = 1;
     procPos(dir, alpha, alpha_max, 10, 0.01);
