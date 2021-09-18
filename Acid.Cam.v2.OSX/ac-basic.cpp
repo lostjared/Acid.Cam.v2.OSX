@@ -66,11 +66,11 @@ void ac::SelfAlphaBlend(cv::Mat &frame) {
     }
     static int direction = 1;// direction equals 1
     if(direction == 1) {// if direction equals 1
-        alpha += alpha_inc; // plus equal 0.1
+        alpha = alpha+ alpha_inc; // plus equal 0.1
         // if alpha greater than 10
         if(alpha > 10) { alpha = 10; direction = 2; }
     } else {
-        alpha -= alpha_inc; // minus equal 0.05
+        alpha = alpha- alpha_inc; // minus equal 0.05
         // if alpha <= 0.1f
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }
@@ -104,14 +104,14 @@ void ac::SelfScale(cv::Mat &frame) {
     static int direction = 1;
     static double pos_max = 7.0f; // position max
     if(direction == 1) { // direction equals 1
-        pos += inc_alpha; // pos plus equal 0.05
+        pos = pos+inc_alpha; // pos plus equal 0.05
         if(pos > pos_max) { // pos greater than pos_max
             pos = pos_max; // set pos to pos_max
             direction = 0; // set direction to zero
             pos_max += 0.5f; // add 0.5 to pos_max
         }
     } else if(direction == 0) { // direction is zero
-        pos += -inc_alpha; // minus equal 0.05
+        pos = pos+(-inc_alpha); // minus equal 0.05
         if(pos <= 1.0) { // pos <= 1.0
             if(pos_max > 15) pos_max = 1.0f; // reset pos if greater than 15
             direction = 1;// set direction to 1
@@ -171,7 +171,7 @@ void ac::StrobeEffect(cv::Mat &frame) {
         max += 3.0f;// max plus equal 3.0
         if(max > 23) max = 4.0f;// max greater than twenty three max equal four
     }
-    alpha += tr; // change position
+    alpha = alpha+tr; // change position
 }
 
 // Blend3
@@ -225,12 +225,13 @@ void ac::NegParadox(cv::Mat &frame) {
         }
     }
     static double trans_var = 0.1f; // translation variable
-    double translation_variable = (alpha_increase != 0) ? alpha_increase :0.1;
+    double ai = alpha_increase;
+    double translation_variable = (ai != 0) ? ai : 0.1;
     if (alpha < 0)
         trans_var = translation_variable;// increase
     else if (alpha > 15)
         trans_var = -translation_variable; // decrease
-    alpha += trans_var; // add variable
+    alpha = alpha+ trans_var; // add variable
     
     resetAlpha(alpha);
 }
@@ -266,7 +267,7 @@ void ac::ThoughtMode(cv::Mat &frame) {
         max += 3.0f;
         if(max > 23) max = 4.0f;
     }
-    alpha += trans_var; // add to alpha
+    alpha = alpha+ trans_var; // add to alpha
     resetAlpha(alpha);
 }
 // blend with original pixel
@@ -335,7 +336,7 @@ void ac::RandTriBlend(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;// add to alpha translation variable
+    alpha = alpha+ trans_var;// add to alpha translation variable
     resetAlpha(alpha);
 }
 
@@ -370,7 +371,7 @@ void ac::Blank(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var; // add to alpha trans_Var
+    alpha = alpha+ trans_var; // add to alpha trans_Var
     resetAlpha(alpha);
 }
 // Tri
@@ -403,7 +404,7 @@ void ac::Tri(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;// add to alpha trans var
+    alpha = alpha+ trans_var;// add to alpha trans var
     resetAlpha(alpha);
 }
 // Distort
@@ -434,7 +435,7 @@ void ac::Distort(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;// add translation to alpha
+    alpha = alpha+ trans_var;// add translation to alpha
     resetAlpha(alpha);
 }
 // takes cv::Mat reference
@@ -456,7 +457,7 @@ void ac::CDraw(cv::Mat &frame) {
             if(isNegative) invert(frame, i, z);// if isNegative invert
         }
     }
-    alpha += 0.1f;// add to alpha
+    alpha = alpha+ 0.1f;// add to alpha
     rad += 0.1f;// add to rad
     if(rad > 90) rad = 0;// greater than 90 reset
     if(alpha > 20) alpha = 0;// greater than 20 reset
@@ -528,7 +529,7 @@ void ac::NewOne(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;// add translation variable
+    alpha = alpha+ trans_var;// add translation variable
     resetAlpha(alpha);
     
 }
@@ -604,7 +605,7 @@ void ac::blendWithImage(cv::Mat &frame) {
         if (max > 23)
             max = 4.0f;
     }
-    alpha += trans_var;
+    alpha = alpha+ trans_var;
     beta += -trans_var;
 }
 
@@ -627,7 +628,7 @@ void ac::cossinMultiply(cv::Mat &frame) {
     // add alpha up to 24 return to zero when greater
     static double trans_var = 0.05f;
     if(alpha > 24) alpha = 1.0f;
-    alpha += trans_var;
+    alpha = alpha+ trans_var;
     resetAlpha(alpha);
 }
 // Color Accumulate 1
@@ -647,7 +648,7 @@ void ac::colorAccumulate1(cv::Mat &frame) {
     }
     // increase alpha until 24 then reset
     static double trans_var = 0.05f;
-    alpha += trans_var;
+    alpha = alpha+ trans_var;
     if(alpha > 24) alpha = 1.0f;
     resetAlpha(alpha);
 }
@@ -668,7 +669,7 @@ void ac::colorAccumulate2(cv::Mat &frame) {
         }
     }
     static double trans_var = 0.05f;// translation variable
-    alpha += trans_var;// alpha plus equal translation variable
+    alpha = alpha+ trans_var;// alpha plus equal translation variable
     if(alpha > 24) alpha = 1.0f;// if alpha greater than 24 reset to 1
     resetAlpha(alpha);
 }
@@ -689,7 +690,7 @@ void ac::colorAccumulate3(cv::Mat &frame) {
         }
     }
     static double trans_var = 0.05f;// 0.05 variable
-    alpha += trans_var;// alpha plus equal translation variable
+    alpha = alpha+ trans_var;// alpha plus equal translation variable
     if(alpha > 24) alpha = 1.0f;// alpha greater than 24 set to 1 (reset)
     resetAlpha(alpha);
 }
@@ -712,10 +713,10 @@ void ac::filter8(cv::Mat &frame) {
     // static direction equals 1
     static int direction = 1;
     if(direction == 1) {// if direction equals 1
-        alpha += 0.05f;// alpha plus equal 0.05
+        alpha = alpha+0.05f;// alpha plus equal 0.05
         if(alpha > 3) { alpha = 3; direction = 2; }// alpha greater than 3 set direction to 2
     } else {
-        alpha -= 0.05f;// alpha minus equal 0.05
+        alpha = alpha-0.05f;// alpha minus equal 0.05
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }//alpha greater than 3 set direction to 1
     }
     resetAlpha(direction, alpha);
@@ -738,10 +739,10 @@ void ac::filter3(cv::Mat &frame) {
     // direction equals 1
     static int direction = 1;
     if(direction == 1) { // if direction equals 1
-        alpha += 0.1f;// alpha plus equal 0.1
+        alpha = alpha+0.1f;// alpha plus equal 0.1
         if(alpha > 6) { alpha = 6; direction = 2; } // if alpha greater than 6 set alpha to 6 direction to 2
     } else {
-        alpha -= 0.05f;// alpha minus equal 0.1
+        alpha = alpha- 0.05f;// alpha minus equal 0.1
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; } // if alpha lses than equal 0.1 set to 0.1 direction equals 1
     }
     resetAlpha(direction, alpha);
@@ -786,12 +787,12 @@ void ac::rainbowBlend(cv::Mat &frame) {
     // static int direction equals 1
     static int direction = 1;
     if(direction == 1) {// if direction equals 1
-        alpha += 0.1f;// increase alpha
+        alpha = alpha+0.1f;// increase alpha
         // alpha greater than 6 change direction
         if(alpha > 6) { alpha = 6; direction = 2; }
     } else {
         // decrease alpha
-        alpha -= 0.05f;
+        alpha = alpha- 0.05f;
         // if alpha <= 0.1 change direction
         if(alpha <= 0.1f) { alpha = 0.1f; direction = 1; }
     }

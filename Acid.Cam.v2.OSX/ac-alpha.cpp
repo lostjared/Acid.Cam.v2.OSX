@@ -45,24 +45,25 @@
 #include "ac.h"
 
 // variables for changePixel
-int current_filterx = 0;
-int bytesPerSample = 0;
-int bytesPerRow = 0;
-int width = 0;
-int height = 0;
-int red = 0;
-int green = 0;
-int blue = 0;
-int offset = 0;
-int randomNumber = 0;
-int reverse = 0;
-bool negate = false;
+std::atomic<int> current_filterx(0);
+std::atomic<int> bytesPerSample(0);
+std::atomic<int> bytesPerRow (0);
+std::atomic<int> width(0);
+std::atomic<int> height(0);
+std::atomic<int> red(0);
+std::atomic<int> green(0);
+std::atomic<int> blue(0);
+std::atomic<int> offset(0);
+std::atomic<int> randomNumber(0);
+std::atomic<int> reverse(0);
+std::atomic<bool> negate(false);
 
 // changePixel for Alpha Flame Filters
 // this function is called once for each pixel in the source image
 void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double pos, double *count) {
     //each case is a different operation on the RGB pixel values stored in buffer
-    switch(current_filterx) {
+    int cur_pix = current_filterx;
+    switch(cur_pix) {
         case 0:
         {
             double value = pos;
@@ -484,7 +485,8 @@ void changePixel(cv::Mat &full_buffer, int i, int z, cv::Vec3b &buffer, double p
     buf[0] = buffer[0];
     buf[1] = buffer[1];
     buf[2] = buffer[2];
-    switch(reverse) {
+    int r = reverse;
+    switch(r) {
         case 0://normal
             break;
         case 1:

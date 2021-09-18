@@ -897,7 +897,7 @@ void ac::UpDown(cv::Mat &frame) {
                 swapColors(frame, z, i);
                 if(isNegative) invert(frame, z, i);
             }
-            alpha += 0.1;
+            alpha = alpha+ 0.1;
         } else {
             order = true;
             for(int z = h-1; z > 1; --z) {
@@ -909,7 +909,7 @@ void ac::UpDown(cv::Mat &frame) {
                 if(isNegative) invert(frame, z, i);
             }
             
-            alpha += 0.1;
+            alpha = alpha+ 0.1;
         }
         
     }
@@ -935,7 +935,7 @@ void ac::LeftRight(cv::Mat &frame) {
                 swapColors(frame, z, i);
                 if(isNegative) invert(frame, z, i);
             }
-            alpha += 0.1;
+            alpha = alpha+ 0.1;
         } else {
             order = true;
             for(int i = w-1; i > 1; --i) {
@@ -947,7 +947,7 @@ void ac::LeftRight(cv::Mat &frame) {
                 if(isNegative) invert(frame, z, i);
             }
             
-            alpha += 0.1;
+            alpha = alpha+ 0.1;
         }
     }
     static int direction = 1;

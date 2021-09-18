@@ -107,11 +107,11 @@ void ac::AlphaComponentIncrease(cv::Mat &frame) {
         index = 0;
     static int dir = 1;
     if(dir == 1) {
-        alpha += 0.01;
+        alpha = alpha+ 0.01;
         if(alpha > 1.0)
             dir = 0;
     } else {
-        alpha -= 0.01;
+        alpha = alpha- 0.01;
         if(alpha <= 0.1)
             dir = 1;
     }

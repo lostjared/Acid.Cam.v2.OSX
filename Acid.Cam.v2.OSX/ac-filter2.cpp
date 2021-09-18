@@ -324,7 +324,8 @@ void ac::MirrorBlend(cv::Mat &frame) {
     }
     // static direction variable
     static int direction = 1;
-    double inc_double = (alpha_increase != 0) ? alpha_increase : 0.1;
+    double ai = alpha_increase;
+    double inc_double = (ai != 0) ? ai : 0.1;
     
     static double pos_max = 2.0f; // position maximum
     if(direction == 1) {// if direction is equal to 1

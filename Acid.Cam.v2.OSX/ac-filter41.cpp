@@ -602,7 +602,7 @@ void ac::MovementTrails_SubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
             bool set_value = false;
-            for(int index = 0; index < collection.size(); ++index) {
+            for(int index = 0; index < collection.size()-1; ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
@@ -630,7 +630,7 @@ void ac::MovementTrailsX_SubFilter(cv::Mat &frame) {
             cv::Vec3b &pixel = pixelAt(frame,z, i);
             cv::Vec3b pix1 = copy1.at<cv::Vec3b>(z, i);
             bool set_value = false;
-            for(int index = 0; index < collection.size(); ++index) {
+            for(int index = 0; index < collection.size()-1; ++index) {
                 cv::Vec3b pix = collection.frames[index].at<cv::Vec3b>(z, i);
                 for(int j = 0; j < 3; ++j) {
                     if(abs(pixel[j]-pix[j]) > getPixelCollection()) {
@@ -652,7 +652,7 @@ void ac::FadeFromFrameToFrame(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
-        current_fade_alpha -= 0.08;
+        current_fade_alpha = alpha- 0.08;
     } else {
         current_filter = new_filter;
         new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
@@ -668,7 +668,7 @@ void ac::GlitchFadeFromFrameToFrame(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 0);
-        current_fade_alpha -= 0.08;
+        current_fade_alpha = alpha- 0.08;
     } else {
         current_filter = new_filter;
         new_filter = ac::filter_map[ac::solo_filter[rand()%ac::solo_filter.size()]];
@@ -836,7 +836,7 @@ void ac::RandomFadeDelay(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
-        current_fade_alpha -= 0.06;
+        current_fade_alpha = alpha- 0.06;
     } else {
         static int cnt = 0;
         static int seconds = 0;
@@ -943,7 +943,7 @@ void ac::MirrorFadeDelay(cv::Mat &frame) {
     static double current_fade_alpha = 1.0;
     if(current_fade_alpha >= 0) {
         ac::filterFade(frame, new_filter, current_filter, current_fade_alpha, 1);
-        current_fade_alpha -= 0.06;
+        current_fade_alpha = alpha- 0.06;
     } else {
         static int cnt = 0;
         static int seconds = 0;

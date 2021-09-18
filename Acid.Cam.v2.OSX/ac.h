@@ -72,6 +72,7 @@
 #include<mutex>
 #include<chrono>
 #include<deque>
+#include<atomic>
 #include"ac-filtercat.h"
 //#define ASSERT_CHECK
 //Macro for assert testing
@@ -109,8 +110,8 @@
  *
  */
 // exernal variables
-extern int current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
-extern bool negate, blend_set, colorkey_set,colorkey_bg, colorkey_replace, colorkey_filter;
+extern std::atomic<int> current_filterx, bytesPerSample, bytesPerRow, width, height, red, green, blue, offset, randomNumber, reverse;
+extern std::atomic<bool> negate, blend_set, colorkey_set,colorkey_bg, colorkey_replace, colorkey_filter;
 extern cv::Mat blend_image,color_image,color_bg_image, color_replace_image, color_filter;
 int AC_GetFX(int oldw,int x, int nw);
 int AC_GetFZ(int oldh, int y, int nh);
@@ -166,28 +167,28 @@ namespace ac {
     // version string
     extern const std::string version;
     extern double translation_variable, pass2_alpha;
-    extern double alpha, tr;
-    extern bool isNegative, noRecord,iRev;
-    extern int color_order;
-    extern double fps;
-    extern int draw_offset;
-    extern int subfilter;
+    extern std::atomic<double> alpha, tr;
+    extern std::atomic<bool> isNegative, noRecord,iRev;
+    extern std::atomic<int> color_order;
+    extern std::atomic<double> fps;
+    extern std::atomic<int> draw_offset;
+    extern std::atomic<int> subfilter;
     extern std::string fileName;
     extern cv::Mat orig_frame;
     extern cv::Mat blendW_frame;
     extern cv::Mat image_files[4];
-    extern bool images_Enabled,fps_force;
-    extern int snapshot_Type;
-    extern bool in_custom;
-    extern int swapColor_r, swapColor_g, swapColor_b;
+    extern std::atomic<bool> images_Enabled,fps_force;
+    extern std::atomic<int> snapshot_Type;
+    extern std::atomic<bool> in_custom;
+    extern std::atomic<int> swapColor_r, swapColor_g, swapColor_b;
     extern cv::Size resolution;
-    extern bool strobe_It;
-    extern int set_color_map;
-    extern bool color_map_set;
+    extern std::atomic<bool> strobe_It;
+    extern std::atomic<int> set_color_map;
+    extern std::atomic<bool> color_map_set;
     extern int GetFX(cv::Mat &frame, int x, int nw);
     extern int GetFY(cv::Mat &frame, int y, int nh);
     extern bool OpenCL_Enabled();
-    extern bool reset_alpha;
+    extern std::atomic<bool> reset_alpha;
     extern std::unordered_map<std::string, UserFilter> user_filter;
     void invert(cv::Mat &frame, int x, int y);
      /* filter typedef */
@@ -195,9 +196,9 @@ namespace ac {
     typedef std::pair<std::string,DrawFunction> FilterType;
     extern DrawFunction custom_callback;
     extern DrawFunction plugin_func;
-    extern bool release_frames;
-    extern bool syphon_in_enabled;
-    extern bool syphon_in_changed;
+    extern std::atomic<bool> release_frames;
+    extern std::atomic<bool> syphon_in_enabled;
+    extern std::atomic<bool> syphon_in_changed;
     // ror/rol tempaltes
     template<typename T>
     inline T ror(T x, int m){
@@ -2503,6 +2504,7 @@ namespace ac {
     void StretchAlphaBlendSelf(cv::Mat &frame, int &dir, const int &speed_x, const int &speed_y, int &offset_x, int &offset_y, const int &size_x, const int &size_y);
     void AlphaMovement(double *alpha, int *dir, double inc);
     void AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min);
+    void AlphaMovementMaxMin(std::atomic<double> &alpha, int &dir, double speed, double max, double min);
     void AlphaBlendArray(cv::Mat &src, cv::Mat *frame, int num_frames);
     void PixelScaleAlpha(cv::Mat &frame, double amt);
     void DarkenImage(cv::Mat &frame, unsigned int size);
@@ -2532,6 +2534,8 @@ namespace ac {
     // Alpha Blend two filters and set to frame by alpha variable
     void filterFade(cv::Mat &frame, int filter1, int filter2, double alpha, int alpha_mode = 0);
     void filterColorKeyed(const cv::Vec3b &color, const cv::Mat &orig, const cv::Mat &filtered, cv::Mat &output);
+    void resetAlpha(int &dir, std::atomic<double> &alpha);
+    void resetAlpha(std::atomic<double> &alpha);
     void resetAlpha(int &dir, double &alpha);
     void resetAlpha(double &alpha);
     void SwapColors(cv::Vec3b &v);
@@ -2588,11 +2592,11 @@ namespace ac {
     extern DrawFunction plugin_func;
     extern DrawFunction *draw_func;
     extern FilterType *filter_array;
-    extern int draw_max;
-    extern bool snapShot;
-    extern bool reset_filter;
-    extern double alpha_increase;
-    extern bool swapColorOn;
+    extern std::atomic<int> draw_max;
+    extern std::atomic<bool> snapShot;
+    extern std::atomic<bool> reset_filter;
+    extern std::atomic<double> alpha_increase;
+    extern std::atomic<bool> swapColorOn;
     extern std::unordered_map<std::string, int> filter_map;
     extern std::unordered_map<std::string, FilterType> filter_map_str;
     extern bool frames_released;

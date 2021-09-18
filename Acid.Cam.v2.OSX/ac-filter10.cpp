@@ -907,7 +907,7 @@ void ac::SelfScaleXorIncrease(cv::Mat &frame) {
     }
     static int dir = 1;
     if(dir == 1) {
-        alpha += increase_val;
+        alpha = alpha+ increase_val;
         if(alpha >= limit) {
             dir = 0;
             limit += 1.0;
@@ -916,7 +916,7 @@ void ac::SelfScaleXorIncrease(cv::Mat &frame) {
             }
         }
     } else if(dir == 0) {
-        alpha -= increase_val;
+        alpha = alpha- increase_val;
         if(alpha <= min) {
             dir = 1;
             min -= 1.0;

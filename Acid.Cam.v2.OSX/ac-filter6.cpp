@@ -153,11 +153,11 @@ void ac::SelfXorDoubleFlash(cv::Mat &frame) {
     }
     static int dir = 1;
     if(dir == 1) {
-        alpha += alpha_increase;
+        alpha = alpha+ alpha_increase;
         if(alpha > 255)
             dir = 0;
     } else {
-        alpha -= alpha_increase;
+        alpha = alpha- alpha_increase;
         if(alpha <= 0)
             dir = 1;
     }
@@ -178,11 +178,11 @@ void ac::SelfOrDoubleFlash(cv::Mat &frame) {
     }
     static int dir = 1;
     if(dir == 1) {
-        alpha += alpha_increase;
+        alpha = alpha+ alpha_increase;
         if(alpha > 255)
             dir = 0;
     } else {
-        alpha -= alpha_increase;
+        alpha = alpha- alpha_increase;
         if(alpha <= 0)
             dir = 1;
     }

@@ -52,7 +52,7 @@ int pixel_collection_value = 55;
 namespace ac {
     int allocated_frames = 0;
     int allocated_max = 1500;
-    bool release_frames = false;
+    std::atomic<bool> release_frames(false);
     cv::VideoCapture v_cap;
     int color_map_color = 0;
     unsigned int color_value_r[256], color_value_g[256], color_value_b[256];
@@ -588,7 +588,20 @@ void ac::Xor(const cv::Mat &input, const cv::Mat &add, cv::Mat &output) {
 }
 
 
-bool ac::reset_alpha = false;
+std::atomic<bool> ac::reset_alpha(false);
+
+void ac::resetAlpha(int &dir, std::atomic<double> &alpha) {
+    if(reset_alpha == true) {
+        alpha = 1.0;
+        dir = 1;
+    }
+}
+
+void ac::resetAlpha(std::atomic<double> &alpha) {
+    if(reset_alpha == true) {
+        alpha = 1.0;
+    }
+}
 
 void ac::resetAlpha(int &dir, double &alpha) {
     if(reset_alpha == true) {
@@ -602,6 +615,7 @@ void ac::resetAlpha(double &alpha) {
         alpha = 1.0;
     }
 }
+
 
 void ac::AddInvert(cv::Mat &frame) {
     if(in_custom == true) return;
@@ -792,7 +806,7 @@ ac::DrawFunction ac::getRandomFilter() {
     return Random_Filter;
 }
 
-int ac::subfilter = -1;
+std::atomic<int> ac::subfilter(-1);
 
 void ac::setSubFilter(int value) {
     subfilter = value;
@@ -946,20 +960,19 @@ void ac::AlphaMovement(double *alpha, int *dir, double inc) {
     }
 }
 
-
-void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min) {
-    if(alpha_increase != 0) speed = alpha_increase;
+void ac::AlphaMovementMaxMin(std::atomic<double> &alpha, int &dir, double speed, double max, double min) {
+    if(ac::alpha_increase != 0) speed = ac::alpha_increase;
     switch(getProcMode()) {
         case MOVEINOUT_INC:
         case MOVEINOUT:
             if(dir == 1) {
-                alpha += speed;
+                alpha = alpha+ speed;
                 if(alpha > max) {
                     alpha = max;
                     dir = 0;
                 }
             } else {
-                alpha -= speed;
+                alpha = alpha- speed;
                 if(alpha < min) {
                     alpha = min;
                     dir = 1;
@@ -967,7 +980,36 @@ void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, 
             }
             break;
         case MOVERESET:
-            alpha += speed;
+            alpha = alpha+ speed;
+            if(alpha >= max) {
+                alpha = min;
+            }
+            break;
+    }
+    resetAlpha(dir, alpha);
+}
+
+void ac::AlphaMovementMaxMin(double &alpha, int &dir, double speed, double max, double min) {
+    if(alpha_increase != 0) speed = alpha_increase;
+    switch(getProcMode()) {
+        case MOVEINOUT_INC:
+        case MOVEINOUT:
+            if(dir == 1) {
+                alpha = alpha+ speed;
+                if(alpha > max) {
+                    alpha = max;
+                    dir = 0;
+                }
+            } else {
+                alpha = alpha- speed;
+                if(alpha < min) {
+                    alpha = min;
+                    dir = 1;
+                }
+            }
+            break;
+        case MOVERESET:
+            alpha = alpha+ speed;
             if(alpha >= max) {
                 alpha = min;
             }
