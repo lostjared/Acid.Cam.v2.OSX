@@ -65,9 +65,6 @@ The Chroma key window you select a series of color ranges. You can set the compo
 The custom filter window, this is probably the most important window in the application. You can select multiple filters and have them executed one after the other, with ones output being the input to the next in a chain. You can toggle a filter on or off while in a custom. You can save and load a custom. User-defined is when you select a list of filters and assign it a new name so you can use it. You can save/load these user-defined lists, and you should first set the output directory by pressing the dir button to a location you have read/write access.
 Subfilter: A subfilter is when you pass a specific filter to another filter that has the word SubFilter in its name. It magnifies the amount of possible outputs.
 
-To watch all the videos I have created with this project checkout my YouTube playlist:
-https://www.youtube.com/playlist?list=PLUgo--lX2kmr6ikfz0hPlez1-jbGAYuTZ
-
 Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
 
 NOTE: Some of the filters that contain either a 720 or 1080 at the end require a lot of ram if you do not have enough the program will exit.
@@ -83,13 +80,7 @@ To compile first clone then open with Xcode and build.
 
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam2_ScreenShot.png?raw=true "screenshot")
 
-Project home page: http://lostsidedead.com/blog/?index=212
-
-Watch this video for information how to compile: https://youtu.be/xMUnRKj4J7Y
-
-Watch this video for information how to use the program: https://youtu.be/DpBrX2W8DAI
-
-Watch this video for a tutorial on how to create custom filter plugins: https://youtu.be/hOnBUJIdAyU
+Project home page: http://lostsidedead.com
 
 Information about the static build of OpenCV in this project:
 
