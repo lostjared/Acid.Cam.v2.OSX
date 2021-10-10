@@ -675,7 +675,7 @@ void setEnabledProg() {
         if (e->d_type == DT_REG)
         {
             std::string file = e->d_name;
-            if (file.find(".dylib") != -1)
+            if (file.find(".acidcam") != -1)
             {
                 NSString *s = [NSString stringWithUTF8String: e->d_name];
                 [plugin_dir addItemWithObjectValue: s];
