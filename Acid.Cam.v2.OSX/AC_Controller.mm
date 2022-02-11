@@ -312,7 +312,7 @@ void setEnabledProg() {
     NSString *def = [d objectForKey:@"directory_path"];
    if(def != nil) {
         directory_path = [def UTF8String];
-    }
+   }
     std::cout << "Directory path: " << directory_path << "\n";
     struct tm *m;
     m = localtime(&t);
@@ -688,7 +688,7 @@ void setEnabledProg() {
 
 - (pixel) loadPlugin: (NSString *)str {
     
-    if(directory_path.size()==0) {
+    if(directory_path.length()==0) {
         _NSRunAlertPanel(@"Error you must set the directory path in custom filter window press the dir button", @"Set path", @"Ok",nil,nil);
         return 0;
     }
@@ -2877,7 +2877,7 @@ void setEnabledProg() {
 
 - (IBAction) user_Set: (id) sender {
     
-    if(directory_path.size()==0) {
+    if(directory_path.length()==0) {
         _NSRunAlertPanel(@"Press Select Output Directory", @"Select Output Directory", @"Ok", nil, nil);
         [self user_Clear:self];
         return;
@@ -2977,6 +2977,9 @@ void setEnabledProg() {
 - (NSString *) saveCustomFilter: (NSString *)fname_ withPlugin: (NSString *)plug {
     if([custom_array count] == 0 && plug == nil) {
         _NSRunAlertPanel(@"No filters to save!", @"There are no filters in the list...", @"Ok", nil, nil);
+        return nil;
+    }
+    if(directory_path.length() == 0) {
         return nil;
     }
     std::fstream file_n;
@@ -3112,6 +3115,10 @@ void setEnabledProg() {
 }
 
 - (void) loadFileData: (const char *)path off: (int) index_offset {
+    
+    if(directory_path.length() == 0)
+        return;
+    
     std::vector<std::string> comp;
     token::tokenize(std::string(path), std::string(":"), comp);
     if(comp.size()==0) return;
