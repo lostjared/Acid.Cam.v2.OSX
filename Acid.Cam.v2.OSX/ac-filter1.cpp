@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.80.5 (macOS)";
+    const std::string version="2.81.0 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.80.5 (Linux)";
+    const std::string version="2.81.0 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.80.5 (Windows)";
+    const std::string version="2.81.0 (Windows)";
 #else
-    const std::string version="2.80.5 (Generic)";
+    const std::string version="2.81.0 (Generic)";
 #endif
     std::mutex col_lock;
     std::atomic<bool> swapColorOn(true);
@@ -102,7 +102,14 @@ namespace ac {
         {"MultiVideoSmooth", MultiVideoSmooth},{"MultiVideoXor", MultiVideoXor},{"MultiVideoFilter_SubFilter", MultiVideoFilter_SubFilter},{"FadeOnOff", FadeOnOff},{"Stereo", Stereo},{"MultiVideoSaturateBlend", MultiVideoSaturateBlend},{"ImageWithKeys", ImageWithKeys},{"MultiVideoColorKeyOn", MultiVideoColorKeyOn}, {"MultiVideoColorKeyOff", MultiVideoColorKeyOff},{"MultiVideoMedianBlend", MultiVideoMedianBlend},
         {"MultiVideoMirror", MultiVideoMirror},{"MultiVideoSubtract", MultiVideoSubtract},{"MultiVideoAlphaMedianBlend", MultiVideoAlphaMedianBlend},{"MultiVideoInterlace", MultiVideoInterlace},{"MultiVideoChangeLines", MultiVideoChangeLines},{"MultiVideoDiagSquare", MultiVideoDiagSquare},{"ShiftLinesDown", ShiftLinesDown},{"PictureStretch", PictureStretch},{"PictureStretchPieces", PictureStretchPieces},{"VisualSnow", VisualSnow},
         {"VisualSnowX2", VisualSnowX2},{"LineGlitch", LineGlitch},{"SlitReverse64", SlitReverse64},{"SlitReverse64_Increase", SlitReverse64_Increase},{"SlitStretch",SlitStretch},{"LineLeftRight", LineLeftRight},{"LineLeftRightResize", LineLeftRightResize},{"SoloInOrder", SoloInOrder},{"ImageInOrder", ImageInOrder},{"SubInOrder", SubInOrder},{"RGBLineTrails", RGBLineTrails},{"RGBCollectionBlend",RGBCollectionBlend},{"RGBCollectionIncrease", RGBCollectionIncrease},{"RGBCollectionEx", RGBCollectionEx},{"RGBLongTrails", RGBLongTrails},{"VideoMatrixOutlineSubFilter", VideoMatrixOutlineSubFilter},{"FadeRGB_Speed", FadeRGB_Speed},{"RGBStrobeTrails", RGBStrobeTrails},{"FadeRGB_Variable", FadeRGB_Variable},{"BoxGlitch", BoxGlitch},{"VerticalPictureDistort", VerticalPictureDistort},{"ShortTrail", ShortTrail},{"DiagInward", DiagInward},{"DiagSquareInward", DiagSquareInward},{"DiagSquareInwardResize",DiagSquareInwardResize},{"DiagSquareInwardResizeXY", DiagSquareInwardResizeXY},{"ParticleSlide", ParticleSlide},{"DiagPixelated", DiagPixelated},{"DiagPixelatedResize", DiagPixelatedResize},{"DiagPixelRGB_Collection", DiagPixelRGB_Collection},{"RGBShiftTrails", RGBShiftTrails},{"PictureShiftDown", PictureShiftDown},{"PictureShiftRight", PictureShiftRight},{"PictureShiftDownRight", PictureShiftDownRight},{"FlipPictureShift", FlipPictureShift},{"FlipPictureRandomMirror", FlipPictureRandomMirror},{"PictureShiftVariable", PictureShiftVariable},{"RGBWideTrails", RGBWideTrails},{"StretchR_Right", StretchR_Right},{"StretchG_Right", StretchG_Right}, {"StretchB_Right", StretchB_Right},
-        {"StretchR_Down", StretchR_Down}, {"StretchG_Down", StretchG_Down}, {"StretchB_Down", StretchB_Down},{"Distorted_LinesY", Distorted_LinesY},{"Distorted_LinesX", Distorted_LinesX},{"TripHSV", TripHSV},{"Diag_Line_InOut", Diag_Line_InOut},{"Histogram", Histogram},{"ImageHistogramLookup", ImageHistogramLookup},{"MovementRange_SubFilter", MovementRange_SubFilter},{"XorSumStrobe", XorSumStrobe},{"DetectEdges", DetectEdges},{"SobelNorm", SobelNorm},{"SobelThreshold", SobelThreshold},{"EdgeFill_SubFilter", EdgeFill_SubFilter}, {"FillWhite_SubFilter", FillWhite_SubFilter}, {"FillBlack_SubFilter", FillBlack_SubFilter},{"FillPink_SubFilter", FillPink_SubFilter},{"FillGreen_SubFilter", FillGreen_SubFilter},{"MedianBlurHigherLevel", MedianBlurHigherLevel},{"FillNonWhite_SubFilter", FillNonWhite_SubFilter}, {"FillNonBlack_SubFilter", FillNonBlack_SubFilter},{"FillNonPink_SubFilter", FillNonPink_SubFilter},{"LineInLineOut", LineInLineOut},{"LineInLineOut_Increase", LineInLineOut_Increase},{"LineInLineOut2_Increase", LineInLineOut2_Increase},{"LineInLineOut3_Increase", LineInLineOut3_Increase},{"LineInLineOut4_Increase", LineInLineOut4_Increase},{"LineInLineOut_ReverseIncrease", LineInLineOut_ReverseIncrease},{"LineInLineOut_InvertedY", LineInLineOut_InvertedY},{"LineInLineOut_ReverseInvertedY", LineInLineOut_ReverseInvertedY},{"LineInLineOut_Vertical", LineInLineOut_Vertical},{"LineInLineOut_VerticalIncrease", LineInLineOut_VerticalIncrease},{"LineInLineOut_IncreaseImage", LineInLineOut_IncreaseImage},{"LineInLineOut_IncreaseVideo", LineInLineOut_IncreaseVideo},{"LineInLineOut_IncreaseVideo2", LineInLineOut_IncreaseVideo2},{"LineInLineOut_IncreaseVideo3", LineInLineOut_IncreaseVideo3},{"LineInLineOut_IncreaseImage2", LineInLineOut_IncreaseImage2},{"LineInLineOut_IncreaseImage3", LineInLineOut_IncreaseImage3},{"SquareByRow", SquareByRow},{"SquareByRowRev", SquareByRowRev},{"SquareByRow2", SquareByRow2},{"DivideByValue", DivideByValue},
+        {"StretchR_Down", StretchR_Down}, {"StretchG_Down", StretchG_Down}, {"StretchB_Down", StretchB_Down},{"Distorted_LinesY", Distorted_LinesY},{"Distorted_LinesX", Distorted_LinesX},{"TripHSV", TripHSV},{"Diag_Line_InOut", Diag_Line_InOut},{"Histogram", Histogram},{"ImageHistogramLookup", ImageHistogramLookup},{"MovementRange_SubFilter", MovementRange_SubFilter},{"XorSumStrobe", XorSumStrobe},{"DetectEdges", DetectEdges},{"SobelNorm", SobelNorm},{"SobelThreshold", SobelThreshold},{"EdgeFill_SubFilter", EdgeFill_SubFilter}, {"FillWhite_SubFilter", FillWhite_SubFilter}, {"FillBlack_SubFilter", FillBlack_SubFilter},{"FillPink_SubFilter", FillPink_SubFilter},{"FillGreen_SubFilter", FillGreen_SubFilter},{"MedianBlurHigherLevel", MedianBlurHigherLevel},{"FillNonWhite_SubFilter", FillNonWhite_SubFilter}, {"FillNonBlack_SubFilter", FillNonBlack_SubFilter},{"FillNonPink_SubFilter", FillNonPink_SubFilter},{"LineInLineOut", LineInLineOut},{"LineInLineOut_Increase", LineInLineOut_Increase},{"LineInLineOut2_Increase", LineInLineOut2_Increase},{"LineInLineOut3_Increase", LineInLineOut3_Increase},{"LineInLineOut4_Increase", LineInLineOut4_Increase},{"LineInLineOut_ReverseIncrease", LineInLineOut_ReverseIncrease},{"LineInLineOut_InvertedY", LineInLineOut_InvertedY},{"LineInLineOut_ReverseInvertedY", LineInLineOut_ReverseInvertedY},{"LineInLineOut_Vertical", LineInLineOut_Vertical},{"LineInLineOut_VerticalIncrease", LineInLineOut_VerticalIncrease},{"LineInLineOut_IncreaseImage", LineInLineOut_IncreaseImage},{"LineInLineOut_IncreaseVideo", LineInLineOut_IncreaseVideo},{"LineInLineOut_IncreaseVideo2", LineInLineOut_IncreaseVideo2},{"LineInLineOut_IncreaseVideo3", LineInLineOut_IncreaseVideo3},{"LineInLineOut_IncreaseImage2", LineInLineOut_IncreaseImage2},{"LineInLineOut_IncreaseImage3", LineInLineOut_IncreaseImage3},{"SquareByRow", SquareByRow},{"SquareByRowRev", SquareByRowRev},{"SquareByRow2", SquareByRow2},{"DivideByValue", DivideByValue},{"FrameSep", FrameSep}, {"FrameSep2", FrameSep2},{"DefStutter", DefStutter},{"StutterFilter", StutterFilter},
+        {"FrameOffsetRSize", FrameOffsetRSize},
+        {"FrameOffsetRSize2", FrameOffsetRSize2},
+        {"FrameOffsetRSize3", FrameOffsetRSize3},
+        {"FrameOffsetRSize4",FrameOffsetRSize4},
+        {"SqOnOff", SqOnOff},
+        
+        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},
         
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
@@ -2497,6 +2504,23 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("SquareByRowRev");
     v.push_back("SquareByRow2");
     v.push_back("DivideByValue");
+    v.push_back("FrameSep");
+    v.push_back("FrameSep2");
+    v.push_back("DefStutter");
+    v.push_back("StutterFilter");
+    v.push_back("FrameOffsetRSize");
+    v.push_back("FrameOffsetRSize2");
+    v.push_back("FrameOffsetRSize3");
+    v.push_back("FrameOffsetRSize4");
+    v.push_back("SqOnOff");
+    v.push_back("SqOnOffAlpha");
+    v.push_back("SqOnOffAlphaClip");
+    v.push_back("SqOnOffAlphaClipFast");
+    v.push_back("SqOnOffAlphaPixel");
+    v.push_back("SqOnOffDiff");
+    v.push_back("SqOnOffSize");
+    v.push_back("Placement");
+    
     v.push_back("No Filter");
     v.push_back("Blend with Source");
     v.push_back("Plugin");

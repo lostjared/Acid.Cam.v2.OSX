@@ -3,10 +3,9 @@
 #ifdef __APPLE__
 #include"ac.h"
 #import <AppKit/AppKit.h>
-@interface NSImage (NSImage_OpenCV) {    
+@interface NSImage (NSImage_OpenCV) {
 }
 @property(nonatomic, readonly) cv::Mat CVMat;
 @end
 #endif
 #endif
-

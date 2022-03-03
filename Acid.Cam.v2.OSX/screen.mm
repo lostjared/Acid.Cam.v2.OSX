@@ -86,4 +86,3 @@ void convertTo(NSImage *image, cv::Mat &frame) {
 }
 
 #endif
-
