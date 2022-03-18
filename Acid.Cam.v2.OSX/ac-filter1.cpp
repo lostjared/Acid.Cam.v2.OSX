@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.81.0 (macOS)";
+    const std::string version="2.82.0 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.81.0 (Linux)";
+    const std::string version="2.82.0 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.81.0 (Windows)";
+    const std::string version="2.82.0 (Windows)";
 #else
-    const std::string version="2.81.0 (Generic)";
+    const std::string version="2.82.0 (Generic)";
 #endif
     std::mutex col_lock;
     std::atomic<bool> swapColorOn(true);
@@ -109,8 +109,10 @@ namespace ac {
         {"FrameOffsetRSize4",FrameOffsetRSize4},
         {"SqOnOff", SqOnOff},
         
-        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},
-        
+        {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},{"FrameSepDiff", FrameSepDiff},
+/**/
+        {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},
+
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
     FilterType *filter_array = &filters[0];
@@ -2520,6 +2522,16 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("SqOnOffDiff");
     v.push_back("SqOnOffSize");
     v.push_back("Placement");
+    v.push_back("FrameSep3");
+    v.push_back("FrameSep4");
+    v.push_back("FrameSep5");
+    v.push_back("FrameSepDiff");
+    v.push_back("FrameSepResize");
+    v.push_back("FrameSepResize2");
+    v.push_back("FrameSepSquare");
+    v.push_back("FrameSepH");
+    v.push_back("FrameSkip");
+    v.push_back("FrameSkipResize");
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");

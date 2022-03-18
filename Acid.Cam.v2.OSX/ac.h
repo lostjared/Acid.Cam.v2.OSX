@@ -2481,6 +2481,17 @@ namespace ac {
     void SqOnOffDiff(cv::Mat &frame);
     void SqOnOffSize(cv::Mat &frame);
     void Placement(cv::Mat &frame);
+    void FrameSep3(cv::Mat &frame);
+    void FrameSep4(cv::Mat &frame);
+    void FrameSep5(cv::Mat &frame);
+    void FrameSepDiff(cv::Mat &frame);
+    void FrameSepResize(cv::Mat &frame);
+    void FrameSepResize2(cv::Mat &frame);
+    void FrameSepSquare(cv::Mat &frame);
+    void FrameSepH(cv::Mat &frame);
+    void FrameSkip(cv::Mat &frame);
+    void FrameSkipResize(cv::Mat &frame);
+
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
