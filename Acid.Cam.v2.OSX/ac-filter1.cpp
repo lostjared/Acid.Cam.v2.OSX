@@ -5,7 +5,7 @@
  
  Website: http://lostsidedead.com
  YouTube: http://youtube.com/LostSideDead
- Instagram: http://instagram.com/lostsidedead
+ Instagram:  
  Twitter: http://twitter.com/jaredbruni
  Facebook: http://facebook.com/LostSideDead0x
  
@@ -111,7 +111,7 @@ namespace ac {
         
         {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},{"FrameSepDiff", FrameSepDiff},
 /**/
-        {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},
+        {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},{"FrameReverse", FrameReverse},{"FrameStretch_X", FrameStretch_X},{"FrameStretch_Y", FrameStretch_Y}, {"FrameStretch_XY", FrameStretch_XY},{"FrameStretch_X_IO", FrameStretch_X_IO}, {"FrameStretch_Y_IO", FrameStretch_Y_IO}, {"FrameStretch_XY_IO", FrameStretch_XY_IO},{"FrameSetGamma", FrameSetGamma},{"FramePixelsLeftOver", FramePixelsLeftOver}, {"FramePixelsLeftOverBlend", FramePixelsLeftOverBlend},{"FramePixels", FramePixels},{"FrameStopStart", FrameStopStart},{"FrameStopStart2", FrameStopStart2},
 
         {"No Filter",NoFilter},
         {"Blend with Source",BlendWithSource}, {"Plugin",plugin}, {"Custom",custom}, {"DummyFiller",Empty}, {"DummyFiller",Empty}, {"DummyFiller",Empty}};
@@ -2532,6 +2532,20 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("FrameSepH");
     v.push_back("FrameSkip");
     v.push_back("FrameSkipResize");
+    v.push_back("FrameReverse");
+    v.push_back("FrameStretch_X");
+    v.push_back("FrameStretch_Y");
+    v.push_back("FrameStretch_XY");
+    v.push_back("FrameStretch_X_IO");
+    v.push_back("FrameStretch_Y_IO");
+    v.push_back("FrameStretch_XY_IO");
+    v.push_back("FrameSetGamma");
+    v.push_back("FramePixelsLeftOver");
+    v.push_back("FramePixelsLeftOverBlend");
+    v.push_back("FramePixels");
+    v.push_back("FrameStopStart");
+    v.push_back("FrameStopStart2");
+    
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");

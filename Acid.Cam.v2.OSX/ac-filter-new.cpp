@@ -1,5 +1,6 @@
 
 #include "ac.h"
+#include<list>
 
 unsigned char ac::wrap_cast(double d) {
     unsigned long x = static_cast<unsigned long>(d);
@@ -747,7 +748,7 @@ void ac::FrameSep5(cv::Mat &frame) {
 void ac::FrameSepDiff(cv::Mat &frame) {
     static constexpr int MAX = 16;
     static ac::MatrixCollection<MAX> collection;
-
+    
     if(collection.empty()) {
         collection.shiftFrames(frame);
         srand(static_cast<unsigned int>(time(0)));
@@ -786,7 +787,7 @@ void ac::FrameSepDiff(cv::Mat &frame) {
 void ac::FrameSepResize(cv::Mat &frame) {
     static constexpr int MAX = 16;
     static ac::MatrixCollection<MAX> collection;
-
+    
     if(collection.empty()) {
         collection.shiftFrames(frame);
         srand(static_cast<unsigned int>(time(0)));
@@ -797,7 +798,7 @@ void ac::FrameSepResize(cv::Mat &frame) {
     
     cv::Mat &old = collection.frames[7];
     ac::Square_Block_Resize_Vertical(old);
- 
+    
     
     for(int z = 0; z < frame.rows; ++z) {
         for(int i = 0; i < frame.cols; ++i) {
@@ -805,7 +806,7 @@ void ac::FrameSepResize(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Mat &f = collection.frames[off];
             cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
-             cv::Vec3b &old_pix = old.at<cv::Vec3b>(z, i);
+            cv::Vec3b &old_pix = old.at<cv::Vec3b>(z, i);
             for(int q = 0; q < 3; ++q) {
                 if(abs(pixel[q]-old_pix[q]) > 25) {
                     pixel[q] = pix[q];
@@ -827,44 +828,44 @@ void ac::FrameSepResize(cv::Mat &frame) {
 }
 void ac::FrameSepResize2(cv::Mat &frame) {
     static constexpr int MAX = 16;
-     static ac::MatrixCollection<MAX> collection;
-
-     if(collection.empty()) {
-         collection.shiftFrames(frame);
-         srand(static_cast<unsigned int>(time(0)));
-     } else if(rand()%5==0)
-         collection.shiftFrames(frame);
-     static bool on = false;
-     static int off = 0;
-     
-     cv::Mat &old = collection.frames[7];
-     ac::Square_Block_Resize_Vertical_RGB(old);
-  
-     for(int z = 0; z < frame.rows; ++z) {
-         for(int i = 0; i < frame.cols; ++i) {
-             if(on == false) break;
-             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-             cv::Mat &f = collection.frames[off];
-             cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
-              cv::Vec3b &old_pix = old.at<cv::Vec3b>(z, i);
-             for(int q = 0; q < 3; ++q) {
-                 if(abs(pixel[q]-old_pix[q]) > 5) {
-                     pixel[q] = pix[q];
-                 }
-             }
-         }
-         if(((z%240)==0) && ++off > MAX-1) {
-             off = 0;
-             static int cnt = 0;
-             static int wait = rand()%10;
-             ++cnt;
-             if(cnt > wait) {
-                 on = !on;
-                 cnt = 0;
-                 wait = rand()%10;
-             }
-         }
-     }
+    static ac::MatrixCollection<MAX> collection;
+    
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    } else if(rand()%5==0)
+        collection.shiftFrames(frame);
+    static bool on = false;
+    static int off = 0;
+    
+    cv::Mat &old = collection.frames[7];
+    ac::Square_Block_Resize_Vertical_RGB(old);
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            if(on == false) break;
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Mat &f = collection.frames[off];
+            cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
+            cv::Vec3b &old_pix = old.at<cv::Vec3b>(z, i);
+            for(int q = 0; q < 3; ++q) {
+                if(abs(pixel[q]-old_pix[q]) > 5) {
+                    pixel[q] = pix[q];
+                }
+            }
+        }
+        if(((z%240)==0) && ++off > MAX-1) {
+            off = 0;
+            static int cnt = 0;
+            static int wait = rand()%10;
+            ++cnt;
+            if(cnt > wait) {
+                on = !on;
+                cnt = 0;
+                wait = rand()%10;
+            }
+        }
+    }
 }
 void ac::FrameSepSquare(cv::Mat &frame) {
     static constexpr int MAX = 16;
@@ -884,7 +885,7 @@ void ac::FrameSepSquare(cv::Mat &frame) {
             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
             cv::Mat &f = collection.frames[off];
             cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
-             cv::Vec3b &old_pix = old.at<cv::Vec3b>(z, i);
+            cv::Vec3b &old_pix = old.at<cv::Vec3b>(z, i);
             for(int q = 0; q < 3; ++q) {
                 if(abs(pixel[q]-old_pix[q]) > 5) {
                     pixel[q] = pix[q];
@@ -938,37 +939,37 @@ void ac::FrameSepH(cv::Mat &frame) {
 
 void ac::FrameSkip(cv::Mat &frame) {
     static constexpr int MAX = 16;
-     static ac::MatrixCollection<MAX> collection;
-     
-     if(collection.empty()) {
-         collection.shiftFrames(frame);
-         srand(static_cast<unsigned int>(time(0)));
-     } else if(rand()%5==0)
-         collection.shiftFrames(frame);
-     static bool on = false;
-     static int off = 0;
-     if(on == true) {
-         for(int z = 0; z < frame.rows; ++z) {
-             for(int i = 0; i < frame.cols; ++i) {
-                 cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
-                 cv::Mat &f = collection.frames[off];
-                 cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
-                 pixel = pix;
-             }
-         }
-     }
-     
-     off++;
-     if(off > MAX-1)
-         off = 0;
-     static int cnt = 0;
-     static int wait = rand()%20;
-     ++cnt;
-     if(cnt > wait) {
-         on = !on;
-         cnt = 0;
-         wait = rand()%20;
-     }
+    static ac::MatrixCollection<MAX> collection;
+    
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    } else if(rand()%5==0)
+        collection.shiftFrames(frame);
+    static bool on = false;
+    static int off = 0;
+    if(on == true) {
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                cv::Mat &f = collection.frames[off];
+                cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
+                pixel = pix;
+            }
+        }
+    }
+    
+    off++;
+    if(off > MAX-1)
+        off = 0;
+    static int cnt = 0;
+    static int wait = rand()%20;
+    ++cnt;
+    if(cnt > wait) {
+        on = !on;
+        cnt = 0;
+        wait = rand()%20;
+    }
 }
 
 void ac::FrameSkipResize(cv::Mat &frame) {
@@ -1007,4 +1008,570 @@ void ac::FrameSkipResize(cv::Mat &frame) {
     }
 }
 
+void ac::FrameReverse(cv::Mat &frame) {
+    static constexpr int MAX = 16;
+    static ac::MatrixCollection<MAX> collection;
+    
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    } else if(rand()%2 == 0)
+        collection.shiftFrames(frame);
+    
+    static int off = 0;
+    cv::Mat &f = collection.frames[off];
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
+            for(int q = 0; q < 3; ++q)
+                pixel[q] = ac::wrap_cast((0.5 * pixel[q]) + (0.5 * pix[q]));
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        if(++off > MAX-1) {
+            off = MAX-1;
+            dir = 0;
+        }
+    } else {
+        if(--off <= 0) {
+            off = 0;
+            dir = 1;
+        }
+    }
+}
 
+void ac::FrameStretch_X(cv::Mat &frame) {
+    static int frame_x_off = 0;
+    static int frame_y_off = 0;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                int off_x = AC_GetFX(frame->cols, i, frame->cols+frame_x_off);
+                 if(z >= 0 && z < frame->rows && off_x >= 0 && off_x < frame->cols) {
+                    cv::Vec3b pix = frame->at<cv::Vec3b>(z, off_x);
+                    pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                    pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                    pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                }
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    if(dir == 1) {
+        frame_x_off += 4;
+        frame_y_off += 4;
+        if((frame_x_off > (frame.cols/2)) || (frame_y_off > (frame.rows/2)))  {
+            dir = 0;
+        }
+    } else {
+        frame_x_off -= 4;
+        frame_y_off -= 4;
+        if(frame_x_off <= 0 || frame_y_off <= 0) {
+            dir = 1;
+            frame_x_off = 0;
+            frame_y_off = 0;
+        }
+    }
+}
+
+void ac::FrameStretch_Y(cv::Mat &frame) {
+    static int frame_x_off = 0;
+    static int frame_y_off = 0;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                
+                // int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
+                int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, i);
+                
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    if(dir == 1) {
+        frame_x_off += 4;
+        frame_y_off += 4;
+        if((frame_x_off > (frame.cols/2)) || (frame_y_off > (frame.rows/2)))  {
+            dir = 0;
+        }
+    } else {
+        frame_x_off -= 4;
+        frame_y_off -= 4;
+        if(frame_x_off <= 0 || frame_y_off <= 0) {
+            dir = 1;
+            frame_x_off = 0;
+            frame_y_off = 0;
+        }
+    }
+}
+
+void ac::FrameStretch_XY(cv::Mat &frame) {
+    static int frame_x_off = 0;
+    static int frame_y_off = 0;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                
+                int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
+                int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
+                
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, off_x);
+                
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    if(dir == 1) {
+        frame_x_off += 4;
+        frame_y_off += 4;
+        if((frame_x_off > (frame.cols/2)) || (frame_y_off > (frame.rows/2)))  {
+            dir = 0;
+        }
+    } else {
+        frame_x_off -= 4;
+        frame_y_off -= 4;
+        if(frame_x_off <= 0 || frame_y_off <= 0) {
+            dir = 1;
+            frame_x_off = 0;
+            frame_y_off = 0;
+            
+        }
+    }
+}
+
+void ac::FrameStretch_X_IO(cv::Mat &frame) {
+    static int frame_x_off = 0;
+    static int frame_y_off = 0;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                
+                int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
+                
+                cv::Vec3b pix = frame->at<cv::Vec3b>(z, off_x);
+                
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    static int frame_max = 1;
+    if(dir == 1) {
+        frame_x_off += 4;
+        frame_y_off += 4;
+        if((frame_x_off > frame_max) || (frame_y_off > frame_max))  {
+            dir = 0;
+            static int dir_max = 1;
+            if(dir_max == 1) {
+                frame_max += 50;
+                if(frame_max >= frame.cols/2)
+                    dir_max = 0;
+            } else {
+                frame_max -= 50;
+                if(frame_max <= 0) {
+                    frame_max = 0;
+                    dir_max = 1;
+                }
+            }
+            
+        }
+    } else {
+        frame_x_off -= 4;
+        frame_y_off -= 4;
+        if(frame_x_off <= 0 || frame_y_off <= 0) {
+            dir = 1;
+            frame_x_off = 0;
+            frame_y_off = 0;
+        }
+    }
+}
+
+void ac::FrameStretch_Y_IO(cv::Mat &frame) {
+    static int frame_x_off = 0;
+    static int frame_y_off = 0;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                
+                int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
+                
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, i);
+                
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    static int frame_max = 1;
+    if(dir == 1) {
+        frame_x_off += 4;
+        frame_y_off += 4;
+        if((frame_x_off > frame_max) || (frame_y_off > frame_max))  {
+            dir = 0;
+            static int dir_max = 1;
+            if(dir_max == 1) {
+                frame_max += 50;
+                if(frame_max >= frame.cols/2)
+                    dir_max = 0;
+            } else {
+                frame_max -= 50;
+                if(frame_max <= 0) {
+                    frame_max = 0;
+                    dir_max = 1;
+                }
+            }
+            
+        }
+    } else {
+        frame_x_off -= 4;
+        frame_y_off -= 4;
+        if(frame_x_off <= 0 || frame_y_off <= 0) {
+            dir = 1;
+            frame_x_off = 0;
+            frame_y_off = 0;
+        }
+    }
+}
+
+void ac::FrameStretch_XY_IO(cv::Mat &frame) {
+    static int frame_x_off = 0;
+    static int frame_y_off = 0;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                
+                int off_x = AC_GetFX(frame->cols-1, i, frame->cols+frame_x_off);
+                int off_y = AC_GetFZ(frame->rows-1, z, frame->rows+frame_y_off);
+                
+                cv::Vec3b pix = frame->at<cv::Vec3b>(off_y, off_x);
+                
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    static int frame_max = 1;
+    if(dir == 1) {
+        frame_x_off += 4;
+        frame_y_off += 4;
+        if((frame_x_off > frame_max) || (frame_y_off > frame_max))  {
+            dir = 0;
+            static int dir_max = 1;
+            if(dir_max == 1) {
+                frame_max += 50;
+                if(frame_max >= frame.cols/2)
+                    dir_max = 0;
+            } else {
+                frame_max -= 50;
+                if(frame_max <= 0) {
+                    frame_max = 0;
+                    dir_max = 1;
+                }
+            }
+            
+        }
+    } else {
+        frame_x_off -= 4;
+        frame_y_off -= 4;
+        if(frame_x_off <= 0 || frame_y_off <= 0) {
+            dir = 1;
+            frame_x_off = 0;
+            frame_y_off = 0;
+        }
+    }
+}
+
+void ac::FrameSetGamma(cv::Mat &frame) {
+    ac::setGamma(frame, frame, 4);
+}
+
+struct Pixel {
+    int x,y;
+    cv::Vec3b color;
+    int timeout;
+    Pixel() : x{0}, y{0}, timeout{0} {}
+    Pixel(int xx, int yy, cv::Vec3b c) : x{xx}, y{yy}, color{c}, timeout{0} {}
+    
+};
+
+void ac::FramePixelsLeftOver(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    static std::list<Pixel> pixels;
+    
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    } else {
+        collection.shiftFrames(frame);
+    }
+    
+    for(int z = 0; z < frame.rows-20; z += 20) {
+        for(int i = 0; i < frame.cols-20; i += 20) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Mat &m = collection.frames[2];
+            cv::Vec3b pix = m.at<cv::Vec3b>(z, i);
+            bool set = false;
+            for(int q = 0; q < 3; ++q) {
+                if(abs(pixel[q]-pix[q]) > 40) {
+                    set = true;
+                    break;
+                }
+            }
+            if(set == true) {
+                pixels.push_back(Pixel(i, z, cv::Vec3b(rand()%255, rand()%255, rand()%255)));
+            }
+        }
+    }
+    
+    for(std::list<Pixel>::iterator i = pixels.begin(); i != pixels.end(); ) {
+        if(++i->timeout > 3) {
+            i = pixels.erase(i);
+        } else {
+            
+            i->color = cv::Vec3b(rand()%255, rand()%255, rand()%255);
+            
+            for(int y = i->y; y < i->y + 25; ++y)
+                for(int x = i->x; x < i->x + 25; ++x) {
+                    if(x >= 0 && x < frame.cols && y >= 0 && y < frame.rows) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Vec3b &pix = i->color;
+                        pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                        pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                        pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                        //pixel = pix;
+                    }
+                }
+            
+            i ++;
+        }
+    }
+}
+void ac::FramePixelsLeftOverBlend(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    static std::list<Pixel> pixels;
+
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    } else {
+        collection.shiftFrames(frame);
+    }
+    
+    for(int z = 0; z < frame.rows-20; z += 20) {
+        for(int i = 0; i < frame.cols-20; i += 20) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            cv::Mat &m = collection.frames[2];
+            cv::Vec3b pix = m.at<cv::Vec3b>(z, i);
+            bool set = false;
+            for(int q = 0; q < 3; ++q) {
+                if(abs(pixel[q]-pix[q]) > 40) {
+                    set = true;
+                    break;
+                }
+            }
+            if(set == true) {
+                pixels.push_back(Pixel(i, z, pixel));
+            }
+        }
+    }
+    
+    for(std::list<Pixel>::iterator i = pixels.begin(); i != pixels.end(); ) {
+        if(++i->timeout > 3) {
+            i = pixels.erase(i);
+        } else {
+            
+            for(int y = i->y; y < i->y + 25; ++y)
+                for(int x = i->x; x < i->x + 25; ++x) {
+                    if(x >= 0 && x < frame.cols && y >= 0 && y < frame.rows) {
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                        cv::Vec3b &pix = i->color;
+                        
+                        pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+                        pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+                        pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+                        //pixel = pix;
+                    }
+                }
+            
+            i ++;
+        }
+    }
+}
+
+void ac::FramePixels(cv::Mat &frame) {
+    static constexpr int MAX = 16;
+    static ac::MatrixCollection<MAX> collection;
+    
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    } else collection.shiftFrames(frame);
+
+    static int off = 0;
+    static constexpr int SIZE_W=64;
+    
+    for(int z = 0; z < frame.rows; z += SIZE_W+1) {
+            for(int i = 0; i < frame.cols; i += SIZE_W+1) {
+                for(int x = 0; i+x < frame.cols && x < SIZE_W; ++x) {
+                    for(int y = 0; z+y < frame.rows && y < SIZE_W; ++y) {
+                        
+                        cv::Mat &f = collection.frames[off];
+
+                        if(x%8 == 0 || y%8 == 0) {
+                            ++off;
+                            if(off > MAX-1)
+                                off = 0;
+                        }
+                        
+                        cv::Vec3b pix = f.at<cv::Vec3b>(y+z, x+i);
+                        cv::Vec3b &pixel = frame.at<cv::Vec3b>(y+z, x+i);
+                        pixel = pix;
+                    }
+            }
+        }
+    }
+}
+
+void ac::FrameStopStart(cv::Mat &frame) {
+    static constexpr int MAX = 16;
+    static ac::MatrixCollection<MAX> collection;
+    static int max = 20;
+    
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    } else if(rand()%max == 0) {
+        collection.shiftFrames(frame);
+        max = 1+(rand()%30);
+    }
+    
+    static int off = 0;
+    cv::Mat &f = collection.frames[off];
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
+                pixel[0] = ac::wrap_cast ((0.5 * pixel[0]) + (0.5 * pix[0]));
+                
+                pixel[1] = ac::wrap_cast ((0.5 * pixel[1]) + (0.5 * pix[1]));
+                
+                pixel[2] = ac::wrap_cast ((0.5 * pixel[2]) + (0.5 * pix[2]));
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+    
+    static int dir = 1;
+    if(dir == 1) {
+        if(++off > MAX-1) {
+            off = MAX-1;
+            dir = 0;
+        }
+    } else {
+        if(--off <= 0) {
+            off = 0;
+            dir = 1;
+        }
+    }
+}
+
+void ac::FrameStopStart2(cv::Mat &frame) {
+    static constexpr int MAX = 16;
+    static ac::MatrixCollection<MAX> collection;
+    static int max = 20;
+    static int count = 0;
+    
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    } else if(++count > max == 0) {
+        collection.shiftFrames(frame);
+        max = 1+(rand()%30);
+        count = 0;
+    }
+    
+    cv::Mat &f = collection.frames[15];
+    static bool on = true;
+    
+    static auto callback = [&](cv::Mat *frame, int offset, int cols, int size) {
+        for(int z = offset; z <  offset+size; ++z) {
+            for(int i = 0; i < cols; ++i) {
+                cv::Vec3b &pixel = frame->at<cv::Vec3b>(z, i);
+                cv::Vec3b pix = f.at<cv::Vec3b>(z, i);
+                if(on == true) {
+                    pixel[0] = ac::wrap_cast ((0.5 * pixel[0]) + (0.5 * pix[0]));
+                    
+                    pixel[1] = ac::wrap_cast ((0.5 * pixel[1]) + (0.5 * pix[1]));
+                    
+                    pixel[2] = ac::wrap_cast ((0.5 * pixel[2]) + (0.5 * pix[2]));
+                } else {
+                    pixel = pix;
+                }
+            }
+        }
+    };
+    ac::UseMultipleThreads(frame, ac::getThreadCount(), callback);
+
+    
+    static int wait = rand()%30;
+    static int counter = 0;
+    if(++counter > wait) {
+        counter = 0;
+        wait = rand()%30;
+        on = !on;
+    }
+}
