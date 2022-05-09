@@ -127,7 +127,6 @@
 		7FEE833020C45B0E0027A848 /* ac-filter3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832C20C45B0D0027A848 /* ac-filter3.cpp */; };
 		7FEE833120C45B0E0027A848 /* ac-filter2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE832D20C45B0D0027A848 /* ac-filter2.cpp */; };
 		7FEE833320C45B560027A848 /* ac-filter5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FEE833220C45B560027A848 /* ac-filter5.cpp */; };
-		7FF9082726D452AC00054F13 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9C62E126D441B00085AA0A /* libbz2.a */; };
 		7FF9082826D452FE00054F13 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9C62E126D441B00085AA0A /* libbz2.a */; };
 		7FFB05B82479E3ED00A616C5 /* ac-filter48.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB05B72479E3EC00A616C5 /* ac-filter48.cpp */; };
 /* End PBXBuildFile section */
@@ -330,7 +329,6 @@
 				7FEC38692130937200EE1A3E /* OpenGL.framework in Frameworks */,
 				7FE23DD31E28398000B14623 /* CoreVideo.framework in Frameworks */,
 				7FE23DD11E28397900B14623 /* CoreMedia.framework in Frameworks */,
-				7FF9082726D452AC00054F13 /* libbz2.a in Frameworks */,
 				7FE23DA71E28350700B14623 /* OpenCL.framework in Frameworks */,
 				7F5831E61E27F3CB00101A98 /* AVFoundation.framework in Frameworks */,
 				7F5831E71E27F3CB00101A98 /* AVKit.framework in Frameworks */,
@@ -571,7 +569,7 @@
 		7F9D708A17DE4F35009C54DA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Jared Bruni";
 				TargetAttributes = {
 					7F9D709117DE4F35009C54DA = {
@@ -750,6 +748,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -800,6 +799,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -853,7 +853,7 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = v2.81.0;
+				MARKETING_VERSION = v2.82.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DDONT_TEST_BOUNDS",
@@ -904,7 +904,7 @@
 					"$(PROJECT_DIR)/cvlibs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = v2.81.0;
+				MARKETING_VERSION = v2.82.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DDONT_TEST_BOUNDS",
