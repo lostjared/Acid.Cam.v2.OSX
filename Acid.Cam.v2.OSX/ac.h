@@ -2504,6 +2504,10 @@ namespace ac {
     void FramePixels(cv::Mat &frame);
     void FrameStopStart(cv::Mat &frame);
     void FrameStopStart2(cv::Mat &frame);
+    void FrameXBlend(cv::Mat &frame);
+    void FrameYBlend(cv::Mat &frame);
+    void FrameXBlendXor(cv::Mat &frame);
+    void FrameYBlendXor(cv::Mat &frame);
     // #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
