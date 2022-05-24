@@ -111,7 +111,8 @@ namespace ac {
         
         {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},{"FrameSepDiff", FrameSepDiff},
 /**/
-        {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},{"FrameReverse", FrameReverse},{"FrameStretch_X", FrameStretch_X},{"FrameStretch_Y", FrameStretch_Y}, {"FrameStretch_XY", FrameStretch_XY},{"FrameStretch_X_IO", FrameStretch_X_IO}, {"FrameStretch_Y_IO", FrameStretch_Y_IO}, {"FrameStretch_XY_IO", FrameStretch_XY_IO},{"FrameSetGamma", FrameSetGamma},{"FramePixelsLeftOver", FramePixelsLeftOver}, {"FramePixelsLeftOverBlend", FramePixelsLeftOverBlend},{"FramePixels", FramePixels},{"FrameStopStart", FrameStopStart},{"FrameStopStart2", FrameStopStart2},{"FrameXBlend", FrameXBlend}, {"FrameYBlend", FrameYBlend},{"FrameXBlendXor", FrameXBlendXor}, {"FrameYBlendXor", FrameYBlendXor},
+        {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},{"FrameReverse", FrameReverse},{"FrameStretch_X", FrameStretch_X},{"FrameStretch_Y", FrameStretch_Y}, {"FrameStretch_XY", FrameStretch_XY},{"FrameStretch_X_IO", FrameStretch_X_IO}, {"FrameStretch_Y_IO", FrameStretch_Y_IO}, {"FrameStretch_XY_IO", FrameStretch_XY_IO},{"FrameSetGamma", FrameSetGamma},{"FramePixelsLeftOver", FramePixelsLeftOver}, {"FramePixelsLeftOverBlend", FramePixelsLeftOverBlend},{"FramePixels", FramePixels},{"FrameStopStart", FrameStopStart},{"FrameStopStart2", FrameStopStart2},{"FrameXBlend", FrameXBlend}, {"FrameYBlend", FrameYBlend},{"FrameXBlendXor", FrameXBlendXor}, {"FrameYBlendXor", FrameYBlendXor},{"StrobeCycle", StrobeCycle},
+        {"StrobeCycleSt", StrobeCycleSt}, {"StrobeCycleSt2", StrobeCycleSt2},
         
         
         
@@ -2551,7 +2552,9 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("FrameYBlend");
     v.push_back("FrameXBlendXor");
     v.push_back("FrameYBlendXor");
-    
+    v.push_back("StrobeCycle");
+    v.push_back("StrobeCycleSt");
+    v.push_back("StrobeCycleSt2");
     
     
     v.push_back("No Filter");

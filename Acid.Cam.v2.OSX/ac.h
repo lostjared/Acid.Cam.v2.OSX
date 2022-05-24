@@ -2508,7 +2508,12 @@ namespace ac {
     void FrameYBlend(cv::Mat &frame);
     void FrameXBlendXor(cv::Mat &frame);
     void FrameYBlendXor(cv::Mat &frame);
-    // #NoFilter
+    void StrobeCycle(cv::Mat &frame);
+    void StrobeCycleSt(cv::Mat &frame);
+    void StrobeCycleSt2(cv::Mat &frame);
+
+
+// #NoFilter
     void NoFilter(cv::Mat &frame);
     void Empty(cv::Mat &frame);
     // Alpha blend with original image
