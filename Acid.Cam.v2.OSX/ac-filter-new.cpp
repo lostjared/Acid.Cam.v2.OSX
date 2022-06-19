@@ -2,13 +2,6 @@
 #include "ac.h"
 #include<list>
 
-unsigned char ac::wrap_cast(double d) {
-    unsigned long x = static_cast<unsigned long>(d);
-    if(x > 255)
-        x = x%255;
-    return static_cast<unsigned char>(x);
-}
-
 void ac::FrameSep(cv::Mat &frame) {
     static constexpr int MAX = 16;
     static ac::MatrixCollection<MAX> collection;

@@ -151,9 +151,15 @@ namespace ac {
         void *library;
         UserFilter(): index(0), subfilter(-1), func(0), library(0) {}
     };
-    
+
     bool checkFilter(std::string name);
-    inline unsigned char wrap_cast(double d);
+    
+    inline unsigned char wrap_cast(double d) {
+        unsigned long x = static_cast<unsigned long>(d);
+        if(x > 255)
+            x = x%255;
+        return static_cast<unsigned char>(x);
+    }
     // get version string
     extern std::string getVersion();
     extern int getFilterCount();
