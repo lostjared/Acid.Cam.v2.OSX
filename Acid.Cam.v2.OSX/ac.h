@@ -153,7 +153,7 @@ namespace ac {
     };
     
     bool checkFilter(std::string name);
-    extern unsigned char wrap_cast(double d);
+    inline unsigned char wrap_cast(double d);
     // get version string
     extern std::string getVersion();
     extern int getFilterCount();
