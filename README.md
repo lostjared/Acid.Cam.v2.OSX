@@ -2,7 +2,7 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
-[VERSION: 2.80.5 (macOS)]
+[VERSION: 2.83.0 (macOS)]
 
 Acid Cam is an Open Source project I initially began working on back in 2011. The first version of the program was written in Objective-C and worked with webcams only. The version of Acid Cam this document describes in the 2.0 series, which was rewritten from scratch in C++ with the macOS user interface being Objective-C++.
 Acid Cam distorts video to create art. It is designed to be used with other software (Syphon) or on its own. There are multiple versions of the program for macOS, Linux, and Windows, as well as a command-line version of the program. The program also has a live webcam feature. If you wish to use this feature, you should use a lower resolution and not stack up to many filters. The majority of the time, this program is more useful in video mode, where it can process multiple filters in up to 2160p 4K resolution.
