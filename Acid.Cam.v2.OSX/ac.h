@@ -2697,6 +2697,7 @@ namespace ac {
                 frames[i] = frames[i-1];
             }
             *frames[0] = frame.clone();
+            
         }
         
         unsigned long getSize() {
@@ -2795,6 +2796,7 @@ namespace ac {
                 reset_filter = false;
                 completedRows = 0;
                 col_lock.unlock();
+                frames_released = false;
                 return false;
             }
             return true;
