@@ -1829,3 +1829,1196 @@ void ac::OutOfOrder(cv::Mat &frame) {
         }
     }
 }
+
+void drawSquare(cv::Mat &frame, int x, int y, int w, int h, cv::Mat &off) {
+    for(int i = x; i < w; ++i) {
+        for(int z = y; z < h; ++z) {
+            if(i < frame.cols && z < frame.rows && i >= 0 && z >= 0) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                pixel = off.at<cv::Vec3b>(z, i);
+            }
+        }
+    }
+}
+
+void ac::RSquare(cv::Mat  &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    collection.shiftFrames(frame);
+    for(int i = 0; i < (50+rand()%50); ++i) {
+        int x = rand()%frame.cols;
+        int y = rand()%frame.rows;
+        int w = 10+rand()%(frame.cols-10);
+        int h = 10+rand()%(frame.rows-10);
+        drawSquare(frame, x, y, w, h, collection.frames[rand()%(MAX-1)]);
+    }
+    ac::FrameSep2(frame);
+}
+
+void ac::TrackingDown(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_y = frame.rows/16;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cy = AC_GetFZ(frame.rows-1, z, size_y);
+            if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                pixel = pix;
+            }
+        }
+        size_y ++;
+        if(size_y > frame.rows*2)
+            size_y = frame.rows/16;
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::RSquareEven(cv::Mat &frame) {
+    static constexpr int MAX = 16;
+      static ac::MatrixCollection<MAX> collection;
+      if(collection.empty()) {
+          srand(static_cast<unsigned int>(time(0)));
+          collection.shiftFrames(frame);
+      }
+      collection.shiftFrames(frame);
+      for(int i = 0; i < (50+rand()%50); ++i) {
+          int x = rand()%frame.cols;
+          int y = rand()%frame.rows;
+          int w = 10+rand()%(frame.cols-10);
+          //int h = 10+rand()%(frame.rows-10);
+          drawSquare(frame, x, y, w, w, collection.frames[rand()%(MAX-1)]);
+      }
+      ac::FrameSep2(frame);
+}
+
+struct AC_Rect {
+    int x,y,w,h;
+    int offset;
+    bool dir;
+    int ex_w, ex_h;
+    AC_Rect() : x{0}, y{0}, w{0}, h{0}, offset{0} {}
+    void setRect(int xx, int yy, int ww, int hh) {
+        x = xx;
+        y = yy;
+        w = ww;
+        h = hh;
+        ex_w = ww+50;
+        ex_h = hh+50;
+        dir = (rand()%2 == 0) ? true : false;
+    }
+};
+
+class RectContainer {
+    int size_w, size_h;
+public:
+    std::list<AC_Rect> cont;
+    RectContainer() = default;
+    void init(int MAX, int max, int w, int h) {
+        size_w = w;
+        size_h = h;
+        for(int i = 0; i < max; ++i) {
+            AC_Rect rc;
+            rc.setRect(rand()%w, rand()%h, rand()%w, rand()%h);
+            rc.offset = rand()%MAX;
+            cont.push_back(rc);
+        }
+    }
+    void update(int MAX, int w, int h, int step) {
+        for(auto it = cont.begin(); it != cont.end(); ++it) {
+            it->x += rand()%(1+step);
+            it->y += rand()%(1+step);
+            it->w += rand()%(1+step);
+            it->h += rand()%(1+step);
+            
+            if(it->dir == true) {
+                if(it->offset ++ > (MAX-1)) {
+                    it->offset = MAX-1;
+                    it->dir = false;
+                }
+            } else {
+                if(it->offset-- <= 0) {
+                    it->offset = 0;
+                    it->dir = true;
+                }
+            }
+            if(it->w > 50 || it->h > h) {
+                it->x = rand()%size_w;
+                it->y = rand()%size_h;
+                it->w = rand()%size_w;
+                it->h = rand()%size_h;
+                continue;
+            }
+        }
+    }
+    
+};
+
+
+void ac::StretchRand(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    static RectContainer cont;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        cont.init(MAX, 20, frame.cols, frame.rows);
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    cont.update(MAX, frame.cols, frame.rows, rand()%10);
+    for(auto i = cont.cont.begin(); i != cont.cont.end(); ++i) {
+        for(int x = i->x; x < i->x + i->w && x < frame.cols; ++x) {
+            for(int y = i->y; y < i->y + i->h && y < frame.rows; ++y) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(y, x);
+                cv::Vec3b &pix = collection.frames[i->offset].at<cv::Vec3b>(y, x);
+                for(int q = 0; q < 3; ++q) {
+                    pixel[q] = ac::wrap_cast((0.5 * pixel[q]) + (0.5 * pix[q]));
+                }
+            }
+        }
+    }
+}
+
+void ac::TrackingDownBlend(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_y = frame.rows/16;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cy = AC_GetFZ(frame.rows-1, z, size_y);
+            if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                for(int q = 0; q < 3; ++q) {
+                    pixel[q] = ac::wrap_cast((0.2 * pixel[q]) + (0.8 * pix[q]));
+                }
+            }
+        }
+        size_y ++;
+        if(size_y > frame.rows*2)
+            size_y = frame.rows/16;
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::FrameWobble1(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_x = frame.cols/16;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cx = AC_GetFX(frame.cols-1, i, size_x);
+            if(cx >= 0 && cx < frame.cols && z >= 0 && z < frame.rows) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(z, cx);
+                pixel = pix;
+            }
+        }
+        size_x ++;
+        if(size_x > frame.cols*2)
+            size_x = frame.cols/16;
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::TrackingRev(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+     static ac::MatrixCollection<MAX> collection;
+     if(collection.empty()) {
+         srand(static_cast<unsigned int>(time(0)));
+         collection.shiftFrames(frame);
+     }
+     else
+         collection.shiftFrames(frame);
+     static int dir = 1;
+     static int offset = 0;
+     static int div = 2;
+     static int size_y = frame.rows/16;
+     
+     for(int z = 0; z < frame.rows; ++z) {
+         for(int i = 0; i < frame.cols; ++i) {
+             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+             int cy = AC_GetFZ(frame.rows-1, z, size_y);
+             if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                 cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                 pixel = pix;
+             }
+         }
+         if(dir == 1) {
+             size_y ++;
+             if(size_y > frame.rows*2)
+                 dir = 0;
+         } else {
+             size_y --;
+             if(size_y <= 2)
+                 dir = 1;
+         }
+     }
+     
+     if(++offset > (MAX-1)) {
+         offset = 0;
+     }
+}
+
+void ac::TrackingMirror(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_y = frame.rows/16;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cy = AC_GetFZ(frame.rows-1, z, size_y);
+            
+            cy = frame.rows-cy-1;
+            
+            if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                pixel = pix;
+            }
+        }
+        size_y ++;
+        if(size_y > frame.rows*2)
+            size_y = frame.rows/16;
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::TrackingMirrorRev(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_y = frame.rows/16;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cy = AC_GetFZ(frame.rows-1, z, size_y);
+            
+            cy = frame.rows-cy-1;
+            
+            if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                pixel = pix;
+            }
+        }
+        size_y ++;
+        if(size_y > frame.rows*2)
+            size_y = frame.rows/16;
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::TrackingMirrorRevBlend(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    static bool flash = true;
+    if(flash) {
+        static int dir = 1;
+        static int offset = 0;
+        static int div = 2;
+        static int size_y = frame.rows/16;
+        
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                int cy = AC_GetFZ(frame.rows-1, z, size_y);
+                if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                    pixel = pix;
+                }
+            }
+            size_y ++;
+            if(size_y > frame.rows*2)
+                size_y = frame.rows/16;
+        }
+        
+        if(++offset > (MAX-1)) {
+            offset = 0;
+        }
+    } else {
+        static int dir = 1;
+        static int offset = 0;
+        static int div = 2;
+        static int size_y = frame.rows/16;
+        
+        for(int z = 0; z < frame.rows; ++z) {
+            for(int i = 0; i < frame.cols; ++i) {
+                cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                int cy = AC_GetFZ(frame.rows-1, z, size_y);
+                
+                cy = frame.rows-cy-1;
+                
+                if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                    cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                    pixel = pix;
+                }
+            }
+            size_y ++;
+            if(size_y > frame.rows*2)
+                size_y = frame.rows/16;
+        }
+        
+        if(++offset > (MAX-1)) {
+            offset = 0;
+        }
+    }
+
+    flash = (flash == true) ? false : true;
+}
+
+void ac::FrameWobble2(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else if(rand()%2 == 0)
+        collection.shiftFrames(frame);
+    
+    static int flash = 0;
+    switch(flash) {
+        case 0: {
+            static int dir = 1;
+            static int offset = 0;
+            static int div = 2;
+            static int size_x = frame.cols/16;
+            
+            for(int z = 0; z < frame.rows; ++z) {
+                for(int i = 0; i < frame.cols; ++i) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    int cx = AC_GetFX(frame.cols-1, i, size_x);
+                    if(cx >= 0 && cx < frame.cols && z >= 0 && z < frame.rows) {
+                        cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(z, cx);
+                        pixel = pix;
+                    }
+                }
+                size_x ++;
+                if(size_x > frame.cols*2)
+                    size_x = frame.cols/16;
+            }
+            
+            if(++offset > (MAX-1)) {
+                offset = 0;
+            }
+        }
+            break;
+        case 1: {
+            int width = 1+(rand()%frame.cols);
+            int skip = 0;
+            static int offset = 0;
+            
+            for(int z = 0; z < frame.rows; ++z) {
+                for(int i = 0; i < frame.cols; ++i) {
+                    cv::Vec3b &pixel = ac::pixelAt(frame, z, i);
+                    
+                    int offx = AC_GetFX(frame.cols-1, i, width);
+                    
+                    cv::Vec3b &cpix = collection.frames[offset].at<cv::Vec3b>(z, offx);
+                
+                    pixel = cpix;
+                }
+                width += 1+(rand()%5);
+                if(width%10) {
+                    if(++offset > (MAX-1))
+                        offset = 0;
+                }
+                
+            }
+        }
+            break;
+        case 2: {
+            static int dir = 1;
+            static int offset = 0;
+            
+            frame = collection.frames[offset].clone();
+            
+            if(dir == 1) {
+                static int wait = 0;
+                static int timeout = rand()%10;
+                if(++offset > (MAX-1)) {
+                    offset = 0;
+                }
+                if(++wait > timeout) {
+                    wait = 0;
+                    timeout = rand()%10;
+                    dir = 0;
+                }
+            } else {
+                static int wait = 0;
+                static int timeout = rand()%10;
+                if(--offset <= 0) {
+                    offset = MAX-1;
+                }
+                if(++wait > timeout) {
+                    wait = 0;
+                    timeout = rand()%10;
+                    dir = 1;
+                }
+            }
+        }
+            break;
+    }
+    
+    if(++flash > 2)
+        flash = 0;
+    
+}
+
+void ac::BlockPixels(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    
+    int row = 0;
+    static int offset = 0;
+    static double index = 0.1;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            
+            cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(z, i);
+            
+            
+            pixel[row] = ac::wrap_cast((index * pixel[row]) + (0.5-index * pix[row]));
+            
+            if(++row > 2)
+                row = 0;
+            
+            index += 0.01;
+        }
+        
+        if(index >= 0.5)
+            index = 0.1;
+        
+        if(++offset > (MAX-1))
+            offset = rand()%(MAX-1);
+        
+    }
+}
+
+void ac::RGB_Lr(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    static int start_x[2] = {0, frame.cols};
+    static int start_y[2] = {0, frame.rows};
+    static int offset = 0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int xpos = start_x[0]+i;
+            int xpos2 = i-start_x[1];
+            
+            if(xpos >= 0 && xpos < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(z, xpos);
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+            }
+            
+            if(xpos2 >= 0 && xpos2 < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(z, xpos2);
+                pixel[0] = ac::wrap_cast((0.5 * pixel[0]) + (0.5 * pix[0]));
+            }
+            
+            int ypos = start_y[0]+z;
+            int ypos2 = z-start_y[1];
+
+            if(ypos >= 0 && ypos < frame.rows) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(ypos, i);
+                pixel[1] = ac::wrap_cast((0.5 * pixel[1]) + (0.5 * pix[1]));
+
+            }
+            if(ypos2 >= 0 && ypos2 < frame.rows) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(ypos2, i);
+                pixel[2] = ac::wrap_cast((0.5 * pixel[2]) + (0.5 * pix[2]));
+
+            }
+        }
+    }
+    
+    start_x[0] += 50;
+    if(start_x[0] > frame.cols) {
+        start_x[0] = 0;
+    }
+    start_x[1] -= 50;
+    if(start_x[1] <= 0) {
+        start_x[1] = frame.cols;
+    }
+    start_y[0] += 50;
+    if(start_y[0] > frame.rows) {
+        start_y[0] = 0;
+    }
+    start_y[1] -= 50;
+    if(start_y[1] <= 0) {
+        start_y[1] = frame.rows;
+    }
+    
+    if(++offset > (MAX-1))
+        offset = rand()%(MAX-1);
+}
+
+void ac::TrackRGB1(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_y = frame.rows/16;
+    static int color_offset = 0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cy = AC_GetFZ(frame.rows-1, z, size_y);
+            if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                pixel[color_offset] = pix[color_offset];
+            }
+        }
+        size_y ++;
+        if(size_y > frame.rows*2) {
+            size_y = frame.rows/16;
+            if(++color_offset > 2)
+                color_offset = 0;
+        }
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::TrackRGB2(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    static int dir = 1;
+    static int offset = 0;
+    static int div = 2;
+    static int size_y = frame.rows/16;
+    static int color_offset = 0;
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int cy = AC_GetFZ(frame.rows-1, z, size_y);
+            
+            cy = frame.rows-cy-1;
+            
+            if(cy >= 0 && cy < frame.rows && i >= 0 && i < frame.cols) {
+                cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(cy, i);
+                pixel[color_offset] = pix[color_offset];
+            }
+        }
+        size_y ++;
+        if(size_y > frame.rows*2) {
+            size_y = frame.rows/16;
+            if(++color_offset > 2)
+                color_offset = 0;
+        }
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::FrameChop(cv::Mat &frame) {
+    static int offset_x = 0;
+    static int max_x = frame.cols+(frame.cols/2);
+    
+    static ac::MatrixCollection<2> collection;
+    collection.shiftFrames(frame);
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int x = 0; x < frame.cols; x += 100) {
+            for(int i = 0; i < 100; ++i) {
+                int pos_x = x+i;
+                int px = AC_GetFZ(frame.cols, pos_x, offset_x);
+                if(px >= 0 && px < frame.cols && x+i < frame.cols) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, x+i);
+                    cv::Vec3b &pix = collection.frames[1].at<cv::Vec3b>(z, px);
+                    pixel = pix;
+                }
+            }
+            
+        }
+        
+        offset_x --;
+        if(offset_x <= max_x) {
+            offset_x = rand()%(frame.cols+(frame.cols/2));
+            static int dir = 0;
+            if(dir == 1) {
+                max_x += 10;
+                if(max_x > (frame.cols+(frame.cols/2)))
+                    dir = 0;
+            } else {
+                max_x -= 10;
+                if(max_x <= 100)
+                    dir = 1;
+            }
+        }
+    }
+}
+
+struct Impl {
+    int *rows = nullptr;
+    int *row_speed = nullptr;
+    
+    Impl() = default;
+    ~Impl() {
+        delete [] rows;
+        delete [] row_speed;
+    }
+};
+
+
+
+void ac::YLineDown(cv::Mat  &frame) {
+    static ac::MatrixCollection<2> collection;
+    collection.shiftFrames(frame);
+    static int row_w = 0;
+    static Impl row;
+    
+    if(row_w == 0 || row_w != frame.cols) {
+        
+        if(row.rows != nullptr) {
+            delete [] row.rows;
+            delete [] row.row_speed;
+        }
+        
+        row.rows = new int[frame.cols+1];
+        row.row_speed =new int[frame.cols+1];
+        for(int i = 0; i < frame.cols; ++i) {
+            row.rows[i] = rand()%50;
+            row.row_speed[i] = 2+rand()%25;
+        }
+        row_w = frame.cols;
+    }
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            int row_y = row.rows[i]+z;
+            if(row_y >= 0 && row_y < frame.rows) {
+                cv::Vec3b &pix = collection.frames[1].at<cv::Vec3b>(row_y, i);
+                pixel = pix;
+            }
+        }
+    }
+    
+    for(int i = 0; i < frame.cols; ++i) {
+        row.rows[i] += row.row_speed[i];
+        if(row.rows[i] > frame.rows) {
+            row.rows[i] = rand()%50;
+        }
+    }
+}
+
+void ac::YLineDownBlend(cv::Mat &frame) {
+    static ac::MatrixCollection<2> collection;
+     collection.shiftFrames(frame);
+     static int row_w = 0;
+     static Impl row;
+     
+     if(row_w == 0 || row_w != frame.cols) {
+         
+         if(row.rows != nullptr) {
+             delete [] row.rows;
+             delete [] row.row_speed;
+         }
+         
+         row.rows = new int[frame.cols+1];
+         row.row_speed =new int[frame.cols+1];
+         for(int i = 0; i < frame.cols; ++i) {
+             row.rows[i] = rand()%50;
+             row.row_speed[i] = 2+rand()%25;
+         }
+         row_w = frame.cols;
+     }
+     
+     for(int z = 0; z < frame.rows; ++z) {
+         for(int i = 0; i < frame.cols; ++i) {
+             cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+             int row_y = row.rows[i]+z;
+             if(row_y >= 0 && row_y < frame.rows) {
+                 cv::Vec3b &pix = collection.frames[1].at<cv::Vec3b>(row_y, i);
+                 for(int q = 0; q < 3; ++q)
+                     pixel[q] = ac::wrap_cast((0.5 * pixel[q]) + (0.5 * pix[q]));
+             }
+         }
+     }
+     
+     for(int i = 0; i < frame.cols; ++i) {
+         row.rows[i] += row.row_speed[i];
+         if(row.rows[i] > frame.rows) {
+             row.rows[i] = rand()%50;
+         }
+     }
+}
+
+void ac::FrameBreakX1(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+    collection.shiftFrames(frame);
+    
+    auto drawRect = [&](cv::Mat &col_frame, int x, int y, int w, int h) {
+      
+        for(int z = y; z < y+h && z < frame.rows; ++z) {
+            for(int i = x; i < x+w && i < frame.cols; ++i) {
+                if(z >= 0 && z < frame.rows && i >= 0 && i < frame.cols) {
+                frame.at<cv::Vec3b>(z, i) = col_frame.at<cv::Vec3b>(z, i);
+                }
+            }
+        }
+    };
+    
+    int size = frame.rows/4;
+    static int offset = 0;
+    
+    for(int j = 0; j < 4; ++j) {
+  
+        if(!(rand()%4 == 0)) continue;
+        
+        drawRect(collection.frames[offset], 0, size*j, frame.cols, size);
+    
+        if(++offset > (MAX-1))
+            offset = 0;
+    }
+    
+}
+
+void ac::RGBLagFrame(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+    }
+    
+    static int counter = 0;
+    if(++counter > 2) {
+        counter = 0;
+        collection.shiftFrames(frame);
+    }
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = ac::pixelAt(frame, z, i);
+            cv::Vec3b *off[3];
+            off[0] = &collection.frames[1].at<cv::Vec3b>(z, i);
+            off[1] = &collection.frames[3].at<cv::Vec3b>(z, i);
+            off[2] = &collection.frames[7].at<cv::Vec3b>(z, i);
+            cv::Vec3b pix = pixel;
+            for(int q = 0; q < 3; ++q) {
+                pixel[q] = (*off[q])[q];
+                pixel[q] = ac::wrap_cast((0.5 * pixel[q]) + (0.5 * pix[q]));
+            }
+        }
+    }
+}
+
+void ac::LagFrame(cv::Mat &frame) {
+    static constexpr int MAX = 2;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    
+    static int counter = 0;
+    if(++counter > (24*3)) {
+        counter = 0;
+        collection.shiftFrames(frame);
+    }
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = ac::pixelAt(frame, z, i);
+            cv::Vec3b &pix = collection.frames[1].at<cv::Vec3b>(z, i);
+            
+            for(int q = 0; q < 3; ++q)
+                pixel[q] = ac::wrap_cast((0.5 * pixel[q]) + (0.5 * pix[q]));
+        }
+    }
+}
+
+void ac::FrameStoreStutter(cv::Mat &frame) {
+    static constexpr int MAX = 4;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    static int counter = 0;
+    if(++counter > 4) {
+        counter = 0;
+        collection.shiftFrames(frame);
+    }
+    static int offset = 0;
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = ac::pixelAt(frame, z, i);
+            cv::Vec3b &pix = ac::pixelAt(collection.frames[offset], z, i);
+            pixel = pix;
+        }
+    }
+    if(++offset > (MAX-1)) {
+        offset = 0;
+    }
+}
+
+void ac::SetFramePixelate1(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    static int wait = rand()%15;
+    static int count = 0;
+    static int size_x = 8;
+    static int num = 2;
+    static int offset = 0;
+    
+    if(++count > wait) {
+        count = 0;
+        wait = rand()%15;
+        for(int z = 0; z < frame.rows; z += size_x) {
+            for(int i = 0; i < frame.cols; i += size_x) {
+                if(rand()%num == 0) {
+                    for(int x = 0; x < size_x && x+i < frame.cols; ++x) {
+                        for(int y = 0; y < size_x && y+z < frame.rows; ++y) {
+                            cv::Vec3b &pix = collection.frames[offset].at<cv::Vec3b>(z+y, i+x);
+                            
+                            cv::Vec3b &pixel = ac::pixelAt(frame, z+y, i+x);
+                            pixel = pix;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        if(++size_x >= 32) {
+            dir = 0;
+        }
+    } else {
+        if(--size_x <= 8) {
+            dir = 1;
+        }
+    }
+    
+    if(++offset > (MAX-1)) {
+        offset = 0;
+        ++num;
+        if(num > 8)
+            num = 2;
+    }
+}
+
+void ac::SetFramePixelate2(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    static int wait = rand()%15;
+    static int count = 0;
+    static int size_x = 8;
+    static int num = 2;
+    if(++count > wait) {
+        count = 0;
+        wait = rand()%15;
+        for(int z = 0; z < frame.rows; z += size_x) {
+            for(int i = 0; i < frame.cols; i += size_x) {
+                if(rand()%num == 0) {
+                    for(int x = 0; x < size_x && x+i < frame.cols; ++x) {
+                        for(int y = 0; y < size_x && y+z < frame.rows; ++y) {
+                            cv::Vec3b &pix = collection.frames[6].at<cv::Vec3b>(z+y, i+x);
+                            
+                            cv::Vec3b &pixel = ac::pixelAt(frame, z+y, i+x);
+                            for(int q = 0; q < 3; ++q) {
+                                pixel[q] = ac::wrap_cast((0.5 * pixel[q]) + (0.5 * pix[q]));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+    static int dir = 1;
+    if(dir == 1) {
+        if(++size_x >= 32) {
+            dir = 0;
+        }
+    } else {
+        if(--size_x <= 8) {
+            dir = 1;
+        }
+    }
+}
+
+void ac::SetFramePixelate3(cv::Mat &frame) {
+    static constexpr int MAX = 2;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        srand(static_cast<unsigned int>(time(0)));
+        collection.shiftFrames(frame);
+    }
+    
+    static int counter = 0;
+    if(++counter > 24) {
+        counter = 0;
+        collection.shiftFrames(frame);
+    }
+    
+    static int num = 8;
+    static double alpha = 0.2;
+    
+    for(int z = 0; z < frame.rows; z += num) {
+        for(int i = 0; i < frame.cols; i += num) {
+        
+            if(rand()%3 == 0) continue;
+            
+            for(int x = 0; x < num && x+i < frame.cols; ++x) {
+                for(int y = 0; y < num && y+z < frame.rows; ++y) {
+                
+                    
+                    cv::Vec3b &pixel = ac::pixelAt(frame, z+y, i+x);
+                    cv::Vec3b &pix = collection.frames[1].at<cv::Vec3b>(z+y, i+x);
+                    
+                    for(int q = 0; q < 3; ++q)
+                        pixel[q] = ac::wrap_cast((alpha * pixel[q]) + ((1-alpha)*pix[q]));
+                    
+                    static int dir = 1;
+                    
+                    if(dir == 1) {
+                        alpha -= 0.05;
+                        if(alpha < 0.2)
+                            dir = 0;
+                    }
+                    else {
+                        alpha += 0.05;
+                        if(alpha >= 1.0)
+                            dir = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void ac::SquareDiff1(cv::Mat &frame) {
+    static constexpr int MAX = 8;
+    static ac::MatrixCollection<MAX> collection;
+    if(collection.empty()) {
+        collection.shiftFrames(frame);
+        srand(static_cast<unsigned int>(time(0)));
+    }
+    else
+        collection.shiftFrames(frame);
+    
+    auto drawSquare = [&](cv::Mat sframe, int x, int y, int w, int h) {
+        for(int i = x; i < x+w && i < frame.cols; ++i) {
+            for(int z = y; z < y+h && z < frame.rows; ++z) {
+                
+                if(i >= 0 && i < frame.cols && z >= 0 && z < frame.cols) {
+                    cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+                    cv::Vec3b &pix = sframe.at<cv::Vec3b>(z, i);
+                    pixel = pix;
+                }
+            }
+        }
+    };
+    
+    int square_h = 16;
+    int square_w = 64;
+    static int offset = 0;
+    
+    for(int z = 0; z < frame.rows; z += square_h) {
+        square_w = 1+rand()%32;
+        for(int i = 0; i < frame.cols; i += square_w) {
+            drawSquare(collection.frames[offset], i, z, square_w, square_h);
+        }
+        if(++offset > (MAX-1)) {
+            offset = rand()%(MAX-1);
+        }
+        square_h = 1+rand()%128;
+    }
+}
+
+struct LineAcrossImpl {
+    struct Item {
+        int col, speed;
+        bool on;
+        Item() : col{rand()%50}, speed{rand()%25}, on{true}  {}
+    };
+    Item *item = nullptr;
+    LineAcrossImpl() = default;
+    ~LineAcrossImpl() {
+        if(item != nullptr)
+            delete [] item;
+        
+    }
+};
+
+
+void ac::LineAcrossX(cv::Mat  &frame) {
+    static ac::MatrixCollection<2> collection;
+    collection.shiftFrames(frame);
+    static int row_w = 0;
+    static LineAcrossImpl row;
+    
+    if(row_w == 0 || row_w != frame.rows) {
+        if(row.item != nullptr) {
+            delete [] row.item;
+        }
+        row_w = frame.rows;
+        row.item = new LineAcrossImpl::Item[row_w+1];
+    }
+    
+    for(int z = 0; z < frame.rows; ++z) {
+        for(int i = 0; i < frame.cols; ++i) {
+            cv::Vec3b &pixel = frame.at<cv::Vec3b>(z, i);
+            
+            int row_col = row.item[z].col+i;
+            int row_x = AC_GetFX(frame.cols-1, i, row_col);
+            
+            if(row_x >= 0 && row_x < frame.cols) {
+                cv::Vec3b &pix = collection.frames[1].at<cv::Vec3b>(z, row_x);
+                pixel = pix;
+            }
+        }
+    }
+    
+    for(int i = 0; i < row_w; ++i) {
+        if(row.item[i].on) {
+            row.item[i].col += 25;
+            if(row.item[i].col > frame.cols)
+                row.item[i].on = false;
+        } else {
+            row.item[i].col -= 25;
+            if(row.item[i].col <= 1) {
+                row.item[i].col = 1;
+                row.item[i].on = true;
+            }
+        }
+    }
+}

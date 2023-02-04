@@ -2519,6 +2519,33 @@ namespace ac {
     void StrobeCycleSt2(cv::Mat &frame);
     void StrobeCycleSt3(cv::Mat &frame);
     void OutOfOrder(cv::Mat &frame);
+    void RSquare(cv::Mat &frame);
+    void RSquareEven(cv::Mat &frame);
+    void TrackingDown(cv::Mat &frame);
+    void TrackingDownBlend(cv::Mat &frame);
+    void TrackingRev(cv::Mat &frame);
+    void TrackingMirror(cv::Mat &frame);
+    void TrackingMirrorRev(cv::Mat &frame);
+    void TrackingMirrorRevBlend(cv::Mat &frame);
+    void StretchRand(cv::Mat &frame);
+    void FrameWobble1(cv::Mat &frame);
+    void FrameWobble2(cv::Mat &frame);
+    void BlockPixels(cv::Mat &frame);
+    void RGB_Lr(cv::Mat &frame);
+    void TrackRGB1(cv::Mat &frame);
+    void TrackRGB2(cv::Mat &frame);
+    void FrameChop(cv::Mat &frame);
+    void YLineDown(cv::Mat &frame);
+    void YLineDownBlend(cv::Mat &frame);
+    void FrameBreakX1(cv::Mat &frame);
+    void RGBLagFrame(cv::Mat &frame);
+    void LagFrame(cv::Mat &frame);
+    void FrameStoreStutter(cv::Mat &frame);
+    void SetFramePixelate1(cv::Mat &frame);
+    void SetFramePixelate2(cv::Mat &frame);
+    void SetFramePixelate3(cv::Mat &frame);
+    void SquareDiff1(cv::Mat &frame);
+    void LineAcrossX(cv::Mat &frame);
 
 // #NoFilter
     void NoFilter(cv::Mat &frame);

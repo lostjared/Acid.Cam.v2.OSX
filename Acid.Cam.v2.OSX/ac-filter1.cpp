@@ -45,13 +45,13 @@
 // Acid Cam namespace
 namespace ac {
 #if defined(__APPLE__)
-    const std::string version="2.83.0 (macOS)";
+    const std::string version="2.84.0 (macOS)";
 #elif defined(__linux__)
-    const std::string version="2.83.0 (Linux)";
+    const std::string version="2.84.0 (Linux)";
 #elif defined(_WIN32)
-    const std::string version="2.83.0 (Windows)";
+    const std::string version="2.84.0 (Windows)";
 #else
-    const std::string version="2.83.0 (Generic)";
+    const std::string version="2.84.0 (Generic)";
 #endif
     std::mutex col_lock;
     std::atomic<bool> swapColorOn(true);
@@ -112,7 +112,9 @@ namespace ac {
         {"SqOnOffAlpha", SqOnOffAlpha}, {"SqOnOffAlphaClip", SqOnOffAlphaClip}, {"SqOnOffAlphaClipFast", SqOnOffAlphaClipFast}, {"SqOnOffAlphaPixel", SqOnOffAlphaPixel}, {"SqOnOffDiff", SqOnOffDiff}, {"SqOnOffSize", SqOnOffSize},{"Placement", Placement},{"FrameSep3", FrameSep3}, {"FrameSep4", FrameSep4},{"FrameSep5", FrameSep5},{"FrameSepDiff", FrameSepDiff},
 /**/
         {"FrameSepResize", FrameSepResize}, {"FrameSepResize2", FrameSepResize2}, {"FrameSepSquare", FrameSepSquare}, {"FrameSepH", FrameSepH}, {"FrameSkip", FrameSkip}, {"FrameSkipResize", FrameSkipResize},{"FrameReverse", FrameReverse},{"FrameStretch_X", FrameStretch_X},{"FrameStretch_Y", FrameStretch_Y}, {"FrameStretch_XY", FrameStretch_XY},{"FrameStretch_X_IO", FrameStretch_X_IO}, {"FrameStretch_Y_IO", FrameStretch_Y_IO}, {"FrameStretch_XY_IO", FrameStretch_XY_IO},{"FrameSetGamma", FrameSetGamma},{"FramePixelsLeftOver", FramePixelsLeftOver}, {"FramePixelsLeftOverBlend", FramePixelsLeftOverBlend},{"FramePixels", FramePixels},{"FrameStopStart", FrameStopStart},{"FrameStopStart2", FrameStopStart2},{"FrameXBlend", FrameXBlend}, {"FrameYBlend", FrameYBlend},{"FrameXBlendXor", FrameXBlendXor}, {"FrameYBlendXor", FrameYBlendXor},{"StrobeCycle", StrobeCycle},
-        {"StrobeCycleSt", StrobeCycleSt}, {"StrobeCycleSt2", StrobeCycleSt2},{"StrobeCycleSt3", StrobeCycleSt3},{"OutOfOrder", OutOfOrder},
+        {"StrobeCycleSt", StrobeCycleSt}, {"StrobeCycleSt2", StrobeCycleSt2},{"StrobeCycleSt3", StrobeCycleSt3},{"OutOfOrder", OutOfOrder},{"RSquare", RSquare},{"RSquareEven", RSquareEven},{"TrackingDown", TrackingDown},{"TrackingDownBlend", TrackingDownBlend},{"TrackingRev", TrackingRev},{"TrackingMirror", TrackingMirror},{"TrackingMirrorRev", TrackingMirrorRev},{"TrackingMirrorRevBlend", TrackingMirrorRevBlend},{"StretchRand", StretchRand},
+        {"FrameWobble1", FrameWobble1},{"FrameWobble2", FrameWobble2},{"BlockPixels", BlockPixels},{"RGB_Lr", RGB_Lr},{"TrackRGB1", TrackRGB1},{"TrackRGB2", TrackRGB2},{"FrameChop", FrameChop},{"YLineDown", YLineDown},{"YLineDownBlend", YLineDownBlend},{"FrameBreakX1", FrameBreakX1},{"RGBLagFrame", RGBLagFrame},{"LagFrame", LagFrame},{"FrameStoreStutter", FrameStoreStutter},{"SetFramePixelate1", SetFramePixelate1}, {"SetFramePixelate2", SetFramePixelate2},{"SetFramePixelate3", SetFramePixelate3},{"SquareDiff1", SquareDiff1},{"LineAcrossX", LineAcrossX},
+        //insert new array entry here:
         
         
         
@@ -2557,7 +2559,34 @@ std::vector<std::string> ac::buildDrawStrings() {
     v.push_back("StrobeCycleSt2");
     v.push_back("StrobeCycleSt3");
     v.push_back("OutOfOrder");
-    
+    v.push_back("RSquare");
+    v.push_back("RSquareEven");
+    v.push_back("TrackingDown");
+    v.push_back("TrackingDownBlend");
+    v.push_back("TrackingRev");
+    v.push_back("TrackingMirror");
+    v.push_back("TrackingMirrorRev");
+    v.push_back("TrackingMirrorRevBlend");
+    v.push_back("StretchRand");
+    v.push_back("FrameWobble1");
+    v.push_back("FrameWobble2");
+    v.push_back("BlockPixels");
+    v.push_back("RGB_Lr");
+    v.push_back("TrackRGB1");
+    v.push_back("TrackRGB2");
+    v.push_back("FrameChop");
+    v.push_back("YLineDown");
+    v.push_back("YLineDownBlend");
+    v.push_back("FrameBreakX1");
+    v.push_back("RGBLagFrame");
+    v.push_back("LagFrame");
+    v.push_back("FrameStoreStutter");
+    v.push_back("SetFramePixelate1");
+    v.push_back("SetFramePixelate2");
+    v.push_back("SetFramePixelate3");
+    v.push_back("SquareDiff1");
+    v.push_back("LineAcrossX");
+    //insert new push_back here:
     
     v.push_back("No Filter");
     v.push_back("Blend with Source");
