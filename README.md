@@ -2,7 +2,7 @@
 
 ![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acid.cam.img1.jpg?raw=true "screenshot1")
 
-[VERSION: 2.83.0 (macOS)]
+[VERSION: 2.84.0 (macOS)]
 
 Join us on Discord: https://discord.gg/kSxTe6M8
 
