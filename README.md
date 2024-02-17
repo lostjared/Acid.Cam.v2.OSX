@@ -4,6 +4,11 @@
 
 [VERSION: 2.84.0 (macOS)]
 
+"Envision a digital canvas where creativity flows freely, embodied in an innovative software, Acid Cam. Central to its magic is the Custom Filter Window, a toolkit allowing artists to layer filters, each modifying the video to unveil new artistic visions. Imagine a user interface alive with options, where "user-defined" lists become personalized palettes of creativity, each filter a brushstroke in a broader masterpiece.
+This image hints at the software's depth, with "subfilters" magnifying the artistry possible, subtly reminding of the high RAM needed for the most intricate effects. Visual cues link to Acid Cam's heritage and community, while a note on macOS High Sierra compatibility anchors it in the present, inviting users to join in its evolution.
+Acid Cam transforms video editing into an art form, where each effect weaves into the next, creating a tapestry of digital magic."
+
+
 Acid Cam, a project under Open Source license, was initiated in 2011. Its inaugural iteration, developed in Objective-C, was tailored exclusively for webcam utilization. The current version, part of the 2.0 series, has been entirely redeveloped in C++ for core functionalities, with Objective-C++ employed for the macOS user interface.
 
 Acid Cam employs video distortion techniques to generate artistic visuals. It is engineered for integration with additional software (notably Syphon) or standalone operation. The software is available across multiple platforms, including macOS, Linux, and Windows, and offers both graphical and command-line interfaces. A notable feature is its live webcam capability, which is optimized at lower resolutions to prevent filter overloading. Primarily, the software excels in video mode, supporting the processing of numerous filters at resolutions up to 2160p 4K.
