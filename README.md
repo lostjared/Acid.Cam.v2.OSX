@@ -14,6 +14,10 @@ Memory Requirements: A minimum of 8 GB of RAM is required for processing 1080p v
 Frame Allocation for Filters: Certain filters necessitate an increase in the default frame allocation, often indicated by the inclusion of '640' or '720' in their titles. Adequate RAM is essential for these filters, and users should adjust the frame limit accordingly prior to initiating a session.
 Bitrate Considerations for Output Videos:
 
+
+We are still testing all the filters
+
+
 Acid Cam generates videos at significantly high bitrates, which may necessitate compression for compatibility with standard video players. A common workflow involves importing the high-bitrate footage into Final Cut Pro X and exporting it in H.264 format to reduce the bitrate. Alternatively, Handbrake can be employed for bitrate adjustment. The high bitrate characteristic of Acid Cam's output, particularly in 4K videos, underscores the software's capacity for producing high-quality visual art.
 
 ![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
