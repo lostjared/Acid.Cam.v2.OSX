@@ -4,16 +4,17 @@
 
 [VERSION: 2.84.0 (macOS)]
 
-Join us on Discord: https://discord.gg/kSxTe6M8
+Acid Cam, a project under Open Source license, was initiated in 2011. Its inaugural iteration, developed in Objective-C, was tailored exclusively for webcam utilization. The current version, part of the 2.0 series, has been entirely redeveloped in C++ for core functionalities, with Objective-C++ employed for the macOS user interface.
 
-Acid Cam is an Open Source project I initially began working on back in 2011. The first version of the program was written in Objective-C and worked with webcams only. The version of Acid Cam this document describes in the 2.0 series, which was rewritten from scratch in C++ with the macOS user interface being Objective-C++.
-Acid Cam distorts video to create art. It is designed to be used with other software (Syphon) or on its own. There are multiple versions of the program for macOS, Linux, and Windows, as well as a command-line version of the program. The program also has a live webcam feature. If you wish to use this feature, you should use a lower resolution and not stack up to many filters. The majority of the time, this program is more useful in video mode, where it can process multiple filters in up to 2160p 4K resolution.
+Acid Cam employs video distortion techniques to generate artistic visuals. It is engineered for integration with additional software (notably Syphon) or standalone operation. The software is available across multiple platforms, including macOS, Linux, and Windows, and offers both graphical and command-line interfaces. A notable feature is its live webcam capability, which is optimized at lower resolutions to prevent filter overloading. Primarily, the software excels in video mode, supporting the processing of numerous filters at resolutions up to 2160p 4K.
 
-Some important Notes:
+Critical Technical Specifications:
 
-To be able to use all the filters in this app, your system should have at least 8 GB of Ram for 1080p video. For 4K higher Ram is recommended, but you can set the Max Stored Frames based on the resolution you are doing and when it is reached it will release the frames. On my system for 2160p video when using something like a Random filter I set it to 400 frames for my system with 32 GB ram. You can set it lower based on your system ram level It is in the preferences window. Some filters require more than the default amount of allocated frames. Usually these have the name 640 or 720 in the title. If you are running with enough Ram, please set the require frame limit before starting your session!
+Memory Requirements: A minimum of 8 GB of RAM is required for processing 1080p video content. For 4K video, a higher RAM allocation is advisable. The application allows for the adjustment of Max Stored Frames to manage memory consumption relative to video resolution. For instance, on a system equipped with 32 GB of RAM, setting the frame cap at 400 frames is recommended for 2160p videos using intensive filters such as Random. This cap can be adjusted in the preferences to suit the available system memory.
+Frame Allocation for Filters: Certain filters necessitate an increase in the default frame allocation, often indicated by the inclusion of '640' or '720' in their titles. Adequate RAM is essential for these filters, and users should adjust the frame limit accordingly prior to initiating a session.
+Bitrate Considerations for Output Videos:
 
-The video Acid Cam outputs is saved at a very high bitrate. Sometimes you will need to lower the bitrate to view the video with a video player. I usually import the video into Final Cut Pro X then lower the bitrate by exporting it as H.264. Another program you could use would be Handbrake. The following image is of MediaInfo on a 4K video created with Acid Cam. The overall bitrate is very high.
+Acid Cam generates videos at significantly high bitrates, which may necessitate compression for compatibility with standard video players. A common workflow involves importing the high-bitrate footage into Final Cut Pro X and exporting it in H.264 format to reduce the bitrate. Alternatively, Handbrake can be employed for bitrate adjustment. The high bitrate characteristic of Acid Cam's output, particularly in 4K videos, underscores the software's capacity for producing high-quality visual art.
 
 ![mediainfo](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/mediainfo4k.png?raw=true "mediainfo_ss")
 
@@ -21,13 +22,15 @@ or use FFMPEG like this:
 
     $ ffmpeg -i "input.file.mp4" -c:v libx265 -tag:v hvc1 -crf 22 output.file.mp4
 
-This version shares some code with libacidcam, so sometimes, when I update the parts that are shared show up in both projects. libacidcam uses C++/OpenCV and Autotools, and this macOS program uses Objective-C++/Cocoa/OpenCV and Xcode
-This project was created in hopes of providing some entertainment, or for the Glitch artist to give you an image/video to use with other tools.
-I call the art that I create with Acid Cam "Acid Glitch," but you can call it whatever you want. It is just meant to be a tool to use with other programs to help aid in the creation of artistic images/videos.
-Acid Cam's effects are created by using Acid Cam 'filters', or pieces of code that distort an image and can be combined to produce some exciting effects. The project currently has over 2,000 filters to mix and match and supports output as MPEG-4 or H.264.
-5.20.19: I upgraded the program's OpenCV library files to version 3.4.6, and some of it has changed. The OpenCV header files included now have a warning from possible misuse of a comma. Also, I am on Mojave, and the GUI scales windows up and down automatically while still having a resolution of 5K. The problem is OpenCV has code that resizes the window, and it is not sized correctly. I will work on fixing these issues, but the version of OpenCV I compiled contains OpenCL support. Just on my computer with the new libraries, it moves much faster.
-I can confirm Acid Cam works with Elgato Camlink 4K. With this device, you can use any HDMI device as a Webcam source for Acid Cam. Combined with OBS, you can live stream your self filtering video games/yourself on your camcorder in real-time with audio.
+This iteration of the software shares code with libacidcam, leading to updates in shared components reflecting in both projects simultaneously. libacidcam is developed using C++ with OpenCV and employs Autotools, while the macOS application utilizes Objective-C++ alongside Cocoa and OpenCV, with Xcode as the development environment.
 
+The inception of this project was driven by the desire to offer entertainment and serve as a resource for Glitch artists, providing them with distinctive images or videos for further creative application. The art produced with Acid Cam, termed "Acid Glitch," is open for interpretation, allowing users to define their creations in their own terms. Essentially, Acid Cam is designed as a complementary tool for other software, facilitating the creation of artistic images or videos.
+
+Acid Cam generates its unique effects through "filters" – segments of code designed to alter an image in various ways, which can be layered together to achieve intriguing effects. Currently, the project boasts over 2,000 filters available for experimentation, supporting outputs in MPEG-4 or H.264 formats.
+
+As of May 20, 2019, the software underwent an upgrade to its OpenCV library components to version 3.4.6, introducing changes including warnings in the OpenCV header files regarding potential comma misuse. Operating on Mojave, I've observed that the GUI automatically adjusts window sizes, yet maintains a 5K resolution. This adjustment conflicts with OpenCV's window resizing code, leading to improper sizing. Efforts to resolve these issues are underway, particularly as the compiled version of OpenCV now includes OpenCL support, significantly enhancing processing speed on my setup.
+
+Moreover, Acid Cam has been confirmed to be compatible with Elgato Camlink 4K. This compatibility allows for the use of any HDMI-enabled device as a webcam source in Acid Cam. When used in conjunction with OBS, it enables live streaming of video game playthroughs or personal camcorder footage with real-time filtering and audio integration.
 The Start Session 
 
 ![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/session.png?raw=true "screenshot1")
@@ -61,22 +64,21 @@ The Chroma key window you select a series of color ranges. You can set the compo
 ![creenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/custom.png?raw=true "screenshot1")
 
 
-The custom filter window, this is probably the most important window in the application. You can select multiple filters and have them executed one after the other, with ones output being the input to the next in a chain. You can toggle a filter on or off while in a custom. You can save and load a custom. User-defined is when you select a list of filters and assign it a new name so you can use it. You can save/load these user-defined lists, and you should first set the output directory by pressing the dir button to a location you have read/write access.
-Subfilter: A subfilter is when you pass a specific filter to another filter that has the word SubFilter in its name. It magnifies the amount of possible outputs.
+he Custom Filter Window stands as a pivotal feature within the application, enabling users to sequence multiple filters for consecutive execution, where the output of one serves as the input for the next, creating a dynamic filter chain. Users have the flexibility to activate or deactivate filters within a custom sequence and possess the capability to both save and retrieve these custom configurations. A unique aspect involves creating "user-defined" filter lists, which are custom selections of filters that are assigned distinctive names for easy reuse. It's essential to specify an output directory with read/write permissions by clicking the 'dir' button before initiating this process.
 
-Download old versions of Acid Cam for macOS: http://lostsidedead.biz/osx
+A "subfilter" refers to the application of a particular filter within another filter designated by the inclusion of "SubFilter" in its name, significantly expanding the potential for varied outputs.
 
-NOTE: Some of the filters that contain either a 720 or 1080 at the end require a lot of ram if you do not have enough the program will exit.
+For those interested in previous iterations of Acid Cam for macOS, they can be found at: http://lostsidedead.biz/osx.
 
-View Facebook page for Information and  sample videos: http://facebook.com/AcidCam
+Note: Filters labeled with "720" or "1080" may consume substantial RAM. Insufficient memory will cause the application to terminate.
 
-OpenCV3_4_1 (Newest)  Version is on the master branch  now, to use the old 2.4  version switch to oldmacosx branch
-or for OpenCV 3 go to OpenCV3.
+Updates, information, and sample videos are available on our Facebook page: http://facebook.com/AcidCam.
 
-Newest version of the program now requires macOS High Sierra to run. 
+The latest version of Acid Cam, compatible with OpenCV version 3.4.1, resides on the master branch. Users wishing to utilize OpenCV version 2.4 or OpenCV 3 should switch to the oldmacosx branch or the OpenCV3 branch, respectively.
 
-To compile first clone then open with Xcode and build.
+The most current version of the software now necessitates macOS High Sierra for operation.
 
+To begin compilation, clone the repository, then proceed to open the project in Xcode and execute the build process.
 ![ScreenShot](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/AcidCam2_ScreenShot.png?raw=true "screenshot")
 
 Project home page: http://lostsidedead.com
