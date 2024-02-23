@@ -1,6 +1,6 @@
 # Acid.Cam.v2.OSX
 
-![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/screens/acimg.jpeg?raw=true "screenshot1")
+![ScreenShot1](https://github.com/lostjared/Acid.Cam.v2.OSX/blob/master/image/acimg.jpeg?raw=true "screenshot1")
 
 [VERSION: 2.84.0 (macOS)]
 
